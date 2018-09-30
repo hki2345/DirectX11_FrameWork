@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Launcher">
+      <UniqueIdentifier>{79485812-0431-453a-a263-bc807330f4b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Test">
+      <UniqueIdentifier>{aff7a69e-706d-4380-a1ff-b7b6b249c605}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="KCoreLauncher.h">
+      <Filter>Launcher</Filter>
+    </ClInclude>
+    <ClInclude Include="TestBuilder.h">
+      <Filter>Test</Filter>
+    </ClInclude>
+    <ClInclude Include="TestUpdater.h">
+      <Filter>Test</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="KCoreLauncher.cpp">
+      <Filter>Launcher</Filter>
+    </ClCompile>
+    <ClCompile Include="TestBuilder.cpp">
+      <Filter>Test</Filter>
+    </ClCompile>
+    <ClCompile Include="TestUpdater.cpp">
+      <Filter>Test</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
