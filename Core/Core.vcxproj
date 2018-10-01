@@ -236,7 +236,6 @@
     <ClInclude Include="TheOne.h" />
     <ClInclude Include="TimeManager.h" />
     <ClInclude Include="TransPosition.h" />
-    <ClInclude Include="Vector3.h" />
     <ClInclude Include="Vertex_Shader.h" />
     <ClInclude Include="WriteStream.h" />
   </ItemGroup>

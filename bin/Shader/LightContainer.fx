@@ -78,7 +78,6 @@ LightColor Point_Light(float4 _vViewPos, float4 _vViewNormal, LightData _Info)
 	// 멀을 해주는 이유는 -> 월드 행렬 좌표이기 때문에 ㅇㅇ
 	// 이거... 멀도 필요없고 그냥 g_WVP로 연산된 객체좌표가 필요함 -> 빛의 위치에서 빠져야하는 부분이니까
 	// 근데 월드포스 마지막에 1들어가서 카메라랑 같이움직이는데 어찌할가.
-	// float4 vLight = -mul(_Info.Pos - _vViewPos, g_W);
 	matrix TempMat = g_W * g_V;
 
 	float4 vLight = normalize(

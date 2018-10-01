@@ -147,9 +147,6 @@
     <ClInclude Include="Resource.h">
       <Filter>03 SubManager\Resource</Filter>
     </ClInclude>
-    <ClInclude Include="Vector3.h">
-      <Filter>00 Core\CoreHeader</Filter>
-    </ClInclude>
     <ClInclude Include="KDevice.h">
       <Filter>01 Window\Device</Filter>
     </ClInclude>
