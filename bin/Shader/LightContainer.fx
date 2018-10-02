@@ -1,4 +1,4 @@
-#include "Matrix.fx"
+
 
 class LightColor
 {
@@ -15,14 +15,16 @@ class LightData
 	float Range;
 	float Angle;
 	int Type;
+    int Dump;
 };
 
 cbuffer LightBuffer : register(b10)
 {
-	LightData ArrList[10];
+	LightData LightList[10];
 	int       LightCount;
 	int       Temp1;
 	int       Temp2;
+	int       Temp3;
 }
 
 

@@ -129,6 +129,7 @@ private:
 	void Init_ColorMat();
 
 	void Init_GridMat();
+	void Init_MeshMat();
 	void Init_LightMat();
 
 

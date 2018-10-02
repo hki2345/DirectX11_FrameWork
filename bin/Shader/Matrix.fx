@@ -6,3 +6,21 @@ cbuffer TransformBuffer : register(b1)
 	matrix g_P;
 	matrix g_WVP;
 }
+
+class Texture_Data
+{
+    int TInx;
+    int TSmp;
+    int EInx;
+    int ESmp;
+    int Type;
+};
+
+cbuffer RenderOption : register(b11)
+{
+    int CheckLight;
+    int Deffert_orFoward;
+    int VzPo; // Vert -> 0, Pixel -> 1
+    int TexCnt;
+    Texture_Data Texes[12]; // 20 216
+}

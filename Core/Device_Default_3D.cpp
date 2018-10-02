@@ -34,8 +34,9 @@ bool KDevice::Init_DefaultData_3D()
 	Init_NoneMat();
 	Init_ColorMat();
 	Init_GridMat();
+	Init_MeshMat();
 	Init_ImageMat();
-	Init_LightMat();
+	// Init_LightMat();
 
 	Core_Class::MainDevice().Create_RasterMode(L"SOLID_NONE", D3D11_FILL_MODE::D3D11_FILL_SOLID, D3D11_CULL_MODE::D3D11_CULL_NONE);
 	Core_Class::MainDevice().Create_RasterMode(L"SBACK", D3D11_FILL_MODE::D3D11_FILL_SOLID, D3D11_CULL_MODE::D3D11_CULL_BACK);
@@ -342,6 +343,25 @@ void KDevice::Init_ImageMat()
 	KPtr<Material> NewMat = ResourceManager<Material>::Create(L"IMG_MAT");
 	NewMat->Set_VShader(L"IMG_VERT");
 	NewMat->Set_PShader(L"IMG_PIX");
+	NewMat->Set_Blend(L"AlphaBlend3D");
+}
+
+void KDevice::Init_MeshMat()
+{
+	KPtr<Vertex_Shader> NewVert =
+		ResourceManager<Vertex_Shader>::Load_FromKey(L"MESH_VERT", L"Shader", L"MeshShader.fx", "Mesh_VT");
+
+	NewVert->Add_Layout("POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
+	NewVert->Add_Layout("TEXCOORD", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32_FLOAT, 0);
+	NewVert->Add_Layout("COLOR", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
+	NewVert->Add_LayoutFin("NORMAL", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
+
+	KPtr<Pixel_Shader> NewPix =
+		ResourceManager<Pixel_Shader>::Load_FromKey(L"MESH_PIX", L"Shader", L"MeshShader.fx", "Mesh_PX");
+
+	KPtr<Material> NewMat = ResourceManager<Material>::Create(L"MESH_MAT");
+	NewMat->Set_VShader(L"MESH_VERT");
+	NewMat->Set_PShader(L"MESH_PIX");
 	NewMat->Set_Blend(L"AlphaBlend3D");
 }
 

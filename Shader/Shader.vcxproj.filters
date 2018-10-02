@@ -34,5 +34,8 @@
     <FxCompile Include="..\bin\Shader\NoneShader.fx">
       <Filter>Shader</Filter>
     </FxCompile>
+    <FxCompile Include="..\bin\Shader\Texture.fx">
+      <Filter>Shader</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>
