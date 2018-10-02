@@ -268,11 +268,8 @@ void KDevice::Init_NoneMat()
 {
 	KPtr<Vertex_Shader> NewVert =
 		ResourceManager<Vertex_Shader>::Load_FromKey(L"NONE_VERT", L"Shader", L"NoneShader.fx", "None_VT");
-
-	NewVert->Add_Layout("POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
-	NewVert->Add_Layout("UV", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32_FLOAT, 0);
-	NewVert->Add_Layout("COLOR", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
-	NewVert->Add_LayoutFin("NORMAL", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
+	
+	NewVert->Add_LayoutFin("POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
 
 	KPtr<Pixel_Shader> NewPix =
 		ResourceManager<Pixel_Shader>::Load_FromKey(L"NONE_PIX", L"Shader", L"NoneShader.fx", "None_PX");

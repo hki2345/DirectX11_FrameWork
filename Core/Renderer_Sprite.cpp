@@ -75,7 +75,8 @@ void Renderer_Sprite::Render(KPtr<Camera> _Camera)
 	NewBorder.m_UvPerPixel = KVector2(1.0f / m_Image->size().x, 1.0f / m_Image->size().y );
 	NewBorder.m_Border = this->m_Border;
 
-
+	m_Image->sampler()->Update(0);
+	m_Image->texture()->Update(0);
 
 	// 디바이스로 정보 넘어가기 전에
 	m_Material->VShader()->Set_ConstBuffer<KMatrix>(L"TRANS", 

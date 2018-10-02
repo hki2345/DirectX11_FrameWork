@@ -95,37 +95,37 @@ BOOL Dlg_Tool::OnInitDialog()
 	Edit_Class::m_View_Component->set_one(NewLight);
 
 
-	// KPtr<TheOne> NewSky = CurState->Create_TheOne(L"Sky");
-	// NewSky->World_Rotate(KVector(0.0f, 0.0f, 0.0f));
-	// NewSky->World_Scale(KVector(10000.0f, 10000.0f, 10000.0f));
+	KPtr<TheOne> NewSky = CurState->Create_TheOne(L"Sky");
+	NewSky->World_Rotate(KVector(0.0f, 0.0f, 0.0f));
+	NewSky->World_Scale(KVector(10000.0f, 10000.0f, 10000.0f));
 
-	// KPtr<Renderer_Mesh> SkyRender = NewSky->Add_Component<Renderer_Mesh>();
-	// SkyRender->Set_Material(L"IMG_MAT");
-	// SkyRender->Set_Mesh(L"SPHERE_MESH");
-	// SkyRender->Create_RasterState(L"SFRONT");
-	// SkyRender->material()->insert_TD(0, L"Sky01.png");
-	// 
-	// KPtr<TheOne> Grid = CurState->Create_TheOne(L"Grid");
-	// Grid->World_Rotate(KVector(90.0f, 0.0f, 0.0f));
-	// Grid->World_Scale(KVector(100000.0f, 100000.0f, 100000.0f));
-	// KPtr<Renderer_Grid3D> GridRender = Grid->Add_Component<Renderer_Grid3D>();
-	// 
-	// 
-	// 
-	// KPtr<TheOne> LS = CurState->Create_TheOne(L"Sphere");
-	// LS->Local_Pos(-10.0f, 0.0f, 0.0f);
-	// LS->Local_Scale(10.0f, 10.0f, 10.0f);
-	// KPtr<Renderer_Mesh> LSR = LS->Add_Component<Renderer_Mesh>();
-	// LSR->Set_Material(L"MESH_MAT");
-	// LSR->Set_Mesh(L"SPHERE_MESH");
-	// 
-	// KPtr<TheOne> RS = CurState->Create_TheOne(L"Sphere");
-	// RS->Local_Pos(10.0f, 0.0f, 0.0f);
-	// RS->Local_Scale(10.0f, 10.0f, 10.0f);
-	// KPtr<Renderer_Mesh> RSR = RS->Add_Component<Renderer_Mesh>();
-	// RSR->Set_Material(L"MESH_MAT");
-	// RSR->Set_Mesh(L"SPHERE_MESH");
-	// // RSR->image(L"Sky01.png");
+	KPtr<Renderer_Mesh> SkyRender = NewSky->Add_Component<Renderer_Mesh>();
+	SkyRender->Set_Material(L"IMG_MAT");
+	SkyRender->Set_Mesh(L"SPHERE_MESH");
+	SkyRender->Create_RasterState(L"SFRONT");
+	SkyRender->material()->insert_TD(0, L"Sky01.png");
+	
+	KPtr<TheOne> Grid = CurState->Create_TheOne(L"Grid");
+	Grid->World_Rotate(KVector(90.0f, 0.0f, 0.0f));
+	Grid->World_Scale(KVector(100000.0f, 100000.0f, 100000.0f));
+	KPtr<Renderer_Grid3D> GridRender = Grid->Add_Component<Renderer_Grid3D>();
+	
+	
+	
+	KPtr<TheOne> LS = CurState->Create_TheOne(L"Sphere");
+	LS->Local_Pos(-10.0f, 0.0f, 0.0f);
+	LS->Local_Scale(10.0f, 10.0f, 10.0f);
+	KPtr<Renderer_Mesh> LSR = LS->Add_Component<Renderer_Mesh>();
+	LSR->Set_Material(L"MESH_MAT");
+	LSR->Set_Mesh(L"SPHERE_MESH");
+	
+	KPtr<TheOne> RS = CurState->Create_TheOne(L"Sphere");
+	RS->Local_Pos(10.0f, 0.0f, 0.0f);
+	RS->Local_Scale(10.0f, 10.0f, 10.0f);
+	KPtr<Renderer_Mesh> RSR = RS->Add_Component<Renderer_Mesh>();
+	RSR->Set_Material(L"MESH_MAT");
+	RSR->Set_Mesh(L"SPHERE_MESH");
+	// RSR->image(L"Sky01.png");
 
 	KPtr<TheOne> MC = CurState->Create_TheOne(L"Cube");
 	MC->Local_Pos(0.0f, 20.0f, 0.0f);

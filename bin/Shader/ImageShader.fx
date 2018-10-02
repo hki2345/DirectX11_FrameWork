@@ -53,7 +53,7 @@ cbuffer ImageUv : register(b2)
 	float2 vSize = float2(1.0f, 1.0f);
 };
 
-IMG_PX_OUT Img_PX(IMG_VT_IN _in)
+IMG_PX_OUT Img_PX(IMG_VT_OUT _in)
 {
 	IMG_PX_OUT outData = (IMG_PX_OUT)0.0f;
 	outData.vCol = g_Tex_0.Sample(g_Sam_0, float2(_in.vUv.x, _in.vUv.y));

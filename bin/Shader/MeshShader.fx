@@ -1,5 +1,6 @@
-#include "Matrix.fx"
+
 #include "LightContainer.fx"
+#include "Texture.fx"
 
 struct MESH_VT_IN
 {

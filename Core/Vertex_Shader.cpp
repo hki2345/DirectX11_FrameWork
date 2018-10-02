@@ -3,7 +3,7 @@
 #include "KMacro.h"
 
 
-Vertex_Shader::Vertex_Shader()
+Vertex_Shader::Vertex_Shader() : m_Offset(0)
 {
 	m_Type = SHADER_TYPE::ST_VS;
 }

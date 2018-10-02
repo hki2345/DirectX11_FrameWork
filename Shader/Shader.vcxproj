@@ -115,6 +115,7 @@
     <FxCompile Include="..\bin\Shader\ImageShader.fx" />
     <FxCompile Include="..\bin\Shader\LightContainer.fx" />
     <FxCompile Include="..\bin\Shader\Matrix.fx" />
+    <FxCompile Include="..\bin\Shader\MeshShader.fx" />
     <FxCompile Include="..\bin\Shader\NoneShader.fx" />
     <FxCompile Include="..\bin\Shader\PLight.fx" />
     <FxCompile Include="..\bin\Shader\Rect3DShader.fx" />
