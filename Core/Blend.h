@@ -1,8 +1,8 @@
 #pragma once
 #include "DirectXHeader.h"
-#include "Resource.h"
+#include "KResource.h"
 
-class Blend : public Resource
+class Blend : public KResource
 {
 private:
 	ID3D11BlendState*	m_BlendState;

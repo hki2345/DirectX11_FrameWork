@@ -1,8 +1,8 @@
 #pragma once
-#include "Resource.h"
+#include "KResource.h"
 #include "SoundDevice.h"
 
-class KSound final : public Resource
+class KSound final : public KResource
 {
 private:
 	friend class SoundPlayer;

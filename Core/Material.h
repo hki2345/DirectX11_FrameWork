@@ -1,11 +1,11 @@
 #pragma once
-#include "Resource.h"
+#include "KResource.h"
 #include "Vertex_Shader.h"
 #include "Pixel_Shader.h"
 #include "Blend.h"
 
 
-class Material : public Resource
+class Material : public KResource
 {
 public:
 	KPtr<Vertex_Shader> m_Vertex_Shader;

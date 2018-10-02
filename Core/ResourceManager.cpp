@@ -1,5 +1,9 @@
 #include "ResourceManager.h"
-#include <afxwin.h>
+
+// #include <afxwin.h>
+#include <iostream>
+#include <io.h>
+
 #include <Windows.h>
 #include "KMacro.h"
 #include "KImage.h"
@@ -103,32 +107,27 @@ bool PathManager::IsFile(const wchar_t* _Path)
 
 // 짜피 텍스쳐만 모두 받을 것이기 대문에
 // afx가 헤더에 추가되니 애가 이상해진다. b.b
+
 bool ResourceManager<KImage>::All_Image_Load(const wchar_t* _Target)
-{
-	CFileFind	Finder;
-	bool		thisFind = false;
-
-	CString NewString = PathManager::Get_FilePath();
+{	
+	std::wstring NewString = PathManager::Get_FilePath();
 	NewString += _Target;
-
-	if (false == ResourceManager<KImage>::All_Load_Sub(NewString, _Target))
+	
+	if (false == ResourceManager<KImage>::All_Load_Sub(NewString.c_str(), _Target))
 	{
 		return false; 
 	}
-
+	
 	return true;
 }
 
 
 bool ResourceManager<KSound>::All_Sound_Load(const wchar_t* _Target)
 {
-	CFileFind	Finder;
-	bool		thisFind = false;
-
-	CString NewString = PathManager::Get_FilePath();
+	std::wstring NewString = PathManager::Get_FilePath();
 	NewString += _Target;
 
-	if (false == ResourceManager<KSound>::All_Load_Sub(NewString, _Target))
+	if (false == ResourceManager<KSound>::All_Load_Sub(NewString.c_str(), _Target))
 	{
 		return false;
 	}
@@ -137,69 +136,86 @@ bool ResourceManager<KSound>::All_Sound_Load(const wchar_t* _Target)
 }
 
 
+
+
+
 template<typename KS>
 bool ResourceManager<KS>::All_Load_Sub(const wchar_t* _Value, const wchar_t* _Target)
 {
-	CFileFind	Finder;
-	BOOL		thisFind = false;
+	struct _wfinddata_t TempFD;
+	intptr_t Handle;
 
-	CString NewString = _Value;
-	NewString += L"\\*.*";
+	std::wstring Path = PathManager::Get_FilePath();;
+	Path += _Target;
+	Path += L"\\*.*";
 
-	thisFind = Finder.FindFile(NewString);
-	while (TRUE == thisFind)
+	Handle = _wfindfirst(Path.c_str(), &TempFD);
+
+	if (Handle == -1)
 	{
-		thisFind = Finder.FindNextFileW();
-		if (Finder.IsDots())
-		{
-			continue;
-		}
-
-		// 폴더를 찾았다.
-		else
-		{
-			CString arr;
-			arr = Finder.GetFilePath();
-
-			wchar_t ArrDrive[128] = {0, };
-			wchar_t ArrFolder[128] = {0, };
-			wchar_t ArrFile[128] = {0, };
-			wchar_t ArrExist[128] = {0, };
-
-			// 파일 경로를 뜯는다.
-			_wsplitpath_s(arr, ArrDrive, ArrFolder, ArrFile, ArrExist);
-
-			std::wstring Drive = ArrDrive;
-			std::wstring Exi = ArrExist;
-			std::wstring Name = ArrFile;
-			std::wstring Folder = ArrFolder;
-
-			Name += Exi;
-
-			size_t a = Folder.find(_Target);
-			Folder.clear();
-
-			for (size_t i = a; i < 128; i++)
-			{
-				Folder += ArrFolder[i];
-			}
-
-			Folder.replace(Folder.find_last_of('\\', Folder.size()),
-				Folder.size(), L"");
-
-			// 사진과 음악
-			if (Exi == L".png" || Exi == L".PNG" || Exi == L".Png" || Exi == L".jpg" || Exi == L".JPG" || Exi == L".Jpg" ||
-				Exi == L".mp3")
-			{
-				if (nullptr == PathManager::Find_Path(Folder.c_str()))
-				{
-					PathManager::Create_ForderPath(Folder.c_str());
-				}
-				ResourceManager<KS>::All_DataLoad(Folder.c_str(), Name.c_str());
-			}
-			All_Load_Sub(arr, _Target);
-		}
+		return false;
 	}
+
+
+
+	std::wstring FTN = TempFD.name;
+
+	if (FTN == L".")
+	{
+		_wfindnext(Handle, &TempFD);
+	}
+
+	FTN = TempFD.name;
+
+	if (FTN == L"..")
+	{
+		_wfindnext(Handle, &TempFD);
+	}
+
+
+	// 이 이후가 FD에는 폴더 이름이 들어간다.
+	std::wstring NextFolder = _Target;
+	NextFolder += L"\\";
+	NextFolder += TempFD.name;
+
+	do
+	{
+		std::wstring arr = PathManager::Get_FilePath();;
+		arr += NextFolder;
+
+		arr += L"\\";
+		arr += TempFD.name;
+
+		wchar_t ArrDrive[128] = {0, };
+		wchar_t ArrFolder[128] = {0, };
+		wchar_t ArrFile[128] = {0, };
+		wchar_t ArrExist[128] = {0, };
+
+		// 파일 경로를 뜯는다.
+		_wsplitpath_s(arr.c_str(), ArrDrive, ArrFolder, ArrFile, ArrExist);
+
+		std::wstring Drive = ArrDrive;
+		std::wstring Exi = ArrExist;
+		std::wstring Name = ArrFile;
+		std::wstring Folder = _Target;
+
+		Name += Exi;
+
+		// 사진과 음악
+		if (Exi == L".png" || Exi == L".PNG" || Exi == L".Png" || Exi == L".jpg" || Exi == L".JPG" || Exi == L".Jpg" || Exi == L".bmp" ||
+			Exi == L".mp3")
+		{
+			if (nullptr == PathManager::Find_Path(Folder.c_str()))
+			{
+				PathManager::Create_ForderPath(Folder.c_str());
+			}
+			ResourceManager<KS>::All_DataLoad(Folder.c_str(), Name.c_str());
+		}
+	} while (_wfindnext(Handle, &TempFD) == 0);
+
+	std::wstring Tes;
+	All_Load_Sub(Tes.c_str(), NextFolder.c_str());
+	_findclose(Handle);
 
 	return true;
 }

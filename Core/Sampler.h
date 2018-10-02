@@ -1,9 +1,9 @@
 #pragma once
-#include "Resource.h"
+#include "KResource.h"
 #include "DirectXHeader.h"
 
 
-class Sampler : public Resource
+class Sampler : public KResource
 {
 private:
 	D3D11_SAMPLER_DESC	m_Desc;

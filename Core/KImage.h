@@ -1,5 +1,5 @@
 #pragma once
-#include "Resource.h"
+#include "KResource.h"
 #include "DirectXHeader.h"
 
 #include "Texture.h"
@@ -11,7 +11,7 @@ class Texture;
 class Sampler;
 // 그냥 Image는 DirectXTex에 있어서 못씀
 // 그래서 K를 붙임
-class KImage : public Resource
+class KImage : public KResource
 {
 private:
 	KPtr<Texture> m_Texture;

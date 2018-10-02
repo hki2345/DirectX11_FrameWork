@@ -1,5 +1,5 @@
 #pragma once
-#include "Resource.h"
+#include "KResource.h"
 #include "DirectXTex.h"
 #include "DirectXHeader.h"
 
@@ -7,7 +7,7 @@
 
 
 
-class Texture : public Resource
+class Texture : public KResource
 {
 private:
 	DirectX::ScratchImage			m_Image;

@@ -2,7 +2,7 @@
 #include <string>
 #include "Begin.h"
 
-class Resource : public Begin
+class KResource : public Begin
 {
 private:
 	std::wstring m_sForderPath;
@@ -36,7 +36,7 @@ private:
 	virtual bool Load();
 
 public:
-	Resource();
-	~Resource();
+	KResource();
+	~KResource();
 };
 

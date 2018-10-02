@@ -1,5 +1,5 @@
 #pragma once
-#include "Resource.h"
+#include "KResource.h"
 #include "DirectXHeader.h"
 #include "FW1CompileSettings.h"
 #include "FW1FontWrapper.h"
@@ -20,7 +20,7 @@
 #endif // DEBUG
 
 
-class KFont : public Resource
+class KFont : public KResource
 {
 private:
 	IFW1Factory* m_Factory;

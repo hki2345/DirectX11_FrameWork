@@ -1,28 +1,28 @@
-#include "Resource.h"
+#include "KResource.h"
 
 
 
-Resource::Resource()
+KResource::KResource()
 {
 }
 
 
-Resource::~Resource()
+KResource::~KResource()
 {
 }
 
 // 이것을 상속받지 않고 실행하면 거짓을 반환하게 함 -> 상속 받을 수 있게
-bool Resource::Create()
+bool KResource::Create()
 {
 	return false;
 }
-bool Resource::Load()
+bool KResource::Load()
 {
 	return false;
 }
 
 
-void Resource::path(const wchar_t* _Value)
+void KResource::path(const wchar_t* _Value)
 {
 	wchar_t ArrDrive[128];
 	wchar_t ArrFolder[128];
