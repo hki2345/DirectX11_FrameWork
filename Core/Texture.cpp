@@ -77,7 +77,8 @@ bool Texture::Load()
 	return true;
 }
 
-void Texture::Update()
+void Texture::Update(const UINT& _Slot)
 {
-	Core_Class::device_context()->PSSetShaderResources(0, 1, &m_View);
+	Core_Class::device_context()->VSSetShaderResources(_Slot, 1, &m_View);
+	Core_Class::device_context()->PSSetShaderResources(_Slot, 1, &m_View);
 }

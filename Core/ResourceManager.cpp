@@ -160,6 +160,8 @@ bool ResourceManager<KS>::All_Load_Sub(const wchar_t* _Value, const wchar_t* _Ta
 
 	std::wstring FTN = TempFD.name;
 
+	
+
 	if (FTN == L".")
 	{
 		_wfindnext(Handle, &TempFD);
@@ -180,6 +182,7 @@ bool ResourceManager<KS>::All_Load_Sub(const wchar_t* _Value, const wchar_t* _Ta
 
 	do
 	{
+		bool Check = ResourceManager<KS>::IsDot(FTN);
 		std::wstring arr = PathManager::Get_FilePath();;
 		arr += NextFolder;
 
@@ -218,4 +221,19 @@ bool ResourceManager<KS>::All_Load_Sub(const wchar_t* _Value, const wchar_t* _Ta
 	_findclose(Handle);
 
 	return true;
+}
+
+
+template<typename KS>
+bool ResourceManager<KS>::IsDot(const std::wstring& _Value)
+{
+	for (size_t i = 0; i < _Value.size(); i++)
+	{
+		if (_Value[i] == L'.')
+		{
+			return true;
+		}
+	}
+
+	return false;
 }

@@ -1,10 +1,10 @@
 #pragma once
 
 
-#ifdef WIN32
-#pragma comment(lib, "fmod_vc")
-#else
+#if X64
 #pragma comment(lib, "fmod64_vc")
+#else
+#pragma comment(lib, "fmod_vc")
 #endif
 
 #include <fmod.hpp>

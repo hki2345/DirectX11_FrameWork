@@ -62,7 +62,8 @@ bool Sampler::Set_State(
 	return true;
 }
 
-void Sampler::Update()
+void Sampler::Update(const UINT& _Slot)
 {
-	Core_Class::device_context()->PSSetSamplers(0, 1, &m_State);
+	Core_Class::device_context()->VSSetSamplers(_Slot, 1, &m_State);
+	Core_Class::device_context()->PSSetSamplers(_Slot, 1, &m_State);
 }

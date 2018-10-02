@@ -30,7 +30,7 @@ public:
 	);
 
 public:
-	void Update();
+	void Update(const UINT& _Slot);
 
 public:
 	Sampler();

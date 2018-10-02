@@ -77,6 +77,12 @@ void Renderer::RenderUpdate()
 	{
 		m_RasterState->Update();
 	}
+
+	if (nullptr != m_Material)
+	{
+		m_Material->Update_Tex();
+		m_Material->Update_Sam();
+	}
 }
 
 void Renderer::RenderFinalUpdate()
@@ -87,6 +93,10 @@ void Renderer::RenderFinalUpdate()
 
 void Renderer::Update_Trans(KPtr<Camera> _Cam)
 {
+	KASSERT(nullptr == m_Trans);
+
+	Indepen_Update();
+
 	m_MD.m_W = m_Trans->World_Matrix_Const().TransPose_Value();
 	m_MD.m_V = _Cam->View().TransPose_Value();
 	m_MD.m_P = _Cam->Proj().TransPose_Value();
@@ -96,8 +106,16 @@ void Renderer::Update_Trans(KPtr<Camera> _Cam)
 }
 void Renderer::Update_CB()
 {
+	if (nullptr != m_Material)
+	{
+		m_ROption.TexCnt = m_Material->texture_data(m_ROption.Texes);
+	}
+
 	Core_Class::MainDevice().Set_DeviceCB<DATA_3D>(L"DATA3D", m_MD, SHADER_TYPE::ST_VS);
 	Core_Class::MainDevice().Set_DeviceCB<DATA_3D>(L"DATA3D", m_MD, SHADER_TYPE::ST_PS);
+
+	Core_Class::MainDevice().Set_DeviceCB<RenderOption>(L"RENDEROP", m_ROption, SHADER_TYPE::ST_VS);
+	Core_Class::MainDevice().Set_DeviceCB<RenderOption>(L"RENDEROP", m_ROption, SHADER_TYPE::ST_PS);
 }
 void Renderer::Update_MeshMat()
 {

@@ -351,6 +351,9 @@ public:
 		return NewRes;
 	}
 
+private:
+	static bool IsDot(const std::wstring& _Value);
+
 public:
 	ResourceManager() {};
 	~ResourceManager() {};

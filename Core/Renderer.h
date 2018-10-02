@@ -6,6 +6,26 @@
 #include "Blend.h"
 #include "KDevice.h"
 
+
+class RenderOption
+{
+private:
+	friend class Renderer;
+
+public:
+	int CheckLight;
+	int Deffert_orFoward;
+	int VzPo; // Vert -> 0, Pixel -> 1
+	int TexCnt;
+
+private:
+	Texture_Data Texes[12];
+
+public:
+	RenderOption() : CheckLight(1), TexCnt(0),
+		VzPo(1), Deffert_orFoward(0) {}
+};
+
 class Camera;
 class Renderer : public Independent_Trans
 {
@@ -22,6 +42,7 @@ protected:
 	KPtr<Mesh>		m_Mesh;
 	KPtr<Material>	m_Material;
 	KPtr<KDevice::RasterState> m_RasterState;
+	RenderOption	m_ROption;
 
 	// 디바이스의 업데이트를 돌리기 위함ㅇㅇ -> 렌더러에서 각자가 도렬주는 것으로
 private:

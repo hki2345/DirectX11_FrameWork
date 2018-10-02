@@ -24,7 +24,7 @@ public:
 	KVector2 size() const{ return KVector2(width(), height()); }
 
 public:
-	void Update();
+	void Update(const UINT& _Slot);
 
 public:
 	Texture();

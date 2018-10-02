@@ -183,7 +183,7 @@ void RenderManager::Light_Check(const int& _Layer, const std::set<KPtr<Camera>>:
 			TempData.ArrLight[Cnt].CamPos = -(*_Iter)->View().Multi_Vector_Z(TempData.ArrLight[Cnt].CamPos);
 			++Cnt;
 
-			if (10 >= Cnt)
+			if (10 <= Cnt)
 			{
 				break;
 			}

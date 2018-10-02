@@ -32,6 +32,7 @@ public:
 		float Range;
 		float Angle;
 		int Type;
+		int Dump;
 	};
 
 	class LightCB
@@ -43,6 +44,7 @@ public:
 		// 16πŸ¿Ã∆Æ §—.§—;;
 		int Temp1;
 		int Temp2;
+		int Temp3;
 	};
 
 private:
