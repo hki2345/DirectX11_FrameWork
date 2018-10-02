@@ -8,6 +8,7 @@
 
 Renderer::Renderer() :m_RasterState(nullptr)
 {
+	KASSERT(false == Set_Material(L"NONE_MAT"));
 }
 
 

@@ -15,12 +15,15 @@
 #include "KLight.h"
 #include "Renderer_Grid3D.h"
 
+#include "Renderer.h"
+#include "Texture.h"
 
 bool KDevice::Init_DefaultData_3D()
 {
 	ResourceManager<Blend>::Create(L"AlphaBlend3D");
 	Core_Class::MainDevice().Create_DeviceCB<DATA_3D>(L"DATA3D", D3D11_USAGE_DYNAMIC, 1);
 	Core_Class::MainDevice().Create_DeviceCB<KLight::LightCB>(L"LIGHT_DATA", D3D11_USAGE_DYNAMIC, 10);
+	Core_Class::MainDevice().Create_DeviceCB<RenderOption>(L"RENDEROP", D3D11_USAGE_DYNAMIC, 11);
 
 
 	Init_RectMesh();
@@ -28,6 +31,7 @@ bool KDevice::Init_DefaultData_3D()
 	Init_SphereMesh();
 	
 
+	Init_NoneMat();
 	Init_ColorMat();
 	Init_GridMat();
 	Init_ImageMat();
@@ -140,7 +144,7 @@ void KDevice::Init_CubeMesh()
 	Cube3D_Idx[11] = Index_16(2, 3, 6);
 
 
-	ResourceManager<Mesh>::Create(L"CUBE3D_MESH",
+	ResourceManager<Mesh>::Create(L"CUBE_MESH",
 		8, (UINT)sizeof(Vertex_3D), D3D11_USAGE_DYNAMIC, Cube3D_Vert,
 		36, (UINT)Index_16::MemberSize(), D3D11_USAGE_DEFAULT, Cube3D_Idx,
 		Index_16::FM()/*, D3D11_PRIMITIVE_TOPOLOGY::D3D10_PRIMITIVE_TOPOLOGY_LINESTRIP*/);
@@ -259,6 +263,26 @@ void KDevice::Init_SphereMesh()
 
 
 /********************* Material ********************/
+void KDevice::Init_NoneMat()
+{
+	KPtr<Vertex_Shader> NewVert =
+		ResourceManager<Vertex_Shader>::Load_FromKey(L"NONE_VERT", L"Shader", L"NoneShader.fx", "None_VT");
+
+	NewVert->Add_Layout("POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
+	NewVert->Add_Layout("UV", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32_FLOAT, 0);
+	NewVert->Add_Layout("COLOR", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
+	NewVert->Add_LayoutFin("NORMAL", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
+
+	KPtr<Pixel_Shader> NewPix =
+		ResourceManager<Pixel_Shader>::Load_FromKey(L"NONE_PIX", L"Shader", L"NoneShader.fx", "None_PX");
+
+	KPtr<Material> NewMat = ResourceManager<Material>::Create(L"NONE_MAT");
+	NewMat->Set_VShader(L"NONE_VERT");
+	NewMat->Set_PShader(L"NONE_PIX");
+	NewMat->Set_Blend(L"AlphaBlend3D");
+}
+
+
 void KDevice::Init_GridMat()
 {
 	KPtr<Vertex_Shader> NewVert =

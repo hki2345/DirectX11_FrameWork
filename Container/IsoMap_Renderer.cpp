@@ -77,8 +77,6 @@ void IsoMap_Renderer::Render(KPtr<Camera> _Camera)
 	{
 		return;
 	}
-
-	Indepen_Update();
 	
 	S_IsoTile = m_IsoTileMap.begin();
 	E_IsoTile = m_IsoTileMap.end();
@@ -109,8 +107,6 @@ void IsoMap_Renderer::Render(KPtr<Camera> _Camera)
 		m_Material->PShader()->Set_ConstBuffer<KVector4>(L"MULTI", m_Image->uv(S_IsoTile->second->m_Index));
 
 		m_Material->Update();
-		m_Image->sampler()->Update();
-		m_Image->texture()->Update();
 		m_Mesh->Update();
 		m_Mesh->Render();
 	}

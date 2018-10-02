@@ -105,8 +105,8 @@ void Material::sampler(const UINT& _Slot, const wchar_t* _Name)
 }
 
 
-void Material::insert_TD(UINT _TexSlot, const wchar_t* _TexName, const UINT& _SmSlot = 0,
-	const wchar_t* _SmName = L"DefaultSam")
+void Material::insert_TD(UINT _TexSlot, const wchar_t* _TexName, const UINT& _SmSlot /*= 0*/,
+	const wchar_t* _SmName/* = L"DefaultSam"*/)
 {
 	Texture_Data NewData;
 	NewData.TInx = _TexSlot;

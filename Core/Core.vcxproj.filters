@@ -144,9 +144,6 @@
     <ClInclude Include="ResourceManager.h">
       <Filter>03 SubManager\Resource</Filter>
     </ClInclude>
-    <ClInclude Include="Resource.h">
-      <Filter>03 SubManager\Resource</Filter>
-    </ClInclude>
     <ClInclude Include="KDevice.h">
       <Filter>01 Window\Device</Filter>
     </ClInclude>
@@ -285,6 +282,9 @@
     <ClInclude Include="KShader.h">
       <Filter>03 SubManager\Resource\Child\Material\Shader</Filter>
     </ClInclude>
+    <ClInclude Include="KResource.h">
+      <Filter>03 SubManager\Resource</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TimeManager.cpp">
@@ -319,9 +319,6 @@
     </ClCompile>
     <ClCompile Include="StateManager.cpp">
       <Filter>03 SubManager\State</Filter>
-    </ClCompile>
-    <ClCompile Include="Resource.cpp">
-      <Filter>03 SubManager\Resource</Filter>
     </ClCompile>
     <ClCompile Include="KDevice.cpp">
       <Filter>01 Window\Device</Filter>
@@ -460,6 +457,9 @@
     </ClCompile>
     <ClCompile Include="KShader.cpp">
       <Filter>03 SubManager\Resource\Child\Material\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="KResource.cpp">
+      <Filter>03 SubManager\Resource</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

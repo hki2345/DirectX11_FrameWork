@@ -93,7 +93,7 @@ BOOL Dlg_Tool::OnInitDialog()
 	SkyRender->Set_Material(L"IMG_MAT");
 	SkyRender->Set_Mesh(L"SPHERE_MESH");
 	SkyRender->Create_RasterState(L"SFRONT");
-	SkyRender->image(L"Sky01.png");
+	SkyRender->material()->insert_TD(0, L"Sky01.png");
 
 	KPtr<TheOne> Grid = CurState->Create_TheOne(L"Grid");
 	Grid->World_Rotate(KVector(90.0f, 0.0f, 0.0f));
@@ -121,13 +121,15 @@ BOOL Dlg_Tool::OnInitDialog()
 	MC->Local_Pos(0.0f, 20.0f, 0.0f);
 	MC->Local_Scale(10.0f, 10.0f, 10.0f);
 	KPtr<Renderer_Mesh> MCR = MC->Add_Component<Renderer_Mesh>();
-	// MCR->image(L"Sky01.png");
 	MCR->Set_Material(L"VLIGHT_MAT");
+	MCR->Set_Mesh(L"CUBE_MESH");
+	// MCR->image(L"Sky01.png");
 
 	KPtr<TheOne> NewOne2 = CurState->Create_TheOne(L"Cube");
 	NewOne2->Local_Pos(0.0f, 40.0f, 0.0f);
 	NewOne2->Local_Scale(10.0f, 10.0f, 10.0f);
 	NewOne2->Add_Component<Renderer_Mesh>();
+
 
 	return TRUE;
 

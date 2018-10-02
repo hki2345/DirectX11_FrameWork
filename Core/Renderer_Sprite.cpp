@@ -66,15 +66,6 @@ void Renderer_Sprite::Render(KPtr<Camera> _Camera)
 		return;
 	}
 	
-	// 부모인지 요놈인지 계산되어야 한다.
-	Indepen_Update();
-
-	if (nullptr != m_Image)
-	{
-		m_Image->sampler()->Update();
-		m_Image->texture()->Update();
-	}
-
 	m_Border = 0.0f;
 	m_Color = KColor::Green;
 
