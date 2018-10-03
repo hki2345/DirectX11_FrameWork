@@ -102,6 +102,10 @@ void IsoMap_Renderer::Render(KPtr<Camera> _Camera)
 		NewBorder.m_UvPerPixel = KVector2(1.0f / m_Image->size().x, 1.0f / m_Image->size().y);
 		NewBorder.m_Border = KVector2::Zero;
 
+
+		m_Image->sampler()->Update(0);
+		m_Image->texture()->Update(0);
+
 		m_Material->VShader()->Set_ConstBuffer<KMatrix>(L"TRANS", Mat.TransPose_Referance());
 		m_Material->PShader()->Set_ConstBuffer<KBorder>(L"BORDER", NewBorder);
 		m_Material->PShader()->Set_ConstBuffer<KVector4>(L"MULTI", m_Image->uv(S_IsoTile->second->m_Index));

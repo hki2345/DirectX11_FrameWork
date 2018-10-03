@@ -57,7 +57,7 @@ private:
 
 private:
 	// 제귀돌리려는 함수
-	static bool All_Load_Sub(const wchar_t* _Value, const wchar_t* _Target);
+	static bool All_Load_Sub(const wchar_t* _Target);
 
 public:
 	static std::list<KPtr<RS>> All_SingleResList()
@@ -352,6 +352,8 @@ public:
 	}
 
 private:
+	// intptr_t 라 돼있지만 들가 보면 그냥  int임
+	static bool Cur_Load(const intptr_t& _Handle, const _wfinddata_t& _FD, const wchar_t* _Target);
 	static bool IsDot(const std::wstring& _Value);
 
 public:

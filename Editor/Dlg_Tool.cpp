@@ -103,7 +103,7 @@ BOOL Dlg_Tool::OnInitDialog()
 	SkyRender->Set_Material(L"IMG_MAT");
 	SkyRender->Set_Mesh(L"SPHERE_MESH");
 	SkyRender->Create_RasterState(L"SFRONT");
-	SkyRender->material()->insert_TD(0, L"Sky01.png");
+	SkyRender->material()->insert_TD(0, L"Sky044.png");
 	
 	KPtr<TheOne> Grid = CurState->Create_TheOne(L"Grid");
 	Grid->World_Rotate(KVector(90.0f, 0.0f, 0.0f));
