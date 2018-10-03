@@ -42,30 +42,24 @@ public:
 };
 
 
-template<typename RS>
+template<typename KS>
 class ResourceManager
 {
 private:
-	static std::unordered_map<std::wstring, KPtr<RS>> m_map_Resource;
-
-	static std::unordered_map<std::wstring, KPtr<RS>> m_Multi_ResMap;
+	static std::unordered_map<std::wstring, KPtr<KS>> m_map_Resource;
+	static std::unordered_map<std::wstring, KPtr<KS>> m_Multi_ResMap;
 
 	// ㄷㅣㄹ레마 -> 초기화하면서 여러가지 변수를 모두 초기화 할수있게 할 것이냐//
 	// 그러려면 과연 노가다 하드코딩을 해야하는데 다른 방법이 있겠느냐
 
 
-
-private:
-	// 제귀돌리려는 함수
-	static bool All_Load_Sub(const wchar_t* _Target);
-
 public:
-	static std::list<KPtr<RS>> All_SingleResList()
+	static std::list<KPtr<KS>> All_SingleResList()
 	{
-		std::list<KPtr<RS>> ReturnList;
+		std::list<KPtr<KS>> ReturnList;
 
-		std::unordered_map<std::wstring, KPtr<RS>>::iterator StartMapIter = m_map_Resource.begin();
-		std::unordered_map<std::wstring, KPtr<RS>>::iterator EndMapIter = m_map_Resource.end();
+		std::unordered_map<std::wstring, KPtr<KS>>::iterator StartMapIter = m_map_Resource.begin();
+		std::unordered_map<std::wstring, KPtr<KS>>::iterator EndMapIter = m_map_Resource.end();
 
 		for (; StartMapIter != EndMapIter; ++StartMapIter)
 		{
@@ -80,22 +74,19 @@ public:
 		return m_map_Resource.size();
 	}
 
-	// 경로의 모든 것을 받아오려는 함수
-	static bool All_Image_Load(const wchar_t* _Target);
-	static bool All_Sound_Load(const wchar_t* _Target);
 
-	static KPtr<RS> Find(const wchar_t* _Name)
+	static KPtr<KS> Find(const wchar_t* _Name)
 	{
-		if (nullptr == Map_Find<KPtr<RS>>(m_map_Resource, _Name))
+		if (nullptr == Map_Find<KPtr<KS>>(m_map_Resource, _Name))
 		{
-			return Map_Find<KPtr<RS>>(m_Multi_ResMap, _Name);
+			return Map_Find<KPtr<KS>>(m_Multi_ResMap, _Name);
 		}
-		return Map_Find<KPtr<RS>>(m_map_Resource, _Name);
+		return Map_Find<KPtr<KS>>(m_map_Resource, _Name);
 	}
 
-	static KPtr<RS> Create(const wchar_t* _Name)
+	static KPtr<KS> Create(const wchar_t* _Name)
 	{
-		RS* NewRS = new RS();
+		KS* NewRS = new KS();
 		NewRS->set_type();
 		NewRS->name(_Name);
 
@@ -106,14 +97,14 @@ public:
 			return nullptr;
 		}
 
-		m_map_Resource.insert (std::unordered_map<std::wstring, KPtr<RS>>::value_type(_Name, NewRS));
+		m_map_Resource.insert (std::unordered_map<std::wstring, KPtr<KS>>::value_type(_Name, NewRS));
 		return NewRS;
 	}
 
 	template<typename V1>
-	static KPtr<RS> Create(const wchar_t* _Name, V1 _1)
+	static KPtr<KS> Create(const wchar_t* _Name, V1 _1)
 	{
-		RS* NewRS = new RS();
+		KS* NewRS = new KS();
 		NewRS->set_type();
 		NewRS->name(_Name);
 
@@ -124,16 +115,16 @@ public:
 			return nullptr;
 		}
 
-		m_map_Resource.insert(std::unordered_map<std::wstring, KPtr<RS>>::value_type(_Name, NewRS));
+		m_map_Resource.insert(std::unordered_map<std::wstring, KPtr<KS>>::value_type(_Name, NewRS));
 		return NewRS;
 	}
 
 
 	// 인자 9개 -- 이건 메쉬를 저격하는 것이다.
 	template<typename V1, typename V2, typename V3, typename V4, typename V5, typename V6, typename V7, typename V8, typename V9>
-	static KPtr<RS> Create(const wchar_t* _Name, V1 _1, V2 _2, V3 _3, V4 _4, V5 _5, V6 _6, V7 _7, V8 _8, V9 _9)
+	static KPtr<KS> Create(const wchar_t* _Name, V1 _1, V2 _2, V3 _3, V4 _4, V5 _5, V6 _6, V7 _7, V8 _8, V9 _9)
 	{
-		RS* NewRS = new RS();
+		KS* NewRS = new KS();
 		NewRS->set_type();
 		NewRS->name(_Name);
 
@@ -144,16 +135,16 @@ public:
 			return nullptr;
 		}
 
-		m_map_Resource.insert(std::unordered_map<std::wstring, KPtr<RS>>::value_type(_Name, NewRS));
+		m_map_Resource.insert(std::unordered_map<std::wstring, KPtr<KS>>::value_type(_Name, NewRS));
 		return NewRS;
 	}
 
 
 	// 인자 10개 -- 이건 메쉬의 라인 지정을 저격하는 것이다.
 	template<typename V1, typename V2, typename V3, typename V4, typename V5, typename V6, typename V7, typename V8, typename V9, typename V10>
-	static KPtr<RS> Create(const wchar_t* _Name, V1 _1, V2 _2, V3 _3, V4 _4, V5 _5, V6 _6, V7 _7, V8 _8, V9 _9, V10 _10)
+	static KPtr<KS> Create(const wchar_t* _Name, V1 _1, V2 _2, V3 _3, V4 _4, V5 _5, V6 _6, V7 _7, V8 _8, V9 _9, V10 _10)
 	{
-		RS* NewRS = new RS();
+		KS* NewRS = new KS();
 		NewRS->set_type();
 		NewRS->name(_Name);
 
@@ -164,25 +155,25 @@ public:
 			return nullptr;
 		}
 
-		m_map_Resource.insert(std::unordered_map<std::wstring, KPtr<RS>>::value_type(_Name, NewRS));
+		m_map_Resource.insert(std::unordered_map<std::wstring, KPtr<KS>>::value_type(_Name, NewRS));
 		return NewRS;
 	}
 
 	static void Delete(const wchar_t* _Name)
 	{
-		std::unordered_map<std::wstring, KPtr<RS>>::iterator FI = m_map_Resource.find(_Name);
+		std::unordered_map<std::wstring, KPtr<KS>>::iterator FI = m_map_Resource.find(_Name);
 		m_map_Resource.erase(FI);
 	}
 
 private:
 	// 멀티 리소스 나중을 위한 - 인자 하나도 없는 경우
 	// 사운드 -> 로드시 하나도 어
-	static KPtr<RS> All_DataLoad(const wchar_t* _Path, const wchar_t* _Name)
+	static KPtr<KS> All_DataLoad(const wchar_t* _Path, const wchar_t* _Name)
 	{
 		std::wstring thisPath = PathManager::Find_Path(_Path);
 		thisPath += _Name;
 
-		RS* NewRS = new RS();
+		KS* NewRS = new KS();
 		NewRS->name(_Name);
 		NewRS->forder_path(_Path);
 		NewRS->path(thisPath.c_str());
@@ -194,18 +185,18 @@ private:
 		}
 
 	
-		m_Multi_ResMap.insert(std::unordered_map<std::wstring, KPtr<RS>>::value_type(_Name, NewRS));
+		m_Multi_ResMap.insert(std::unordered_map<std::wstring, KPtr<KS>>::value_type(_Name, NewRS));
 		return NewRS;
 	}
 
 	// 멀티 리소스 - 이미지 인자 2개
 	template<typename T1, typename T2>
-	static KPtr<RS> All_DataLoad(const wchar_t* _Path, const wchar_t* _Name, T1 _V1, T2 _V2)
+	static KPtr<KS> All_DataLoad(const wchar_t* _Path, const wchar_t* _Name, T1 _V1, T2 _V2)
 	{
 		std::wstring thisPath = PathManager::Find_Path(_Path);
 		thisPath += _Name;
 
-		RS* NewRS = new RS();
+		KS* NewRS = new KS();
 		NewRS->name(_Name);
 		NewRS->forder_path(_Path);
 		NewRS->path(thisPath.c_str());
@@ -216,18 +207,18 @@ private:
 			return nullptr;
 		}
 
-		m_Multi_ResMap.insert(std::unordered_map<std::wstring, KPtr<RS>>::value_type(_Name, NewRS));
+		m_Multi_ResMap.insert(std::unordered_map<std::wstring, KPtr<KS>>::value_type(_Name, NewRS));
 		return NewRS;
 	}
 
 
 public:
-	static KPtr<RS> Load(const wchar_t* _Path, const wchar_t* _Name, const bool& _Multi = false)
+	static KPtr<KS> Load(const wchar_t* _Path, const wchar_t* _Name, const bool& _Multi = false)
 	{
 		std::wstring thisPath = PathManager::Find_Path(_Path);
 		thisPath += _Name;
 
-		RS* NewRS = new RS();
+		KS* NewRS = new KS();
 		NewRS->name(_Name);
 		NewRS->forder_path(_Path);
 		NewRS->path(thisPath.c_str());
@@ -242,23 +233,23 @@ public:
 		// 데이터 중복방지를 위한 가정문 
 		if (false == _Multi)
 		{
-			m_map_Resource.insert(std::unordered_map<std::wstring, KPtr<RS>>::value_type(_Name, NewRS));
+			m_map_Resource.insert(std::unordered_map<std::wstring, KPtr<KS>>::value_type(_Name, NewRS));
 		}
 		else
 		{
-			m_Multi_ResMap.insert(std::unordered_map<std::wstring, KPtr<RS>>::value_type(_Name, NewRS));
+			m_Multi_ResMap.insert(std::unordered_map<std::wstring, KPtr<KS>>::value_type(_Name, NewRS));
 		}
 
 		return NewRS;
 	}
 
 	template<typename T1, typename T2>
-	static KPtr<RS> Load(const wchar_t* _Path, const wchar_t* _Name, T1 _V1, T2 _V2, const bool& _Multi = false)
+	static KPtr<KS> Load(const wchar_t* _Path, const wchar_t* _Name, T1 _V1, T2 _V2, const bool& _Multi = false)
 	{
 		std::wstring thisPath = PathManager::Find_Path(_Path);
 		thisPath += _Name;
 
-		RS* NewRS = new RS();
+		KS* NewRS = new KS();
 		NewRS->name(_Name);
 		NewRS->forder_path(_Path);
 		NewRS->path(thisPath.c_str());
@@ -272,11 +263,11 @@ public:
 		// 데이터 중복방지를 위한 가정문 
 		if (false == _Multi)
 		{
-			m_map_Resource.insert(std::unordered_map<std::wstring, KPtr<RS>>::value_type(_Name, NewRS));
+			m_map_Resource.insert(std::unordered_map<std::wstring, KPtr<KS>>::value_type(_Name, NewRS));
 		}
 		else
 		{
-			m_Multi_ResMap.insert(std::unordered_map<std::wstring, KPtr<RS>>::value_type(_Name, NewRS));
+			m_Multi_ResMap.insert(std::unordered_map<std::wstring, KPtr<KS>>::value_type(_Name, NewRS));
 		}
 
 		return NewRS;
@@ -284,12 +275,12 @@ public:
 
 	// 맵의 Key를 이용해 찾은 뒤 (사실 Key가 패스로 저장됌)
 	// 이 키를 바탕으로 로드를 생성함
-	static KPtr<RS> Load_FromKey(const wchar_t* _Key, const wchar_t*  _Path_Key, const wchar_t* _FileName)
+	static KPtr<KS> Load_FromKey(const wchar_t* _Key, const wchar_t*  _Path_Key, const wchar_t* _FileName)
 	{
 		std::wstring NewFind = PathManager::Find_Path(_Path_Key);
 		NewFind += _FileName;
 
-		RS* NewRes = new RS();
+		KS* NewRes = new KS();
 		NewRes->name(_Key);
 		NewRS->forder_path(_Path_Key);
 		NewRes->path(NewFind.c_str());
@@ -300,17 +291,17 @@ public:
 			return nullptr;
 		}
 
-		m_map_Resource.insert(std::unordered_map<std::wstring, KPtr<RS>>::value_type(_Key, NewRS));
+		m_map_Resource.insert(std::unordered_map<std::wstring, KPtr<KS>>::value_type(_Key, NewRS));
 		return NewRes;
 	}
 
 	template<typename T1>
-	static KPtr<RS> Load_FromKey(const wchar_t* _Key, const wchar_t*  _Path_Key, const wchar_t* _FileName, T1 _V1)
+	static KPtr<KS> Load_FromKey(const wchar_t* _Key, const wchar_t*  _Path_Key, const wchar_t* _FileName, T1 _V1)
 	{
 		std::wstring NewFind = PathManager::Find_Path(_Path_Key);
 		NewFind += _FileName;
 
-		RS* NewRes = new RS();
+		KS* NewRes = new KS();
 		NewRes->name(_Key);
 		NewRes->forder_path(_Path_Key);
 		NewRes->path(NewFind.c_str());
@@ -321,16 +312,16 @@ public:
 			return nullptr;
 		}
 
-		m_map_Resource.insert(std::unordered_map<std::wstring, KPtr<RS>>::value_type(_Key, NewRes));
+		m_map_Resource.insert(std::unordered_map<std::wstring, KPtr<KS>>::value_type(_Key, NewRes));
 		return NewRes;
 	}
 
 
 	// 맵의 Key를 이용해 찾은 뒤 (사실 Key가 패스로 저장됌)
 	// 이 키를 바탕으로 로드를 생성함
-	static KPtr<RS> Load_FullPath(const wchar_t* _Path)
+	static KPtr<KS> Load_FullPath(const wchar_t* _Path)
 	{
-		RS* NewRes = new RS();
+		KS* NewRes = new KS();
 		NewRes->path(_Path);
 		NewRes->name(NewRes->path());
 
@@ -340,21 +331,31 @@ public:
 			return nullptr;
 		}
 
-		std::unordered_map<std::wstring, KPtr<RS>>::iterator findIter = m_map_Resource.find(NewRes->name_exist());
+		std::unordered_map<std::wstring, KPtr<KS>>::iterator findIter = m_map_Resource.find(NewRes->name_exist());
 
 		// 난 아예 여기서 있을 경우 하지 않는 것으로 수저ㅏㅇ함
 		if (findIter == m_map_Resource.end())
 		{
-			m_map_Resource.insert(std::unordered_map<std::wstring, KPtr<RS>>::value_type(NewRes->name_exist(), NewRes));
+			m_map_Resource.insert(std::unordered_map<std::wstring, KPtr<KS>>::value_type(NewRes->name_exist(), NewRes));
 		}
 
 		return NewRes;
 	}
 
+
+
+public:
+	// 모든 리소스를 다 가져온다
+	static bool All_Load(const wchar_t* _Target);
+
 private:
-	// intptr_t 라 돼있지만 들가 보면 그냥  int임
-	static bool Cur_Load(const intptr_t& _Handle, const _wfinddata_t& _FD, const wchar_t* _Target);
+	// 실제 인제 파일을 불러오려는 함수
+	static bool All_LoadOrigin(const wchar_t* _Target);
+
+	// 모든 리소스를 가져오려는 제귀 함수
+	static bool All_LoadSub(const intptr_t& _Handle, _wfinddata_t& _FD, const wchar_t* _Target);
 	static bool IsDot(const std::wstring& _Value);
+
 
 public:
 	ResourceManager() {};

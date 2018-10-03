@@ -105,42 +105,26 @@ bool PathManager::IsFile(const wchar_t* _Path)
 }
 
 
+
+
+
+/********************* All Resource Load **********************/
+// 일종의 껍대기 함수 - 템플릿을 헤더에 묶으면 되는데 그러기엔 헤더가 지금 너무 많이 쓰여져있어서
+// 이렇게 껍질 함수 만들어서 구현함 ㅇㅇ
+bool ResourceManager<KSound>::All_Load(const wchar_t* _Target)
+{
+	return ResourceManager<KSound>::All_LoadOrigin(_Target);
+}
+bool ResourceManager<KImage>::All_Load(const wchar_t* _Target)
+{
+	return ResourceManager<KImage>::All_LoadOrigin(_Target);
+}
+
+
 // 짜피 텍스쳐만 모두 받을 것이기 대문에
 // afx가 헤더에 추가되니 애가 이상해진다. b.b
-
-bool ResourceManager<KImage>::All_Image_Load(const wchar_t* _Target)
-{	
-	std::wstring NewString = PathManager::Get_FilePath();
-	NewString += _Target;
-	
-	if (false == ResourceManager<KImage>::All_Load_Sub(_Target))
-	{
-		return false; 
-	}
-	
-	return true;
-}
-
-
-bool ResourceManager<KSound>::All_Sound_Load(const wchar_t* _Target)
-{
-	std::wstring NewString = PathManager::Get_FilePath();
-	NewString += _Target;
-
-	if (false == ResourceManager<KSound>::All_Load_Sub(_Target))
-	{
-		return false;
-	}
-
-	return true;
-}
-
-
-
-
-
 template<typename KS>
-bool ResourceManager<KS>::All_Load_Sub(const wchar_t* _Target)
+bool ResourceManager<KS>::All_LoadOrigin(const wchar_t* _Target)
 {
 	struct _wfinddata_t FD;
 	intptr_t Handle;
@@ -173,30 +157,27 @@ bool ResourceManager<KS>::All_Load_Sub(const wchar_t* _Target)
 	}
 
 	// 따라서 handle을 더블 닷 너머까지 한 곳에서 부터 체크함ㅇㅇ	
-	Cur_Load(Handle, FD, _Target);
+	ResourceManager<KS>::All_LoadSub(Handle, FD, _Target);
 
 	return true;
 }
 
 
 template<typename KS>
-bool ResourceManager<KS>::Cur_Load(const intptr_t& _Handle, const _wfinddata_t& _FD, const wchar_t* _Target)
+bool ResourceManager<KS>::All_LoadSub(const intptr_t& _Handle, _wfinddata_t& _FD, const wchar_t* _Target)
 {
-	intptr_t Handle = _Handle;
-	_wfinddata_t FD = _FD;
-
 	std::list<_wfinddata_t > FolderMap;
 
 	do
 	{
 		// 파일이다.
-		if (true == ResourceManager<KS>::IsDot(FD.name))
+		if (true == ResourceManager<KS>::IsDot(_FD.name))
 		{
 			std::wstring FilePath = PathManager::Get_FilePath();
 			FilePath += _Target;
 
 			FilePath += L"\\";
-			FilePath += FD.name;
+			FilePath += _FD.name;
 
 			wchar_t ArrDrive[128] = { 0, };
 			wchar_t ArrFolder[128] = { 0, };
@@ -225,26 +206,19 @@ bool ResourceManager<KS>::Cur_Load(const intptr_t& _Handle, const _wfinddata_t& 
 			}
 		}
 
-		// 폴더다
+		// 폴더다 - 제귀
 		else
 		{
-			FolderMap.push_back(FD);
+			std::wstring Temp;
+			Temp = _Target;
+			Temp += L"\\";
+			Temp += _FD.name;
+
+			ResourceManager<KS>::All_LoadOrigin( Temp.c_str());
 		}
-	} while (_wfindnext(Handle, &FD) == 0);
+	} while (_wfindnext(_Handle, &_FD) == 0);
 
 
-	std::list<_wfinddata_t >::iterator S = FolderMap.begin();
-	std::list<_wfinddata_t >::iterator E = FolderMap.end();
-
-	for (; S != E; ++S)
-	{
-		std::wstring Temp = _Target;
-		Temp += L"\\";
-		Temp += (*S).name;
-		ResourceManager<KS>::All_Load_Sub(Temp.c_str());
-	}
-
-	_findclose(Handle);
 	return true;
 }
 

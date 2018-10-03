@@ -56,8 +56,8 @@ void EditLauncher::Build()
 	PathManager::Create_ForderPath(L"State", L"Data\\State");
 	PathManager::Create_ForderPath(L"User", L"Data\\User");
 	
-	 ResourceManager<KImage>::All_Image_Load(L"Texture");
-	 ResourceManager<KSound>::All_Sound_Load(L"Sound");
+	 ResourceManager<KImage>::All_Load(L"Texture");
+	 ResourceManager<KSound>::All_Load(L"Sound");
 
 	DebugManager::Log_Color(KColor::White);
 }
