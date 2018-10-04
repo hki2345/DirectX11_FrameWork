@@ -2,17 +2,6 @@
 #include "KResource.h"
 #include "DirectXHeader.h"
 
-struct Vertex
-{
-	KVector4 m_Pos;
-	KVector4 m_Uv;
-};
-
-struct VTexColor
-{
-	KVector4 m_Pos;
-	KVector4 m_Color;
-};
 
 class Mesh : public KResource
 {

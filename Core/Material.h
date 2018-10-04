@@ -6,6 +6,7 @@
 
 class Texture_Data
 {
+
 public:
 	int TInx;
 	int TSmp;
@@ -23,6 +24,12 @@ class Texture;
 class Sampler;
 class Material : public KResource
 {
+
+public:
+	Material();
+	Material(const Material& _Other);
+	~Material();
+
 private:
 	friend class Renderer;
 
@@ -56,6 +63,10 @@ private:
 public:
 	void insert_TD(UINT _TexSlot, const wchar_t* _TexName, const UINT& _SmSlot = 0,
 		const wchar_t* _SmName = L"DefaultSam");
+	KPtr<Material> Clone()
+	{
+		return new Material(*this);
+	}
 
 private:
 	std::unordered_map<unsigned int, KPtr<Texture>>::iterator m_TSI;
@@ -76,8 +87,5 @@ private:
 	void Update_Tex();
 	void Update_Sam();
 
-public:
-	Material();
-	~Material();
 };
 

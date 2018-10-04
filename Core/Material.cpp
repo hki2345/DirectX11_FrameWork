@@ -9,6 +9,18 @@ Material::Material(): m_Vertex_Shader(nullptr), m_Pixel_Shader(nullptr), Check_O
 {
 }
 
+Material::Material(const Material& _Other) :
+	KResource(_Other),
+	m_Vertex_Shader(_Other.m_Vertex_Shader),
+	m_Pixel_Shader(_Other.m_Pixel_Shader),
+	m_Blend(_Other.m_Blend),
+	m_TD_Vec(_Other.m_TD_Vec),
+	m_TexMap(_Other.m_TexMap),
+	m_SamMap(_Other.m_SamMap)
+{
+
+}
+
 
 Material::~Material()
 {
@@ -110,8 +122,10 @@ void Material::insert_TD(UINT _TexSlot, const wchar_t* _TexName, const UINT& _Sm
 {
 	Texture_Data NewData;
 	NewData.TInx = _TexSlot;
+	NewData.TSmp = _SmSlot;
 	m_TD_Vec.push_back(NewData);
 	texture(_TexSlot, _TexName);
+	sampler(_SmSlot, _SmName);
 }
 
 

@@ -20,6 +20,8 @@ public:
 	KVector2 Uv;
 	KVector Color;
 	KVector Normal;
+	KVector Tangent;
+	KVector BTangent;
 
 	TypeS(Vertex_3D)
 };

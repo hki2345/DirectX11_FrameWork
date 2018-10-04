@@ -21,6 +21,7 @@
 bool KDevice::Init_DefaultData_3D()
 {
 	ResourceManager<Blend>::Create(L"AlphaBlend3D");
+	ResourceManager<Sampler>::Create(L"DefaultSam");
 	Core_Class::MainDevice().Create_DeviceCB<DATA_3D>(L"DATA3D", D3D11_USAGE_DYNAMIC, 1);
 	Core_Class::MainDevice().Create_DeviceCB<KLight::LightCB>(L"LIGHT_DATA", D3D11_USAGE_DYNAMIC, 10);
 	Core_Class::MainDevice().Create_DeviceCB<RenderOption>(L"RENDEROP", D3D11_USAGE_DYNAMIC, 11);
@@ -166,6 +167,7 @@ void KDevice::Init_SphereMesh()
 	V.Color = KColor::White;
 	V.Normal = V.Pos;
 	V.Normal.NormalizeVec3();
+	V.Normal.w = .0f;
 
 	SphereVtx.push_back(V);
 
@@ -201,6 +203,7 @@ void KDevice::Init_SphereMesh()
 			V.Color = KColor::White;
 			V.Normal = V.Pos;
 			V.Normal.NormalizeVec3();
+			V.Normal.w = .0f;
 
 			SphereVtx.push_back(V);
 		}
@@ -212,6 +215,7 @@ void KDevice::Init_SphereMesh()
 	V.Color = KColor::White;
 	V.Normal = V.Pos;
 	V.Normal.NormalizeVec3();
+	V.Normal.w = .0f;
 
 	SphereVtx.push_back(V);
 
@@ -351,7 +355,9 @@ void KDevice::Init_MeshMat()
 	NewVert->Add_Layout("POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
 	NewVert->Add_Layout("TEXCOORD", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32_FLOAT, 0);
 	NewVert->Add_Layout("COLOR", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
-	NewVert->Add_LayoutFin("NORMAL", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
+	NewVert->Add_Layout("NORMAL", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
+	NewVert->Add_Layout("TAN", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
+	NewVert->Add_LayoutFin("BTAN", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
 
 	KPtr<Pixel_Shader> NewPix =
 		ResourceManager<Pixel_Shader>::Load_FromKey(L"MESH_PIX", L"Shader", L"MeshShader.fx", "Mesh_PX");

@@ -1,6 +1,6 @@
 #include "KLight.h"
 #include "State.h"
-
+#include "DebugManager.h"
 
 KLight::KLight()
 {
@@ -26,4 +26,6 @@ void KLight::FinalUpdate()
 	m_LD.m_Dir = one()->World_Forward(); 
 	m_LD.m_Pos = one()->World_Pos();
 	m_LD.CamPos = state()->camera()->one()->World_Pos();
+
+	WLOG(L"Light CamPos: %f, %f, %f", m_LD.CamPos.x, m_LD.CamPos.y, m_LD.CamPos.z);
 }

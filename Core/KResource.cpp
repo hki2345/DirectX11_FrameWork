@@ -5,7 +5,16 @@
 KResource::KResource()
 {
 }
+KResource::KResource(const KResource& _Other) : 
+	Begin(_Other),
+	m_sForderPath(_Other.m_sForderPath),
+	m_sPath(_Other.m_sPath),
+	m_sNameExi(_Other.m_sNameExi),
+	m_sFileName(_Other.m_sFileName),
+	m_Exist(_Other.m_Exist)
+{
 
+}
 
 KResource::~KResource()
 {

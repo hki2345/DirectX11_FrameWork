@@ -126,7 +126,7 @@ BOOL Dlg_Tool::OnInitDialog()
 	KPtr<Renderer_Mesh> RSR = RS->Add_Component<Renderer_Mesh>();
 	RSR->Set_Material(L"MESH_MAT");
 	RSR->Set_Mesh(L"SPHERE_MESH");
-	// RSR->image(L"Sky01.png");
+	RSR->material()->insert_TD(0, L"Sky01.png");
 
 	KPtr<TheOne> MC = CurState->Create_TheOne(L"Cube");
 	MC->Local_Pos(0.0f, 20.0f, 0.0f);

@@ -6,6 +6,11 @@ SmartPtr::SmartPtr() : m_Count(0)
 {
 }
 
+SmartPtr::SmartPtr(const SmartPtr& _Other) : m_Count(0)
+{
+
+}
+
 
 SmartPtr::~SmartPtr()
 {

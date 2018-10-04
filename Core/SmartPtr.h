@@ -25,6 +25,11 @@ private:
 class SmartPtr
 {
 public:
+	SmartPtr();
+	SmartPtr(const SmartPtr& _Other);
+	virtual ~SmartPtr() = 0;
+
+public:
 	// 템플릿 프랜드.
 	template<typename T>
 	friend class KPtr;
@@ -32,9 +37,6 @@ public:
 private:
 	int m_Count;
 
-public:
-	SmartPtr();
-	virtual ~SmartPtr() = 0;
 
 private:
 	void Add_Cnt();

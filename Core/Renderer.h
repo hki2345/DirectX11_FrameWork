@@ -58,10 +58,7 @@ public:
 	bool Set_Material(const wchar_t* _Name);
 
 	// 이미지 설정을 이제 렌더러의 재질이 해준다.
-	KPtr<Material> material()
-	{
-		return m_Material;
-	}
+	KPtr<Material> material();
 
 protected:
 	virtual void Update_Trans(KPtr<Camera> _Cam);

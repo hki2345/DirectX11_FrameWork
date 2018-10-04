@@ -1075,6 +1075,7 @@ public:
 	KMatrix m_W;
 	KMatrix m_V;
 	KMatrix m_P;
+	KMatrix m_WV;
 	KMatrix m_WVP;
 };
 

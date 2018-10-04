@@ -49,6 +49,7 @@ private:
 
 	void Insert_Light(KLight* _Light);
 	void Light_Check(const int& _Layer, const std::set<KPtr<Camera>>::iterator& _Iter);
+	void Reset_SamplerList();
 
 public:
 	void Render();

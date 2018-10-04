@@ -1,4 +1,4 @@
-
+#include "Matrix.fx"
 #include "LightContainer.fx"
 #include "Texture.fx"
 
@@ -8,6 +8,8 @@ struct MESH_VT_IN
     float2 vUv : TEXCOORD;
     float4 vColor : COLOR;
     float4 vNormal : NORMAL;
+    float4 vTangent : TAN;
+    float4 vBTangent : BTAN;
 };
 
 struct MESH_VT_OUT
@@ -17,6 +19,8 @@ struct MESH_VT_OUT
     float4 vColor : COLOR;
     float4 vViewPos : POSITION;
     float4 vNormal : NORMAL;
+    float4 vTangent : TAN;
+    float4 vBTangent : BTAN;
 };
 
 struct MESH_PX_OUT
@@ -31,9 +35,11 @@ MESH_VT_OUT Mesh_VT(MESH_VT_IN _in)
     outData.vPos = mul(_in.vPos, g_WVP);
     outData.vUv = _in.vUv;
     outData.vColor.rgba = _in.vColor.rgba;
-    outData.vViewPos = mul(mul(_in.vPos, g_W), g_V);
+    outData.vViewPos = mul(_in.vPos, g_WV);
     _in.vNormal.w = 0.0f;
-    outData.vNormal = normalize(mul(mul(_in.vNormal, g_W), g_V));
+    outData.vNormal = normalize(mul(_in.vNormal, g_WV));
+    outData.vTangent = normalize(mul(_in.vTangent, g_WV));
+    outData.vBTangent = normalize(mul(_in.vBTangent, g_WV));
 
     if (0 == CheckLight)
     {
@@ -91,11 +97,22 @@ MESH_PX_OUT Mesh_PX(MESH_VT_OUT _in)
 
     outData.vColor = _in.vColor;
 
-    // 계산.
-    if (0 == CheckLight)
+
+    float4 CalCor = float4(1.0f, 1.0f, 1.0f, 1.0f);
+
+    for (int i = 0; i< TexCnt; ++i)
     {
-        return outData;
+        if(-1 != Texes[i].TInx)
+        {
+            CalCor += Get_CalColor(Texes[i].TInx, Texes[i].TSmp, _in.vUv) * _in.vColor;
+        }
     }
+
+    // 계산.
+        if (0 == CheckLight)
+        {
+            return outData;
+        }
 
     if (0 == VzPo)
     {
@@ -125,18 +142,18 @@ MESH_PX_OUT Mesh_PX(MESH_VT_OUT _in)
         // Point
         else if (LightList[i].Type == 1)
         {
-            LightColor LColor = Point_Light(_in.vPos, _in.vNormal, LightList[i]);
+            LightColor LColor = Point_Light(_in.vViewPos, _in.vNormal, LightList[i]);
             CalLColor.Diff += LColor.Diff;
             CalLColor.Spec += LColor.Spec;
             CalLColor.Ambi *= LColor.Diff * LColor.Ambi;
         }
     }
 
-    //CalLColor.Diff /= (float) LightCount;
-    //CalLColor.Spec /= (float) LightCount;
-    //CalLColor.Ambi /= (float) LightCount;
+    CalLColor.Diff /= (float) LightCount;
+    CalLColor.Spec /= (float) LightCount;
+    CalLColor.Ambi /= (float) LightCount;
 
-    outData.vColor.rgb = _in.vColor.rgb * CalLColor.Diff.rgb + CalLColor.Spec.rgb + CalLColor.Ambi.rgb;
+    outData.vColor.rgb = CalCor.rgb * CalLColor.Diff.rgb + CalLColor.Spec.rgb + CalLColor.Ambi.rgb;
     outData.vColor.a = _in.vColor.a;
 
 	// outData.vColor = _in.vColor;

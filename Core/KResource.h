@@ -4,6 +4,12 @@
 
 class KResource : public Begin
 {
+public:
+	KResource();
+	KResource(const KResource& _Other);
+	~KResource();
+
+
 private:
 	std::wstring m_sForderPath;
 	std::wstring m_sPath;
@@ -35,8 +41,5 @@ private:
 	virtual bool Create();
 	virtual bool Load();
 
-public:
-	KResource();
-	~KResource();
 };
 

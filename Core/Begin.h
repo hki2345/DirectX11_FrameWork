@@ -4,6 +4,12 @@
 
 class TypeBegin : public SmartPtr
 {
+public:
+	TypeBegin() : m_Debug(false) {};
+	TypeBegin(const TypeBegin& _Other) :
+		SmartPtr(_Other), m_TypeInfo(_Other.m_TypeInfo), m_Debug(_Other.m_Debug) {}
+	~TypeBegin() {};
+
 private:
 	// 타입의 형을 비교함 -> 여기에 해쉬코드, 이름등이 저장되고
 	// 특히 해쉬코드는 컴퓨터가 달라져도 값이 같음 -> 씬을 저장하고
@@ -44,14 +50,16 @@ public:
 	{
 		return dynamic_cast<T*>(this) != nullptr;
 	}
-
-public:
-	TypeBegin() : m_Debug(false) {};
-	~TypeBegin() {};
 };
 
 class Begin : public TypeBegin
 {
+public:
+	Begin();
+	Begin(const wchar_t* _Name);
+	Begin(const Begin& _Other);
+	~Begin();
+
 private:
 	std::wstring m_Name;
 
@@ -75,9 +83,5 @@ public:
 	{
 		m_Name = _Name;
 	}
-public:
-	Begin();
-	Begin(const wchar_t* _Name);
-	~Begin();
 };
 

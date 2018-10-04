@@ -1,5 +1,3 @@
-#include "Matrix.fx"
-
 class LightColor
 {
 	float4 Diff; // Ȯ�걤

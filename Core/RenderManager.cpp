@@ -3,8 +3,11 @@
 #include "Camera.h"
 #include "KMacro.h"
 #include "KLight.h"
+#include "Sampler.h"
 #include "Core_Class.h"
 
+#include "DebugManager.h"
+#include "ResourceManager.h"
 
 RenderManager::RenderManager()
 {
@@ -65,8 +68,22 @@ void RenderManager::insert_AbsRenderer(KPtr<Renderer> _Renderer)
 }
 
 
+void RenderManager::Reset_SamplerList()
+{
+	KPtr<Sampler> FS = ResourceManager<Sampler>::Find(L"DefaultSam");
+	
+	KASSERT(nullptr == FS);
+
+	for (UINT i = 0; i < 8; i++)
+	{
+		FS->Update(i);
+	}
+}
+
 void RenderManager::Render()
 {
+	Reset_SamplerList();
+
 	m_Camera_StartIter = m_CameraMap.begin();
 	m_Camera_EndIter = m_CameraMap.end();
 
@@ -190,6 +207,8 @@ void RenderManager::Light_Check(const int& _Layer, const std::set<KPtr<Camera>>:
 		}
 	}
 
+	WLOG(L"CamPos: %f, %f, %f", TempData.ArrLight[0].m_Pos.x, TempData.ArrLight[0].m_Pos.y, TempData.ArrLight[0].m_Pos.z);
+	WLOG(L"CamPos: %f, %f, %f", TempData.ArrLight[0].CamPos.x, TempData.ArrLight[0].CamPos.y, TempData.ArrLight[0].CamPos.z);
 	TempData.LCnt = Cnt;
 
 	Core_Class::MainDevice().Set_DeviceCB<KLight::LightCB>(L"LIGHT_DATA", TempData, SHADER_TYPE::ST_VS);

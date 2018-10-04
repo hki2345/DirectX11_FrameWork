@@ -4,6 +4,7 @@
 #include "State.h"
 #include "KDevice.h"
 #include "KWindow.h"
+#include "Material.h"
 #include "Core_Class.h"
 
 Renderer::Renderer() :m_RasterState(nullptr)
@@ -101,6 +102,7 @@ void Renderer::Update_Trans(KPtr<Camera> _Cam)
 	m_MD.m_W = m_Trans->World_Matrix_Const().TransPose_Value();
 	m_MD.m_V = _Cam->View().TransPose_Value();
 	m_MD.m_P = _Cam->Proj().TransPose_Value();
+	m_MD.m_WV = (m_Trans->World_Matrix_Const() * _Cam->View()).TransPose_Referance();
 	m_MD.m_WVP = (m_Trans->World_Matrix_Const() * _Cam->View_Proj()).TransPose_Referance();
 
 	Update_CB();
@@ -123,4 +125,14 @@ void Renderer::Update_MeshMat()
 	m_Material->Update();
 	m_Mesh->Update();
 	m_Mesh->Render();
+}
+
+KPtr<Material> Renderer::material()
+{
+	if (true == m_Material->Check_Original)
+	{
+		m_Material = m_Material->Clone();
+	}
+
+	return m_Material;
 }
