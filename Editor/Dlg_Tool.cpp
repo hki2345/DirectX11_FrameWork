@@ -72,7 +72,7 @@ BOOL Dlg_Tool::OnInitDialog()
 	NewPLight->range(100.0f);
 
 
-
+/*
 	KPtr<TheOne> NewLight2 = CurState->Create_TheOne(L"Light");
 
 	KPtr<KLight> NewPLight2 = NewLight2->Add_Component<KLight>();
@@ -80,6 +80,7 @@ BOOL Dlg_Tool::OnInitDialog()
 
 	NewLight2->World_Pos(KVector::Zero);
 	NewLight2->World_Rotate(.0f, .0f, .0f);
+	*/
 
 
 	CCreateContext         m_context;

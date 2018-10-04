@@ -57,10 +57,22 @@ MESH_VT_OUT Mesh_VT(MESH_VT_IN _in)
 
     for (int i = 0; i < LightCount; ++i)
     {
-        LightColor LColor = Direct_Light(outData.vViewPos, outData.vNormal, LightList[0]);
-        CalLColor.Diff += LColor.Diff;
-        CalLColor.Spec += LColor.Spec;
-        CalLColor.Ambi += LColor.Ambi;
+        // Direction
+        if (LightList[i].Type == 0)
+        {
+            LightColor LColor = Direct_Light(outData.vViewPos, outData.vNormal, LightList[i]);
+            CalLColor.Diff += LColor.Diff;
+            CalLColor.Spec += LColor.Spec;
+            CalLColor.Ambi += LColor.Ambi;
+        }
+        // Point
+        else if (LightList[i].Type == 1)
+        {
+            LightColor LColor = Point_Light(outData.vPos, outData.vNormal, LightList[i]);
+            CalLColor.Diff += LColor.Diff;
+            CalLColor.Spec += LColor.Spec;
+            CalLColor.Ambi += LColor.Ambi;
+        }
     }
 
     CalLColor.Diff /= (float) LightCount;
@@ -102,10 +114,22 @@ MESH_PX_OUT Mesh_PX(MESH_VT_OUT _in)
 
     for (int i = 0; i < LightCount; ++i)
     {
-        LightColor LColor = Direct_Light(_in.vViewPos, _in.vNormal, LightList[i]);
-        CalLColor.Diff += LColor.Diff;
-        CalLColor.Spec += LColor.Spec;
-        CalLColor.Ambi += LColor.Ambi;
+        // Direction
+        if (LightList[i].Type == 0)
+        {
+            LightColor LColor = Direct_Light(_in.vViewPos, _in.vNormal, LightList[i]);
+            CalLColor.Diff += LColor.Diff;
+            CalLColor.Spec += LColor.Spec;
+            CalLColor.Ambi += LColor.Ambi;
+        }
+        // Point
+        else if (LightList[i].Type == 1)
+        {
+            LightColor LColor = Point_Light(_in.vPos, _in.vNormal, LightList[i]);
+            CalLColor.Diff += LColor.Diff;
+            CalLColor.Spec += LColor.Spec;
+            CalLColor.Ambi *= LColor.Diff * LColor.Ambi;
+        }
     }
 
     //CalLColor.Diff /= (float) LightCount;
