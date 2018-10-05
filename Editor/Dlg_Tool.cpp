@@ -105,7 +105,7 @@ BOOL Dlg_Tool::OnInitDialog()
 	SkyRender->Set_Material(L"IMG_MAT");
 	SkyRender->Set_Mesh(L"SPHERE_MESH");
 	SkyRender->Create_RasterState(L"SFRONT");
-	SkyRender->material()->insert_TD(0, L"Sky044.png");
+	SkyRender->material()->insert_TD(Texture_Type::TEX_COLOR, 0, L"Sky044.png");
 	
 	KPtr<TheOne> Grid = CurState->Create_TheOne(L"Grid");
 	Grid->World_Rotate(KVector(90.0f, 0.0f, 0.0f));
@@ -120,6 +120,8 @@ BOOL Dlg_Tool::OnInitDialog()
 	KPtr<Renderer_Mesh> LSR = LS->Add_Component<Renderer_Mesh>();
 	LSR->Set_Material(L"MESH_MAT");
 	LSR->Set_Mesh(L"SPHERE_MESH");
+	LSR->material()->insert_TD(Texture_Type::TEX_COLOR, 0, L"MoonDiff.jpg");
+	LSR->material()->insert_TD(Texture_Type::TEX_BUMP, 7, L"MoonBump.jpg");
 	
 	KPtr<TheOne> RS = CurState->Create_TheOne(L"Sphere");
 	RS->Local_Pos(10.0f, 0.0f, 0.0f);
@@ -127,8 +129,8 @@ BOOL Dlg_Tool::OnInitDialog()
 	KPtr<Renderer_Mesh> RSR = RS->Add_Component<Renderer_Mesh>();
 	RSR->Set_Material(L"MESH_MAT");
 	RSR->Set_Mesh(L"SPHERE_MESH");
-	RSR->material()->insert_TD(1, L"Lava.jpg");
-	RSR->material()->insert_TD(2, L"LavaBump.jpg");
+	RSR->material()->insert_TD(Texture_Type::TEX_COLOR, 0, L"MoonDiff.jpg");
+	// RSR->material()->insert_TD(Texture_Type::TEX_BUMP, 1, L"MoonBump.jpg");
 
 	KPtr<TheOne> MC = CurState->Create_TheOne(L"Cube");
 	MC->Local_Pos(0.0f, 20.0f, 0.0f);
