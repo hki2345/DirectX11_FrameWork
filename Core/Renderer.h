@@ -19,7 +19,7 @@ public:
 	int TexCnt;
 
 private:
-	Texture_Data Texes[12];
+	Texture_Data Texes[8];
 
 public:
 	RenderOption() : CheckLight(1), TexCnt(0),

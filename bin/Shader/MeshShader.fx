@@ -42,6 +42,9 @@ MESH_VT_OUT Mesh_VT(MESH_VT_IN _in)
     outData.vTangent = normalize(mul(_in.vTangent, g_WV));
     outData.vBTangent = normalize(mul(_in.vBTangent, g_WV));
     
+
+
+
     if (0 == CheckLight)
     {
         return outData;
@@ -86,15 +89,22 @@ MESH_PX_OUT Mesh_PX(MESH_VT_OUT _in)
     MESH_PX_OUT outData = (MESH_PX_OUT) 0.0f;
 
     outData.vColor = _in.vColor;
-
-
     float4 CalCor = float4(1.0f, 1.0f, 1.0f, 1.0f);
 
-    for (int i = 0; i< TexCnt; ++i)
+    for (int i = 0; i < TexCnt; ++i)
     {
         if(-1 != Texes[i].TInx)
         {
-            CalCor *= Get_CalColor(Texes[i].TInx, Texes[i].TSmp, _in.vUv) * _in.vColor;
+            if (0 == Texes[i].Type)
+            {
+                 CalCor *= Get_CalColor(Texes[i].TInx, Texes[i].TSmp, _in.vUv) * _in.vColor;
+            }
+            else if (1 == Texes[i].Type)
+            {
+                _in.vNormal = Set_Bump(Texes[i].TInx, Texes[i].TSmp, _in.vUv, _in.vTangent, _in.vBTangent, _in.vNormal);
+            }
+
+            // 쉐이더는 else를 하면 안 된다이으.ㅠ
         }
     }
 

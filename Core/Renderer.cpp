@@ -109,6 +109,8 @@ void Renderer::Update_Trans(KPtr<Camera> _Cam)
 }
 void Renderer::Update_CB()
 {
+	size_t A = sizeof(RenderOption);
+
 	if (nullptr != m_Material)
 	{
 		m_ROption.TexCnt = m_Material->texture_data(m_ROption.Texes);

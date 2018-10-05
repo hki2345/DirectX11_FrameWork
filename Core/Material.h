@@ -16,14 +16,12 @@ class Texture_Data
 public:
 	int TInx;
 	int TSmp;
-	int EInx;
 	int ESmp;
 	int Type;
-	int Temp;
 
 	// -1이 없는 걸로 초기화
 public:
-	Texture_Data() : TInx(-1), TSmp(-1), EInx(-1), ESmp(-1), Type(-1){}
+	Texture_Data() : TInx(-1), TSmp(-1),/* EInx(-1), */ESmp(-1), Type(-1){}
 };
 
 

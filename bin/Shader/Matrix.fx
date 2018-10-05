@@ -1,3 +1,4 @@
+
 // 거진 쉐이더파일 모든 곳에서 필요한 것
 cbuffer TransformBuffer : register(b1)
 {
@@ -12,7 +13,6 @@ class Texture_Data
 {
     int TInx;
     int TSmp;
-    int EInx;
     int ESmp;
     int Type;
 };
@@ -23,5 +23,5 @@ cbuffer RenderOption : register(b11)
     int Deffert_orFoward;
     int VzPo; // Vert -> 0, Pixel -> 1
     int TexCnt;
-    Texture_Data Texes[12]; // 20 216
+    Texture_Data Texes[8]; // 20 216
 }

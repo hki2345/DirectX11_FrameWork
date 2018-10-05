@@ -91,7 +91,7 @@ void Texture::Update(const UINT& _Slot)
 
 
 bool Texture::Create(const UINT& _W, const UINT& _H, const UINT& _BindFlag, DXGI_FORMAT _eForm,
-	D3D11_USAGE _eUsage = D3D11_USAGE::D3D11_USAGE_DEFAULT)
+	D3D11_USAGE _eUsage /*= D3D11_USAGE::D3D11_USAGE_DEFAULT*/)
 {
 	D3D11_TEXTURE2D_DESC tDesc = {};
 

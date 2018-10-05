@@ -1,3 +1,7 @@
+#define TEXCOLOR 0
+#define TEXBUMP 1
+
+
 Texture2D g_Tex_0 : register(t0);
 Texture2D g_Tex_1 : register(t1);
 Texture2D g_Tex_2 : register(t2);
@@ -66,4 +70,22 @@ float4 Get_CalColor(int _Tex, int _Smp, float2 _Uv)
         default:
             return (float4) 0.0f;
     }
+}
+
+
+
+float4 Set_Bump(int _Bumpidx, int _BumpSmp, float2 _Uv, float4 _ViewTangent, float4 _ViewBNormal, float4 _Normal)
+{
+    float4 BumpNormal = Get_CalColor(_Bumpidx, _BumpSmp, _Uv);
+
+    BumpNormal = BumpNormal * 2.0f - 1.0f; // 0.0 ~ 1.0f -> -1.0f ~ 1.0f
+    BumpNormal = normalize(BumpNormal);
+    BumpNormal.w = 0.0f;
+
+    // 탄젠트 공간행렬이라고 한다.
+    float3x3 matTBN = float3x3(_ViewTangent.xyz, _ViewBNormal.xyz, _Normal.xyz);
+    BumpNormal.xyz = mul(BumpNormal.xyz, matTBN);
+    BumpNormal.w = 0.0f;
+
+    return BumpNormal;
 }

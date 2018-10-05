@@ -230,7 +230,7 @@ void KDevice::Init_SphereMesh()
 			V.Tangent.NormalizeVec3();
 			V.Tangent.w = .0f;
 
-			V.BTangent = KVector4::cross3D(V.Tangent, V.Normal);
+			V.BTangent = -KVector4::cross3D(V.Tangent, V.Normal);
 			V.BTangent.NormalizeVec3();
 			V.BTangent.w = .0f;
 
