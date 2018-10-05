@@ -53,7 +53,7 @@ struct LIGHT_PX_OUT
 
 float3 Direct_Light(float4 _vViewPos, float4 _vViewNormal, LightData _Info)
 {
-    float3 LC = float3(1.0f, 1.0f, .0f);
+    float3 LC = float3(1.0f, 1.0f, 1.0f);
 
     // 퐁 디퓨즈
     float NDotL = dot(_Info.Dir, _vViewNormal);
@@ -68,9 +68,9 @@ float3 Direct_Light(float4 _vViewPos, float4 _vViewNormal, LightData _Info)
     // CalCol += LC * pow(NDotH, _Info.Lc.Spec.xyz) * 0.00001f;
 
     // 환경광
-    CalCol += _Info.Lc.Ambi.xyz;
+    //CalCol += _Info.Lc.Ambi.xyz;
 
-    return CalCol * _Info.Lc.Diff.xyz;
+    return CalCol * (_Info.Lc.Diff.xyz + _Info.Lc.Ambi.xyz);
 
 }
 
@@ -78,7 +78,7 @@ float3 Direct_Light(float4 _vViewPos, float4 _vViewNormal, LightData _Info)
 
 float3 Point_Light(float4 _vViewPos, float4 _vViewNormal, LightData _Info)
 {
-    float3 LC = float3(.0f, .0f, 1.0f);
+    float3 LC = float3(1.0f, 1.0f, 1.0f);
 
     // 왜 카메라 포스를 빼야하는 지 의문이다. -> 빛이 카메라 공간이동이 되어있다.
     float3 ToLight = _Info.Pos.xyz - _vViewPos.xyz - _Info.CamPos.xyz;
@@ -96,14 +96,14 @@ float3 Point_Light(float4 _vViewPos, float4 _vViewNormal, LightData _Info)
     float3 HalfWay = normalize(ToEye + ToLight);
     float NDotH = saturate(dot(HalfWay, _vViewNormal.xyz));
     // 스펙큘러 - 상수 수치가 낮을 수록 반사가 작다 - 아예 없음 == 판사광 없음
-    // CalCol += LC * pow(NDotH, _Info.Lc.Spec.xyz) * 0.00001f;
+    CalCol += LC * pow(NDotH, _Info.Lc.Spec.xyz) * 0.01f;
 
     // 환경광
     CalCol += _Info.Lc.Ambi.xyz;
 
     // 감쇄
-    //float DistToLightNorm = 1.0f - saturate(DistToLight * 50.0f);
-    //float Attn = DistToLightNorm * DistToLightNorm;
+    float DistToLightNorm = 1.0f - saturate(DistToLight * 0.00001f);
+    float Attn = DistToLightNorm * DistToLightNorm;
 
-    return CalCol * _Info.Lc.Diff.xyz /** Attn*/;
+    return CalCol * _Info.Lc.Diff.xyz * Attn;
 }

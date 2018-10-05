@@ -4,6 +4,12 @@
 #include "Pixel_Shader.h"
 #include "Blend.h"
 
+enum Texture_Type
+{
+	TEX_COLOR,
+	TEX_BUMP,
+};
+
 class Texture_Data
 {
 
@@ -13,6 +19,7 @@ public:
 	int EInx;
 	int ESmp;
 	int Type;
+	int Temp;
 
 	// -1이 없는 걸로 초기화
 public:
@@ -61,7 +68,7 @@ private:
 	std::vector<Texture_Data> m_TD_Vec;
 
 public:
-	void insert_TD(UINT _TexSlot, const wchar_t* _TexName, const UINT& _SmSlot = 0,
+	void insert_TD(const Texture_Type& _Type, UINT _TexSlot, const wchar_t* _TexName, const UINT& _SmSlot = 0,
 		const wchar_t* _SmName = L"DefaultSam");
 	KPtr<Material> Clone()
 	{

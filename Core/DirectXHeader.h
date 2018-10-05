@@ -628,6 +628,18 @@ public:
 
 
 public:
+	static KVector4 cross3D(const KVector4& _Left, const KVector4& _Right)
+	{
+		KVector4 Temp = DirectX::XMVector3Cross(_Left, _Right);
+		return Temp;
+	}
+
+	KVector4 cross3D(const KVector4& _Other)
+	{
+		KVector4 Temp = DirectX::XMVector3Cross(*this, _Other);
+		return Temp;
+	}
+
 	KVector4 ElipseCut()
 	{
 		if (fabsf(x) < .00000001f)

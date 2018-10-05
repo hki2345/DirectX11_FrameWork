@@ -62,6 +62,9 @@ public:
 
 	// 다이렉트 11에서는 Full모드가 false이고 창모드가 true이다. 따라서 한번 바뀌어야 함
 	bool		Is_Full()	{ return !m_bFull; }
+
+	UINT		widthu() { return (unsigned)m_Width; }
+	UINT		heigthu() { return (unsigned)m_Height; }
 	size_t&		width()		{ return m_Width; }
 	size_t&		heigth()	{ return m_Height; }
 	float		widthf()	{ return (float)m_Width; }

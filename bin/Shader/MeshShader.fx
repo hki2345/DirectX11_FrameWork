@@ -73,7 +73,7 @@ MESH_VT_OUT Mesh_VT(MESH_VT_IN _in)
         }
     }
     
-    LColor = (float) LightCount;
+    LColor /= (float) LightCount;
     
     outData.vColor.rgb = LColor.rgb;
     outData.vColor.a = _in.vColor.a;
@@ -94,7 +94,7 @@ MESH_PX_OUT Mesh_PX(MESH_VT_OUT _in)
     {
         if(-1 != Texes[i].TInx)
         {
-            CalCor += Get_CalColor(Texes[i].TInx, Texes[i].TSmp, _in.vUv) * _in.vColor;
+            CalCor *= Get_CalColor(Texes[i].TInx, Texes[i].TSmp, _in.vUv) * _in.vColor;
         }
     }
 

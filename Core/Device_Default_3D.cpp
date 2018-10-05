@@ -18,6 +18,17 @@
 #include "Renderer.h"
 #include "Texture.h"
 
+bool KDevice::DefaultRenderTarget()
+{
+	ResourceManager<Texture>::Create(L"FORWARD",
+		Core_Class::Main_Window().widthu(),
+		Core_Class::Main_Window().heigthu(),
+		D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE,
+		DXGI_FORMAT_R8G8B8A8_UNORM);
+
+		return true;
+}
+
 bool KDevice::Init_DefaultData_3D()
 {
 	ResourceManager<Blend>::Create(L"AlphaBlend3D");
@@ -26,6 +37,8 @@ bool KDevice::Init_DefaultData_3D()
 	Core_Class::MainDevice().Create_DeviceCB<KLight::LightCB>(L"LIGHT_DATA", D3D11_USAGE_DYNAMIC, 10);
 	Core_Class::MainDevice().Create_DeviceCB<RenderOption>(L"RENDEROP", D3D11_USAGE_DYNAMIC, 11);
 
+
+	DefaultRenderTarget();
 
 	Init_RectMesh();
 	Init_CubeMesh();
@@ -168,6 +181,8 @@ void KDevice::Init_SphereMesh()
 	V.Normal = V.Pos;
 	V.Normal.NormalizeVec3();
 	V.Normal.w = .0f;
+	V.Tangent = KVector(1.0f, .0f, .0f, .0f);
+	V.BTangent = KVector(1.0f, .0f, 1.0f, .0f);
 
 	SphereVtx.push_back(V);
 
@@ -187,8 +202,12 @@ void KDevice::Init_SphereMesh()
 
 	for (size_t y = 1; y < iStackCount; ++y)
 	{
+		float ph1 = y * yRotAngle;
+
 		for (size_t z = 0; z < iSliceCount + 1; ++z)
 		{
+			float theta = z * zRotAngle;
+
 			V.Pos = KVector
 			{
 				fRadius * sinf(y * yRotAngle) * cosf(z * zRotAngle),
@@ -204,6 +223,16 @@ void KDevice::Init_SphereMesh()
 			V.Normal = V.Pos;
 			V.Normal.NormalizeVec3();
 			V.Normal.w = .0f;
+
+			V.Tangent.x = -fRadius* sinf(ph1)* sinf(theta);
+			V.Tangent.y = .0f;
+			V.Tangent.z = fRadius* sinf(ph1) * cosf(theta);
+			V.Tangent.NormalizeVec3();
+			V.Tangent.w = .0f;
+
+			V.BTangent = KVector4::cross3D(V.Tangent, V.Normal);
+			V.BTangent.NormalizeVec3();
+			V.BTangent.w = .0f;
 
 			SphereVtx.push_back(V);
 		}

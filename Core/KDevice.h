@@ -107,6 +107,7 @@ private:
 	bool Init_DefaultData_2D();
 	bool Init_DefaultData_3D();
 
+	bool DefaultRenderTarget();
 
 	/********** 2D ************/
 	// Sprite & Circle
