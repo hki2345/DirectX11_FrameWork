@@ -195,9 +195,9 @@ void RenderManager::Light_Check(const int& _Layer, const std::set<KPtr<Camera>>:
 			TempData.ArrLight[Cnt] = (*m_LS)->m_LD;
 
 			// 방향값만 곱해져야 하기 때문예 -> Zero로 곱해준다.
-			TempData.ArrLight[Cnt].m_Dir = -(*_Iter)->View().Multi_Vector_Z(TempData.ArrLight[Cnt].m_Dir);
-			TempData.ArrLight[Cnt].m_Pos = -(*_Iter)->View().Multi_Vector_Z(TempData.ArrLight[Cnt].m_Pos);
-			TempData.ArrLight[Cnt].CamPos = -(*_Iter)->View().Multi_Vector_Z(TempData.ArrLight[Cnt].CamPos);
+			TempData.ArrLight[Cnt].m_Dir = (*_Iter)->View().Multi_Vector_Z(TempData.ArrLight[Cnt].m_Dir);
+			TempData.ArrLight[Cnt].m_Pos = (*_Iter)->View().Multi_Vector_Z(TempData.ArrLight[Cnt].m_Pos);
+			TempData.ArrLight[Cnt].CamPos = (*_Iter)->View().Multi_Vector_Z(TempData.ArrLight[Cnt].CamPos);
 			++Cnt;
 
 			if (10 <= Cnt)
@@ -207,6 +207,7 @@ void RenderManager::Light_Check(const int& _Layer, const std::set<KPtr<Camera>>:
 		}
 	}
 
+	WLOG(L"Light View Dir: %f, %f, %f", TempData.ArrLight[0].m_Pos.x, TempData.ArrLight[0].m_Pos.y, TempData.ArrLight[0].m_Pos.z);
 	WLOG(L"Light View Pos: %f, %f, %f", TempData.ArrLight[0].m_Pos.x, TempData.ArrLight[0].m_Pos.y, TempData.ArrLight[0].m_Pos.z);
 	WLOG(L"View Cam Pos: %f, %f, %f", TempData.ArrLight[0].CamPos.x, TempData.ArrLight[0].CamPos.y, TempData.ArrLight[0].CamPos.z);
 	TempData.LCnt = Cnt;

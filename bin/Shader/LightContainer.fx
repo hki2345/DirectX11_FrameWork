@@ -80,7 +80,8 @@ float3 Point_Light(float4 _vViewPos, float4 _vViewNormal, LightData _Info)
 {
     float3 LC = float3(.0f, .0f, 1.0f);
 
-    float3 ToLight = _Info.Pos.xyz - _vViewPos.xyz;
+    // 왜 카메라 포스를 빼야하는 지 의문이다. -> 빛이 카메라 공간이동이 되어있다.
+    float3 ToLight = _Info.Pos.xyz - _vViewPos.xyz - _Info.CamPos.xyz;
     float3 ToEye = _Info.CamPos.xyz - _vViewPos.xyz;
     float DistToLight = length(ToLight);
 

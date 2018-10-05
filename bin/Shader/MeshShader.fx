@@ -73,7 +73,7 @@ MESH_VT_OUT Mesh_VT(MESH_VT_IN _in)
         }
     }
     
-    LColor /= (float) LightCount;
+    LColor = (float) LightCount;
     
     outData.vColor.rgb = LColor.rgb;
     outData.vColor.a = _in.vColor.a;

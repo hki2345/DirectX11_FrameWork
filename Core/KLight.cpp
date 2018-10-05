@@ -26,7 +26,4 @@ void KLight::FinalUpdate()
 	m_LD.m_Dir = one()->World_Forward(); 
 	m_LD.m_Pos = one()->World_Pos();
 	m_LD.CamPos = state()->camera()->one()->World_Pos();
-
-	WLOG(L"Light Pos: %f, %f, %f", m_LD.m_Pos.x, m_LD.m_Pos.y, m_LD.m_Pos.z);
-	WLOG(L"Light CamPos: %f, %f, %f", m_LD.CamPos.x, m_LD.CamPos.y, m_LD.CamPos.z);
 }
