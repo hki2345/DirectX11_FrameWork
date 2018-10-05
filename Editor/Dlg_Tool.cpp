@@ -63,7 +63,7 @@ BOOL Dlg_Tool::OnInitDialog()
 
 
 	KPtr<TheOne> NewLight = CurState->Create_TheOne(L"Light");
-	NewLight->World_Pos(KVector::Zero);
+	NewLight->World_Pos(.0f, 90.0f, 45.0f);
 	NewLight->World_Rotate(.0f, 90.0f, 45.0f);
 	
 	KPtr<KLight> NewPLight = NewLight->Add_Component<KLight>();
@@ -72,15 +72,16 @@ BOOL Dlg_Tool::OnInitDialog()
 	NewPLight->range(100.0f);
 
 
-/*
-	KPtr<TheOne> NewLight2 = CurState->Create_TheOne(L"Light");
 
-	KPtr<KLight> NewPLight2 = NewLight2->Add_Component<KLight>();
-	NewPLight2->Insert_Layer(0, 1, 2, 3, 4, 5);
-
-	NewLight2->World_Pos(KVector::Zero);
-	NewLight2->World_Rotate(.0f, .0f, .0f);
-	*/
+	// KPtr<TheOne> NewLight2 = CurState->Create_TheOne(L"Light");
+	// NewLight2->World_Pos(KVector::Zero);
+	// NewLight2->World_Rotate(.0f, 30.0f, .0f);
+	// 
+	// KPtr<KLight> NewPLight2 = NewLight2->Add_Component<KLight>();
+	// NewPLight2->Insert_Layer(0, 1, 2, 3, 4, 5);
+	// NewPLight2->type(KLight::LightType::Direction);
+	
+	
 
 
 	CCreateContext         m_context;
@@ -126,7 +127,7 @@ BOOL Dlg_Tool::OnInitDialog()
 	KPtr<Renderer_Mesh> RSR = RS->Add_Component<Renderer_Mesh>();
 	RSR->Set_Material(L"MESH_MAT");
 	RSR->Set_Mesh(L"SPHERE_MESH");
-	RSR->material()->insert_TD(0, L"Sky01.png");
+	// RSR->material()->insert_TD(0, L"Sky01.png");
 
 	KPtr<TheOne> MC = CurState->Create_TheOne(L"Cube");
 	MC->Local_Pos(0.0f, 20.0f, 0.0f);

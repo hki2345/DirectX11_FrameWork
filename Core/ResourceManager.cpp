@@ -166,8 +166,6 @@ bool ResourceManager<KS>::All_LoadOrigin(const wchar_t* _Target)
 template<typename KS>
 bool ResourceManager<KS>::All_LoadSub(const intptr_t& _Handle, _wfinddata_t& _FD, const wchar_t* _Target)
 {
-	std::list<_wfinddata_t > FolderMap;
-
 	do
 	{
 		// 파일이다.

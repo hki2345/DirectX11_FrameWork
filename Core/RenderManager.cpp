@@ -207,8 +207,8 @@ void RenderManager::Light_Check(const int& _Layer, const std::set<KPtr<Camera>>:
 		}
 	}
 
-	WLOG(L"CamPos: %f, %f, %f", TempData.ArrLight[0].m_Pos.x, TempData.ArrLight[0].m_Pos.y, TempData.ArrLight[0].m_Pos.z);
-	WLOG(L"CamPos: %f, %f, %f", TempData.ArrLight[0].CamPos.x, TempData.ArrLight[0].CamPos.y, TempData.ArrLight[0].CamPos.z);
+	WLOG(L"Light View Pos: %f, %f, %f", TempData.ArrLight[0].m_Pos.x, TempData.ArrLight[0].m_Pos.y, TempData.ArrLight[0].m_Pos.z);
+	WLOG(L"View Cam Pos: %f, %f, %f", TempData.ArrLight[0].CamPos.x, TempData.ArrLight[0].CamPos.y, TempData.ArrLight[0].CamPos.z);
 	TempData.LCnt = Cnt;
 
 	Core_Class::MainDevice().Set_DeviceCB<KLight::LightCB>(L"LIGHT_DATA", TempData, SHADER_TYPE::ST_VS);
