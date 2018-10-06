@@ -17,6 +17,7 @@ public:
 	class LightColor
 	{
 	public:
+		KColor	Color;
 		KVector Diff; // Ȯ�걤
 		KVector Spec; // �ݻ籤
 		KVector Ambi; // ȯ�汤
@@ -61,6 +62,11 @@ public:
 	void range(const float& _Value)
 	{
 		m_LD.Range = _Value;
+	}
+
+	void color(const KColor& _Value)
+	{
+		m_LD.LC.Color = _Value;
 	}
 
 

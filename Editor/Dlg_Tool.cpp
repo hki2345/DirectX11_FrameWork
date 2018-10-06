@@ -69,17 +69,19 @@ BOOL Dlg_Tool::OnInitDialog()
 	KPtr<KLight> NewPLight = NewLight->Add_Component<KLight>();
 	NewPLight->Insert_Layer(0, 1, 2, 3, 4, 5);
 	NewPLight->type(KLight::LightType::Point);
+	NewPLight->color(KColor::White);
 	NewPLight->range(100.0f);
 
 
 
-	KPtr<TheOne> NewLight2 = CurState->Create_TheOne(L"Light");
-	NewLight2->World_Pos(KVector::Zero);
-	NewLight2->World_Rotate(.0f, 30.0f, .0f);
-	
-	KPtr<KLight> NewPLight2 = NewLight2->Add_Component<KLight>();
-	NewPLight2->Insert_Layer(0, 1, 2, 3, 4, 5);
-	NewPLight2->type(KLight::LightType::Direction);
+	// KPtr<TheOne> NewLight2 = CurState->Create_TheOne(L"Light");
+	// NewLight2->World_Pos(KVector::Zero);
+	// NewLight2->World_Rotate(.0f, 30.0f, .0f);
+	// 
+	// KPtr<KLight> NewPLight2 = NewLight2->Add_Component<KLight>();
+	// NewPLight2->Insert_Layer(0, 1, 2, 3, 4, 5);
+	// NewPLight2->color(KColor::White);
+	// NewPLight2->type(KLight::LightType::Direction);
 	
 	
 

@@ -4,6 +4,7 @@
 
 KLight::KLight()
 {
+	m_LD.LC.Color = KColor::White;
 	m_LD.LC.Diff = KVector(1.0f, 1.0f, 1.0f, 1.0f);
 	m_LD.LC.Spec = KVector(.2f, .2f, .2f, 1.0f);
 	m_LD.LC.Ambi = KVector(1.0f, 1.0f, 1.0f, 1.0f);
