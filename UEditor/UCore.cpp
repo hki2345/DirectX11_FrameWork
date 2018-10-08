@@ -40,6 +40,8 @@
 #include "Renderer_Rect3D.cpp"
 #include "Renderer_Sprite.cpp"
 #include "RenderManager.cpp"
+#include "RenderTarget.cpp"
+#include "RenderTarget_Multi.cpp"
 #include "ResourceManager.cpp"
 #include "Sampler.cpp"
 #include "SmartPtr.cpp"

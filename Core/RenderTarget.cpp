@@ -21,6 +21,8 @@ bool RenderTarget::Create(const unsigned int& _W, const unsigned int& _H, const 
 		m_Texture = nullptr;
 		KASSERT(true);
 	}
+
+	return true;
 }
 
 bool RenderTarget::Create(ID3D11Texture2D* _pTex2D, const unsigned int& _BindFlag)
@@ -31,4 +33,6 @@ bool RenderTarget::Create(ID3D11Texture2D* _pTex2D, const unsigned int& _BindFla
 		m_Texture = nullptr;
 		KASSERT(true);
 	}
+
+	return true;
 }

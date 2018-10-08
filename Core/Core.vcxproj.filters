@@ -91,6 +91,9 @@
     <Filter Include="03 SubManager\Render\Light">
       <UniqueIdentifier>{d7bf22cc-690a-4682-8c84-d33f53cac53d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="03 SubManager\Render\Target">
+      <UniqueIdentifier>{6864fa86-51d7-48d3-a7ff-c54b8b479503}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="TimeManager.h">
@@ -285,6 +288,12 @@
     <ClInclude Include="KResource.h">
       <Filter>03 SubManager\Resource</Filter>
     </ClInclude>
+    <ClInclude Include="RenderTarget.h">
+      <Filter>03 SubManager\Render\Target</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderTarget_Multi.h">
+      <Filter>03 SubManager\Render\Target</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TimeManager.cpp">
@@ -460,6 +469,12 @@
     </ClCompile>
     <ClCompile Include="KResource.cpp">
       <Filter>03 SubManager\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderTarget.cpp">
+      <Filter>03 SubManager\Render\Target</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderTarget_Multi.cpp">
+      <Filter>03 SubManager\Render\Target</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

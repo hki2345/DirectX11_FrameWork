@@ -162,19 +162,20 @@ bool KDevice::Create_SwapChain()
 // 도화지를 만든다는 느낌이다.
 bool KDevice::Create_View()
 {
-	ID3D11Texture2D* p_BackBuffer = nullptr;
-	if(S_OK != m_pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)&p_BackBuffer))
+	m_pBackBuffer = nullptr;
+	if(S_OK != m_pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)&m_pBackBuffer))
 	{
 		return false;
 	}
 
 	// 타겟뷰를 두단계를 걸쳐서 가져온다.이렇게...
-	if (S_OK != m_pDevice->CreateRenderTargetView(p_BackBuffer, 0, &m_pTargetView))
+	if (S_OK != m_pDevice->CreateRenderTargetView(m_pBackBuffer, 0, &m_pTargetView))
 	{
 		return false;
 	}
 
-	p_BackBuffer->Release();
+	// 다른 곳에서도 쓰이기 때문에 남겨 놓는다.
+	// m_pBackBuffer->Release();
 
 
 
@@ -313,6 +314,7 @@ void KDevice::Release()
 	if (nullptr != m_pDepthStencilView) { m_pDepthStencilView->Release(); }
 	if (nullptr != m_pTargetView) { m_pTargetView->Release(); }
 	if (nullptr != m_pSwapChain) { m_pSwapChain->Release(); }
+	if (nullptr != m_pBackBuffer) { m_pBackBuffer->Release(); }
 	if (nullptr != m_pTexture2D) { m_pTexture2D->Release(); }
 	if (nullptr != m_pDevice) { m_pDevice->Release(); }
 	if (nullptr != m_pContext) { m_pContext->Release(); }

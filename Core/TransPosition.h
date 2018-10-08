@@ -279,19 +279,7 @@ public:
 	KVector4 World_Down() { return -m_WorldAx[Ax_Up]; }
 	KVector4 Local_Left() { return -m_LocalAx[Ax_Right] ; }
 	KVector4 World_Left() { return -m_WorldAx[Ax_Right] ; }
-
-
-	KMatrix Scale_Matrix() const { return m_Mat_Scale; }
-	const KMatrix& Scale_Matrix_Const() const { return m_Mat_Scale; }
-
-	KMatrix Rotate_Matrix() const { return m_Mat_Rotate; }
-	const KMatrix& Rotate_Matrix_Const() const { return m_Mat_Rotate; }
-
-	KMatrix Position_Matrix() const { return m_Mat_Position; }
-	const KMatrix& Position_Matrix_Const() const { return m_Mat_Position; }
-
-
-
+	
 
 	KMatrix World_Matrix() const { return m_WorldMat; }
 	const KMatrix& World_Matrix_Const() const { return m_WorldMat; }
@@ -299,13 +287,13 @@ public:
 
 
 	KMatrix Scale_Matrix() const { return m_ScaleMat; }
-	const KMatrix& Rotate_Matrix_Const() const { return m_ScaleMat; }
+	const KMatrix& Scale_Matrix_Const() const { return m_ScaleMat; }
 
 	KMatrix Rotate_Matrix() const { return m_RotMat; }
 	const KMatrix& Rotate_Matrix_Const() const { return m_RotMat; }
 
 	KMatrix Position_Matrix() const { return m_PosMat; }
-	const KMatrix& World_Matrix_Const() const { return m_PosMat; }
+	const KMatrix& Position_Matrix_Const() const { return m_PosMat; }
 
 
 

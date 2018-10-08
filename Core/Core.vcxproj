@@ -217,6 +217,8 @@
     <ClInclude Include="Renderer_Sprite.h" />
     <ClInclude Include="RenderManager.h" />
     <ClInclude Include="KResource.h" />
+    <ClInclude Include="RenderTarget.h" />
+    <ClInclude Include="RenderTarget_Multi.h" />
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="Sampler.h" />
     <ClInclude Include="SmartPtr.h" />
@@ -277,6 +279,8 @@
     <ClCompile Include="Renderer_Sprite.cpp" />
     <ClCompile Include="RenderManager.cpp" />
     <ClCompile Include="KResource.cpp" />
+    <ClCompile Include="RenderTarget.cpp" />
+    <ClCompile Include="RenderTarget_Multi.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="Sampler.cpp" />
     <ClCompile Include="SmartPtr.cpp" />

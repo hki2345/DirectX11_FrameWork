@@ -17,14 +17,34 @@
 
 #include "Renderer.h"
 #include "Texture.h"
+#include "RenderTarget_Multi.h"
 
 bool KDevice::DefaultRenderTarget()
 {
-	ResourceManager<Texture>::Create(L"FORWARD",
+	// 요녀석은 무조건 있어야함 - 실제 텍스쳐가 될 놈 - 남겨 두는 놈 -> 쉐이더에서 쓸 놈이 아니다.
+	ResourceManager<RenderTarget>::Create(L"BACKBUFFER", m_pBackBuffer, D3D11_BIND_RENDER_TARGET);
+
+	// FORWARD
+	ResourceManager<RenderTarget>::Create(L"FORWARD",
 		Core_Class::Main_Window().widthu(),
 		Core_Class::Main_Window().heigthu(),
 		D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE,
 		DXGI_FORMAT_R8G8B8A8_UNORM);
+
+	// DEFFERD - 바이트 크기는 형변환이 안 일어나게 Float32로 처리
+	ResourceManager<RenderTarget>::Create(L"DIFFUSE", Core_Class::Main_Window().widthu(), Core_Class::Main_Window().heigthu(),
+		D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE, DXGI_FORMAT_R32G32B32A32_FLOAT);
+	ResourceManager<RenderTarget>::Create(L"POSITION", Core_Class::Main_Window().widthu(), Core_Class::Main_Window().heigthu(),
+		D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE, DXGI_FORMAT_R32G32B32A32_FLOAT);
+	ResourceManager<RenderTarget>::Create(L"NORMAL", Core_Class::Main_Window().widthu(), Core_Class::Main_Window().heigthu(),
+		D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE, DXGI_FORMAT_R32G32B32A32_FLOAT);
+	ResourceManager<RenderTarget>::Create(L"DEPTH", Core_Class::Main_Window().widthu(), Core_Class::Main_Window().heigthu(),
+		D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE, DXGI_FORMAT_R32G32B32A32_FLOAT);
+
+	KPtr<RenderTarget_Multi> BackRT = ResourceManager<RenderTarget_Multi>::Create(L"FORWARD", L"BACKBUFFER", L"FORWARD");
+	BackRT->Create_Depth(Core_Class::Main_Window().widthu(), Core_Class::Main_Window().heigthu());
+	KPtr<RenderTarget_Multi> DefRT = ResourceManager<RenderTarget_Multi>::Create(L"DIFFERD", L"DIFFUSE", L"POSITION", L"NORMAL", L"DEPTH");
+	DefRT->Create_Depth(Core_Class::Main_Window().widthu(), Core_Class::Main_Window().heigthu());
 
 		return true;
 }

@@ -33,8 +33,10 @@ public:
 private:
 	ID3D11Device*				m_pDevice;
 	ID3D11DeviceContext*		m_pContext;
-	ID3D11RenderTargetView*		m_pTargetView;
 	ID3D11Texture2D*			m_pTexture2D;
+
+	ID3D11Texture2D*			m_pBackBuffer;
+	ID3D11RenderTargetView*		m_pTargetView;
 	ID3D11DepthStencilView*		m_pDepthStencilView;
 
 	D3D11_DEPTH_STENCIL_DESC	m_DepthDESC;

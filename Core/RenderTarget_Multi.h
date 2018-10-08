@@ -53,16 +53,16 @@ private:
 	template<typename... Rest>
 	void Insert_Target(const wchar_t* _TargetName, Rest... _Arg)
 	{
-		KPtr<RenderTarget> Target = HResMgr<HRenderTaget>::Find(_TargetName);
+		KPtr<RenderTarget> Target = ResourceManager<RenderTarget>::Find(_TargetName);
 
 		KASSERT(nullptr == Target);
 
 		m_RTVec.push_back(Target);
 		m_RTViewVec.push_back(Target->texture()->Render_TargetView());
-		InsertTaget(_Arg...);
+		Insert_Target(_Arg...);
 	}
 
-	void InsertTarget() {		}
+	void Insert_Target() {		}
 
 
 };
