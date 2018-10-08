@@ -1026,13 +1026,30 @@ public:
 		return;
 	}
 
-	// 값을 반환해주는 행렬
+	// 포인트를 반환해주는 행렬 - 역행렬
+	const KMatrix& Inverse_Referance()
+	{
+		// 행렬의 행렬식을 반환한다.
+		DirectX::XMVECTOR det = DirectX::XMMatrixDeterminant(*this);
+		*this = DirectX::XMMatrixInverse(&det, *this);
+		return *this;
+	}
+
+	// 값을 반환해주는 행렬 - 역행렬
+	KMatrix Inverse_Value() const
+	{
+		DirectX::XMVECTOR det = DirectX::XMMatrixDeterminant(*this);
+		return DirectX::XMMatrixInverse(&det, *this);
+	}
+
+	// 포인트를 반환해주는 행렬 - 전치 행렬
 	const KMatrix& TransPose_Referance()
 	{
 		*this = DirectX::XMMatrixTranspose(*this);
 		return *this;
 	}
 
+	// 값을 반환해주는 행렬 - 전치 행렬
 	KMatrix TransPose_Value() const
 	{
 		return DirectX::XMMatrixTranspose(*this);

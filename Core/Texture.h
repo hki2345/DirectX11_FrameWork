@@ -28,7 +28,7 @@ public:
 	// View Setting
 	ID3D11ShaderResourceView*	Shader_RescourceView() { return m_pSRV; }
 	ID3D11RenderTargetView*		Render_TargetView() { return m_pRTV; }
-	ID3D11DepthStencilView*		srvDepthStencilView() { return m_pDSV; }
+	ID3D11DepthStencilView*		DepthStencilView() { return m_pDSV; }
 
 	void Set_View(UINT _BindFlag);
 	bool Create(const UINT& _W, const UINT& _H, const UINT& _BindFlag, DXGI_FORMAT _eForm,
