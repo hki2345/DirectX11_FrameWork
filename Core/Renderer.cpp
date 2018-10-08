@@ -7,7 +7,7 @@
 #include "Material.h"
 #include "Core_Class.h"
 
-Renderer::Renderer() :m_RasterState(nullptr)
+Renderer::Renderer() :m_RasterState(nullptr), m_Bill(false)
 {
 	KASSERT(false == Set_Material(L"NONE_MAT"));
 }
@@ -103,7 +103,15 @@ void Renderer::Update_Trans(KPtr<Camera> _Cam)
 	m_MD.m_V = _Cam->View().TransPose_Value();
 	m_MD.m_P = _Cam->Proj().TransPose_Value();
 	m_MD.m_WV = (m_Trans->World_Matrix_Const() * _Cam->View()).TransPose_Referance();
-	m_MD.m_WVP = (m_Trans->World_Matrix_Const() * _Cam->View_Proj()).TransPose_Referance();
+
+	if (true == m_Bill)
+	{
+		m_MD.m_WVP = (m_Trans->World_Matrix_Const() * _Cam->one()->transform()->Rotate_Matrix().Inverse_Value() * _Cam->View_Proj() ).TransPose_Referance();
+	}
+	else
+	{
+		m_MD.m_WVP = (m_Trans->World_Matrix_Const() * _Cam->View_Proj()).TransPose_Referance();
+	}
 
 	Update_CB();
 }

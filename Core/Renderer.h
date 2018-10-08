@@ -38,6 +38,7 @@ protected:
 
 	int			m_Light;
 	int			m_Order;
+	bool		m_Bill;
 
 	KPtr<Mesh>		m_Mesh;
 	KPtr<Material>	m_Material;
@@ -68,6 +69,11 @@ protected:
 public:
 	virtual bool Init(int _Order = 0);
 	virtual void Render(KPtr<Camera> _Camera) = 0;
+
+	void billboard(const bool& _Value)
+	{
+		m_Bill = _Value;
+	}
 
 public:
 	Renderer();

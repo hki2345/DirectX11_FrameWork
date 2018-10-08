@@ -283,6 +283,16 @@ public:
 	KMatrix World_Matrix() const { return m_Mat_World; }
 	const KMatrix& World_Matrix_Const() const { return m_Mat_World; }
 
+	KMatrix Scale_Matrix() const { return m_Mat_Scale; }
+	const KMatrix& Scale_Matrix_Const() const { return m_Mat_Scale; }
+
+	KMatrix Rotate_Matrix() const { return m_Mat_Rotate; }
+	const KMatrix& Rotate_Matrix_Const() const { return m_Mat_Rotate; }
+
+	KMatrix Position_Matrix() const { return m_Mat_Position; }
+	const KMatrix& Position_Matrix_Const() const { return m_Mat_Position; }
+
+
 
 
 

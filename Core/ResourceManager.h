@@ -119,6 +119,25 @@ public:
 		return NewRS;
 	}
 
+	// 인자 2개 -- 렌더 타겟의 멀티로 띄우는 걸 저격하는 것이다.
+	template<typename V1>
+	static KPtr<KS> Create(const wchar_t* _Name, V1 _1, V2 _2)
+	{
+		KS* NewRS = new KS();
+		NewRS->set_type();
+		NewRS->name(_Name);
+
+		// 여기서 오버로딩이 안되거나 오류가 나면 false를 받겠다.
+		if (false == NewRS->Create(_1, _2))
+		{
+			delete NewRS;
+			return nullptr;
+		}
+
+		m_map_Resource.insert(std::unordered_map<std::wstring, KPtr<KS>>::value_type(_Name, NewRS));
+		return NewRS;
+	}
+
 	// 인자 4개 -- 이건 렌더타겟을 저격하는 것이다.
 	template<typename V1, typename V2, typename V3, typename V4>
 	static KPtr<KS> Create(const wchar_t* _Name, V1 _1, V2 _2, V3 _3, V4 _4)
