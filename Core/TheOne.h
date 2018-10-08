@@ -236,9 +236,8 @@ public:
 	KVector4 Local_Back();
 	KVector4 Local_Down();
 	KVector4 Local_Left();
+
 	bool BWorld() const;
-
-
 
 	void World_Scale(const KVector4& _Value);
 	void World_Pos(const KVector4& _Value);
@@ -279,6 +278,7 @@ private:
 	void insert_AbsCol2D(Collider2DManager* _Col2D);
 
 public:
+	void BillBoard();
 	void save(WriteStream& _Stream);
 
 public:

@@ -43,12 +43,12 @@ private:
 	
 	
 	// 행렬 부분
-	KMatrix m_Mat_Scale;
-	KMatrix m_Mat_RotX, m_Mat_RotY, m_Mat_RotZ;
-	KMatrix m_Mat_Rotate;
-	KMatrix m_Mat_Position;
+	KMatrix m_ScaleMat;
+	KMatrix m_RotXMat, m_RotYMat, m_RotZMat;
+	KMatrix m_RotMat;
+	KMatrix m_PosMat;
 
-	KMatrix m_Mat_World;
+	KMatrix m_WorldMat;
 	std::vector<KVector2>* m_VertexVec;
 
 public:
@@ -280,9 +280,22 @@ public:
 	KVector4 Local_Left() { return -m_LocalAx[Ax_Right] ; }
 	KVector4 World_Left() { return -m_WorldAx[Ax_Right] ; }
 
-	KMatrix World_Matrix() const { return m_Mat_World; }
-	const KMatrix& World_Matrix_Const() const { return m_Mat_World; }
 
+
+
+	KMatrix World_Matrix() const { return m_WorldMat; }
+	const KMatrix& World_Matrix_Const() const { return m_WorldMat; }
+	
+
+
+	KMatrix Scale_Matrix() const { return m_ScaleMat; }
+	const KMatrix& Rotate_Matrix_Const() const { return m_ScaleMat; }
+
+	KMatrix Rotate_Matrix() const { return m_RotMat; }
+	const KMatrix& Rotate_Matrix_Const() const { return m_RotMat; }
+
+	KMatrix Position_Matrix() const { return m_PosMat; }
+	const KMatrix& World_Matrix_Const() const { return m_PosMat; }
 
 
 
@@ -313,8 +326,7 @@ public:
 	virtual bool Init() override;
 	virtual void FinalUpdate() override;
 	virtual void End_Update() override;
-
-
+	
 public:
 	TransPosition();
 	~TransPosition();

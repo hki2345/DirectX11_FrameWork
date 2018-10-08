@@ -99,6 +99,8 @@ void Renderer::Update_Trans(KPtr<Camera> _Cam)
 
 	Indepen_Update();
 
+	KMatrix TempCam = _Cam->one()->transform()->World_Matrix();
+
 	m_MD.m_W = m_Trans->World_Matrix_Const().TransPose_Value();
 	m_MD.m_V = _Cam->View().TransPose_Value();
 	m_MD.m_P = _Cam->Proj().TransPose_Value();

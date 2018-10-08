@@ -334,3 +334,8 @@ void TheOne::save(WriteStream& _Stream)
 		(*Child_StartIter)->save(_Stream);
 	}
 }
+
+void TheOne::BillBoard()
+{
+
+}
