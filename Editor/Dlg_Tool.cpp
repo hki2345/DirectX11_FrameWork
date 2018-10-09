@@ -55,11 +55,27 @@ BOOL Dlg_Tool::OnInitDialog()
 		KASSERT(true);
 	}
 
-
 	CurState->camera()->Add_Component<FreeCam>();
 	CurState->camera()->Far(100000.0f);
 	CurState->camera()->one()->Local_Pos(.0f, .0f, -40.0f);
 	CurState->camera()->one()->Local_Rotate(90.0f, .0f, 0.0f);
+
+	KPtr<TheOne> UICam = CurState->Create_TheOne(L"UI_Cam");
+	UICam->Local_Pos(.0f, .0f, -40.0f);
+
+	KPtr<Camera> UICom = UICam->Add_Component<Camera>();
+	UICom->Insert_LayerData(6);
+	UICom->Mode(Camera::PROJ_MODE::PM_ORTHGRAPHICS);
+
+	KPtr<TheOne> CUI = CurState->Create_TheOne(L"UI");
+	CUI->Local_Pos(350.0f, 100.0f, 0.0f);
+	CUI->Local_Rotate(0.0f, 0.0f, .0f);
+	CUI->Local_Scale(100.0f, 50.0f, 1.0f);
+	KPtr<Renderer_Rect3D> CUIR = CUI->Add_Component<Renderer_Rect3D>(6);
+	CUIR->material()->insert_TD(Texture_Type::TEX_COLOR, 0, L"다운로드.png");
+	CUIR->Create_RasterState(L"SBACK");
+	CUIR->billboard(true);
+
 
 
 
