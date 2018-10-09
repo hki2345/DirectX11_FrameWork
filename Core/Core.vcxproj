@@ -215,6 +215,7 @@
     <ClInclude Include="Renderer_Grid3D.h" />
     <ClInclude Include="Renderer_Rect3D.h" />
     <ClInclude Include="Renderer_Sprite.h" />
+    <ClInclude Include="Renderer_UI.h" />
     <ClInclude Include="RenderManager.h" />
     <ClInclude Include="KResource.h" />
     <ClInclude Include="RenderTarget.h" />
@@ -277,6 +278,7 @@
     <ClCompile Include="Renderer_Grid3D.cpp" />
     <ClCompile Include="Renderer_Rect3D.cpp" />
     <ClCompile Include="Renderer_Sprite.cpp" />
+    <ClCompile Include="Renderer_UI.cpp" />
     <ClCompile Include="RenderManager.cpp" />
     <ClCompile Include="KResource.cpp" />
     <ClCompile Include="RenderTarget.cpp" />

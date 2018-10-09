@@ -59,6 +59,7 @@ BOOL Dlg_Tool::OnInitDialog()
 	CurState->camera()->Add_Component<FreeCam>();
 	CurState->camera()->Far(100000.0f);
 	CurState->camera()->one()->Local_Pos(.0f, .0f, -40.0f);
+	CurState->camera()->one()->Local_Rotate(90.0f, .0f, 0.0f);
 
 
 
@@ -134,6 +135,15 @@ BOOL Dlg_Tool::OnInitDialog()
 	RSR->Set_Mesh(L"SPHERE_MESH");
 	RSR->material()->insert_TD(Texture_Type::TEX_COLOR, 0, L"MoonDiff.jpg");
 	// RSR->material()->insert_TD(Texture_Type::TEX_BUMP, 1, L"MoonBump.jpg");
+	
+	KPtr<TheOne> TUI = CurState->Create_TheOne(L"UI");
+	TUI->Local_Pos(10.0f, 10.0f, 0.0f);
+	TUI->Local_Rotate(0.0f, 0.0f, 90.0f);
+	TUI->Local_Scale(10.0f, 5.0f, 10.0f);
+	KPtr<Renderer_Rect3D> TUIR = TUI->Add_Component<Renderer_Rect3D>();
+	TUIR->material()->insert_TD(Texture_Type::TEX_COLOR, 0, L"Health-armor-shields.png");
+	TUIR->Create_RasterState(L"SBACK");
+	TUIR->billboard(true);
 
 	KPtr<TheOne> MC = CurState->Create_TheOne(L"Cube");
 	MC->Local_Pos(0.0f, 20.0f, 0.0f);

@@ -39,6 +39,7 @@
 #include "Renderer_Mesh.cpp"
 #include "Renderer_Rect3D.cpp"
 #include "Renderer_Sprite.cpp"
+#include "Renderer_UI.cpp"
 #include "RenderManager.cpp"
 #include "RenderTarget.cpp"
 #include "RenderTarget_Multi.cpp"

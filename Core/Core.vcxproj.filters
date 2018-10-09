@@ -294,6 +294,9 @@
     <ClInclude Include="RenderTarget_Multi.h">
       <Filter>03 SubManager\Render\Target</Filter>
     </ClInclude>
+    <ClInclude Include="Renderer_UI.h">
+      <Filter>03 SubManager\Render\Child</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="TimeManager.cpp">
@@ -475,6 +478,9 @@
     </ClCompile>
     <ClCompile Include="RenderTarget_Multi.cpp">
       <Filter>03 SubManager\Render\Target</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer_UI.cpp">
+      <Filter>03 SubManager\Render\Child</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

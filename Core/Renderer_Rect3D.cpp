@@ -16,7 +16,7 @@ Renderer_Rect3D::~Renderer_Rect3D()
 bool Renderer_Rect3D::Init(int _Order /*= 0*/)
 {
 	Renderer::Init(_Order);
-	if (false == Set_Material(L"COLOR_MAT") || false == Set_Mesh(L"RECT3D_MESH"))
+	if (false == Set_Material(L"IMG_MAT") || false == Set_Mesh(L"RECT3D_MESH"))
 	{
 		return false;
 	}
