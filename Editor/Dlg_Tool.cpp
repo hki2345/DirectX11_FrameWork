@@ -122,6 +122,7 @@ BOOL Dlg_Tool::OnInitDialog()
 	KPtr<Renderer_Mesh> LSR = LS->Add_Component<Renderer_Mesh>();
 	LSR->Set_Material(L"MESH_MAT");
 	LSR->Set_Mesh(L"SPHERE_MESH");
+	LSR->billboard(true);
 	LSR->material()->insert_TD(Texture_Type::TEX_COLOR, 0, L"MoonDiff.jpg");
 	LSR->material()->insert_TD(Texture_Type::TEX_BUMP, 7, L"MoonBump.jpg");
 	

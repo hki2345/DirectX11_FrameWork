@@ -983,6 +983,34 @@ public:
 	}
 
 public:
+
+	KMatrix WZero()
+	{
+		KMatrix Temp = *this;
+		Temp.vec4 = KVector4::Zero;
+		return Temp;
+	}
+
+	KMatrix WOne()
+	{
+		KMatrix Temp = *this;
+		Temp.vec4 = KVector4::One;
+		return Temp;
+	}
+
+	KMatrix Multiply3X3(const KMatrix& _Other) const
+	{
+		KMatrix Temp = *this * _Other;
+
+		Temp.vec4 = (*this).vec4;
+
+		Temp.vec1.w = (*this).vec1.w;
+		Temp.vec2.w = (*this).vec2.w;
+		Temp.vec3.w = (*this).vec3.w;
+				
+		return Temp;
+	}
+
 	KMatrix& Identity()
 	{
 		*this = DirectX::XMMatrixIdentity();

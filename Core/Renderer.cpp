@@ -108,7 +108,7 @@ void Renderer::Update_Trans(KPtr<Camera> _Cam)
 
 	if (true == m_Bill)
 	{
-		m_MD.m_WVP = (m_Trans->World_Matrix_Const() * _Cam->one()->transform()->Rotate_Matrix().Inverse_Value() * _Cam->View_Proj() ).TransPose_Referance();
+		m_MD.m_WVP = (m_Trans->World_Matrix_Const().Multiply3X3(_Cam->one()->transform()->Rotate_Matrix()) * _Cam->View_Proj()).TransPose_Referance();
 	}
 	else
 	{
