@@ -24,7 +24,10 @@ m_pDepthStencilView(nullptr),
 m_pSwapChain(nullptr),
 m_bInit(false),
 m_Color(.5f, .5f, .5f, 1.0f),
-m_AllDefaultStateSetting(false)
+m_AllDefaultStateSetting(false),
+
+m_pDepthStencilState(nullptr),
+m_pDepthStencilStateDeg(nullptr)
 {
 }
 
@@ -202,14 +205,67 @@ bool KDevice::Create_View()
 
 	m_pDevice->CreateTexture2D(&m_Decs, 0, &m_pTexture2D);
 
+	if (nullptr == m_pTexture2D)
+	{
+		return false;
+	}
+
 	if (S_OK != m_pDevice->CreateDepthStencilView(m_pTexture2D, 0, &m_pDepthStencilView))
 	{
 		return false;
 	}
 
 
+	m_DepthDESC.DepthEnable = TRUE;
+	m_DepthDESC.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
+	// 뎁스 비교연산을 하지 않겠다.
+	m_DepthDESC.DepthFunc = D3D11_COMPARISON_LESS;
+	m_DepthDESC.StencilEnable = FALSE;
+	m_DepthDESC.StencilReadMask = D3D11_DEFAULT_STENCIL_READ_MASK;
+	m_DepthDESC.StencilWriteMask = D3D11_DEFAULT_STENCIL_WRITE_MASK;
+
+	//////////////////////////////Debug
+	const D3D11_DEPTH_STENCILOP_DESC defDebStaencilOp =
+	{ D3D11_STENCIL_OP_KEEP, D3D11_STENCIL_OP_KEEP, D3D11_STENCIL_OP_KEEP, D3D11_COMPARISON_ALWAYS };
+
+	m_DepthDESC.FrontFace = defDebStaencilOp;
+	m_DepthDESC.BackFace = defDebStaencilOp;
+
+	m_pDevice->CreateDepthStencilState(&m_DepthDESC, &m_pDepthStencilStateDeg);
+
+	if (nullptr == m_pDepthStencilStateDeg)
+	{
+		KASSERT(true);
+		return false;
+	}
+	//////////////////////////////////
+
+
+	m_DepthDESC.DepthEnable = TRUE;
+	m_DepthDESC.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
+	m_DepthDESC.DepthFunc = D3D11_COMPARISON_ALWAYS;
+	m_DepthDESC.StencilEnable = FALSE;
+	m_DepthDESC.StencilReadMask = D3D11_DEFAULT_STENCIL_READ_MASK;
+	m_DepthDESC.StencilWriteMask = D3D11_DEFAULT_STENCIL_WRITE_MASK;
+
+	const D3D11_DEPTH_STENCILOP_DESC defStaencilOp =
+	{ D3D11_STENCIL_OP_KEEP, D3D11_STENCIL_OP_KEEP, D3D11_STENCIL_OP_KEEP, D3D11_COMPARISON_ALWAYS };
+
+	m_DepthDESC.FrontFace = defStaencilOp;
+	m_DepthDESC.BackFace = defStaencilOp;
+
+	m_pDevice->CreateDepthStencilState(&m_DepthDESC, &m_pDepthStencilState);
+
+	if (nullptr == m_pDepthStencilState)
+	{
+		KASSERT(true);
+		return false;
+	}
+
+	
 	// 랜더링 파이프 라인과 관련있다는 ... 공부 하라능
 	m_pContext->OMSetRenderTargets(1, &m_pTargetView, m_pDepthStencilView);
+	m_pContext->OMSetDepthStencilState(m_pDepthStencilState, 1);
 
 	return true;
 }
@@ -310,6 +366,7 @@ void KDevice::Present()
 
 void KDevice::Release()
 {
+	if (nullptr != m_pDepthStencilStateDeg) { m_pDepthStencilStateDeg->Release(); }
 	if (nullptr != m_pDepthStencilState) { m_pDepthStencilState->Release(); }
 	if (nullptr != m_pDepthStencilView) { m_pDepthStencilView->Release(); }
 	if (nullptr != m_pTargetView) { m_pTargetView->Release(); }

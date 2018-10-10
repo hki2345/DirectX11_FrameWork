@@ -99,11 +99,15 @@ void Renderer::Update_Trans(KPtr<Camera> _Cam)
 
 	Indepen_Update();
 
-	m_MD.m_W = m_Trans->World_Matrix_Const().TransPose_Value();
-	m_MD.m_V = _Cam->View().TransPose_Value();
-	m_MD.m_P = _Cam->Proj().TransPose_Value();
-	m_MD.m_WV = (m_Trans->World_Matrix_Const() * _Cam->View()).TransPose_Referance();
-	m_MD.m_WVP = (m_Trans->World_Matrix_Const() * _Cam->View_Proj()).TransPose_Referance();
+
+
+	m_MD.m_W = m_Trans->World_Matrix_Const();
+	m_MD.m_V = _Cam->View();
+	m_MD.m_P = _Cam->Proj();
+	m_MD.m_WV = (m_Trans->World_Matrix_Const() * _Cam->View());
+	m_MD.m_WVP = (m_Trans->World_Matrix_Const() * _Cam->View_Proj());
+
+	m_MD.Transpose_Ref();
 
 	Update_CB();
 }

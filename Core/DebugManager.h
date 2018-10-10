@@ -40,6 +40,10 @@ public:
 	{
 		m_Debug = false;
 	}
+	static bool Is_Debug()
+	{
+		return m_Debug;
+	}
 
 	static void draw_rect(const KRect& _Rect, const KColor& _Color, const float& _Border = 1);
 	static void draw_rect(const KVector2& _Pos, const KVector2& _Size, const KColor& _Color = { .0f, 1.0f, .0f, 1.0f }, const float& _Border = 1);

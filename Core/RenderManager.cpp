@@ -6,6 +6,7 @@
 #include "Sampler.h"
 #include "Core_Class.h"
 
+#include "RenderTarget_Multi.h"
 #include "DebugManager.h"
 #include "ResourceManager.h"
 
@@ -82,6 +83,9 @@ void RenderManager::Reset_SamplerList()
 
 void RenderManager::Render()
 {
+	// 렌더 메니저에서 다함
+	Core_Class::MainDevice().Clear_Target();
+
 	Reset_SamplerList();
 
 	m_Camera_StartIter = m_CameraMap.begin();
@@ -101,25 +105,17 @@ void RenderManager::Render()
 				continue;
 			}
 
-			// 여기에 사이즈 2 이상이면 자동 정렬하게 됐는데 삭제
-			// 사용자가 렌더 순서를 지정한 데로만 렌더됌
-
-			m_Renderer_StartIter = m_Renderer_FindIter->second.begin();
-			m_Renderer_EndIter = m_Renderer_FindIter->second.end();
-
-			// 여기에 라이트를 모아서 상수버퍼에 한번에 세팅
-			Light_Check((*m_Camera_StartIter)->m_Layer[i], m_Camera_StartIter);
-
-			for (; m_Renderer_StartIter != m_Renderer_EndIter; ++m_Renderer_StartIter)
-			{
-				(*m_Renderer_StartIter)->RenderUpdate();
-				(*m_Renderer_StartIter)->Update_Trans((*m_Camera_StartIter));
-				(*m_Renderer_StartIter)->Render((*m_Camera_StartIter));
-				(*m_Renderer_StartIter)->Update_MeshMat();
-				(*m_Renderer_StartIter)->RenderFinalUpdate();
-			}
+			Render_Defferd(m_Renderer_FindIter, i);
+			Render_Forward(m_Renderer_FindIter, i);
 		}		
 	}
+
+	if (true == DebugManager::Is_Debug())
+	{
+		Core_Class::MainDevice().OMSetDebug();
+	}
+
+	Core_Class::MainDevice().Present();
 }
 
 void RenderManager::Release()
@@ -211,4 +207,50 @@ void RenderManager::Light_Check(const int& _Layer, const std::set<KPtr<Camera>>:
 
 	Core_Class::MainDevice().Set_DeviceCB<KLight::LightCB>(L"LIGHT_DATA", TempData, SHADER_TYPE::ST_VS);
 	Core_Class::MainDevice().Set_DeviceCB<KLight::LightCB>(L"LIGHT_DATA", TempData, SHADER_TYPE::ST_PS);
+}
+
+
+void RenderManager::Render_Defferd(std::map<int, std::list<KPtr<Renderer>>>::iterator _Iter, size_t _Index)
+{
+	// 디퍼드용 메테리얼로 
+	KPtr<RenderTarget_Multi> DEFFERDTAGET = ResourceManager<RenderTarget_Multi>::Find(L"DEFFERD");
+	DEFFERDTAGET->SetOM();
+
+	m_Renderer_StartIter = m_Renderer_FindIter->second.begin();
+	m_Renderer_StartIter = m_Renderer_FindIter->second.end();
+	Light_Check((*m_Camera_StartIter)->m_Layer[_Index], m_Camera_StartIter);
+	for (; m_Renderer_StartIter != m_Renderer_StartIter; m_Renderer_StartIter++)
+	{
+		if (1 == (*m_Renderer_StartIter)->m_ROption.Deffert_orFoward)
+		{
+			(*m_Renderer_StartIter)->RenderUpdate();
+			(*m_Renderer_StartIter)->Update_Trans((*m_Camera_StartIter));
+			(*m_Renderer_StartIter)->Render((*m_Camera_StartIter));
+			(*m_Renderer_StartIter)->Update_MeshMat();
+			(*m_Renderer_StartIter)->RenderFinalUpdate();
+		}
+	}
+}
+
+void RenderManager::Render_Forward(std::map<int, std::list<KPtr<Renderer>>>::iterator _Iter, size_t _Index)
+{
+
+	// 디퍼드용 메테리얼로 
+	KPtr<RenderTarget_Multi> DEFFERDTAGET = ResourceManager<RenderTarget_Multi>::Find(L"DEFFERD");
+	DEFFERDTAGET->SetOM();
+
+	m_Renderer_StartIter = m_Renderer_FindIter->second.begin();
+	m_Renderer_StartIter = m_Renderer_FindIter->second.end();
+	Light_Check((*m_Camera_StartIter)->m_Layer[_Index], m_Camera_StartIter);
+	for (; m_Renderer_StartIter != m_Renderer_StartIter; m_Renderer_StartIter++)
+	{
+		if (0 == (*m_Renderer_StartIter)->m_ROption.Deffert_orFoward)
+		{
+			(*m_Renderer_StartIter)->RenderUpdate();
+			(*m_Renderer_StartIter)->Update_Trans((*m_Camera_StartIter));
+			(*m_Renderer_StartIter)->Render((*m_Camera_StartIter));
+			(*m_Renderer_StartIter)->Update_MeshMat();
+			(*m_Renderer_StartIter)->RenderFinalUpdate();
+		}
+	}
 }

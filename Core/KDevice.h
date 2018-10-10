@@ -15,7 +15,7 @@ class KDevice : public Mother_KWindow
 	// 렌더에서 해당 디바이스의 컨텍스트를 실행한다.
 public:
 	friend class Renderer;
-	friend KWindow;
+	friend class RenderManager;
 
 public:
 	// 어떤식으로 보여지게 할 것이냐///
@@ -41,6 +41,8 @@ private:
 
 	D3D11_DEPTH_STENCIL_DESC	m_DepthDESC;
 	ID3D11DepthStencilState*	m_pDepthStencilState;
+
+	ID3D11DepthStencilState*	m_pDepthStencilStateDeg;
 
 	IDXGISwapChain*				m_pSwapChain;
 	UINT						m_iMSLv;
@@ -101,13 +103,17 @@ public:
 	void reset_context();
 	void reset_depthstencil();
 
+	void OMSet() {}
+	void OMSetDebug() {}
+
+public:
+	bool Init_DefaultData_2D();
+	bool Init_DefaultData_3D();
 
 private:
 	bool Create_SwapChain();
 	bool Create_View();
 	bool Create_ViewPort();
-	bool Init_DefaultData_2D();
-	bool Init_DefaultData_3D();
 
 	bool DefaultRenderTarget();
 

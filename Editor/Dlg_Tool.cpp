@@ -67,14 +67,14 @@ BOOL Dlg_Tool::OnInitDialog()
 	UICom->Insert_LayerData(6);
 	UICom->Mode(Camera::PROJ_MODE::PM_ORTHGRAPHICS);
 
-	KPtr<TheOne> CUI = CurState->Create_TheOne(L"UI");
-	CUI->Local_Pos(350.0f, 100.0f, 0.0f);
-	CUI->Local_Rotate(0.0f, 0.0f, .0f);
-	CUI->Local_Scale(100.0f, 50.0f, 1.0f);
-	KPtr<Renderer_Rect3D> CUIR = CUI->Add_Component<Renderer_Rect3D>(6);
-	CUIR->material()->insert_TD(Texture_Type::TEX_COLOR, 0, L"다운로드.png");
-	CUIR->Create_RasterState(L"SBACK");
-	CUIR->billboard(true);
+	// KPtr<TheOne> CUI = CurState->Create_TheOne(L"UI");
+	// CUI->Local_Pos(350.0f, 100.0f, 0.0f);
+	// CUI->Local_Rotate(0.0f, 0.0f, .0f);
+	// CUI->Local_Scale(100.0f, 50.0f, 1.0f);
+	// KPtr<Renderer_Rect3D> CUIR = CUI->Add_Component<Renderer_Rect3D>(6);
+	// CUIR->material()->insert_TD(Texture_Type::TEX_COLOR, 0, L"다운로드.png");
+	// CUIR->Create_RasterState(L"SBACK");
+	// CUIR->billboard(true);
 
 
 
@@ -152,14 +152,14 @@ BOOL Dlg_Tool::OnInitDialog()
 	RSR->material()->insert_TD(Texture_Type::TEX_COLOR, 0, L"MoonDiff.jpg");
 	// RSR->material()->insert_TD(Texture_Type::TEX_BUMP, 1, L"MoonBump.jpg");
 	
-	KPtr<TheOne> TUI = CurState->Create_TheOne(L"UI");
-	TUI->Local_Pos(10.0f, 10.0f, 0.0f);
-	TUI->Local_Rotate(0.0f, 0.0f, 90.0f);
-	TUI->Local_Scale(10.0f, 5.0f, 10.0f);
-	KPtr<Renderer_Rect3D> TUIR = TUI->Add_Component<Renderer_Rect3D>();
-	TUIR->material()->insert_TD(Texture_Type::TEX_COLOR, 0, L"Health-armor-shields.png");
-	TUIR->Create_RasterState(L"SBACK");
-	TUIR->billboard(true);
+	// KPtr<TheOne> TUI = CurState->Create_TheOne(L"UI");
+	// TUI->Local_Pos(10.0f, 10.0f, 0.0f);
+	// TUI->Local_Rotate(0.0f, 0.0f, 90.0f);
+	// TUI->Local_Scale(10.0f, 5.0f, 10.0f);
+	// KPtr<Renderer_Rect3D> TUIR = TUI->Add_Component<Renderer_Rect3D>();
+	// TUIR->material()->insert_TD(Texture_Type::TEX_COLOR, 0, L"Health-armor-shields.png");
+	// TUIR->Create_RasterState(L"SBACK");
+	// TUIR->billboard(true);
 
 	KPtr<TheOne> MC = CurState->Create_TheOne(L"Cube");
 	MC->Local_Pos(0.0f, 20.0f, 0.0f);

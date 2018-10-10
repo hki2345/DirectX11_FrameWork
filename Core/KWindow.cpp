@@ -180,11 +180,11 @@ void KWindow::Update()
 
 	if (true == m_Device.Is_Init())
 	{
-		m_Device.Clear_Target();
+		// m_Device.Clear_Target();
 
 
 		this_StateManager.Render();
-		m_Device.Present();
+		// m_Device.Present();
 	}
 
 	this_StateManager.Next_Progress();

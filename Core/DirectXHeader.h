@@ -1140,6 +1140,16 @@ public:
 	KMatrix m_P;
 	KMatrix m_WV;
 	KMatrix m_WVP;
+
+public:
+	void Transpose_Ref()
+	{
+		m_W.TransPose_Referance();
+		m_V.TransPose_Referance();
+		m_P.TransPose_Referance();
+		m_WV.TransPose_Referance();
+		m_WVP.TransPose_Referance();
+	}
 };
 
 class VertShaderFormat

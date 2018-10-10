@@ -55,6 +55,9 @@ public:
 	void Render();
 	void Release();
 
+	void Render_Defferd(std::map<int, std::list<KPtr<Renderer>>>::iterator _Iter, size_t _Index);
+	void Render_Forward(std::map<int, std::list<KPtr<Renderer>>>::iterator _Iter, size_t _Index);
+
 	bool Is_Name(const wchar_t* _Name);
 
 public:

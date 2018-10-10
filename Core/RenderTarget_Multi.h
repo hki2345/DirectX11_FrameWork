@@ -11,7 +11,7 @@
 // https://docs.microsoft.com/en-us/windows/desktop/direct3d11/overviews-direct3d-11-resources-limits
 // 해당 주소는 쉐이더로 한 번에 보낼 수 있는 슬롯 수 -> 물론 영어로 ㅋㅋㅋㅋ
 
-class RenderTarget_Multi : public RenderTarget
+class RenderTarget_Multi : public KResource
 {
 public:
 	RenderTarget_Multi();
@@ -64,6 +64,11 @@ private:
 
 	void Insert_Target() {		}
 
+public:
+	std::vector<KPtr<RenderTarget>> RenderTargetList()
+	{
+		return m_RTVec;
+	}
 
 };
 
