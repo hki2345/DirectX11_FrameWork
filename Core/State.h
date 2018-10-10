@@ -37,6 +37,7 @@ class State : public Begin_Updater, public Mother_KWindow, public Mother_State
 private:
 	friend TheOne;
 	friend StateManager;
+	friend class RenderManager;
 
 private:
 	void insert_AbsOne(KPtr<TheOne> _Other);

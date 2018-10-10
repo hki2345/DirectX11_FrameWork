@@ -109,14 +109,9 @@ void StateManager::Render()
 	if (nullptr != m_CurState && true == m_CurState->is_Active())
 	{
 		m_CurState->Render();
-		m_CurState->UIRender();
-		m_CurState->DebugRender();
-
-		DebugManager::Logging();
-
-		window()->device().reset_depthstencil();
 	}
 }
+
 
 void StateManager::Release()
 {

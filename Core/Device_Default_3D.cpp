@@ -22,14 +22,14 @@
 bool KDevice::DefaultRenderTarget()
 {
 	// 요녀석은 무조건 있어야함 - 실제 텍스쳐가 될 놈 - 남겨 두는 놈 -> 쉐이더에서 쓸 놈이 아니다.
-	ResourceManager<RenderTarget>::Create(L"BACKBUFFER", m_pBackBuffer, D3D11_BIND_RENDER_TARGET);
+	// ResourceManager<RenderTarget>::Create(L"BACKBUFFER", m_pBackBuffer, D3D11_BIND_RENDER_TARGET);
 
 	// FORWARD
-	ResourceManager<RenderTarget>::Create(L"FORWARD",
-		Core_Class::Main_Window().widthu(),
-		Core_Class::Main_Window().heigthu(),
-		D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE,
-		DXGI_FORMAT_R8G8B8A8_UNORM);
+	// ResourceManager<RenderTarget>::Create(L"FORWARD",
+	// 	Core_Class::Main_Window().widthu(),
+	// 	Core_Class::Main_Window().heigthu(),
+	// 	D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE,
+	// 	DXGI_FORMAT_R8G8B8A8_UNORM);
 
 	// DEFFERD - 바이트 크기는 형변환이 안 일어나게 Float32로 처리
 	ResourceManager<RenderTarget>::Create(L"DIFFUSE", Core_Class::Main_Window().widthu(), Core_Class::Main_Window().heigthu(),
@@ -41,9 +41,9 @@ bool KDevice::DefaultRenderTarget()
 	ResourceManager<RenderTarget>::Create(L"DEPTH", Core_Class::Main_Window().widthu(), Core_Class::Main_Window().heigthu(),
 		D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE, DXGI_FORMAT_R32G32B32A32_FLOAT);
 
-	KPtr<RenderTarget_Multi> BackRT = ResourceManager<RenderTarget_Multi>::Create(L"FORWARD", L"BACKBUFFER", L"FORWARD");
-	BackRT->Create_Depth(Core_Class::Main_Window().widthu(), Core_Class::Main_Window().heigthu());
-	KPtr<RenderTarget_Multi> DefRT = ResourceManager<RenderTarget_Multi>::Create(L"DIFFERD", L"DIFFUSE", L"POSITION", L"NORMAL", L"DEPTH");
+	// KPtr<RenderTarget_Multi> BackRT = ResourceManager<RenderTarget_Multi>::Create(L"FORWARD", L"BACKBUFFER", L"FORWARD");
+	// BackRT->Create_Depth(Core_Class::Main_Window().widthu(), Core_Class::Main_Window().heigthu());
+	KPtr<RenderTarget_Multi> DefRT = ResourceManager<RenderTarget_Multi>::Create(L"DEFFERD", L"DIFFUSE", L"POSITION", L"NORMAL", L"DEPTH");
 	DefRT->Create_Depth(Core_Class::Main_Window().widthu(), Core_Class::Main_Window().heigthu());
 
 		return true;
@@ -331,6 +331,16 @@ void KDevice::Init_NoneMat()
 	NewMat->Set_VShader(L"NONE_VERT");
 	NewMat->Set_PShader(L"NONE_PIX");
 	NewMat->Set_Blend(L"AlphaBlend3D");
+
+	KPtr<Vertex_Shader> TAGETDEBUGVTX = ResourceManager<Vertex_Shader>::Load_FromKey(L"TAGETDEBUGVTX", L"Shader", L"MeshShader.fx", "Mesh_VT");
+	TAGETDEBUGVTX->Add_Layout("POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
+	TAGETDEBUGVTX->Add_LayoutFin("TEXCOORD", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32_FLOAT, 0);
+	KPtr<Pixel_Shader> TAGETDEBUGPIX = ResourceManager<Pixel_Shader>::Load_FromKey(L"TAGETDEBUGPIX", L"Shader", L"MeshShader.fx", "Mesh_PX");
+
+	KPtr<Material> TAGETDEBUGMAT = ResourceManager<Material>::Create(L"TAGETDEBUGMAT");
+	TAGETDEBUGMAT->Set_VShader(L"TAGETDEBUGVTX");
+	TAGETDEBUGMAT->Set_PShader(L"TAGETDEBUGPIX");
+	TAGETDEBUGMAT->Set_Blend(L"AlphaBlend3D");
 }
 
 

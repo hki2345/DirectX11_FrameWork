@@ -101,10 +101,8 @@ public:
 	ID3D11DeviceContext*		context() { return m_pContext; }
 
 	void reset_context();
-	void reset_depthstencil();
-
-	void OMSet() {}
-	void OMSetDebug() {}
+	void SetOM();
+	void SetOM_Deg();
 
 public:
 	bool Init_DefaultData_2D();

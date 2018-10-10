@@ -112,7 +112,9 @@ void RenderManager::Render()
 
 	if (true == DebugManager::Is_Debug())
 	{
-		Core_Class::MainDevice().OMSetDebug();
+		Core_Class::MainDevice().SetOM_Deg();
+		Core_Class::main_state()->DebugRender();
+		DebugManager::Logging();
 	}
 
 	Core_Class::MainDevice().Present();
@@ -217,9 +219,9 @@ void RenderManager::Render_Defferd(std::map<int, std::list<KPtr<Renderer>>>::ite
 	DEFFERDTAGET->SetOM();
 
 	m_Renderer_StartIter = m_Renderer_FindIter->second.begin();
-	m_Renderer_StartIter = m_Renderer_FindIter->second.end();
+	m_Renderer_EndIter = m_Renderer_FindIter->second.end();
 	Light_Check((*m_Camera_StartIter)->m_Layer[_Index], m_Camera_StartIter);
-	for (; m_Renderer_StartIter != m_Renderer_StartIter; m_Renderer_StartIter++)
+	for (; m_Renderer_StartIter != m_Renderer_EndIter; m_Renderer_StartIter++)
 	{
 		if (1 == (*m_Renderer_StartIter)->m_ROption.Deffert_orFoward)
 		{
@@ -234,15 +236,13 @@ void RenderManager::Render_Defferd(std::map<int, std::list<KPtr<Renderer>>>::ite
 
 void RenderManager::Render_Forward(std::map<int, std::list<KPtr<Renderer>>>::iterator _Iter, size_t _Index)
 {
-
-	// 디퍼드용 메테리얼로 
-	KPtr<RenderTarget_Multi> DEFFERDTAGET = ResourceManager<RenderTarget_Multi>::Find(L"DEFFERD");
-	DEFFERDTAGET->SetOM();
+	// 포워드는 그냥 메인에 그린다. 
+	Core_Class::MainDevice().SetOM();
 
 	m_Renderer_StartIter = m_Renderer_FindIter->second.begin();
-	m_Renderer_StartIter = m_Renderer_FindIter->second.end();
+	m_Renderer_EndIter = m_Renderer_FindIter->second.end();
 	Light_Check((*m_Camera_StartIter)->m_Layer[_Index], m_Camera_StartIter);
-	for (; m_Renderer_StartIter != m_Renderer_StartIter; m_Renderer_StartIter++)
+	for (; m_Renderer_StartIter != m_Renderer_EndIter; m_Renderer_StartIter++)
 	{
 		if (0 == (*m_Renderer_StartIter)->m_ROption.Deffert_orFoward)
 		{

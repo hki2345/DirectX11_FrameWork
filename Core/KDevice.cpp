@@ -386,12 +386,21 @@ void KDevice::reset_context()
 	m_pContext->PSSetShader(nullptr, nullptr, 0);
 }
 
-void KDevice::reset_depthstencil()
+
+void KDevice::SetOM()
 {
 	// 글자나 다른 렌더러가 스텐실을 건드릴 경우 다시 렌더순서를 잡기 위햄
 	// 정확히는 랜더 순서라기 보다 뒤죽박죽된 깊이값을 재조정
 	m_pContext->OMSetRenderTargets(1, &m_pTargetView, m_pDepthStencilView);
 	m_pContext->OMSetDepthStencilState(m_pDepthStencilState, 1);
+}
+
+void KDevice::SetOM_Deg()
+{
+	// 글자나 다른 렌더러가 스텐실을 건드릴 경우 다시 렌더순서를 잡기 위햄
+	// 정확히는 랜더 순서라기 보다 뒤죽박죽된 깊이값을 재조정
+	m_pContext->OMSetRenderTargets(1, &m_pTargetView, m_pDepthStencilView);
+	m_pContext->OMSetDepthStencilState(m_pDepthStencilStateDeg, 1);
 }
 
 

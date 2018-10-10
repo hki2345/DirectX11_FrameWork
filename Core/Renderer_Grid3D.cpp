@@ -8,6 +8,7 @@
 
 Renderer_Grid3D::Renderer_Grid3D()
 {
+	m_ROption.Deffert_orFoward = 0;
 }
 
 
