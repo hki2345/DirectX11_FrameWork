@@ -99,24 +99,15 @@ void Renderer::Update_Trans(KPtr<Camera> _Cam)
 
 	Indepen_Update();
 
-	KMatrix TempCam = _Cam->one()->transform()->World_Matrix();
-
 	m_MD.m_W = m_Trans->World_Matrix_Const().TransPose_Value();
 	m_MD.m_V = _Cam->View().TransPose_Value();
 	m_MD.m_P = _Cam->Proj().TransPose_Value();
 	m_MD.m_WV = (m_Trans->World_Matrix_Const() * _Cam->View()).TransPose_Referance();
-
-	if (true == m_Bill)
-	{
-		m_MD.m_WVP = (m_Trans->World_Matrix_Const().Multiply3X3(_Cam->one()->transform()->Rotate_Matrix()) * _Cam->View_Proj()).TransPose_Referance();
-	}
-	else
-	{
-		m_MD.m_WVP = (m_Trans->World_Matrix_Const() * _Cam->View_Proj()).TransPose_Referance();
-	}
+	m_MD.m_WVP = (m_Trans->World_Matrix_Const() * _Cam->View_Proj()).TransPose_Referance();
 
 	Update_CB();
 }
+
 void Renderer::Update_CB()
 {
 	size_t A = sizeof(RenderOption);

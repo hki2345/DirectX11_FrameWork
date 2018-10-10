@@ -628,6 +628,12 @@ public:
 
 
 public:
+	float distance(const KVector4& _Value) const
+	{
+		return sqrtf((x) * (x) + (y) * (y) + (z) * (z) + (w) * (w));
+	}
+
+
 	static KVector4 cross3D(const KVector4& _Left, const KVector4& _Right)
 	{
 		KVector4 Temp = DirectX::XMVector3Cross(_Left, _Right);

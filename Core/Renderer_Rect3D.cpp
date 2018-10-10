@@ -32,6 +32,7 @@ void Renderer_Rect3D::Render(KPtr<Camera> _Camera)
 	{
 		return;
 	}
+
 	// 부모인지 요놈인지 계산되어야 한다.
 	Indepen_Update();
 }
