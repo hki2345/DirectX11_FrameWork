@@ -36,7 +36,8 @@ public:
 	bool Create(ID3D11Texture2D* _Tex, UINT _BindFlag);
 
 public:
-	void Update(const UINT& _Slot);
+	void Update(const KUINT& _Slot);
+	void Reset(const KUINT& _Slot);
 
 public:
 	Texture();

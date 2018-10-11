@@ -48,7 +48,6 @@ private:
 	std::set<KPtr<KLight>>::iterator m_LE;
 
 	void Insert_Light(KLight* _Light);
-	void Light_Check(const int& _Layer, const std::set<KPtr<Camera>>::iterator& _Iter);
 	void Reset_SamplerList();
 
 public:
@@ -59,6 +58,9 @@ public:
 	void Render_Forward(std::map<int, std::list<KPtr<Renderer>>>::iterator _Iter, size_t _Index);
 
 	bool Is_Name(const wchar_t* _Name);
+
+	void Light_Check(const int& _Layer, const std::set<KPtr<Camera>>::iterator& _Iter);
+	void Render_LightDef(const int& _Layer, const std::set<KPtr<Camera>>::iterator& _Iter);
 
 public:
 	RenderManager();

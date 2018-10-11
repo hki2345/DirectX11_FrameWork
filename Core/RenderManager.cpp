@@ -209,14 +209,21 @@ void RenderManager::Light_Check(const int& _Layer, const std::set<KPtr<Camera>>:
 
 	Core_Class::MainDevice().Set_DeviceCB<KLight::LightCB>(L"LIGHT_DATA", TempData, SHADER_TYPE::ST_VS);
 	Core_Class::MainDevice().Set_DeviceCB<KLight::LightCB>(L"LIGHT_DATA", TempData, SHADER_TYPE::ST_PS);
+
+	return;
 }
 
 
 void RenderManager::Render_Defferd(std::map<int, std::list<KPtr<Renderer>>>::iterator _Iter, size_t _Index)
 {
 	// 디퍼드용 메테리얼로 
-	KPtr<RenderTarget_Multi> DEFFERDTAGET = ResourceManager<RenderTarget_Multi>::Find(L"DEFFERD");
-	DEFFERDTAGET->SetOM();
+	KPtr<RenderTarget_Multi> DEFFERDTARGET = ResourceManager<RenderTarget_Multi>::Find(L"DEFFERD");
+	DEFFERDTARGET->Clear();
+	DEFFERDTARGET->SetOM();
+
+	KPtr<Material> DEFFERDMAT = ResourceManager<Material>::Find(L"DEFFERD");
+	KASSERT(DEFFERDMAT);
+	
 
 	m_Renderer_StartIter = m_Renderer_FindIter->second.begin();
 	m_Renderer_EndIter = m_Renderer_FindIter->second.end();
@@ -228,7 +235,8 @@ void RenderManager::Render_Defferd(std::map<int, std::list<KPtr<Renderer>>>::ite
 			(*m_Renderer_StartIter)->RenderUpdate();
 			(*m_Renderer_StartIter)->Update_Trans((*m_Camera_StartIter));
 			(*m_Renderer_StartIter)->Render((*m_Camera_StartIter));
-			(*m_Renderer_StartIter)->Update_MeshMat();
+			DEFFERDMAT->Update();
+			(*m_Renderer_StartIter)->Update_Mesh();
 			(*m_Renderer_StartIter)->RenderFinalUpdate();
 		}
 	}
@@ -237,6 +245,7 @@ void RenderManager::Render_Defferd(std::map<int, std::list<KPtr<Renderer>>>::ite
 void RenderManager::Render_Forward(std::map<int, std::list<KPtr<Renderer>>>::iterator _Iter, size_t _Index)
 {
 	// 포워드는 그냥 메인에 그린다. 
+	Core_Class::MainDevice().Clear_Target();
 	Core_Class::MainDevice().SetOM();
 
 	m_Renderer_StartIter = m_Renderer_FindIter->second.begin();
@@ -249,8 +258,28 @@ void RenderManager::Render_Forward(std::map<int, std::list<KPtr<Renderer>>>::ite
 			(*m_Renderer_StartIter)->RenderUpdate();
 			(*m_Renderer_StartIter)->Update_Trans((*m_Camera_StartIter));
 			(*m_Renderer_StartIter)->Render((*m_Camera_StartIter));
-			(*m_Renderer_StartIter)->Update_MeshMat();
+			(*m_Renderer_StartIter)->Update_Material();
+			(*m_Renderer_StartIter)->Update_Mesh();
 			(*m_Renderer_StartIter)->RenderFinalUpdate();
+		}
+	}
+}
+
+void RenderManager::Render_LightDef(const int& _Layer, const std::set<KPtr<Camera>>::iterator& _Iter)
+{
+	KPtr<RenderTarget_Multi> LIGHTTARGET = ResourceManager<RenderTarget>::Find(L"LIGHT");
+	LIGHTTARGET->Clear();
+	LIGHTTARGET->SetOM();
+
+	m_LS = m_LightSet.begin();
+	m_LE = m_LightSet.end();
+
+	for (; m_LS != m_LE; ++m_LS)
+	{
+		if (true == (*m_LS)->Is_Focus(_Layer))
+		{
+			KPtr<KLight> LPtr = *m_LS;
+			LPtr->Render();
 		}
 	}
 }

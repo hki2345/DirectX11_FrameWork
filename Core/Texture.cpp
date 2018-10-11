@@ -89,6 +89,12 @@ void Texture::Update(const UINT& _Slot)
 	Core_Class::device_context()->PSSetShaderResources(_Slot, 1, &m_pSRV);
 }
 
+void Texture::Reset(const KUINT& _Slot)
+{
+	ID3D11ShaderResourceView* RV = nullptr;
+	Core_Class::device_context()->VSSetShaderResources(_Slot, 1, &RV);
+	Core_Class::device_context()->PSSetShaderResources(_Slot, 1, &RV);
+}
 
 bool Texture::Create(const UINT& _W, const UINT& _H, const UINT& _BindFlag, DXGI_FORMAT _eForm,
 	D3D11_USAGE _eUsage /*= D3D11_USAGE::D3D11_USAGE_DEFAULT*/)

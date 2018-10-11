@@ -2,8 +2,15 @@
 #include "Component.h"
 #include <set>
 
+
+class Mesh;
+class Material;
 class KLight : public Component
 {
+public:
+	KLight();
+	~KLight();
+
 public:
 	friend class RenderManager;
 
@@ -52,6 +59,10 @@ private:
 	int m_Order;
 	std::set<int> m_LayerSet;
 	LightData m_LD;
+
+	// 빛이 계산된 메쉬
+	KPtr<Mesh> m_LMesh;
+	KPtr<Material> m_LMat;
 
 public:
 	void type(const LightType& _type)
@@ -109,10 +120,11 @@ public:
 		Insert_Layer(Arg...);
 	}
 
-	void Insert_Layer() {}
 
 public:
-	KLight();
-	~KLight();
+	void Insert_Layer() {}
+
+private:
+	void Render();
 };
 

@@ -32,3 +32,8 @@ void KLight::FinalUpdate()
 	m_LD.m_Pos.w = .0f;
 	m_LD.CamPos.w = .0f;
 }
+
+void KLight::Render()
+{
+
+}

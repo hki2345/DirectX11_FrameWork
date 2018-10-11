@@ -51,6 +51,7 @@ public:
 	static void WLog(const wchar_t* const _Str, ...);
 
 public:
+	static void Targetting();
 	static void Logging();
 
 public:

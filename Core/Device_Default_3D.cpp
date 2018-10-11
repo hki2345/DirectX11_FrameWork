@@ -46,6 +46,18 @@ bool KDevice::DefaultRenderTarget()
 	KPtr<RenderTarget_Multi> DefRT = ResourceManager<RenderTarget_Multi>::Create(L"DEFFERD", L"DIFFUSE", L"POSITION", L"NORMAL", L"DEPTH");
 	DefRT->Create_Depth(Core_Class::Main_Window().widthu(), Core_Class::Main_Window().heigthu());
 
+	
+	
+	//////////////////////////// Light
+	ResourceManager<RenderTarget>::Create(L"LIGHT_DIFFUSE", Core_Class::Main_Window().widthu(), Core_Class::Main_Window().heigthu(),
+		D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE, DXGI_FORMAT_R32G32B32A32_FLOAT);
+	ResourceManager<RenderTarget>::Create(L"LIGHT_SPEC", Core_Class::Main_Window().widthu(), Core_Class::Main_Window().heigthu(),
+		D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE, DXGI_FORMAT_R32G32B32A32_FLOAT);
+
+	KPtr<RenderTarget_Multi> DefRT = ResourceManager<RenderTarget_Multi>::Create(L"LIGHt", L"LIGHT_DIFFUSE", L"LIGHT_SPEC");
+	DefRT->Create_Depth(Core_Class::Main_Window().widthu(), Core_Class::Main_Window().heigthu());
+
+
 		return true;
 }
 
@@ -65,6 +77,7 @@ bool KDevice::Init_DefaultData_3D()
 	Init_SphereMesh();
 	
 
+	Init_Defferd();
 	Init_NoneMat();
 	Init_ColorMat();
 	Init_GridMat();
@@ -314,7 +327,25 @@ void KDevice::Init_SphereMesh()
 }
 
 
+void KDevice::Init_Defferd()
+{
+	KPtr<Vertex_Shader> DEFFERD3DVTX = ResourceManager<Vertex_Shader>::Load_FromKey
+	(L"DEFFERD3DVTX", L"Shader", L"Defferd.fx", "VS_DEFFERD");
+	DEFFERD3DVTX->Add_Layout("POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
+	DEFFERD3DVTX->Add_Layout("TEXCOORD", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32_FLOAT, 0);
+	DEFFERD3DVTX->Add_Layout("COLOR", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
+	DEFFERD3DVTX->Add_Layout("NORMAL", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
+	DEFFERD3DVTX->Add_Layout("TANGENT", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
+	DEFFERD3DVTX->Add_LayoutFin("BINORMAL", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
+	KPtr<Pixel_Shader> DEFFERD3DPIX = ResourceManager<Pixel_Shader>::Load_FromKey
+	(L"DEFFERD3DPIX", L"Shader", L"Defferd.fx", "PS_DEFFERD");
 
+	KPtr<Material> DEFFERD3DMAT = ResourceManager<Material>::Create(L"DEFFERD3DMAT");
+	DEFFERD3DMAT->Set_VShader(L"DEFFERD3DVTX");
+	DEFFERD3DMAT->Set_PShader(L"DEFFERD3DPIX");
+	DEFFERD3DMAT->Set_Blend(L"AlphaBlend");
+
+}
 
 /********************* Material ********************/
 void KDevice::Init_NoneMat()

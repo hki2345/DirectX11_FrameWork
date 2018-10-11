@@ -37,6 +37,7 @@ public:
 
 public:
 	void SetOM();
+	void Clear();
 	void Create_Depth(const KUINT& _W, const KUINT& _H);
 
 

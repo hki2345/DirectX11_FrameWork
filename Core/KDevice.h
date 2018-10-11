@@ -131,6 +131,7 @@ private:
 	void Init_SphereMesh();
 
 	// Material
+	void Init_Defferd();
 	void Init_NoneMat();
 	void Init_ImageMat();
 	void Init_ColorMat();

@@ -9,6 +9,10 @@
 
 class RenderOption
 {
+public:
+	Renderer();
+	~Renderer();
+
 private:
 	friend class Renderer;
 
@@ -64,7 +68,8 @@ public:
 protected:
 	virtual void Update_Trans(KPtr<Camera> _Cam);
 	virtual void Update_CB();
-	virtual void Update_MeshMat();
+	virtual void Update_Mesh();
+	virtual void Update_Material();
 
 public:
 	virtual bool Init(int _Order = 0);
@@ -75,8 +80,5 @@ public:
 		m_Bill = _Value;
 	}
 
-public:
-	Renderer();
-	~Renderer();
 };
 

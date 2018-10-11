@@ -34,6 +34,20 @@ void RenderTarget_Multi::SetOM()
 	}
 }
 
+void RenderTarget_Multi::Clear()
+{
+	for (size_t i = 0; i < m_RTVec.size(); i++)
+	{
+		m_RTVec[i]->Clear();
+	}
+
+	if (nullptr != m_DepthTex)
+	{
+		Core_Class::device_context()->ClearDepthStencilView(m_DepthTex->DepthStencilView(),
+			D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1, 0);
+	}
+}
+
 
 // 이 Desc는 렌더 타겟마다 달라질 수 있다.
 void RenderTarget_Multi::Create_Depth(const KUINT& _W, const KUINT& _H)

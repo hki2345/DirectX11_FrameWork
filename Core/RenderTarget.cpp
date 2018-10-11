@@ -1,8 +1,8 @@
 #include "RenderTarget.h"
 #include "KMacro.h"
+#include "Core_Class.h"
 
-
-RenderTarget::RenderTarget()
+RenderTarget::RenderTarget() :m_Color(KColor::Black)
 {
 }
 
@@ -35,4 +35,15 @@ bool RenderTarget::Create(ID3D11Texture2D* _pTex2D, const unsigned int& _BindFla
 	}
 
 	return true;
+}
+
+void RenderTarget::Clear()
+{
+	if (nullptr == m_Texture|| nullptr == m_Texture->Render_TargetView())
+	{
+		KASSERT(true);
+	}
+
+	// Color s -> 포인터 형으로 넘김 -> 컬러를 ㅇㅇ
+	Core_Class::device_context()->ClearRenderTargetView(m_Texture->Render_TargetView(), m_Color.s);
 }

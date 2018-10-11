@@ -69,6 +69,21 @@ public:
 		return ReturnList;
 	}
 
+	static std::vector<KPtr<KS>> All_SingleResVec()
+	{
+		std::vector<KPtr<KS>> ReturnVec;
+
+		std::unordered_map<std::wstring, KPtr<KS>>::iterator StartMapIter = m_map_Resource.begin();
+		std::unordered_map<std::wstring, KPtr<KS>>::iterator EndMapIter = m_map_Resource.end();
+
+		for (; StartMapIter != EndMapIter; ++StartMapIter)
+		{
+			ReturnVec.push_back(StartMapIter->second);
+		}
+
+		return ReturnVec;
+	}
+
 	static size_t All_Res_Count()
 	{
 		return m_map_Resource.size();

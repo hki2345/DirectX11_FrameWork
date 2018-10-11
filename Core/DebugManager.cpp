@@ -9,7 +9,7 @@
 
 #include "TransPosition.h"
 #include "Renderer_Sprite.h"
-
+#include "RenderTarget_Multi.h"
 
 bool DebugManager::m_Debug = true;
 KColor DebugManager::m_LogColor = KColor::White;
@@ -165,6 +165,87 @@ void DebugManager::WLog(const wchar_t* const _Str, ...)
 	m_LogList.push_back( TempString.c_str());
 
 	va_end(Ap);
+}
+
+void DebugManager::Targetting()
+{
+	KPtr<Sampler> Smp = ResourceManager<Sampler>::Find(L"DefaultSam");
+
+	if (nullptr == Smp)
+	{
+		KASSERT(true);
+	}
+	std::vector<KPtr<RenderTarget_Multi>> Vec = ResourceManager<RenderTarget_Multi>::All_SingleResVec();
+
+	KPtr<Mesh> TMesh = ResourceManager<Mesh>::Find(L"RECT3DMESH");
+	KPtr<Material> Mat = ResourceManager<Material>::Find(L"TAGETDEBUGMAT");
+
+
+	// 간이 카메라
+	KMatrix m_View;
+	KMatrix m_Proj;
+	m_View.ViewAt_LH(KVector::Zero, KVector::Forword, KVector::Up);
+	m_Proj.Proj_Orthographic(Core_Class::Main_Window().widthf(), Core_Class::Main_Window().heigthf(), 0.1f, 1000.0f);
+
+	DATA_3D tMatData;
+
+	int CountX = 0;
+	int CountY = 0;
+	int WCount = 5;
+
+	float SizeX = Core_Class::Main_Window().widthf() / WCount;
+	float SizeY = Core_Class::Main_Window().heigthf() / WCount;
+
+	for (size_t i = 0; i < Vec.size(); i++)
+	{
+		std::vector<KPtr<RenderTarget>> TagetVec = Vec[i]->RenderTargetList();
+
+		for (size_t j = 0; j < TagetVec.size(); j++)
+		{
+			KMatrix m_Scale;
+			KMatrix m_Pos;
+
+			m_Scale.Identity();
+			m_Scale.Scale(KVector(SizeX, SizeY, 1.0F));
+			m_Pos.Identity();
+			m_Pos.Translation(
+				KVector((-Core_Class::Main_Window().widthf() * 0.5F) + (CountX * SizeX) + (SizeX * 0.5F)
+					, (Core_Class::Main_Window().heigthf() * 0.5F) + (-CountY * SizeY) - (SizeY * 0.5F)
+					, 1.1f));
+
+			KMatrix m_W = m_Scale * m_Pos;
+
+			tMatData.m_V = m_View;
+			tMatData.m_P = m_Proj;
+			tMatData.m_W = m_W;
+			tMatData.m_WV = m_W * m_View;
+			tMatData.m_WVP = tMatData.m_WV * m_Proj;
+			tMatData.Transpose_Ref();
+
+			Smp->Update(0);
+			if (nullptr == TagetVec[j]->texture()->Shader_RescourceView())
+			{
+				KASSERT(true);
+			}
+			TagetVec[j]->texture()->Update(0);
+
+			Core_Class::MainDevice().Set_DeviceCB<DATA_3D>(L"MATDATA", tMatData, SHADER_TYPE::ST_VS);
+
+			Mat->Update();
+			TMesh->Update();
+			TMesh->Render();
+
+			TagetVec[j]->texture()->Reset(0);
+
+			++CountX;
+
+			if (0 != CountX && 0 == (CountX % 5))
+			{
+				++CountY;
+				CountX = 0;
+			}
+		}
+	}
 }
 
 void DebugManager::Logging()

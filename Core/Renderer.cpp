@@ -127,11 +127,23 @@ void Renderer::Update_CB()
 	Core_Class::MainDevice().Set_DeviceCB<RenderOption>(L"RENDEROP", m_ROption, SHADER_TYPE::ST_VS);
 	Core_Class::MainDevice().Set_DeviceCB<RenderOption>(L"RENDEROP", m_ROption, SHADER_TYPE::ST_PS);
 }
-void Renderer::Update_MeshMat()
+
+// 라이트는 메터리얼을 쓰지 않으므로 메쉬와 분리 - 물론 여기서 분리되어야 하는
+// 라이트는 디퍼드를 의미
+void Renderer::Update_Mesh()
 {
-	m_Material->Update();
-	m_Mesh->Update();
-	m_Mesh->Render();
+	if (nullptr != m_Mesh)
+	{
+		m_Mesh->Update();
+		m_Mesh->Render();
+	}
+}
+void Renderer::Update_Material()
+{
+	if (nullptr != m_Material)
+	{
+		m_Material->Update();
+	}
 }
 
 KPtr<Material> Renderer::material()
