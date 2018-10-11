@@ -40,5 +40,11 @@
     <FxCompile Include="..\bin\Shader\MeshShader.fx">
       <Filter>Shader</Filter>
     </FxCompile>
+    <FxCompile Include="..\bin\Shader\PixelContainer.fx">
+      <Filter>Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="..\bin\Shader\Defferd.fx">
+      <Filter>Shader</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

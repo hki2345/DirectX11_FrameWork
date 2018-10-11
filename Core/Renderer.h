@@ -10,8 +10,10 @@
 class RenderOption
 {
 public:
-	Renderer();
-	~Renderer();
+	RenderOption() : CheckLight(1), TexCnt(0),
+		VzPo(1), Deffert_orFoward(1) 
+	{}
+	// ~RenderOption();
 
 private:
 	friend class Renderer;
@@ -25,14 +27,15 @@ public:
 private:
 	Texture_Data Texes[8];
 
-public:
-	RenderOption() : CheckLight(1), TexCnt(0),
-		VzPo(1), Deffert_orFoward(1) {}
 };
 
 class Camera;
 class Renderer : public Independent_Trans
 {
+public:
+	Renderer();
+	~Renderer();
+
 protected:
 	friend class RenderManager;
 

@@ -114,6 +114,7 @@ void RenderManager::Render()
 	{
 		Core_Class::MainDevice().SetOM_Deg();
 		Core_Class::main_state()->DebugRender();
+		DebugManager::Targetting();
 		DebugManager::Logging();
 	}
 
@@ -221,8 +222,8 @@ void RenderManager::Render_Defferd(std::map<int, std::list<KPtr<Renderer>>>::ite
 	DEFFERDTARGET->Clear();
 	DEFFERDTARGET->SetOM();
 
-	KPtr<Material> DEFFERDMAT = ResourceManager<Material>::Find(L"DEFFERD");
-	KASSERT(DEFFERDMAT);
+	KPtr<Material> DEFFERDMAT = ResourceManager<Material>::Find(L"DEFFERD3DMAT");
+	KASSERT(nullptr == DEFFERDMAT);
 	
 
 	m_Renderer_StartIter = m_Renderer_FindIter->second.begin();

@@ -177,7 +177,7 @@ void DebugManager::Targetting()
 	}
 	std::vector<KPtr<RenderTarget_Multi>> Vec = ResourceManager<RenderTarget_Multi>::All_SingleResVec();
 
-	KPtr<Mesh> TMesh = ResourceManager<Mesh>::Find(L"RECT3DMESH");
+	KPtr<Mesh> TMesh = ResourceManager<Mesh>::Find(L"RECT3D_MESH");
 	KPtr<Material> Mat = ResourceManager<Material>::Find(L"TAGETDEBUGMAT");
 
 
@@ -229,7 +229,7 @@ void DebugManager::Targetting()
 			}
 			TagetVec[j]->texture()->Update(0);
 
-			Core_Class::MainDevice().Set_DeviceCB<DATA_3D>(L"MATDATA", tMatData, SHADER_TYPE::ST_VS);
+			Core_Class::MainDevice().Set_DeviceCB<DATA_3D>(L"DATA3D", tMatData, SHADER_TYPE::ST_VS);
 
 			Mat->Update();
 			TMesh->Update();

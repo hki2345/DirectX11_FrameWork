@@ -29,7 +29,9 @@ bool Pixel_Shader::Load(const char* _Func, UINT _VH, UINT _VL)
 	if (S_OK != D3DCompileFromFile(path(), nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE,
 		_Func, tBuffer, iFlag, 0, &m_Blob, &m_Blob_Error))
 	{
-		return false;
+		std::string ErrorText = (char*)m_Blob_Error->GetBufferPointer();
+		KASSERT(true);
+
 	}
 
 
