@@ -60,6 +60,8 @@ private:
 	std::set<int> m_LayerSet;
 	LightData m_LD;
 
+
+public:
 	// 빛이 계산된 메쉬
 	KPtr<Mesh> m_LMesh;
 	KPtr<Material> m_LMat;
@@ -123,6 +125,7 @@ public:
 
 public:
 	void Insert_Layer() {}
+	void type(const LightType& _Type);
 
 private:
 	void Render();

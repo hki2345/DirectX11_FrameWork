@@ -1,4 +1,4 @@
-#include "Matrix.fx"
+#include "MatrixContainer.fx"
 
 
 // 버텍스 쉐이더에서 리턴할 구조체를 만든다.

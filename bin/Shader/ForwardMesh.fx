@@ -1,8 +1,9 @@
-#include "Matrix.fx"
+#include "MatrixContainer.fx"
 #include "LightContainer.fx"
-#include "Texture.fx"
+#include "PixelContainer.fx"
+#include "TextureContainer.fx"
 
-struct MESH_VT_IN
+struct FORMESH_VT_IN
 {
     float4 vPos : POSITION;
     float2 vUv : TEXCOORD;
@@ -12,7 +13,7 @@ struct MESH_VT_IN
     float4 vBTangent : BTAN;
 };
 
-struct MESH_VT_OUT
+struct FORMESH_VT_OUT
 {
     float4 vPos : SV_POSITION;
     float2 vUv : TEXCOORD;
@@ -23,15 +24,10 @@ struct MESH_VT_OUT
     float4 vBTangent : BTAN;
 };
 
-struct MESH_PX_OUT
-{
-    float4 vColor : SV_Target;
-};
 
-
-MESH_VT_OUT Mesh_VT(MESH_VT_IN _in)
+FORMESH_VT_OUT ForMesh_VT(FORMESH_VT_IN _in)
 {
-    MESH_VT_OUT outData = (MESH_VT_OUT) 0.f;
+    FORMESH_VT_OUT outData = (FORMESH_VT_OUT) 0.f;
 
     outData.vPos = mul(_in.vPos, g_WVP);
     outData.vUv = _in.vUv;
@@ -84,11 +80,11 @@ MESH_VT_OUT Mesh_VT(MESH_VT_IN _in)
     return outData;
 }
 
-MESH_PX_OUT Mesh_PX(MESH_VT_OUT _in)
+FORMESH_PX_OUT ForMesh_PX(FORMESH_VT_OUT _in)
 {
-    MESH_PX_OUT outData = (MESH_PX_OUT) 0.0f;
+    FORMESH_PX_OUT outData = (FORMESH_PX_OUT) 0.0f;
 
-    outData.vColor = _in.vColor;
+    outData.vDiffuse = _in.vColor;
     float4 CalCor = float4(1.0f, 1.0f, 1.0f, 1.0f);
 
     for (int i = 0; i < TexCnt; ++i)
@@ -143,8 +139,8 @@ MESH_PX_OUT Mesh_PX(MESH_VT_OUT _in)
 
     LColor /= (float) LightCount;
 
-    outData.vColor.rgb = CalCor.rgb * LColor.rgb;
-    outData.vColor.a = _in.vColor.a;
+    outData.vDiffuse.rgb = CalCor.rgb * LColor.rgb;
+    outData.vDiffuse.a = _in.vColor.a;
 
     return outData;
 }

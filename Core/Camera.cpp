@@ -5,10 +5,16 @@
 #include "Core_Class.h"
 #include "KMacro.h"
 
+#include "ResourceManager.h"
+#include "Mesh.h"
+#include "Material.h"
+
 
 Camera::Camera() :m_eSMode(SM_WINDOW), m_ePMode(PM_ORTHGRAPHICS),
 m_fFov(DirectX::XM_1DIV2PI), m_fNear(1.0f), m_fFar(1000.0f)
 {
+	m_Mesh = ResourceManager<Mesh>::Find(L"RECT3D_MESH");
+	m_Material = ResourceManager<Material>::Find(L"RECT3D_MESH");
 }
 
 
@@ -33,6 +39,10 @@ bool Camera::Init()
 	{
 		state()->m_Camera = this;
 	}
+
+	m_Target = new RenderTarget_Multi();
+	m_Target->Create_Target(Core_Class::Main_Window().widthu(), Core_Class::Main_Window().heigthu(),
+		D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE, DXGI_FORMAT_R32G32B32A32_FLOAT);
 
 	return true;
 }
@@ -114,4 +124,20 @@ void Camera::FinalUpdate()
 
 void Camera::End_Update()
 {
+}
+
+
+// Merge
+void Camera::Render()
+{
+	if (nullptr == m_Mesh || nullptr == m_Material)
+	{
+		KASSERT(true);
+	}
+
+	m_Material->Update();
+	m_Material->Update_Tex();
+	m_Mesh->Update();
+	m_Mesh->Render();
+	m_Material->Reset();
 }

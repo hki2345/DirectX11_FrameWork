@@ -13,9 +13,10 @@ class RenderManager
 {
 public:
 	friend TheOne;
-	friend Camera;
 	friend KLight;
 	friend Renderer;
+	friend class Camera;
+	friend class DebugManager;
 
 private:
 	// Camera

@@ -54,7 +54,7 @@ bool KDevice::DefaultRenderTarget()
 	ResourceManager<RenderTarget>::Create(L"LIGHT_SPEC", Core_Class::Main_Window().widthu(), Core_Class::Main_Window().heigthu(),
 		D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE, DXGI_FORMAT_R32G32B32A32_FLOAT);
 
-	KPtr<RenderTarget_Multi> DefLT = ResourceManager<RenderTarget_Multi>::Create(L"LIGHt", L"LIGHT_DIFFUSE", L"LIGHT_SPEC");
+	KPtr<RenderTarget_Multi> DefLT = ResourceManager<RenderTarget_Multi>::Create(L"LIGHT", L"LIGHT_DIFFUSE", L"LIGHT_SPEC");
 	DefLT->Create_Depth(Core_Class::Main_Window().widthu(), Core_Class::Main_Window().heigthu());
 
 
@@ -65,8 +65,11 @@ bool KDevice::Init_DefaultData_3D()
 {
 	ResourceManager<Blend>::Create(L"AlphaBlend3D");
 	ResourceManager<Sampler>::Create(L"DefaultSam");
+
+
 	Core_Class::MainDevice().Create_DeviceCB<DATA_3D>(L"DATA3D", D3D11_USAGE_DYNAMIC, 1);
 	Core_Class::MainDevice().Create_DeviceCB<KLight::LightCB>(L"LIGHT_DATA", D3D11_USAGE_DYNAMIC, 10);
+	Core_Class::MainDevice().Create_DeviceCB<KLight::LightData>(L"DEFLIGHT_DATA", D3D11_USAGE_DYNAMIC, 10);
 	Core_Class::MainDevice().Create_DeviceCB<RenderOption>(L"RENDEROP", D3D11_USAGE_DYNAMIC, 11);
 
 
@@ -327,10 +330,11 @@ void KDevice::Init_SphereMesh()
 }
 
 
+/********************* Material ********************/
 void KDevice::Init_Defferd()
 {
 	KPtr<Vertex_Shader> DEFFERD3DVTX = ResourceManager<Vertex_Shader>::Load_FromKey
-	(L"DEFFERD3DVTX", L"Shader", L"Defferd.fx", "VS_DEFFERD");
+	(L"DEFFERD3DVTX", L"Shader", L"DefferdMesh.fx", "DefMesh_VT");
 	DEFFERD3DVTX->Add_Layout("POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
 	DEFFERD3DVTX->Add_Layout("TEXCOORD", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32_FLOAT, 0);
 	DEFFERD3DVTX->Add_Layout("COLOR", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
@@ -339,7 +343,7 @@ void KDevice::Init_Defferd()
 	DEFFERD3DVTX->Add_LayoutFin("BTAN", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
 
 	KPtr<Pixel_Shader> DEFFERD3DPIX = ResourceManager<Pixel_Shader>::Load_FromKey
-	(L"DEFFERD3DPIX", L"Shader", L"Defferd.fx", "PS_DEFFERD");
+	(L"DEFFERD3DPIX", L"Shader", L"DefferdMesh.fx", "DefMesh_PX");
 
 	KPtr<Material> DEFFERD3DMAT = ResourceManager<Material>::Create(L"DEFFERD3DMAT");
 	DEFFERD3DMAT->Set_VShader(L"DEFFERD3DVTX");
@@ -348,7 +352,9 @@ void KDevice::Init_Defferd()
 
 }
 
-/********************* Material ********************/
+
+
+
 void KDevice::Init_NoneMat()
 {
 	KPtr<Vertex_Shader> NewVert =
@@ -367,14 +373,14 @@ void KDevice::Init_NoneMat()
 
 
 
-	KPtr<Vertex_Shader> TAGETDEBUGVTX = ResourceManager<Vertex_Shader>::Load_FromKey(L"TAGETDEBUGVTX", L"Shader", L"TagetDebug.fx", "VS_TagetTex");
+	KPtr<Vertex_Shader> TAGETDEBUGVTX = ResourceManager<Vertex_Shader>::Load_FromKey(L"DEBUGRECTVTX", L"Shader", L"DebugRectShader.fx", "VS_DebugRect");
 	TAGETDEBUGVTX->Add_Layout("POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
 	TAGETDEBUGVTX->Add_LayoutFin("TEXCOORD", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32_FLOAT, 0);
-	KPtr<Pixel_Shader> TAGETDEBUGPIX = ResourceManager<Pixel_Shader>::Load_FromKey(L"TAGETDEBUGPIX", L"Shader", L"TagetDebug.fx", "PS_TagetTex");
+	KPtr<Pixel_Shader> TAGETDEBUGPIX = ResourceManager<Pixel_Shader>::Load_FromKey(L"DEBUGRECTPIX", L"Shader", L"DebugRectShader.fx", "PS_DebugRect");
 
-	KPtr<Material> TAGETDEBUGMAT = ResourceManager<Material>::Create(L"TAGETDEBUGMAT");
-	TAGETDEBUGMAT->Set_VShader(L"TAGETDEBUGVTX");
-	TAGETDEBUGMAT->Set_PShader(L"TAGETDEBUGPIX");
+	KPtr<Material> TAGETDEBUGMAT = ResourceManager<Material>::Create(L"DEBUGRECTMAT");
+	TAGETDEBUGMAT->Set_VShader(L"DEBUGRECTVTX");
+	TAGETDEBUGMAT->Set_PShader(L"DEBUGRECTPIX");
 	TAGETDEBUGMAT->Set_Blend(L"AlphaBlend3D");
 }
 
@@ -444,7 +450,7 @@ void KDevice::Init_ImageMat()
 void KDevice::Init_MeshMat()
 {
 	KPtr<Vertex_Shader> NewVert =
-		ResourceManager<Vertex_Shader>::Load_FromKey(L"MESH_VERT", L"Shader", L"MeshShader.fx", "Mesh_VT");
+		ResourceManager<Vertex_Shader>::Load_FromKey(L"MESH_VERT", L"Shader", L"ForwardMesh.fx", "ForMesh_VT");
 
 	NewVert->Add_Layout("POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
 	NewVert->Add_Layout("TEXCOORD", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32_FLOAT, 0);
@@ -454,7 +460,7 @@ void KDevice::Init_MeshMat()
 	NewVert->Add_LayoutFin("BTAN", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
 
 	KPtr<Pixel_Shader> NewPix =
-		ResourceManager<Pixel_Shader>::Load_FromKey(L"MESH_PIX", L"Shader", L"MeshShader.fx", "Mesh_PX");
+		ResourceManager<Pixel_Shader>::Load_FromKey(L"MESH_PIX", L"Shader", L"ForwardMesh.fx", "ForMesh_PX");
 
 	KPtr<Material> NewMat = ResourceManager<Material>::Create(L"MESH_MAT");
 	NewMat->Set_VShader(L"MESH_VERT");

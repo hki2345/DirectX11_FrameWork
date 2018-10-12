@@ -1,4 +1,4 @@
-#include "Matrix.fx"
+#include "MatrixContainer.fx"
 
 // 버텍스 버퍼에 대한 정보를 정의하는 
 // POSITION을 시맨틱이라고 하는데.

@@ -91,9 +91,13 @@ void RenderManager::Render()
 	m_Camera_StartIter = m_CameraMap.begin();
 	m_Camera_EndIter = m_CameraMap.end();
 
+	
+
 	// 카메라 별
 	for (; m_Camera_StartIter != m_Camera_EndIter; ++m_Camera_StartIter)
 	{
+		KPtr<Camera> CurCam = (*m_Camera_StartIter);
+
 		// 레이어 별
 		for (size_t i = 0; i < (*m_Camera_StartIter)->m_Layer.size(); ++i)
 		{
@@ -106,6 +110,13 @@ void RenderManager::Render()
 			}
 
 			Render_Defferd(m_Renderer_FindIter, i);
+			Render_LightDef((int)i, m_Camera_StartIter);
+
+			// 라이트 연산 후 -> 카메라에 모두 찍어냄
+			CurCam->m_Target->Clear();
+			CurCam->m_Target->SetOM();
+			CurCam->Render();
+
 			Render_Forward(m_Renderer_FindIter, i);
 		}		
 	}
@@ -229,6 +240,7 @@ void RenderManager::Render_Defferd(std::map<int, std::list<KPtr<Renderer>>>::ite
 	m_Renderer_StartIter = m_Renderer_FindIter->second.begin();
 	m_Renderer_EndIter = m_Renderer_FindIter->second.end();
 	Light_Check((*m_Camera_StartIter)->m_Layer[_Index], m_Camera_StartIter);
+
 	for (; m_Renderer_StartIter != m_Renderer_EndIter; m_Renderer_StartIter++)
 	{
 		if (1 == (*m_Renderer_StartIter)->m_ROption.Deffert_orFoward)
@@ -246,8 +258,8 @@ void RenderManager::Render_Defferd(std::map<int, std::list<KPtr<Renderer>>>::ite
 void RenderManager::Render_Forward(std::map<int, std::list<KPtr<Renderer>>>::iterator _Iter, size_t _Index)
 {
 	// 포워드는 그냥 메인에 그린다. 
-	Core_Class::MainDevice().Clear_Target();
-	Core_Class::MainDevice().SetOM();
+	// Core_Class::MainDevice().Clear_Target();
+	// Core_Class::MainDevice().SetOM();
 
 	m_Renderer_StartIter = m_Renderer_FindIter->second.begin();
 	m_Renderer_EndIter = m_Renderer_FindIter->second.end();
@@ -268,7 +280,7 @@ void RenderManager::Render_Forward(std::map<int, std::list<KPtr<Renderer>>>::ite
 
 void RenderManager::Render_LightDef(const int& _Layer, const std::set<KPtr<Camera>>::iterator& _Iter)
 {
-	KPtr<RenderTarget_Multi> LIGHTTARGET = ResourceManager<RenderTarget>::Find(L"LIGHT");
+	KPtr<RenderTarget_Multi> LIGHTTARGET = ResourceManager<RenderTarget_Multi>::Find(L"LIGHT");
 	LIGHTTARGET->Clear();
 	LIGHTTARGET->SetOM();
 

@@ -4,6 +4,8 @@
 
 #include "Sampler.h"
 #include "Texture.h"
+#include "RenderTarget.h"
+
 
 Material::Material(): m_Vertex_Shader(nullptr), m_Pixel_Shader(nullptr), Check_Original(false)
 {
@@ -83,7 +85,7 @@ bool Material::Create()
 
 
 
-void Material::texture(const UINT& _Slot, const wchar_t* _Name)
+void Material::texture(const KUINT& _Slot, const wchar_t* _Name)
 {
 	KPtr<Texture> Find = ResourceManager<Texture>::Find(_Name);
 	KASSERT(nullptr == Find);
@@ -99,6 +101,24 @@ void Material::texture(const UINT& _Slot, const wchar_t* _Name)
 		FI->second = Find;
 	}
 }
+
+void Material::texture_target(const KUINT& _Slot, const wchar_t* _Name)
+{
+	KPtr<RenderTarget> Find = ResourceManager<RenderTarget>::Find(_Name);
+	KASSERT(nullptr == Find);
+
+	std::unordered_map<UINT, KPtr<Texture>>::iterator FI = m_TexMap.find(_Slot);
+
+	if (FI == m_TexMap.end())
+	{
+		m_TexMap.insert(std::unordered_map<UINT, KPtr<Texture>>::value_type(_Slot, Find->texture()));
+	}
+	else
+	{
+		FI->second = Find;
+	}
+}
+
 void Material::sampler(const UINT& _Slot, const wchar_t* _Name)
 {
 	KPtr<Sampler> Find = ResourceManager<Sampler>::Find(_Name);
@@ -125,6 +145,16 @@ void Material::insert_TD(const Texture_Type& _Type, UINT _TexSlot, const wchar_t
 	NewData.TInx = _TexSlot;
 	NewData.TSmp = _SmSlot;
 	m_TD_Vec.push_back(NewData);
+
+	if (Texture_Type::TEX_TARGET == _Type)
+	{
+		texture_target(_TexSlot, _TexName);
+	}
+	else
+	{
+		texture(_TexSlot, _TexName);
+	}
+
 	texture(_TexSlot, _TexName);
 	sampler(_SmSlot, _SmName);
 }
@@ -159,5 +189,16 @@ void Material::Update_Sam()
 	for (; m_SSI != m_SEI; ++m_SSI)
 	{
 		m_SSI->second->Update(m_SSI->first);
+	}
+}
+
+void Material::Reset()
+{
+	m_TSI = m_TexMap.begin();
+	m_TEI = m_TexMap.end();
+
+	for (; m_TSI != m_TEI; ++m_TSI)
+	{
+		m_TSI->second->Reset(m_TSI->first);
 	}
 }

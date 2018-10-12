@@ -177,14 +177,17 @@ void DebugManager::Targetting()
 	}
 	std::vector<KPtr<RenderTarget_Multi>> Vec = ResourceManager<RenderTarget_Multi>::All_SingleResVec();
 
+
+	// 렉트 맷은 노말값까지 가짐
+	// 그냥 디버그 렉트는 순수 값들임 - 아마 Rect맷으로 될 가능성 농후
 	KPtr<Mesh> TMesh = ResourceManager<Mesh>::Find(L"RECT3D_MESH");
-	KPtr<Material> Mat = ResourceManager<Material>::Find(L"TAGETDEBUGMAT");
+	KPtr<Material> Mat = ResourceManager<Material>::Find(L"DEBUGRECTMAT");
 
 
 	// 간이 카메라
 	KMatrix m_View;
 	KMatrix m_Proj;
-	m_View.ViewAt_LH(KVector::Zero, KVector::Forword, KVector::Up);
+	m_View.ViewTo_LH(KVector::Zero, KVector::Forword, KVector::Up);
 	m_Proj.Proj_Orthographic(Core_Class::Main_Window().widthf(), Core_Class::Main_Window().heigthf(), 0.1f, 1000.0f);
 
 	DATA_3D tMatData;

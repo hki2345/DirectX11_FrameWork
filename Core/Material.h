@@ -8,6 +8,7 @@ enum Texture_Type
 {
 	TEX_COLOR,
 	TEX_BUMP,
+	TEX_TARGET,
 };
 
 class Texture_Data
@@ -37,6 +38,8 @@ public:
 
 private:
 	friend class Renderer;
+	friend class KLight;
+	friend class Camera;
 
 public:
 	bool Check_Original;
@@ -84,13 +87,17 @@ private:
 	std::unordered_map<unsigned int, KPtr<Sampler>> m_SamMap;
 
 public:
-	void texture(const UINT& _Slot, const wchar_t* _Name);
+	void texture(const KUINT& _Slot, const wchar_t* _Name);
+	void texture_target(const KUINT& _Slot, const wchar_t* _Name);
 	void sampler(const UINT& _Slot, const wchar_t* _Name);
 	UINT texture_data(Texture_Data* _Data);
 
 private:
 	void Update_Tex();
 	void Update_Sam();
+
+	// 타겟으로 하면 리셋이 필요
+	void Reset();
 
 };
 

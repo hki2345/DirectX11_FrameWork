@@ -39,7 +39,8 @@ public:
 	void SetOM();
 	void Clear();
 	void Create_Depth(const KUINT& _W, const KUINT& _H);
-
+	void Create_Target(const KUINT& _W, const KUINT& _H, const KUINT& _BindFlag,
+		DXGI_FORMAT _eFormat, D3D11_USAGE _eUsage = D3D11_USAGE_DEFAULT);
 
 public:
 	template<typename... Rest>

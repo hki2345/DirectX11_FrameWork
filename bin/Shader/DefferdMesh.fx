@@ -1,12 +1,12 @@
 // 상수버퍼는 b
 // 텍스처는 t
 // 샘플러는 s
-#include "Matrix.fx"
+#include "MatrixContainer.fx"
 #include "PixelContainer.fx"
 #include "LightContainer.fx"
-#include "Texture.fx"
+#include "TextureContainer.fx"
 
-struct VTX3DMESH_INPUT
+struct DEFMESH_VT_IN
 {
     float4 vPos : POSITION;
     float2 vUv : TEXCOORD;
@@ -19,7 +19,7 @@ struct VTX3DMESH_INPUT
 // 버텍스 쉐이더에서 리턴할 구조체를 만든다.
 // SV_가 붙게되면 cosnt를 붙여서 그래픽 적으로 이데이터에 대해서 더이상의
 // 변형을 불가능하게 한다.
-struct VTX3DMESH_OUTPUT
+struct DEFMESH_VT_OUT
 {
     float4 vPos : SV_POSITION;
     float2 vUv : TEXCOORD;
@@ -31,9 +31,9 @@ struct VTX3DMESH_OUTPUT
 };
 
 
-VTX3DMESH_OUTPUT VS_DEFFERD(VTX3DMESH_INPUT _in)
+DEFMESH_VT_OUT DefMesh_VT(DEFMESH_VT_IN _in)
 {
-    VTX3DMESH_OUTPUT outData = (VTX3DMESH_OUTPUT) 0.f;
+    DEFMESH_VT_OUT outData = (DEFMESH_VT_OUT) 0.f;
 
     outData.vPos = mul(_in.vPos, g_WVP);
     outData.vUv = _in.vUv;
@@ -51,9 +51,9 @@ VTX3DMESH_OUTPUT VS_DEFFERD(VTX3DMESH_INPUT _in)
     return outData;
 }
 
-PS_DEFFERDOUTPUT PS_DEFFERD(VTX3DMESH_OUTPUT _in)
+DEFMESH_PX_OUT DefMesh_PX(DEFMESH_VT_OUT _in)
 {
-    PS_DEFFERDOUTPUT outData = (PS_DEFFERDOUTPUT) 0.0f;
+    DEFMESH_PX_OUT outData = (DEFMESH_PX_OUT) 0.0f;
     outData.vDiffuse = _in.vColor;
     float4 CalColor = float4(1.0f, 1.0f, 1.0f, 1.0f);
     
