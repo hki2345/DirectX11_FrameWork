@@ -44,7 +44,7 @@ bool KDevice::DefaultRenderTarget()
 	// KPtr<RenderTarget_Multi> BackRT = ResourceManager<RenderTarget_Multi>::Create(L"FORWARD", L"BACKBUFFER", L"FORWARD");
 	// BackRT->Create_Depth(Core_Class::Main_Window().widthu(), Core_Class::Main_Window().heigthu());
 	KPtr<RenderTarget_Multi> DefRT = ResourceManager<RenderTarget_Multi>::Create(L"DEFFERD", L"DIFFUSE", L"POSITION", L"NORMAL", L"DEPTH");
-	DefRT->Create_Depth(Core_Class::Main_Window().widthu(), Core_Class::Main_Window().heigthu());
+	// DefRT->Create_Depth(Core_Class::Main_Window().widthu(), Core_Class::Main_Window().heigthu());
 
 	
 	
@@ -55,7 +55,7 @@ bool KDevice::DefaultRenderTarget()
 		D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE, DXGI_FORMAT_R32G32B32A32_FLOAT);
 
 	KPtr<RenderTarget_Multi> DefLT = ResourceManager<RenderTarget_Multi>::Create(L"LIGHT", L"LIGHT_DIFFUSE", L"LIGHT_SPEC");
-	DefLT->Create_Depth(Core_Class::Main_Window().widthu(), Core_Class::Main_Window().heigthu());
+	// DefLT->Create_Depth(Core_Class::Main_Window().widthu(), Core_Class::Main_Window().heigthu());
 
 
 	return true;
@@ -350,6 +350,44 @@ void KDevice::Init_Defferd()
 	DEFFERD3DMAT->Set_PShader(L"DEFFERD3DPIX");
 	DEFFERD3DMAT->Set_Blend(L"AlphaBlend3D");
 
+
+	
+
+
+	KPtr<Vertex_Shader> DEFFERDDIR_LIGHTVTX = ResourceManager<Vertex_Shader>::Load_FromKey
+	(L"DEFFERDDIR_LIGHTVTX", L"Shader", L"DefferdMesh.fx", "VS_DEFFERDDIRLIGHT");
+	DEFFERDDIR_LIGHTVTX->Add_Layout("POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
+	DEFFERDDIR_LIGHTVTX->Add_LayoutFin("TEXCOORD", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32_FLOAT, 0);
+
+	KPtr<Pixel_Shader> DEFFERDDIR_LIGHTPIX = ResourceManager<Pixel_Shader>::Load_FromKey
+	(L"DEFFERDDIR_LIGHTPIX", L"Shader", L"DefferdMesh.fx", "PS_DEFFERDDIRLIGHT");
+
+	KPtr<Material> DEFFERDLIGHTMAT = ResourceManager<Material>::Create(L"DEFFERDLIGHTMAT");
+	DEFFERDLIGHTMAT->Set_VShader(L"DEFFERDDIR_LIGHTVTX");
+	DEFFERDLIGHTMAT->Set_PShader(L"DEFFERDDIR_LIGHTPIX");
+	DEFFERDLIGHTMAT->Set_Blend(L"AlphaBlend3D");
+	DEFFERDLIGHTMAT->insert_TD(Texture_Type::TEX_TARGET, 0, L"POSITION");
+	DEFFERDLIGHTMAT->insert_TD(Texture_Type::TEX_TARGET, 1, L"NORMAL");
+	DEFFERDLIGHTMAT->insert_TD(Texture_Type::TEX_TARGET, 2, L"DEPTH");
+
+
+
+
+	KPtr<Vertex_Shader> DEFFERDMERGEVTX = ResourceManager<Vertex_Shader>::Load_FromKey
+	(L"DEFFERDMERGEVTX", L"Shader", L"DefferdMesh.fx", "VS_DEFFERDMERGE");
+	DEFFERDMERGEVTX->Add_Layout("POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
+	DEFFERDMERGEVTX->Add_LayoutFin("TEXCOORD", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32_FLOAT, 0);
+
+	KPtr<Pixel_Shader> DEFFERDMERGEPIX = ResourceManager<Pixel_Shader>::Load_FromKey
+	(L"DEFFERDMERGEPIX", L"Shader", L"DefferdMesh.fx", "PS_DEFFERDMERGE");
+
+	KPtr<Material> DEFFERDMERGEMAT = ResourceManager<Material>::Create(L"DEFFERDMERGEMAT");
+	DEFFERDMERGEMAT->Set_VShader(L"DEFFERDMERGEVTX");
+	DEFFERDMERGEMAT->Set_PShader(L"DEFFERDMERGEPIX");
+	DEFFERDMERGEMAT->Set_Blend(L"AlphaBlend3D");
+	DEFFERDMERGEMAT->insert_TD(Texture_Type::TEX_TARGET, 0, L"DIFFUSE");
+	DEFFERDMERGEMAT->insert_TD(Texture_Type::TEX_TARGET, 1, L"LIGHT_DIFFUSE");
+	DEFFERDMERGEMAT->insert_TD(Texture_Type::TEX_TARGET, 2, L"LIGHT_SPEC");
 }
 
 
@@ -391,7 +429,7 @@ void KDevice::Init_GridMat()
 		ResourceManager<Vertex_Shader>::Load_FromKey(L"GRID3D_VERT", L"Shader", L"Grid3DShader.fx", "Grid3D_VT");
 
 	NewVert->Add_Layout("POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
-	NewVert->Add_Layout("UV", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32_FLOAT, 0);
+	NewVert->Add_Layout("TEXCOORD", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32_FLOAT, 0);
 	NewVert->Add_Layout("COLOR", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
 	NewVert->Add_LayoutFin("NORMAL", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
 
@@ -414,7 +452,7 @@ void KDevice::Init_ColorMat()
 		ResourceManager<Vertex_Shader>::Load_FromKey(L"COLOR_VERT", L"Shader", L"Rect3DShader.fx", "Rect3D_VT");
 
 	NewVert->Add_Layout("POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
-	NewVert->Add_Layout("UV", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32_FLOAT, 0);
+	NewVert->Add_Layout("TEXCOORD", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32_FLOAT, 0);
 	NewVert->Add_Layout("COLOR", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
 	NewVert->Add_LayoutFin("NORMAL", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
 

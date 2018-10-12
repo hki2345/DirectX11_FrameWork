@@ -116,6 +116,8 @@
     <FxCompile Include="..\bin\Shader\Grid3DShader.fx" />
     <FxCompile Include="..\bin\Shader\ImageShader.fx" />
     <FxCompile Include="..\bin\Shader\LightContainer.fx" />
+    <FxCompile Include="..\bin\Shader\LightDefferd.fx" />
+    <FxCompile Include="..\bin\Shader\LightForward.fx" />
     <FxCompile Include="..\bin\Shader\MatrixContainer.fx" />
     <FxCompile Include="..\bin\Shader\NoneShader.fx" />
     <FxCompile Include="..\bin\Shader\PixelContainer.fx" />

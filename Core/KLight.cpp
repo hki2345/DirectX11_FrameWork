@@ -32,6 +32,7 @@ void KLight::FinalUpdate()
 	m_LD.m_Dir = one()->World_Forward(); 
 	m_LD.m_Pos = one()->World_Pos();
 	m_LD.CamPos = state()->camera()->one()->World_Pos();
+	m_LD.Type = m_eType;
 
 	m_LD.m_Dir.w = .0f;
 	m_LD.m_Pos.w = .0f;
@@ -40,7 +41,7 @@ void KLight::FinalUpdate()
 
 void KLight::Render()
 {
-	Core_Class::MainDevice().Set_DeviceCB<LightData>(L"LIGHT", m_LD, SHADER_TYPE::ST_PS);
+	Core_Class::MainDevice().Set_DeviceCB<LightData>(L"DEFLIGHT_DATA", m_LD, SHADER_TYPE::ST_PS);
 
 	if (nullptr == m_LMat || nullptr ==m_LMesh)
 	{
@@ -60,11 +61,11 @@ void KLight::type(const LightType& _Type)
 	{
 	case KLight::Direction:
 		m_LMesh = ResourceManager<Mesh>::Find(L"RECT3D_MESH");
-		m_LMat = ResourceManager<Material>::Find(L"");
+		m_LMat = ResourceManager<Material>::Find(L"DEFFERDLIGHTMAT");
 		break;
 
 	case KLight::Point:
-		m_LMesh = ResourceManager<Mesh>::Find(L"Sphere");
+		m_LMesh = ResourceManager<Mesh>::Find(L"SPHERE_MESH");
 		break;
 
 	default:

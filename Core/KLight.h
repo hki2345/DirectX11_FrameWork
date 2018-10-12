@@ -59,6 +59,7 @@ private:
 	int m_Order;
 	std::set<int> m_LayerSet;
 	LightData m_LD;
+	LightType m_eType;
 
 
 public:
@@ -67,11 +68,6 @@ public:
 	KPtr<Material> m_LMat;
 
 public:
-	void type(const LightType& _type)
-	{
-		m_LD.Type = (int)_type;
-	}
-
 	void range(const float& _Value)
 	{
 		m_LD.Range = _Value;

@@ -3,7 +3,7 @@
 // 샘플러는 s
 #include "MatrixContainer.fx"
 #include "PixelContainer.fx"
-#include "LightContainer.fx"
+#include "LightDefferd.fx"
 #include "TextureContainer.fx"
 
 struct DEFMESH_VT_IN
@@ -73,7 +73,7 @@ DEFMESH_PX_OUT DefMesh_PX(DEFMESH_VT_OUT _in)
     }
 
     // 포워드 색깔을 아예 사용하지 않는 것은 아니다.
-    outData.vDiffuse.rgb = CalColor;
+    outData.vDiffuse.rgb = CalColor.rgb;
     outData.vDiffuse.a = _in.vColor.a;
     outData.vNoraml = _in.vNormal;
     outData.vNoraml.a = 1.0f;
@@ -82,4 +82,71 @@ DEFMESH_PX_OUT DefMesh_PX(DEFMESH_VT_OUT _in)
 
 	// outData.vColor = _in.vColor;
     return outData;
+}
+
+
+// .5f 로 들어오니까 2배로 만들어야 한다.
+static matrix DirMat =
+{
+    { 2.0f, 0.0f, 0.0f, 0.0f },
+    { 0.0f, 2.0f, 0.0f, 0.0f },
+    { 0.0f, 0.0f, 2.0f, 0.0f },
+    { 0.0f, 0.0f, 0.0f, 1.0f },
+};
+
+DEFFERDLIGHT_VT_OUT VS_DEFFERDDIRLIGHT(DEFFERDLIGHT_VT_IN _Input)
+{
+    DEFFERDLIGHT_VT_OUT OUTDATA = (DEFFERDLIGHT_VT_OUT) 0.0F;
+    OUTDATA.vPos = mul(_Input.vPos, DirMat);
+    OUTDATA.vUv = _Input.vUv;
+    return OUTDATA;
+}
+
+
+DEFFERDLIGHT_PX_OUT PS_DEFFERDDIRLIGHT(DEFFERDLIGHT_VT_OUT _Input)
+{
+    DEFFERDLIGHT_PX_OUT OUTDATA = (DEFFERDLIGHT_PX_OUT) 0.0F;
+
+    float fDepth = g_Tex_2.Sample(g_Sam_0, _Input.vUv).x;
+    if (fDepth <= 0.01f)
+    {
+        clip(-1);
+    }
+
+    float4 vViewPos = g_Tex_0.Sample(g_Sam_0, _Input.vUv);
+    float4 vNormal = g_Tex_1.Sample(g_Sam_0, _Input.vUv);
+
+    LightColor info = Direct_Light(vViewPos, vNormal, LD);
+
+    OUTDATA.vDiffuse.rgb = info.Diff.rgb;
+    OUTDATA.vDiffuse.a = 1.0f;
+    OUTDATA.vSpeculer.rgb = info.Spec.rgb;
+    OUTDATA.vSpeculer.a = 1.0f;
+
+    return OUTDATA;
+}
+
+// 최종 병합 쉐이더
+DEFFERDLIGHT_VT_OUT VS_DEFFERDMERGE(DEFFERDLIGHT_VT_IN _Input)
+{
+    DEFFERDLIGHT_VT_OUT OUTDATA = (DEFFERDLIGHT_VT_OUT) 0.0F;
+    OUTDATA.vPos = mul(_Input.vPos, DirMat);
+    OUTDATA.vUv = _Input.vUv;
+    return OUTDATA;
+}
+
+MERGE_PX_OUT PS_DEFFERDMERGE(DEFFERDLIGHT_VT_OUT _Input)
+{
+    MERGE_PX_OUT OUTDATA = (MERGE_PX_OUT) 0.0F;
+    float4 vColor = g_Tex_0.Sample(g_Sam_0, _Input.vUv);
+    float4 vDiff = g_Tex_1.Sample(g_Sam_0, _Input.vUv);
+    float4 vSpec = g_Tex_2.Sample(g_Sam_0, _Input.vUv);
+
+    vDiff.w = 0.0f;
+    vSpec.w = 0.0f;
+
+    OUTDATA.vMergeColor = vColor * vDiff + vSpec + float4(0.1f, 0.1f, 0.1f, 1.0f);
+    OUTDATA.vMergeColor.a = 1.0f;
+
+    return OUTDATA;
 }

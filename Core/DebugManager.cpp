@@ -249,6 +249,66 @@ void DebugManager::Targetting()
 			}
 		}
 	}
+
+	CountX = 0;
+	CountY += 1;
+
+
+	std::set<KPtr<Camera>>::iterator m_SC = Core_Class::main_state()->this_RenderManager.m_CameraMap.begin();
+	std::set<KPtr<Camera>>::iterator m_EC = Core_Class::main_state()->this_RenderManager.m_CameraMap.end();
+
+	for (; m_SC != m_EC; ++m_SC)
+	{
+		KPtr<Camera> Cam = (*m_SC);
+
+		std::vector<KPtr<RenderTarget>> TagetVec = Cam->m_Target->RenderTargetList();
+
+		for (size_t j = 0; j < TagetVec.size(); j++)
+		{
+			KMatrix m_Scale;
+			KMatrix m_Pos;
+
+			m_Scale.Identity();
+			m_Scale.Scale(KVector(SizeX, SizeY, 1.0F));
+			m_Pos.Identity();
+			m_Pos.Translation(
+				KVector((-Core_Class::Main_Window().widthf() * 0.5F) + (CountX * SizeX) + (SizeX * 0.5F)
+					, (Core_Class::Main_Window().heigthf() * 0.5F) + (-CountY * SizeY) - (SizeY * 0.5F)
+					, 1.1f));
+
+			KMatrix m_W = m_Scale * m_Pos;
+
+			tMatData.m_V = m_View;
+			tMatData.m_P = m_Proj;
+			tMatData.m_W = m_W;
+			tMatData.m_WV = m_W * m_View;
+			tMatData.m_WVP = tMatData.m_WV * m_Proj;
+			tMatData.Transpose_Ref();
+
+			Smp->Update(0);
+			if (nullptr == TagetVec[j]->texture()->Shader_RescourceView())
+			{
+				KASSERT(true);
+			}
+			TagetVec[j]->texture()->Update(0);
+
+			Core_Class::MainDevice().Set_DeviceCB<DATA_3D>(L"DATA3D", tMatData, SHADER_TYPE::ST_VS);
+
+			Mat->Update();
+			TMesh->Update();
+			TMesh->Render();
+
+			TagetVec[j]->texture()->Reset(0);
+
+			++CountX;
+
+			if (0 != CountX && 0 == (CountX % 5))
+			{
+				++CountY;
+				CountX = 0;
+			}
+		}
+	}
 }
 
 void DebugManager::Logging()

@@ -6,7 +6,7 @@
 struct Rect3D_VT_IN
 {
 	float4 vPos : POSITION;
-	float2 vUv : UV;
+	float2 vUv : TEXCOORD;
 	float4 vColor : COLOR;
 	float4 vNormal : NORMAL;
 };
@@ -17,7 +17,7 @@ struct Rect3D_VT_IN
 struct Rect3D_VT_OUT
 {
 	float4 vPos : SV_POSITION;
-	float2 vUv : UV;
+    float2 vUv : TEXCOORD;
 	float4 vColor : COLOR;
 	float4 vNormal : NORMAL;
 };

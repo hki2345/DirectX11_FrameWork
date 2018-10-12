@@ -9,17 +9,17 @@ SamplerState g_Sam_0 : register(s0);
 struct IMG_VT_IN
 {
 	float4 vPos : POSITION;
-	float2 vUv : TEXCOORD;
-	float4 vColor : COLOR;
-	float4 vNormal : NORMAL;
+    float2 vUv : TEXCOORD;
+    float4 vColor : COLOR;
+    float4 vNormal : NORMAL;
 };
 
 struct IMG_VT_OUT
 {
 	float4 vPos : SV_POSITION;
-	float2 vUv : TEXCOORD;
-	float4 vColor : COLOR;
-	float4 vNormal : NORMAL;
+    float2 vUv : TEXCOORD;
+    float4 vColor : COLOR;
+    float4 vNormal : NORMAL;
 };
 
 struct IMG_PX_OUT
@@ -33,9 +33,9 @@ IMG_VT_OUT Img_VT(IMG_VT_IN _iN)
 	IMG_VT_OUT outData = (IMG_VT_OUT)0.f;
 
 	outData.vPos = mul(_iN.vPos, g_WVP);
-	outData.vUv = _iN.vUv;
-	outData.vColor = _iN.vColor;
-	outData.vNormal = _iN.vNormal;
+    outData.vUv = _iN.vUv;
+    outData.vColor = _iN.vColor;
+    outData.vNormal = _iN.vNormal;
 
 	return outData;
 }

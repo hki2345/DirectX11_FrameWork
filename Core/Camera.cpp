@@ -14,7 +14,7 @@ Camera::Camera() :m_eSMode(SM_WINDOW), m_ePMode(PM_ORTHGRAPHICS),
 m_fFov(DirectX::XM_1DIV2PI), m_fNear(1.0f), m_fFar(1000.0f)
 {
 	m_Mesh = ResourceManager<Mesh>::Find(L"RECT3D_MESH");
-	m_Material = ResourceManager<Material>::Find(L"RECT3D_MESH");
+	m_Material = ResourceManager<Material>::Find(L"DEFFERDMERGEMAT");
 }
 
 

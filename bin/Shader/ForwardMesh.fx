@@ -1,5 +1,5 @@
 #include "MatrixContainer.fx"
-#include "LightContainer.fx"
+#include "LightForward.fx"
 #include "PixelContainer.fx"
 #include "TextureContainer.fx"
 
@@ -57,24 +57,24 @@ FORMESH_VT_OUT ForMesh_VT(FORMESH_VT_IN _in)
         return outData;
     }
     
-    float3 LColor = (float3) .0f;
-
-    for (int i = 0; i < LightCount; ++i)
-    {
-        
-        if (LightList[i].Type == 0)
-        {
-            LColor += Direct_Light(outData.vViewPos, _in.vNormal, LightList[i]);
-        }
-        else if (LightList[i].Type == 1)
-        {
-            LColor += Point_Light(outData.vViewPos, _in.vNormal, LightList[i]);
-        }
-    }
+    // float3 LColor = (float3) .0f;
+    // 
+    // for (int i = 0; i < LightCount; ++i)
+    // {
+    //     
+    //     if (LightList[i].Type == 0)
+    //     {
+    //         LColor += Direct_Light(outData.vViewPos, _in.vNormal, LightList[i]);
+    //     }
+    //     else if (LightList[i].Type == 1)
+    //     {
+    //         LColor += Point_Light(outData.vViewPos, _in.vNormal, LightList[i]);
+    //     }
+    // }
+    // 
+    // LColor /= (float) LightCount;
     
-    LColor /= (float) LightCount;
-    
-    outData.vColor.rgb = LColor.rgb;
+    outData.vColor.rgb = outData.vColor.rgb;
     outData.vColor.a = _in.vColor.a;
 
     return outData;
@@ -125,19 +125,19 @@ FORMESH_PX_OUT ForMesh_PX(FORMESH_VT_OUT _in)
 
     float3 LColor = (float3) .0f;
 
-    for (int i = 0; i < LightCount; ++i)
-    {
-        if (LightList[i].Type == 0)
-        {
-            LColor += Direct_Light(_in.vViewPos, _in.vNormal, LightList[i]);
-        }
-        else if (LightList[i].Type == 1)
-        {
-            LColor += Point_Light(_in.vViewPos, _in.vNormal, LightList[i]);
-        }
-    }
-
-    LColor /= (float) LightCount;
+    // for (int i = 0; i < LightCount; ++i)
+    // {
+    //     if (LightList[i].Type == 0)
+    //     {
+    //         LColor += Direct_Light(_in.vViewPos, _in.vNormal, LightList[i]);
+    //     }
+    //     else if (LightList[i].Type == 1)
+    //     {
+    //         LColor += Point_Light(_in.vViewPos, _in.vNormal, LightList[i]);
+    //     }
+    // }
+    // 
+    // LColor /= (float) LightCount;
 
     outData.vDiffuse.rgb = CalCor.rgb * LColor.rgb;
     outData.vDiffuse.a = _in.vColor.a;

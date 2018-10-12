@@ -155,7 +155,6 @@ void Material::insert_TD(const Texture_Type& _Type, UINT _TexSlot, const wchar_t
 		texture(_TexSlot, _TexName);
 	}
 
-	texture(_TexSlot, _TexName);
 	sampler(_SmSlot, _SmName);
 }
 

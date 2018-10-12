@@ -49,5 +49,11 @@
     <FxCompile Include="..\bin\Shader\PixelContainer.fx">
       <Filter>Shader\Container</Filter>
     </FxCompile>
+    <FxCompile Include="..\bin\Shader\LightDefferd.fx">
+      <Filter>Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="..\bin\Shader\LightForward.fx">
+      <Filter>Shader</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

@@ -60,12 +60,12 @@ BOOL Dlg_Tool::OnInitDialog()
 	CurState->camera()->one()->Local_Pos(.0f, .0f, -40.0f);
 	CurState->camera()->one()->Local_Rotate(90.0f, .0f, 0.0f);
 
-	KPtr<TheOne> UICam = CurState->Create_TheOne(L"UI_Cam");
-	UICam->Local_Pos(.0f, .0f, -40.0f);
-
-	KPtr<Camera> UICom = UICam->Add_Component<Camera>();
-	UICom->Insert_LayerData(6);
-	UICom->Mode(Camera::PROJ_MODE::PM_ORTHGRAPHICS);
+	// KPtr<TheOne> UICam = CurState->Create_TheOne(L"UI_Cam");
+	// UICam->Local_Pos(.0f, .0f, -40.0f);
+	// 
+	// KPtr<Camera> UICom = UICam->Add_Component<Camera>();
+	// UICom->Insert_LayerData(6);
+	// UICom->Mode(Camera::PROJ_MODE::PM_ORTHGRAPHICS);
 
 	// KPtr<TheOne> CUI = CurState->Create_TheOne(L"UI");
 	// CUI->Local_Pos(350.0f, 100.0f, 0.0f);
@@ -85,7 +85,7 @@ BOOL Dlg_Tool::OnInitDialog()
 	
 	KPtr<KLight> NewPLight = NewLight->Add_Component<KLight>();
 	NewPLight->Insert_Layer(0, 1, 2, 3, 4, 5);
-	NewPLight->type(KLight::LightType::Point);
+	// NewPLight->type(KLight::LightType::Point);
 	NewPLight->color(KColor::White);
 	NewPLight->range(100.0f);
 
