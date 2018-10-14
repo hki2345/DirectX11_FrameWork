@@ -5,6 +5,8 @@
 #include "Core_Class.h"
 #include "KMacro.h"
 
+
+#include "Sampler.h"
 #include "ResourceManager.h"
 #include "Mesh.h"
 #include "Material.h"
@@ -135,9 +137,35 @@ void Camera::Render()
 		KASSERT(true);
 	}
 
+
+	KPtr<Sampler> Smp = ResourceManager<Sampler>::Find(L"DefaultSam");
+	Smp->Update(0);
+
+
+
+	std::vector<KPtr<RenderTarget>> TagetVec = m_Target->RenderTargetList();
+
+	for (size_t i = 0; i < TagetVec.size(); i++)
+	{
+		if (nullptr == TagetVec[i]->texture()->Shader_RescourceView())
+		{
+			KASSERT(true);
+		}
+
+		TagetVec[i]->texture()->Update(0);
+	}
+
+
+
 	m_Material->Update();
 	m_Material->Update_Tex();
 	m_Mesh->Update();
 	m_Mesh->Render();
 	m_Material->Reset();
+
+
+	for (size_t i = 0; i < TagetVec.size(); i++)
+	{
+		TagetVec[i]->texture()->Reset(0);
+	}
 }

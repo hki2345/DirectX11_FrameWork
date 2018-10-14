@@ -373,6 +373,19 @@ void KDevice::Init_Defferd()
 
 
 
+	KPtr<Vertex_Shader> TAGETDEBUGVTX = ResourceManager<Vertex_Shader>::Load_FromKey(L"DEBUGRECTVTX", L"Shader", L"DebugRectShader.fx", "VS_DebugRect");
+	TAGETDEBUGVTX->Add_Layout("POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
+	TAGETDEBUGVTX->Add_LayoutFin("TEXCOORD", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32_FLOAT, 0);
+	KPtr<Pixel_Shader> TAGETDEBUGPIX = ResourceManager<Pixel_Shader>::Load_FromKey(L"DEBUGRECTPIX", L"Shader", L"DebugRectShader.fx", "PS_DebugRect");
+
+	KPtr<Material> TAGETDEBUGMAT = ResourceManager<Material>::Create(L"DEBUGRECTMAT");
+	TAGETDEBUGMAT->Set_VShader(L"DEBUGRECTVTX");
+	TAGETDEBUGMAT->Set_PShader(L"DEBUGRECTPIX");
+	TAGETDEBUGMAT->Set_Blend(L"AlphaBlend3D");
+
+
+
+
 	KPtr<Vertex_Shader> DEFFERDMERGEVTX = ResourceManager<Vertex_Shader>::Load_FromKey
 	(L"DEFFERDMERGEVTX", L"Shader", L"DefferdMesh.fx", "VS_DEFFERDMERGE");
 	DEFFERDMERGEVTX->Add_Layout("POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
@@ -410,16 +423,6 @@ void KDevice::Init_NoneMat()
 
 
 
-
-	KPtr<Vertex_Shader> TAGETDEBUGVTX = ResourceManager<Vertex_Shader>::Load_FromKey(L"DEBUGRECTVTX", L"Shader", L"DebugRectShader.fx", "VS_DebugRect");
-	TAGETDEBUGVTX->Add_Layout("POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
-	TAGETDEBUGVTX->Add_LayoutFin("TEXCOORD", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32_FLOAT, 0);
-	KPtr<Pixel_Shader> TAGETDEBUGPIX = ResourceManager<Pixel_Shader>::Load_FromKey(L"DEBUGRECTPIX", L"Shader", L"DebugRectShader.fx", "PS_DebugRect");
-
-	KPtr<Material> TAGETDEBUGMAT = ResourceManager<Material>::Create(L"DEBUGRECTMAT");
-	TAGETDEBUGMAT->Set_VShader(L"DEBUGRECTVTX");
-	TAGETDEBUGMAT->Set_PShader(L"DEBUGRECTPIX");
-	TAGETDEBUGMAT->Set_Blend(L"AlphaBlend3D");
 }
 
 

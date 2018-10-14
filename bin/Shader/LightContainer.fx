@@ -21,29 +21,42 @@ class LightData
 
 LightColor Direct_Light(float4 _vViewPos, float4 _vViewNormal, LightData _Info)
 {
-    LightColor LD = (LightColor)0.0f;
+    //LightColor LD = (LightColor)0.0f;
 
-    // Æþ µðÇ»Áî
-    float3 LC = _Info.Lc.Color.rgb;
-    float NDotL = dot(_Info.Dir, _vViewNormal);
-    LD.Diff.rgb = LC * saturate(NDotL);
-    LD.Diff.a = 1.0f;
+    //// Æþ µðÇ»Áî
+    //float3 LC = _Info.Lc.Color.rgb;
+    //float NDotL = dot(_Info.Dir, _vViewNormal);
+    //LD.Diff.rgb = LC * saturate(NDotL);
+    //LD.Diff.a = 1.0f;
    
 
-    // ºí¸° ½ºÆåÅ§·¯
-    float3 ToEye = _Info.CamPos.xyz - _vViewPos.xyz;
-    ToEye = normalize(ToEye);
-    float3 HalfWay = normalize(ToEye + _Info.Dir.xyz);
-    float NDotH = saturate(dot(HalfWay, _vViewNormal.xyz));
-    // ½ºÆåÅ§·¯ - »ó¼ö ¼öÄ¡°¡ ³·À» ¼ö·Ï ¹Ý»ç°¡ ÀÛ´Ù
-    LD.Spec.rgb += LC * pow(NDotH, _Info.Lc.Spec.xyz) * 0.00001f;
-    LD.Spec.a = 1.0f;
+    //// ºí¸° ½ºÆåÅ§·¯
+    //float3 ToEye = _Info.CamPos.xyz - _vViewPos.xyz;
+    //ToEye = normalize(ToEye);
+    //float3 HalfWay = normalize(ToEye + _Info.Dir.xyz);
+    //float NDotH = saturate(dot(HalfWay, _vViewNormal.xyz));
+    //// ½ºÆåÅ§·¯ - »ó¼ö ¼öÄ¡°¡ ³·À» ¼ö·Ï ¹Ý»ç°¡ ÀÛ´Ù
+    //LD.Spec.rgb += LC * pow(NDotH, _Info.Lc.Spec.xyz) * 0.01f;
+    //LD.Spec.a = 1.0f;
 
-    // È¯°æ±¤
-    //CalCol += _Info.Lc.Ambi.xyz;
+    //// È¯°æ±¤
+    ////CalCol += _Info.Lc.Ambi.xyz;
 
-    return LD;
+    //return LD;
 
+    LightColor CALCOLOR;
+    float4 vLight = -_Info.Dir;
+
+    CALCOLOR.Diff = _Info.Lc.Diff * saturate(dot(_vViewNormal, normalize(vLight)));
+    vLight = normalize(vLight);
+
+    float3 vReflect = normalize(2.f * dot(vLight, _vViewNormal) * _vViewNormal - vLight);
+    float3 vEye = normalize(-_vViewPos);
+
+    CALCOLOR.Spec = _Info.Lc.Spec * pow(saturate(dot(vEye, vReflect)), 1);
+    CALCOLOR.Ambi = _Info.Lc.Ambi;
+
+    return CALCOLOR;
 }
 
 

@@ -51,7 +51,7 @@ void RenderTarget_Multi::Clear()
 
 
 void RenderTarget_Multi::Create_Target(const KUINT& _W, const KUINT& _H, const KUINT& _BindFlag,
-	DXGI_FORMAT _eFormat, D3D11_USAGE _eUsage = D3D11_USAGE_DEFAULT)
+	DXGI_FORMAT _eFormat, D3D11_USAGE _eUsage/* = D3D11_USAGE_DEFAULT*/)
 {
 	KPtr<RenderTarget> NewT = new RenderTarget();
 	if (false == NewT->Create(_W, _H, _BindFlag, _eFormat, _eUsage))

@@ -116,15 +116,15 @@ BOOL Dlg_Tool::OnInitDialog()
 	Edit_Class::m_View_Component->set_one(NewLight);
 
 
-	KPtr<TheOne> NewSky = CurState->Create_TheOne(L"Sky");
-	NewSky->World_Rotate(KVector(0.0f, 0.0f, 0.0f));
-	NewSky->World_Scale(KVector(10000.0f, 10000.0f, 10000.0f));
-
-	KPtr<Renderer_Mesh> SkyRender = NewSky->Add_Component<Renderer_Mesh>();
-	SkyRender->Set_Material(L"IMG_MAT");
-	SkyRender->Set_Mesh(L"SPHERE_MESH");
-	SkyRender->Create_RasterState(L"SFRONT");
-	SkyRender->material()->insert_TD(Texture_Type::TEX_COLOR, 0, L"Sky044.png");
+	// KPtr<TheOne> NewSky = CurState->Create_TheOne(L"Sky");
+	// NewSky->World_Rotate(KVector(0.0f, 0.0f, 0.0f));
+	// NewSky->World_Scale(KVector(10000.0f, 10000.0f, 10000.0f));
+	// 
+	// KPtr<Renderer_Mesh> SkyRender = NewSky->Add_Component<Renderer_Mesh>();
+	// SkyRender->Set_Material(L"IMG_MAT");
+	// SkyRender->Set_Mesh(L"SPHERE_MESH");
+	// SkyRender->Create_RasterState(L"SFRONT");
+	// SkyRender->material()->insert_TD(Texture_Type::TEX_COLOR, 0, L"Sky044.png");
 	
 	KPtr<TheOne> Grid = CurState->Create_TheOne(L"Grid");
 	Grid->World_Rotate(KVector(90.0f, 0.0f, 0.0f));
