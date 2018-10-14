@@ -24,7 +24,7 @@ bool Renderer_Grid3D::Init(int _Order /*= 0*/)
 	m_GD.m_Color = KColor::White;
 
 	Renderer::Init(_Order);
-	if (false == Set_Material(L"GRID3D_MAT") || false == Set_Mesh(L"RECT3D_MESH"))
+	if (false == Set_Material(L"GRID3D_MAT") || false == Set_Mesh(L"RECT3D"))
 	{
 		return false;
 	}

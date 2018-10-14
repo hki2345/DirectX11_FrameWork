@@ -15,8 +15,8 @@
 Camera::Camera() :m_eSMode(SM_WINDOW), m_ePMode(PM_ORTHGRAPHICS),
 m_fFov(DirectX::XM_1DIV2PI), m_fNear(1.0f), m_fFar(1000.0f)
 {
-	m_Mesh = ResourceManager<Mesh>::Find(L"RECT3D_MESH");
-	m_Material = ResourceManager<Material>::Find(L"DEFFERDMERGEMAT");
+	m_Mesh = ResourceManager<Mesh>::Find(L"RECT3D");
+	m_Material = ResourceManager<Material>::Find(L"MERGEDEF_MAT");
 }
 
 
@@ -143,18 +143,6 @@ void Camera::Render()
 
 
 
-	std::vector<KPtr<RenderTarget>> TagetVec = m_Target->RenderTargetList();
-
-	for (size_t i = 0; i < TagetVec.size(); i++)
-	{
-		if (nullptr == TagetVec[i]->texture()->Shader_RescourceView())
-		{
-			KASSERT(true);
-		}
-
-		TagetVec[i]->texture()->Update(0);
-	}
-
 
 
 	m_Material->Update();
@@ -164,8 +152,4 @@ void Camera::Render()
 	m_Material->Reset();
 
 
-	for (size_t i = 0; i < TagetVec.size(); i++)
-	{
-		TagetVec[i]->texture()->Reset(0);
-	}
 }

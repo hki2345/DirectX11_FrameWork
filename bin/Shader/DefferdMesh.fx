@@ -94,7 +94,7 @@ static matrix DirMat =
     { 0.0f, 0.0f, 0.0f, 1.0f },
 };
 
-DEFFERDLIGHT_VT_OUT VS_DEFFERDDIRLIGHT(DEFFERDLIGHT_VT_IN _Input)
+DEFFERDLIGHT_VT_OUT DefLight_VT(DEFFERDLIGHT_VT_IN _Input)
 {
     DEFFERDLIGHT_VT_OUT OUTDATA = (DEFFERDLIGHT_VT_OUT) 0.0F;
     OUTDATA.vPos = mul(_Input.vPos, DirMat);
@@ -103,7 +103,7 @@ DEFFERDLIGHT_VT_OUT VS_DEFFERDDIRLIGHT(DEFFERDLIGHT_VT_IN _Input)
 }
 
 
-DEFFERDLIGHT_PX_OUT PS_DEFFERDDIRLIGHT(DEFFERDLIGHT_VT_OUT _Input)
+DEFFERDLIGHT_PX_OUT DefLight_PX(DEFFERDLIGHT_VT_OUT _Input)
 {
     DEFFERDLIGHT_PX_OUT OUTDATA = (DEFFERDLIGHT_PX_OUT) 0.0F;
 
@@ -127,7 +127,7 @@ DEFFERDLIGHT_PX_OUT PS_DEFFERDDIRLIGHT(DEFFERDLIGHT_VT_OUT _Input)
 }
 
 // 최종 병합 쉐이더
-DEFFERDLIGHT_VT_OUT VS_DEFFERDMERGE(DEFFERDLIGHT_VT_IN _Input)
+DEFFERDLIGHT_VT_OUT DefMerge_VT(DEFFERDLIGHT_VT_IN _Input)
 {
     DEFFERDLIGHT_VT_OUT OUTDATA = (DEFFERDLIGHT_VT_OUT) 0.0F;
     OUTDATA.vPos = mul(_Input.vPos, DirMat);
@@ -135,15 +135,16 @@ DEFFERDLIGHT_VT_OUT VS_DEFFERDMERGE(DEFFERDLIGHT_VT_IN _Input)
     return OUTDATA;
 }
 
-MERGE_PX_OUT PS_DEFFERDMERGE(DEFFERDLIGHT_VT_OUT _Input)
+MERGE_PX_OUT DefMerge_PX(DEFFERDLIGHT_VT_OUT _Input)
 {
     MERGE_PX_OUT OUTDATA = (MERGE_PX_OUT) 0.0F;
     float4 vColor = g_Tex_0.Sample(g_Sam_0, _Input.vUv);
     float4 vDiff = g_Tex_1.Sample(g_Sam_0, _Input.vUv);
     float4 vSpec = g_Tex_2.Sample(g_Sam_0, _Input.vUv);
-
-    vDiff.w = 0.0f;
-    vSpec.w = 0.0f;
+    
+    vColor.w = 1.0f;
+    vDiff.w = 1.0f;
+    vSpec.w = 1.0f;
 
     OUTDATA.vMergeColor = vColor * vDiff + vSpec + float4(0.1f, 0.1f, 0.1f, 1.0f);
     OUTDATA.vMergeColor.a = 1.0f;

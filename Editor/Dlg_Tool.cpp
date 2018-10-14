@@ -122,7 +122,7 @@ BOOL Dlg_Tool::OnInitDialog()
 	// 
 	// KPtr<Renderer_Mesh> SkyRender = NewSky->Add_Component<Renderer_Mesh>();
 	// SkyRender->Set_Material(L"IMG_MAT");
-	// SkyRender->Set_Mesh(L"SPHERE_MESH");
+	// SkyRender->Set_Mesh(L"SPHERE");
 	// SkyRender->Create_RasterState(L"SFRONT");
 	// SkyRender->material()->insert_TD(Texture_Type::TEX_COLOR, 0, L"Sky044.png");
 	
@@ -138,7 +138,7 @@ BOOL Dlg_Tool::OnInitDialog()
 	LS->Local_Scale(10.0f, 10.0f, 10.0f);
 	KPtr<Renderer_Mesh> LSR = LS->Add_Component<Renderer_Mesh>();
 	LSR->Set_Material(L"MESH_MAT");
-	LSR->Set_Mesh(L"SPHERE_MESH");
+	LSR->Set_Mesh(L"SPHERE");
 	LSR->billboard(true);
 	LSR->material()->insert_TD(Texture_Type::TEX_COLOR, 0, L"MoonDiff.jpg");
 	LSR->material()->insert_TD(Texture_Type::TEX_BUMP, 7, L"MoonBump.jpg");
@@ -148,7 +148,7 @@ BOOL Dlg_Tool::OnInitDialog()
 	RS->Local_Scale(10.0f, 10.0f, 10.0f);
 	KPtr<Renderer_Mesh> RSR = RS->Add_Component<Renderer_Mesh>();
 	RSR->Set_Material(L"MESH_MAT");
-	RSR->Set_Mesh(L"SPHERE_MESH");
+	RSR->Set_Mesh(L"SPHERE");
 	RSR->material()->insert_TD(Texture_Type::TEX_COLOR, 0, L"MoonDiff.jpg");
 	RSR->material()->insert_TD(Texture_Type::TEX_BUMP, 1, L"MoonBump.jpg");
 	
@@ -166,7 +166,7 @@ BOOL Dlg_Tool::OnInitDialog()
 	MC->Local_Scale(10.0f, 10.0f, 10.0f);
 	KPtr<Renderer_Mesh> MCR = MC->Add_Component<Renderer_Mesh>();
 	MCR->Set_Material(L"MESH_MAT");
-	MCR->Set_Mesh(L"CUBE_MESH");
+	MCR->Set_Mesh(L"CUBE");
 	// MCR->image(L"Sky01.png");
 
 	KPtr<TheOne> NewOne2 = CurState->Create_TheOne(L"Cube");

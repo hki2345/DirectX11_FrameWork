@@ -22,7 +22,7 @@ bool Renderer_Mesh::Init(int _Order /*= 0*/)
 	Renderer::Init(_Order);
 
 	Create_RasterState(L"SBACK");
-	Set_Mesh(L"CUBE_MESH");
+	Set_Mesh(L"CUBE");
 
 	return true;
 }

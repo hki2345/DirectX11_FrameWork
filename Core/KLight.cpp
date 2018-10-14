@@ -60,12 +60,12 @@ void KLight::type(const LightType& _Type)
 	switch (_Type)
 	{
 	case KLight::Direction:
-		m_LMesh = ResourceManager<Mesh>::Find(L"RECT3D_MESH");
-		m_LMat = ResourceManager<Material>::Find(L"DEFFERDLIGHTMAT");
+		m_LMesh = ResourceManager<Mesh>::Find(L"RECT3D");
+		m_LMat = ResourceManager<Material>::Find(L"LIGHTDEF_MAT");
 		break;
 
 	case KLight::Point:
-		m_LMesh = ResourceManager<Mesh>::Find(L"SPHERE_MESH");
+		m_LMesh = ResourceManager<Mesh>::Find(L"SPHERE");
 		break;
 
 	default:

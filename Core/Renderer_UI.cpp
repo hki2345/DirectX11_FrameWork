@@ -16,7 +16,7 @@ Renderer_UI::~Renderer_UI()
 bool Renderer_UI::Init(int _Order /*= 0*/)
 {
 	Renderer::Init(_Order);
-	if (false == Set_Material(L"IMG_MAT") || false == Set_Mesh(L"RECT3D_MESH"))
+	if (false == Set_Material(L"IMG_MAT") || false == Set_Mesh(L"RECT3D"))
 	{
 		return false;
 	}

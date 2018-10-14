@@ -180,8 +180,8 @@ void DebugManager::Targetting()
 
 	// 렉트 맷은 노말값까지 가짐
 	// 그냥 디버그 렉트는 순수 값들임 - 아마 Rect맷으로 될 가능성 농후
-	KPtr<Mesh> TMesh = ResourceManager<Mesh>::Find(L"RECT3D_MESH");
-	KPtr<Material> Mat = ResourceManager<Material>::Find(L"DEBUGRECTMAT");
+	KPtr<Mesh> TMesh = ResourceManager<Mesh>::Find(L"RECT3D");
+	KPtr<Material> Mat = ResourceManager<Material>::Find(L"MT_MAT");
 
 
 	// 간이 카메라

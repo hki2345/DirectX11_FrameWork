@@ -233,7 +233,7 @@ void RenderManager::Render_Defferd(std::map<int, std::list<KPtr<Renderer>>>::ite
 	DEFFERDTARGET->Clear();
 	DEFFERDTARGET->SetOM();
 
-	KPtr<Material> DEFFERDMAT = ResourceManager<Material>::Find(L"DEFFERD3DMAT");
+	KPtr<Material> DEFFERDMAT = ResourceManager<Material>::Find(L"DEFFERD_MAT");
 	KASSERT(nullptr == DEFFERDMAT);
 	
 
