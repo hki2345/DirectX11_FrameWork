@@ -65,7 +65,7 @@ bool Mesh::Create_Vertex(UINT _iVtxCount, UINT _iVtxSize, D3D11_USAGE _eVtxUsage
 	D3D11_SUBRESOURCE_DATA tSub = D3D11_SUBRESOURCE_DATA();
 	tSub.pSysMem = _VtxMem;
 
-	if (S_OK != Core_Class::device()->CreateBuffer(&tBD, &tSub, &m_VertexBuffer))
+	if (S_OK != Core_Class::Device()->CreateBuffer(&tBD, &tSub, &m_VertexBuffer))
 	{
 		return false;
 	}
@@ -90,7 +90,7 @@ bool Mesh::Create_Index(UINT _iTriCount, UINT _iIdxSize, D3D11_USAGE _eIdxUsage,
 	D3D11_SUBRESOURCE_DATA tSub = D3D11_SUBRESOURCE_DATA();
 	tSub.pSysMem = _IdxMem;
 
-	if (S_OK != Core_Class::device()->CreateBuffer(&tBD, &tSub, &m_IndexBuffer))
+	if (S_OK != Core_Class::Device()->CreateBuffer(&tBD, &tSub, &m_IndexBuffer))
 	{
 		return false;
 	}
@@ -103,12 +103,12 @@ void Mesh::Update()
 	UINT iOff = 0;
 	UINT iSize = m_VertexSize;
 
-	Core_Class::device_context()->IASetVertexBuffers(0, 1, &m_VertexBuffer, &iSize, &iOff);
-	Core_Class::device_context()->IASetPrimitiveTopology(m_eDrawMode);
-	Core_Class::device_context()->IASetIndexBuffer(m_IndexBuffer, m_IndexFormat, 0);
+	Core_Class::Context()->IASetVertexBuffers(0, 1, &m_VertexBuffer, &iSize, &iOff);
+	Core_Class::Context()->IASetPrimitiveTopology(m_eDrawMode);
+	Core_Class::Context()->IASetIndexBuffer(m_IndexBuffer, m_IndexFormat, 0);
 }
 
 void Mesh::Render()
 {
-	Core_Class::device_context()->DrawIndexed(m_InX_Cnt, 0, 0);
+	Core_Class::Context()->DrawIndexed(m_InX_Cnt, 0, 0);
 }

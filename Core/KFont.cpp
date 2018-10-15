@@ -31,7 +31,7 @@ bool KFont::Create(const wchar_t* _Font)
 		return false;
 	}
 
-	if (S_OK != m_Factory->CreateFontWrapper(Core_Class::device(), _Font, &m_FontWrapper))
+	if (S_OK != m_Factory->CreateFontWrapper(Core_Class::Device(), _Font, &m_FontWrapper))
 	{
 		KASSERT(true);
 		return false;
@@ -43,6 +43,6 @@ bool KFont::Create(const wchar_t* _Font)
 void KFont::draw_font(const wchar_t* _text, const KVector2& _Pos, const float& _Size,
 	const UINT& _Color, FW1_TEXT_FLAG _Flag/* = FW1_TEXT_FLAG::FW1_TOP*/)
 {
-	m_FontWrapper->DrawString(Core_Class::device_context(), _text, _Size, _Pos.x, _Pos.y, _Color, _Flag);
-	Core_Class::MainDevice().reset_context();
+	m_FontWrapper->DrawString(Core_Class::Context(), _text, _Size, _Pos.x, _Pos.y, _Color, _Flag);
+	Core_Class::MainDevice().Reset_Context();
 }

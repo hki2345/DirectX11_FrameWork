@@ -88,7 +88,7 @@ private:
 	KDevice m_Device;
 
 public:
-	KDevice& device() { return m_Device; }
+	KDevice& Device() { return m_Device; }
 	bool Init_Device();
 
 

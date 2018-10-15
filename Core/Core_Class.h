@@ -25,8 +25,8 @@ public:
 	static KPtr<State> next_state();
 
 	static KDevice&					MainDevice();
-	static ID3D11Device*			device();
-	static ID3D11DeviceContext*		device_context();
+	static ID3D11Device*			Device();
+	static ID3D11DeviceContext*		Context();
 
 public:
 	Core_Class();

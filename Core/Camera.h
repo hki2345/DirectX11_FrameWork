@@ -51,6 +51,10 @@ private:
 	float m_fNear;
 	float m_fFar;
 
+
+	// 카메라 층 별 렌더 순서를 다르게 할 수 있다. - UI
+	int m_Order;
+
 public:
 	void Far(const float& _Value)
 	{
@@ -93,6 +97,10 @@ public:
 		return m_ScreenSize;
 	}
 
+	int order() const
+	{
+		return m_Order;
+	}
 
 
 	// 카메라가 비추어줄 레이어
@@ -102,7 +110,7 @@ private:
 	std::vector<int> m_Layer;
 	
 public:
-	bool Init() override;
+	bool Init(const int& _Order = 0);
 	KVector2 screen_to_world(const KVector2& _StatePos);
 
 	template<typename ...Rest>
@@ -129,15 +137,16 @@ private:
 	// Forward Render
 private:
 	KPtr<Mesh> m_Mesh;
-	KPtr<Material> m_Material;
-	KPtr<RenderTarget_Multi> m_Target;
+	KPtr<Material> m_LightMat;
+	KPtr<Material> m_ScreenMat;
+	KPtr<RenderTarget_Multi> m_MTarget;
 
 
 
 private:
 	// Merge
-	void Render();
-
+	void Render_Light();
+	void Render_Screen();
 
 public:
 	Camera();

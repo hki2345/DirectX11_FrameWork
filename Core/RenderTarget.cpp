@@ -45,5 +45,5 @@ void RenderTarget::Clear()
 	}
 
 	// Color s -> 포인터 형으로 넘김 -> 컬러를 ㅇㅇ
-	Core_Class::device_context()->ClearRenderTargetView(m_Texture->Render_TargetView(), m_Color.s);
+	Core_Class::Context()->ClearRenderTargetView(m_Texture->Render_TargetView(), m_Color.s);
 }

@@ -254,14 +254,14 @@ void DebugManager::Targetting()
 	CountY += 1;
 
 
-	std::set<KPtr<Camera>>::iterator m_SC = Core_Class::main_state()->this_RenderManager.m_CameraMap.begin();
-	std::set<KPtr<Camera>>::iterator m_EC = Core_Class::main_state()->this_RenderManager.m_CameraMap.end();
+	std::map<int, KPtr<Camera>>::iterator m_SC = Core_Class::main_state()->this_RenderManager.m_CameraMap.begin();
+	std::map<int, KPtr<Camera>>::iterator m_EC = Core_Class::main_state()->this_RenderManager.m_CameraMap.end();
 
 	for (; m_SC != m_EC; ++m_SC)
 	{
-		KPtr<Camera> Cam = (*m_SC);
+		KPtr<Camera> Cam = m_SC->second->m_MTarget->RenderTargetList;
 
-		std::vector<KPtr<RenderTarget>> TagetVec = Cam->m_Target->RenderTargetList();
+		std::vector<KPtr<RenderTarget>> TagetVec = Cam->m_MTarget->RenderTargetList();
 
 		for (size_t j = 0; j < TagetVec.size(); j++)
 		{

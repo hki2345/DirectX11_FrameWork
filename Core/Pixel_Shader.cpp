@@ -36,7 +36,7 @@ bool Pixel_Shader::Load(const char* _Func, UINT _VH, UINT _VL)
 
 
 	// 해당 디바이스에 픽셀세이더를 세팅
-	if (S_OK != Core_Class::device()->CreatePixelShader(
+	if (S_OK != Core_Class::Device()->CreatePixelShader(
 		m_Blob->GetBufferPointer(),
 		m_Blob->GetBufferSize(),
 		nullptr, &m_Shader))
@@ -52,7 +52,7 @@ bool Pixel_Shader::Load(const char* _Func, UINT _VH, UINT _VL)
 void Pixel_Shader::Update()
 {
 	// 세팅된 데이터를 돌리는 식
-	Core_Class::device_context()->PSSetShader(m_Shader, 0, 0);
+	Core_Class::Context()->PSSetShader(m_Shader, 0, 0);
 }
 
 void Pixel_Shader::UpdateCB(KPtr<Const_Buffer> _Buf)

@@ -16,7 +16,8 @@ Camera::Camera() :m_eSMode(SM_WINDOW), m_ePMode(PM_ORTHGRAPHICS),
 m_fFov(DirectX::XM_1DIV2PI), m_fNear(1.0f), m_fFar(1000.0f)
 {
 	m_Mesh = ResourceManager<Mesh>::Find(L"RECT3D");
-	m_Material = ResourceManager<Material>::Find(L"MERGEDEF_MAT");
+	m_LightMat = ResourceManager<Material>::Find(L"LIGHTMERGE_MAT");
+	m_ScreenMat = ResourceManager<Material>::Find(L"SCREENMERGE_MAT");
 }
 
 
@@ -24,8 +25,10 @@ Camera::~Camera()
 {
 }
 
-bool Camera::Init()
+bool Camera::Init(const int& _Order /*= 0*/)
 {
+	m_Order = _Order;
+
 	KASSERT(nullptr == m_Trans);
 	if (nullptr == m_Trans)
 	{
@@ -42,8 +45,8 @@ bool Camera::Init()
 		state()->m_Camera = this;
 	}
 
-	m_Target = new RenderTarget_Multi();
-	m_Target->Create_Target(Core_Class::Main_Window().widthu(), Core_Class::Main_Window().heigthu(),
+	m_MTarget = new RenderTarget_Multi();
+	m_MTarget->Create_Target(Core_Class::Main_Window().widthu(), Core_Class::Main_Window().heigthu(),
 		D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE, DXGI_FORMAT_R32G32B32A32_FLOAT);
 
 	return true;
@@ -130,26 +133,34 @@ void Camera::End_Update()
 
 
 // Merge
-void Camera::Render()
+void Camera::Render_Light()
 {
-	if (nullptr == m_Mesh || nullptr == m_Material)
+	if (nullptr == m_Mesh || nullptr == m_LightMat)
+	{
+		KASSERT(true);
+	}
+	
+	
+	m_LightMat->Update();
+	m_LightMat->Update_Tex();
+	m_Mesh->Update();
+	m_Mesh->Render();
+	m_LightMat->Reset();
+
+
+}
+
+void Camera::Render_Screen()
+{
+	if (nullptr == m_Mesh || nullptr == m_LightMat)
 	{
 		KASSERT(true);
 	}
 
 
-	KPtr<Sampler> Smp = ResourceManager<Sampler>::Find(L"DefaultSam");
-	Smp->Update(0);
-
-
-
-
-
-	m_Material->Update();
-	m_Material->Update_Tex();
+	m_MTarget->texture(0)->Update(0);
+	m_ScreenMat->Update_Tex();
 	m_Mesh->Update();
 	m_Mesh->Render();
-	m_Material->Reset();
-
-
+	m_MTarget->texture(0)->Reset(0);
 }

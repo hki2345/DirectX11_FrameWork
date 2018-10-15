@@ -54,7 +54,7 @@ bool Sampler::Set_State(
 	m_Desc.MinLOD = MinLOD;
 	m_Desc.MaxLOD = MaxLOD;
 
-	if (S_OK != Core_Class::device()->CreateSamplerState(&m_Desc, &m_State))
+	if (S_OK != Core_Class::Device()->CreateSamplerState(&m_Desc, &m_State))
 	{
 		return false;
 	}
@@ -64,6 +64,6 @@ bool Sampler::Set_State(
 
 void Sampler::Update(const UINT& _Slot)
 {
-	Core_Class::device_context()->VSSetSamplers(_Slot, 1, &m_State);
-	Core_Class::device_context()->PSSetSamplers(_Slot, 1, &m_State);
+	Core_Class::Context()->VSSetSamplers(_Slot, 1, &m_State);
+	Core_Class::Context()->PSSetSamplers(_Slot, 1, &m_State);
 }

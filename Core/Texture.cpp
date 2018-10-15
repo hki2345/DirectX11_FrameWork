@@ -66,7 +66,7 @@ bool Texture::Load()
 	}
 
 	// ºÎ¤Ð¼öÁ¤
-	if (S_OK != DirectX::CreateShaderResourceView(Core_Class::device(),
+	if (S_OK != DirectX::CreateShaderResourceView(Core_Class::Device(),
 		m_Image.GetImages(),
 		m_Image.GetImageCount(),
 		m_Image.GetMetadata(),
@@ -85,15 +85,15 @@ bool Texture::Load()
 
 void Texture::Update(const UINT& _Slot)
 {
-	Core_Class::device_context()->VSSetShaderResources(_Slot, 1, &m_pSRV);
-	Core_Class::device_context()->PSSetShaderResources(_Slot, 1, &m_pSRV);
+	Core_Class::Context()->VSSetShaderResources(_Slot, 1, &m_pSRV);
+	Core_Class::Context()->PSSetShaderResources(_Slot, 1, &m_pSRV);
 }
 
 void Texture::Reset(const KUINT& _Slot)
 {
 	ID3D11ShaderResourceView* RV = nullptr;
-	Core_Class::device_context()->VSSetShaderResources(_Slot, 1, &RV);
-	Core_Class::device_context()->PSSetShaderResources(_Slot, 1, &RV);
+	Core_Class::Context()->VSSetShaderResources(_Slot, 1, &RV);
+	Core_Class::Context()->PSSetShaderResources(_Slot, 1, &RV);
 }
 
 bool Texture::Create(const UINT& _W, const UINT& _H, const UINT& _BindFlag, DXGI_FORMAT _eForm,
@@ -121,7 +121,7 @@ bool Texture::Create(const UINT& _W, const UINT& _H, const UINT& _BindFlag, DXGI
 	tDesc.SampleDesc.Quality = 0;
 	tDesc.MipLevels = 1;
 
-	if (S_OK != Core_Class::device()->CreateTexture2D(&tDesc, nullptr, &m_Texture2D))
+	if (S_OK != Core_Class::Device()->CreateTexture2D(&tDesc, nullptr, &m_Texture2D))
 	{
 		KASSERT(true);
 		return false;
@@ -141,7 +141,7 @@ void Texture::Set_View(UINT _BindFlag)
 {
 	if (D3D11_BIND_FLAG::D3D11_BIND_DEPTH_STENCIL & _BindFlag)
 	{
-		if (S_OK != Core_Class::device()->CreateDepthStencilView(m_Texture2D, 0, &m_pDSV))
+		if (S_OK != Core_Class::Device()->CreateDepthStencilView(m_Texture2D, 0, &m_pDSV))
 		{
 			KASSERT(true);
 			return;
@@ -151,7 +151,7 @@ void Texture::Set_View(UINT _BindFlag)
 	{
 		if (D3D11_BIND_FLAG::D3D11_BIND_RENDER_TARGET & _BindFlag)
 		{
-			if (S_OK != Core_Class::device()->CreateRenderTargetView(m_Texture2D, 0, &m_pRTV))
+			if (S_OK != Core_Class::Device()->CreateRenderTargetView(m_Texture2D, 0, &m_pRTV))
 			{
 				KASSERT(true);
 				return;
@@ -159,7 +159,7 @@ void Texture::Set_View(UINT _BindFlag)
 		}
 		if (D3D11_BIND_FLAG::D3D11_BIND_SHADER_RESOURCE & _BindFlag)
 		{
-			if (S_OK != Core_Class::device()->CreateShaderResourceView(m_Texture2D, 0, &m_pSRV))
+			if (S_OK != Core_Class::Device()->CreateShaderResourceView(m_Texture2D, 0, &m_pSRV))
 			{
 				KASSERT(true);
 				return;
@@ -167,7 +167,7 @@ void Texture::Set_View(UINT _BindFlag)
 		}
 	}
 
-	if (S_OK != DirectX::CaptureTexture(Core_Class::device(), Core_Class::device_context(), m_Texture2D, m_Image))
+	if (S_OK != DirectX::CaptureTexture(Core_Class::Device(), Core_Class::Context(), m_Texture2D, m_Image))
 	{
 		KASSERT(true);
 		return;

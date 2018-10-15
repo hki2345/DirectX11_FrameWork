@@ -45,15 +45,15 @@ KPtr<State> Core_Class::next_state()
 
 KDevice& Core_Class::MainDevice()
 {
-	return g_MainWindow->device();
+	return g_MainWindow->Device();
 }
 
-ID3D11Device* Core_Class::device()
+ID3D11Device* Core_Class::Device()
 {
-	return g_MainWindow->device().device();
+	return g_MainWindow->Device().Device();
 }
 
-ID3D11DeviceContext* Core_Class::device_context()
+ID3D11DeviceContext* Core_Class::Context()
 {
-	return g_MainWindow->device().context();
+	return g_MainWindow->Device().Context();
 }

@@ -25,6 +25,9 @@ private:
 	std::vector<KPtr<RenderTarget>> m_RTVec;
 	std::vector<ID3D11RenderTargetView*> m_RTViewVec;
 
+
+	// Depth µûÁö±â
+	bool m_bDefaultDepth;
 	KPtr<Texture> m_DepthTex;
 	D3D11_DEPTH_STENCIL_DESC m_DepthDesc;
 	ID3D11DepthStencilState* m_DepthStencil;
@@ -72,5 +75,6 @@ public:
 		return m_RTVec;
 	}
 
+	KPtr<Texture> texture(const KUINT& _Idx);
 };
 

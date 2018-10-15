@@ -33,7 +33,7 @@ bool RenderManager::Sort_Z(KPtr<Renderer> _Left, KPtr<Renderer> _Right)
 void RenderManager::Insert_Camera(Camera* _Camera)
 {
 	KASSERT(nullptr == _Camera);
-	m_CameraMap.insert(_Camera);
+	m_CameraMap.insert(std::map<int, KPtr<Camera>>::value_type(_Camera->order(), _Camera));
 }
 void RenderManager::Insert_Renderer(Renderer* _Renderer)
 {
@@ -85,6 +85,9 @@ void RenderManager::Render()
 {
 	// 렌더 메니저에서 다함
 	Core_Class::MainDevice().Clear_Target();
+	
+	// 첫 초기화
+	Core_Class::MainDevice().SetOM();
 
 	Reset_SamplerList();
 
@@ -96,12 +99,10 @@ void RenderManager::Render()
 	// 카메라 별
 	for (; m_Camera_StartIter != m_Camera_EndIter; ++m_Camera_StartIter)
 	{
-		KPtr<Camera> CurCam = (*m_Camera_StartIter);
-
 		// 레이어 별
-		for (size_t i = 0; i < (*m_Camera_StartIter)->m_Layer.size(); ++i)
+		for (size_t i = 0; i < m_Camera_StartIter->second->m_Layer.size(); ++i)
 		{
-			m_Renderer_FindIter = m_RendererMap.find((*m_Camera_StartIter)->m_Layer[i]);
+			m_Renderer_FindIter = m_RendererMap.find(m_Camera_StartIter->second->m_Layer[i]);
 
 			// 해당 레이어가 카메라에 없으면 넘긴다.
 			if (m_Renderer_FindIter == m_RendererMap.end())
@@ -110,12 +111,12 @@ void RenderManager::Render()
 			}
 
 			Render_Defferd(m_Renderer_FindIter, i);
-			Render_LightDef((int)i, m_Camera_StartIter);
+			Render_LightDef((int)i, m_Camera_StartIter->second);
 
 			// 라이트 연산 후 -> 카메라에 모두 찍어냄
-			CurCam->m_Target->Clear();
-			CurCam->m_Target->SetOM();
-			CurCam->Render();
+			m_Camera_StartIter->second->m_MTarget->Clear();
+			m_Camera_StartIter->second->m_MTarget->SetOM();
+			m_Camera_StartIter->second->Render_Light();
 
 			Render_Forward(m_Renderer_FindIter, i);
 		}		
@@ -189,7 +190,7 @@ void RenderManager::Insert_Light(KLight* _Light)
 
 // 렌더메니저에서 이걸 돌릴지 쉐이더에서 빛을 알아야 할지
 // 최종적으로 픽셀이든 버텍스든 쉐이더에서 빛이 합산되어 넘어가야하기 때문
-void RenderManager::Light_Check(const int& _Layer, const std::set<KPtr<Camera>>::iterator& _Iter)
+void RenderManager::Light_Check(const int& _Layer, KPtr<Camera> _Iter)
 {
 	m_LS = m_LightSet.begin();
 	m_LE = m_LightSet.end();
@@ -205,9 +206,9 @@ void RenderManager::Light_Check(const int& _Layer, const std::set<KPtr<Camera>>:
 			TempData.ArrLight[Cnt] = (*m_LS)->m_LD;
 
 			// 방향값만 곱해져야 하기 때문예 -> Zero로 곱해준다.
-			TempData.ArrLight[Cnt].m_Dir = (*_Iter)->View().Multi_Vector_Z(TempData.ArrLight[Cnt].m_Dir);
-			TempData.ArrLight[Cnt].m_Pos = (*_Iter)->View().Multi_Vector_Z(TempData.ArrLight[Cnt].m_Pos);
-			TempData.ArrLight[Cnt].CamPos = (*_Iter)->View().Multi_Vector_Z(TempData.ArrLight[Cnt].CamPos);
+			TempData.ArrLight[Cnt].m_Dir = _Iter->View().Multi_Vector_Z(TempData.ArrLight[Cnt].m_Dir);
+			TempData.ArrLight[Cnt].m_Pos = _Iter->View().Multi_Vector_Z(TempData.ArrLight[Cnt].m_Pos);
+			TempData.ArrLight[Cnt].CamPos = _Iter->View().Multi_Vector_Z(TempData.ArrLight[Cnt].CamPos);
 			++Cnt;
 
 			if (10 <= Cnt)

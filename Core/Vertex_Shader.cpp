@@ -43,7 +43,7 @@ bool Vertex_Shader::Load(const char* _Func, UINT _VH, UINT _VL)
 
 
 	// 해당 디바이스에 버텍스세이더를 세팅
-	if (S_OK != Core_Class::device()->CreateVertexShader(
+	if (S_OK != Core_Class::Device()->CreateVertexShader(
 		m_Blob->GetBufferPointer(),
 		m_Blob->GetBufferSize(),
 		nullptr, &m_Shader))
@@ -59,7 +59,7 @@ bool Vertex_Shader::Load(const char* _Func, UINT _VH, UINT _VL)
 void Vertex_Shader::Update()
 {
 	// 여기서는 레이아웃을 돌린다.
-	Core_Class::device_context()->VSSetShader(m_Shader, 0, 0);
+	Core_Class::Context()->VSSetShader(m_Shader, 0, 0);
 }
 
 
@@ -104,7 +104,7 @@ bool Vertex_Shader::Create_LayOut()
 		return false;
 	}
 
-	if (S_OK != Core_Class::device()->CreateInputLayout(
+	if (S_OK != Core_Class::Device()->CreateInputLayout(
 		&m_LayOutData_Vec[0], (UINT)m_LayOutData_Vec.size(),
 		m_Blob->GetBufferPointer(), m_Blob->GetBufferSize(), &m_InputLayout))
 	{
@@ -116,7 +116,7 @@ bool Vertex_Shader::Create_LayOut()
 
 void Vertex_Shader::Set_LayOut()
 {
-	Core_Class::device_context()->IASetInputLayout(m_InputLayout);
+	Core_Class::Context()->IASetInputLayout(m_InputLayout);
 }
 
 

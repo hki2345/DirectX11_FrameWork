@@ -19,7 +19,7 @@ Renderer::~Renderer()
 
 void Renderer::Create_RasterState(const wchar_t* _Name)
 {
-	m_RasterState = window()->device().Find_RasterMode(_Name);
+	m_RasterState = window()->Device().Find_RasterMode(_Name);
 	if (nullptr == m_RasterState)
 	{
 		KASSERT(true);
@@ -89,7 +89,7 @@ void Renderer::RenderUpdate()
 
 void Renderer::RenderFinalUpdate()
 {
-	window()->device().ResetRasterState();
+	window()->Device().ResetRasterState();
 }
 
 

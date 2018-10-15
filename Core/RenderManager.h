@@ -17,12 +17,17 @@ public:
 	friend Renderer;
 	friend class Camera;
 	friend class DebugManager;
+	
+
+public:
+	RenderManager();
+	~RenderManager();
 
 private:
 	// Camera
-	std::set<KPtr<Camera>> m_CameraMap;
-	std::set<KPtr<Camera>>::iterator m_Camera_StartIter;
-	std::set<KPtr<Camera>>::iterator m_Camera_EndIter;
+	std::map<int, KPtr<Camera>> m_CameraMap;
+	std::map<int, KPtr<Camera>>::iterator m_Camera_StartIter;
+	std::map<int, KPtr<Camera>>::iterator m_Camera_EndIter;
 
 	// 이 레이어 이터는 카메라가 들고 있음 ㅇㅇ - ㅇ 벡터로 바꿈
 
@@ -60,11 +65,8 @@ public:
 
 	bool Is_Name(const wchar_t* _Name);
 
-	void Light_Check(const int& _Layer, const std::set<KPtr<Camera>>::iterator& _Iter);
-	void Render_LightDef(const int& _Layer, const std::set<KPtr<Camera>>::iterator& _Iter);
-
-public:
-	RenderManager();
-	~RenderManager();
+	void Light_Check(const int& _Layer, KPtr<Camera> _Iter);
+	void Render_LightDef(const int& _Layer, KPtr<Camera> _Iter);
+	void Render_Screen();
 };
 

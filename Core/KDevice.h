@@ -37,12 +37,12 @@ private:
 
 	ID3D11Texture2D*			m_pBackBuffer;
 	ID3D11RenderTargetView*		m_pTargetView;
-	ID3D11DepthStencilView*		m_pDepthStencilView;
+	ID3D11DepthStencilView*		m_pDS_View;
 
-	D3D11_DEPTH_STENCIL_DESC	m_DepthDESC;
-	ID3D11DepthStencilState*	m_pDepthStencilState;
-
-	ID3D11DepthStencilState*	m_pDepthStencilStateDeg;
+	// D3D11_DEPTH_STENCIL_DESC	m_DepthDESC;
+	// ID3D11DepthStencilState*	m_pDepthStencilState;
+	// 
+	// ID3D11DepthStencilState*	m_pDepthStencilStateDeg;
 
 	IDXGISwapChain*				m_pSwapChain;
 	UINT						m_iMSLv;
@@ -78,8 +78,7 @@ private:
 	};
 
 private:
-	bool m_AllDefaultStateSetting;
-	KPtr<RasterState> m_DefaultState;
+	KPtr<RasterState> m_RState_Def;
 	std::unordered_map<std::wstring, KPtr<RasterState>> m_RasterMap;
 
 private:
@@ -90,6 +89,44 @@ public:
 	void Create_RasterMode(const wchar_t* _Name);
 	void Create_RasterMode(const wchar_t* _Name, D3D11_FILL_MODE _Fill, D3D11_CULL_MODE _Cull);
 
+
+	// 뎁스 스텐실 -> 렌더 순서를 결정해준다.
+	// + 윤곽 처리 그런 거
+	class DepthStencilState : public SmartPtr
+	{
+	public:
+		ID3D11DeviceContext*		m_Context;
+		D3D11_DEPTH_STENCIL_DESC	m_Desc;
+		ID3D11DepthStencilState*	m_DSS;
+
+	public:
+		void Update();
+		void Create(ID3D11Device* _Device, ID3D11DeviceContext* _Context, D3D11_DEPTH_STENCIL_DESC _Desc);
+
+	public:
+		~DepthStencilState()
+		{
+			if (nullptr != m_DSS)
+			{
+				m_DSS->Release();
+			}
+		}
+	};
+
+private:
+	KPtr<RasterState> m_DState_Def;
+	std::unordered_map<std::wstring, KPtr<RasterState>> m_DepthStencilMap;
+
+private:
+	KPtr<RasterState> Find_DepthStencil(const wchar_t* _Name);
+
+public:
+	void Reset_DepthStencil();
+	void Create_DepthSencil(const wchar_t* _Name);
+	void Create_DepthSencil(const wchar_t* _Name, D3D11_DEPTH_STENCIL_DESC _Desc);
+
+
+
 public:
 	// 다이렉트 초기화를 여러번 해야 하는 경우가 생긴다. -> 초기화가 됐는데
 	// 전체화면 도중 튕기거나 alt +tab을 눌러 바탕화면으로 빠져나올 경우에도
@@ -97,10 +134,11 @@ public:
 	bool& Is_Init()  { return m_bInit; }
 	bool Init();
 
-	ID3D11Device*				device() { return m_pDevice; }
-	ID3D11DeviceContext*		context() { return m_pContext; }
+	ID3D11Device*				Device() { return m_pDevice; }
+	ID3D11DeviceContext*		Context() { return m_pContext; }
+	ID3D11DepthStencilView*		DepthStencil_View() { return m_pDS_View; }
 
-	void reset_context();
+	void Reset_Context();
 	void SetOM();
 	void SetOM_Deg();
 

@@ -3,7 +3,7 @@
 
 
 
-RenderTarget_Multi::RenderTarget_Multi() :m_DepthTex(nullptr)
+RenderTarget_Multi::RenderTarget_Multi() :m_DepthTex(nullptr), m_bDefaultDepth(true)
 {
 }
 
@@ -21,16 +21,26 @@ void RenderTarget_Multi::SetOM()
 {
 	if (nullptr != m_DepthTex)
 	{
-		Core_Class::device_context()->OMSetRenderTargets(TargetCount(), &m_RTViewVec[0], m_DepthTex->DepthStencilView());
-		Core_Class::device_context()->OMSetDepthStencilState(m_DepthStencil, 1);
+		Core_Class::Context()->OMSetRenderTargets(TargetCount(), &m_RTViewVec[0], m_DepthTex->DepthStencilView());
+		Core_Class::Context()->OMSetDepthStencilState(m_DepthStencil, 1);
 	}
 	else
 	{
-		ID3D11DepthStencilView* OldDepth;
-		Core_Class::device_context()->OMGetRenderTargets(0, nullptr, &OldDepth);
-		Core_Class::device_context()->OMSetRenderTargets(TargetCount(), &m_RTViewVec[0], OldDepth);
-		// HVAR::Context()->OMSetDepthStencilState(m_pDepthStencilState, 1);
-		OldDepth->Release();
+		// 이 과정ㅇ은 -> 현재 이 멀티 타겟이 뎁스 스텐실을 가진 경우 그대로 하게 되고
+		// 아니면 기존 디바이스가 가진 백버퍼의 뎁스스텐실을 적용시킨다는 뜻
+		if (false == m_bDefaultDepth)
+		{
+			ID3D11DepthStencilView* OldDepth;
+			Core_Class::Context()->OMGetRenderTargets(0, nullptr, &OldDepth);
+			Core_Class::Context()->OMSetRenderTargets(TargetCount(), &m_RTViewVec[0], OldDepth);
+			// HVAR::Context()->OMSetDepthStencilState(m_pDepthStencilState, 1);
+			OldDepth->Release();
+		}
+		else
+		{
+			Core_Class::Context()->OMSetRenderTargets(TargetCount(), &m_RTViewVec[0], 
+				Core_Class::MainDevice().DepthStencil_View());
+		}
 	}
 }
 
@@ -43,7 +53,7 @@ void RenderTarget_Multi::Clear()
 
 	if (nullptr != m_DepthTex)
 	{
-		Core_Class::device_context()->ClearDepthStencilView(m_DepthTex->DepthStencilView(),
+		Core_Class::Context()->ClearDepthStencilView(m_DepthTex->DepthStencilView(),
 			D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1, 0);
 	}
 }
@@ -85,7 +95,7 @@ void RenderTarget_Multi::Create_Depth(const KUINT& _W, const KUINT& _H)
 	m_DepthDesc.BackFace = defaultStencilOp;
 
 
-	Core_Class::device()->CreateDepthStencilState(&m_DepthDesc, &m_DepthStencil);
+	Core_Class::Device()->CreateDepthStencilState(&m_DepthDesc, &m_DepthStencil);
 
 	if (nullptr == m_DepthStencil)
 	{
@@ -97,3 +107,8 @@ void RenderTarget_Multi::Create_Depth(const KUINT& _W, const KUINT& _H)
 
 }
 
+
+KPtr<Texture> RenderTarget_Multi::texture(const KUINT& _Idx)
+{
+	return m_RTVec[_Idx]->texture();
+}

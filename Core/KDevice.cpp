@@ -20,14 +20,10 @@ m_pDevice(nullptr),
 m_pContext(nullptr),
 m_pTargetView(nullptr),
 m_pTexture2D(nullptr),
-m_pDepthStencilView(nullptr),
+m_pDS_View(nullptr),
 m_pSwapChain(nullptr),
 m_bInit(false),
-m_Color(.5f, .5f, .5f, 1.0f),
-m_AllDefaultStateSetting(false),
-
-m_pDepthStencilState(nullptr),
-m_pDepthStencilStateDeg(nullptr)
+m_Color(.5f, .5f, .5f, 1.0f)
 {
 }
 
@@ -35,6 +31,21 @@ KDevice::~KDevice()
 {
 	Release();
 }
+
+void KDevice::Release()
+{
+	if (nullptr != m_pDS_View) { m_pDS_View->Release(); }
+	if (nullptr != m_pTargetView) { m_pTargetView->Release(); }
+	if (nullptr != m_pSwapChain) { m_pSwapChain->Release(); }
+	if (nullptr != m_pBackBuffer) { m_pBackBuffer->Release(); }
+	if (nullptr != m_pTexture2D) { m_pTexture2D->Release(); }
+	if (nullptr != m_pDevice) { m_pDevice->Release(); }
+	if (nullptr != m_pContext) { m_pContext->Release(); }
+}
+
+
+
+
 bool KDevice::Init()
 {
 	m_bInit = false;
@@ -192,6 +203,9 @@ bool KDevice::Create_View()
 	m_Decs.Height = (UINT)window()->heigth();
 	m_Decs.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
 
+	// 24 비트는 float통해 깊이 체크
+	// 뒤에 8 비트는 int형 비트단위 연산으로 스텐실 버퍼 체크
+
 	m_Decs.SampleDesc.Count = m_iMSLv;
 	m_Decs.SampleDesc.Quality = m_iMSLv - 1;
 
@@ -210,62 +224,13 @@ bool KDevice::Create_View()
 		return false;
 	}
 
-	if (S_OK != m_pDevice->CreateDepthStencilView(m_pTexture2D, 0, &m_pDepthStencilView))
+	if (S_OK != m_pDevice->CreateDepthStencilView(m_pTexture2D, 0, &m_pDS_View))
 	{
 		return false;
 	}
-
-
-	m_DepthDESC.DepthEnable = TRUE;
-	m_DepthDESC.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
-	// 뎁스 비교연산을 하지 않겠다.
-	m_DepthDESC.DepthFunc = D3D11_COMPARISON_LESS;
-	m_DepthDESC.StencilEnable = FALSE;
-	m_DepthDESC.StencilReadMask = D3D11_DEFAULT_STENCIL_READ_MASK;
-	m_DepthDESC.StencilWriteMask = D3D11_DEFAULT_STENCIL_WRITE_MASK;
-
-	//////////////////////////////Debug
-	const D3D11_DEPTH_STENCILOP_DESC defDebStaencilOp =
-	{ D3D11_STENCIL_OP_KEEP, D3D11_STENCIL_OP_KEEP, D3D11_STENCIL_OP_KEEP, D3D11_COMPARISON_ALWAYS };
-
-	m_DepthDESC.FrontFace = defDebStaencilOp;
-	m_DepthDESC.BackFace = defDebStaencilOp;
-
-	m_pDevice->CreateDepthStencilState(&m_DepthDESC, &m_pDepthStencilStateDeg);
-
-	if (nullptr == m_pDepthStencilStateDeg)
-	{
-		KASSERT(true);
-		return false;
-	}
-	//////////////////////////////////
-
-
-	m_DepthDESC.DepthEnable = TRUE;
-	m_DepthDESC.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
-	m_DepthDESC.DepthFunc = D3D11_COMPARISON_ALWAYS;
-	m_DepthDESC.StencilEnable = FALSE;
-	m_DepthDESC.StencilReadMask = D3D11_DEFAULT_STENCIL_READ_MASK;
-	m_DepthDESC.StencilWriteMask = D3D11_DEFAULT_STENCIL_WRITE_MASK;
-
-	const D3D11_DEPTH_STENCILOP_DESC defStaencilOp =
-	{ D3D11_STENCIL_OP_KEEP, D3D11_STENCIL_OP_KEEP, D3D11_STENCIL_OP_KEEP, D3D11_COMPARISON_ALWAYS };
-
-	m_DepthDESC.FrontFace = defStaencilOp;
-	m_DepthDESC.BackFace = defStaencilOp;
-
-	m_pDevice->CreateDepthStencilState(&m_DepthDESC, &m_pDepthStencilState);
-
-	if (nullptr == m_pDepthStencilState)
-	{
-		KASSERT(true);
-		return false;
-	}
-
 	
 	// 랜더링 파이프 라인과 관련있다는 ... 공부 하라능
-	m_pContext->OMSetRenderTargets(1, &m_pTargetView, m_pDepthStencilView);
-	m_pContext->OMSetDepthStencilState(m_pDepthStencilState, 1);
+	m_pContext->OMSetRenderTargets(1, &m_pTargetView, m_pDS_View);
 
 	return true;
 }
@@ -288,6 +253,11 @@ bool KDevice::Create_ViewPort()
 	return true;
 }
 
+
+
+
+
+/***************** Raster ***************/
 KPtr<KDevice::RasterState> KDevice::Find_RasterMode(const wchar_t* _Name)
 {
 	return Map_Find<KPtr<RasterState>>(m_RasterMap, _Name);
@@ -317,14 +287,14 @@ void KDevice::Create_RasterMode(const wchar_t* _Name)
 		return;
 	}
 
-	m_DefaultState =  RSS;	
-	m_DefaultState->Update();
+	m_RState_Def =  RSS;	
+	m_RState_Def->Update();
 	return;
 }
 
 void KDevice::ResetRasterState()
 {
-	m_DefaultState->Update();
+	m_RState_Def->Update();
 }
 
 void KDevice::RasterState::Update()
@@ -351,11 +321,75 @@ void KDevice::RasterState::Create(ID3D11Device* _Device, ID3D11DeviceContext* _C
 	}
 }
 
+
+
+/******************** Depth Stencil ********************/
+// Raster 관련
+KPtr<KDevice::RasterState> KDevice::Find_DepthStencil(const wchar_t* _Name)
+{
+	return Map_Find<KPtr<DepthStencilState>>(m_DepthStencilMap, _Name);
+}
+
+void KDevice::Create_DepthSencil(const wchar_t* _Name, D3D11_DEPTH_STENCIL_DESC _Desc)
+{
+	DepthStencilState* TempDS = new DepthStencilState();
+	TempDS->Create(m_pDevice, m_pContext, _Desc);
+	m_DepthStencilMap.insert(std::unordered_map<std::wstring, KPtr<DepthStencilState>>::value_type(_Name, TempDS));
+}
+
+
+
+void KDevice::Create_RasterMode(const wchar_t* _Name)
+{
+	KPtr<DepthStencilState> DSS = Map_Find<KPtr<DepthStencilState>>(m_DepthStencilMap, _Name);
+	if (nullptr == DSS)
+	{
+		KASSERT(true);
+		return;
+	}
+
+	if (nullptr == DSS->m_DSS)
+	{
+		KASSERT(true);
+		return;
+	}
+
+	m_DState_Def = DSS;
+	m_DState_Def->Update();
+	return;
+}
+
+void KDevice::Reset_DepthStencil()
+{
+	m_DState_Def->Update();
+}
+
+void KDevice::DepthStencilState::Update()
+{
+	m_Context->OMSetDepthStencilState(m_DSS, 0);
+}
+
+void KDevice::DepthStencilState::Create(ID3D11Device* _Device, ID3D11DeviceContext* _Context, D3D11_DEPTH_STENCIL_DESC _Desc)
+{
+	if (nullptr == _Context)
+	{
+		KASSERT(true);
+		return;
+	}
+	m_Context = _Context;
+
+	if (S_OK != _Device->CreateDepthStencilState(&m_Desc, &m_DSS))
+	{
+		return;
+	}
+}
+
+
 // 깨끗이 해주는 함수
 void KDevice::Clear_Target()
 {
 	m_pContext->ClearRenderTargetView(m_pTargetView, m_Color.s);
-	m_pContext->ClearDepthStencilView(m_pDepthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1, 0);
+	m_pContext->ClearDepthStencilView(m_pDS_View, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1, 0);
 }
 
 // 찍어주는 함수
@@ -364,20 +398,8 @@ void KDevice::Present()
 	m_pSwapChain->Present(0, 0);
 }
 
-void KDevice::Release()
-{
-	if (nullptr != m_pDepthStencilStateDeg) { m_pDepthStencilStateDeg->Release(); }
-	if (nullptr != m_pDepthStencilState) { m_pDepthStencilState->Release(); }
-	if (nullptr != m_pDepthStencilView) { m_pDepthStencilView->Release(); }
-	if (nullptr != m_pTargetView) { m_pTargetView->Release(); }
-	if (nullptr != m_pSwapChain) { m_pSwapChain->Release(); }
-	if (nullptr != m_pBackBuffer) { m_pBackBuffer->Release(); }
-	if (nullptr != m_pTexture2D) { m_pTexture2D->Release(); }
-	if (nullptr != m_pDevice) { m_pDevice->Release(); }
-	if (nullptr != m_pContext) { m_pContext->Release(); }
-}
 
-void KDevice::reset_context()
+void KDevice::Reset_Context()
 {
 	m_pContext->VSSetShader(nullptr, nullptr, 0);
 	m_pContext->HSSetShader(nullptr, nullptr, 0);
@@ -391,22 +413,13 @@ void KDevice::SetOM()
 {
 	// 글자나 다른 렌더러가 스텐실을 건드릴 경우 다시 렌더순서를 잡기 위햄
 	// 정확히는 랜더 순서라기 보다 뒤죽박죽된 깊이값을 재조정
-	m_pContext->OMSetRenderTargets(1, &m_pTargetView, m_pDepthStencilView);
-	m_pContext->OMSetDepthStencilState(m_pDepthStencilState, 1);
-}
-
-void KDevice::SetOM_Deg()
-{
-	// 글자나 다른 렌더러가 스텐실을 건드릴 경우 다시 렌더순서를 잡기 위햄
-	// 정확히는 랜더 순서라기 보다 뒤죽박죽된 깊이값을 재조정
-	m_pContext->OMSetRenderTargets(1, &m_pTargetView, m_pDepthStencilView);
-	m_pContext->OMSetDepthStencilState(m_pDepthStencilStateDeg, 1);
+	m_pContext->OMSetRenderTargets(1, &m_pTargetView, m_pDS_View);
 }
 
 
 bool KDevice::Create_DeviceCB(Device_CB* _NewBuf)
 {
-	if (S_OK != Core_Class::device()->CreateBuffer(&_NewBuf->tDesc, nullptr, &_NewBuf->p_ConstBuffer))
+	if (S_OK != Core_Class::Device()->CreateBuffer(&_NewBuf->tDesc, nullptr, &_NewBuf->p_ConstBuffer))
 	{
 		delete _NewBuf;
 		return false;

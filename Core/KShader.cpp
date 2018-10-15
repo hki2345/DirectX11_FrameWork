@@ -21,11 +21,11 @@ KShader::~KShader()
 
 void KShader::Init_Default()
 {
-	m_pContext = Core_Class::device_context();
+	m_pContext = Core_Class::Context();
 }
 bool KShader::Create_ConstBuf(Const_Buffer* _NewBuf)
 {
-	if (S_OK != Core_Class::device()->CreateBuffer(&_NewBuf->tDesc, nullptr, &_NewBuf->p_ConstBuffer))
+	if (S_OK != Core_Class::Device()->CreateBuffer(&_NewBuf->tDesc, nullptr, &_NewBuf->p_ConstBuffer))
 	{
 		delete _NewBuf;
 		return false;

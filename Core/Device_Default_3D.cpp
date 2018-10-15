@@ -364,7 +364,7 @@ void KDevice::Init_Defferd()
 	KPtr<Pixel_Shader> DefLight_PX = ResourceManager<Pixel_Shader>::Load_FromKey
 	(L"DefLight_PX", L"Shader", L"DefferdMesh.fx", "DefLight_PX");
 
-	KPtr<Material> LightDef_MAT = ResourceManager<Material>::Create(L"LIGHTDEF_MAT");
+	KPtr<Material> LightDef_MAT = ResourceManager<Material>::Create(L"LIGHTMERGE_MAT");
 	LightDef_MAT->Set_VShader(L"DefLight_VT");
 	LightDef_MAT->Set_PShader(L"DefLight_PX");
 	LightDef_MAT->Set_Blend(L"AlphaBlend3D");

@@ -34,7 +34,7 @@ bool Blend::Create()
 	m_Desc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
 	m_Desc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
 
-	if (S_OK != Core_Class::device()->CreateBlendState(&m_Desc, &m_BlendState))
+	if (S_OK != Core_Class::Device()->CreateBlendState(&m_Desc, &m_BlendState))
 	{
 		KASSERT(true);
 		return false;
@@ -45,5 +45,5 @@ bool Blend::Create()
 
 void Blend::Update()
 {
-	Core_Class::device_context()->OMSetBlendState(m_BlendState, m_Color.s, 0xffffffff);
+	Core_Class::Context()->OMSetBlendState(m_BlendState, m_Color.s, 0xffffffff);
 }
