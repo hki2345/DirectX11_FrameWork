@@ -86,6 +86,8 @@ bool KDevice::Init_DefaultData_3D()
 	Init_GridMat();
 	Init_MeshMat();
 	Init_ImageMat();
+	Init_DepthStencil();
+	Init_Merge();
 	// Init_LightMat();
 
 	Core_Class::MainDevice().Create_RasterMode(L"SOLID_NONE", D3D11_FILL_MODE::D3D11_FILL_SOLID, D3D11_CULL_MODE::D3D11_CULL_NONE);
@@ -95,7 +97,7 @@ bool KDevice::Init_DefaultData_3D()
 	Core_Class::MainDevice().Create_RasterMode(L"WBACK", D3D11_FILL_MODE::D3D11_FILL_WIREFRAME, D3D11_CULL_MODE::D3D11_CULL_BACK);
 	Core_Class::MainDevice().Create_RasterMode(L"WFRONT", D3D11_FILL_MODE::D3D11_FILL_WIREFRAME, D3D11_CULL_MODE::D3D11_CULL_FRONT);
 
-	Core_Class::MainDevice().Create_RasterMode(L"SBACK");
+	Core_Class::MainDevice().Set_RasterMode(L"SBACK");
 
 	return true;
 }
@@ -364,7 +366,7 @@ void KDevice::Init_Defferd()
 	KPtr<Pixel_Shader> DefLight_PX = ResourceManager<Pixel_Shader>::Load_FromKey
 	(L"DefLight_PX", L"Shader", L"DefferdMesh.fx", "DefLight_PX");
 
-	KPtr<Material> LightDef_MAT = ResourceManager<Material>::Create(L"LIGHTMERGE_MAT");
+	KPtr<Material> LightDef_MAT = ResourceManager<Material>::Create(L"LIGHTDEF_MAT");
 	LightDef_MAT->Set_VShader(L"DefLight_VT");
 	LightDef_MAT->Set_PShader(L"DefLight_PX");
 	LightDef_MAT->Set_Blend(L"AlphaBlend3D");
@@ -387,25 +389,41 @@ void KDevice::Init_Defferd()
 	MT_MAT->Set_Blend(L"AlphaBlend3D");
 
 
+}
 
-	/********************* Merge *******************/
-	KPtr<Vertex_Shader> DefMerge_VT = ResourceManager<Vertex_Shader>::Load_FromKey
+void KDevice::Init_Merge()
+{
+	/********************* Merge Light *******************/
+	KPtr<Vertex_Shader> LightMerge_VT = ResourceManager<Vertex_Shader>::Load_FromKey
 	(L"DefMerge_VT", L"Shader", L"DefferdMesh.fx", "DefMerge_VT");
-	DefMerge_VT->Add_Layout("POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
-	DefMerge_VT->Add_LayoutFin("TEXCOORD", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32_FLOAT, 0);
+	LightMerge_VT->Add_Layout("POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
+	LightMerge_VT->Add_LayoutFin("TEXCOORD", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32_FLOAT, 0);
 
 	KPtr<Pixel_Shader> DefMerge_PX = ResourceManager<Pixel_Shader>::Load_FromKey
 	(L"DefMerge_PX", L"Shader", L"DefferdMesh.fx", "DefMerge_PX");
 
-	KPtr<Material> MergeDef_MAT = ResourceManager<Material>::Create(L"MERGEDEF_MAT");
-	MergeDef_MAT->Set_VShader(L"DefMerge_VT");
-	MergeDef_MAT->Set_PShader(L"DefMerge_PX");
-	MergeDef_MAT->Set_Blend(L"AlphaBlend3D");
-	MergeDef_MAT->insert_TD(Texture_Type::TEX_TARGET, 0, L"DIFFUSE");
-	MergeDef_MAT->insert_TD(Texture_Type::TEX_TARGET, 1, L"LIGHT_DIFFUSE");
-	MergeDef_MAT->insert_TD(Texture_Type::TEX_TARGET, 2, L"LIGHT_SPEC");
-}
+	KPtr<Material> LightMerge_MAT = ResourceManager<Material>::Create(L"MERGEDEF_MAT");
+	LightMerge_MAT->Set_VShader(L"DefMerge_VT");
+	LightMerge_MAT->Set_PShader(L"DefMerge_PX");
+	LightMerge_MAT->Set_Blend(L"AlphaBlend3D");
+	LightMerge_MAT->insert_TD(Texture_Type::TEX_TARGET, 0, L"DIFFUSE");
+	LightMerge_MAT->insert_TD(Texture_Type::TEX_TARGET, 1, L"LIGHT_DIFFUSE");
+	LightMerge_MAT->insert_TD(Texture_Type::TEX_TARGET, 2, L"LIGHT_SPEC");
 
+
+	/********************* Merge Screen *******************/
+	KPtr<Vertex_Shader> ScrMerge_VT = ResourceManager<Vertex_Shader>::Load_FromKey
+	(L"ScrMerge_VT", L"Shader", L"MergeShader.fx", "ScrMerge_VT");
+	ScrMerge_VT->Add_Layout("POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
+	ScrMerge_VT->Add_LayoutFin("TEXCOORD", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32_FLOAT, 0);
+	
+	KPtr<Pixel_Shader> ScrMerge_PX = ResourceManager<Pixel_Shader>::Load_FromKey
+	(L"ScrMerge_PX", L"Shader", L"MergeShader.fx", "ScrMerge_PX");
+	
+	KPtr<Material> ScrMerge_MAT = ResourceManager<Material>::Create(L"SCRMERGE_MAT");
+	ScrMerge_MAT->Set_VShader(L"ScrMerge_VT");
+	ScrMerge_MAT->Set_PShader(L"ScrMerge_PX");
+}
 
 
 
@@ -543,4 +561,41 @@ void KDevice::Init_LightMat()
 	NewPMat->Set_VShader(L"PLIGHT_VERT");
 	NewPMat->Set_PShader(L"PLIGHT_PIX");
 	NewPMat->Set_Blend(L"AlphaBlend3D");
+}
+
+void KDevice::Init_DepthStencil()
+{
+	// 뎊스를 켜놓고
+	D3D11_DEPTH_STENCIL_DESC DepthState;
+
+	DepthState.DepthEnable = TRUE;
+	// D3D11_DEPTH_WRITE_MASK_ALL 뎊스비교를 하겠다는 것이다.
+	// D3D11_DEPTH_WRITE_MASK_ZERO 쓰지 않겠다.
+	DepthState.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
+	DepthState.DepthFunc = D3D11_COMPARISON_ALWAYS;
+	// 스텐실에 관련된 것.
+	// 0x000000ff 가장 뒤에 사용하겠다.
+	DepthState.StencilEnable = FALSE;
+	DepthState.StencilReadMask = D3D11_DEFAULT_STENCIL_READ_MASK;
+	DepthState.StencilWriteMask = D3D11_DEFAULT_STENCIL_WRITE_MASK;
+	const D3D11_DEPTH_STENCILOP_DESC defaultStencilOpDebug =
+	{ D3D11_STENCIL_OP_KEEP, D3D11_STENCIL_OP_KEEP, D3D11_STENCIL_OP_KEEP, D3D11_COMPARISON_ALWAYS };
+	DepthState.FrontFace = defaultStencilOpDebug;
+	DepthState.BackFace = defaultStencilOpDebug;
+	Core_Class::MainDevice().Create_DepthSencil(L"DEBUG", DepthState);
+
+	// 정상적인것.
+	DepthState.DepthFunc = D3D11_COMPARISON_LESS;
+	Core_Class::MainDevice().Create_DepthSencil(L"BASIC", DepthState);
+
+	DepthState.DepthFunc = D3D11_COMPARISON_ALWAYS;
+	Core_Class::MainDevice().Create_DepthSencil(L"ALWAYS", DepthState);
+
+	// 정보만 넘김 -> 쓰는 행위를 하지 않음 -> 깊이값을 안 넣겠다는 뜻
+	DepthState.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;
+	DepthState.DepthFunc = D3D11_COMPARISON_ALWAYS;
+	Core_Class::MainDevice().Create_DepthSencil(L"LIGHTDEPTH", DepthState);
+
+	Core_Class::MainDevice().Set_DepthSencil(L"BASIC");
+
 }

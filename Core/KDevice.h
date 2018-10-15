@@ -86,9 +86,10 @@ private:
 
 public:
 	void ResetRasterState();
-	void Create_RasterMode(const wchar_t* _Name);
+	void Set_RasterMode(const wchar_t* _Name);
 	void Create_RasterMode(const wchar_t* _Name, D3D11_FILL_MODE _Fill, D3D11_CULL_MODE _Cull);
 
+	/***************** Depth Stencil ****************/
 
 	// µª½º ½ºÅÙ½Ç -> ·»´õ ¼ø¼­¸¦ °áÁ¤ÇØÁØ´Ù.
 	// + À±°û Ã³¸® ±×·± °Å
@@ -114,15 +115,16 @@ public:
 	};
 
 private:
-	KPtr<RasterState> m_DState_Def;
-	std::unordered_map<std::wstring, KPtr<RasterState>> m_DepthStencilMap;
+	KPtr<DepthStencilState> m_DState_Def;
+	std::unordered_map<std::wstring, KPtr<DepthStencilState>> m_DepthStencilMap;
 
 private:
-	KPtr<RasterState> Find_DepthStencil(const wchar_t* _Name);
+	KPtr<DepthStencilState> Find_DepthStencil(const wchar_t* _Name);
 
 public:
 	void Reset_DepthStencil();
-	void Create_DepthSencil(const wchar_t* _Name);
+	void Set_DepthSencil(const wchar_t* _Name);
+	void Set_DepthSencilMode(const wchar_t* _Name);
 	void Create_DepthSencil(const wchar_t* _Name, D3D11_DEPTH_STENCIL_DESC _Desc);
 
 
@@ -140,7 +142,6 @@ public:
 
 	void Reset_Context();
 	void SetOM();
-	void SetOM_Deg();
 
 public:
 	bool Init_DefaultData_2D();
@@ -177,7 +178,10 @@ private:
 	void Init_GridMat();
 	void Init_MeshMat();
 	void Init_LightMat();
+	void Init_Merge();
 
+	// DepthStecil
+	void Init_DepthStencil();
 
 
 	void Clear_Target();

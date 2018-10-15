@@ -80,7 +80,6 @@ DEFMESH_PX_OUT DefMesh_PX(DEFMESH_VT_OUT _in)
     outData.vPosition = _in.vViewPos;
     outData.vDepth.xyzw = outData.vPosition.z;
 
-	// outData.vColor = _in.vColor;
     return outData;
 }
 
@@ -108,7 +107,7 @@ DEFFERDLIGHT_PX_OUT DefLight_PX(DEFFERDLIGHT_VT_OUT _Input)
     DEFFERDLIGHT_PX_OUT OUTDATA = (DEFFERDLIGHT_PX_OUT) 0.0F;
 
     float fDepth = g_Tex_2.Sample(g_Sam_0, _Input.vUv).x;
-    if (fDepth <= 0.01f)
+    if (fDepth == 0.0f)
     {
         clip(-1);
     }
@@ -120,13 +119,13 @@ DEFFERDLIGHT_PX_OUT DefLight_PX(DEFFERDLIGHT_VT_OUT _Input)
 
     OUTDATA.vDiffuse.rgb = info.Diff.rgb;
     OUTDATA.vDiffuse.a = 1.0f;
-    OUTDATA.vSpeculer.rgb = info.Spec.rgb;
+    OUTDATA.vSpeculer.rgb = info.Spec.rgb + float3(.1f, .1f, .1f);
     OUTDATA.vSpeculer.a = 1.0f;
 
     return OUTDATA;
 }
 
-// 최종 병합 쉐이더
+// 최종 병합 쉐이더 - 리소스 -> 리소스와 렌더는 같이 되지 않는다.
 DEFFERDLIGHT_VT_OUT DefMerge_VT(DEFFERDLIGHT_VT_IN _Input)
 {
     DEFFERDLIGHT_VT_OUT OUTDATA = (DEFFERDLIGHT_VT_OUT) 0.0F;
@@ -144,9 +143,15 @@ MERGE_PX_OUT DefMerge_PX(DEFFERDLIGHT_VT_OUT _Input)
     
     vColor.w = 1.0f;
     vDiff.w = 1.0f;
-    vSpec.w = 1.0f;
+    vSpec.w = 0.0f;
+    
+    
+    if (OUTDATA.vMergeColor.a != 0.f)
+    {
+        OUTDATA.vMergeColor.rgb = float3(0.2f, 0.2f, 0.8f) * vColor.a;
+    }
 
-    OUTDATA.vMergeColor = vColor * vDiff + vSpec + float4(0.1f, 0.1f, 0.1f, 1.0f);
+    OUTDATA.vMergeColor.rgb += vColor.rgb * vDiff.rgb + vSpec.rgb /*+ float3(0.1f, 0.1f, 0.1f)*/;
     OUTDATA.vMergeColor.a = 1.0f;
 
     return OUTDATA;

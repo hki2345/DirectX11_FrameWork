@@ -259,27 +259,25 @@ void DebugManager::Targetting()
 
 	for (; m_SC != m_EC; ++m_SC)
 	{
-		KPtr<Camera> Cam = m_SC->second->m_MTarget->RenderTargetList;
+		std::vector<KPtr<RenderTarget>> TempVec = m_SC->second->m_MTarget->RenderTargetList();
 
-		std::vector<KPtr<RenderTarget>> TagetVec = Cam->m_MTarget->RenderTargetList();
-
-		for (size_t j = 0; j < TagetVec.size(); j++)
+		for (size_t j = 0; j < TempVec.size(); j++)
 		{
 			KMatrix m_Scale;
 			KMatrix m_Pos;
 
 			m_Scale.Identity();
 
-			// m_Scale.Scale(KVector(SizeX, SizeY, 1.0F));
-			// m_Pos.Identity();
-			// m_Pos.Translation(
-			// 	KVector((-Core_Class::Main_Window().widthf() * 0.5F) + (CountX * SizeX) + (SizeX * 0.5F)
-			// 		, (Core_Class::Main_Window().heigthf() * 0.5F) + (-CountY * SizeY) - (SizeY * 0.5F)
-			// 		, 1.1f));
-
-			m_Scale.Scale(KVector(Core_Class::Main_Window().widthf(), Core_Class::Main_Window().heigthf(), 1.0F));
+			m_Scale.Scale(KVector(SizeX, SizeY, 1.0F));
 			m_Pos.Identity();
-			m_Pos.Translation(KVector(.0f, .0f, 1.1f));
+			m_Pos.Translation(
+				KVector((-Core_Class::Main_Window().widthf() * 0.5F) + (CountX * SizeX) + (SizeX * 0.5F)
+					, (Core_Class::Main_Window().heigthf() * 0.5F) + (-CountY * SizeY) - (SizeY * 0.5F)
+					, 1.1f));
+
+			// m_Scale.Scale(KVector(Core_Class::Main_Window().widthf(), Core_Class::Main_Window().heigthf(), 1.0F));
+			// m_Pos.Identity();
+			// m_Pos.Translation(KVector(.0f, .0f, 1.1f));
 
 			KMatrix m_W = m_Scale * m_Pos;
 
@@ -291,11 +289,11 @@ void DebugManager::Targetting()
 			tMatData.Transpose_Ref();
 
 			Smp->Update(0);
-			if (nullptr == TagetVec[j]->texture()->Shader_RescourceView())
+			if (nullptr == TempVec[j]->texture()->Shader_RescourceView())
 			{
 				KASSERT(true);
 			}
-			TagetVec[j]->texture()->Update(0);
+			TempVec[j]->texture()->Update(0);
 
 			Core_Class::MainDevice().Set_DeviceCB<DATA_3D>(L"DATA3D", tMatData, SHADER_TYPE::ST_VS);
 
@@ -303,7 +301,7 @@ void DebugManager::Targetting()
 			TMesh->Update();
 			TMesh->Render();
 
-			TagetVec[j]->texture()->Reset(0);
+			TempVec[j]->texture()->Reset(0);
 
 			++CountX;
 

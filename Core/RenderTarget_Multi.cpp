@@ -33,12 +33,11 @@ void RenderTarget_Multi::SetOM()
 			ID3D11DepthStencilView* OldDepth;
 			Core_Class::Context()->OMGetRenderTargets(0, nullptr, &OldDepth);
 			Core_Class::Context()->OMSetRenderTargets(TargetCount(), &m_RTViewVec[0], OldDepth);
-			// HVAR::Context()->OMSetDepthStencilState(m_pDepthStencilState, 1);
 			OldDepth->Release();
 		}
 		else
 		{
-			Core_Class::Context()->OMSetRenderTargets(TargetCount(), &m_RTViewVec[0], 
+			Core_Class::Context()->OMSetRenderTargets(TargetCount(), &m_RTViewVec[0],
 				Core_Class::MainDevice().DepthStencil_View());
 		}
 	}

@@ -2,7 +2,7 @@
 #include "KMacro.h"
 #include "Core_Class.h"
 
-RenderTarget::RenderTarget() :m_Color(KColor::Black)
+RenderTarget::RenderTarget() :m_Color(KColor::Blue)
 {
 }
 

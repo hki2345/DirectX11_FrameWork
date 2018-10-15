@@ -10,14 +10,15 @@
 #include "ResourceManager.h"
 #include "Mesh.h"
 #include "Material.h"
+#include "RenderTarget_Multi.h"
 
 
 Camera::Camera() :m_eSMode(SM_WINDOW), m_ePMode(PM_ORTHGRAPHICS),
 m_fFov(DirectX::XM_1DIV2PI), m_fNear(1.0f), m_fFar(1000.0f)
 {
 	m_Mesh = ResourceManager<Mesh>::Find(L"RECT3D");
-	m_LightMat = ResourceManager<Material>::Find(L"LIGHTMERGE_MAT");
-	m_ScreenMat = ResourceManager<Material>::Find(L"SCREENMERGE_MAT");
+	m_LightMat = ResourceManager<Material>::Find(L"MERGEDEF_MAT");
+	m_ScreenMat = ResourceManager<Material>::Find(L"SCRMERGE_MAT");
 }
 
 

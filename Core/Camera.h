@@ -4,7 +4,7 @@
 #include "Component_DE.h"
 
 // 디퍼드 메쉬 -> 포워드 타겟에 한번에 그리려고 
-#include "RenderTarget_Multi.h"
+
 
 
 
@@ -14,6 +14,7 @@ class Material;
 // 3D 구현에 핵심
 class TransPosition;
 class RenderManager;
+class RenderTarget_Multi;
 class Camera final: public Component_DE
 {
 public:

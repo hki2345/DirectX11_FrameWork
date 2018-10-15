@@ -8,6 +8,7 @@
 #include "KMacro.h"
 #include "KImage.h"
 #include "KSound.h"
+
 #include "MultiCritical.h"	
 
 std::unordered_map<std::wstring, std::wstring> PathManager::m_map_GamePath;

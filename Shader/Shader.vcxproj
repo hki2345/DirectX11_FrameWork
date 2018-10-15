@@ -119,12 +119,11 @@
     <FxCompile Include="..\bin\Shader\LightDefferd.fx" />
     <FxCompile Include="..\bin\Shader\LightForward.fx" />
     <FxCompile Include="..\bin\Shader\MatrixContainer.fx" />
+    <FxCompile Include="..\bin\Shader\MergeShader.fx" />
     <FxCompile Include="..\bin\Shader\NoneShader.fx" />
     <FxCompile Include="..\bin\Shader\PixelContainer.fx" />
-    <FxCompile Include="..\bin\Shader\PLight.fx" />
     <FxCompile Include="..\bin\Shader\Rect3DShader.fx" />
     <FxCompile Include="..\bin\Shader\TextureContainer.fx" />
-    <FxCompile Include="..\bin\Shader\VLight.fx" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

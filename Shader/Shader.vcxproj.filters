@@ -13,13 +13,7 @@
     <FxCompile Include="..\bin\Shader\Grid3DShader.fx">
       <Filter>Shader</Filter>
     </FxCompile>
-    <FxCompile Include="..\bin\Shader\PLight.fx">
-      <Filter>Shader</Filter>
-    </FxCompile>
     <FxCompile Include="..\bin\Shader\Rect3DShader.fx">
-      <Filter>Shader</Filter>
-    </FxCompile>
-    <FxCompile Include="..\bin\Shader\VLight.fx">
       <Filter>Shader</Filter>
     </FxCompile>
     <FxCompile Include="..\bin\Shader\ImageShader.fx">
@@ -53,6 +47,9 @@
       <Filter>Shader</Filter>
     </FxCompile>
     <FxCompile Include="..\bin\Shader\LightForward.fx">
+      <Filter>Shader</Filter>
+    </FxCompile>
+    <FxCompile Include="..\bin\Shader\MergeShader.fx">
       <Filter>Shader</Filter>
     </FxCompile>
   </ItemGroup>

@@ -39,33 +39,33 @@ void RenderManager::Insert_Renderer(Renderer* _Renderer)
 {
 	KASSERT(nullptr == _Renderer);
 
-	m_Renderer_FindIter = m_RendererMap.find(_Renderer->order());
+	m_RFI = m_RendererMap.find(_Renderer->order());
 
 	// 해당 레이어(리스트)가 없으면 만들어 주고 거기에 삽입
-	if (m_Renderer_FindIter == m_RendererMap.end())
+	if (m_RFI == m_RendererMap.end())
 	{
 		m_RendererMap.insert(
 			std::unordered_map<int, std::list<KPtr<Renderer>>>::value_type(_Renderer->order(), std::list<KPtr<Renderer>>()));
-		m_Renderer_FindIter = m_RendererMap.find(_Renderer->order());
+		m_RFI = m_RendererMap.find(_Renderer->order());
 	}
 
-	m_Renderer_FindIter->second.push_back(_Renderer);
+	m_RFI->second.push_back(_Renderer);
 }
 
 void RenderManager::insert_AbsRenderer(KPtr<Renderer> _Renderer)
 {
 	KASSERT(nullptr == _Renderer);
 
-	m_Renderer_FindIter = m_RendererMap.find(_Renderer->order());
+	m_RFI = m_RendererMap.find(_Renderer->order());
 
-	if (m_Renderer_FindIter == m_RendererMap.end())
+	if (m_RFI == m_RendererMap.end())
 	{
 		m_RendererMap.insert(std::unordered_map<int, std::list<KPtr<Renderer>>>::
 			value_type(_Renderer->order(), std::list<KPtr<Renderer>>()));
 	}
 
-	m_Renderer_FindIter = m_RendererMap.find(_Renderer->order());
-	m_Renderer_FindIter->second.push_back(_Renderer);
+	m_RFI = m_RendererMap.find(_Renderer->order());
+	m_RFI->second.push_back(_Renderer);
 }
 
 
@@ -91,40 +91,50 @@ void RenderManager::Render()
 
 	Reset_SamplerList();
 
-	m_Camera_StartIter = m_CameraMap.begin();
-	m_Camera_EndIter = m_CameraMap.end();
+	m_CSI = m_CameraMap.begin();
+	m_CEI = m_CameraMap.end();
 
 	
 
 	// 카메라 별
-	for (; m_Camera_StartIter != m_Camera_EndIter; ++m_Camera_StartIter)
+	for (; m_CSI != m_CEI; ++m_CSI)
 	{
 		// 레이어 별
-		for (size_t i = 0; i < m_Camera_StartIter->second->m_Layer.size(); ++i)
+		for (size_t i = 0; i < m_CSI->second->m_Layer.size(); ++i)
 		{
-			m_Renderer_FindIter = m_RendererMap.find(m_Camera_StartIter->second->m_Layer[i]);
+			m_RFI = m_RendererMap.find(m_CSI->second->m_Layer[i]);
 
 			// 해당 레이어가 카메라에 없으면 넘긴다.
-			if (m_Renderer_FindIter == m_RendererMap.end())
+			if (m_RFI == m_RendererMap.end())
 			{
 				continue;
 			}
 
-			Render_Defferd(m_Renderer_FindIter, i);
-			Render_LightDef((int)i, m_Camera_StartIter->second);
+			Core_Class::MainDevice().Set_DepthSencilMode(L"BASIC");
+
+			Render_Defferd(m_CSI->second, m_RFI, i); 
+
+			Core_Class::MainDevice().Set_DepthSencilMode(L"LIGHTDEPTH");
+
+			Render_LightDef((int)i);
 
 			// 라이트 연산 후 -> 카메라에 모두 찍어냄
-			m_Camera_StartIter->second->m_MTarget->Clear();
-			m_Camera_StartIter->second->m_MTarget->SetOM();
-			m_Camera_StartIter->second->Render_Light();
+			m_CSI->second->m_MTarget->Clear();
+			m_CSI->second->m_MTarget->SetOM();
+			m_CSI->second->Render_Light();
 
-			Render_Forward(m_Renderer_FindIter, i);
+			Core_Class::MainDevice().Set_DepthSencilMode(L"BASIC");
+
+			Render_Forward(m_CSI->second, m_RFI, i);
 		}		
 	}
 
+	Core_Class::MainDevice().SetOM();
+	Render_Screen();
+
 	if (true == DebugManager::Is_Debug())
 	{
-		Core_Class::MainDevice().SetOM_Deg();
+		Core_Class::MainDevice().Set_DepthSencilMode(L"ALWAYS");
 		Core_Class::main_state()->DebugRender();
 		DebugManager::Targetting();
 		DebugManager::Logging();
@@ -206,8 +216,8 @@ void RenderManager::Light_Check(const int& _Layer, KPtr<Camera> _Iter)
 			TempData.ArrLight[Cnt] = (*m_LS)->m_LD;
 
 			// 방향값만 곱해져야 하기 때문예 -> Zero로 곱해준다.
-			TempData.ArrLight[Cnt].m_Dir = _Iter->View().Multi_Vector_Z(TempData.ArrLight[Cnt].m_Dir);
-			TempData.ArrLight[Cnt].m_Pos = _Iter->View().Multi_Vector_Z(TempData.ArrLight[Cnt].m_Pos);
+			TempData.ArrLight[Cnt].m_Dir = -_Iter->View().Multi_Vector_Z(TempData.ArrLight[Cnt].m_Dir);
+			TempData.ArrLight[Cnt].m_Pos = -_Iter->View().Multi_Vector_Z(TempData.ArrLight[Cnt].m_Pos);
 			TempData.ArrLight[Cnt].CamPos = _Iter->View().Multi_Vector_Z(TempData.ArrLight[Cnt].CamPos);
 			++Cnt;
 
@@ -227,7 +237,7 @@ void RenderManager::Light_Check(const int& _Layer, KPtr<Camera> _Iter)
 }
 
 
-void RenderManager::Render_Defferd(std::map<int, std::list<KPtr<Renderer>>>::iterator _Iter, size_t _Index)
+void RenderManager::Render_Defferd(KPtr<Camera> _Cam, std::map<int, std::list<KPtr<Renderer>>>::iterator _Iter, size_t _Index)
 {
 	// 디퍼드용 메테리얼로 
 	KPtr<RenderTarget_Multi> DEFFERDTARGET = ResourceManager<RenderTarget_Multi>::Find(L"DEFFERD");
@@ -238,17 +248,16 @@ void RenderManager::Render_Defferd(std::map<int, std::list<KPtr<Renderer>>>::ite
 	KASSERT(nullptr == DEFFERDMAT);
 	
 
-	m_Renderer_StartIter = m_Renderer_FindIter->second.begin();
-	m_Renderer_EndIter = m_Renderer_FindIter->second.end();
-	Light_Check((*m_Camera_StartIter)->m_Layer[_Index], m_Camera_StartIter);
+	m_Renderer_StartIter = m_RFI->second.begin();
+	m_Renderer_EndIter = m_RFI->second.end();
 
 	for (; m_Renderer_StartIter != m_Renderer_EndIter; m_Renderer_StartIter++)
 	{
 		if (1 == (*m_Renderer_StartIter)->m_ROption.Deffert_orFoward)
 		{
 			(*m_Renderer_StartIter)->RenderUpdate();
-			(*m_Renderer_StartIter)->Update_Trans((*m_Camera_StartIter));
-			(*m_Renderer_StartIter)->Render((*m_Camera_StartIter));
+			(*m_Renderer_StartIter)->Update_Trans(_Cam);
+			(*m_Renderer_StartIter)->Render(_Cam);
 			DEFFERDMAT->Update();
 			(*m_Renderer_StartIter)->Update_Mesh();
 			(*m_Renderer_StartIter)->RenderFinalUpdate();
@@ -256,22 +265,22 @@ void RenderManager::Render_Defferd(std::map<int, std::list<KPtr<Renderer>>>::ite
 	}
 }
 
-void RenderManager::Render_Forward(std::map<int, std::list<KPtr<Renderer>>>::iterator _Iter, size_t _Index)
+void RenderManager::Render_Forward(KPtr<Camera> _Cam, std::map<int, std::list<KPtr<Renderer>>>::iterator _Iter, size_t _Index)
 {
 	// 포워드는 그냥 메인에 그린다. 
 	// Core_Class::MainDevice().Clear_Target();
 	// Core_Class::MainDevice().SetOM();
 
-	m_Renderer_StartIter = m_Renderer_FindIter->second.begin();
-	m_Renderer_EndIter = m_Renderer_FindIter->second.end();
-	Light_Check((*m_Camera_StartIter)->m_Layer[_Index], m_Camera_StartIter);
+	m_Renderer_StartIter = m_RFI->second.begin();
+	m_Renderer_EndIter = m_RFI->second.end();
+	Light_Check(_Cam->m_Layer[_Index], _Cam);
 	for (; m_Renderer_StartIter != m_Renderer_EndIter; m_Renderer_StartIter++)
 	{
 		if (0 == (*m_Renderer_StartIter)->m_ROption.Deffert_orFoward)
 		{
 			(*m_Renderer_StartIter)->RenderUpdate();
-			(*m_Renderer_StartIter)->Update_Trans((*m_Camera_StartIter));
-			(*m_Renderer_StartIter)->Render((*m_Camera_StartIter));
+			(*m_Renderer_StartIter)->Update_Trans(_Cam);
+			(*m_Renderer_StartIter)->Render(_Cam);
 			(*m_Renderer_StartIter)->Update_Material();
 			(*m_Renderer_StartIter)->Update_Mesh();
 			(*m_Renderer_StartIter)->RenderFinalUpdate();
@@ -279,7 +288,7 @@ void RenderManager::Render_Forward(std::map<int, std::list<KPtr<Renderer>>>::ite
 	}
 }
 
-void RenderManager::Render_LightDef(const int& _Layer, const std::set<KPtr<Camera>>::iterator& _Iter)
+void RenderManager::Render_LightDef(const int& _Layer)
 {
 	KPtr<RenderTarget_Multi> LIGHTTARGET = ResourceManager<RenderTarget_Multi>::Find(L"LIGHT");
 	LIGHTTARGET->Clear();
@@ -295,5 +304,16 @@ void RenderManager::Render_LightDef(const int& _Layer, const std::set<KPtr<Camer
 			KPtr<KLight> LPtr = *m_LS;
 			LPtr->Render();
 		}
+	}
+}
+
+void RenderManager::Render_Screen()
+{
+	m_CSI = m_CameraMap.begin();
+	m_CEI = m_CameraMap.end();
+
+	for (; m_CSI != m_CEI; ++m_CSI)
+	{
+		m_CSI->second->Render_Screen();
 	}
 }
