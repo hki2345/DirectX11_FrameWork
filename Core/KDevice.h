@@ -87,6 +87,7 @@ private:
 public:
 	void ResetRasterState();
 	void Set_RasterMode(const wchar_t* _Name);
+	void Set_Raster(const wchar_t* _Name);
 	void Create_RasterMode(const wchar_t* _Name, D3D11_FILL_MODE _Fill, D3D11_CULL_MODE _Cull);
 
 	/***************** Depth Stencil ****************/
@@ -101,7 +102,7 @@ public:
 		ID3D11DepthStencilState*	m_DSS;
 
 	public:
-		void Update();
+		void Update(const KUINT& _Ref = 0);
 		void Create(ID3D11Device* _Device, ID3D11DeviceContext* _Context, D3D11_DEPTH_STENCIL_DESC _Desc);
 
 	public:
@@ -124,7 +125,7 @@ private:
 public:
 	void Reset_DepthStencil();
 	void Set_DepthSencil(const wchar_t* _Name);
-	void Set_DepthSencilMode(const wchar_t* _Name);
+	void Set_DepthSencilMode(const wchar_t* _Name, const KUINT& _Ref = 0);
 	void Create_DepthSencil(const wchar_t* _Name, D3D11_DEPTH_STENCIL_DESC _Desc);
 
 

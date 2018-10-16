@@ -1,11 +1,13 @@
 #pragma once
-#include "Component.h"
+#include "Component_DE.h"
 #include <set>
 
 
+
+class Camera;
 class Mesh;
 class Material;
-class KLight : public Component
+class KLight : public Component_DE
 {
 public:
 	KLight();
@@ -67,6 +69,12 @@ public:
 	KPtr<Mesh> m_LMesh;
 	KPtr<Material> m_LMat;
 
+
+	// º¼·ýÀ¸·Î Ã³¸®µÉ ºû - Æ÷ÀÎÆ® ½ºÆý µî
+	DATA_3D		m_MD;
+	KPtr<Mesh>	m_VolumeMesh;
+	KPtr<Material>	m_VolumeMat;
+
 public:
 	void range(const float& _Value)
 	{
@@ -124,6 +132,6 @@ public:
 	void type(const LightType& _Type);
 
 private:
-	void Render();
+	void Render(KPtr<Camera> _Cam);
 };
 

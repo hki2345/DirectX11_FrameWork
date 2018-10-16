@@ -97,7 +97,7 @@ bool KDevice::Init_DefaultData_3D()
 	Core_Class::MainDevice().Create_RasterMode(L"WBACK", D3D11_FILL_MODE::D3D11_FILL_WIREFRAME, D3D11_CULL_MODE::D3D11_CULL_BACK);
 	Core_Class::MainDevice().Create_RasterMode(L"WFRONT", D3D11_FILL_MODE::D3D11_FILL_WIREFRAME, D3D11_CULL_MODE::D3D11_CULL_FRONT);
 
-	Core_Class::MainDevice().Set_RasterMode(L"SBACK");
+	Core_Class::MainDevice().Set_Raster(L"SBACK");
 
 	return true;
 }
@@ -423,6 +423,20 @@ void KDevice::Init_Merge()
 	KPtr<Material> ScrMerge_MAT = ResourceManager<Material>::Create(L"SCRMERGE_MAT");
 	ScrMerge_MAT->Set_VShader(L"ScrMerge_VT");
 	ScrMerge_MAT->Set_PShader(L"ScrMerge_PX");
+
+
+	/******************** Volume Material ***********************/
+	KPtr<Vertex_Shader> Volume_VT = ResourceManager<Vertex_Shader>::Load_FromKey
+	(L"Volume_VT", L"Shader", L"VolumeMesh.fx", "Volume_VT");
+	Volume_VT->Add_Layout("POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
+	Volume_VT->Add_LayoutFin("TEXCOORD", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32_FLOAT, 0);
+
+	KPtr<Pixel_Shader> Volume_PX = ResourceManager<Pixel_Shader>::Load_FromKey
+	(L"Volume_PX", L"Shader", L"VolumeMesh.fx", "Volume_PX");
+
+	KPtr<Material> Volume_MAT = ResourceManager<Material>::Create(L"VOLUME_MAT");
+	Volume_MAT->Set_VShader(L"Volume_VT");
+	Volume_MAT->Set_PShader(L"Volume_PX");
 }
 
 
@@ -572,22 +586,23 @@ void KDevice::Init_DepthStencil()
 	// D3D11_DEPTH_WRITE_MASK_ALL 뎊스비교를 하겠다는 것이다.
 	// D3D11_DEPTH_WRITE_MASK_ZERO 쓰지 않겠다.
 	DepthState.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
-	DepthState.DepthFunc = D3D11_COMPARISON_ALWAYS;
+	DepthState.DepthFunc = D3D11_COMPARISON_LESS;
 	// 스텐실에 관련된 것.
 	// 0x000000ff 가장 뒤에 사용하겠다.
 	DepthState.StencilEnable = FALSE;
 	DepthState.StencilReadMask = D3D11_DEFAULT_STENCIL_READ_MASK;
 	DepthState.StencilWriteMask = D3D11_DEFAULT_STENCIL_WRITE_MASK;
-	const D3D11_DEPTH_STENCILOP_DESC defaultStencilOpDebug =
+	const D3D11_DEPTH_STENCILOP_DESC StencilOpt_Default =
 	{ D3D11_STENCIL_OP_KEEP, D3D11_STENCIL_OP_KEEP, D3D11_STENCIL_OP_KEEP, D3D11_COMPARISON_ALWAYS };
-	DepthState.FrontFace = defaultStencilOpDebug;
-	DepthState.BackFace = defaultStencilOpDebug;
+	DepthState.FrontFace = StencilOpt_Default;
+	DepthState.BackFace = StencilOpt_Default;
 	Core_Class::MainDevice().Create_DepthSencil(L"DEBUG", DepthState);
 
 	// 정상적인것.
 	DepthState.DepthFunc = D3D11_COMPARISON_LESS;
 	Core_Class::MainDevice().Create_DepthSencil(L"BASIC", DepthState);
 
+	// 디버깅이나  UI
 	DepthState.DepthFunc = D3D11_COMPARISON_ALWAYS;
 	Core_Class::MainDevice().Create_DepthSencil(L"ALWAYS", DepthState);
 
@@ -596,6 +611,63 @@ void KDevice::Init_DepthStencil()
 	DepthState.DepthFunc = D3D11_COMPARISON_ALWAYS;
 	Core_Class::MainDevice().Create_DepthSencil(L"LIGHTDEPTH", DepthState);
 
-	Core_Class::MainDevice().Set_DepthSencil(L"BASIC");
+	
 
+
+
+	/****************** 빛 연산 ******************/
+
+	// Volume Back
+	DepthState.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;
+	DepthState.DepthFunc = D3D11_COMPARISON_GREATER;
+	DepthState.StencilEnable = TRUE;
+
+	// 자, 메쉬 경계선부터 앞쪽에 있는 픽셀들을 검출하는 게 먼저다.
+	D3D11_DEPTH_STENCILOP_DESC LightDesc;
+	LightDesc.StencilFunc = D3D11_COMPARISON_ALWAYS;
+	LightDesc.StencilFailOp = D3D11_STENCIL_OP_KEEP;
+	LightDesc.StencilDepthFailOp = D3D11_STENCIL_OP_KEEP;
+	LightDesc.StencilPassOp = D3D11_STENCIL_OP_REPLACE;
+
+	DepthState.FrontFace = LightDesc;
+	DepthState.BackFace = LightDesc;
+	Core_Class::MainDevice().Create_DepthSencil(L"BACK_ST", DepthState);
+
+
+
+	// Volume Front - Back 반대 연산
+	DepthState.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;
+	DepthState.DepthFunc = D3D11_COMPARISON_LESS;
+	DepthState.StencilEnable = TRUE;
+
+	// 자, 메쉬 경계선부터 뒤쪽에 있는 픽셀들을 검출하는 게 그 다음이다.
+	LightDesc.StencilFunc = D3D11_COMPARISON_EQUAL;
+
+	LightDesc.StencilFailOp = D3D11_STENCIL_OP_KEEP;
+	LightDesc.StencilDepthFailOp = D3D11_STENCIL_OP_ZERO;
+	LightDesc.StencilPassOp = D3D11_STENCIL_OP_KEEP;
+
+	DepthState.FrontFace = LightDesc;
+	DepthState.BackFace = LightDesc;
+	Core_Class::MainDevice().Create_DepthSencil(L"FRONT_ST", DepthState);
+
+
+
+	// Volume Pass
+	DepthState.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;
+	DepthState.DepthFunc = D3D11_COMPARISON_ALWAYS;
+	DepthState.StencilEnable = TRUE;
+
+	// 마지막으로 빛이 비치는 곳이지만 관전자 눈에서는 뒷면이라 보이지 않는 곳에서는 빛이 보이면 안된다.
+	LightDesc.StencilFunc = D3D11_COMPARISON_EQUAL;
+
+	LightDesc.StencilFailOp = D3D11_STENCIL_OP_ZERO;
+	LightDesc.StencilDepthFailOp = D3D11_STENCIL_OP_KEEP;
+	LightDesc.StencilPassOp = D3D11_STENCIL_OP_ZERO;
+
+	DepthState.FrontFace = LightDesc;
+	DepthState.BackFace = LightDesc;
+	Core_Class::MainDevice().Create_DepthSencil(L"PASS_ST", DepthState);
+
+	Core_Class::MainDevice().Set_DepthSencil(L"BASIC");
 }

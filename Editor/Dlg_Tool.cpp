@@ -81,11 +81,12 @@ BOOL Dlg_Tool::OnInitDialog()
 
 	KPtr<TheOne> NewLight = CurState->Create_TheOne(L"Light");
 	NewLight->World_Pos(.0f, 0.0f, .0f);
-	NewLight->World_Rotate(.0f, 0.0f, .0f);
+	NewLight->World_Rotate(45.0f, 0.0f, .0f);
+	NewLight->World_Scale(300.0f, 300.0f, 300.0f);
 	
 	KPtr<KLight> NewPLight = NewLight->Add_Component<KLight>();
 	NewPLight->Insert_Layer(0, 1, 2, 3, 4, 5);
-	// NewPLight->type(KLight::LightType::Point);
+	NewPLight->type(KLight::LightType::Point);
 	NewPLight->color(KColor::White);
 	NewPLight->range(100.0f);
 

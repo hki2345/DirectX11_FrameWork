@@ -271,8 +271,18 @@ void KDevice::Create_RasterMode(const wchar_t* _Name, D3D11_FILL_MODE _Fill, D3D
 }
 
 
-
 void KDevice::Set_RasterMode(const wchar_t* _Name)
+{
+	KPtr<RasterState> PRS = Map_Find<KPtr<RasterState>>(m_RasterMap, _Name);
+	if (nullptr == PRS)
+	{
+		KASSERT(true);
+		return;
+	}
+	PRS->Update();
+}
+
+void KDevice::Set_Raster(const wchar_t* _Name)
 {
 	KPtr<RasterState> RSS = Map_Find<KPtr<RasterState>>(m_RasterMap, _Name);
 	if (nullptr == RSS)
@@ -359,7 +369,7 @@ void KDevice::Set_DepthSencil(const wchar_t* _Name)
 	return;
 }
 
-void KDevice::Set_DepthSencilMode(const wchar_t* _Name)
+void KDevice::Set_DepthSencilMode(const wchar_t* _Name, const KUINT& _Ref)
 {
 	KPtr<DepthStencilState> DSS = Map_Find<KPtr<DepthStencilState>>(m_DepthStencilMap, _Name);
 	if (nullptr == DSS)
@@ -367,17 +377,21 @@ void KDevice::Set_DepthSencilMode(const wchar_t* _Name)
 		KASSERT(true);
 		return;
 	}
-	DSS->Update();
+	DSS->Update(_Ref);
 }
+
+
+
+
 
 void KDevice::Reset_DepthStencil()
 {
 	m_DState_Def->Update();
 }
 
-void KDevice::DepthStencilState::Update()
+void KDevice::DepthStencilState::Update(const KUINT& _Ref /*= 0*/)
 {
-	m_Context->OMSetDepthStencilState(m_DSS, 0);
+	m_Context->OMSetDepthStencilState(m_DSS, _Ref);
 }
 
 void KDevice::DepthStencilState::Create(ID3D11Device* _Device, ID3D11DeviceContext* _Context, D3D11_DEPTH_STENCIL_DESC _Desc)

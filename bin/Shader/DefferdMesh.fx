@@ -79,6 +79,7 @@ DEFMESH_PX_OUT DefMesh_PX(DEFMESH_VT_OUT _in)
     outData.vNoraml.a = 1.0f;
     outData.vPosition = _in.vViewPos;
     outData.vDepth.xyzw = outData.vPosition.z;
+    outData.vDepth.w = 1.0f;
 
     return outData;
 }
@@ -107,7 +108,7 @@ DEFFERDLIGHT_PX_OUT DefLight_PX(DEFFERDLIGHT_VT_OUT _Input)
     DEFFERDLIGHT_PX_OUT OUTDATA = (DEFFERDLIGHT_PX_OUT) 0.0F;
 
     float fDepth = g_Tex_2.Sample(g_Sam_0, _Input.vUv).x;
-    if (fDepth == 0.0f)
+    if (fDepth <= 0.01f)
     {
         clip(-1);
     }

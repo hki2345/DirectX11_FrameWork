@@ -43,6 +43,6 @@ SCRMERGE_VT_OUT ScrMerge_VT(SCRMERGE_VT_IN _Input)
 MERGE_PX_OUT ScrMerge_PX(SCRMERGE_VT_OUT _Input)
 {
     MERGE_PX_OUT OUTDATA = (MERGE_PX_OUT) 0.0F;
-    float4 vColor = g_Tex_0.Sample(g_Sam_0, _Input.vUv);
+    OUTDATA.vMergeColor = g_Tex_0.Sample(g_Sam_0, _Input.vUv);
     return OUTDATA;
 }

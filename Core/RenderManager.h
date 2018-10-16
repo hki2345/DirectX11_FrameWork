@@ -34,10 +34,10 @@ private:
 	// Renderer
 	std::map<int, std::list<KPtr<Renderer>>> m_RendererMap;
 	std::map<int, std::list<KPtr<Renderer>>>::iterator m_RFI;
-	std::map<int, std::list<KPtr<Renderer>>>::iterator m_AllRenderer_StartIter;
-	std::map<int, std::list<KPtr<Renderer>>>::iterator m_AllRenderer_EndIter;
-	std::list<KPtr<Renderer>>::iterator m_Renderer_StartIter;
-	std::list<KPtr<Renderer>>::iterator m_Renderer_EndIter;
+	std::map<int, std::list<KPtr<Renderer>>>::iterator m_AllRSI;
+	std::map<int, std::list<KPtr<Renderer>>>::iterator m_ALLREI;
+	std::list<KPtr<Renderer>>::iterator m_RSI;
+	std::list<KPtr<Renderer>>::iterator m_REI;
 
 
 
@@ -66,7 +66,7 @@ public:
 	bool Is_Name(const wchar_t* _Name);
 
 	void Light_Check(const int& _Layer, KPtr<Camera> _Iter);
-	void Render_LightDef(const int& _Layer);
+	void Render_LightDef(KPtr<Camera> _Cam, const int& _Layer);
 	void Render_Screen();
 };
 

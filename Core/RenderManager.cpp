@@ -1,4 +1,4 @@
-	#include "RenderManager.h"
+#include "RenderManager.h"
 #include "Renderer.h"
 #include "Camera.h"
 #include "KMacro.h"
@@ -116,7 +116,7 @@ void RenderManager::Render()
 
 			Core_Class::MainDevice().Set_DepthSencilMode(L"LIGHTDEPTH");
 
-			Render_LightDef((int)i);
+			Render_LightDef(m_CSI->second,(int)i);
 
 			// 라이트 연산 후 -> 카메라에 모두 찍어냄
 			m_CSI->second->m_MTarget->Clear();
@@ -145,24 +145,24 @@ void RenderManager::Render()
 
 void RenderManager::Release()
 {
-	m_AllRenderer_StartIter = m_RendererMap.begin();
-	m_AllRenderer_EndIter = m_RendererMap.end();
+	m_AllRSI = m_RendererMap.begin();
+	m_ALLREI = m_RendererMap.end();
 
-	for (; m_AllRenderer_StartIter != m_AllRenderer_EndIter; ++m_AllRenderer_StartIter)
+	for (; m_AllRSI != m_ALLREI; ++m_AllRSI)
 	{
-		m_Renderer_StartIter = m_AllRenderer_StartIter->second.begin();
-		m_Renderer_EndIter = m_AllRenderer_StartIter->second.end();
+		m_RSI = m_AllRSI->second.begin();
+		m_REI = m_AllRSI->second.end();
 
-		for (; m_Renderer_StartIter != m_Renderer_EndIter;)
+		for (; m_RSI != m_REI;)
 		{		
-			if (true == (*m_Renderer_StartIter)->is_Death())
+			if (true == (*m_RSI)->is_Death())
 			{
-				m_Renderer_StartIter = m_AllRenderer_StartIter->second.erase(m_Renderer_StartIter);
+				m_RSI = m_AllRSI->second.erase(m_RSI);
 			}
 
 			else
 			{
-				++m_Renderer_StartIter;
+				++m_RSI;
 			}
 		}
 	}
@@ -170,18 +170,18 @@ void RenderManager::Release()
 
 bool RenderManager::Is_Name(const wchar_t* _Name)
 {
-	m_AllRenderer_StartIter = m_RendererMap.begin();
-	m_AllRenderer_EndIter = m_RendererMap.end();
+	m_AllRSI = m_RendererMap.begin();
+	m_ALLREI = m_RendererMap.end();
 
-	for (; m_AllRenderer_StartIter != m_AllRenderer_EndIter; ++m_AllRenderer_StartIter)
+	for (; m_AllRSI != m_ALLREI; ++m_AllRSI)
 	{
-		m_Renderer_StartIter = m_AllRenderer_StartIter->second.begin();
-		m_Renderer_EndIter = m_AllRenderer_StartIter->second.end();
+		m_RSI = m_AllRSI->second.begin();
+		m_REI = m_AllRSI->second.end();
 
-		for (; m_Renderer_StartIter != m_Renderer_EndIter; ++m_Renderer_StartIter)
+		for (; m_RSI != m_REI; ++m_RSI)
 		{
-			std::wstring OneName = (*m_Renderer_StartIter)->name();
-			if (OneName == _Name && false == (*m_Renderer_StartIter)->is_Death())
+			std::wstring OneName = (*m_RSI)->name();
+			if (OneName == _Name && false == (*m_RSI)->is_Death())
 			{
 				return true;
 			}
@@ -248,19 +248,19 @@ void RenderManager::Render_Defferd(KPtr<Camera> _Cam, std::map<int, std::list<KP
 	KASSERT(nullptr == DEFFERDMAT);
 	
 
-	m_Renderer_StartIter = m_RFI->second.begin();
-	m_Renderer_EndIter = m_RFI->second.end();
+	m_RSI = m_RFI->second.begin();
+	m_REI = m_RFI->second.end();
 
-	for (; m_Renderer_StartIter != m_Renderer_EndIter; m_Renderer_StartIter++)
+	for (; m_RSI != m_REI; m_RSI++)
 	{
-		if (1 == (*m_Renderer_StartIter)->m_ROption.Deffert_orFoward)
+		if (1 == (*m_RSI)->m_ROption.Deffert_orFoward)
 		{
-			(*m_Renderer_StartIter)->RenderUpdate();
-			(*m_Renderer_StartIter)->Update_Trans(_Cam);
-			(*m_Renderer_StartIter)->Render(_Cam);
+			(*m_RSI)->RenderUpdate();
+			(*m_RSI)->Update_Trans(_Cam);
+			(*m_RSI)->Render(_Cam);
 			DEFFERDMAT->Update();
-			(*m_Renderer_StartIter)->Update_Mesh();
-			(*m_Renderer_StartIter)->RenderFinalUpdate();
+			(*m_RSI)->Update_Mesh();
+			(*m_RSI)->RenderFinalUpdate();
 		}
 	}
 }
@@ -271,24 +271,24 @@ void RenderManager::Render_Forward(KPtr<Camera> _Cam, std::map<int, std::list<KP
 	// Core_Class::MainDevice().Clear_Target();
 	// Core_Class::MainDevice().SetOM();
 
-	m_Renderer_StartIter = m_RFI->second.begin();
-	m_Renderer_EndIter = m_RFI->second.end();
+	m_RSI = m_RFI->second.begin();
+	m_REI = m_RFI->second.end();
 	Light_Check(_Cam->m_Layer[_Index], _Cam);
-	for (; m_Renderer_StartIter != m_Renderer_EndIter; m_Renderer_StartIter++)
+	for (; m_RSI != m_REI; m_RSI++)
 	{
-		if (0 == (*m_Renderer_StartIter)->m_ROption.Deffert_orFoward)
+		if (0 == (*m_RSI)->m_ROption.Deffert_orFoward)
 		{
-			(*m_Renderer_StartIter)->RenderUpdate();
-			(*m_Renderer_StartIter)->Update_Trans(_Cam);
-			(*m_Renderer_StartIter)->Render(_Cam);
-			(*m_Renderer_StartIter)->Update_Material();
-			(*m_Renderer_StartIter)->Update_Mesh();
-			(*m_Renderer_StartIter)->RenderFinalUpdate();
+			(*m_RSI)->RenderUpdate();
+			(*m_RSI)->Update_Trans(_Cam);
+			(*m_RSI)->Render(_Cam);
+			(*m_RSI)->Update_Material();
+			(*m_RSI)->Update_Mesh();
+			(*m_RSI)->RenderFinalUpdate();
 		}
 	}
 }
 
-void RenderManager::Render_LightDef(const int& _Layer)
+void RenderManager::Render_LightDef(KPtr<Camera> _Cam, const int& _Layer)
 {
 	KPtr<RenderTarget_Multi> LIGHTTARGET = ResourceManager<RenderTarget_Multi>::Find(L"LIGHT");
 	LIGHTTARGET->Clear();
@@ -302,7 +302,8 @@ void RenderManager::Render_LightDef(const int& _Layer)
 		if (true == (*m_LS)->Is_Focus(_Layer))
 		{
 			KPtr<KLight> LPtr = *m_LS;
-			LPtr->Render();
+			LPtr->Render(_Cam);
+			Core_Class::MainDevice().Set_DepthSencil(L"LIGHTDEPTH");
 		}
 	}
 }
