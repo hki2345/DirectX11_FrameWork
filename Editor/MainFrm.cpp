@@ -3,17 +3,19 @@
 //
 
 #include "stdafx.h"
-#include "Editor.h"
+#include "AR14TOOL.h"
 
 #include "MainFrm.h"
 
-#include "View_Main_Frame.h"
-#include "View_Main_Menu.h"
+#include "LeftView.h"
+#include "RightView.h"
 
-#include <KCore.h>
-#include "EditLauncher.h"
-#include "Edit_Class.h"
-
+#include <HCore.h>
+#include <HResMgr.h>
+#include <HImage.h>
+#include "ToolCoreBuilder.h"
+#include "TVAR.h"
+#include <InputMgr.h>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -44,7 +46,6 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	if (CFrameWnd::OnCreate(lpCreateStruct) == -1)
 		return -1;
 
-	// 기조은 이렇게 실행
 	//// 프레임의 클라이언트 영역을 차지하는 뷰를 만듭니다.
 	//if (!m_wndView.Create(NULL, NULL, AFX_WS_DEFAULT_VIEW,
 	//	CRect(0, 0, 0, 0), this, AFX_IDW_PANE_FIRST, NULL))
@@ -53,30 +54,30 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	//	return -1;
 	//}
 
-	m_Main.lock();
+	m_MainWnd.Lock();
 
-	m_Main.CreateStatic(this, 1, 2, WS_CHILD | WS_VISIBLE);
+	m_MainWnd.CreateStatic(this, 1, 2, WS_CHILD | WS_VISIBLE);
 
-	m_Main.CreateView(0, 0, RUNTIME_CLASS(View_Main_Frame), SIZE{ 800, 600 }, nullptr);
+	m_MainWnd.CreateView(0, 0, RUNTIME_CLASS(LeftView), SIZE{ 800, 600 }, nullptr);
+		
+	CWnd* pWnd = m_MainWnd.GetPane(0, 0);
+	HCore::Start<ToolCoreBuilder>(AfxGetInstanceHandle(), L"MainWindow", pWnd->m_hWnd);
 
-	CWnd* pWnd = m_Main.GetPane(0, 0);
+	m_MainWnd.CreateView(0, 1, RUNTIME_CLASS(RightView), SIZE{ 500, 600 }, nullptr);
 
-	KCore::Start<EditLauncher>(AfxGetInstanceHandle(), L"Angry Editor", pWnd->m_hWnd);
-	m_Main.CreateView(0, 1, RUNTIME_CLASS(View_Main_Menu), SIZE{ 500, 600 }, nullptr);
+	RECT Rc = { 0, 0, 1600, 600 };
+
+	AdjustWindowRect(&Rc, WS_OVERLAPPEDWINDOW, false);
+	SetWindowPos(nullptr, 0, 0, Rc.right, Rc.bottom - Rc.top + m_MainWnd.GetBoderSizeY() * 2, SWP_NOMOVE | SWP_NOZORDER);
+
+	// TVAR::MDlg->DlgInit();
+	// TVAR::SpDlg->SpriteInit();
+	// TVAR::SceneDlg->Init();
 
 
-	RECT newRc = { 0, 0, 1600, 600 };
-	
-	// 윈도우 사이즈에 맞게 해줌
-	AdjustWindowRect(&newRc, WS_OVERLAPPEDWINDOW, false);
-	SetWindowPos(nullptr, 0, 0, newRc.right, newRc.bottom - newRc.top + m_Main.borderY() * 2, SWP_NOMOVE | SWP_NOZORDER);
+	// TVAR::ADlg->ResetObjectTreeItem();
 
 
-	Edit_Class::MenuDlg->Init();
-	// Edit_Class::SpriteTab->Init();
-	//Edit_Class::StateTab->Init();
-
-	//Edit_Class::TheOneTab->Reset_OneTree();
 	return 0;
 }
 
@@ -113,15 +114,19 @@ void CMainFrame::Dump(CDumpContext& dc) const
 void CMainFrame::OnSetFocus(CWnd* /*pOldWnd*/)
 {
 	// 뷰 창으로 포커스를 이동합니다.
-	m_Main.SetFocus();
+	// m_wndView.SetFocus();
+	m_MainWnd.SetFocus();
 }
 
 BOOL CMainFrame::OnCmdMsg(UINT nID, int nCode, void* pExtra, AFX_CMDHANDLERINFO* pHandlerInfo)
 {
-	// 뷰에서 첫째 크랙이 해당 명령에 나타나도록 합니다.
-	if (m_Main.OnCmdMsg(nID, nCode, pExtra, pHandlerInfo))
-		return TRUE;
+	//if (m_wndView.OnCmdMsg(nID, nCode, pExtra, pHandlerInfo))
+	//	return TRUE;
 
+	// 뷰에서 첫째 크랙이 해당 명령에 나타나도록 합니다.
+	//if (m_MainWnd.OnCmdMsg(nID, nCode, pExtra, pHandlerInfo))
+	//	return TRUE;
+	// ShowCursor(TRUE);
 	// 그렇지 않으면 기본 처리합니다.
 	return CFrameWnd::OnCmdMsg(nID, nCode, pExtra, pHandlerInfo);
 }

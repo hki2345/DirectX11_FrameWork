@@ -3,8 +3,7 @@
 //
 
 #pragma once
-#include "SubSplitter.h"
-
+#include "HSpWnd.h"
 
 class CMainFrame : public CFrameWnd
 {
@@ -32,8 +31,9 @@ public:
 	virtual void AssertValid() const;
 	virtual void Dump(CDumpContext& dc) const;
 #endif
-
-	SubSplitter    m_Main;
+	
+	HSpWnd  m_MainWnd;
+	// CSplitterWnd m_MainWnd;
 
 // 생성된 메시지 맵 함수
 protected:
