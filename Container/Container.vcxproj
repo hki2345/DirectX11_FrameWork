@@ -71,22 +71,22 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <OutDir>..\bin\</OutDir>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);..\Core\;..\FMOD\;</IncludePath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);..\Core\;..\FMOD\;..\FBX\include\;</IncludePath>
     <TargetName>$(ProjectName)86_DEBUG</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <OutDir>..\bin\</OutDir>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);..\Core\;..\FMOD\;</IncludePath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);..\Core\;..\FMOD\;..\FBX\include\;</IncludePath>
     <TargetName>$(ProjectName)86_RELEASE</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <OutDir>..\bin\</OutDir>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);..\Core\;..\FMOD\;</IncludePath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);..\Core\;..\FMOD\;..\FBX\include\;</IncludePath>
     <TargetName>$(ProjectName)64_DEBUG</TargetName>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>..\bin\</OutDir>
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);..\Core\;..\FMOD\;</IncludePath>
+    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);..\Core\;..\FMOD\;..\FBX\include\;</IncludePath>
     <TargetName>$(ProjectName)64_RELEASE</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -151,17 +151,27 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Container_Class.h" />
-    <ClInclude Include="FreeCam.h" />
-    <ClInclude Include="GameData.h" />
-    <ClInclude Include="IsoMap_Editor.h" />
-    <ClInclude Include="IsoMap_Renderer.h" />
+    <ClInclude Include="GameDataStruct.h" />
+    <ClInclude Include="HFreeCamera.h" />
+    <ClInclude Include="IsoEditor.h" />
+    <ClInclude Include="IsoMapRender.h" />
+    <ClInclude Include="PixelChecker.h" />
+    <ClInclude Include="TestPanzaLogic.h" />
+    <ClInclude Include="TestSceneBuilder.h" />
+    <ClInclude Include="TestSceneUpdater.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Container_Class.cpp" />
-    <ClCompile Include="FreeCam.cpp" />
-    <ClCompile Include="IsoMap_Editor.cpp" />
-    <ClCompile Include="IsoMap_Renderer.cpp" />
+    <ClCompile Include="HFreeCamera.cpp" />
+    <ClCompile Include="IsoEditor.cpp" />
+    <ClCompile Include="IsoMapRender.cpp" />
+    <ClCompile Include="IsoMapRender_FindPath.cpp" />
+    <ClCompile Include="PixelChecker.cpp" />
+    <ClCompile Include="TestPanzaLogic.cpp" />
+    <ClCompile Include="TestSceneBuilder.cpp" />
+    <ClCompile Include="TestSceneUpdater.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

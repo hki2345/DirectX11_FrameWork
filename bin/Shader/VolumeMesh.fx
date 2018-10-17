@@ -1,28 +1,29 @@
-#include "MatrixContainer.fx"
-#include "LightDefferd.fx"
-#include "TextureContainer.fx"
+// 상수버퍼는 b
+// 텍스처는 t
+// 샘플러는 s
+#include "GValue.fx"
+#include "DefferdLight.fx"
+#include "GTex.fx"
 
-struct VOLUME_VT_OUT
+struct VS_VOLUMEOUTPUT
 {
-    float4 vPos : SV_POSITION;
+    float4 vPos : SV_POSITION; // 색깔.
 };
 
-VOLUME_VT_OUT Volume_VT(float4 _Pos : POSITION)
+VS_VOLUMEOUTPUT VS_VOLUME(float4 _Pos : POSITION)
 {
-    VOLUME_VT_OUT TempData = (VOLUME_VT_OUT) .0f;
-
-    TempData.vPos = mul(_Pos, g_WVP);
-    return TempData;
+    VS_VOLUMEOUTPUT OUTDATA = (VS_VOLUMEOUTPUT) 0.0F;
+    OUTDATA.vPos = mul(_Pos, g_WVP);
+    return OUTDATA;
 }
 
-struct VOLUME_PX_OUT
+struct PS_VOLUMEOUTPUT
 {
-    float4 vColor : SV_Target;
+    float4 vColor : SV_Target; // 색깔.
 };
 
-
-VOLUME_PX_OUT Volume_PX(VOLUME_VT_OUT _in)
+PS_VOLUMEOUTPUT PS_VOLUME(VS_VOLUMEOUTPUT _Input)
 {
-    VOLUME_PX_OUT NoneThis = (VOLUME_PX_OUT) .0f;
-    return NoneThis;
+    PS_VOLUMEOUTPUT OUTDATA = (PS_VOLUMEOUTPUT) 0.0F;
+    return OUTDATA;
 }

@@ -1,41 +1,26 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="IsoMap">
-      <UniqueIdentifier>{2a57513b-cbbd-4a2f-9708-f8a5b6b5bfcb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="GameMapData">
-      <UniqueIdentifier>{2c089014-14b0-4308-903f-ec962f4adc5c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object">
-      <UniqueIdentifier>{d98ba031-8849-471d-9f04-8943326923a7}</UniqueIdentifier>
-    </Filter>
+    <ClInclude Include="GameDataStruct.h" />
+    <ClInclude Include="HFreeCamera.h" />
+    <ClInclude Include="IsoEditor.h" />
+    <ClInclude Include="IsoMapRender.h" />
+    <ClInclude Include="PixelChecker.h" />
+    <ClInclude Include="TestPanzaLogic.h" />
+    <ClInclude Include="TestSceneBuilder.h" />
+    <ClInclude Include="TestSceneUpdater.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="IsoMap_Editor.h">
-      <Filter>IsoMap</Filter>
-    </ClInclude>
-    <ClInclude Include="IsoMap_Renderer.h">
-      <Filter>IsoMap</Filter>
-    </ClInclude>
-    <ClInclude Include="GameData.h">
-      <Filter>GameMapData</Filter>
-    </ClInclude>
-    <ClInclude Include="Container_Class.h" />
-    <ClInclude Include="FreeCam.h">
-      <Filter>Object</Filter>
-    </ClInclude>
+    <ClCompile Include="HFreeCamera.cpp" />
+    <ClCompile Include="IsoEditor.cpp" />
+    <ClCompile Include="IsoMapRender.cpp" />
+    <ClCompile Include="IsoMapRender_FindPath.cpp" />
+    <ClCompile Include="PixelChecker.cpp" />
+    <ClCompile Include="TestPanzaLogic.cpp" />
+    <ClCompile Include="TestSceneBuilder.cpp" />
+    <ClCompile Include="TestSceneUpdater.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="IsoMap_Editor.cpp">
-      <Filter>IsoMap</Filter>
-    </ClCompile>
-    <ClCompile Include="IsoMap_Renderer.cpp">
-      <Filter>IsoMap</Filter>
-    </ClCompile>
-    <ClCompile Include="Container_Class.cpp" />
-    <ClCompile Include="FreeCam.cpp">
-      <Filter>Object</Filter>
-    </ClCompile>
+    <Text Include="ReadMe.txt" />
   </ItemGroup>
 </Project>

@@ -1,491 +1,133 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="00 Core">
-      <UniqueIdentifier>{45ed1338-0dcf-4065-8da3-b8d79625a3f8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00 Core\CoreHeader">
-      <UniqueIdentifier>{b3b75a3c-f386-4bbf-a1b1-4d01f6de30ea}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00 Core\ObjectBase">
-      <UniqueIdentifier>{db03eb3c-6834-43a7-b826-d6a255b6c824}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01 Window">
-      <UniqueIdentifier>{86e7f65c-6ac7-4205-87c1-8fcfe30ac279}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="02 Manager">
-      <UniqueIdentifier>{3c4912bc-28f4-4b4b-a9fe-6e1a3d7b92d2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01 Window\Device">
-      <UniqueIdentifier>{36844884-f05c-4d2b-a512-9db94c9bf265}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="01 Window\Device\DirectX">
-      <UniqueIdentifier>{7178e3a6-73c7-44ce-9a48-1c98ec710286}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00 Core\ClassSolution">
-      <UniqueIdentifier>{7bfde738-c3f3-4b79-a09c-fe96026a801f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03 SubManager">
-      <UniqueIdentifier>{24c23a17-a702-4dbe-94db-f38fdbd9eafd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03 SubManager\State">
-      <UniqueIdentifier>{0af90a26-d7f7-45f2-ab45-42cf2eb27272}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03 SubManager\Resource">
-      <UniqueIdentifier>{4588b87a-f1d7-43b3-853a-d79bfb11846a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03 SubManager\Resource\Child">
-      <UniqueIdentifier>{d4eae68d-a564-4cfd-9910-d07eb5fdcbab}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03 SubManager\Resource\Child\Material">
-      <UniqueIdentifier>{34acb81b-8cdb-43d5-856f-9f10fd143e50}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03 SubManager\Resource\Child\Material\Shader">
-      <UniqueIdentifier>{8265a5c6-1561-41a7-a12b-ede10fc47493}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03 SubManager\Resource\Child\Material\Mesh">
-      <UniqueIdentifier>{f5514510-531d-4572-9909-96c6d09829d8}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03 SubManager\Resource\Child\Image">
-      <UniqueIdentifier>{aa1cee63-c868-44b8-a448-d4b48eedfc73}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03 SubManager\Resource\Child\Font">
-      <UniqueIdentifier>{903f449b-052d-41b8-aa15-0391914e2106}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03 SubManager\Render">
-      <UniqueIdentifier>{795c6ed5-5aa9-4ef4-93fc-1a9a68c3e6e3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03 SubManager\Render\Child">
-      <UniqueIdentifier>{a08a5911-69fe-48f8-9682-aa8882b325dd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03 SubManager\Collision">
-      <UniqueIdentifier>{7fa92886-2a79-4f0e-ac16-cda58d750f68}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03 SubManager\Collision\2D">
-      <UniqueIdentifier>{8ec2bc53-d829-42e4-b526-bed087044b8e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03 SubManager\Debug">
-      <UniqueIdentifier>{e127cd89-e70f-495b-b32d-3d1b38005b44}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03 SubManager\Stream">
-      <UniqueIdentifier>{92a01fdf-1f07-40b3-841c-bb619bc19b88}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="04 Componet">
-      <UniqueIdentifier>{7d44666b-ac40-4f77-ada2-6b17149bbf24}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="04 Componet\EngineComponent">
-      <UniqueIdentifier>{84ab9a5e-8294-4661-be37-330ef63fc49c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="05 TheOne">
-      <UniqueIdentifier>{5224f821-9ccb-4619-a11e-71dd71320453}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="05 TheOne\Mother">
-      <UniqueIdentifier>{120c3dbc-07ff-4b7c-b392-9e64ef10e54c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03 SubManager\Thread">
-      <UniqueIdentifier>{92921644-51f1-4109-95ee-33dff79459f1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03 SubManager\Resource\Child\Sound">
-      <UniqueIdentifier>{56a9013b-3027-4171-b55e-0dacead83cd3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03 SubManager\Render\Light">
-      <UniqueIdentifier>{d7bf22cc-690a-4682-8c84-d33f53cac53d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03 SubManager\Render\Target">
-      <UniqueIdentifier>{6864fa86-51d7-48d3-a7ff-c54b8b479503}</UniqueIdentifier>
-    </Filter>
+    <ClInclude Include="BWStream.h" />
+    <ClInclude Include="DHeader.h" />
+    <ClInclude Include="DirectXTex.h" />
+    <ClInclude Include="DVHeader.h" />
+    <ClInclude Include="FileStream.h" />
+    <ClInclude Include="FW1CompileSettings.h" />
+    <ClInclude Include="FW1FontWrapper.h" />
+    <ClInclude Include="GameDebug.h" />
+    <ClInclude Include="GameMath.h" />
+    <ClInclude Include="H3DGRID.h" />
+    <ClInclude Include="H3DMeshRenderer.h" />
+    <ClInclude Include="H3DRectRenderer.h" />
+    <ClInclude Include="HActor.h" />
+    <ClInclude Include="HActorBase.h" />
+    <ClInclude Include="HBaseCom.h" />
+    <ClInclude Include="HBlend.h" />
+    <ClInclude Include="HCamera.h" />
+    <ClInclude Include="HCol2D.h" />
+    <ClInclude Include="HCol2DBase.h" />
+    <ClInclude Include="HCol2DMgr.h" />
+    <ClInclude Include="HColCom.h" />
+    <ClInclude Include="HComponent.h" />
+    <ClInclude Include="HCore.h" />
+    <ClInclude Include="HDevice.h" />
+    <ClInclude Include="HFBX.h" />
+    <ClInclude Include="HFont.h" />
+    <ClInclude Include="HImage.h" />
+    <ClInclude Include="HLight.h" />
+    <ClInclude Include="HLogic.h" />
+    <ClInclude Include="HMACRO.h" />
+    <ClInclude Include="HMaterial.h" />
+    <ClInclude Include="HMesh.h" />
+    <ClInclude Include="HMultiRenderTaget.h" />
+    <ClInclude Include="HObjectBase.h" />
+    <ClInclude Include="HPixShader.h" />
+    <ClInclude Include="HRenderer.h" />
+    <ClInclude Include="HRenderMgr.h" />
+    <ClInclude Include="HRenderTaget.h" />
+    <ClInclude Include="HRes.h" />
+    <ClInclude Include="HResMgr.h" />
+    <ClInclude Include="HSampler.h" />
+    <ClInclude Include="HScene.h" />
+    <ClInclude Include="HSceneBase.h" />
+    <ClInclude Include="HSceneMgr.h" />
+    <ClInclude Include="HShader.h" />
+    <ClInclude Include="HSound.h" />
+    <ClInclude Include="HSoundDevice.h" />
+    <ClInclude Include="HSoundPlayer.h" />
+    <ClInclude Include="HSpFrameAnimater.h" />
+    <ClInclude Include="HSpRenderer.h" />
+    <ClInclude Include="HSubTransCom.h" />
+    <ClInclude Include="HTexture.h" />
+    <ClInclude Include="HThread.h" />
+    <ClInclude Include="HTrans.h" />
+    <ClInclude Include="HUpdaterBase.h" />
+    <ClInclude Include="HVAR.h" />
+    <ClInclude Include="HVtxShader.h" />
+    <ClInclude Include="HWindow.h" />
+    <ClInclude Include="HWindowBase.h" />
+    <ClInclude Include="InputMgr.h" />
+    <ClInclude Include="MCRI.h" />
+    <ClInclude Include="RefBase.h" />
+    <ClInclude Include="StlHelperFunc.h" />
+    <ClInclude Include="TimeMgr.h" />
+    <ClInclude Include="BRStream.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="TimeManager.h">
-      <Filter>02 Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="InputManager.h">
-      <Filter>02 Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="KMacro.h">
-      <Filter>00 Core\CoreHeader</Filter>
-    </ClInclude>
-    <ClInclude Include="Stl_Assistor.h">
-      <Filter>00 Core\CoreHeader</Filter>
-    </ClInclude>
-    <ClInclude Include="Begin.h">
-      <Filter>00 Core\ObjectBase</Filter>
-    </ClInclude>
-    <ClInclude Include="SmartPtr.h">
-      <Filter>00 Core\ObjectBase</Filter>
-    </ClInclude>
-    <ClInclude Include="KWindow.h">
-      <Filter>01 Window</Filter>
-    </ClInclude>
-    <ClInclude Include="Component.h">
-      <Filter>04 Componet</Filter>
-    </ClInclude>
-    <ClInclude Include="TheOne.h">
-      <Filter>05 TheOne</Filter>
-    </ClInclude>
-    <ClInclude Include="Begin_Updater.h">
-      <Filter>00 Core\ObjectBase</Filter>
-    </ClInclude>
-    <ClInclude Include="State.h">
-      <Filter>03 SubManager\State</Filter>
-    </ClInclude>
-    <ClInclude Include="Mother_KWindow.h">
-      <Filter>05 TheOne\Mother</Filter>
-    </ClInclude>
-    <ClInclude Include="Mother_TheOne.h">
-      <Filter>05 TheOne\Mother</Filter>
-    </ClInclude>
-    <ClInclude Include="Mother_State.h">
-      <Filter>05 TheOne\Mother</Filter>
-    </ClInclude>
-    <ClInclude Include="TransPosition.h">
-      <Filter>04 Componet\EngineComponent</Filter>
-    </ClInclude>
-    <ClInclude Include="StateManager.h">
-      <Filter>03 SubManager\State</Filter>
-    </ClInclude>
-    <ClInclude Include="ResourceManager.h">
-      <Filter>03 SubManager\Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="KDevice.h">
-      <Filter>01 Window\Device</Filter>
-    </ClInclude>
-    <ClInclude Include="Camera.h">
-      <Filter>04 Componet\EngineComponent</Filter>
-    </ClInclude>
-    <ClInclude Include="Vertex_Shader.h">
-      <Filter>03 SubManager\Resource\Child\Material\Shader</Filter>
-    </ClInclude>
-    <ClInclude Include="RenderManager.h">
-      <Filter>03 SubManager\Render</Filter>
-    </ClInclude>
-    <ClInclude Include="Pixel_Shader.h">
-      <Filter>03 SubManager\Resource\Child\Material\Shader</Filter>
-    </ClInclude>
-    <ClInclude Include="Material.h">
-      <Filter>03 SubManager\Resource\Child\Material</Filter>
-    </ClInclude>
-    <ClInclude Include="Renderer.h">
-      <Filter>03 SubManager\Render</Filter>
-    </ClInclude>
-    <ClInclude Include="Renderer_Sprite.h">
-      <Filter>03 SubManager\Render\Child</Filter>
-    </ClInclude>
-    <ClInclude Include="Mesh.h">
-      <Filter>03 SubManager\Resource\Child\Material\Mesh</Filter>
-    </ClInclude>
-    <ClInclude Include="Some_One.h">
-      <Filter>05 TheOne</Filter>
-    </ClInclude>
-    <ClInclude Include="DirectXHeader.h">
-      <Filter>01 Window\Device\DirectX</Filter>
-    </ClInclude>
-    <ClInclude Include="DirectXTex.h">
-      <Filter>01 Window\Device\DirectX</Filter>
-    </ClInclude>
-    <ClInclude Include="Sampler.h">
-      <Filter>03 SubManager\Resource\Child\Image</Filter>
-    </ClInclude>
-    <ClInclude Include="Texture.h">
-      <Filter>03 SubManager\Resource\Child\Image</Filter>
-    </ClInclude>
-    <ClInclude Include="KImage.h">
-      <Filter>03 SubManager\Resource\Child\Image</Filter>
-    </ClInclude>
-    <ClInclude Include="Component_DE.h">
-      <Filter>04 Componet</Filter>
-    </ClInclude>
-    <ClInclude Include="DirectXHeader_DE.h">
-      <Filter>01 Window\Device\DirectX</Filter>
-    </ClInclude>
-    <ClInclude Include="Blend.h">
-      <Filter>03 SubManager\Resource\Child\Image</Filter>
-    </ClInclude>
-    <ClInclude Include="KCore.h">
-      <Filter>00 Core\ClassSolution</Filter>
-    </ClInclude>
-    <ClInclude Include="Core_Class.h">
-      <Filter>00 Core\ClassSolution</Filter>
-    </ClInclude>
-    <ClInclude Include="KMath.h">
-      <Filter>00 Core\ClassSolution</Filter>
-    </ClInclude>
-    <ClInclude Include="Independent_Trans.h">
-      <Filter>04 Componet\EngineComponent</Filter>
-    </ClInclude>
-    <ClInclude Include="Sprite_Changer.h">
-      <Filter>04 Componet\EngineComponent</Filter>
-    </ClInclude>
-    <ClInclude Include="Collision.h">
-      <Filter>03 SubManager\Collision</Filter>
-    </ClInclude>
-    <ClInclude Include="Collider2D.h">
-      <Filter>03 SubManager\Collision\2D</Filter>
-    </ClInclude>
-    <ClInclude Include="Collider2D_DE.h">
-      <Filter>03 SubManager\Collision\2D</Filter>
-    </ClInclude>
-    <ClInclude Include="Collider2DManager.h">
-      <Filter>03 SubManager\Collision\2D</Filter>
-    </ClInclude>
-    <ClInclude Include="DebugManager.h">
-      <Filter>03 SubManager\Debug</Filter>
-    </ClInclude>
-    <ClInclude Include="FW1CompileSettings.h">
-      <Filter>03 SubManager\Resource\Child\Font</Filter>
-    </ClInclude>
-    <ClInclude Include="FW1FontWrapper.h">
-      <Filter>03 SubManager\Resource\Child\Font</Filter>
-    </ClInclude>
-    <ClInclude Include="ReadStream.h">
-      <Filter>03 SubManager\Stream</Filter>
-    </ClInclude>
-    <ClInclude Include="WriteStream.h">
-      <Filter>03 SubManager\Stream</Filter>
-    </ClInclude>
-    <ClInclude Include="BaseStream.h">
-      <Filter>03 SubManager\Stream</Filter>
-    </ClInclude>
-    <ClInclude Include="MultiCritical.h">
-      <Filter>03 SubManager\Thread</Filter>
-    </ClInclude>
-    <ClInclude Include="Box2D.h">
-      <Filter>03 SubManager\Collision\2D</Filter>
-    </ClInclude>
-    <ClInclude Include="KThread.h">
-      <Filter>03 SubManager\Thread</Filter>
-    </ClInclude>
-    <ClInclude Include="SoundPlayer.h">
-      <Filter>03 SubManager\Resource\Child\Sound</Filter>
-    </ClInclude>
-    <ClInclude Include="SoundDevice.h">
-      <Filter>03 SubManager\Resource\Child\Sound</Filter>
-    </ClInclude>
-    <ClInclude Include="KSound.h">
-      <Filter>03 SubManager\Resource\Child\Sound</Filter>
-    </ClInclude>
-    <ClInclude Include="KFont.h">
-      <Filter>03 SubManager\Resource\Child\Font</Filter>
-    </ClInclude>
-    <ClInclude Include="Mouse_Col.h">
-      <Filter>05 TheOne</Filter>
-    </ClInclude>
-    <ClInclude Include="Renderer_Rect3D.h">
-      <Filter>03 SubManager\Render\Child</Filter>
-    </ClInclude>
-    <ClInclude Include="Renderer_Grid3D.h">
-      <Filter>03 SubManager\Render\Child</Filter>
-    </ClInclude>
-    <ClInclude Include="KLight.h">
-      <Filter>03 SubManager\Render\Light</Filter>
-    </ClInclude>
-    <ClInclude Include="Renderer_Mesh.h">
-      <Filter>03 SubManager\Render\Child</Filter>
-    </ClInclude>
-    <ClInclude Include="KShader.h">
-      <Filter>03 SubManager\Resource\Child\Material\Shader</Filter>
-    </ClInclude>
-    <ClInclude Include="KResource.h">
-      <Filter>03 SubManager\Resource</Filter>
-    </ClInclude>
-    <ClInclude Include="RenderTarget.h">
-      <Filter>03 SubManager\Render\Target</Filter>
-    </ClInclude>
-    <ClInclude Include="RenderTarget_Multi.h">
-      <Filter>03 SubManager\Render\Target</Filter>
-    </ClInclude>
-    <ClInclude Include="Renderer_UI.h">
-      <Filter>03 SubManager\Render\Child</Filter>
-    </ClInclude>
+    <ClCompile Include="DHeader.cpp" />
+    <ClCompile Include="FileStream.cpp" />
+    <ClCompile Include="GameDebug.cpp" />
+    <ClCompile Include="GameMath.cpp" />
+    <ClCompile Include="H3DGRID.cpp" />
+    <ClCompile Include="H3DMeshRenderer.cpp" />
+    <ClCompile Include="H3DRectRenderer.cpp" />
+    <ClCompile Include="HActor.cpp" />
+    <ClCompile Include="HBaseCom.cpp" />
+    <ClCompile Include="HBlend.cpp" />
+    <ClCompile Include="HCamera.cpp" />
+    <ClCompile Include="HCol2D.cpp" />
+    <ClCompile Include="HCol2DBase.cpp" />
+    <ClCompile Include="HCol2DMgr.cpp" />
+    <ClCompile Include="HColCom.cpp" />
+    <ClCompile Include="HComponent.cpp" />
+    <ClCompile Include="HCore.cpp" />
+    <ClCompile Include="HDevice.cpp" />
+    <ClCompile Include="HDevice_DefaultData.cpp" />
+    <ClCompile Include="HDevice_DefaultData3D.cpp" />
+    <ClCompile Include="HFBX.cpp" />
+    <ClCompile Include="HFont.cpp" />
+    <ClCompile Include="HImage.cpp" />
+    <ClCompile Include="HLight.cpp" />
+    <ClCompile Include="HLogic.cpp" />
+    <ClCompile Include="HMaterial.cpp" />
+    <ClCompile Include="HMesh.cpp" />
+    <ClCompile Include="HMultiRenderTaget.cpp" />
+    <ClCompile Include="HObjectBase.cpp" />
+    <ClCompile Include="HPixShader.cpp" />
+    <ClCompile Include="HRenderer.cpp" />
+    <ClCompile Include="HRenderMgr.cpp" />
+    <ClCompile Include="HRenderTaget.cpp" />
+    <ClCompile Include="HRes.cpp" />
+    <ClCompile Include="HResMgr.cpp" />
+    <ClCompile Include="HSampler.cpp" />
+    <ClCompile Include="HScene.cpp" />
+    <ClCompile Include="HSceneMgr.cpp" />
+    <ClCompile Include="HShader.cpp" />
+    <ClCompile Include="HSound.cpp" />
+    <ClCompile Include="HSoundDevice.cpp" />
+    <ClCompile Include="HSoundPlayer.cpp" />
+    <ClCompile Include="HSpFrameAnimater.cpp" />
+    <ClCompile Include="HSpRenderer.cpp" />
+    <ClCompile Include="HSubTransCom.cpp" />
+    <ClCompile Include="HTexture.cpp" />
+    <ClCompile Include="HThread.cpp" />
+    <ClCompile Include="HTrans.cpp" />
+    <ClCompile Include="HUpdaterBase.cpp" />
+    <ClCompile Include="HVAR.cpp" />
+    <ClCompile Include="HVtxShader.cpp" />
+    <ClCompile Include="HWindow.cpp" />
+    <ClCompile Include="InputMgr.cpp" />
+    <ClCompile Include="MCRI.cpp" />
+    <ClCompile Include="RefBase.cpp" />
+    <ClCompile Include="TimeMgr.cpp" />
+    <ClCompile Include="BRStream.cpp" />
+    <ClCompile Include="BWStream.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="TimeManager.cpp">
-      <Filter>02 Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="InputManager.cpp">
-      <Filter>02 Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="Begin.cpp">
-      <Filter>00 Core\ObjectBase</Filter>
-    </ClCompile>
-    <ClCompile Include="SmartPtr.cpp">
-      <Filter>00 Core\ObjectBase</Filter>
-    </ClCompile>
-    <ClCompile Include="KWindow.cpp">
-      <Filter>01 Window</Filter>
-    </ClCompile>
-    <ClCompile Include="Component.cpp">
-      <Filter>04 Componet</Filter>
-    </ClCompile>
-    <ClCompile Include="TheOne.cpp">
-      <Filter>05 TheOne</Filter>
-    </ClCompile>
-    <ClCompile Include="Begin_Updater.cpp">
-      <Filter>00 Core\ObjectBase</Filter>
-    </ClCompile>
-    <ClCompile Include="State.cpp">
-      <Filter>03 SubManager\State</Filter>
-    </ClCompile>
-    <ClCompile Include="TransPosition.cpp">
-      <Filter>04 Componet\EngineComponent</Filter>
-    </ClCompile>
-    <ClCompile Include="StateManager.cpp">
-      <Filter>03 SubManager\State</Filter>
-    </ClCompile>
-    <ClCompile Include="KDevice.cpp">
-      <Filter>01 Window\Device</Filter>
-    </ClCompile>
-    <ClCompile Include="ResourceManager.cpp">
-      <Filter>03 SubManager\Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="Camera.cpp">
-      <Filter>04 Componet\EngineComponent</Filter>
-    </ClCompile>
-    <ClCompile Include="Vertex_Shader.cpp">
-      <Filter>03 SubManager\Resource\Child\Material\Shader</Filter>
-    </ClCompile>
-    <ClCompile Include="RenderManager.cpp">
-      <Filter>03 SubManager\Render</Filter>
-    </ClCompile>
-    <ClCompile Include="Pixel_Shader.cpp">
-      <Filter>03 SubManager\Resource\Child\Material\Shader</Filter>
-    </ClCompile>
-    <ClCompile Include="Material.cpp">
-      <Filter>03 SubManager\Resource\Child\Material</Filter>
-    </ClCompile>
-    <ClCompile Include="Renderer.cpp">
-      <Filter>03 SubManager\Render</Filter>
-    </ClCompile>
-    <ClCompile Include="Renderer_Sprite.cpp">
-      <Filter>03 SubManager\Render\Child</Filter>
-    </ClCompile>
-    <ClCompile Include="Mesh.cpp">
-      <Filter>03 SubManager\Resource\Child\Material\Mesh</Filter>
-    </ClCompile>
-    <ClCompile Include="Some_One.cpp">
-      <Filter>05 TheOne</Filter>
-    </ClCompile>
-    <ClCompile Include="DirectXHeader.cpp">
-      <Filter>01 Window\Device\DirectX</Filter>
-    </ClCompile>
-    <ClCompile Include="Sampler.cpp">
-      <Filter>03 SubManager\Resource\Child\Image</Filter>
-    </ClCompile>
-    <ClCompile Include="Texture.cpp">
-      <Filter>03 SubManager\Resource\Child\Image</Filter>
-    </ClCompile>
-    <ClCompile Include="KImage.cpp">
-      <Filter>03 SubManager\Resource\Child\Image</Filter>
-    </ClCompile>
-    <ClCompile Include="Component_DE.cpp">
-      <Filter>04 Componet</Filter>
-    </ClCompile>
-    <ClCompile Include="Blend.cpp">
-      <Filter>03 SubManager\Resource\Child\Image</Filter>
-    </ClCompile>
-    <ClCompile Include="Core_Class.cpp">
-      <Filter>00 Core\ClassSolution</Filter>
-    </ClCompile>
-    <ClCompile Include="KCore.cpp">
-      <Filter>00 Core\ClassSolution</Filter>
-    </ClCompile>
-    <ClCompile Include="KMath.cpp">
-      <Filter>00 Core\ClassSolution</Filter>
-    </ClCompile>
-    <ClCompile Include="Independent_Trans.cpp">
-      <Filter>04 Componet\EngineComponent</Filter>
-    </ClCompile>
-    <ClCompile Include="Sprite_Changer.cpp">
-      <Filter>04 Componet\EngineComponent</Filter>
-    </ClCompile>
-    <ClCompile Include="Collision.cpp">
-      <Filter>03 SubManager\Collision</Filter>
-    </ClCompile>
-    <ClCompile Include="Collider2D.cpp">
-      <Filter>03 SubManager\Collision\2D</Filter>
-    </ClCompile>
-    <ClCompile Include="Collider2D_DE.cpp">
-      <Filter>03 SubManager\Collision\2D</Filter>
-    </ClCompile>
-    <ClCompile Include="Collider2DManager.cpp">
-      <Filter>03 SubManager\Collision\2D</Filter>
-    </ClCompile>
-    <ClCompile Include="DebugManager.cpp">
-      <Filter>03 SubManager\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="ReadStream.cpp">
-      <Filter>03 SubManager\Stream</Filter>
-    </ClCompile>
-    <ClCompile Include="WriteStream.cpp">
-      <Filter>03 SubManager\Stream</Filter>
-    </ClCompile>
-    <ClCompile Include="BaseStream.cpp">
-      <Filter>03 SubManager\Stream</Filter>
-    </ClCompile>
-    <ClCompile Include="MultiCritical.cpp">
-      <Filter>03 SubManager\Thread</Filter>
-    </ClCompile>
-    <ClCompile Include="KThread.cpp">
-      <Filter>03 SubManager\Thread</Filter>
-    </ClCompile>
-    <ClCompile Include="SoundDevice.cpp">
-      <Filter>03 SubManager\Resource\Child\Sound</Filter>
-    </ClCompile>
-    <ClCompile Include="SoundPlayer.cpp">
-      <Filter>03 SubManager\Resource\Child\Sound</Filter>
-    </ClCompile>
-    <ClCompile Include="KSound.cpp">
-      <Filter>03 SubManager\Resource\Child\Sound</Filter>
-    </ClCompile>
-    <ClCompile Include="KFont.cpp">
-      <Filter>03 SubManager\Resource\Child\Font</Filter>
-    </ClCompile>
-    <ClCompile Include="Mouse_Col.cpp">
-      <Filter>05 TheOne</Filter>
-    </ClCompile>
-    <ClCompile Include="Collision_Calc.cpp">
-      <Filter>03 SubManager\Collision</Filter>
-    </ClCompile>
-    <ClCompile Include="Device_Default_3D.cpp">
-      <Filter>01 Window\Device</Filter>
-    </ClCompile>
-    <ClCompile Include="Renderer_Rect3D.cpp">
-      <Filter>03 SubManager\Render\Child</Filter>
-    </ClCompile>
-    <ClCompile Include="TheOne_Trans.cpp">
-      <Filter>05 TheOne</Filter>
-    </ClCompile>
-    <ClCompile Include="KLight.cpp">
-      <Filter>03 SubManager\Render\Light</Filter>
-    </ClCompile>
-    <ClCompile Include="Renderer_Mesh.cpp">
-      <Filter>03 SubManager\Render\Child</Filter>
-    </ClCompile>
-    <ClCompile Include="Device_Default_2D.cpp">
-      <Filter>01 Window\Device</Filter>
-    </ClCompile>
-    <ClCompile Include="Renderer_Grid3D.cpp">
-      <Filter>03 SubManager\Render\Child</Filter>
-    </ClCompile>
-    <ClCompile Include="KShader.cpp">
-      <Filter>03 SubManager\Resource\Child\Material\Shader</Filter>
-    </ClCompile>
-    <ClCompile Include="KResource.cpp">
-      <Filter>03 SubManager\Resource</Filter>
-    </ClCompile>
-    <ClCompile Include="RenderTarget.cpp">
-      <Filter>03 SubManager\Render\Target</Filter>
-    </ClCompile>
-    <ClCompile Include="RenderTarget_Multi.cpp">
-      <Filter>03 SubManager\Render\Target</Filter>
-    </ClCompile>
-    <ClCompile Include="Renderer_UI.cpp">
-      <Filter>03 SubManager\Render\Child</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="DirectXTex.inl">
-      <Filter>01 Window\Device\DirectX</Filter>
-    </None>
+    <None Include="DirectXTex.inl" />
   </ItemGroup>
 </Project>

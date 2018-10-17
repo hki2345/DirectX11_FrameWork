@@ -21,4 +21,4 @@ public:
 	~KCoreLauncher();
 };
 
-CORELAUNCHER(KCoreLauncher, L"MainWindow");
+CORELAUNCHER(KCoreLauncher, L"Main_Window");

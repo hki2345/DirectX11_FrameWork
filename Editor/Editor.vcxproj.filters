@@ -1,220 +1,67 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="리소스 파일">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
-    <Filter Include="Std">
-      <UniqueIdentifier>{2211d76f-1f6e-4fd4-97c3-1f86b682e462}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="View">
-      <UniqueIdentifier>{8269de63-966b-48b0-b6ce-74db93572cc0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="SubWindow">
-      <UniqueIdentifier>{46583a3b-b7c9-4f8d-ad1e-14d562bebfea}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Dialog">
-      <UniqueIdentifier>{05d3e457-2aa1-4fb1-9b1b-fddc61404988}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Object">
-      <UniqueIdentifier>{32d9e52c-aaad-41f8-9370-383cff300891}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Dialog\Component">
-      <UniqueIdentifier>{01375c32-75b0-47e8-bb72-f0817df3f647}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Dialog\Sprite">
-      <UniqueIdentifier>{a4e1c17f-4216-4c84-b2ce-863e9603fbd6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="EditStart">
-      <UniqueIdentifier>{695346cf-93f9-473d-9d61-646cd92c95dc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Dialog\Legacy">
-      <UniqueIdentifier>{63ede998-ca6e-4d07-8790-a2c784c9f2b3}</UniqueIdentifier>
-    </Filter>
+    <ClCompile Include="ActorDlg.cpp" />
+    <ClCompile Include="AddCom.cpp" />
+    <ClCompile Include="AddCom_CreateCom.cpp" />
+    <ClCompile Include="AR14TOOL.cpp" />
+    <ClCompile Include="ComDlg.cpp" />
+    <ClCompile Include="ComView.cpp" />
+    <ClCompile Include="ComView_DlgCreate.cpp" />
+    <ClCompile Include="DropEditor.cpp" />
+    <ClCompile Include="HSpriteCut.cpp" />
+    <ClCompile Include="HSpWnd.cpp" />
+    <ClCompile Include="HToolDlg.cpp" />
+    <ClCompile Include="ImageSelectButton.cpp" />
+    <ClCompile Include="LeftView.cpp" />
+    <ClCompile Include="MainFrm.cpp" />
+    <ClCompile Include="MenuDlg.cpp" />
+    <ClCompile Include="NoneComDlg.cpp" />
+    <ClCompile Include="RightView.cpp" />
+    <ClCompile Include="SceneDlg.cpp" />
+    <ClCompile Include="SpRenderDlg.cpp" />
+    <ClCompile Include="SpriteDlg.cpp" />
+    <ClCompile Include="SpriteSelectDlg.cpp" />
+    <ClCompile Include="stdafx.cpp" />
+    <ClCompile Include="TabDlg.cpp" />
+    <ClCompile Include="ToolCoreBuilder.cpp" />
+    <ClCompile Include="ToolSceneUpdater.cpp" />
+    <ClCompile Include="TransDlg.cpp" />
+    <ClCompile Include="TVAR.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Editor.h">
-      <Filter>Std</Filter>
-    </ClInclude>
-    <ClInclude Include="MainFrm.h">
-      <Filter>Std</Filter>
-    </ClInclude>
-    <ClInclude Include="Resource.h">
-      <Filter>Std</Filter>
-    </ClInclude>
-    <ClInclude Include="stdafx.h">
-      <Filter>Std</Filter>
-    </ClInclude>
-    <ClInclude Include="targetver.h">
-      <Filter>Std</Filter>
-    </ClInclude>
-    <ClInclude Include="SubSplitter.h">
-      <Filter>SubWindow</Filter>
-    </ClInclude>
-    <ClInclude Include="View_Main_Frame.h">
-      <Filter>View</Filter>
-    </ClInclude>
-    <ClInclude Include="View_Main_Menu.h">
-      <Filter>View</Filter>
-    </ClInclude>
-    <ClInclude Include="EditLauncher.h">
-      <Filter>EditStart</Filter>
-    </ClInclude>
-    <ClInclude Include="Edit_Class.h">
-      <Filter>EditStart</Filter>
-    </ClInclude>
-    <ClInclude Include="Split_Debug.h">
-      <Filter>Object</Filter>
-    </ClInclude>
-    <ClInclude Include="EditUpdater.h">
-      <Filter>EditStart</Filter>
-    </ClInclude>
-    <ClInclude Include="Dlg_Component.h">
-      <Filter>Dialog\Component</Filter>
-    </ClInclude>
-    <ClInclude Include="View_Component.h">
-      <Filter>View</Filter>
-    </ClInclude>
-    <ClInclude Include="Dlg_NoneCom.h">
-      <Filter>Dialog\Component</Filter>
-    </ClInclude>
-    <ClInclude Include="Mouse_Droper.h">
-      <Filter>Object</Filter>
-    </ClInclude>
-    <ClInclude Include="Dlg_Main_Menu.h">
-      <Filter>Dialog</Filter>
-    </ClInclude>
-    <ClInclude Include="Dlg_SpriteTab.h">
-      <Filter>Dialog\Sprite</Filter>
-    </ClInclude>
-    <ClInclude Include="Dlg_SpriteSelect.h">
-      <Filter>Dialog\Sprite</Filter>
-    </ClInclude>
-    <ClInclude Include="Dlg_Render_Sprite.h">
-      <Filter>Dialog\Sprite</Filter>
-    </ClInclude>
-    <ClInclude Include="Image_Selector.h">
-      <Filter>Object</Filter>
-    </ClInclude>
-    <ClInclude Include="EditBuilder.h">
-      <Filter>EditStart</Filter>
-    </ClInclude>
-    <ClInclude Include="Dlg_Tool.h">
-      <Filter>Dialog</Filter>
-    </ClInclude>
-    <ClInclude Include="Dlg_StateTab.h">
-      <Filter>Dialog\Legacy</Filter>
-    </ClInclude>
-    <ClInclude Include="Dlg_TheOneTab.h">
-      <Filter>Dialog\Legacy</Filter>
-    </ClInclude>
-    <ClInclude Include="Dlg_Trans.h">
-      <Filter>Dialog\Legacy</Filter>
-    </ClInclude>
-    <ClInclude Include="TabState.h">
-      <Filter>Dialog\Legacy</Filter>
-    </ClInclude>
+    <ClInclude Include="ActorDlg.h" />
+    <ClInclude Include="AddCom.h" />
+    <ClInclude Include="AR14TOOL.h" />
+    <ClInclude Include="ComDlg.h" />
+    <ClInclude Include="ComView.h" />
+    <ClInclude Include="DropEditor.h" />
+    <ClInclude Include="HSpriteCut.h" />
+    <ClInclude Include="HSpWnd.h" />
+    <ClInclude Include="HToolDlg.h" />
+    <ClInclude Include="ImageSelectButton.h" />
+    <ClInclude Include="LeftView.h" />
+    <ClInclude Include="MainFrm.h" />
+    <ClInclude Include="MenuDlg.h" />
+    <ClInclude Include="NoneComDlg.h" />
+    <ClInclude Include="resource.h" />
+    <ClInclude Include="RightView.h" />
+    <ClInclude Include="SceneDlg.h" />
+    <ClInclude Include="SpRenderDlg.h" />
+    <ClInclude Include="SpriteDlg.h" />
+    <ClInclude Include="SpriteSelectDlg.h" />
+    <ClInclude Include="stdafx.h" />
+    <ClInclude Include="TabDlg.h" />
+    <ClInclude Include="targetver.h" />
+    <ClInclude Include="ToolCoreBuilder.h" />
+    <ClInclude Include="ToolSceneUpdater.h" />
+    <ClInclude Include="TransDlg.h" />
+    <ClInclude Include="TVAR.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Editor.cpp">
-      <Filter>Std</Filter>
-    </ClCompile>
-    <ClCompile Include="MainFrm.cpp">
-      <Filter>Std</Filter>
-    </ClCompile>
-    <ClCompile Include="stdafx.cpp">
-      <Filter>Std</Filter>
-    </ClCompile>
-    <ClCompile Include="SubSplitter.cpp">
-      <Filter>SubWindow</Filter>
-    </ClCompile>
-    <ClCompile Include="View_Main_Menu.cpp">
-      <Filter>View</Filter>
-    </ClCompile>
-    <ClCompile Include="View_Main_Frame.cpp">
-      <Filter>View</Filter>
-    </ClCompile>
-    <ClCompile Include="EditLauncher.cpp">
-      <Filter>EditStart</Filter>
-    </ClCompile>
-    <ClCompile Include="Edit_Class.cpp">
-      <Filter>EditStart</Filter>
-    </ClCompile>
-    <ClCompile Include="Split_Debug.cpp">
-      <Filter>Object</Filter>
-    </ClCompile>
-    <ClCompile Include="EditUpdater.cpp">
-      <Filter>EditStart</Filter>
-    </ClCompile>
-    <ClCompile Include="Dlg_Component.cpp">
-      <Filter>Dialog\Component</Filter>
-    </ClCompile>
-    <ClCompile Include="View_Component.cpp">
-      <Filter>View</Filter>
-    </ClCompile>
-    <ClCompile Include="CompView_CreateDlg.cpp">
-      <Filter>Dialog\Component</Filter>
-    </ClCompile>
-    <ClCompile Include="Dlg_NoneCom.cpp">
-      <Filter>Dialog\Component</Filter>
-    </ClCompile>
-    <ClCompile Include="Mouse_Droper.cpp">
-      <Filter>Object</Filter>
-    </ClCompile>
-    <ClCompile Include="Dlg_Main_Menu.cpp">
-      <Filter>Dialog</Filter>
-    </ClCompile>
-    <ClCompile Include="Dlg_SpriteTab.cpp">
-      <Filter>Dialog\Sprite</Filter>
-    </ClCompile>
-    <ClCompile Include="Dlg_SpriteSelect.cpp">
-      <Filter>Dialog\Sprite</Filter>
-    </ClCompile>
-    <ClCompile Include="Dlg_Render_Sprite.cpp">
-      <Filter>Dialog\Sprite</Filter>
-    </ClCompile>
-    <ClCompile Include="Image_Selector.cpp">
-      <Filter>Object</Filter>
-    </ClCompile>
-    <ClCompile Include="EditBuilder.cpp">
-      <Filter>EditStart</Filter>
-    </ClCompile>
-    <ClCompile Include="Dlg_Tool.cpp">
-      <Filter>Dialog</Filter>
-    </ClCompile>
-    <ClCompile Include="Dlg_StateTab.cpp">
-      <Filter>Dialog\Legacy</Filter>
-    </ClCompile>
-    <ClCompile Include="Dlg_TheOneTab.cpp">
-      <Filter>Dialog\Legacy</Filter>
-    </ClCompile>
-    <ClCompile Include="Dlg_Trans.cpp">
-      <Filter>Dialog\Legacy</Filter>
-    </ClCompile>
-    <ClCompile Include="TabState.cpp">
-      <Filter>Dialog\Legacy</Filter>
-    </ClCompile>
+    <ResourceCompile Include="Editor.rc" />
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="Editor.rc">
-      <Filter>리소스 파일</Filter>
-    </ResourceCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="res\Editor.rc2">
-      <Filter>리소스 파일</Filter>
-    </None>
-    <None Include="ClassDiagram.cd" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="res\Editor.ico">
-      <Filter>리소스 파일</Filter>
-    </Image>
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="ReadMe.txt">
-      <Filter>Std</Filter>
-    </Text>
+    <None Include="res\Editor.rc2" />
   </ItemGroup>
 </Project>

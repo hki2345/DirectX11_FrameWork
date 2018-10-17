@@ -9,48 +9,4 @@
       <UniqueIdentifier>{897c1852-2af9-4cc1-b1be-1d8a9fda613d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
-  <ItemGroup>
-    <FxCompile Include="..\bin\Shader\Grid3DShader.fx">
-      <Filter>Shader</Filter>
-    </FxCompile>
-    <FxCompile Include="..\bin\Shader\Rect3DShader.fx">
-      <Filter>Shader</Filter>
-    </FxCompile>
-    <FxCompile Include="..\bin\Shader\ImageShader.fx">
-      <Filter>Shader</Filter>
-    </FxCompile>
-    <FxCompile Include="..\bin\Shader\DebugRectShader.fx">
-      <Filter>Shader</Filter>
-    </FxCompile>
-    <FxCompile Include="..\bin\Shader\NoneShader.fx">
-      <Filter>Shader</Filter>
-    </FxCompile>
-    <FxCompile Include="..\bin\Shader\DefferdMesh.fx">
-      <Filter>Shader</Filter>
-    </FxCompile>
-    <FxCompile Include="..\bin\Shader\ForwardMesh.fx">
-      <Filter>Shader</Filter>
-    </FxCompile>
-    <FxCompile Include="..\bin\Shader\LightContainer.fx">
-      <Filter>Shader\Container</Filter>
-    </FxCompile>
-    <FxCompile Include="..\bin\Shader\MatrixContainer.fx">
-      <Filter>Shader\Container</Filter>
-    </FxCompile>
-    <FxCompile Include="..\bin\Shader\TextureContainer.fx">
-      <Filter>Shader\Container</Filter>
-    </FxCompile>
-    <FxCompile Include="..\bin\Shader\PixelContainer.fx">
-      <Filter>Shader\Container</Filter>
-    </FxCompile>
-    <FxCompile Include="..\bin\Shader\LightDefferd.fx">
-      <Filter>Shader</Filter>
-    </FxCompile>
-    <FxCompile Include="..\bin\Shader\LightForward.fx">
-      <Filter>Shader</Filter>
-    </FxCompile>
-    <FxCompile Include="..\bin\Shader\MergeShader.fx">
-      <Filter>Shader</Filter>
-    </FxCompile>
-  </ItemGroup>
 </Project>
