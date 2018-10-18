@@ -6,7 +6,7 @@ HRes::HRes()
 {
 }
 
-HRes::HRes(const HRes& _Other) : HObjectBase(_Other),
+HRes::HRes(const HRes& _Other) : Begin(_Other),
 	m_PathKey(_Other.m_PathKey),
 	m_Path(_Other.m_Path),
 	m_FullFileName(_Other.m_FullFileName),

@@ -1,6 +1,6 @@
 #include "IsoMapRender.h"
 #include <HResMgr.h>
-#include <HMACRO.h>
+#include <KMacro.h>
 #include <HWindow.h>
 
 
@@ -60,12 +60,12 @@ void IsoMapRender::Image(const wchar_t* _ImageName)
 	}
 
 	m_Img = HResMgr<HImage>::Find(_ImageName);
-	TASSERT(nullptr == m_Img);
+	KASSERT(nullptr == m_Img);
 }
 
-void IsoMapRender::Render(HPTR<HCamera> _Camera)
+void IsoMapRender::Render(KPtr<HCamera> _Camera)
 {
-	TASSERT(nullptr == m_Trans);
+	KASSERT(nullptr == m_Trans);
 	if (nullptr == m_Trans)
 	{
 		return;
@@ -111,9 +111,9 @@ void IsoMapRender::Render(HPTR<HCamera> _Camera)
 
 }
 
-HPTR<IsoMapRender::HTile> IsoMapRender::FindTile(HVEC2 _Tile)
+KPtr<IsoMapRender::HTile> IsoMapRender::FindTile(HVEC2 _Tile)
 {
-	return MapFind<HPTR<IsoMapRender::HTile>>(m_TileMap, _Tile);
+	return Map_Find<KPtr<IsoMapRender::HTile>>(m_TileMap, _Tile);
 }
 
 HVEC2 IsoMapRender::WorldToIndex(HVEC2 _WorldPos) 
@@ -146,7 +146,7 @@ void IsoMapRender::CreateTile(int _x, int _y, int _Index) {
 	Key.ix = _x;
 	Key.iy = _y;
 
-	HPTR<HTile> Tile = FindTile(Key);
+	KPtr<HTile> Tile = FindTile(Key);
 
 	if (nullptr != Tile)
 	{
@@ -155,6 +155,6 @@ void IsoMapRender::CreateTile(int _x, int _y, int _Index) {
 	}
 
 	// 아무런 생성자도 만들지 않았을때  {}안에 그대로 맴버변수 순서대로만 넣어줘도 된다.
-	m_TileMap.insert(std::unordered_map<__int64, HPTR<HTile>>::value_type(Key, new HTile(_Index)));
+	m_TileMap.insert(std::unordered_map<__int64, KPtr<HTile>>::value_type(Key, new HTile(_Index)));
 
 }

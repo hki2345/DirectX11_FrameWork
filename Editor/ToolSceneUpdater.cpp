@@ -68,7 +68,7 @@ void ToolSceneUpdater::SceneUpdate()
 
 	if (InputMgr::IsDown(L"MouseButton"))
 	{
-		HPTR<HColCom> m_Col = Scene()->Col2DMgr.UpdateColCheck(0, pColFi);
+		KPtr<HColCom> m_Col = Scene()->Col2DMgr.UpdateColCheck(0, pColFi);
 		if (nullptr != m_Col)
 		{
 			m_SelectActor = m_Col->Actor();

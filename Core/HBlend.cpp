@@ -1,6 +1,6 @@
 #include "HBlend.h"
 #include "HVAR.h"
-#include "HMACRO.h"
+#include "KMacro.h"
 
 
 HBlend::HBlend() : m_pBlendState(nullptr), m_Color(1, 1, 1, 1)
@@ -35,7 +35,7 @@ bool HBlend::Create()
 
 	if (S_OK != HVAR::PDevice()->CreateBlendState(&BDesc, &m_pBlendState))
 	{
-		TASSERT(true);
+		KASSERT(true);
 		return false;
 	}
 
@@ -53,7 +53,7 @@ bool HBlend::Create(D3D11_BLEND_DESC _Decs) {
 	BDesc = _Decs;
 	if (S_OK != HVAR::PDevice()->CreateBlendState(&_Decs, &m_pBlendState))
 	{
-		TASSERT(true);
+		KASSERT(true);
 		return false;
 	}
 

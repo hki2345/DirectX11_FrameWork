@@ -1,7 +1,7 @@
 #include "HRenderMgr.h"
 #include "HRenderer.h"
 #include "HCamera.h"
-#include "HMACRO.h"
+#include "KMacro.h"
 #include "HLight.h"
 #include "HResMgr.h"
 #include "HSampler.h"
@@ -19,7 +19,7 @@ HRenderMgr::~HRenderMgr()
 }
 
 // 순서로 처리하는 식으로 바뀔수도 2d에서만
-bool HRenderMgr::ZOrderSort(HPTR<HRenderer> _Left, HPTR<HRenderer> _Right)
+bool HRenderMgr::ZOrderSort(KPtr<HRenderer> _Left, KPtr<HRenderer> _Right)
 {
 	if (_Left->WSubPivot().z < _Right->WSubPivot().z)
 	{
@@ -31,11 +31,11 @@ bool HRenderMgr::ZOrderSort(HPTR<HRenderer> _Left, HPTR<HRenderer> _Right)
 
 void HRenderMgr::ResetSR() 
 {
-	HPTR<HSampler> Smp = HResMgr<HSampler>::Find(L"DefaultSmp");
+	KPtr<HSampler> Smp = HResMgr<HSampler>::Find(L"DefaultSmp");
 
 	if (nullptr == Smp)
 	{
-		BOOM;
+		BBY;
 	}
 
 	Smp->Update(0);
@@ -119,19 +119,19 @@ void HRenderMgr::Render()
 
 void HRenderMgr::PushCamera(HCamera* _Camera)
 {
-	TASSERT(nullptr == _Camera);
-	m_CameraMap.insert(std::map<int, HPTR<HCamera>>::value_type(_Camera->Order(), _Camera));
+	KASSERT(nullptr == _Camera);
+	m_CameraMap.insert(std::map<int, KPtr<HCamera>>::value_type(_Camera->Order(), _Camera));
 }
 
 void HRenderMgr::PushRenderer(HRenderer* _Renderer) 
 {
-	TASSERT(nullptr == _Renderer);
+	KASSERT(nullptr == _Renderer);
 
 	m_GFindIter = m_RenderMap.find(_Renderer->Order());
 
 	if (m_GFindIter == m_RenderMap.end())
 	{
-		m_RenderMap.insert(std::unordered_map<int, std::list<HPTR<HRenderer>>>::value_type(_Renderer->Order(), std::list<HPTR<HRenderer>>()));
+		m_RenderMap.insert(std::unordered_map<int, std::list<KPtr<HRenderer>>>::value_type(_Renderer->Order(), std::list<KPtr<HRenderer>>()));
 		m_GFindIter = m_RenderMap.find(_Renderer->Order());
 	}
 
@@ -139,15 +139,15 @@ void HRenderMgr::PushRenderer(HRenderer* _Renderer)
 }
 
 
-void HRenderMgr::PushOverRenderer(HPTR<HRenderer> _Renderer)
+void HRenderMgr::PushOverRenderer(KPtr<HRenderer> _Renderer)
 {
-	TASSERT(nullptr == _Renderer);
+	KASSERT(nullptr == _Renderer);
 
 	m_GFindIter = m_RenderMap.find(_Renderer->Order());
 
 	if (m_GFindIter == m_RenderMap.end())
 	{
-		m_RenderMap.insert(std::unordered_map<int, std::list<HPTR<HRenderer>>>::value_type(_Renderer->Order(), std::list<HPTR<HRenderer>>()));
+		m_RenderMap.insert(std::unordered_map<int, std::list<KPtr<HRenderer>>>::value_type(_Renderer->Order(), std::list<KPtr<HRenderer>>()));
 		m_GFindIter = m_RenderMap.find(_Renderer->Order());
 	}
 
@@ -184,7 +184,7 @@ void HRenderMgr::PushLight(HLight* _Light)
 	m_LightSet.insert(_Light);
 }
 
-void HRenderMgr::LightCheck(HPTR<HCamera> _Camera, int _Group)
+void HRenderMgr::LightCheck(KPtr<HCamera> _Camera, int _Group)
 {
 	m_LightStartIter = m_LightSet.begin();
 	m_LightEndIter = m_LightSet.end();
@@ -197,7 +197,7 @@ void HRenderMgr::LightCheck(HPTR<HCamera> _Camera, int _Group)
 	{
 		if (true == (*m_LightStartIter)->IsLight(_Group))
 		{
-			HPTR<HLight> Ptr = (*m_LightStartIter);
+			KPtr<HLight> Ptr = (*m_LightStartIter);
 			Ptr->CalLightData(_Camera);
 			Data.ArrLight[Count] = (*m_LightStartIter)->Data;
 
@@ -222,18 +222,18 @@ void HRenderMgr::LightCheck(HPTR<HCamera> _Camera, int _Group)
 	return;
 }
 
-void HRenderMgr::Render_Defferd(HPTR<HCamera> _Camera, std::map<int, std::list<HPTR<HRenderer>>>::iterator _Iter, size_t _Index)
+void HRenderMgr::Render_Defferd(KPtr<HCamera> _Camera, std::map<int, std::list<KPtr<HRenderer>>>::iterator _Iter, size_t _Index)
 {
 	// 디퍼드용 메테리얼로 
-	HPTR<HMultiRenderTaget> DEFFERDTAGET = HResMgr<HMultiRenderTaget>::Find(L"DEFFERD");
+	KPtr<HMultiRenderTaget> DEFFERDTAGET = HResMgr<HMultiRenderTaget>::Find(L"DEFFERD");
 	DEFFERDTAGET->Clear();
 	DEFFERDTAGET->OMSet();
 
-	HPTR<HMaterial> DEFFERD3DMAT = HResMgr<HMaterial>::Find(L"DEFFERD3DMAT");
-	TASSERT(nullptr == DEFFERD3DMAT);
+	KPtr<HMaterial> DEFFERD3DMAT = HResMgr<HMaterial>::Find(L"DEFFERD3DMAT");
+	KASSERT(nullptr == DEFFERD3DMAT);
 	if (nullptr == DEFFERD3DMAT)
 	{
-		BOOM;
+		BBY;
 	}
 
 	m_RStartIter = m_GFindIter->second.begin();
@@ -252,9 +252,9 @@ void HRenderMgr::Render_Defferd(HPTR<HCamera> _Camera, std::map<int, std::list<H
 	}
 }
 
-void HRenderMgr::Render_Defferd_Light(HPTR<HCamera> _Camera, int _Group)
+void HRenderMgr::Render_Defferd_Light(KPtr<HCamera> _Camera, int _Group)
 {
-	HPTR<HMultiRenderTaget> LIGHTTAGET = HResMgr<HMultiRenderTaget>::Find(L"LIGHT");
+	KPtr<HMultiRenderTaget> LIGHTTAGET = HResMgr<HMultiRenderTaget>::Find(L"LIGHT");
 	LIGHTTAGET->Clear();
 	LIGHTTAGET->OMSet();
 
@@ -265,7 +265,7 @@ void HRenderMgr::Render_Defferd_Light(HPTR<HCamera> _Camera, int _Group)
 	{
 		if (true == (*m_LightStartIter)->IsLight(_Group))
 		{
-			HPTR<HLight> Ptr = *m_LightStartIter;
+			KPtr<HLight> Ptr = *m_LightStartIter;
 			Ptr->CalLightData(_Camera);
 			Ptr->LightRender(_Camera);
 			HVAR::MainDevice().SetDsMode(L"LIGHTDEPTH");
@@ -273,7 +273,7 @@ void HRenderMgr::Render_Defferd_Light(HPTR<HCamera> _Camera, int _Group)
 	}
 }
 
-void HRenderMgr::Render_Forward(HPTR<HCamera> _Camera, std::map<int, std::list<HPTR<HRenderer>>>::iterator _Iter, size_t _Index)
+void HRenderMgr::Render_Forward(KPtr<HCamera> _Camera, std::map<int, std::list<KPtr<HRenderer>>>::iterator _Iter, size_t _Index)
 {
 	m_RStartIter = m_GFindIter->second.begin();
 	m_REndIter = m_GFindIter->second.end();

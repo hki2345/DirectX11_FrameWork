@@ -56,10 +56,10 @@ private:
 
 public:
 	MATDATA		m_MatData;
-	HPTR<HMesh> m_LightMesh;
-	HPTR<HMesh> m_VolumMesh;
-	HPTR<HMaterial> m_VolumeMat;
-	HPTR<HMaterial> m_LightMat;
+	KPtr<HMesh> m_LightMesh;
+	KPtr<HMesh> m_VolumMesh;
+	KPtr<HMaterial> m_VolumeMat;
+	KPtr<HMaterial> m_LightMat;
 
 	// 나중에 여러분들이 필터를 넣을것이라면
 	// 필터도 또 따로 세팅을 해줘야 할거다.
@@ -104,8 +104,8 @@ public:
 	void SetType(LIGHTTYPE _Type);
 
 private: ////////// LightRender
-	void LightRender(HPTR<HCamera> _Camera);
-	void CalLightData(HPTR<HCamera> _Camera);
+	void LightRender(KPtr<HCamera> _Camera);
+	void CalLightData(KPtr<HCamera> _Camera);
 
 
 public:

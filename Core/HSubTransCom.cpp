@@ -1,6 +1,6 @@
 #include "HSubTransCom.h"
 #include "HTrans.h"
-#include "HMACRO.h"
+#include "KMacro.h"
 
 
 HSubTransCom::HSubTransCom()
@@ -50,7 +50,7 @@ void HSubTransCom::ComInit()
 {
 	HBaseCom::ComInit();
 
-	TASSERT(nullptr == m_Trans);
+	KASSERT(nullptr == m_Trans);
 
 	if (nullptr == m_Trans)
 	{

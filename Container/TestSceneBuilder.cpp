@@ -45,17 +45,17 @@ void TestSceneBuilder::SceneBuild()
 
 	// 카메라가 우선이다.
 	// 트랜스
-	HPTR<HActor> Camera = Scene()->CreateActor();
-	HPTR<HCamera> CamCom = Camera->AddCom<HCamera>();
+	KPtr<HActor> Camera = Scene()->CreateActor();
+	KPtr<HCamera> CamCom = Camera->AddCom<HCamera>();
 	CamCom->PushRenderLayer(0, 1, 2, 3, 4);
 
-	HPTR<HActor> TestPanza1 = Scene()->CreateActor();
+	KPtr<HActor> TestPanza1 = Scene()->CreateActor();
 	TestPanza1->Trans()->LScale({ 106 * 2, 71 * 2, 1});
 	TestPanza1->Trans()->LPos({ 100, 0, 10 });
 
-	HPTR<HCol2D> Test = TestPanza1->AddCom<HCol2D>();
+	KPtr<HCol2D> Test = TestPanza1->AddCom<HCol2D>();
 	Test->Mode(COLTYPE::CT_RECT2D);
-	 HPTR<TestPanzaLogic> TestPan = TestPanza1->AddCom<TestPanzaLogic>();
+	 KPtr<TestPanzaLogic> TestPan = TestPanza1->AddCom<TestPanzaLogic>();
 
 	Test->EnterFunc<TestPanzaLogic>(TestPan, &TestPanzaLogic::MyColTest);
 	Test->ExitFunc<TestPanzaLogic>(TestPan, &TestPanzaLogic::MyColExitTest);

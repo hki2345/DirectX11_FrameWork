@@ -1,6 +1,6 @@
 #include "HVtxShader.h"
 #include "HVAR.h"
-#include "HMACRO.h"	
+#include "KMacro.h"	
 
 
 HVtxShader::HVtxShader() : m_Offset(0)
@@ -33,7 +33,7 @@ bool HVtxShader::Load(const char* _FuncName, UINT _VH, UINT _VL)
 		, _FuncName, szBuffer, iFlag, 0, &m_pBlob, &m_pErrBlob))
 	{
 		std::string ErrorText = (char*)m_pErrBlob->GetBufferPointer();
-		TASSERT(true);
+		KASSERT(true);
 
 		return false;
 	}
@@ -89,7 +89,7 @@ bool HVtxShader::AddLayout(LPCSTR _SName, UINT _SI, DXGI_FORMAT _Fm
 
 bool HVtxShader::CreateLayout() 
 {
-	TASSERT(nullptr == m_pShader);
+	KASSERT(nullptr == m_pShader);
 	if (nullptr == m_pShader)
 	{
 		return false;
@@ -108,7 +108,7 @@ void HVtxShader::SetLayout()
 	HVAR::Context()->IASetInputLayout(m_pInputLayout);
 }
 
-void HVtxShader::UpdateCB(HPTR<HVtxShader::CBUFFER> _Buf) 
+void HVtxShader::UpdateCB(KPtr<HVtxShader::CBUFFER> _Buf) 
 {
 	m_pContext->VSSetConstantBuffers(_Buf->iReg, 1, &_Buf->pConstBuffer);
 }

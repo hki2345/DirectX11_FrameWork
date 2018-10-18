@@ -1,5 +1,5 @@
 #include "H3DGRID.h"
-#include "HMACRO.h"
+#include "KMacro.h"
 #include "HWindow.h"
 #include "HTrans.h"
 #include "GameDebug.h"
@@ -15,7 +15,7 @@ H3DGRID::~H3DGRID()
 {
 }
 
-void H3DGRID::CalData(HPTR<HCamera> _Camera) 
+void H3DGRID::CalData(KPtr<HCamera> _Camera) 
 {
 
 	float Y = fabsf(_Camera->Trans()->WPos().y);
@@ -48,9 +48,9 @@ void H3DGRID::CalData(HPTR<HCamera> _Camera)
 	GameDebug::DrawLog(Arr);
 }
 
-void H3DGRID::TransUpdate(HPTR<HCamera> _Camera)
+void H3DGRID::TransUpdate(KPtr<HCamera> _Camera)
 {
-	TASSERT(nullptr == m_Trans);
+	KASSERT(nullptr == m_Trans);
 	if (nullptr == m_Trans)
 	{
 		return;
@@ -72,7 +72,7 @@ void H3DGRID::TransUpdate(HPTR<HCamera> _Camera)
 	HRenderer::TransCBUpdate();
 }
 
-void H3DGRID::Render(HPTR<HCamera> _Camera)
+void H3DGRID::Render(KPtr<HCamera> _Camera)
 {
 	m_Mat->PIXSH()->SettingCB<HVEC>(L"GRIDDATA", m_GridData);
 }

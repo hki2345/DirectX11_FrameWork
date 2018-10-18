@@ -36,9 +36,9 @@ protected:
 	MATDATA		m_MatData;
 	int         m_bLight;
 	int		    m_Order;
-	HPTR<HMesh> m_Mesh;
-	HPTR<HMaterial> m_Mat;
-	HPTR<HDevice::RSState> m_RsState;
+	KPtr<HMesh> m_Mesh;
+	KPtr<HMaterial> m_Mat;
+	KPtr<HDevice::RSState> m_RsState;
 
 public:
 	RenderOption ROpt;
@@ -56,14 +56,14 @@ public:
 	bool SetMat(const wchar_t* _Res);
 
 public:
-	HPTR<HMaterial> Mat();
+	KPtr<HMaterial> Mat();
 
 private:
 	void RenderUpdate();
 	void RenderEndUpdate();
 
 protected:
-	virtual void TransUpdate(HPTR<HCamera> _Camera);
+	virtual void TransUpdate(KPtr<HCamera> _Camera);
 	virtual void TransCBUpdate();
 
 protected:
@@ -72,7 +72,7 @@ protected:
 
 public:
 	virtual bool Init(int _Order = 0);
-	virtual void Render(HPTR<HCamera> _Camera) = 0;
+	virtual void Render(KPtr<HCamera> _Camera) = 0;
 
 public:
 	HRenderer();

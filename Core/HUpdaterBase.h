@@ -1,7 +1,7 @@
 #pragma once
-#include "HObjectBase.h"
+#include "Begin.h"
 
-class HUpdaterBase : public HObjectBase
+class HUpdaterBase : public Begin
 {
 private:
 	bool m_bUpdate;

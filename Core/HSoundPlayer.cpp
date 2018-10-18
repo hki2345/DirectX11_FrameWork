@@ -1,6 +1,6 @@
 #include "HSoundPlayer.h"
 #include "HResMgr.h"
-#include "HMACRO.h"
+#include "KMacro.h"
 
 
 
@@ -62,7 +62,7 @@ bool HSoundPlayer::SoundPlay(const wchar_t* _SoundName)
 {
 	m_Sound = HResMgr<HSound>::Find(_SoundName);
 
-	TASSERT(nullptr == m_Sound);
+	KASSERT(nullptr == m_Sound);
 
 	FMOD_RESULT FR = HSoundDevice::SoundSystem->playSound(m_Sound->m_pSound, nullptr, false, &m_pChannel);
 
@@ -78,7 +78,7 @@ bool HSoundPlayer::SoundPlay(const wchar_t* _SoundName)
 
 	if (FMOD_OK != FR)
 	{
-		TASSERT(true);
+		KASSERT(true);
 	}
 
 	return true;

@@ -1,8 +1,8 @@
 #include "TimeMgr.h"
-#include "StlHelperFunc.h"
+#include "Stl_AID.h"
 
 TimeMgr::GameTimer TimeMgr::MainTimer = GameTimer();
-std::unordered_map<std::wstring, HPTR<TimeMgr::GameTimer>> TimeMgr::m_MapTimer;
+std::unordered_map<std::wstring, KPtr<TimeMgr::GameTimer>> TimeMgr::m_MapTimer;
 
 TimeMgr::GameTimer::GameTimer()
 {
@@ -31,14 +31,14 @@ void TimeMgr::Init()
 	MainTimer.Init();
 }
 
-HPTR<TimeMgr::GameTimer> TimeMgr::FindTimer(const wchar_t* _Name) 
+KPtr<TimeMgr::GameTimer> TimeMgr::FindTimer(const wchar_t* _Name) 
 {
-	return MapFind<HPTR<TimeMgr::GameTimer>>(m_MapTimer, _Name);
+	return Map_Find<KPtr<TimeMgr::GameTimer>>(m_MapTimer, _Name);
 }
 
-HPTR<TimeMgr::GameTimer> TimeMgr::CreatTimer(const wchar_t* _Name) 
+KPtr<TimeMgr::GameTimer> TimeMgr::CreatTimer(const wchar_t* _Name) 
 {
-	HPTR<TimeMgr::GameTimer> PTR = FindTimer(_Name);
+	KPtr<TimeMgr::GameTimer> PTR = FindTimer(_Name);
 
 	if (nullptr != PTR)
 	{
@@ -46,7 +46,7 @@ HPTR<TimeMgr::GameTimer> TimeMgr::CreatTimer(const wchar_t* _Name)
 	}
 
 	TimeMgr::GameTimer* NewTimer = new TimeMgr::GameTimer();
-	m_MapTimer.insert(std::unordered_map<std::wstring, HPTR<GameTimer>>::value_type(_Name, NewTimer));
+	m_MapTimer.insert(std::unordered_map<std::wstring, KPtr<GameTimer>>::value_type(_Name, NewTimer));
 
 	return NewTimer;
 }

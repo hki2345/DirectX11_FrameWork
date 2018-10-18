@@ -6,14 +6,14 @@ class HBlend;
 class HSpRenderer : public HRenderer
 {
 private:
-	HPTR<HImage> m_Img;
+	KPtr<HImage> m_Img;
 	HCOLOR	     m_Color;
 	size_t		 m_ImgIndex;
 	
 public:
 	void ImageScaleSetting();
 
-	void Render(HPTR<HCamera> _Camera) override;
+	void Render(KPtr<HCamera> _Camera) override;
 
 	void Color(HCOLOR _Color)
 	{
@@ -24,14 +24,14 @@ public:
 	{
 		return m_ImgIndex;
 	}
-	HPTR<HImage> Image() { return m_Img; }
+	KPtr<HImage> Image() { return m_Img; }
 
 	void ImageIndex(size_t _Index) 
 	{
 		m_ImgIndex = _Index;
 	}
 
-	HPTR<HTexture> Texture() 
+	KPtr<HTexture> Texture() 
 	{ 
 		if (nullptr == m_Img)
 		{

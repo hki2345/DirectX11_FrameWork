@@ -1,5 +1,5 @@
-#include "HMACRO.h"
-#include "StlHelperFunc.h"
+#include "KMacro.h"
+#include "Stl_AID.h"
 #include "HSpFrameAnimater.h"
 #include "HSpRenderer.h"
 #include "TimeMgr.h"
@@ -14,7 +14,7 @@ HSpFrameAnimater::~HSpFrameAnimater()
 {
 }
 
-void HSpFrameAnimater::SettingSpRender(HPTR<HSpRenderer> _SpRender)
+void HSpFrameAnimater::SettingSpRender(KPtr<HSpRenderer> _SpRender)
 {
 	m_SpRender = _SpRender;
 }
@@ -34,7 +34,7 @@ bool HSpFrameAnimater::CreateAniL(const wchar_t* _AniName, const wchar_t* _Image
 	NewAni->m_bLoop = _bLoop;
 	NewAni->m_FrameSpeed = _FrameSpeed;
 	NewAni->m_Inter = NewAni->m_End - NewAni->m_Start + 1;
-	m_AniMap.insert(std::unordered_map<std::wstring, HPTR<SpriteAni>>::value_type(_AniName, NewAni));
+	m_AniMap.insert(std::unordered_map<std::wstring, KPtr<SpriteAni>>::value_type(_AniName, NewAni));
 	return true;
 }
 
@@ -72,13 +72,13 @@ void HSpFrameAnimater::Update()
 bool HSpFrameAnimater::ChangeAni(const wchar_t* _AniName, size_t _StartIndex /*= 0*/)
 {
 
-	TASSERT(nullptr == m_SpRender);
+	KASSERT(nullptr == m_SpRender);
 
-	HPTR<SpriteAni> pAni = MapFind<HPTR<SpriteAni>>(m_AniMap, _AniName);
+	KPtr<SpriteAni> pAni = Map_Find<KPtr<SpriteAni>>(m_AniMap, _AniName);
 
 	if (nullptr == pAni)
 	{
-		TASSERT(nullptr == pAni);
+		KASSERT(nullptr == pAni);
 		return false;
 	}
 

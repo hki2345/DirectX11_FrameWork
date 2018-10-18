@@ -1,7 +1,7 @@
 #pragma once
 #include "DHeader.h"
 #include "HCore.h"
-#include "RefBase.h"
+#include "SmartPtr.h"
 #include "HSceneMgr.h"
 #include "HWindow.h"
 #include "HDevice.h"
@@ -13,14 +13,14 @@ public:
 	friend HCore;
 
 private:
-	static HPTR<HWindow> g_MainWindow;
+	static KPtr<HWindow> g_MainWindow;
 	static void MainWindow(const wchar_t* _Name);
 
 public:
 	static HWindow& MainWindow();
 	static HSceneMgr& MainSceneMgr();
-	static HPTR<HScene> MainScene();
-	static HPTR<HScene> NextScene();
+	static KPtr<HScene> MainScene();
+	static KPtr<HScene> NextScene();
 
 	static HDevice& MainDevice();
 	static ID3D11Device* PDevice();

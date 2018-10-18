@@ -53,13 +53,13 @@ private:
 
 		if (true == _IsSceneCreate)
 		{
-			HPTR<HScene> m_Scene = HVAR::MainSceneMgr().FindScene(_ItemName.GetString());
+			KPtr<HScene> m_Scene = HVAR::MainSceneMgr().FindScene(_ItemName.GetString());
 			if (nullptr == m_Scene)
 			{
 				m_Scene = HVAR::MainSceneMgr().CreateScene(_ItemName.GetString());
-				HPTR<HActor> Camera = m_Scene->CreateActor();
+				KPtr<HActor> Camera = m_Scene->CreateActor();
 				Camera->Trans()->LPos(HVEC(0.0f, 0.0f, -10.0f));
-				HPTR<HCamera> CamCom = Camera->AddCom<HCamera>();
+				KPtr<HCamera> CamCom = Camera->AddCom<HCamera>();
 				CamCom->PushRenderLayer(0, 1, 2, 3, 4);
 			}
 		}

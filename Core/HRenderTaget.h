@@ -20,11 +20,11 @@
 class HRenderTaget : public HRes
 {
 private:
-	HPTR<HTexture> m_Tex;
+	KPtr<HTexture> m_Tex;
 	HVEC		   m_Color;
 
 public:
-	HPTR<HTexture> TagetTex() 
+	KPtr<HTexture> TagetTex() 
 	{
 		return m_Tex;
 	}

@@ -1,13 +1,13 @@
 #pragma once
 #include "HComponent.h"
 #include <unordered_map>
-#include "RefBase.h"
+#include "SmartPtr.h"
 
 class HSpRenderer;
 class HSpFrameAnimater : public HComponent
 {
 private:
-	class SpriteAni : public HRefBase
+	class SpriteAni : public SmartPtr
 	{
 	public:
 		friend HSpFrameAnimater;
@@ -23,16 +23,16 @@ private:
 	};
 
 private:
-	HPTR<HSpRenderer> m_SpRender;
-	HPTR<SpriteAni> m_CurAni;
+	KPtr<HSpRenderer> m_SpRender;
+	KPtr<SpriteAni> m_CurAni;
 	size_t		 m_CurFrame;
 	float	     m_CurFrameTime;
-	std::unordered_map<std::wstring, HPTR<SpriteAni>> m_AniMap;
+	std::unordered_map<std::wstring, KPtr<SpriteAni>> m_AniMap;
 
 public:
 	void Update();
 
-	void SettingSpRender(HPTR<HSpRenderer> _SpRender);
+	void SettingSpRender(KPtr<HSpRenderer> _SpRender);
 	bool CreateAniT(const wchar_t* _AniName, const wchar_t* _ImageName, size_t _Start, size_t _End, float FrameSpeed = 0.1f, bool _bLoop = true);
 	bool CreateAniL(const wchar_t* _AniName, const wchar_t* _ImageName, size_t _Start, size_t _End, bool _bLoop = true, float FrameSpeed = 0.1f);
 

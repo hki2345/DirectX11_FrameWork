@@ -1,6 +1,6 @@
 #include "HPixShader.h"
 #include "HVAR.h"
-#include "HMACRO.h"
+#include "KMacro.h"
 
 
 HPixShader::HPixShader()
@@ -33,7 +33,7 @@ bool HPixShader::Load(const char* _FuncName, UINT _VH, UINT _VL)
 
 		// 이 내부에 있는 데이터를 확인할수 있다.
 		std::string ErrorText = (char*)m_pErrBlob->GetBufferPointer();
-		TASSERT(true);
+		KASSERT(true);
 		return false;
 	}
 
@@ -55,7 +55,7 @@ void HPixShader::Update()
 	HVAR::Context()->PSSetShader(m_pShader, 0, 0);
 }
 
-void HPixShader::UpdateCB(HPTR<HShader::CBUFFER> _Buf)
+void HPixShader::UpdateCB(KPtr<HShader::CBUFFER> _Buf)
 {
 	m_pContext->PSSetConstantBuffers(_Buf->iReg, 1, &_Buf->pConstBuffer);
 }

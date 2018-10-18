@@ -15,25 +15,25 @@
 // 배열로 관리할수 있다.
 
 class HCore;
-class HWindow : public HObjectBase
+class HWindow : public Begin
 {
 public:
 	friend HCore;
 
 private:
-	static std::unordered_map<std::wstring, HPTR<HWindow>>::iterator WinStartIter;
-	static std::unordered_map<std::wstring, HPTR<HWindow>>::iterator WinEndIter;
+	static std::unordered_map<std::wstring, KPtr<HWindow>>::iterator WinStartIter;
+	static std::unordered_map<std::wstring, KPtr<HWindow>>::iterator WinEndIter;
 
-	static std::unordered_map<std::wstring, HPTR<HWindow>> g_NWinMap;
-	static std::unordered_map<HWND, HPTR<HWindow>> g_HWinMap;
+	static std::unordered_map<std::wstring, KPtr<HWindow>> g_NWinMap;
+	static std::unordered_map<HWND, KPtr<HWindow>> g_HWinMap;
 
 private:
 	static HINSTANCE g_HInst;
 	static void Init(HINSTANCE _HInst);
 
 public:
-	static HPTR<HWindow> CreateHWindow(const wchar_t* _Name, HWND _hWnd = nullptr);
-	static HPTR<HWindow> FindHWindow(const wchar_t* _Name);
+	static KPtr<HWindow> CreateHWindow(const wchar_t* _Name, HWND _hWnd = nullptr);
+	static KPtr<HWindow> FindHWindow(const wchar_t* _Name);
 	static void EraseHWindow(const HWND _Handle);
 	static void Progress();
 

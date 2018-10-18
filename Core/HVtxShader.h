@@ -29,7 +29,7 @@ public:
 	void SetLayout();
 
 public:
-	void UpdateCB(HPTR<CBUFFER> _Buf);
+	void UpdateCB(KPtr<CBUFFER> _Buf);
 
 public:
 	HVtxShader();

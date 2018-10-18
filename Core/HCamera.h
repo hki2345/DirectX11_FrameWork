@@ -133,16 +133,16 @@ private:
 
 
 private: // CameraRender
-	HPTR<HMesh> m_CamMesh;
-	HPTR<HMaterial> m_CamMat;
-	HPTR<HMaterial> m_CamScreenMat;
+	KPtr<HMesh> m_CamMesh;
+	KPtr<HMaterial> m_CamMat;
+	KPtr<HMaterial> m_CamScreenMat;
 
 private:
 	void LightMerge(); 
 	void ScreenMerge();
 
 private:
-	HPTR<HMultiRenderTaget> m_CameraTaget;
+	KPtr<HMultiRenderTaget> m_CameraTaget;
 	// 카메라 필터.
 
 public:

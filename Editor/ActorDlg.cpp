@@ -77,10 +77,10 @@ void ActorDlg::OnBnClickedCreactor()
 	{
 		HTREEITEM item = m_ObjectTree.InsertItem(L"GameObject");
 
-		HPTR<HActor> pActor = HVAR::MainScene()->CreateActor(L"GameObject");
+		KPtr<HActor> pActor = HVAR::MainScene()->CreateActor(L"GameObject");
 
 
-		HPTR<IsoMapRender> IsoRender = pActor->AddCom<IsoMapRender>(L"Tile.png", HVEC2(128.0f, 64.0f));
+		KPtr<IsoMapRender> IsoRender = pActor->AddCom<IsoMapRender>(L"Tile.png", HVEC2(128.0f, 64.0f));
 		IsoRender->CreateTile(0, 0);
 		IsoRender->CreateTile(1, 0);
 
@@ -104,10 +104,10 @@ void ActorDlg::OnBnClickedCreactor()
 		HTREEITEM item = m_ObjectTree.InsertItem(L"GameObject", m_SelectObject);
 		m_ObjectTree.Expand(m_SelectObject, TVE_EXPAND);
 
-		HPTR<HActor> pActor = HVAR::MainScene()->CreateActor(L"GameObject");
+		KPtr<HActor> pActor = HVAR::MainScene()->CreateActor(L"GameObject");
 		pActor->AddCom<HCol2D>();
 
-		HPTR<HSpRenderer> SpriteRender = pActor->AddCom<HSpRenderer>();
+		KPtr<HSpRenderer> SpriteRender = pActor->AddCom<HSpRenderer>();
 		SpriteRender->Image(L"Rock.png");
 		pActor->Trans()->LScale({ 100, 100, 1 });
 		pActor->Trans()->LPos({ 0, 0, 5 });
@@ -122,15 +122,15 @@ void ActorDlg::ResetObjectTreeItem() {
 
 	m_ObjectTree.DeleteAllItems();
 
-	std::unordered_map<int, std::list<HPTR<HActor>>> AllActor = HVAR::NextScene()->AllActor();
+	std::unordered_map<int, std::list<KPtr<HActor>>> AllActor = HVAR::NextScene()->AllActor();
 
-	std::unordered_map<int, std::list<HPTR<HActor>>>::iterator m_StartMapIter = AllActor.begin();
-	std::unordered_map<int, std::list<HPTR<HActor>>>::iterator m_EndMapIter = AllActor.end();
+	std::unordered_map<int, std::list<KPtr<HActor>>>::iterator m_StartMapIter = AllActor.begin();
+	std::unordered_map<int, std::list<KPtr<HActor>>>::iterator m_EndMapIter = AllActor.end();
 
 	for (; m_StartMapIter != m_EndMapIter; ++m_StartMapIter)
 	{
-		std::list<HPTR<HActor>>::iterator m_StartListIter = m_StartMapIter->second.begin();
-		std::list<HPTR<HActor>>::iterator m_EndListIter = m_StartMapIter->second.end();
+		std::list<KPtr<HActor>>::iterator m_StartListIter = m_StartMapIter->second.begin();
+		std::list<KPtr<HActor>>::iterator m_EndListIter = m_StartMapIter->second.end();
 
 		for (; m_StartListIter != m_EndListIter; ++m_StartListIter)
 		{

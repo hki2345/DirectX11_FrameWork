@@ -9,7 +9,7 @@
 class TVAR
 {
 public:
-	static HPTR<HScene> SelectScene;
+	static KPtr<HScene> SelectScene;
 	static MenuDlg* MDlg;
 	static SceneDlg* SceneDlg;
 	static SpriteDlg* SpDlg;

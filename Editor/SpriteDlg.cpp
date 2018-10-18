@@ -87,9 +87,9 @@ void SpriteDlg::SpriteInit()
 {
 	// SpriteCheck(GamePath::FindPath(L"Texture"), L"Texture", m_SpriteTree.InsertItem(L"Texture"));
 
-	HPTR<HScene> m_Scene = HVAR::MainSceneMgr().FindScene(L"SpriteDlg");
-	HPTR<HActor> pActor = m_Scene->CreateActor();
-	HPTR<HSpriteCut> SpriteCut = pActor->AddCom<HSpriteCut>();
+	KPtr<HScene> m_Scene = HVAR::MainSceneMgr().FindScene(L"SpriteDlg");
+	KPtr<HActor> pActor = m_Scene->CreateActor();
+	KPtr<HSpriteCut> SpriteCut = pActor->AddCom<HSpriteCut>();
 	m_SpriteRender = SpriteCut->SpriteRender;
 	pActor->Trans()->LPos({ 0, 0, 5 });
 
@@ -165,7 +165,7 @@ void SpriteDlg::SpriteCheck(const wchar_t* _Path, const wchar_t* _Folder, HTREEI
 					HResMgr<HImage>::Load(FileFind.GetFilePath());
 				}
 
-				HPTR<HImage> m_Img = HResMgr<HImage>::Find(FileFind.GetFileName());
+				KPtr<HImage> m_Img = HResMgr<HImage>::Find(FileFind.GetFileName());
 				m_Img->Cut(FindIter->second->CutX, FindIter->second->CutY);
 				size_t Index = m_Img->Cut(HVEC(0.0f, 0.0f, 1.0f, 1.0f));
 				m_SpriteRender->ImageIndex(Index);
@@ -177,8 +177,8 @@ void SpriteDlg::SpriteCheck(const wchar_t* _Path, const wchar_t* _Folder, HTREEI
 
 				CString Name = FileFind.GetFilePath();
 
-				HPTR<HTexture> Tex = HResMgr<HTexture>::Load(Name);
-				HPTR<HImage> Img = HResMgr<HImage>::Load(Name);
+				KPtr<HTexture> Tex = HResMgr<HTexture>::Load(Name);
+				KPtr<HImage> Img = HResMgr<HImage>::Load(Name);
 
 				if (nullptr != Img)
 				{

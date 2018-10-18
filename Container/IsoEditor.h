@@ -7,8 +7,8 @@ class IsoEditor :
 	public HLogic
 {
 public:
-	HPTR<IsoMapRender> IsoRender;
-	HPTR<HSoundPlayer> SoundPlayer;
+	KPtr<IsoMapRender> IsoRender;
+	KPtr<HSoundPlayer> SoundPlayer;
 
 public:
 	bool Init() override;

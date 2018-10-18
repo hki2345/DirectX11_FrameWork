@@ -11,7 +11,7 @@ private:
 		, void *commanddata1, void *commanddata2);
 
 private:
-	HPTR<HSound> m_Sound;
+	KPtr<HSound> m_Sound;
 	FMOD::Channel* m_pChannel;
 	bool m_bPlay;
 

@@ -1,6 +1,6 @@
 #include "HBaseCom.h"
 #include "HTrans.h"
-#include "HMACRO.h"
+#include "KMacro.h"
 
 
 HBaseCom::HBaseCom()

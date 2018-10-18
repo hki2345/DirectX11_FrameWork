@@ -51,8 +51,8 @@ void GameDebug::DrawRect(const HRECT& _Rect, float _Border)
 	HMAT m_Pos;
 	m_Pos.Trans(HVEC(_Rect.m_Pos.x, _Rect.m_Pos.y, 1.1f));
 
-	HPTR<HMesh> Mesh = HResMgr<HMesh>::Find(L"LINERECTMESH");
-	HPTR<HMaterial> Mat = HResMgr<HMaterial>::Find(L"DEBUGRECTMAT");
+	KPtr<HMesh> Mesh = HResMgr<HMesh>::Find(L"LINERECTMESH");
+	KPtr<HMaterial> Mat = HResMgr<HMaterial>::Find(L"DEBUGRECTMAT");
 	Mat->VTXSH()->SettingCB<HMAT>(L"TRANS", (m_Scale * m_Pos * m1).RTranspose());
 
 	Mat->Update();
@@ -62,7 +62,7 @@ void GameDebug::DrawRect(const HRECT& _Rect, float _Border)
 
 void GameDebug::DrawFont(wchar_t* _pStr, HVEC2 _Pos, float _fSize, HVEC _COLOR, FW1_TEXT_FLAG _Flag /*= FW1_TEXT_FLAG::FW1_TOP*/) {
 
-	HPTR<HFont> FindFont = HResMgr<HFont>::Find(L"±Ã¼­");
+	KPtr<HFont> FindFont = HResMgr<HFont>::Find(L"±Ã¼­");
 
 	if (nullptr != FindFont)
 	{
@@ -80,16 +80,16 @@ void GameDebug::DrawLog(wchar_t* _pStr, HVEC _COLOR /*= HVEC::ONE*/)
 
 void GameDebug::TagetDebug() 
 {
-	HPTR<HSampler> Smp = HResMgr<HSampler>::Find(L"DefaultSmp");
+	KPtr<HSampler> Smp = HResMgr<HSampler>::Find(L"DefaultSmp");
 
 	if (nullptr == Smp)
 	{
-		BOOM;
+		BBY;
 	}
-	std::vector<HPTR<HMultiRenderTaget>> Vec = HResMgr<HMultiRenderTaget>::GetAllSingleRes();
+	std::vector<KPtr<HMultiRenderTaget>> Vec = HResMgr<HMultiRenderTaget>::GetAllSingleRes();
 
-	HPTR<HMesh> Mesh = HResMgr<HMesh>::Find(L"RECT");
-	HPTR<HMaterial> Mat = HResMgr<HMaterial>::Find(L"TAGETDEBUGMAT");
+	KPtr<HMesh> Mesh = HResMgr<HMesh>::Find(L"RECT");
+	KPtr<HMaterial> Mat = HResMgr<HMaterial>::Find(L"TAGETDEBUGMAT");
 
 	HMAT m_View;
 	HMAT m_Proj;
@@ -107,7 +107,7 @@ void GameDebug::TagetDebug()
 
 	for (size_t i = 0; i < Vec.size(); i++)
 	{
-		std::vector<HPTR<HRenderTaget>> TagetVec = Vec[i]->TagetTexList();
+		std::vector<KPtr<HRenderTaget>> TagetVec = Vec[i]->TagetTexList();
 
 		for (size_t j = 0; j < TagetVec.size(); j++)
 		{
@@ -134,7 +134,7 @@ void GameDebug::TagetDebug()
 			Smp->Update(0);
 			if (nullptr == TagetVec[j]->TagetTex()->SRV())
 			{
-				BOOM;
+				BBY;
 			}
 			TagetVec[j]->TagetTex()->Update(0);
 
@@ -159,12 +159,12 @@ void GameDebug::TagetDebug()
 	CountX = 0;
 	CountY += 1;
 
-	std::map<int, HPTR<HCamera>>::iterator m_CamStartIter = HVAR::MainScene()->RenderMgr.m_CameraMap.begin();
-	std::map<int, HPTR<HCamera>>::iterator m_CamEndIter = HVAR::MainScene()->RenderMgr.m_CameraMap.end();;
+	std::map<int, KPtr<HCamera>>::iterator m_CamStartIter = HVAR::MainScene()->RenderMgr.m_CameraMap.begin();
+	std::map<int, KPtr<HCamera>>::iterator m_CamEndIter = HVAR::MainScene()->RenderMgr.m_CameraMap.end();;
 
 	for (; m_CamStartIter != m_CamEndIter; ++m_CamStartIter)
 	{
-		std::vector<HPTR<HRenderTaget>> TagetVec = m_CamStartIter->second->m_CameraTaget->TagetTexList();
+		std::vector<KPtr<HRenderTaget>> TagetVec = m_CamStartIter->second->m_CameraTaget->TagetTexList();
 
 		for (size_t j = 0; j < TagetVec.size(); j++)
 		{
@@ -191,7 +191,7 @@ void GameDebug::TagetDebug()
 			Smp->Update(0);
 			if (nullptr == TagetVec[j]->TagetTex()->SRV())
 			{
-				BOOM;
+				BBY;
 			}
 			TagetVec[j]->TagetTex()->Update(0);
 

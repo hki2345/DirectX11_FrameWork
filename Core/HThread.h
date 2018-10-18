@@ -3,12 +3,12 @@
 #include <Windows.h>
 #include <unordered_map>
 #include <string>
-#include "RefBase.h"
+#include "SmartPtr.h"
 #include <WinBase.h>
 #include <functional>
-#include "HMACRO.h"
+#include "KMacro.h"
 
-class HThread : public HRefBase
+class HThread : public SmartPtr
 {
 private:
 	enum FUNC_MODE
@@ -21,11 +21,11 @@ private:
 	// ¾²
 
 private:
-	static std::unordered_map<std::wstring, HPTR<HThread>> m_TMap;
+	static std::unordered_map<std::wstring, KPtr<HThread>> m_TMap;
 
 public:
-	static HPTR<HThread> FindThread(const wchar_t* _Name);
-	static HPTR<HThread> CreateThread(const wchar_t* _Name);
+	static KPtr<HThread> FindThread(const wchar_t* _Name);
+	static KPtr<HThread> CreateThread(const wchar_t* _Name);
 	static bool PauseThread(const wchar_t* _Name);
 	static bool ResumThread(const wchar_t* _Name);
 
@@ -34,7 +34,7 @@ public:
 	template<typename TYPE>
 	static bool StartThread(const wchar_t* _Name, unsigned int(TYPE::*pMember)(void*), TYPE* _pObj, void* _Arg = nullptr)
 	{
-		HPTR<HThread> Ptr = FindThread(_Name);
+		KPtr<HThread> Ptr = FindThread(_Name);
 		if (nullptr == Ptr)
 		{
 			Ptr = CreateThread(_Name);
@@ -81,7 +81,7 @@ private:
 	{
 		if (nullptr == _pObj || nullptr == pMember)
 		{
-			TASSERT(true);
+			KASSERT(true);
 			return false;
 		}
 

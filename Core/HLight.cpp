@@ -33,7 +33,7 @@ void HLight::EndUpdate()
 
 }
 
-void HLight::CalLightData(HPTR<HCamera> _Camera) {
+void HLight::CalLightData(KPtr<HCamera> _Camera) {
 	Data.LightDir = Trans()->WForward();
 	Data.LightPos = Trans()->WPos();
 	Data.Type = m_eType;
@@ -50,7 +50,7 @@ void HLight::CalLightData(HPTR<HCamera> _Camera) {
 	Data.LightPos = _Camera->CV().MulVecOne(Data.LightPos);
 }
 
-void HLight::LightRender(HPTR<HCamera> _Camera)
+void HLight::LightRender(KPtr<HCamera> _Camera)
 {
 	// 라이트 데이터
 	HVAR::MainDevice().SetBsMode(L"ONE");
@@ -58,7 +58,7 @@ void HLight::LightRender(HPTR<HCamera> _Camera)
 
 	if (nullptr == m_LightMat || nullptr == m_LightMesh)
 	{
-		BOOM;
+		BBY;
 	}
 
 	if (m_eType == LIGHTTYPE::POINT)

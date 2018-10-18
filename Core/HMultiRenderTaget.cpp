@@ -20,7 +20,7 @@ void HMultiRenderTaget::CreateDepth(unsigned int _W, unsigned int _H)
 	m_DepthTex = new HTexture();
 	if (false == m_DepthTex->Create(_W, _H, D3D11_BIND_DEPTH_STENCIL, DXGI_FORMAT_D24_UNORM_S8_UINT))
 	{
-		BOOM;
+		BBY;
 		return;
 	}
 
@@ -40,7 +40,7 @@ void HMultiRenderTaget::CreateDepth(unsigned int _W, unsigned int _H)
 
 	if (nullptr == m_pDepthStencilState)
 	{
-		TASSERT(true);
+		KASSERT(true);
 		return;
 	}
 
@@ -86,17 +86,17 @@ void HMultiRenderTaget::Clear()
 
 void HMultiRenderTaget::CreateTaget(UINT _W, UINT _H, UINT _BindFlag, DXGI_FORMAT _eFormat, D3D11_USAGE _eUsage )
 {
-	HPTR<HRenderTaget> Taget = new HRenderTaget();
+	KPtr<HRenderTaget> Taget = new HRenderTaget();
 	if (false == Taget->Create(_W, _H, _BindFlag, _eFormat, _eUsage))
 	{
-		BOOM;
+		BBY;
 	}
 
 	m_RenderTagetView.push_back(Taget->TagetTex()->RTV());
 	m_RenderTaget.push_back(Taget);
 }
 
-HPTR<HTexture> HMultiRenderTaget::TagetTex(unsigned int _Idx)
+KPtr<HTexture> HMultiRenderTaget::TagetTex(unsigned int _Idx)
 {
 	return m_RenderTaget[_Idx]->TagetTex();
 }

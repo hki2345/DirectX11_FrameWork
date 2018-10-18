@@ -1,5 +1,5 @@
 #include "H3DRectRenderer.h"
-#include "HMACRO.h"
+#include "KMacro.h"
 #include "HWindow.h"
 #include "HTrans.h"
 
@@ -12,9 +12,9 @@ H3DRectRenderer::H3DRectRenderer()
 H3DRectRenderer::~H3DRectRenderer()
 {
 }
-void H3DRectRenderer::Render(HPTR<HCamera> _Camera)
+void H3DRectRenderer::Render(KPtr<HCamera> _Camera)
 {
-	TASSERT(nullptr == m_Trans);
+	KASSERT(nullptr == m_Trans);
 	if (nullptr == m_Trans)
 	{
 		return;

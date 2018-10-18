@@ -1,18 +1,18 @@
 #include "HThread.h"
-#include "StlHelperFunc.h"
+#include "Stl_AID.h"
 
-std::unordered_map<std::wstring, HPTR<HThread>> HThread::m_TMap;
+std::unordered_map<std::wstring, KPtr<HThread>> HThread::m_TMap;
 
-HPTR<HThread> HThread::FindThread(const wchar_t* _Name) 
+KPtr<HThread> HThread::FindThread(const wchar_t* _Name) 
 {
-	return MapFind<HPTR<HThread>>(m_TMap, _Name);
+	return Map_Find<KPtr<HThread>>(m_TMap, _Name);
 }
 
-HPTR<HThread> HThread::CreateThread(const wchar_t* _Name)
+KPtr<HThread> HThread::CreateThread(const wchar_t* _Name)
 {
 	HThread* NewThread = new HThread();
 
-	m_TMap.insert(std::unordered_map<std::wstring, HPTR<HThread>>::value_type(_Name, NewThread));
+	m_TMap.insert(std::unordered_map<std::wstring, KPtr<HThread>>::value_type(_Name, NewThread));
 
 	return NewThread;
 }
@@ -21,7 +21,7 @@ HPTR<HThread> HThread::CreateThread(const wchar_t* _Name)
 
 bool HThread::StartThread(const wchar_t* _Name, unsigned int(__stdcall *_StdFuncPtr)(void*), void* _Arg)
 {
-	HPTR<HThread> Ptr = FindThread(_Name);
+	KPtr<HThread> Ptr = FindThread(_Name);
 
 	if (nullptr == Ptr)
 	{
@@ -59,11 +59,11 @@ unsigned int __stdcall HThread::BaseThreadFunc(void* _Arg)
 
 bool HThread::PauseThread(const wchar_t* _Name) 
 {
-	HPTR<HThread> Ptr = FindThread(_Name);
+	KPtr<HThread> Ptr = FindThread(_Name);
 
 	if (nullptr == Ptr)
 	{
-		TASSERT(true);
+		KASSERT(true);
 	}
 
 	if (true == Ptr->m_bPause)
@@ -78,11 +78,11 @@ bool HThread::PauseThread(const wchar_t* _Name)
 
 bool HThread::ResumThread(const wchar_t* _Name)
 {
-	HPTR<HThread> Ptr = FindThread(_Name);
+	KPtr<HThread> Ptr = FindThread(_Name);
 
 	if (nullptr == Ptr)
 	{
-		TASSERT(true);
+		KASSERT(true);
 	}
 
 	if (false == Ptr->m_bPause)
@@ -122,7 +122,7 @@ bool HThread::Start(unsigned int(__stdcall *_StdFuncPtr)(void*), void* _Arg)
 {
 	if (nullptr == _StdFuncPtr)
 	{
-		TASSERT(true);
+		KASSERT(true);
 		return false;
 	}
 

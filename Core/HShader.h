@@ -24,7 +24,7 @@ public:
 
 protected:
 	// 윈도우 기반이기 때문에 Window가 그냥 값으로 들고 있을 것이다.
-	class CBUFFER : public HRefBase
+	class CBUFFER : public SmartPtr
 	{
 	public:
 		D3D11_BUFFER_DESC tDesc;
@@ -38,7 +38,7 @@ protected:
 	};
 
 private:
-	std::unordered_map<std::wstring, HPTR<CBUFFER>> m_MapConstBuffer;
+	std::unordered_map<std::wstring, KPtr<CBUFFER>> m_MapConstBuffer;
 
 public:
 	template<typename BUFTYPE>
@@ -62,7 +62,7 @@ public:
 
 		NewBuf->iReg = _iReg;
 
-		m_MapConstBuffer.insert(std::unordered_map<std::wstring, HPTR<CBUFFER>>::value_type(_Name, NewBuf));
+		m_MapConstBuffer.insert(std::unordered_map<std::wstring, KPtr<CBUFFER>>::value_type(_Name, NewBuf));
 
 		return true;
 	}
@@ -70,7 +70,7 @@ public:
 	template<typename BUFTYPE>
 	void SettingCB(const wchar_t* _Name, const BUFTYPE& _Data)
 	{
-		HPTR<CBUFFER> Buf = FindCB(_Name);
+		KPtr<CBUFFER> Buf = FindCB(_Name);
 
 		if (nullptr == Buf || Buf->tDesc.ByteWidth != sizeof(BUFTYPE))
 		{
@@ -87,12 +87,12 @@ public:
 	}
 
 	bool CreateCB(CBUFFER* NewBuf);
-	HPTR<CBUFFER> FindCB(const wchar_t* _Name);
+	KPtr<CBUFFER> FindCB(const wchar_t* _Name);
 
 
 private:
 	virtual void Update() = 0;
-	virtual void UpdateCB(HPTR<CBUFFER> Buf) = 0;
+	virtual void UpdateCB(KPtr<CBUFFER> Buf) = 0;
 
 public:
 	HShader();

@@ -1,5 +1,5 @@
 #include "HShader.h"
-#include "StlHelperFunc.h"
+#include "Stl_AID.h"
 #include "HVAR.h"
 
 HShader::HShader() : m_Type(ST_NONE)
@@ -28,7 +28,7 @@ bool HShader::CreateCB(CBUFFER* NewBuf)
 	return true;
 }
 
-HPTR<HShader::CBUFFER> HShader::FindCB(const wchar_t* _Name)
+KPtr<HShader::CBUFFER> HShader::FindCB(const wchar_t* _Name)
 {
-	return MapFind<HPTR<HShader::CBUFFER>>(m_MapConstBuffer, _Name);
+	return Map_Find<KPtr<HShader::CBUFFER>>(m_MapConstBuffer, _Name);
 }

@@ -1,6 +1,6 @@
 #pragma once
-#include "RefBase.h"
-#include "StlHelperFunc.h"
+#include "SmartPtr.h"
+#include "Stl_AID.h"
 
 #include <unordered_map>
 #include <string>
@@ -41,16 +41,16 @@ template<typename Res>
 class HResMgr
 {
 private:
-	static std::unordered_map<std::wstring, HPTR<Res>> m_ResMap;
-	static std::unordered_map<std::wstring, std::vector<HPTR<Res>>> m_MultiResMap;
+	static std::unordered_map<std::wstring, KPtr<Res>> m_ResMap;
+	static std::unordered_map<std::wstring, std::vector<KPtr<Res>>> m_MultiResMap;
 
 public:
-	static std::vector<HPTR<Res>> GetAllSingleRes() 
+	static std::vector<KPtr<Res>> GetAllSingleRes() 
 	{
-		std::vector<HPTR<Res>> vec;
+		std::vector<KPtr<Res>> vec;
 
-		std::unordered_map<std::wstring, HPTR<Res>>::iterator StartIter = m_ResMap.begin();
-		std::unordered_map<std::wstring, HPTR<Res>>::iterator EndIter = m_ResMap.end();
+		std::unordered_map<std::wstring, KPtr<Res>>::iterator StartIter = m_ResMap.begin();
+		std::unordered_map<std::wstring, KPtr<Res>>::iterator EndIter = m_ResMap.end();
 
 		for (; StartIter != EndIter; ++StartIter)
 		{
@@ -66,12 +66,12 @@ public:
 		return m_ResMap.size();
 	}
 
-	static std::list<HPTR<Res>> GetAllSingleResList() 
+	static std::list<KPtr<Res>> GetAllSingleResList() 
 	{
-		std::list<HPTR<Res>> ReturnList;
+		std::list<KPtr<Res>> ReturnList;
 
-		std::unordered_map<std::wstring, HPTR<Res>>::iterator StartMapIter = m_ResMap.begin();
-		std::unordered_map<std::wstring, HPTR<Res>>::iterator EndMapIter = m_ResMap.end();
+		std::unordered_map<std::wstring, KPtr<Res>>::iterator StartMapIter = m_ResMap.begin();
+		std::unordered_map<std::wstring, KPtr<Res>>::iterator EndMapIter = m_ResMap.end();
 
 		for (; StartMapIter != EndMapIter; ++StartMapIter)
 		{
@@ -82,16 +82,16 @@ public:
 	}
 
 public:
-	static HPTR<Res> Find(const wchar_t* _Name)
+	static KPtr<Res> Find(const wchar_t* _Name)
 	{
-		return MapFind<HPTR<Res>>(m_ResMap, _Name);
+		return Map_Find<KPtr<Res>>(m_ResMap, _Name);
 	}
 
-	static HPTR<Res> Create(const wchar_t* _Name)
+	static KPtr<Res> Create(const wchar_t* _Name)
 	{
 
 		Res* NewRes = new Res();
-		NewRes->TypeSetting();
+		NewRes->Set_Type();
 		NewRes->Name(_Name);
 
 		if (false == NewRes->Create())
@@ -100,16 +100,16 @@ public:
 			return nullptr;
 		}
 
-		m_ResMap.insert(std::unordered_map<std::wstring, HPTR<Res>>::value_type(_Name, NewRes));
+		m_ResMap.insert(std::unordered_map<std::wstring, KPtr<Res>>::value_type(_Name, NewRes));
 		return NewRes;
 	}
 
 	template<typename V1>
-	static HPTR<Res> Create(const wchar_t* _Name, V1 _1)
+	static KPtr<Res> Create(const wchar_t* _Name, V1 _1)
 	{
 
 		Res* NewRes = new Res();
-		NewRes->TypeSetting();
+		NewRes->Set_Type();
 		NewRes->Name(_Name);
 
 		if (false == NewRes->Create(_1))
@@ -118,16 +118,16 @@ public:
 			return nullptr;
 		}
 
-		m_ResMap.insert(std::unordered_map<std::wstring, HPTR<Res>>::value_type(_Name, NewRes));
+		m_ResMap.insert(std::unordered_map<std::wstring, KPtr<Res>>::value_type(_Name, NewRes));
 		return NewRes;
 	}
 
 
 	template<typename V1, typename V2>
-	static HPTR<Res> Create(const wchar_t* _Name, V1 _1, V2 _2)
+	static KPtr<Res> Create(const wchar_t* _Name, V1 _1, V2 _2)
 	{
 		Res* NewRes = new Res();
-		NewRes->TypeSetting();
+		NewRes->Set_Type();
 		NewRes->Name(_Name);
 
 		if (false == NewRes->Create(_1, _2))
@@ -136,15 +136,15 @@ public:
 			return nullptr;
 		}
 
-		m_ResMap.insert(std::unordered_map<std::wstring, HPTR<Res>>::value_type(_Name, NewRes));
+		m_ResMap.insert(std::unordered_map<std::wstring, KPtr<Res>>::value_type(_Name, NewRes));
 		return NewRes;
 	}
 
 	template<typename V1, typename V2, typename V3, typename V4>
-	static HPTR<Res> Create(const wchar_t* _Name, V1 _1, V2 _2, V3 _3, V4 _4)
+	static KPtr<Res> Create(const wchar_t* _Name, V1 _1, V2 _2, V3 _3, V4 _4)
 	{
 		Res* NewRes = new Res();
-		NewRes->TypeSetting();
+		NewRes->Set_Type();
 		NewRes->Name(_Name);
 
 		if (false == NewRes->Create(_1, _2, _3, _4))
@@ -153,15 +153,15 @@ public:
 			return nullptr;
 		}
 
-		m_ResMap.insert(std::unordered_map<std::wstring, HPTR<Res>>::value_type(_Name, NewRes));
+		m_ResMap.insert(std::unordered_map<std::wstring, KPtr<Res>>::value_type(_Name, NewRes));
 		return NewRes;
 	}
 
 	template<typename V1, typename V2, typename V3, typename V4, typename V5, typename V6, typename V7, typename V8, typename V9>
-	static HPTR<Res> Create(const wchar_t* _Name, V1 _1, V2 _2, V3 _3, V4 _4, V5 _5, V6 _6, V7 _7, V8 _8, V9 _9)
+	static KPtr<Res> Create(const wchar_t* _Name, V1 _1, V2 _2, V3 _3, V4 _4, V5 _5, V6 _6, V7 _7, V8 _8, V9 _9)
 	{
 		Res* NewRes = new Res();
-		NewRes->TypeSetting();
+		NewRes->Set_Type();
 		NewRes->Name(_Name);
 
 		if (false == NewRes->Create(_1, _2, _3, _4, _5, _6, _7, _8, _9))
@@ -170,16 +170,16 @@ public:
 			return nullptr;
 		}
 
-		m_ResMap.insert(std::unordered_map<std::wstring, HPTR<Res>>::value_type(_Name, NewRes));
+		m_ResMap.insert(std::unordered_map<std::wstring, KPtr<Res>>::value_type(_Name, NewRes));
 		return NewRes;
 	}
 
 
 	template<typename V1, typename V2, typename V3, typename V4, typename V5, typename V6, typename V7, typename V8, typename V9, typename V10>
-	static HPTR<Res> Create(const wchar_t* _Name, V1 _1, V2 _2, V3 _3, V4 _4, V5 _5, V6 _6, V7 _7, V8 _8, V9 _9, V10 _10)
+	static KPtr<Res> Create(const wchar_t* _Name, V1 _1, V2 _2, V3 _3, V4 _4, V5 _5, V6 _6, V7 _7, V8 _8, V9 _9, V10 _10)
 	{
 		Res* NewRes = new Res();
-		NewRes->TypeSetting();
+		NewRes->Set_Type();
 		NewRes->Name(_Name);
 
 		if (false == NewRes->Create(_1, _2, _3, _4, _5, _6, _7, _8, _9, _10))
@@ -188,12 +188,12 @@ public:
 			return nullptr;
 		}
 
-		m_ResMap.insert(std::unordered_map<std::wstring, HPTR<Res>>::value_type(_Name, NewRes));
+		m_ResMap.insert(std::unordered_map<std::wstring, KPtr<Res>>::value_type(_Name, NewRes));
 		return NewRes;
 	}
 
 
-	static HPTR<Res> Load(const wchar_t* _Path)
+	static KPtr<Res> Load(const wchar_t* _Path)
 	{
 		Res* NewRes = new Res();
 		NewRes->Path(_Path);
@@ -204,13 +204,13 @@ public:
 			return nullptr;
 		}
 
-		m_ResMap.insert(std::unordered_map<std::wstring, HPTR<Res>>::value_type(NewRes->FullFileName(), NewRes));
+		m_ResMap.insert(std::unordered_map<std::wstring, KPtr<Res>>::value_type(NewRes->FullFileName(), NewRes));
 		return NewRes;
 	}
 
 
 
-	static HPTR<Res> Load(const wchar_t* _Path, const wchar_t* _Name)
+	static KPtr<Res> Load(const wchar_t* _Path, const wchar_t* _Name)
 	{
 		std::wstring FindPath = GamePath::FindPath(_Path);
 		FindPath += _Name;
@@ -225,12 +225,12 @@ public:
 			return nullptr;
 		}
 
-		m_ResMap.insert(std::unordered_map<std::wstring, HPTR<Res>>::value_type(_Name, NewRes));
+		m_ResMap.insert(std::unordered_map<std::wstring, KPtr<Res>>::value_type(_Name, NewRes));
 		return NewRes;
 	}
 
 	template<typename V1, typename V2>
-	static HPTR<Res> Load(const wchar_t* _Path, const wchar_t* _Name, V1 _1, V2 _2)
+	static KPtr<Res> Load(const wchar_t* _Path, const wchar_t* _Name, V1 _1, V2 _2)
 	{
 		std::wstring FindPath = GamePath::FindPath(_Path);
 		FindPath += _Name;
@@ -245,11 +245,11 @@ public:
 			return nullptr;
 		}
 
-		m_ResMap.insert(std::unordered_map<std::wstring, HPTR<Res>>::value_type(_Name, NewRes));
+		m_ResMap.insert(std::unordered_map<std::wstring, KPtr<Res>>::value_type(_Name, NewRes));
 		return NewRes;
 	}
 
-	static HPTR<Res> LoadToKey(const wchar_t* _Key, const wchar_t* _PathKey, const wchar_t* _FileName)
+	static KPtr<Res> LoadToKey(const wchar_t* _Key, const wchar_t* _PathKey, const wchar_t* _FileName)
 	{
 		std::wstring FindPath = GamePath::FindPath(_PathKey);
 		FindPath += _FileName;
@@ -264,11 +264,11 @@ public:
 			return nullptr;
 		}
 
-		m_ResMap.insert(std::unordered_map<std::wstring, HPTR<Res>>::value_type(_Key, NewRes));
+		m_ResMap.insert(std::unordered_map<std::wstring, KPtr<Res>>::value_type(_Key, NewRes));
 		return NewRes;
 	}
 	template<typename V1>
-	static HPTR<Res> LoadToKey(const wchar_t* _Key, const wchar_t* _PathKey, const wchar_t* _FileName, V1 _1)
+	static KPtr<Res> LoadToKey(const wchar_t* _Key, const wchar_t* _PathKey, const wchar_t* _FileName, V1 _1)
 	{
 		std::wstring FindPath = GamePath::FindPath(_PathKey);
 		FindPath += _FileName;
@@ -283,7 +283,7 @@ public:
 			return nullptr;
 		}
 
-		m_ResMap.insert(std::unordered_map<std::wstring, HPTR<Res>>::value_type(_Key, NewRes));
+		m_ResMap.insert(std::unordered_map<std::wstring, KPtr<Res>>::value_type(_Key, NewRes));
 		return NewRes;
 	}
 
@@ -294,4 +294,4 @@ private:
 };
 
 template<typename Res>
-std::unordered_map<std::wstring, HPTR<Res>> HResMgr<Res>::m_ResMap;
+std::unordered_map<std::wstring, KPtr<Res>> HResMgr<Res>::m_ResMap;

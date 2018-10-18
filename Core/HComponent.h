@@ -24,17 +24,17 @@ private:
 
 public:
 	template<typename T>
-	HPTR<T> GetCom() {
+	KPtr<T> GetCom() {
 		return Actor()->GetCom<T>();
 	}
 
 	template<typename T>
-	HPTR<T> AddCom() {
+	KPtr<T> AddCom() {
 		return Actor()->AddCom<T>();
 	}
 
 	template<typename T, typename V1>
-	HPTR<T> AddCom(V1 _1) {
+	KPtr<T> AddCom(V1 _1) {
 		return Actor()->AddCom<T>(_1);
 	}
 

@@ -1,4 +1,4 @@
-#include "HMACRO.h"
+#include "KMacro.h"
 #include "HResMgr.h"
 #include "MCRI.h"
 
@@ -27,7 +27,7 @@ void GamePath::Init()
 void GamePath::CreatePath(const wchar_t* _Key, const wchar_t* _FullPath) {
 	if (nullptr != FindPath(_Key))
 	{
-		TASSERT(true);
+		KASSERT(true);
 	}
 
 	m_PathMap.insert(std::unordered_map<std::wstring, std::wstring>::value_type(_Key, _FullPath));
@@ -37,7 +37,7 @@ void GamePath::CreateRootPath(const wchar_t* _Key, const wchar_t* _Folder)
 {
 	if (nullptr != FindPath(_Key))
 	{
-		TASSERT(true);
+		KASSERT(true);
 	}
 
 	std::wstring NewPath = RootPath + _Folder + L"\\";

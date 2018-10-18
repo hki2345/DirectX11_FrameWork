@@ -4,7 +4,7 @@
 class PixelChecker : public HLogic
 {
 private:
-	HPTR<class HSpRenderer> SpriteRender;
+	KPtr<class HSpRenderer> SpriteRender;
 
 public:
 	bool Init() override;

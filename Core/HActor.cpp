@@ -1,6 +1,6 @@
 #include "HActor.h"
 #include "HComponent.h"
-#include "HMACRO.h"
+#include "KMacro.h"
 #include "HScene.h"
 #include "HVAR.h"
 #include "HRenderMgr.h"
@@ -26,8 +26,8 @@ void HActor::Over()
 
 	Window()->SceneMgr.m_OverActorList.push_back(this);
 
-	std::unordered_map<std::wstring, HPTR<HScene>>::iterator StartMapIter = Window()->SceneMgr.m_SceneMap.begin();
-	std::unordered_map<std::wstring, HPTR<HScene>>::iterator EndMapIter = Window()->SceneMgr.m_SceneMap.end();
+	std::unordered_map<std::wstring, KPtr<HScene>>::iterator StartMapIter = Window()->SceneMgr.m_SceneMap.begin();
+	std::unordered_map<std::wstring, KPtr<HScene>>::iterator EndMapIter = Window()->SceneMgr.m_SceneMap.end();
 
 	for (; StartMapIter != EndMapIter; ++StartMapIter)
 	{
@@ -238,8 +238,8 @@ void HActor::Death()
 {
 	HUpdaterBase::Death();
 
-	std::list<HPTR<HComponent>>::iterator ComStartIter = m_ComList.begin();
-	std::list<HPTR<HComponent>>::iterator ComEndIter = m_ComList.end();
+	std::list<KPtr<HComponent>>::iterator ComStartIter = m_ComList.begin();
+	std::list<KPtr<HComponent>>::iterator ComEndIter = m_ComList.end();
 
 	for (; ComStartIter != ComEndIter; ++ComStartIter)
 	{
@@ -247,7 +247,7 @@ void HActor::Death()
 	}
 }
 
-void HActor::AddChild(HPTR<HActor> _Actor, bool _TransWorld /*= true*/)
+void HActor::AddChild(KPtr<HActor> _Actor, bool _TransWorld /*= true*/)
 {
 	if (OT_NONE != _Actor->OverType())
 	{
@@ -298,8 +298,8 @@ void HActor::AddChild(HPTR<HActor> _Actor, bool _TransWorld /*= true*/)
 
 void HActor::Detach() 
 {
-	std::list<HPTR<HActor>>::iterator StartIter = m_pParent->m_pChildList.begin();
-	std::list<HPTR<HActor>>::iterator EndIter = m_pParent->m_pChildList.end();
+	std::list<KPtr<HActor>>::iterator StartIter = m_pParent->m_pChildList.begin();
+	std::list<KPtr<HActor>>::iterator EndIter = m_pParent->m_pChildList.end();
 
 	bool ChildCheck = false;
 	for (; StartIter != EndIter; ++StartIter)
@@ -314,7 +314,7 @@ void HActor::Detach()
 
 	if (false == ChildCheck)
 	{
-		TASSERT(false == ChildCheck);
+		KASSERT(false == ChildCheck);
 		return;
 	}
 	// m_pParent->Scene()->add
@@ -380,8 +380,8 @@ void HActor::Save(BWStream& _Stream)
 	Size = (UINT)m_ComList.size();
 	_Stream.Write(&Size, sizeof(UINT));
 
-	std::list<HPTR<HComponent>>::iterator ComStartIter = m_ComList.begin();
-	std::list<HPTR<HComponent>>::iterator ComEndIter = m_ComList.end();
+	std::list<KPtr<HComponent>>::iterator ComStartIter = m_ComList.begin();
+	std::list<KPtr<HComponent>>::iterator ComEndIter = m_ComList.end();
 
 	for (; ComStartIter != ComEndIter; ++ComStartIter)
 	{
@@ -391,8 +391,8 @@ void HActor::Save(BWStream& _Stream)
 	Size = (UINT)m_pChildList.size();
 	_Stream.Write(&Size, sizeof(UINT));
 
-	std::list<HPTR<HActor>>::iterator tempChildStartIter = m_pChildList.begin();
-	std::list<HPTR<HActor>>::iterator tempChildEndIter = m_pChildList.end();
+	std::list<KPtr<HActor>>::iterator tempChildStartIter = m_pChildList.begin();
+	std::list<KPtr<HActor>>::iterator tempChildEndIter = m_pChildList.end();
 
 	for (; tempChildStartIter != tempChildEndIter; ++tempChildStartIter)
 	{

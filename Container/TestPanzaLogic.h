@@ -9,10 +9,10 @@ class TestPanzaLogic : public HLogic
 {
 private:
 	size_t m_ImgIndex;
-	HPTR<HSpRenderer> ChRender;
-	HPTR<HSpRenderer> ChRender2;
-	HPTR<HCol2D> m_Col;
-	HPTR<HSpFrameAnimater> AniMater;
+	KPtr<HSpRenderer> ChRender;
+	KPtr<HSpRenderer> ChRender2;
+	KPtr<HCol2D> m_Col;
+	KPtr<HSpFrameAnimater> AniMater;
 
 public:
 	bool Init() override;

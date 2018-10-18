@@ -108,10 +108,10 @@ void ComView::Reset()
 		return;
 	}
 
-	std::list<HPTR<HComponent>> List = m_pActor->AllComList();
+	std::list<KPtr<HComponent>> List = m_pActor->AllComList();
 
-	std::list<HPTR<HComponent>>::iterator StartIter = List.begin();
-	std::list<HPTR<HComponent>>::iterator EndIter = List.end();
+	std::list<KPtr<HComponent>>::iterator StartIter = List.begin();
+	std::list<KPtr<HComponent>>::iterator EndIter = List.end();
 
 	POINT Pos = { 0, 0 };
 	POINT Size = { 480, 0 };

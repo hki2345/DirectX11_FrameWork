@@ -7,7 +7,7 @@
 class IsoMapRender : public HRenderer
 {
 private:
-	HPTR<HImage> m_Img;
+	KPtr<HImage> m_Img;
 	HCOLOR	     m_Color;
 
 	HMAT TilePosMat;
@@ -18,7 +18,7 @@ private:
 	HVEC         m_TileSIze;
 
 public:
-	class HTile : public HRefBase
+	class HTile : public SmartPtr
 	{
 	public:
 		int Index;
@@ -37,13 +37,13 @@ public:
 	};
 
 private:
-	std::unordered_map<__int64, HPTR<HTile>>::iterator StartIter;
-	std::unordered_map<__int64, HPTR<HTile>>::iterator EndIter;
-	std::unordered_map<__int64, HPTR<HTile>> m_TileMap;
+	std::unordered_map<__int64, KPtr<HTile>>::iterator StartIter;
+	std::unordered_map<__int64, KPtr<HTile>>::iterator EndIter;
+	std::unordered_map<__int64, KPtr<HTile>> m_TileMap;
 
 
 public:
-	HPTR<HTile> FindTile(HVEC2 _Tile);
+	KPtr<HTile> FindTile(HVEC2 _Tile);
 	// 마우스 포인터 넣어줬을대 벌어지는 일.
 	void CreateTile(HVEC2 _WorldPos, int _Index = 0);
 	// 인덱스 넣어서 만들기.
@@ -56,15 +56,15 @@ public:
 
 public:
 	void Image(const wchar_t* _ImageName);
-	HPTR<HImage> Image() { return m_Img; }
+	KPtr<HImage> Image() { return m_Img; }
 
 public:
 	bool Init(int _Order = 0) override;
 	bool Init(const wchar_t* _ImgName, HVEC2 _Size,int _Order = 0);
-	void Render(HPTR<HCamera> _Camera) override;
+	void Render(KPtr<HCamera> _Camera) override;
 
 private: ///////////////////////////////// AStar
-	class PathNode : public HRefBase
+	class PathNode : public SmartPtr
 	{
 	public:
 		float F;
@@ -83,18 +83,18 @@ private: ///////////////////// AstartMember
 
 	HVEC2 StartIndex;
 	HVEC2 EndIndex;
-	HPTR<PathNode> m_CurNode;
+	KPtr<PathNode> m_CurNode;
 
-	HPTR<PathNode> m_EndNode;
+	KPtr<PathNode> m_EndNode;
 	HVEC2 CheckDir[4];
 
-	std::multimap<float, HPTR<PathNode>> m_OpenList; // 찾아야할 가능성이 있는 노드
-	std::map<__int64, HPTR<PathNode>> m_OpenFindList; // 찾아야할 가능성이 있는 노드
-	std::map<__int64, HPTR<PathNode>> m_CloseList; // 이미 찾아서 또 찾을 필요가 없는 노드.
+	std::multimap<float, KPtr<PathNode>> m_OpenList; // 찾아야할 가능성이 있는 노드
+	std::map<__int64, KPtr<PathNode>> m_OpenFindList; // 찾아야할 가능성이 있는 노드
+	std::map<__int64, KPtr<PathNode>> m_CloseList; // 이미 찾아서 또 찾을 필요가 없는 노드.
 
 private:
 	void CreateNode(HVEC2 _Index);
-	void CalNode(HPTR<PathNode> _Node);
+	void CalNode(KPtr<PathNode> _Node);
 	void CheckNode();
 
 	void PopFastNode();

@@ -1,6 +1,6 @@
 #include "HTexture.h"
 #include "HVAR.h"
-#include "HMACRO.h"
+#include "KMacro.h"
 #include "MCRI.h"
 
 
@@ -73,11 +73,11 @@ bool HTexture::Load()
 		return false;
 	}
 
-	TASSERT(nullptr == m_pSRV);
+	KASSERT(nullptr == m_pSRV);
 
 	m_pSRV->GetResource((ID3D11Resource**)(&m_pTex2D));
 
-	TASSERT(nullptr == m_pTex2D);
+	KASSERT(nullptr == m_pTex2D);
 	return true;
 }
 
@@ -138,7 +138,7 @@ bool HTexture::Create(UINT _W, UINT _H, UINT _BindFlag, DXGI_FORMAT _eFormat, D3
 
 	if (S_OK != HVAR::PDevice()->CreateTexture2D(&tDecs, nullptr, &m_pTex2D))
 	{
-		BOOM;
+		BBY;
 		return false;
 	}
 
@@ -158,7 +158,7 @@ void HTexture::ViewSetting(UINT _BindFlag)
 	{
 		if (S_OK != HVAR::PDevice()->CreateDepthStencilView(m_pTex2D, 0, &m_pDSV))
 		{
-			BOOM;
+			BBY;
 			return;
 		}
 	}
@@ -168,7 +168,7 @@ void HTexture::ViewSetting(UINT _BindFlag)
 		{
 			if (S_OK != HVAR::PDevice()->CreateRenderTargetView(m_pTex2D, 0, &m_pRTV))
 			{
-				BOOM;
+				BBY;
 				return;
 			}
 		}
@@ -176,7 +176,7 @@ void HTexture::ViewSetting(UINT _BindFlag)
 		{
 			if (S_OK != HVAR::PDevice()->CreateShaderResourceView(m_pTex2D, 0, &m_pSRV))
 			{
-				BOOM;
+				BBY;
 				return;
 			}
 		}
@@ -184,7 +184,7 @@ void HTexture::ViewSetting(UINT _BindFlag)
 
 	if (S_OK != DirectX::CaptureTexture(HVAR::PDevice(), HVAR::Context(), m_pTex2D, m_Image))
 	{
-		BOOM;
+		BBY;
 		return;
 	}
 }

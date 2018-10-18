@@ -1,11 +1,11 @@
 #pragma once
 #include <vector>
 #include <unordered_map>
-#include "HMACRO.h"
+#include "KMacro.h"
 #include "DHeader.h"
 
-#include "StlHelperFunc.h"
-#include "RefBase.h"
+#include "Stl_AID.h"
+#include "SmartPtr.h"
 
 enum KEYMGRERROR
 {
@@ -25,7 +25,7 @@ public:
 	static const char KM_ERRORMSG[KM_MAX][256];
 
 private:
-	class KEYDATA : public HRefBase
+	class KEYDATA : public SmartPtr
 	{
 	private:
 		static const char g_bUp;
@@ -91,15 +91,15 @@ public:
 	static const char* ErrorMsg(KEYMGRERROR _Msg);
 
 private:
-	static std::unordered_map<std::wstring, HPTR<KEYDATA>>::iterator m_KeyStartIter;
-	static std::unordered_map<std::wstring, HPTR<KEYDATA>>::iterator m_KeyEndIter;
-	static std::unordered_map<std::wstring, HPTR<KEYDATA>> m_KeyMap;
+	static std::unordered_map<std::wstring, KPtr<KEYDATA>>::iterator m_KeyStartIter;
+	static std::unordered_map<std::wstring, KPtr<KEYDATA>>::iterator m_KeyEndIter;
+	static std::unordered_map<std::wstring, KPtr<KEYDATA>> m_KeyMap;
 
 public:
 	template<typename... Rest>
 	static KEYMGRERROR CreateKey(const wchar_t* _Name, Rest... _Arg) 
 	{
-		HPTR<KEYDATA> pKEY = MapFind<HPTR<KEYDATA>>(m_KeyMap, _Name);
+		KPtr<KEYDATA> pKEY = Map_Find<KPtr<KEYDATA>>(m_KeyMap, _Name);
 
 		if (nullptr != pKEY)
 		{
@@ -111,7 +111,7 @@ public:
 		// sizeof...(_Arg) 가변인자의 개수를 리턴해줍니다.
 		KEYDATA* NewKeyData = new KEYDATA(sizeof...(_Arg));
 		NewKeyData->InsertKeyData(_Arg...);
-		m_KeyMap.insert(std::unordered_map<std::wstring, HPTR<KEYDATA>>::value_type(_Name, NewKeyData));
+		m_KeyMap.insert(std::unordered_map<std::wstring, KPtr<KEYDATA>>::value_type(_Name, NewKeyData));
 		return KM_OK;
 	}
 

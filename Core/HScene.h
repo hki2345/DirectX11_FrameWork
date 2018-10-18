@@ -24,7 +24,7 @@ private:
 
 #pragma region UPDATEBUILD
 public:
-	class HSceneUpdater : public HTypeBase, public HSceneBase, public HWindowBase
+	class HSceneUpdater : public Begin_Type, public HSceneBase, public HWindowBase
 	{
 	public:
 		friend HScene;
@@ -39,7 +39,7 @@ public:
 		~HSceneUpdater() {}
 	};
 
-	class HSceneBuilder : public HTypeBase, public HSceneBase, public HWindowBase
+	class HSceneBuilder : public Begin_Type, public HSceneBase, public HWindowBase
 	{
 	public:
 		friend HScene;
@@ -54,8 +54,8 @@ public:
 	};
 
 private:
-	HPTR<HSceneBuilder> m_HSceneBuilder;
-	std::list<HPTR<HSceneUpdater>> m_HSceneUpdaterList;
+	KPtr<HSceneBuilder> m_HSceneBuilder;
+	std::list<KPtr<HSceneUpdater>> m_HSceneUpdaterList;
 	bool m_bBuild;
 
 public:
@@ -83,13 +83,13 @@ private:
 
 public:
 	template<typename T>
-	HPTR<T> Updater()
+	KPtr<T> Updater()
 	{
 		return m_HSceneUpdater;
 	}
 
 	template<typename T>
-	HPTR<T> Builder()
+	KPtr<T> Builder()
 	{
 		return m_HSceneBuilder;
 	}
@@ -99,7 +99,7 @@ public:
 	void CreateUpdater() 
 	{
 		T* HSceneUpdater = new T();
-		HSceneUpdater->TypeSetting();
+		HSceneUpdater->Set_Type();
 		HSceneUpdater->Scene(this);
 		HSceneUpdater->Window(Window());
 
@@ -126,18 +126,18 @@ public:
 	void Start();
 
 private:
-	std::unordered_map<int, std::list<HPTR<HActor>>>::iterator m_StartMapIter;
-	std::unordered_map<int, std::list<HPTR<HActor>>>::iterator m_EndMapIter;
+	std::unordered_map<int, std::list<KPtr<HActor>>>::iterator m_StartMapIter;
+	std::unordered_map<int, std::list<KPtr<HActor>>>::iterator m_EndMapIter;
 
-	std::list<HPTR<HActor>>::iterator m_StartListIter;
-	std::list<HPTR<HActor>>::iterator m_EndListIter;
-	std::unordered_map<int, std::list<HPTR<HActor>>> m_ActorMap;
+	std::list<KPtr<HActor>>::iterator m_StartListIter;
+	std::list<KPtr<HActor>>::iterator m_EndListIter;
+	std::unordered_map<int, std::list<KPtr<HActor>>> m_ActorMap;
 
 private:
-	std::vector<HPTR<HActor>> AllObjectList();
+	std::vector<KPtr<HActor>> AllObjectList();
 
 public:
-	std::unordered_map<int, std::list<HPTR<HActor>>> AllActor() {
+	std::unordered_map<int, std::list<KPtr<HActor>>> AllActor() {
 		return m_ActorMap;
 	}
 
@@ -168,18 +168,18 @@ private:
 	void Release();
 
 private:
-	HPTR<HActor> CreateActor(BRStream& _Stream, void(*_ComLoadPtr)(HPTR<HActor>, const std::string& _ComName), bool _Root = true);
+	KPtr<HActor> CreateActor(BRStream& _Stream, void(*_ComLoadPtr)(KPtr<HActor>, const std::string& _ComName), bool _Root = true);
 
 public:
 	// 트랜스폼이 기본 추가 됩니다.
-	HPTR<HActor> CreateActor(const wchar_t* _pName = L"HObject", int _Order = 0);
+	KPtr<HActor> CreateActor(const wchar_t* _pName = L"HObject", int _Order = 0);
 
 	// 트랜스폼이 없는 액터를 리턴합니다.
-	HPTR<HActor> CreateNoneTransActor(const wchar_t* _pName = L"HObject", int _Order = 0);
+	KPtr<HActor> CreateNoneTransActor(const wchar_t* _pName = L"HObject", int _Order = 0);
 
 private:
-	void MoveActor(HPTR<HActor> _Actor);
-	bool EraseActor(HPTR<HActor> _Actor);
+	void MoveActor(KPtr<HActor> _Actor);
+	bool EraseActor(KPtr<HActor> _Actor);
 
 public:
 	///////////////////////////// RenderMgr;
@@ -195,10 +195,10 @@ private:
 public:
 	void Save(const wchar_t* _FilePath);
 
-	static HPTR<HScene> Load(const wchar_t* _FilePath
+	static KPtr<HScene> Load(const wchar_t* _FilePath
 		, HSceneBuilder*(*CBPtr)(const wchar_t*)
 		, HSceneUpdater*(*CUPtr)(const wchar_t*)
-		, void(*_ComLoadPtr)(HPTR<HActor>, const std::string& _ComName));
+		, void(*_ComLoadPtr)(KPtr<HActor>, const std::string& _ComName));
 
 };
 

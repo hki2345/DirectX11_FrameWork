@@ -1,5 +1,5 @@
 #include "IsoMapRender.h"
-#include <HMACRO.h>
+#include <KMacro.h>
 
 IsoMapRender::PathNode::PathNode() 
 {
@@ -15,7 +15,7 @@ void IsoMapRender::CreateNode(HVEC2 _Index)
 	// 안만들때 체크해줘야 한다.
 
 
-	HPTR<PathNode> NewNode = new PathNode();
+	KPtr<PathNode> NewNode = new PathNode();
 	NewNode->m_Index = _Index;
 	NewNode->m_Pos = NewNode->m_Index.ConvertIntToFloat();
 	NewNode->m_Parent = m_CurNode;
@@ -28,11 +28,11 @@ void IsoMapRender::CreateNode(HVEC2 _Index)
 
 	CalNode(NewNode);
 
-	m_OpenList.insert(std::multimap<float, HPTR<PathNode>>::value_type(NewNode->F, NewNode));
-	m_OpenFindList.insert(std::map<__int64, HPTR<PathNode>>::value_type(_Index, NewNode));
+	m_OpenList.insert(std::multimap<float, KPtr<PathNode>>::value_type(NewNode->F, NewNode));
+	m_OpenFindList.insert(std::map<__int64, KPtr<PathNode>>::value_type(_Index, NewNode));
 }
 
-void IsoMapRender::CalNode(HPTR<IsoMapRender::PathNode> _Node) 
+void IsoMapRender::CalNode(KPtr<IsoMapRender::PathNode> _Node) 
 {
 	if (nullptr == _Node->m_Parent)
 	{
@@ -62,7 +62,7 @@ void IsoMapRender::PopFastNode()
 	m_OpenList.erase(m_OpenList.begin());
 	m_OpenFindList.erase(m_CurNode->m_Index);
 
-	m_CloseList.insert(std::map<__int64, HPTR<PathNode>>::value_type(m_CurNode->m_Index, m_CurNode));
+	m_CloseList.insert(std::map<__int64, KPtr<PathNode>>::value_type(m_CurNode->m_Index, m_CurNode));
 	return;
 }
 
@@ -70,7 +70,7 @@ void IsoMapRender::CheckNode()
 {
 	if (nullptr == m_CurNode)
 	{
-		TASSERT(true);
+		KASSERT(true);
 		return;
 	}
 

@@ -9,7 +9,6 @@
     <ClInclude Include="FW1CompileSettings.h" />
     <ClInclude Include="FW1FontWrapper.h" />
     <ClInclude Include="GameDebug.h" />
-    <ClInclude Include="GameMath.h" />
     <ClInclude Include="H3DGRID.h" />
     <ClInclude Include="H3DMeshRenderer.h" />
     <ClInclude Include="H3DRectRenderer.h" />
@@ -23,18 +22,15 @@
     <ClInclude Include="HCol2DMgr.h" />
     <ClInclude Include="HColCom.h" />
     <ClInclude Include="HComponent.h" />
-    <ClInclude Include="HCore.h" />
     <ClInclude Include="HDevice.h" />
     <ClInclude Include="HFBX.h" />
     <ClInclude Include="HFont.h" />
     <ClInclude Include="HImage.h" />
     <ClInclude Include="HLight.h" />
     <ClInclude Include="HLogic.h" />
-    <ClInclude Include="HMACRO.h" />
     <ClInclude Include="HMaterial.h" />
     <ClInclude Include="HMesh.h" />
     <ClInclude Include="HMultiRenderTaget.h" />
-    <ClInclude Include="HObjectBase.h" />
     <ClInclude Include="HPixShader.h" />
     <ClInclude Include="HRenderer.h" />
     <ClInclude Include="HRenderMgr.h" />
@@ -55,23 +51,42 @@
     <ClInclude Include="HTexture.h" />
     <ClInclude Include="HThread.h" />
     <ClInclude Include="HTrans.h" />
-    <ClInclude Include="HUpdaterBase.h" />
-    <ClInclude Include="HVAR.h" />
     <ClInclude Include="HVtxShader.h" />
     <ClInclude Include="HWindow.h" />
     <ClInclude Include="HWindowBase.h" />
     <ClInclude Include="InputMgr.h" />
     <ClInclude Include="MCRI.h" />
-    <ClInclude Include="RefBase.h" />
-    <ClInclude Include="StlHelperFunc.h" />
     <ClInclude Include="TimeMgr.h" />
     <ClInclude Include="BRStream.h" />
+    <ClInclude Include="HCore.h">
+      <Filter>00 Core</Filter>
+    </ClInclude>
+    <ClInclude Include="HVAR.h">
+      <Filter>00 Core</Filter>
+    </ClInclude>
+    <ClInclude Include="GameMath.h">
+      <Filter>00 Core\SubClass</Filter>
+    </ClInclude>
+    <ClInclude Include="HUpdaterBase.h">
+      <Filter>00 Core\Begin</Filter>
+    </ClInclude>
+    <ClInclude Include="KMacro.h">
+      <Filter>00 Core\Assistor</Filter>
+    </ClInclude>
+    <ClInclude Include="Stl_AID.h">
+      <Filter>00 Core\Assistor</Filter>
+    </ClInclude>
+    <ClInclude Include="SmartPtr.h">
+      <Filter>00 Core\Begin</Filter>
+    </ClInclude>
+    <ClInclude Include="Begin.h">
+      <Filter>00 Core\Begin</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DHeader.cpp" />
     <ClCompile Include="FileStream.cpp" />
     <ClCompile Include="GameDebug.cpp" />
-    <ClCompile Include="GameMath.cpp" />
     <ClCompile Include="H3DGRID.cpp" />
     <ClCompile Include="H3DMeshRenderer.cpp" />
     <ClCompile Include="H3DRectRenderer.cpp" />
@@ -84,7 +99,6 @@
     <ClCompile Include="HCol2DMgr.cpp" />
     <ClCompile Include="HColCom.cpp" />
     <ClCompile Include="HComponent.cpp" />
-    <ClCompile Include="HCore.cpp" />
     <ClCompile Include="HDevice.cpp" />
     <ClCompile Include="HDevice_DefaultData.cpp" />
     <ClCompile Include="HDevice_DefaultData3D.cpp" />
@@ -96,7 +110,6 @@
     <ClCompile Include="HMaterial.cpp" />
     <ClCompile Include="HMesh.cpp" />
     <ClCompile Include="HMultiRenderTaget.cpp" />
-    <ClCompile Include="HObjectBase.cpp" />
     <ClCompile Include="HPixShader.cpp" />
     <ClCompile Include="HRenderer.cpp" />
     <ClCompile Include="HRenderMgr.cpp" />
@@ -116,18 +129,65 @@
     <ClCompile Include="HTexture.cpp" />
     <ClCompile Include="HThread.cpp" />
     <ClCompile Include="HTrans.cpp" />
-    <ClCompile Include="HUpdaterBase.cpp" />
-    <ClCompile Include="HVAR.cpp" />
     <ClCompile Include="HVtxShader.cpp" />
     <ClCompile Include="HWindow.cpp" />
     <ClCompile Include="InputMgr.cpp" />
     <ClCompile Include="MCRI.cpp" />
-    <ClCompile Include="RefBase.cpp" />
     <ClCompile Include="TimeMgr.cpp" />
     <ClCompile Include="BRStream.cpp" />
     <ClCompile Include="BWStream.cpp" />
+    <ClCompile Include="HCore.cpp">
+      <Filter>00 Core</Filter>
+    </ClCompile>
+    <ClCompile Include="HVAR.cpp">
+      <Filter>00 Core</Filter>
+    </ClCompile>
+    <ClCompile Include="GameMath.cpp">
+      <Filter>00 Core\SubClass</Filter>
+    </ClCompile>
+    <ClCompile Include="HUpdaterBase.cpp">
+      <Filter>00 Core\Begin</Filter>
+    </ClCompile>
+    <ClCompile Include="SmartPtr.cpp">
+      <Filter>00 Core\Begin</Filter>
+    </ClCompile>
+    <ClCompile Include="Begin.cpp">
+      <Filter>00 Core\Begin</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="DirectXTex.inl" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="00 Core">
+      <UniqueIdentifier>{a1238653-ec7e-499d-af4c-9c24f265a068}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01 WIndow">
+      <UniqueIdentifier>{523c4d04-566e-45f4-870a-d3c8e9d551f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02 Device">
+      <UniqueIdentifier>{0d8733cb-5bfc-4439-a7a6-5d4ae7a01e1a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03 Manager">
+      <UniqueIdentifier>{c662c767-6440-441e-808b-45dc52f85903}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="04 Render">
+      <UniqueIdentifier>{b6bb8f23-6641-47e1-924f-8ec75f24f217}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="05 Component">
+      <UniqueIdentifier>{a9b4beaa-12d4-471a-8455-6da00be4f10b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="99 TheOne">
+      <UniqueIdentifier>{932a90e7-a05b-40dd-88d1-bbf7b70fb614}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00 Core\SubClass">
+      <UniqueIdentifier>{e0342f60-0ec9-4ff2-bec4-33cc8df41840}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00 Core\Assistor">
+      <UniqueIdentifier>{4fca9643-1870-4c94-bf84-995bf1be533d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="00 Core\Begin">
+      <UniqueIdentifier>{8ceea11b-9bb2-494f-9da5-9f4ea7f04f6d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

@@ -5,7 +5,7 @@
 class HSpriteCut : public HLogic
 {
 public:
-	HPTR<HSpRenderer> SpriteRender;
+	KPtr<HSpRenderer> SpriteRender;
 
 
 public:

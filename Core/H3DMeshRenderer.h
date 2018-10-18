@@ -5,7 +5,7 @@
 class H3DMeshRenderer : public HRenderer
 {
 public:
-	void Render(HPTR<HCamera> _Camera) override;
+	void Render(KPtr<HCamera> _Camera) override;
 
 public:
 	bool Init(int _Order = 0) override;

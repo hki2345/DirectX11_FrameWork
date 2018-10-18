@@ -1,13 +1,13 @@
 #include "HSceneMgr.h"
-#include "StlHelperFunc.h"
-#include "HMACRO.h"
+#include "Stl_AID.h"
+#include "KMacro.h"
 #include "HWindow.h"
 #include "GameDebug.h"
 
-bool HSceneMgr::OverFind(HPTR<HActor> _Actor)
+bool HSceneMgr::OverFind(KPtr<HActor> _Actor)
 {
-	std::list<HPTR<HActor>>::iterator StartOverIter = m_OverActorList.begin();
-	std::list<HPTR<HActor>>::iterator EndOverIter = m_OverActorList.end();
+	std::list<KPtr<HActor>>::iterator StartOverIter = m_OverActorList.begin();
+	std::list<KPtr<HActor>>::iterator EndOverIter = m_OverActorList.end();
 
 	for (; StartOverIter != EndOverIter; ++StartOverIter)
 	{
@@ -22,8 +22,8 @@ bool HSceneMgr::OverFind(HPTR<HActor> _Actor)
 
 void HSceneMgr::OverCheck(HScene* _NewScene) 
 {
-	std::list<HPTR<HActor>>::iterator StartIter = m_OverActorList.begin();
-	std::list<HPTR<HActor>>::iterator EndIter = m_OverActorList.end();
+	std::list<KPtr<HActor>>::iterator StartIter = m_OverActorList.begin();
+	std::list<KPtr<HActor>>::iterator EndIter = m_OverActorList.end();
 
 	for (; StartIter != EndIter; ++StartIter)
 	{
@@ -56,12 +56,12 @@ void HSceneMgr::ChangeScene(const wchar_t* _Name)
 	}
 
 	m_NextScene = FindScene(_Name);
-	TASSERT(nullptr == m_NextScene);
+	KASSERT(nullptr == m_NextScene);
 }
 
-HPTR<HScene> HSceneMgr::FindScene(const wchar_t* _Name) 
+KPtr<HScene> HSceneMgr::FindScene(const wchar_t* _Name) 
 {
-	return MapFind<HPTR<HScene>>(m_SceneMap, _Name);
+	return Map_Find<KPtr<HScene>>(m_SceneMap, _Name);
 }
 
 void HSceneMgr::Progress() 
@@ -110,7 +110,7 @@ void HSceneMgr::Release() {
 	}
 }
 
-HPTR<HScene> HSceneMgr::CreateScene(const wchar_t* _Name) 
+KPtr<HScene> HSceneMgr::CreateScene(const wchar_t* _Name) 
 {
 	if (nullptr != FindScene(_Name))
 	{
@@ -121,10 +121,10 @@ HPTR<HScene> HSceneMgr::CreateScene(const wchar_t* _Name)
 	pNewScene->SceneMgr(this);
 	pNewScene->Name(_Name);
 	pNewScene->Window(Window());
-	pNewScene->TypeSetting();
+	pNewScene->Set_Type();
 
 	OverCheck(pNewScene);
 
-	m_SceneMap.insert(std::unordered_map<std::wstring, HPTR<HScene>>::value_type(_Name, pNewScene));
+	m_SceneMap.insert(std::unordered_map<std::wstring, KPtr<HScene>>::value_type(_Name, pNewScene));
 	return pNewScene;
 }

@@ -3,7 +3,7 @@
 #include <unordered_map>
 #include <string>
 
-#include "RefBase.h"
+#include "SmartPtr.h"
 
 class HCore;
 class TimeMgr
@@ -13,7 +13,7 @@ private:
 
 public:
 	// 초당 프레임을 계산해 오세요.
-	class GameTimer : public HRefBase
+	class GameTimer : public SmartPtr
 	{
 	public:
 		friend TimeMgr;
@@ -39,11 +39,11 @@ public:
 
 private:
 	static GameTimer MainTimer;
-	static std::unordered_map<std::wstring, HPTR<GameTimer>> m_MapTimer;
+	static std::unordered_map<std::wstring, KPtr<GameTimer>> m_MapTimer;
 
 public:
-	static HPTR<GameTimer> FindTimer(const wchar_t* _Name);
-	static HPTR<GameTimer> CreatTimer(const wchar_t* _Name);
+	static KPtr<GameTimer> FindTimer(const wchar_t* _Name);
+	static KPtr<GameTimer> CreatTimer(const wchar_t* _Name);
 
 private:
 	static void Init();

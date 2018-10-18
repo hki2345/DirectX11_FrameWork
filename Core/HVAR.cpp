@@ -1,9 +1,9 @@
 #include "HVAR.h"
-#include "HMACRO.h"
+#include "KMacro.h"
 #include "HWindow.h"
 #include "HDevice.h"
 
-HPTR<HWindow> HVAR::g_MainWindow = nullptr;
+KPtr<HWindow> HVAR::g_MainWindow = nullptr;
 
 HVAR::HVAR()
 {
@@ -17,7 +17,7 @@ HVAR::~HVAR()
 void HVAR::MainWindow(const wchar_t* _Name)
 {
 	g_MainWindow = HWindow::FindHWindow(_Name);
-	TASSERT(nullptr == g_MainWindow);
+	KASSERT(nullptr == g_MainWindow);
 }
 
 HWindow& HVAR::MainWindow() {
@@ -29,11 +29,11 @@ HSceneMgr& HVAR::MainSceneMgr()
 	return g_MainWindow->SceneMgr;
 }
 
-HPTR<HScene> HVAR::MainScene() {
+KPtr<HScene> HVAR::MainScene() {
 	return g_MainWindow->SceneMgr.CurScene();
 }
 
-HPTR<HScene> HVAR::NextScene() {
+KPtr<HScene> HVAR::NextScene() {
 	return g_MainWindow->SceneMgr.NextScene();
 }
 

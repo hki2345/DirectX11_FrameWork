@@ -9,7 +9,7 @@ public:
 
 	float CameraSpeed;
 
-	HPTR<HActor> m_SelectActor;
+	KPtr<HActor> m_SelectActor;
 
 	int Number;
 	int CheckNumber;

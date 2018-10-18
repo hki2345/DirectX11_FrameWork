@@ -1,7 +1,7 @@
 #include "HDevice.h"
 #include "DVHeader.h"
 #include "HWindow.h"
-#include "StlHelperFunc.h"
+#include "Stl_AID.h"
 #include "HMesh.h"
 #include "HVAR.h"
 #include "HVtxShader.h"
@@ -54,13 +54,13 @@ bool HDevice::DefaultDataInit()
 
 
 	// Boder Rect Shader
-	HPTR<HVtxShader> BRectV = HResMgr<HVtxShader>::LoadToKey(L"VSBRECTCOLOR", L"Shader", L"BRectShader.fx", "VS_BDebugRect");
+	KPtr<HVtxShader> BRectV = HResMgr<HVtxShader>::LoadToKey(L"VSBRECTCOLOR", L"Shader", L"BRectShader.fx", "VS_BDebugRect");
 	BRectV->AddLayout("POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
 	BRectV->AddLayout("TEXCOORD", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32_FLOAT, 0);
 	BRectV->CreateLayout();
 	HResMgr<HPixShader>::LoadToKey(L"PSBRECTCOLOR", L"Shader", L"BRectShader.fx", "PS_BDebugRect");
 
-	HPTR<HMaterial> BRECTMAT = HResMgr<HMaterial>::Create(L"BRECTMAT");
+	KPtr<HMaterial> BRECTMAT = HResMgr<HMaterial>::Create(L"BRECTMAT");
 	BRECTMAT->SetVtxShader(L"VSBRECTCOLOR");
 	BRECTMAT->SetPixShader(L"PSBRECTCOLOR");
 
@@ -71,13 +71,13 @@ bool HDevice::DefaultDataInit()
 		, 5, (UINT)IDX16::MemberSize(), D3D11_USAGE_DEFAULT, ArrLineRectIdX
 		, IDX16::FM(), D3D11_PRIMITIVE_TOPOLOGY::D3D10_PRIMITIVE_TOPOLOGY_LINESTRIP);
 
-	HPTR<HVtxShader> RectV = HResMgr<HVtxShader>::LoadToKey(L"VSDEBUGRECTCOLOR", L"Shader", L"DebugRectShader.fx", "VS_DebugRect");
+	KPtr<HVtxShader> RectV = HResMgr<HVtxShader>::LoadToKey(L"VSDEBUGRECTCOLOR", L"Shader", L"DebugRectShader.fx", "VS_DebugRect");
 	RectV->AddLayout("POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
 	RectV->AddLayout("COLOR", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
 	RectV->CreateLayout();
 	HResMgr<HPixShader>::LoadToKey(L"PSDEBUGRECTCOLOR", L"Shader", L"DebugRectShader.fx", "PS_DebugRect");
 
-	HPTR<HMaterial> DEBUGMAT = HResMgr<HMaterial>::Create(L"DEBUGRECTMAT");
+	KPtr<HMaterial> DEBUGMAT = HResMgr<HMaterial>::Create(L"DEBUGRECTMAT");
 	DEBUGMAT->SetVtxShader(L"VSDEBUGRECTCOLOR");
 	DEBUGMAT->SetPixShader(L"PSDEBUGRECTCOLOR");
 
@@ -87,13 +87,13 @@ bool HDevice::DefaultDataInit()
 		, 6, (UINT)IDX16::MemberSize(), D3D11_USAGE_DEFAULT, ArrColorIDX
 		, IDX16::FM());
 
-	HPTR<HVtxShader> ColV = HResMgr<HVtxShader>::LoadToKey(L"VSCOLOR", L"Shader", L"ColorShader.fx", "VS_Color");
+	KPtr<HVtxShader> ColV = HResMgr<HVtxShader>::LoadToKey(L"VSCOLOR", L"Shader", L"ColorShader.fx", "VS_Color");
 	ColV->AddLayout("POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
 	ColV->AddLayout("COLOR", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
 	ColV->CreateLayout();
 	HResMgr<HPixShader>::LoadToKey(L"PSCOLOR", L"Shader", L"ColorShader.fx", "PS_Color");
 
-	HPTR<HMaterial> COLORMAT = HResMgr<HMaterial>::Create(L"COLORMAT");
+	KPtr<HMaterial> COLORMAT = HResMgr<HMaterial>::Create(L"COLORMAT");
 	COLORMAT->SetVtxShader(L"VSCOLOR");
 	COLORMAT->SetPixShader(L"PSCOLOR");
 
@@ -103,25 +103,25 @@ bool HDevice::DefaultDataInit()
 		, 6, (UINT)IDX16::MemberSize(), D3D11_USAGE_DEFAULT, ArrTexIDX
 		, IDX16::FM());
 
-	HPTR<HVtxShader> TexV = HResMgr<HVtxShader>::LoadToKey(L"VSTEX", L"Shader", L"TexShader.fx", "VS_Tex");
+	KPtr<HVtxShader> TexV = HResMgr<HVtxShader>::LoadToKey(L"VSTEX", L"Shader", L"TexShader.fx", "VS_Tex");
 	TexV->AddLayout("POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
 	TexV->AddLayout("TEXCOORD", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32_FLOAT, 0);
 	TexV->CreateLayout();
 	HResMgr<HPixShader>::LoadToKey(L"PSTEX", L"Shader", L"TexShader.fx", "PS_Tex");
 
-	HPTR<HMaterial> TEXMAT = HResMgr<HMaterial>::Create(L"TEXMAT");
+	KPtr<HMaterial> TEXMAT = HResMgr<HMaterial>::Create(L"TEXMAT");
 	TEXMAT->SetVtxShader(L"VSTEX");
 	TEXMAT->SetPixShader(L"PSTEX");
 	TEXMAT->SetBlend(L"AlphaBlend");
 
 	// ImageData
-	HPTR<HVtxShader> ImgV = HResMgr<HVtxShader>::LoadToKey(L"VSIMG", L"Shader", L"ImageShader.fx", "VS_Img");
+	KPtr<HVtxShader> ImgV = HResMgr<HVtxShader>::LoadToKey(L"VSIMG", L"Shader", L"ImageShader.fx", "VS_Img");
 	ImgV->AddLayout("POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
 	ImgV->AddLayout("TEXCOORD", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32_FLOAT, 0);
 	ImgV->CreateLayout();
 	HResMgr<HPixShader>::LoadToKey(L"PSIMG", L"Shader", L"ImageShader.fx", "PS_Img");
 
-	HPTR<HMaterial> IMGMAT = HResMgr<HMaterial>::Create(L"IMGMAT");
+	KPtr<HMaterial> IMGMAT = HResMgr<HMaterial>::Create(L"IMGMAT");
 	IMGMAT->SetVtxShader(L"VSIMG");
 	IMGMAT->SetPixShader(L"PSIMG");
 	IMGMAT->SetBlend(L"AlphaBlend");

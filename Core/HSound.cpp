@@ -1,5 +1,5 @@
 #include "HSound.h"
-#include "HMACRO.h"
+#include "KMacro.h"
 #include <atlstr.h>
 
 HSound::HSound() : m_pSound(nullptr)
@@ -27,11 +27,11 @@ bool HSound::Load()
 	if (FMOD_OK != HSoundDevice::SoundSystem->createSound(Str.c_str(), 
 		FMOD_DEFAULT, nullptr, &m_pSound))
 	{
-		TASSERT(true);
+		KASSERT(true);
 		return false;
 	}
 
-	TASSERT(nullptr == m_pSound);
+	KASSERT(nullptr == m_pSound);
 
 	if (nullptr == m_pSound)
 	{

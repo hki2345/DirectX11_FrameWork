@@ -11,8 +11,8 @@ class HSampler;
 class HImage : public HRes
 {
 private:
-	HPTR<HTexture> m_Tex;
-	HPTR<HSampler> m_Sam;
+	KPtr<HTexture> m_Tex;
+	KPtr<HSampler> m_Sam;
 	std::vector<HVEC> m_VecUv;
 
 	HVEC2 m_CutIndex;
@@ -33,8 +33,8 @@ public:
 
 
 public:
-	HPTR<HTexture> GetTex();
-	HPTR<HSampler> GetSam();
+	KPtr<HTexture> GetTex();
+	KPtr<HSampler> GetSam();
 
 public:
 	// 이미지를 자르는 함수입니다.

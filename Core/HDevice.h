@@ -1,8 +1,8 @@
 #pragma once
 #include "DHeader.h"
 #include "HWindowBase.h"
-#include "RefBase.h"
-#include "HMACRO.h"
+#include "SmartPtr.h"
+#include "KMacro.h"
 
 #include <string>
 #include <unordered_map>
@@ -56,7 +56,7 @@ public:
 	ID3D11DepthStencilView*		Depth() { return m_pDepthStencilView; };
 
 private:
-	class RSState : public HRefBase
+	class RSState : public SmartPtr
 	{
 	public:
 		ID3D11DeviceContext* m_pContext;
@@ -78,11 +78,11 @@ private:
 	};
 
 private:
-	HPTR<RSState> m_DefaultRState;
-	std::unordered_map<std::wstring, HPTR<RSState>> m_RSMap;
+	KPtr<RSState> m_DefaultRState;
+	std::unordered_map<std::wstring, KPtr<RSState>> m_RSMap;
 
 private:
-	HPTR<RSState> FindRsMode(const wchar_t* _Name);
+	KPtr<RSState> FindRsMode(const wchar_t* _Name);
 
 public:
 	void ResetRSState();
@@ -91,7 +91,7 @@ public:
 	void SetRsMode(const wchar_t* _Name);
 
 private:
-	class DSState : public HRefBase
+	class DSState : public SmartPtr
 	{
 	public:
 		ID3D11DeviceContext* m_pContext;
@@ -113,11 +113,11 @@ private:
 	};
 
 private:
-	HPTR<DSState> m_DefaultDState;
-	std::unordered_map<std::wstring, HPTR<DSState>> m_DSMap;
+	KPtr<DSState> m_DefaultDState;
+	std::unordered_map<std::wstring, KPtr<DSState>> m_DSMap;
 
 private:
-	HPTR<DSState> FindDsMode(const wchar_t* _Name);
+	KPtr<DSState> FindDsMode(const wchar_t* _Name);
 
 
 public:
@@ -165,7 +165,7 @@ public:
 ////////////////////////////////////////// ConstBuffer
 private:
 		// 윈도우 기반이기 때문에 Window가 그냥 값으로 들고 있을 것이다.
-		class GCBUFFER : public HRefBase
+		class GCBUFFER : public SmartPtr
 		{
 		public:
 			D3D11_BUFFER_DESC tDesc;
@@ -179,7 +179,7 @@ private:
 		};
 
 private:
-	std::unordered_map<std::wstring, HPTR<GCBUFFER>> m_MapConstBuffer;
+	std::unordered_map<std::wstring, KPtr<GCBUFFER>> m_MapConstBuffer;
 
 public:
 	template<typename BUFTYPE>
@@ -203,7 +203,7 @@ public:
 
 		NewBuf->iReg = _iReg;
 
-		m_MapConstBuffer.insert(std::unordered_map<std::wstring, HPTR<GCBUFFER>>::value_type(_Name, NewBuf));
+		m_MapConstBuffer.insert(std::unordered_map<std::wstring, KPtr<GCBUFFER>>::value_type(_Name, NewBuf));
 
 		return true;
 	}
@@ -211,7 +211,7 @@ public:
 	template<typename BUFTYPE>
 	void SettingCB(const wchar_t* _Name, const BUFTYPE& _Data, SHTYPE _eType)
 	{
-		HPTR<GCBUFFER> Buf = FindCB(_Name);
+		KPtr<GCBUFFER> Buf = FindCB(_Name);
 
 		if (nullptr == Buf || Buf->tDesc.ByteWidth != sizeof(BUFTYPE))
 		{
@@ -239,7 +239,7 @@ public:
 	}
 
 	bool CreateCB(GCBUFFER* NewBuf);
-	HPTR<GCBUFFER> FindCB(const wchar_t* _Name);
+	KPtr<GCBUFFER> FindCB(const wchar_t* _Name);
 
 public:
 	HDevice(HWindow* _Win);

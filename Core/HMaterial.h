@@ -43,16 +43,16 @@ private:
 
 private:
 	bool IsOri;
-	HPTR<HVtxShader> m_VtxShader;
-	HPTR<HPixShader> m_PixShader;
-	HPTR<HBlend> m_Blend;
+	KPtr<HVtxShader> m_VtxShader;
+	KPtr<HPixShader> m_PixShader;
+	KPtr<HBlend> m_Blend;
 
 public:
-	HPTR<HVtxShader> VTXSH() {
+	KPtr<HVtxShader> VTXSH() {
 		return m_VtxShader;
 	}
 
-	HPTR<HPixShader> PIXSH() {
+	KPtr<HPixShader> PIXSH() {
 		return m_PixShader;
 	}
 
@@ -81,13 +81,13 @@ public:
 	
 
 private:
-	std::unordered_map<unsigned int, HPTR<HTexture>>::iterator m_TexStartIter;
-	std::unordered_map<unsigned int, HPTR<HTexture>>::iterator m_TexEndIter;
-	std::unordered_map<unsigned int, HPTR<HTexture>> m_TexMap;
+	std::unordered_map<unsigned int, KPtr<HTexture>>::iterator m_TexStartIter;
+	std::unordered_map<unsigned int, KPtr<HTexture>>::iterator m_TexEndIter;
+	std::unordered_map<unsigned int, KPtr<HTexture>> m_TexMap;
 
-	std::unordered_map<unsigned int, HPTR<HSampler>>::iterator m_SmpStartIter;
-	std::unordered_map<unsigned int, HPTR<HSampler>>::iterator m_SmpEndIter;
-	std::unordered_map<unsigned int, HPTR<HSampler>> m_SmpMap;
+	std::unordered_map<unsigned int, KPtr<HSampler>>::iterator m_SmpStartIter;
+	std::unordered_map<unsigned int, KPtr<HSampler>>::iterator m_SmpEndIter;
+	std::unordered_map<unsigned int, KPtr<HSampler>> m_SmpMap;
 
 
 public:
@@ -102,7 +102,7 @@ private:
 	void SmpUpdate();
 
 public:
-	HPTR<HMaterial> Clone();
+	KPtr<HMaterial> Clone();
 
 
 };

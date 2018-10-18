@@ -1,5 +1,5 @@
 #include "HSpRenderer.h"
-#include "HMACRO.h"
+#include "KMacro.h"
 #include "HWindow.h"
 #include "HResMgr.h"
 #include "HBlend.h"
@@ -16,9 +16,9 @@ HSpRenderer::~HSpRenderer()
 {
 }
 
-void HSpRenderer::Render(HPTR<HCamera> _Camera)
+void HSpRenderer::Render(KPtr<HCamera> _Camera)
 {
-	TASSERT(nullptr == m_Trans);
+	KASSERT(nullptr == m_Trans);
 	if (nullptr == m_Trans)
 	{
 		return;
@@ -101,5 +101,5 @@ void HSpRenderer::Image(const wchar_t* _ImageName)
 	}
 
 	m_Img = HResMgr<HImage>::Find(_ImageName);
-	TASSERT(nullptr == m_Img);
+	KASSERT(nullptr == m_Img);
 }

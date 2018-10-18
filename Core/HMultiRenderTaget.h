@@ -2,7 +2,7 @@
 #include "HRenderTaget.h"
 #include "HRenderMgr.h"
 #include "HResMgr.h"
-#include "HMACRO.h"
+#include "KMacro.h"
 
 // 리소스 리미트 개수
 // define으로 정의 되어 있고 c++ 이나 비쥬얼 스튜디오에 따라서
@@ -15,12 +15,12 @@ public:
 	friend HRenderMgr;
 
 private:
-	std::vector<HPTR<HRenderTaget>> m_RenderTaget;
+	std::vector<KPtr<HRenderTaget>> m_RenderTaget;
 	std::vector<ID3D11RenderTargetView*> m_RenderTagetView;
 
 	// Depth
 	bool m_bDefaultDepth;
-	HPTR<HTexture> m_DepthTex;
+	KPtr<HTexture> m_DepthTex;
 	D3D11_DEPTH_STENCIL_DESC	m_DepthState;
 	ID3D11DepthStencilState*	m_pDepthStencilState;
 
@@ -50,11 +50,11 @@ private:
 	template<typename... Rest>
 	void InsertTaget(const wchar_t* _TagetName, Rest... _Arg)
 	{
-		HPTR<HRenderTaget> Taget = HResMgr<HRenderTaget>::Find(_TagetName);
+		KPtr<HRenderTaget> Taget = HResMgr<HRenderTaget>::Find(_TagetName);
 
 		if (nullptr == Taget)
 		{
-			BOOM;
+			BBY;
 			return;
 		}
 
@@ -68,12 +68,12 @@ private:
 public:
 	void CreateTaget(UINT _W, UINT _H, UINT _BindFlag, DXGI_FORMAT _eFormat, D3D11_USAGE _eUsage = D3D11_USAGE::D3D11_USAGE_DEFAULT);
 
-	std::vector<HPTR<HRenderTaget>> TagetTexList() 
+	std::vector<KPtr<HRenderTaget>> TagetTexList() 
 	{
 		return m_RenderTaget;
 	}
 
-	HPTR<HTexture> TagetTex(unsigned int _Idx);
+	KPtr<HTexture> TagetTex(unsigned int _Idx);
 
 public:
 	HMultiRenderTaget();

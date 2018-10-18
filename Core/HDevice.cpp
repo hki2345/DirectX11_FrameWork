@@ -1,7 +1,7 @@
 #include "HDevice.h"
 #include "HWindow.h"
-#include "StlHelperFunc.h"
-#include "RefBase.h"
+#include "Stl_AID.h"
+#include "SmartPtr.h"
 #include "HBlend.h"
 
 
@@ -285,37 +285,37 @@ bool HDevice::CreateCB(GCBUFFER* NewBuf)
 	return true;
 }
 
-HPTR<HDevice::GCBUFFER> HDevice::FindCB(const wchar_t* _Name)
+KPtr<HDevice::GCBUFFER> HDevice::FindCB(const wchar_t* _Name)
 {
-	return MapFind<HPTR<HDevice::GCBUFFER>>(m_MapConstBuffer, _Name);
+	return Map_Find<KPtr<HDevice::GCBUFFER>>(m_MapConstBuffer, _Name);
 }
 
 ////////////////////////////////////////// RS
 
-HPTR<HDevice::RSState> HDevice::FindRsMode(const wchar_t* _Name)
+KPtr<HDevice::RSState> HDevice::FindRsMode(const wchar_t* _Name)
 {
-	return MapFind<HPTR<RSState>>(m_RSMap, _Name);
+	return Map_Find<KPtr<RSState>>(m_RSMap, _Name);
 }
 
 void HDevice::CreateRsMode(const wchar_t* _Name, D3D11_FILL_MODE _FillMode, D3D11_CULL_MODE _CullMode)
 {
 	RSState* _Ptr = new RSState();
 	_Ptr->Create(m_pDevice, m_pContext, _FillMode, _CullMode);
-	m_RSMap.insert(std::unordered_map<std::wstring, HPTR<RSState>>::value_type(_Name, _Ptr));
+	m_RSMap.insert(std::unordered_map<std::wstring, KPtr<RSState>>::value_type(_Name, _Ptr));
 }
 
 void HDevice::SetDefRsMode(const wchar_t* _Name)
 {
-	HPTR<RSState> RSS = MapFind<HPTR<RSState>>(m_RSMap, _Name);
+	KPtr<RSState> RSS = Map_Find<KPtr<RSState>>(m_RSMap, _Name);
 	if (nullptr == RSS)
 	{
-		TASSERT(true);
+		KASSERT(true);
 		return;
 	}
 
 	if (nullptr == RSS->m_pRS)
 	{
-		TASSERT(true);
+		KASSERT(true);
 		return;
 	}
 	m_DefaultRState = RSS;
@@ -338,7 +338,7 @@ void HDevice::RSState::Create(ID3D11Device* _pDevice, ID3D11DeviceContext* _pCon
 {
 	if (nullptr == _pContext)
 	{
-		TASSERT(nullptr == _pContext);
+		KASSERT(nullptr == _pContext);
 		return;
 	}
 
@@ -355,40 +355,40 @@ void HDevice::RSState::Create(ID3D11Device* _pDevice, ID3D11DeviceContext* _pCon
 
 void HDevice::SetRsMode(const wchar_t* _Name) 
 {
-	HPTR<RSState> RSS = MapFind<HPTR<RSState>>(m_RSMap, _Name);
+	KPtr<RSState> RSS = Map_Find<KPtr<RSState>>(m_RSMap, _Name);
 	if (nullptr == RSS)
 	{
-		TASSERT(true);
+		KASSERT(true);
 		return;
 	}
 	RSS->Update();
 }
 
 ////////////////////////////////////////// DS
-HPTR<HDevice::DSState> HDevice::FindDsMode(const wchar_t* _Name)
+KPtr<HDevice::DSState> HDevice::FindDsMode(const wchar_t* _Name)
 {
-	return MapFind<HPTR<DSState>>(m_DSMap, _Name);
+	return Map_Find<KPtr<DSState>>(m_DSMap, _Name);
 }
 
 void HDevice::CreateDsMode(const wchar_t* _Name, D3D11_DEPTH_STENCIL_DESC _Desc)
 {
 	DSState* _Ptr = new DSState();
 	_Ptr->Create(m_pDevice, m_pContext, _Desc);
-	m_DSMap.insert(std::unordered_map<std::wstring, HPTR<DSState>>::value_type(_Name, _Ptr));
+	m_DSMap.insert(std::unordered_map<std::wstring, KPtr<DSState>>::value_type(_Name, _Ptr));
 }
 
 void HDevice::SetDefDsMode(const wchar_t* _Name)
 {
-	HPTR<DSState> DSS = MapFind<HPTR<DSState>>(m_DSMap, _Name);
+	KPtr<DSState> DSS = Map_Find<KPtr<DSState>>(m_DSMap, _Name);
 	if (nullptr == DSS)
 	{
-		TASSERT(true);
+		KASSERT(true);
 		return;
 	}
 
 	if (nullptr == DSS->m_pDS)
 	{
-		TASSERT(true);
+		KASSERT(true);
 		return;
 	}
 	m_DefaultDState = DSS;
@@ -411,7 +411,7 @@ void HDevice::DSState::Create(ID3D11Device* _pDevice, ID3D11DeviceContext* _pCon
 {
 	if (nullptr == _pContext)
 	{
-		TASSERT(nullptr == _pContext);
+		KASSERT(nullptr == _pContext);
 		return;
 	}
 
@@ -425,10 +425,10 @@ void HDevice::DSState::Create(ID3D11Device* _pDevice, ID3D11DeviceContext* _pCon
 
 void HDevice::SetDsMode(const wchar_t* _Name, unsigned int _Ref)
 {
-	HPTR<DSState> DSS = MapFind<HPTR<DSState>>(m_DSMap, _Name);
+	KPtr<DSState> DSS = Map_Find<KPtr<DSState>>(m_DSMap, _Name);
 	if (nullptr == DSS)
 	{
-		TASSERT(true);
+		KASSERT(true);
 		return;
 	}
 	DSS->Update(_Ref);
@@ -436,11 +436,11 @@ void HDevice::SetDsMode(const wchar_t* _Name, unsigned int _Ref)
 
 void HDevice::SetBsMode(const wchar_t* _Name) 
 {
-	HPTR<HBlend> Ptr = HResMgr<HBlend>::Find(_Name);
+	KPtr<HBlend> Ptr = HResMgr<HBlend>::Find(_Name);
 
 	if (nullptr == Ptr)
 	{
-		BOOM;
+		BBY;
 	}
 	Ptr->Update();
 }

@@ -7,9 +7,9 @@ HVEC2 InputMgr::m_MousePos;
 HVEC2 InputMgr::m_OriMousePos;
 HVEC2 InputMgr::m_MouseDir;
 POINT InputMgr::m_iPoint;
-std::unordered_map<std::wstring, HPTR<InputMgr::KEYDATA>>::iterator InputMgr::m_KeyStartIter;
-std::unordered_map<std::wstring, HPTR<InputMgr::KEYDATA>>::iterator InputMgr::m_KeyEndIter;
-std::unordered_map<std::wstring, HPTR<InputMgr::KEYDATA>> InputMgr::m_KeyMap;
+std::unordered_map<std::wstring, KPtr<InputMgr::KEYDATA>>::iterator InputMgr::m_KeyStartIter;
+std::unordered_map<std::wstring, KPtr<InputMgr::KEYDATA>>::iterator InputMgr::m_KeyEndIter;
+std::unordered_map<std::wstring, KPtr<InputMgr::KEYDATA>> InputMgr::m_KeyMap;
 
 const char InputMgr::KEYDATA::g_bUp       = (char)0b00000001;
 const char InputMgr::KEYDATA::g_bUpStay   = (char)0b00000010;
@@ -174,7 +174,7 @@ void InputMgr::Update()
 
 bool InputMgr::IsKey(const wchar_t* _Name) {
 
-	HPTR<KEYDATA> pKEY = MapFind<HPTR<KEYDATA>>(m_KeyMap, _Name);
+	KPtr<KEYDATA> pKEY = Map_Find<KPtr<KEYDATA>>(m_KeyMap, _Name);
 	if (nullptr == pKEY)
 	{
 		return false;
@@ -182,7 +182,7 @@ bool InputMgr::IsKey(const wchar_t* _Name) {
 	return true;
 }
 bool InputMgr::IsUp(const wchar_t* _Name) {
-	HPTR<KEYDATA> pKEY = MapFind<HPTR<KEYDATA>>(m_KeyMap, _Name);
+	KPtr<KEYDATA> pKEY = Map_Find<KPtr<KEYDATA>>(m_KeyMap, _Name);
 	if (nullptr == pKEY)
 	{
 		return false;
@@ -190,7 +190,7 @@ bool InputMgr::IsUp(const wchar_t* _Name) {
 	return pKEY->IsUp();
 }
 bool InputMgr::IsUpStay(const wchar_t* _Name) {
-	HPTR<KEYDATA> pKEY = MapFind<HPTR<KEYDATA>>(m_KeyMap, _Name);
+	KPtr<KEYDATA> pKEY = Map_Find<KPtr<KEYDATA>>(m_KeyMap, _Name);
 	if (nullptr == pKEY)
 	{
 		return false;
@@ -198,7 +198,7 @@ bool InputMgr::IsUpStay(const wchar_t* _Name) {
 	return pKEY->IsUpStay();
 }
 bool InputMgr::IsDown(const wchar_t* _Name) {
-	HPTR<KEYDATA> pKEY = MapFind<HPTR<KEYDATA>>(m_KeyMap, _Name);
+	KPtr<KEYDATA> pKEY = Map_Find<KPtr<KEYDATA>>(m_KeyMap, _Name);
 	if (nullptr == pKEY)
 	{
 		return false;
@@ -206,7 +206,7 @@ bool InputMgr::IsDown(const wchar_t* _Name) {
 	return pKEY->IsDown();
 }
 bool InputMgr::IsDownStay(const wchar_t* _Name) {
-	HPTR<KEYDATA> pKEY = MapFind<HPTR<KEYDATA>>(m_KeyMap, _Name);
+	KPtr<KEYDATA> pKEY = Map_Find<KPtr<KEYDATA>>(m_KeyMap, _Name);
 	if (nullptr == pKEY)
 	{
 		return false;
@@ -215,7 +215,7 @@ bool InputMgr::IsDownStay(const wchar_t* _Name) {
 }
 
 bool InputMgr::IsOver(const wchar_t* _Name, float _Time) {
-	HPTR<KEYDATA> pKEY = MapFind<HPTR<KEYDATA>>(m_KeyMap, _Name);
+	KPtr<KEYDATA> pKEY = Map_Find<KPtr<KEYDATA>>(m_KeyMap, _Name);
 	if (nullptr == pKEY)
 	{
 		return false;
@@ -225,7 +225,7 @@ bool InputMgr::IsOver(const wchar_t* _Name, float _Time) {
 
 bool InputMgr::IsOverReset(const wchar_t* _Name, float _Time) {
 
-	HPTR<KEYDATA> pKEY = MapFind<HPTR<KEYDATA>>(m_KeyMap, _Name);
+	KPtr<KEYDATA> pKEY = Map_Find<KPtr<KEYDATA>>(m_KeyMap, _Name);
 	if (nullptr == pKEY)
 	{
 		return false;

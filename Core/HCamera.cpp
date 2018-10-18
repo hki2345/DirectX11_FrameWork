@@ -128,7 +128,7 @@ void HCamera::LightMerge()
 {
 	if (nullptr == m_CamMesh || nullptr == m_CamMat)
 	{
-		BOOM;
+		BBY;
 	}
 
 	m_CamMat->Update();
@@ -143,7 +143,7 @@ void HCamera::ScreenMerge()
 {
 	if (nullptr == m_CamMesh || nullptr == m_CamScreenMat)
 	{
-		BOOM;
+		BBY;
 	}
 
 	m_CameraTaget->TagetTex(0)->Update(0);

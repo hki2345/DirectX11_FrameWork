@@ -2,8 +2,8 @@
 #include <Windows.h>
 #include <crtdbg.h>
 
-#include "RefBase.h"
-#include "HMACRO.h"
+#include "SmartPtr.h"
+#include "KMacro.h"
 
 // 다중상속
 // 모호함을 최대한 없애고 이용할수 있는 방법
@@ -12,7 +12,7 @@ class HCore
 public: // 딴애들이 이거 상속은 받아야 하잖아.
 	// 빌더패턴은 객체와 동작을 클래스를 조립하듯이 완성하는 패턴
 	// 빌더라는 클래스를 만들어서 
-	class HCoreBuilder : public HRefBase
+	class HCoreBuilder : public SmartPtr
 	{
 	public:
 		virtual void Build() = 0;

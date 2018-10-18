@@ -41,12 +41,12 @@ public:
 	void Over();
 
 private:
-	std::list<HPTR<HComponent>>::iterator m_ComStartIter;
-	std::list<HPTR<HComponent>>::iterator m_ComEndIter;
-	std::list<HPTR<HComponent>> m_ComList;
+	std::list<KPtr<HComponent>>::iterator m_ComStartIter;
+	std::list<KPtr<HComponent>>::iterator m_ComEndIter;
+	std::list<KPtr<HComponent>> m_ComList;
 
 public:
-	std::list<HPTR<HComponent>> AllComList() {
+	std::list<KPtr<HComponent>> AllComList() {
 		return m_ComList;
 	}
 
@@ -86,7 +86,7 @@ private:
 
 public: 
 	template<typename Com>
-	HPTR<Com> AddCom()
+	KPtr<Com> AddCom()
 	{
 		if (false == Com::IsMulti(this))
 		{
@@ -94,7 +94,7 @@ public:
 		}
 
 		Com* NewCom = new Com();
-		NewCom->TypeSetting();
+		NewCom->Set_Type();
 		NewCom->Actor(this);
 		NewCom->Window(Window());
 		NewCom->Scene(Scene());
@@ -111,7 +111,7 @@ public:
 	}
 
 	template<typename Com, typename T1>
-	HPTR<Com> AddCom(T1 _1)
+	KPtr<Com> AddCom(T1 _1)
 	{
 		if (false == Com::IsMulti(this))
 		{
@@ -119,7 +119,7 @@ public:
 		}
 
 		Com* NewCom = new Com();
-		NewCom->TypeSetting();
+		NewCom->Set_Type();
 		NewCom->Actor(this);
 		NewCom->Window(Window());
 		NewCom->Scene(Scene());
@@ -136,7 +136,7 @@ public:
 	}
 
 	template<typename Com, typename T1, typename T2>
-	HPTR<Com> AddCom(T1 _1, T2 _2)
+	KPtr<Com> AddCom(T1 _1, T2 _2)
 	{
 		if (false == Com::IsMulti(this))
 		{
@@ -144,7 +144,7 @@ public:
 		}
 
 		Com* NewCom = new Com();
-		NewCom->TypeSetting();
+		NewCom->Set_Type();
 		NewCom->Actor(this);
 		NewCom->Window(Window());
 		NewCom->Scene(Scene());
@@ -161,10 +161,10 @@ public:
 	}
 
 	template<typename Com>
-	HPTR<Com> GetCom()
+	KPtr<Com> GetCom()
 	{
-		std::list<HPTR<HComponent>>::iterator ComStartIter = m_ComList.begin();
-		std::list<HPTR<HComponent>>::iterator ComEndIter = m_ComList.end();
+		std::list<KPtr<HComponent>>::iterator ComStartIter = m_ComList.begin();
+		std::list<KPtr<HComponent>>::iterator ComEndIter = m_ComList.end();
 
 		for (; ComStartIter != ComEndIter; ++ComStartIter)
 		{
@@ -181,9 +181,9 @@ public:
 
 private:
 	HActor* m_pParent;
-	std::list<HPTR<HActor>>::iterator ChildStartIter;
-	std::list<HPTR<HActor>>::iterator ChildEndIter;
-	std::list<HPTR<HActor>> m_pChildList; 
+	std::list<KPtr<HActor>>::iterator ChildStartIter;
+	std::list<KPtr<HActor>>::iterator ChildEndIter;
+	std::list<KPtr<HActor>> m_pChildList; 
 
 	void MoveDetach() { };
 
@@ -194,7 +194,7 @@ private:
 	void Detach();
 
 public:
-	void AddChild(HPTR<HActor> _Actor, bool _TransWorld = true);
+	void AddChild(KPtr<HActor> _Actor, bool _TransWorld = true);
 
 private:
 	void OverPushRender(HRenderMgr* _pRenMgr);

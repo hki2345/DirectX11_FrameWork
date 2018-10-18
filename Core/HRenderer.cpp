@@ -1,5 +1,5 @@
 #include "HRenderer.h"
-#include "HMACRO.h"
+#include "KMacro.h"
 #include "HResMgr.h"
 #include "HScene.h"
 #include "HDevice.h"
@@ -11,7 +11,7 @@ HRenderer::HRenderer() : m_RsState(nullptr)
 {
 	if (false == SetMat(L"NONEMAT"))
 	{
-		BOOM;
+		BBY;
 	}
 }
 
@@ -25,7 +25,7 @@ void HRenderer::SetRSState(const wchar_t* _Name) {
 
 	if (nullptr == m_RsState)
 	{
-		TASSERT(true);
+		KASSERT(true);
 		return;
 	}
 }
@@ -39,7 +39,7 @@ bool HRenderer::Init(int _Order)
 
 bool HRenderer::SetMesh(const wchar_t* _Res) {
 	m_Mesh = HResMgr<HMesh>::Find(_Res);
-	TASSERT(nullptr == m_Mesh);
+	KASSERT(nullptr == m_Mesh);
 
 	if (nullptr == m_Mesh)
 	{
@@ -51,7 +51,7 @@ bool HRenderer::SetMesh(const wchar_t* _Res) {
 bool HRenderer::SetMat(const wchar_t* _Res)
 {
 	m_Mat = HResMgr<HMaterial>::Find(_Res);
-	TASSERT(nullptr == m_Mat);
+	KASSERT(nullptr == m_Mat);
 
 	if (nullptr == m_Mat)
 	{
@@ -61,7 +61,7 @@ bool HRenderer::SetMat(const wchar_t* _Res)
 	return true;
 }
 
-HPTR<HMaterial> HRenderer::Mat() 
+KPtr<HMaterial> HRenderer::Mat() 
 {
 	if (m_Mat->IsOri)
 	{
@@ -90,9 +90,9 @@ void HRenderer::RenderEndUpdate()
 	Window()->Device().ResetRSState();
 }
 
-void HRenderer::TransUpdate(HPTR<HCamera> _Camera)
+void HRenderer::TransUpdate(KPtr<HCamera> _Camera)
 {
-	TASSERT(nullptr == m_Trans);
+	KASSERT(nullptr == m_Trans);
 	if (nullptr == m_Trans)
 	{
 		return;

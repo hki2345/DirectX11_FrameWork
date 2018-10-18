@@ -49,11 +49,11 @@
     <ClInclude Include="HImage.h" />
     <ClInclude Include="HLight.h" />
     <ClInclude Include="HLogic.h" />
-    <ClInclude Include="HMACRO.h" />
+    <ClInclude Include="KMacro.h" />
     <ClInclude Include="HMaterial.h" />
     <ClInclude Include="HMesh.h" />
     <ClInclude Include="HMultiRenderTaget.h" />
-    <ClInclude Include="HObjectBase.h" />
+    <ClInclude Include="Begin.h" />
     <ClInclude Include="HPixShader.h" />
     <ClInclude Include="HRenderer.h" />
     <ClInclude Include="HRenderMgr.h" />
@@ -81,8 +81,8 @@
     <ClInclude Include="HWindowBase.h" />
     <ClInclude Include="InputMgr.h" />
     <ClInclude Include="MCRI.h" />
-    <ClInclude Include="RefBase.h" />
-    <ClInclude Include="StlHelperFunc.h" />
+    <ClInclude Include="SmartPtr.h" />
+    <ClInclude Include="Stl_AID.h" />
     <ClInclude Include="TimeMgr.h" />
   </ItemGroup>
   <ItemGroup>
@@ -116,7 +116,7 @@
     <ClCompile Include="HMaterial.cpp" />
     <ClCompile Include="HMesh.cpp" />
     <ClCompile Include="HMultiRenderTaget.cpp" />
-    <ClCompile Include="HObjectBase.cpp" />
+    <ClCompile Include="Begin.cpp" />
     <ClCompile Include="HPixShader.cpp" />
     <ClCompile Include="HRenderer.cpp" />
     <ClCompile Include="HRenderMgr.cpp" />
@@ -142,7 +142,7 @@
     <ClCompile Include="HWindow.cpp" />
     <ClCompile Include="InputMgr.cpp" />
     <ClCompile Include="MCRI.cpp" />
-    <ClCompile Include="RefBase.cpp" />
+    <ClCompile Include="SmartPtr.cpp" />
     <ClCompile Include="TimeMgr.cpp" />
   </ItemGroup>
   <ItemGroup>

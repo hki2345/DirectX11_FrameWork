@@ -1,5 +1,5 @@
 #include "HSoundDevice.h"
-#include "HMACRO.h"
+#include "KMacro.h"
 
 FMOD::System* HSoundDevice::SoundSystem = nullptr;
 
@@ -28,7 +28,7 @@ void HSoundDevice::Init()
 	// 무슨일을 하느냐?
 	FMOD::System_Create(&SoundSystem);
 
-	TASSERT(nullptr == SoundSystem);
+	KASSERT(nullptr == SoundSystem);
 
 	if (nullptr == SoundSystem)
 	{
@@ -47,7 +47,7 @@ void HSoundDevice::Init()
 	// 장치를 만들었다.
 	FMOD_RESULT FR = SoundSystem->init(32, FMOD_DEFAULT, nullptr);
 
-	TASSERT(FMOD_OK != FR);
+	KASSERT(FMOD_OK != FR);
 
 	if (FMOD_OK != FR)
 	{

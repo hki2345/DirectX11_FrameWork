@@ -1,5 +1,5 @@
 #include "H3DMeshRenderer.h"
-#include "HMACRO.h"
+#include "KMacro.h"
 #include "HWindow.h"
 #include "HTrans.h"
 #include "HResMgr.h"
@@ -12,7 +12,7 @@ H3DMeshRenderer::H3DMeshRenderer()
 H3DMeshRenderer::~H3DMeshRenderer()
 {
 }
-void H3DMeshRenderer::Render(HPTR<HCamera> _Camera)
+void H3DMeshRenderer::Render(KPtr<HCamera> _Camera)
 {
 }
 

@@ -1,8 +1,8 @@
 #pragma once
 #include <string>
-#include "HObjectBase.h"
+#include "Begin.h"
 
-class HRes : public HObjectBase
+class HRes : public Begin
 {
 
 public:

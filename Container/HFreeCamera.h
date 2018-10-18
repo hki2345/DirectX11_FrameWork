@@ -6,7 +6,7 @@
 class HFreeCamera : public HLogic
 {
 private:
-	HPTR<HCamera> m_Camera;
+	KPtr<HCamera> m_Camera;
 	HVEC2 PrevMouse;
 	HVEC2 RotPos;
 	float m_RotSpeed;

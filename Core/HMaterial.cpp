@@ -2,7 +2,7 @@
 #include "HVtxShader.h"
 #include "HPixShader.h"
 #include "HResMgr.h"
-#include "HMACRO.h"
+#include "KMacro.h"
 #include "HSampler.h"
 #include "HTexture.h"
 #include "HRenderTaget.h"
@@ -33,7 +33,7 @@ HMaterial::HMaterial(const HMaterial& _Other)
 bool HMaterial::SetVtxShader(const wchar_t* _VtxName) 
 {
 	m_VtxShader = HResMgr<HVtxShader>::Find(_VtxName);
-	TASSERT(nullptr == m_VtxShader);
+	KASSERT(nullptr == m_VtxShader);
 
 	if (nullptr == m_VtxShader)
 	{
@@ -46,7 +46,7 @@ bool HMaterial::SetVtxShader(const wchar_t* _VtxName)
 bool HMaterial::SetPixShader(const wchar_t* _PixName) 
 {
 	m_PixShader = HResMgr<HPixShader>::Find(_PixName);
-	TASSERT(nullptr == m_PixShader);
+	KASSERT(nullptr == m_PixShader);
 
 	if (nullptr == m_PixShader)
 	{
@@ -60,7 +60,7 @@ bool HMaterial::SetPixShader(const wchar_t* _PixName)
 bool HMaterial::SetBlend(const wchar_t* _PixName) 
 {
 	m_Blend = HResMgr<HBlend>::Find(_PixName);
-	TASSERT(nullptr == m_Blend);
+	KASSERT(nullptr == m_Blend);
 
 	if (nullptr == m_Blend)
 	{
@@ -86,17 +86,17 @@ bool HMaterial::Create()
 
 void HMaterial::SetTex(unsigned int _Slot, const wchar_t* _TexName) 
 {
-	HPTR<HTexture> FindTex = HResMgr<HTexture>::Find(_TexName);
+	KPtr<HTexture> FindTex = HResMgr<HTexture>::Find(_TexName);
 	if (nullptr == FindTex)
 	{
-		BOOM;
+		BBY;
 	}
 
-	std::unordered_map<unsigned int, HPTR<HTexture>>::iterator FindIter =  m_TexMap.find(_Slot);
+	std::unordered_map<unsigned int, KPtr<HTexture>>::iterator FindIter =  m_TexMap.find(_Slot);
 
 	if (FindIter == m_TexMap.end())
 	{
-		m_TexMap.insert( std::unordered_map<unsigned int, HPTR<HTexture>>::value_type(_Slot, FindTex));
+		m_TexMap.insert( std::unordered_map<unsigned int, KPtr<HTexture>>::value_type(_Slot, FindTex));
 	}
 	else 
 	{
@@ -107,17 +107,17 @@ void HMaterial::SetTex(unsigned int _Slot, const wchar_t* _TexName)
 
 void HMaterial::SetTagetTex(unsigned int _Slot, const wchar_t* _TexName)
 {
-	HPTR<HRenderTaget> FindTaget = HResMgr<HRenderTaget>::Find(_TexName);
+	KPtr<HRenderTaget> FindTaget = HResMgr<HRenderTaget>::Find(_TexName);
 	if (nullptr == FindTaget)
 	{
-		BOOM;
+		BBY;
 	}
 
-	std::unordered_map<unsigned int, HPTR<HTexture>>::iterator FindIter = m_TexMap.find(_Slot);
+	std::unordered_map<unsigned int, KPtr<HTexture>>::iterator FindIter = m_TexMap.find(_Slot);
 
 	if (FindIter == m_TexMap.end())
 	{
-		m_TexMap.insert(std::unordered_map<unsigned int, HPTR<HTexture>>::value_type(_Slot, FindTaget->TagetTex()));
+		m_TexMap.insert(std::unordered_map<unsigned int, KPtr<HTexture>>::value_type(_Slot, FindTaget->TagetTex()));
 	}
 	else
 	{
@@ -127,17 +127,17 @@ void HMaterial::SetTagetTex(unsigned int _Slot, const wchar_t* _TexName)
 
 void HMaterial::SetSmp(unsigned int _Slot, const wchar_t* _SmpName) 
 {
-	HPTR<HSampler> FindSmp = HResMgr<HSampler>::Find(_SmpName);
+	KPtr<HSampler> FindSmp = HResMgr<HSampler>::Find(_SmpName);
 	if (nullptr == FindSmp)
 	{
-		BOOM;
+		BBY;
 	}
 
-	std::unordered_map<unsigned int, HPTR<HSampler>>::iterator FindIter = m_SmpMap.find(_Slot);
+	std::unordered_map<unsigned int, KPtr<HSampler>>::iterator FindIter = m_SmpMap.find(_Slot);
 
 	if (FindIter == m_SmpMap.end())
 	{
-		m_SmpMap.insert(std::unordered_map<unsigned int, HPTR<HSampler>>::value_type(_Slot, FindSmp));
+		m_SmpMap.insert(std::unordered_map<unsigned int, KPtr<HSampler>>::value_type(_Slot, FindSmp));
 	}
 	else
 	{
@@ -206,7 +206,7 @@ unsigned int HMaterial::TexDataSetting(TexData* _Data)
 	return (unsigned int)m_TexData.size();
 }
 
-HPTR<HMaterial> HMaterial::Clone() 
+KPtr<HMaterial> HMaterial::Clone() 
 {
 	return new HMaterial(*this);
 }

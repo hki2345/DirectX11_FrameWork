@@ -1,5 +1,5 @@
 #include "HFont.h"
-#include "HMACRO.h"
+#include "KMacro.h"
 #include "HVAR.h"
 
 
@@ -25,13 +25,13 @@ bool HFont::Create(const wchar_t* _FontName)
 {
 	if (S_OK != FW1CreateFactory(FW1_VERSION, &m_pFW1Factory))
 	{
-		TASSERT(true);
+		KASSERT(true);
 		return false;
 	}
 
 	if (S_OK != m_pFW1Factory->CreateFontWrapper(HVAR::PDevice(), _FontName, &m_pFontWrapper))
 	{
-		TASSERT(true);
+		KASSERT(true);
 		return false;
 	}
 	return true;

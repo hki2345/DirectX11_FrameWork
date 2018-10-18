@@ -39,7 +39,7 @@ public:
 	void SpriteInit();
 	void SpriteCheck(const wchar_t* _Path, const wchar_t* _Folder, HTREEITEM _ParentItem);
 
-	HPTR<HSpRenderer> m_SpriteRender;
+	KPtr<HSpRenderer> m_SpriteRender;
 
 	std::map<std::wstring, SpriteData*> m_pDataList;
 

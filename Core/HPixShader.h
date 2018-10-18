@@ -10,7 +10,7 @@ public:
 	void Update() override;
 
 private:
-	void UpdateCB(HPTR<CBUFFER> _Buf);
+	void UpdateCB(KPtr<CBUFFER> _Buf);
 
 public:
 	HPixShader();

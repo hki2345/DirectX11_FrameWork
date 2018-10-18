@@ -15,14 +15,14 @@ public:
 	HVEC m_GridData;
 
 public:
-	void TransUpdate(HPTR<HCamera> _Camera) override;
-	void Render(HPTR<HCamera> _Camera) override;
+	void TransUpdate(KPtr<HCamera> _Camera) override;
+	void Render(KPtr<HCamera> _Camera) override;
 
 public:
 	bool Init(int _Order = 0) override;
 
 private:
-	void CalData(HPTR<HCamera> _Camera);
+	void CalData(KPtr<HCamera> _Camera);
 
 	void DebugRender() override;
 

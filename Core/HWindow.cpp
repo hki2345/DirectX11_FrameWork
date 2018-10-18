@@ -1,7 +1,7 @@
 #include "HWindow.h"
-#include "StlHelperFunc.h"
+#include "Stl_AID.h"
 
-#include "HMACRO.h"
+#include "KMacro.h"
 #include "HResMgr.h"
 #include "GameDebug.h"
 
@@ -11,11 +11,11 @@
 HINSTANCE HWindow::g_HInst = nullptr;
 
 
-std::unordered_map<std::wstring, HPTR<HWindow>>::iterator HWindow::WinStartIter;
-std::unordered_map<std::wstring, HPTR<HWindow>>::iterator HWindow::WinEndIter;
+std::unordered_map<std::wstring, KPtr<HWindow>>::iterator HWindow::WinStartIter;
+std::unordered_map<std::wstring, KPtr<HWindow>>::iterator HWindow::WinEndIter;
 
-std::unordered_map<std::wstring, HPTR<HWindow>> HWindow::g_NWinMap;
-std::unordered_map<HWND, HPTR<HWindow>> HWindow::g_HWinMap;
+std::unordered_map<std::wstring, KPtr<HWindow>> HWindow::g_NWinMap;
+std::unordered_map<HWND, KPtr<HWindow>> HWindow::g_HWinMap;
 
 void HWindow::Init(HINSTANCE _HInst) 
 {
@@ -23,10 +23,10 @@ void HWindow::Init(HINSTANCE _HInst)
 }
 
 
-HPTR<HWindow> HWindow::CreateHWindow(const wchar_t* _Name, HWND _hWnd)
+KPtr<HWindow> HWindow::CreateHWindow(const wchar_t* _Name, HWND _hWnd)
 {
 	// 스마트 포인터를 사용하기 때문에 이제 왠만
-	HPTR<HWindow> Win = MapFind<HPTR<HWindow>>(g_NWinMap, _Name);
+	KPtr<HWindow> Win = Map_Find<KPtr<HWindow>>(g_NWinMap, _Name);
 
 	if (nullptr != Win)
 	{
@@ -49,29 +49,29 @@ HPTR<HWindow> HWindow::CreateHWindow(const wchar_t* _Name, HWND _hWnd)
 		return nullptr;
 	}
 
-	pNewWindow->TypeSetting();
+	pNewWindow->Set_Type();
 
 	//if (true == pNewWindow->IsEqual<HWindow>())
 	//{
 	//	int a = 0;
 	//}
 
-	g_NWinMap.insert(std::unordered_map<std::wstring, HPTR<HWindow>>::value_type(_Name, pNewWindow));
-	g_HWinMap.insert(std::unordered_map<HWND, HPTR<HWindow>>::value_type(pNewWindow->m_HWnd, pNewWindow));
+	g_NWinMap.insert(std::unordered_map<std::wstring, KPtr<HWindow>>::value_type(_Name, pNewWindow));
+	g_HWinMap.insert(std::unordered_map<HWND, KPtr<HWindow>>::value_type(pNewWindow->m_HWnd, pNewWindow));
 
 	return pNewWindow;
 }
 
-HPTR<HWindow> HWindow::FindHWindow(const wchar_t* _Name) 
+KPtr<HWindow> HWindow::FindHWindow(const wchar_t* _Name) 
 {
-	return MapFind<HPTR<HWindow>>(g_NWinMap, _Name);
+	return Map_Find<KPtr<HWindow>>(g_NWinMap, _Name);
 }
 
 void HWindow::EraseHWindow(const HWND _Handle)
 {
-	HPTR<HWindow> Win = MapFind<HPTR<HWindow>>(g_HWinMap, _Handle);
+	KPtr<HWindow> Win = Map_Find<KPtr<HWindow>>(g_HWinMap, _Handle);
 
-	TASSERT(nullptr == Win);
+	KASSERT(nullptr == Win);
 
 	if (nullptr == Win)
 	{
@@ -79,8 +79,8 @@ void HWindow::EraseHWindow(const HWND _Handle)
 	}
 
 	std::wstring Name = Win->Name();
-	StlErase(g_HWinMap, _Handle);
-	StlErase(g_NWinMap, Name.c_str());
+	Map_Erase(g_HWinMap, _Handle);
+	Map_Erase(g_NWinMap, Name.c_str());
 }
 
 void HWindow::Progress()
@@ -119,7 +119,7 @@ LRESULT CALLBACK HWindow::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM
 
 ////////////////////////////////// MEMBER
 
-HWindow::HWindow(const wchar_t* _Name) : HObjectBase(_Name), m_HWnd(nullptr), SceneMgr(this), m_Device(this), m_bFull(true)
+HWindow::HWindow(const wchar_t* _Name) : Begin(_Name), m_HWnd(nullptr), SceneMgr(this), m_Device(this), m_bFull(true)
 {
 	RegClass();
 	if (FALSE == InitInst())
@@ -131,7 +131,7 @@ HWindow::HWindow(const wchar_t* _Name) : HObjectBase(_Name), m_HWnd(nullptr), Sc
 	m_Hdc = GetDC(m_HWnd);
 }
 
-HWindow::HWindow(const wchar_t* _Name, HWND _hWnd) : HObjectBase(_Name), m_HWnd(nullptr), SceneMgr(this), m_Device(this), m_bFull(true)
+HWindow::HWindow(const wchar_t* _Name, HWND _hWnd) : Begin(_Name), m_HWnd(nullptr), SceneMgr(this), m_Device(this), m_bFull(true)
 {
 	m_HWnd = _hWnd;
 

@@ -85,7 +85,7 @@ void SceneDlg::OnBnClickedCrescene()
 		return;
 	}
 
-	HPTR<HScene> m_Scene = HVAR::MainSceneMgr().FindScene(m_SceneName.GetString());
+	KPtr<HScene> m_Scene = HVAR::MainSceneMgr().FindScene(m_SceneName.GetString());
 
 	if (nullptr != m_Scene)
 	{
@@ -100,9 +100,9 @@ void SceneDlg::OnBnClickedCrescene()
 	m_Scene->CreateUpdater<ToolSceneUpdater>();
 	HVAR::MainSceneMgr().ChangeScene(m_SceneName.GetString());
 
-	HPTR<HActor> Camera = m_Scene->CreateActor();
+	KPtr<HActor> Camera = m_Scene->CreateActor();
 	Camera->Trans()->LPos(HVEC(0.0f, 0.0f, -10.0f));
-	HPTR<HCamera> CamCom = Camera->AddCom<HCamera>();
+	KPtr<HCamera> CamCom = Camera->AddCom<HCamera>();
 	CamCom->PushRenderLayer(0, 1, 2, 3, 4);
 
 

@@ -1,8 +1,8 @@
 #include "HScene.h"
 #include "HActor.h"
-#include "StlHelperFunc.h"
+#include "Stl_AID.h"
 #include "HTrans.h"
-#include "HMACRO.h"
+#include "KMacro.h"
 #include "BWStream.h"
 #include "BRStream.h"
 #include "HSceneMgr.h"
@@ -29,8 +29,8 @@ void HScene::Progress()
 {
 	if (0 != m_HSceneUpdaterList.size())	
 	{	
-		std::list<HPTR<HSceneUpdater>>::iterator StartUpdaterIter = m_HSceneUpdaterList.begin();
-		std::list<HPTR<HSceneUpdater>>::iterator EndUpdaterIter = m_HSceneUpdaterList.end();
+		std::list<KPtr<HSceneUpdater>>::iterator StartUpdaterIter = m_HSceneUpdaterList.begin();
+		std::list<KPtr<HSceneUpdater>>::iterator EndUpdaterIter = m_HSceneUpdaterList.end();
 
 		for (; StartUpdaterIter != EndUpdaterIter; ++StartUpdaterIter)
 		{
@@ -177,8 +177,8 @@ void HScene::DebugRender() {
 
 	if (0 != m_HSceneUpdaterList.size())
 	{
-		std::list<HPTR<HSceneUpdater>>::iterator StartUpdaterIter = m_HSceneUpdaterList.begin();
-		std::list<HPTR<HSceneUpdater>>::iterator EndUpdaterIter = m_HSceneUpdaterList.end();
+		std::list<KPtr<HSceneUpdater>>::iterator StartUpdaterIter = m_HSceneUpdaterList.begin();
+		std::list<KPtr<HSceneUpdater>>::iterator EndUpdaterIter = m_HSceneUpdaterList.end();
 
 		for (; StartUpdaterIter != EndUpdaterIter; ++StartUpdaterIter)
 		{
@@ -230,8 +230,8 @@ void HScene::Start()
 {
 	if (0 != m_HSceneUpdaterList.size())
 	{
-		std::list<HPTR<HSceneUpdater>>::iterator StartUpdaterIter = m_HSceneUpdaterList.begin();
-		std::list<HPTR<HSceneUpdater>>::iterator EndUpdaterIter = m_HSceneUpdaterList.end();
+		std::list<KPtr<HSceneUpdater>>::iterator StartUpdaterIter = m_HSceneUpdaterList.begin();
+		std::list<KPtr<HSceneUpdater>>::iterator EndUpdaterIter = m_HSceneUpdaterList.end();
 
 		for (; StartUpdaterIter != EndUpdaterIter; ++StartUpdaterIter)
 		{
@@ -240,18 +240,18 @@ void HScene::Start()
 	}
 }
 
-std::unordered_map<int, std::list<HPTR<HActor>>>::iterator ActorIter;
-HPTR<HActor> HScene::CreateActor(const wchar_t* _pName /*= L"HObject"*/, int _Order /*= 0*/)
+std::unordered_map<int, std::list<KPtr<HActor>>>::iterator ActorIter;
+KPtr<HActor> HScene::CreateActor(const wchar_t* _pName /*= L"HObject"*/, int _Order /*= 0*/)
 {
-	if (false == IsMapFind(m_ActorMap, _Order)) 
+	if (false == Is_MapFind(m_ActorMap, _Order)) 
 	{
-		m_ActorMap.insert(std::unordered_map<int, std::list<HPTR<HActor>>>::value_type(_Order, std::list<HPTR<HActor>>()));
+		m_ActorMap.insert(std::unordered_map<int, std::list<KPtr<HActor>>>::value_type(_Order, std::list<KPtr<HActor>>()));
 	}
 	ActorIter = m_ActorMap.find(_Order);
 	HActor* pNewActor = new HActor();
 	pNewActor->Name(_pName);
 	pNewActor->Order(_Order);
-	pNewActor->TypeSetting();
+	pNewActor->Set_Type();
 	pNewActor->Window(Window());
 	pNewActor->Scene(this);
 	pNewActor->AddCom<HTrans>();
@@ -261,17 +261,17 @@ HPTR<HActor> HScene::CreateActor(const wchar_t* _pName /*= L"HObject"*/, int _Or
 	return pNewActor;
 }
 
-HPTR<HActor> HScene::CreateNoneTransActor(const wchar_t* _pName /*= L"HObject"*/, int _Order /*= 0*/)
+KPtr<HActor> HScene::CreateNoneTransActor(const wchar_t* _pName /*= L"HObject"*/, int _Order /*= 0*/)
 {
-	if (false == IsMapFind(m_ActorMap, _Order))
+	if (false == Is_MapFind(m_ActorMap, _Order))
 	{
-		m_ActorMap.insert(std::unordered_map<int, std::list<HPTR<HActor>>>::value_type(_Order, std::list<HPTR<HActor>>()));
+		m_ActorMap.insert(std::unordered_map<int, std::list<KPtr<HActor>>>::value_type(_Order, std::list<KPtr<HActor>>()));
 	}
 	ActorIter = m_ActorMap.find(_Order);
 	HActor* pNewActor = new HActor();
 	pNewActor->Name(_pName);
 	pNewActor->Order(_Order);
-	pNewActor->TypeSetting();
+	pNewActor->Set_Type();
 	pNewActor->Window(Window());
 	pNewActor->Scene(this);
 
@@ -281,11 +281,11 @@ HPTR<HActor> HScene::CreateNoneTransActor(const wchar_t* _pName /*= L"HObject"*/
 }
 
 
-void HScene::MoveActor(HPTR<HActor> _Actor)
+void HScene::MoveActor(KPtr<HActor> _Actor)
 {
 	ActorIter = m_ActorMap.find(_Actor->Order());
 
-	TASSERT(ActorIter == m_ActorMap.end());
+	KASSERT(ActorIter == m_ActorMap.end());
 	if (ActorIter == m_ActorMap.end())
 	{
 		return;
@@ -297,17 +297,17 @@ void HScene::MoveActor(HPTR<HActor> _Actor)
 
 }
 
-bool HScene::EraseActor(HPTR<HActor> _Actor)
+bool HScene::EraseActor(KPtr<HActor> _Actor)
 {
 	ActorIter = m_ActorMap.find(_Actor->Order());
 
-	TASSERT(ActorIter == m_ActorMap.end());
+	KASSERT(ActorIter == m_ActorMap.end());
 	if (ActorIter == m_ActorMap.end()) {
 		return false;
 	}
 
-	std::list<HPTR<HActor>>::iterator StartListIter = ActorIter->second.begin();
-	std::list<HPTR<HActor>>::iterator EndListIter = ActorIter->second.end();
+	std::list<KPtr<HActor>>::iterator StartListIter = ActorIter->second.begin();
+	std::list<KPtr<HActor>>::iterator EndListIter = ActorIter->second.end();
 
 	for (; StartListIter != EndListIter; StartListIter++)
 	{
@@ -318,7 +318,7 @@ bool HScene::EraseActor(HPTR<HActor> _Actor)
 		}
 	}
 
-	TASSERT(ActorIter == m_ActorMap.end());
+	KASSERT(ActorIter == m_ActorMap.end());
 	return false;
 }
 
@@ -350,9 +350,9 @@ void HScene::EndUpdate() {
 
 void HScene::OverPushActor(HActor* _pActor) 
 {
-	if (false == IsMapFind(m_ActorMap, _pActor->m_Order))
+	if (false == Is_MapFind(m_ActorMap, _pActor->m_Order))
 	{
-		m_ActorMap.insert(std::unordered_map<int, std::list<HPTR<HActor>>>::value_type(_pActor->m_Order, std::list<HPTR<HActor>>()));
+		m_ActorMap.insert(std::unordered_map<int, std::list<KPtr<HActor>>>::value_type(_pActor->m_Order, std::list<KPtr<HActor>>()));
 	}
 
 	ActorIter = m_ActorMap.find(_pActor->m_Order);
@@ -369,12 +369,12 @@ void HScene::OverPushActor(HActor* _pActor)
 	_pActor->OverPushCol2D(&Col2DMgr);
 }
 
-std::vector<HPTR<HActor>> HScene::AllObjectList()
+std::vector<KPtr<HActor>> HScene::AllObjectList()
 {
-	std::vector<HPTR<HActor>> ReturnVector;
+	std::vector<KPtr<HActor>> ReturnVector;
 
-	std::unordered_map<int, std::list<HPTR<HActor>>>::iterator StartMapIter;
-	std::unordered_map<int, std::list<HPTR<HActor>>>::iterator EndMapIter;
+	std::unordered_map<int, std::list<KPtr<HActor>>>::iterator StartMapIter;
+	std::unordered_map<int, std::list<KPtr<HActor>>>::iterator EndMapIter;
 
 	size_t ReserveSize = 0;
 
@@ -387,8 +387,8 @@ std::vector<HPTR<HActor>> HScene::AllObjectList()
 
 	ReturnVector.reserve(ReserveSize);
 
-	std::list<HPTR<HActor>>::iterator StartListIter;
-	std::list<HPTR<HActor>>::iterator EndListIter;
+	std::list<KPtr<HActor>>::iterator StartListIter;
+	std::list<KPtr<HActor>>::iterator EndListIter;
 
 	StartMapIter = m_ActorMap.begin();
 	EndMapIter = m_ActorMap.end();
@@ -426,8 +426,8 @@ void HScene::Save(const wchar_t* _FilePath)
 	}
 
 	// 업데이터의 총 개수 사이즈를 저장해 놓는다.
-	std::list<HPTR<HSceneUpdater>>::iterator StartUpdaterIter = m_HSceneUpdaterList.begin();
-	std::list<HPTR<HSceneUpdater>>::iterator EndUpdaterIter = m_HSceneUpdaterList.end();
+	std::list<KPtr<HSceneUpdater>>::iterator StartUpdaterIter = m_HSceneUpdaterList.begin();
+	std::list<KPtr<HSceneUpdater>>::iterator EndUpdaterIter = m_HSceneUpdaterList.end();
 	Size = 0;
 	for (; StartUpdaterIter != EndUpdaterIter; ++StartUpdaterIter)
 	{
@@ -457,7 +457,7 @@ void HScene::Save(const wchar_t* _FilePath)
 		SaveStream.WriteT(UpdaterName.c_str(), sizeof(wchar_t) * Size);
 	}
 
-	std::vector<HPTR<HActor>> AllActor = AllObjectList();
+	std::vector<KPtr<HActor>> AllActor = AllObjectList();
 
 	if (0 == AllActor.size())
 	{
@@ -472,7 +472,7 @@ void HScene::Save(const wchar_t* _FilePath)
 	int a = 0;
 }
 
-HPTR<HScene> HScene::Load(const wchar_t* _FilePath, HSceneBuilder*(*CBPtr)(const wchar_t*), HSceneUpdater*(*CUPtr)(const wchar_t*), void(*_ComLoadPtr)(HPTR<HActor>, const std::string& _ComName))
+KPtr<HScene> HScene::Load(const wchar_t* _FilePath, HSceneBuilder*(*CBPtr)(const wchar_t*), HSceneUpdater*(*CUPtr)(const wchar_t*), void(*_ComLoadPtr)(KPtr<HActor>, const std::string& _ComName))
 {
 	BRStream LoadStream = BRStream(_FilePath);
 
@@ -484,7 +484,7 @@ HPTR<HScene> HScene::Load(const wchar_t* _FilePath, HSceneBuilder*(*CBPtr)(const
 
 	Name[0] += 1;
 
-	HPTR<HScene> LoadScene = HVAR::MainSceneMgr().CreateScene(Name);
+	KPtr<HScene> LoadScene = HVAR::MainSceneMgr().CreateScene(Name);
 
 	if (nullptr == LoadScene)
 	{
@@ -518,7 +518,7 @@ HPTR<HScene> HScene::Load(const wchar_t* _FilePath, HSceneBuilder*(*CBPtr)(const
 	return nullptr;
 }
 
-HPTR<HActor> HScene::CreateActor(BRStream& _Stream, void(*_ComLoadPtr)(HPTR<HActor>, const std::string& _ComName), bool _Root)
+KPtr<HActor> HScene::CreateActor(BRStream& _Stream, void(*_ComLoadPtr)(KPtr<HActor>, const std::string& _ComName), bool _Root)
 {
 	wchar_t Name[1024];
 
@@ -527,15 +527,15 @@ HPTR<HActor> HScene::CreateActor(BRStream& _Stream, void(*_ComLoadPtr)(HPTR<HAct
 
 	if (true == _Root)
 	{
-		if (false == IsMapFind(m_ActorMap, ReadSize))
+		if (false == Is_MapFind(m_ActorMap, ReadSize))
 		{
-			m_ActorMap.insert(std::unordered_map<int, std::list<HPTR<HActor>>>::value_type(ReadSize, std::list<HPTR<HActor>>()));
+			m_ActorMap.insert(std::unordered_map<int, std::list<KPtr<HActor>>>::value_type(ReadSize, std::list<KPtr<HActor>>()));
 		}
 		ActorIter = m_ActorMap.find(ReadSize);
 	}
 
 	HActor* pNewActor = new HActor();
-	pNewActor->TypeSetting();
+	pNewActor->Set_Type();
 	pNewActor->Window(Window());
 	pNewActor->Scene(this);
 	pNewActor->Order(ReadSize);
@@ -574,7 +574,7 @@ HPTR<HActor> HScene::CreateActor(BRStream& _Stream, void(*_ComLoadPtr)(HPTR<HAct
 
 	for (size_t i = 0; i < ReadSize; i++)
 	{
-		HPTR<HActor> ChildActor = CreateActor(_Stream, _ComLoadPtr, false);
+		KPtr<HActor> ChildActor = CreateActor(_Stream, _ComLoadPtr, false);
 		pNewActor->AddChild(ChildActor, true);
 	}
 
