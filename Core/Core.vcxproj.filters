@@ -157,6 +157,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="DirectXTex.inl" />
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="00 Core">
@@ -174,9 +175,6 @@
     <Filter Include="04 Render">
       <UniqueIdentifier>{b6bb8f23-6641-47e1-924f-8ec75f24f217}</UniqueIdentifier>
     </Filter>
-    <Filter Include="05 Component">
-      <UniqueIdentifier>{a9b4beaa-12d4-471a-8455-6da00be4f10b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="99 TheOne">
       <UniqueIdentifier>{932a90e7-a05b-40dd-88d1-bbf7b70fb614}</UniqueIdentifier>
     </Filter>
@@ -188,6 +186,9 @@
     </Filter>
     <Filter Include="00 Core\Begin">
       <UniqueIdentifier>{8ceea11b-9bb2-494f-9da5-9f4ea7f04f6d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="98 Component">
+      <UniqueIdentifier>{a9b4beaa-12d4-471a-8455-6da00be4f10b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

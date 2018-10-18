@@ -53,7 +53,7 @@ void HLight::CalLightData(KPtr<HCamera> _Camera) {
 void HLight::LightRender(KPtr<HCamera> _Camera)
 {
 	// 라이트 데이터
-	HVAR::MainDevice().SetBsMode(L"ONE");
+	
 	HVAR::MainDevice().SettingCB<LightData>(L"DEFFERDLIGHTDATA", Data, SHTYPE::ST_PS);
 
 	if (nullptr == m_LightMat || nullptr == m_LightMesh)
@@ -63,6 +63,7 @@ void HLight::LightRender(KPtr<HCamera> _Camera)
 
 	if (m_eType == LIGHTTYPE::POINT)
 	{
+		HVAR::MainDevice().SetBsMode(L"VOLUME");
 		HMAT Scale;
 		Scale.Scale(HVEC(m_Trans->WScale().x, m_Trans->WScale().x, m_Trans->WScale().x));
 		HMAT World;
@@ -102,6 +103,9 @@ void HLight::LightRender(KPtr<HCamera> _Camera)
 		HVAR::MainDevice().SetDsMode(L"PASS_ST", 0);
 	}
 
+
+	// 색이 어떻든 더한다.
+	HVAR::MainDevice().SetBsMode(L"LIGHTONE");
 	m_LightMat->Update();
 	m_LightMat->TexUpdate();
 	m_LightMesh->Update();
@@ -129,5 +133,5 @@ void HLight::SetType(LIGHTTYPE _Type)
 	}
 
 	m_VolumeMat = HResMgr<HMaterial>::Find(L"VOLUMEMAT");
-	m_LightMat = HResMgr<HMaterial>::Find(L"DEFFERDDIRMAT");
+	m_LightMat = HResMgr<HMaterial>::Find(L"DEFFERDLIGHTMAT");
 }

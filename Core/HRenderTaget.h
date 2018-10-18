@@ -1,5 +1,6 @@
 #pragma once
 #include "HTexture.h"
+#include "KMacro.h"
 
 // 랜더링의 속력은 무엇으로 결정되는가?
 
@@ -30,7 +31,8 @@ public:
 	}
 
 public:
-	bool Create(UINT _W, UINT _H, UINT _BindFlag, DXGI_FORMAT _eFormat, D3D11_USAGE _eUsage = D3D11_USAGE::D3D11_USAGE_DEFAULT);
+	bool Create(const KUINT& _W, const KUINT& _H, const KUINT& _BindFlag, DXGI_FORMAT _eFormat, D3D11_USAGE _eUsage = D3D11_USAGE::D3D11_USAGE_DEFAULT);
+	bool Create(const KUINT& _W, const KUINT& _H, HVEC _Color, const KUINT& _BindFlag, DXGI_FORMAT _eFormat, D3D11_USAGE _eUsage = D3D11_USAGE::D3D11_USAGE_DEFAULT);
 	bool Create(ID3D11Texture2D* _pTex2D, UINT _BindFlag);
 
 	void Clear();
