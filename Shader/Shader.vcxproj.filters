@@ -9,4 +9,29 @@
       <UniqueIdentifier>{897c1852-2af9-4cc1-b1be-1d8a9fda613d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="..\bin\Shader\Defferd.fx" />
+    <FxCompile Include="..\bin\Shader\DefferdLight.fx" />
+    <FxCompile Include="..\bin\Shader\ForwardLight.fx" />
+    <FxCompile Include="..\bin\Shader\GRID3D.fx" />
+    <FxCompile Include="..\bin\Shader\GTex.fx" />
+    <FxCompile Include="..\bin\Shader\GValue.fx" />
+    <FxCompile Include="..\bin\Shader\ImageShader.fx" />
+    <FxCompile Include="..\bin\Shader\Light.fx" />
+    <FxCompile Include="..\bin\Shader\MeshMat.fx" />
+    <FxCompile Include="..\bin\Shader\MeshMat_L.fx" />
+    <FxCompile Include="..\bin\Shader\NONE.fx" />
+    <FxCompile Include="..\bin\Shader\PIXLight.fx" />
+    <FxCompile Include="..\bin\Shader\PSOUT.fx" />
+    <FxCompile Include="..\bin\Shader\RECT3D.fx" />
+    <FxCompile Include="..\bin\Shader\ScreenMerge.fx" />
+    <FxCompile Include="..\bin\Shader\SkyBox.fx" />
+    <FxCompile Include="..\bin\Shader\TagetDebug.fx" />
+    <FxCompile Include="..\bin\Shader\TexShader.fx" />
+    <FxCompile Include="..\bin\Shader\VolumeMesh.fx" />
+    <FxCompile Include="..\bin\Shader\VTXLight.fx" />
+    <FxCompile Include="..\bin\Shader\BRectShader.fx" />
+    <FxCompile Include="..\bin\Shader\ColorShader.fx" />
+    <FxCompile Include="..\bin\Shader\DebugRectShader.fx" />
+  </ItemGroup>
 </Project>

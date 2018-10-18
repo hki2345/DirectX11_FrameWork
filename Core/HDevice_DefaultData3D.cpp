@@ -24,15 +24,15 @@ bool HDevice::DefRenderTaget()
 
 
 	// Defferd¿ë
-	HResMgr<HRenderTaget>::Create(L"COLOR_DIFFUSE" , HVAR::MainWindow().UWidth() , HVAR::MainWindow().UHeight()		, D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE	, DXGI_FORMAT_R32G32B32A32_FLOAT);
+	HResMgr<HRenderTaget>::Create(L"COLOR_DIFFUSE" , HVAR::MainWindow().UWidth() , HVAR::MainWindow().UHeight()	, D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE	, DXGI_FORMAT_R32G32B32A32_FLOAT);
 	HResMgr<HRenderTaget>::Create(L"POSTION", HVAR::MainWindow().UWidth(), HVAR::MainWindow().UHeight(), D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE, DXGI_FORMAT_R32G32B32A32_FLOAT);
 	HResMgr<HRenderTaget>::Create(L"NORMAL", HVAR::MainWindow().UWidth(), HVAR::MainWindow().UHeight(), D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE, DXGI_FORMAT_R32G32B32A32_FLOAT);
 	HResMgr<HRenderTaget>::Create(L"DEPTH", HVAR::MainWindow().UWidth(), HVAR::MainWindow().UHeight(), D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE, DXGI_FORMAT_R32G32B32A32_FLOAT);
 
 	KPtr<HMultiRenderTaget> DefMRT = HResMgr<HMultiRenderTaget>::Create(L"DEFFERD", L"COLOR_DIFFUSE", L"POSTION", L"NORMAL", L"DEPTH");
 
-	HResMgr<HRenderTaget>::Create(L"LIGHT_DIFFUSE", HVAR::MainWindow().UWidth(), HVAR::MainWindow().UHeight(), D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE, DXGI_FORMAT_R32G32B32A32_FLOAT);
-	HResMgr<HRenderTaget>::Create(L"LIGHT_SPECULAR", HVAR::MainWindow().UWidth(), HVAR::MainWindow().UHeight(), D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE, DXGI_FORMAT_R32G32B32A32_FLOAT);
+	HResMgr<HRenderTaget>::Create(L"LIGHT_DIFFUSE", HVAR::MainWindow().UWidth(), HVAR::MainWindow().UHeight(), HVEC::BLACK, D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE, DXGI_FORMAT_R32G32B32A32_FLOAT);
+	HResMgr<HRenderTaget>::Create(L"LIGHT_SPECULAR", HVAR::MainWindow().UWidth(), HVAR::MainWindow().UHeight(),HVEC::BLACK,  D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE, DXGI_FORMAT_R32G32B32A32_FLOAT);
 
 	KPtr<HMultiRenderTaget> LightMRT = HResMgr<HMultiRenderTaget>::Create(L"LIGHT", L"LIGHT_DIFFUSE", L"LIGHT_SPECULAR");
 
@@ -44,7 +44,7 @@ bool HDevice::Def3DCreate()
 	HResMgr<HTexture>::Load(L"Texture", L"Sky01.png");
 
 	HResMgr<HSampler>::Create(L"DefaultSmp");
-	HResMgr<HBlend>::Create(L"Alpha");
+	HResMgr<HBlend>::Create(L"ALPHA");
 	HResMgr<HFont>::Create(L"±Ã¼­", L"±Ã¼­");
 
 	HVAR::MainDevice().CreateCB<MATDATA>(L"MATDATA", D3D11_USAGE_DYNAMIC, 10);
@@ -550,7 +550,7 @@ bool HDevice::Mat3DCreate() {
 	KPtr<HMaterial> NONEMAT = HResMgr<HMaterial>::Create(L"NONEMAT");
 	NONEMAT->SetVtxShader(L"NONEVTX");
 	NONEMAT->SetPixShader(L"NONEPIX");
-	NONEMAT->SetBlend(L"Alpha");
+	NONEMAT->SetBlend(L"ALPHA");
 
 	KPtr<HVtxShader> TAGETDEBUGVTX = HResMgr<HVtxShader>::LoadToKey(L"TAGETDEBUGVTX", L"Shader", L"TagetDebug.fx", "VS_TagetTex");
 	TAGETDEBUGVTX->AddLayout("POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
@@ -560,7 +560,7 @@ bool HDevice::Mat3DCreate() {
 	KPtr<HMaterial> TAGETDEBUGMAT = HResMgr<HMaterial>::Create(L"TAGETDEBUGMAT");
 	TAGETDEBUGMAT->SetVtxShader(L"TAGETDEBUGVTX");
 	TAGETDEBUGMAT->SetPixShader(L"TAGETDEBUGPIX");
-	TAGETDEBUGMAT->SetBlend(L"Alpha");
+	TAGETDEBUGMAT->SetBlend(L"ALPHA");
 
 	///////////////////////////////////////// GRID
 	KPtr<HVtxShader> GRID3DVTX = HResMgr<HVtxShader>::LoadToKey(L"GRID3DVTX", L"Shader", L"GRID3D.fx", "VS_GRID3D");
@@ -575,7 +575,7 @@ bool HDevice::Mat3DCreate() {
 	KPtr<HMaterial> GRID3DMAT = HResMgr<HMaterial>::Create(L"GRID3DMAT");
 	GRID3DMAT->SetVtxShader(L"GRID3DVTX");
 	GRID3DMAT->SetPixShader(L"GRID3DPIX");
-	GRID3DMAT->SetBlend(L"Alpha");
+	GRID3DMAT->SetBlend(L"ALPHA");
 
 	// RECT
 	KPtr<HVtxShader> RECT3DVTX = HResMgr<HVtxShader>::LoadToKey(L"RECT3DVTX", L"Shader", L"RECT3D.fx", "VS_RECT3D");
@@ -588,7 +588,7 @@ bool HDevice::Mat3DCreate() {
 	KPtr<HMaterial> RECT3DMAT = HResMgr<HMaterial>::Create(L"RECT3DMAT");
 	RECT3DMAT->SetVtxShader(L"RECT3DVTX");
 	RECT3DMAT->SetPixShader(L"RECT3DPIX");
-	RECT3DMAT->SetBlend(L"Alpha");
+	RECT3DMAT->SetBlend(L"ALPHA");
 
 	// SKY
 	KPtr<HVtxShader> SKY3DVTX = HResMgr<HVtxShader>::LoadToKey(L"SKY3DVTX", L"Shader", L"SkyBox.fx", "VS_SKY3D");
@@ -601,7 +601,7 @@ bool HDevice::Mat3DCreate() {
 	KPtr<HMaterial> SKY3DMAT = HResMgr<HMaterial>::Create(L"SKY3DMAT");
 	SKY3DMAT->SetVtxShader(L"SKY3DVTX");
 	SKY3DMAT->SetPixShader(L"SKY3DPIX");
-	SKY3DMAT->SetBlend(L"Alpha");
+	SKY3DMAT->SetBlend(L"ALPHA");
 	SKY3DMAT->AddTexData(TEXTYPE::TT_COLOR, 0, L"Sky01.png");
 
 	KPtr<HVtxShader> MESH3DVTX = HResMgr<HVtxShader>::LoadToKey(L"MESH3DVTX", L"Shader", L"MeshMat.fx", "VS_MESH3D");
@@ -616,7 +616,7 @@ bool HDevice::Mat3DCreate() {
 	KPtr<HMaterial> MESH3DMAT = HResMgr<HMaterial>::Create(L"MESH3DMAT");
 	MESH3DMAT->SetVtxShader(L"MESH3DVTX");
 	MESH3DMAT->SetPixShader(L"MESH3DPIX");
-	MESH3DMAT->SetBlend(L"Alpha");
+	MESH3DMAT->SetBlend(L"ALPHA");
 
 	KPtr<HVtxShader> DEFFERD3DVTX = HResMgr<HVtxShader>::LoadToKey(L"DEFFERD3DVTX", L"Shader", L"Defferd.fx", "VS_DEFFERD");
 	DEFFERD3DVTX->AddLayout("POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
@@ -630,7 +630,7 @@ bool HDevice::Mat3DCreate() {
 	KPtr<HMaterial> DEFFERD3DMAT = HResMgr<HMaterial>::Create(L"DEFFERD3DMAT");
 	DEFFERD3DMAT->SetVtxShader(L"DEFFERD3DVTX");
 	DEFFERD3DMAT->SetPixShader(L"DEFFERD3DPIX");
-	DEFFERD3DMAT->SetBlend(L"Alpha");
+	DEFFERD3DMAT->SetBlend(L"ALPHA");
 
 	// DefferdDirLight
 	KPtr<HVtxShader> DEFFERDLIGHTVTX = HResMgr<HVtxShader>::LoadToKey(L"DEFFERDLIGHTVTX", L"Shader", L"Defferd.fx", "VS_DEFFERDLIGHT");
@@ -655,7 +655,7 @@ bool HDevice::Mat3DCreate() {
 	KPtr<HMaterial> DEFFERDMERGEMAT = HResMgr<HMaterial>::Create(L"DEFFERDMERGEMAT");
 	DEFFERDMERGEMAT->SetVtxShader(L"DEFFERDMERGEVTX");
 	DEFFERDMERGEMAT->SetPixShader(L"DEFFERDMERGEPIX");
-	DEFFERDMERGEMAT->SetBlend(L"Alpha");
+	DEFFERDMERGEMAT->SetBlend(L"ALPHA");
 	DEFFERDMERGEMAT->AddTexData(TEXTYPE::TT_TAGET, 0, L"COLOR_DIFFUSE");
 	DEFFERDMERGEMAT->AddTexData(TEXTYPE::TT_TAGET, 1, L"LIGHT_DIFFUSE");
 	DEFFERDMERGEMAT->AddTexData(TEXTYPE::TT_TAGET, 2, L"LIGHT_SPECULAR");
@@ -674,7 +674,7 @@ bool HDevice::Mat3DCreate() {
 	KPtr<HPixShader> VOLUMEPIX = HResMgr<HPixShader>::LoadToKey(L"VOLUMEPIX", L"Shader", L"VolumeMesh.fx", "PS_VOLUME");
 
 	KPtr<HMaterial> VOLUMEMAT = HResMgr<HMaterial>::Create(L"VOLUMEMAT");
-	DEFFERDMAT->SetBlend(L"VOLUME");
+	VOLUMEMAT->SetBlend(L"VOLUME");
 	VOLUMEMAT->SetVtxShader(L"VOLUMEVTX");
 	VOLUMEMAT->SetPixShader(L"VOLUMEPIX");
 

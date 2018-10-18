@@ -97,7 +97,7 @@ unsigned int ToolSceneUpdater::Func(void* _Test)
 
 	// 2. 터미네이트 쓰레드는 항상 위험한다.
 
-	// HPTR<TimeMgr::GameTimer> ptr = TimeMgr::CreatTimer(L"TestTimer");
+	// KPtr<TimeMgr::GameTimer> ptr = TimeMgr::CreatTimer(L"TestTimer");
 
 	while (true)
 	{

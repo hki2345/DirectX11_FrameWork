@@ -139,8 +139,8 @@ void SceneDlg::OnLbnSelchangeScenelist()
 //		return;
 //	}
 //
-//	 HPTR<HActor> pActor = HVAR::MainScene()->CreateActor(L"TestActor");
-//	 HPTR<HSpRenderer> SpriteRender = pActor->AddCom<HSpRenderer>();
+//	 KPtr<HActor> pActor = HVAR::MainScene()->CreateActor(L"TestActor");
+//	 KPtr<HSpRenderer> SpriteRender = pActor->AddCom<HSpRenderer>();
 //	 SpriteRender->Image(L"Rock.png");
 //	 pActor->Trans()->LScale({ 100, 100, 1 });
 //	 pActor->Trans()->LPos({ 0, 0, 5 });

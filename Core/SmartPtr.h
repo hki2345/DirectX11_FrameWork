@@ -195,7 +195,7 @@ private:
 };
 
 template<typename T>
-bool operator==(std::nullptr_t _PTR, const KPtr<T>& _HPTR) { return _HPTR == _PTR; }
+bool operator==(std::nullptr_t _PTR, const KPtr<T>& _KPtr) { return _KPtr == _PTR; }
 
 template<typename T>
-bool operator!=(std::nullptr_t _PTR, const KPtr<T>& _HPTR) { return _HPTR != _PTR; }
+bool operator!=(std::nullptr_t _PTR, const KPtr<T>& _KPtr) { return _KPtr != _PTR; }

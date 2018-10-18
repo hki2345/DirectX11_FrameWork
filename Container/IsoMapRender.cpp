@@ -135,7 +135,7 @@ void IsoMapRender::CreateTile(HVEC2 _WorldPos, int _Index /*= 0*/)
 
 	HVEC2 Index = WorldToIndex(_WorldPos);
 	//// 아무런 생성자도 만들지 않았을때  {}안에 그대로 맴버변수 순서대로만 넣어줘도 된다.
-	//m_TileMap.insert(std::unordered_map<__int64, HPTR<HTile>>::value_type(_Tile, new HTile( _Index )));
+	//m_TileMap.insert(std::unordered_map<__int64, KPtr<HTile>>::value_type(_Tile, new HTile( _Index )));
 	CreateTile(Index.ix, Index.iy, _Index);
 }
 

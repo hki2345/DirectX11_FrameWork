@@ -5,7 +5,7 @@
 template<typename RETURN, typename MAP, typename KEY>
 RETURN Map_Find(MAP& _Map, const KEY& _Key)
 {
-	// std::unordered_map<std::wstring, HPTR<HWindow>>::iterator FindIter = g_NWinMap.find(_Name);
+	// std::unordered_map<std::wstring, KPtr<HWindow>>::iterator FindIter = g_NWinMap.find(_Name);
 	MAP::iterator FindIter = _Map.find(_Key);
 	if (FindIter == _Map.end())
 	{
@@ -18,7 +18,7 @@ RETURN Map_Find(MAP& _Map, const KEY& _Key)
 template<typename MAP, typename KEY>
 bool Is_MapFind(MAP& _Map, const KEY& _Key)
 {
-	// std::unordered_map<std::wstring, HPTR<HWindow>>::iterator FindIter = g_NWinMap.find(_Name);
+	// std::unordered_map<std::wstring, KPtr<HWindow>>::iterator FindIter = g_NWinMap.find(_Name);
 	MAP::iterator FindIter = _Map.find(_Key);
 	if (FindIter == _Map.end())
 	{
@@ -30,7 +30,7 @@ bool Is_MapFind(MAP& _Map, const KEY& _Key)
 template<typename STL, typename KEY>
 void Map_Erase(STL& _Map, const KEY& _Key)
 {
-	// std::unordered_map<std::wstring, HPTR<HWindow>>::iterator FindIter = g_NWinMap.find(_Name);
+	// std::unordered_map<std::wstring, KPtr<HWindow>>::iterator FindIter = g_NWinMap.find(_Name);
 	STL::iterator FindIter = _Map.find(_Key);
 	if (FindIter == _Map.end())
 	{

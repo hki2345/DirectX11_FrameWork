@@ -61,14 +61,14 @@ void TestSceneBuilder::SceneBuild()
 	Test->ExitFunc<TestPanzaLogic>(TestPan, &TestPanzaLogic::MyColExitTest);
 
 /*
-	HPTR<HActor> Child = Scene()->CreateActor();
+	KPtr<HActor> Child = Scene()->CreateActor();
 	Child->AddCom<HSpRenderer>(L"Rock.png");
 	Child->Trans()->LScale({ 50, 50, 1 });
 	Child->Trans()->LPos({ 300, 0, 5 });
 
 	TestPanza1->AddChild(Child);
 
-	HPTR<HActor> Monster = Scene()->CreateActor();
+	KPtr<HActor> Monster = Scene()->CreateActor();
 	Monster->AddCom<HSpRenderer>(L"Test.png");
 	Test = Monster->AddCom<HCol2D>(10);
 	Test->Mode(COLTYPE::CT_RECT2D);
@@ -76,10 +76,10 @@ void TestSceneBuilder::SceneBuild()
 	Monster->Trans()->LScale({ 50, 50, 1 });
 	Monster->Trans()->LPos({ -100, 0, 5 });*/
 
-	//HPTR<HActor> TestPanza2 = Scene()->CreateActor();
+	//KPtr<HActor> TestPanza2 = Scene()->CreateActor();
 	//TestPanza2->AddCom<TestPanzaLogic>();
 	//TestPanza2->Trans()->LScale({ 500, 300, 1 });
 	//TestPanza2->Trans()->LPos({ -100, 0, 20 });
 
-	// HPTR<HActor> Camera = Scene()->CreateActor();
+	// KPtr<HActor> Camera = Scene()->CreateActor();
 }

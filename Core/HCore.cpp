@@ -6,7 +6,7 @@
 #include "HResMgr.h"
 #include "HColCom.h"
 #include "HSoundDevice.h"
-
+#include "HFBX.h"
 /////////////////////////// Builder
 
 HCore::HCoreBuilder::HCoreBuilder() 
