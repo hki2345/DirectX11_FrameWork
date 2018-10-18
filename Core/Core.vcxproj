@@ -146,6 +146,7 @@
     <ClCompile Include="TimeMgr.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="ClassDiagram.cd" />
     <None Include="DirectXTex.inl" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
