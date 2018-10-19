@@ -1,5 +1,5 @@
 #pragma once
-#include "HUpdaterBase.h"
+#include "Begin_Updater.h"
 
 #include <unordered_map>
 #include <list>
@@ -15,7 +15,7 @@
 class HActor;
 class HSceneMgr;
 class HCamera;
-class HScene final : public HUpdaterBase, public HWindowBase
+class HScene final : public Begin_Updater, public HWindowBase
 {
 private:
 	friend HSceneMgr;

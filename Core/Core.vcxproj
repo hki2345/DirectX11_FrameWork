@@ -74,7 +74,7 @@
     <ClInclude Include="HTexture.h" />
     <ClInclude Include="HThread.h" />
     <ClInclude Include="HTrans.h" />
-    <ClInclude Include="HUpdaterBase.h" />
+    <ClInclude Include="Begin_Updater.h" />
     <ClInclude Include="HVAR.h" />
     <ClInclude Include="HVtxShader.h" />
     <ClInclude Include="HWindow.h" />
@@ -136,7 +136,7 @@
     <ClCompile Include="HTexture.cpp" />
     <ClCompile Include="HThread.cpp" />
     <ClCompile Include="HTrans.cpp" />
-    <ClCompile Include="HUpdaterBase.cpp" />
+    <ClCompile Include="Begin_Updater.cpp" />
     <ClCompile Include="HVAR.cpp" />
     <ClCompile Include="HVtxShader.cpp" />
     <ClCompile Include="HWindow.cpp" />

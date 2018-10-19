@@ -165,7 +165,7 @@ void HRenderMgr::Release() {
 
 		for (; m_RStartIter != m_REndIter; )
 		{
-			if (true == (*m_RStartIter)->IsDeath())
+			if (true == (*m_RStartIter)->Is_Death())
 			{
 				m_RStartIter = m_RAStartIter->second.erase(m_RStartIter);
 				// m_REndIter = m_RAStartIter->second.end();

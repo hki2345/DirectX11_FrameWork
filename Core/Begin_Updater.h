@@ -1,36 +1,38 @@
 #pragma once
 #include "Begin.h"
 
-class HUpdaterBase : public Begin
+class Begin_Updater : public Begin
 {
 private:
 	bool m_bUpdate;
 	bool m_bDeath;
 
 public:
-	virtual bool IsUpdate()
+	virtual bool Is_Active()
 	{
 		return false == m_bDeath && true == m_bUpdate;
 	}
 
-	virtual void On()
-	{
-		m_bUpdate = true;
-	}
-
-	virtual void Off()
-	{
-		m_bUpdate = false;
-	}
-
-	virtual bool IsDeath()
+	virtual bool Is_Death()
 	{
 		return true == m_bDeath;
 	}
 
-	virtual void Death()
+	virtual void Set_Death()
 	{
 		m_bDeath = true;
+	}
+
+
+
+	virtual void Active_On()
+	{
+		m_bUpdate = true;
+	}
+
+	virtual void Active_Off()
+	{
+		m_bUpdate = false;
 	}
 
 public:
@@ -42,7 +44,7 @@ public:
 	virtual void DebugRender();
 
 protected:
-	HUpdaterBase();
-	~HUpdaterBase();
+	Begin_Updater();
+	~Begin_Updater();
 };
 

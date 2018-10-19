@@ -1,5 +1,5 @@
 #pragma once
-#include "HUpdaterBase.h"
+#include "Begin_Updater.h"
 #include "HWindowBase.h"
 #include "HSceneBase.h"
 #include <list>
@@ -20,7 +20,7 @@ class HComponent;
 class HTrans;
 class HRenderMgr;
 class HCol2DMgr;
-class HActor final : public HUpdaterBase, public HWindowBase, public HSceneBase
+class HActor final : public Begin_Updater, public HWindowBase, public HSceneBase
 {
 public:
 	friend HScene;
@@ -177,7 +177,7 @@ public:
 		return nullptr;
 	}
 
-	void Death() override;
+	void Set_Death() override;
 
 private:
 	HActor* m_pParent;

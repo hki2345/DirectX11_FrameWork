@@ -1,4 +1,5 @@
 #include "Begin.cpp"
+#include "Begin_Updater.cpp"
 #include "BRStream.cpp"
 #include "BWStream.cpp"
 #include "DHeader.cpp"
@@ -48,7 +49,6 @@
 #include "HTexture.cpp"
 #include "HThread.cpp"
 #include "HTrans.cpp"
-#include "HUpdaterBase.cpp"
 #include "HVAR.cpp"
 #include "HVtxShader.cpp"
 #include "HWindow.cpp"

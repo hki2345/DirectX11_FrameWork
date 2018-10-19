@@ -1,14 +1,8 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClInclude Include="BWStream.h" />
-    <ClInclude Include="DHeader.h" />
-    <ClInclude Include="DirectXTex.h" />
-    <ClInclude Include="DVHeader.h" />
-    <ClInclude Include="FileStream.h" />
     <ClInclude Include="FW1CompileSettings.h" />
     <ClInclude Include="FW1FontWrapper.h" />
-    <ClInclude Include="GameDebug.h" />
     <ClInclude Include="H3DGRID.h" />
     <ClInclude Include="H3DMeshRenderer.h" />
     <ClInclude Include="H3DRectRenderer.h" />
@@ -22,7 +16,6 @@
     <ClInclude Include="HCol2DMgr.h" />
     <ClInclude Include="HColCom.h" />
     <ClInclude Include="HComponent.h" />
-    <ClInclude Include="HDevice.h" />
     <ClInclude Include="HFBX.h" />
     <ClInclude Include="HFont.h" />
     <ClInclude Include="HImage.h" />
@@ -49,15 +42,8 @@
     <ClInclude Include="HSpRenderer.h" />
     <ClInclude Include="HSubTransCom.h" />
     <ClInclude Include="HTexture.h" />
-    <ClInclude Include="HThread.h" />
     <ClInclude Include="HTrans.h" />
     <ClInclude Include="HVtxShader.h" />
-    <ClInclude Include="HWindow.h" />
-    <ClInclude Include="HWindowBase.h" />
-    <ClInclude Include="InputMgr.h" />
-    <ClInclude Include="MCRI.h" />
-    <ClInclude Include="TimeMgr.h" />
-    <ClInclude Include="BRStream.h" />
     <ClInclude Include="HCore.h">
       <Filter>00 Core</Filter>
     </ClInclude>
@@ -66,9 +52,6 @@
     </ClInclude>
     <ClInclude Include="GameMath.h">
       <Filter>00 Core\SubClass</Filter>
-    </ClInclude>
-    <ClInclude Include="HUpdaterBase.h">
-      <Filter>00 Core\Begin</Filter>
     </ClInclude>
     <ClInclude Include="KMacro.h">
       <Filter>00 Core\Assistor</Filter>
@@ -82,11 +65,53 @@
     <ClInclude Include="Begin.h">
       <Filter>00 Core\Begin</Filter>
     </ClInclude>
+    <ClInclude Include="Begin_Updater.h">
+      <Filter>00 Core\Begin</Filter>
+    </ClInclude>
+    <ClInclude Include="HWindow.h">
+      <Filter>01 WIndow</Filter>
+    </ClInclude>
+    <ClInclude Include="HWindowBase.h">
+      <Filter>01 WIndow</Filter>
+    </ClInclude>
+    <ClInclude Include="HDevice.h">
+      <Filter>02 Device</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectXTex.h">
+      <Filter>02 Device\DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="DVHeader.h">
+      <Filter>02 Device\DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="DHeader.h">
+      <Filter>02 Device\DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="InputMgr.h">
+      <Filter>03 Manager\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="TimeMgr.h">
+      <Filter>03 Manager\Time</Filter>
+    </ClInclude>
+    <ClInclude Include="MCRI.h">
+      <Filter>03 Manager\Thread</Filter>
+    </ClInclude>
+    <ClInclude Include="HThread.h">
+      <Filter>03 Manager\Thread</Filter>
+    </ClInclude>
+    <ClInclude Include="BWStream.h">
+      <Filter>03 Manager\Stream</Filter>
+    </ClInclude>
+    <ClInclude Include="BRStream.h">
+      <Filter>03 Manager\Stream</Filter>
+    </ClInclude>
+    <ClInclude Include="GameDebug.h">
+      <Filter>03 Manager\Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="FileStream.h">
+      <Filter>03 Manager\Stream</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="DHeader.cpp" />
-    <ClCompile Include="FileStream.cpp" />
-    <ClCompile Include="GameDebug.cpp" />
     <ClCompile Include="H3DGRID.cpp" />
     <ClCompile Include="H3DMeshRenderer.cpp" />
     <ClCompile Include="H3DRectRenderer.cpp" />
@@ -99,9 +124,6 @@
     <ClCompile Include="HCol2DMgr.cpp" />
     <ClCompile Include="HColCom.cpp" />
     <ClCompile Include="HComponent.cpp" />
-    <ClCompile Include="HDevice.cpp" />
-    <ClCompile Include="HDevice_DefaultData.cpp" />
-    <ClCompile Include="HDevice_DefaultData3D.cpp" />
     <ClCompile Include="HFBX.cpp" />
     <ClCompile Include="HFont.cpp" />
     <ClCompile Include="HImage.cpp" />
@@ -127,15 +149,8 @@
     <ClCompile Include="HSpRenderer.cpp" />
     <ClCompile Include="HSubTransCom.cpp" />
     <ClCompile Include="HTexture.cpp" />
-    <ClCompile Include="HThread.cpp" />
     <ClCompile Include="HTrans.cpp" />
     <ClCompile Include="HVtxShader.cpp" />
-    <ClCompile Include="HWindow.cpp" />
-    <ClCompile Include="InputMgr.cpp" />
-    <ClCompile Include="MCRI.cpp" />
-    <ClCompile Include="TimeMgr.cpp" />
-    <ClCompile Include="BRStream.cpp" />
-    <ClCompile Include="BWStream.cpp" />
     <ClCompile Include="HCore.cpp">
       <Filter>00 Core</Filter>
     </ClCompile>
@@ -145,19 +160,60 @@
     <ClCompile Include="GameMath.cpp">
       <Filter>00 Core\SubClass</Filter>
     </ClCompile>
-    <ClCompile Include="HUpdaterBase.cpp">
-      <Filter>00 Core\Begin</Filter>
-    </ClCompile>
     <ClCompile Include="SmartPtr.cpp">
       <Filter>00 Core\Begin</Filter>
     </ClCompile>
     <ClCompile Include="Begin.cpp">
       <Filter>00 Core\Begin</Filter>
     </ClCompile>
+    <ClCompile Include="Begin_Updater.cpp">
+      <Filter>00 Core\Begin</Filter>
+    </ClCompile>
+    <ClCompile Include="HWindow.cpp">
+      <Filter>01 WIndow</Filter>
+    </ClCompile>
+    <ClCompile Include="HDevice_DefaultData3D.cpp">
+      <Filter>02 Device</Filter>
+    </ClCompile>
+    <ClCompile Include="HDevice_DefaultData.cpp">
+      <Filter>02 Device</Filter>
+    </ClCompile>
+    <ClCompile Include="DHeader.cpp">
+      <Filter>02 Device\DirectX</Filter>
+    </ClCompile>
+    <ClCompile Include="HDevice.cpp">
+      <Filter>02 Device\DirectX</Filter>
+    </ClCompile>
+    <ClCompile Include="InputMgr.cpp">
+      <Filter>03 Manager\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="TimeMgr.cpp">
+      <Filter>03 Manager\Time</Filter>
+    </ClCompile>
+    <ClCompile Include="MCRI.cpp">
+      <Filter>03 Manager\Thread</Filter>
+    </ClCompile>
+    <ClCompile Include="HThread.cpp">
+      <Filter>03 Manager\Thread</Filter>
+    </ClCompile>
+    <ClCompile Include="BRStream.cpp">
+      <Filter>03 Manager\Stream</Filter>
+    </ClCompile>
+    <ClCompile Include="BWStream.cpp">
+      <Filter>03 Manager\Stream</Filter>
+    </ClCompile>
+    <ClCompile Include="GameDebug.cpp">
+      <Filter>03 Manager\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="FileStream.cpp">
+      <Filter>03 Manager\Stream</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="DirectXTex.inl" />
     <None Include="ClassDiagram.cd" />
+    <None Include="DirectXTex.inl">
+      <Filter>02 Device\DirectX</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="00 Core">
@@ -189,6 +245,42 @@
     </Filter>
     <Filter Include="98 Component">
       <UniqueIdentifier>{a9b4beaa-12d4-471a-8455-6da00be4f10b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02 Device\DirectX">
+      <UniqueIdentifier>{1a4a3004-7deb-49a9-8ed2-90ac77bf6bc5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03 Manager\Input">
+      <UniqueIdentifier>{91efad0d-746e-4a10-9f45-edd013ff56eb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03 Manager\Time">
+      <UniqueIdentifier>{94af7c4e-01c3-4d61-969f-e8536d99c295}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03 Manager\Collision">
+      <UniqueIdentifier>{fdf6ba0b-d2e0-43da-9276-663b27f7a166}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03 Manager\Render">
+      <UniqueIdentifier>{c5e0d843-29ae-49bb-8081-7d553456815a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03 Manager\Debug">
+      <UniqueIdentifier>{2ec30f6c-5268-4337-8417-0df3ef9842fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03 Manager\Resource">
+      <UniqueIdentifier>{bfd3ffe6-0d60-4ddd-a185-16e88d7ae981}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03 Manager\State">
+      <UniqueIdentifier>{4353a49e-cbb4-4501-8dfb-8ef2b6230150}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03 Manager\Stream">
+      <UniqueIdentifier>{80d7ad72-85de-4f3b-b12d-470a41924cb0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03 Manager\Thread">
+      <UniqueIdentifier>{019457c1-22aa-46d0-87a2-58d172730af2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03 Manager\Resource\Child">
+      <UniqueIdentifier>{f7626e9e-bdb7-4f06-bf4b-69285113cae8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03 Manager\Render\Child">
+      <UniqueIdentifier>{763ad756-f16e-417b-bfac-0c1a6d7b01e3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

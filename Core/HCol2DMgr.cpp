@@ -57,7 +57,7 @@ void HCol2DMgr::Progress()
 
 			for (; LeftStartIter != LeftEndIter; ++LeftStartIter)
 			{
-				if (false == (*LeftStartIter)->IsUpdate())
+				if (false == (*LeftStartIter)->Is_Active())
 				{
 					continue;
 				}
@@ -67,7 +67,7 @@ void HCol2DMgr::Progress()
 
 				for (; RightStartIter != RightEndIter; ++RightStartIter)
 				{
-					if (false == (*RightStartIter)->IsUpdate())
+					if (false == (*RightStartIter)->Is_Active())
 					{
 						continue;
 					}
@@ -207,7 +207,7 @@ void HCol2DMgr::Release()
 
 		for (; ListStartIter != ListEndIter;)
 		{
-			if (true == (*ListStartIter)->IsDeath())
+			if (true == (*ListStartIter)->Is_Death())
 			{
 				(*ListStartIter)->DeathRelease();
 				ListStartIter = StartIter->second.erase(ListStartIter);

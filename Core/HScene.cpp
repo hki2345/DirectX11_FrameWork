@@ -57,7 +57,7 @@ void HScene::PrevUpdate() {
 
 		for (; m_StartListIter != m_EndListIter; ++m_StartListIter)
 		{
-			if (false == (*m_StartListIter)->IsUpdate())
+			if (false == (*m_StartListIter)->Is_Active())
 			{
 				continue;
 			}
@@ -77,7 +77,7 @@ void HScene::Update() {
 
 		for (; m_StartListIter != m_EndListIter; ++m_StartListIter)
 		{
-			if (false == (*m_StartListIter)->IsUpdate())
+			if (false == (*m_StartListIter)->Is_Active())
 			{
 				continue;
 			}
@@ -97,7 +97,7 @@ void HScene::NextUpdate() {
 
 		for (; m_StartListIter != m_EndListIter; ++m_StartListIter)
 		{
-			if (false == (*m_StartListIter)->IsUpdate())
+			if (false == (*m_StartListIter)->Is_Active())
 			{
 				continue;
 			}
@@ -119,7 +119,7 @@ void HScene::FinalUpdate() {
 
 		for (; m_StartListIter != m_EndListIter; ++m_StartListIter)
 		{
-			if (false == (*m_StartListIter)->IsUpdate())
+			if (false == (*m_StartListIter)->Is_Active())
 			{
 				continue;
 			}
@@ -140,7 +140,7 @@ void HScene::DebugUpdate() {
 
 		for (; m_StartListIter != m_EndListIter; ++m_StartListIter)
 		{
-			if (false == (*m_StartListIter)->IsUpdate())
+			if (false == (*m_StartListIter)->Is_Active())
 			{
 				continue;
 			}
@@ -166,7 +166,7 @@ void HScene::DebugRender() {
 
 		for (; m_StartListIter != m_EndListIter; ++m_StartListIter)
 		{
-			if (false == (*m_StartListIter)->IsUpdate())
+			if (false == (*m_StartListIter)->Is_Active())
 			{
 				continue;
 			}
@@ -202,7 +202,7 @@ void HScene::Release()
 
 		for (; m_StartListIter != m_EndListIter; )
 		{
-			if (false == (*m_StartListIter)->IsDeath())
+			if (false == (*m_StartListIter)->Is_Death())
 			{
 				(*m_StartListIter)->Release();
 				++m_StartListIter;
@@ -338,7 +338,7 @@ void HScene::EndUpdate() {
 
 		for (; m_StartListIter != m_EndListIter; ++m_StartListIter)
 		{
-			if (false == (*m_StartListIter)->IsUpdate())
+			if (false == (*m_StartListIter)->Is_Active())
 			{
 				continue;
 			}

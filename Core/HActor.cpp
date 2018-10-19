@@ -47,7 +47,7 @@ void HActor::PrevUpdate()
 
 	for (; m_ComStartIter != m_ComEndIter; ++m_ComStartIter)
 	{
-		if (false == (*m_ComStartIter)->IsUpdate())
+		if (false == (*m_ComStartIter)->Is_Active())
 		{
 			continue;
 		}
@@ -72,7 +72,7 @@ void HActor::Update()
 
 	for (; m_ComStartIter != m_ComEndIter; ++m_ComStartIter)
 	{
-		if (false == (*m_ComStartIter)->IsUpdate())
+		if (false == (*m_ComStartIter)->Is_Active())
 		{
 			continue;
 		}
@@ -96,7 +96,7 @@ void HActor::NextUpdate()
 
 	for (; m_ComStartIter != m_ComEndIter; ++m_ComStartIter)
 	{
-		if (false == (*m_ComStartIter)->IsUpdate())
+		if (false == (*m_ComStartIter)->Is_Active())
 		{
 			continue;
 		}
@@ -120,7 +120,7 @@ void HActor::DebugUpdate()
 
 	for (; m_ComStartIter != m_ComEndIter; ++m_ComStartIter)
 	{
-		if (false == (*m_ComStartIter)->IsUpdate())
+		if (false == (*m_ComStartIter)->Is_Active())
 		{
 			continue;
 		}
@@ -144,7 +144,7 @@ void HActor::FinalUpdate()
 
 	for (; m_ComStartIter != m_ComEndIter; ++m_ComStartIter)
 	{
-		if (false == (*m_ComStartIter)->IsUpdate())
+		if (false == (*m_ComStartIter)->Is_Active())
 		{
 			continue;
 		}
@@ -168,7 +168,7 @@ void HActor::DebugRender()
 
 	for (; m_ComStartIter != m_ComEndIter; ++m_ComStartIter)
 	{
-		if (false == (*m_ComStartIter)->IsUpdate())
+		if (false == (*m_ComStartIter)->Is_Active())
 		{
 			continue;
 		}
@@ -192,7 +192,7 @@ void HActor::EndUpdate()
 
 	for (; m_ComStartIter != m_ComEndIter; ++m_ComStartIter)
 	{
-		if (false == (*m_ComStartIter)->IsUpdate())
+		if (false == (*m_ComStartIter)->Is_Active())
 		{
 			continue;
 		}
@@ -216,7 +216,7 @@ void HActor::Release()
 
 	for (; m_ComStartIter != m_ComEndIter; )
 	{
-		if (true == (*m_ComStartIter)->IsDeath())
+		if (true == (*m_ComStartIter)->Is_Death())
 		{
 			m_ComStartIter = m_ComList.erase(m_ComStartIter);
 		}
@@ -234,16 +234,16 @@ void HActor::Release()
 	}
 }
 
-void HActor::Death() 
+void HActor::Set_Death() 
 {
-	HUpdaterBase::Death();
+	Begin_Updater::Set_Death();
 
 	std::list<KPtr<HComponent>>::iterator ComStartIter = m_ComList.begin();
 	std::list<KPtr<HComponent>>::iterator ComEndIter = m_ComList.end();
 
 	for (; ComStartIter != ComEndIter; ++ComStartIter)
 	{
-		(*ComStartIter)->Death();
+		(*ComStartIter)->Set_Death();
 	}
 }
 

@@ -1,5 +1,5 @@
 #pragma once
-#include "HUpdaterBase.h"
+#include "Begin_Updater.h"
 #include "HActorBase.h"
 #include "HWindowBase.h"
 #include "HActor.h"
@@ -14,7 +14,7 @@
 
 class BWStream;
 class BRStream;
-class HComponent : public HUpdaterBase, public HActorBase, public HWindowBase, public HSceneBase
+class HComponent : public Begin_Updater, public HActorBase, public HWindowBase, public HSceneBase
 {
 public:
 	friend HActor;

@@ -78,7 +78,7 @@ void TestPanzaLogic::Update()
 
 	if (InputMgr::IsDown(L"Death"))
 	{
-		Actor()->Death();
+		Actor()->Set_Death();
 	}
 }
 

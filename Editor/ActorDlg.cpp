@@ -218,14 +218,14 @@ void ActorDlg::OnTvnKeydownActortree(NMHDR *pNMHDR, LRESULT *pResult)
 		if (nullptr != pActor)
 		{
 			TVAR::g_ComView->AllDlgDestroy();
-			pActor->Death();
+			pActor->Set_Death();
 			// KPtr<HSpRenderer> Ptr = pActor->GetCom<HSpRenderer>();
 /*
 			KPtr<HCol2D> Ptr = pActor->GetCom<HCol2D>();
 
 			if (nullptr != Ptr)
 			{
-				Ptr->Death();
+				Ptr->Set_Death();
 			}*/
 
 		}

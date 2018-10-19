@@ -79,7 +79,7 @@ void HSceneMgr::Progress()
 		m_CurScene->Start();
 	}
 
-	if (nullptr != m_CurScene && true == m_CurScene->IsUpdate())
+	if (nullptr != m_CurScene && true == m_CurScene->Is_Active())
 	{
 		m_CurScene->Progress();
 	}
@@ -88,7 +88,7 @@ void HSceneMgr::Progress()
 
 void HSceneMgr::Render()
 {
-	if (nullptr != m_CurScene && true == m_CurScene->IsUpdate())
+	if (nullptr != m_CurScene && true == m_CurScene->Is_Active())
 	{
 		m_CurScene->Render();
 	}
@@ -97,14 +97,14 @@ void HSceneMgr::Render()
 
 void HSceneMgr::AfterProgress()
 {
-	if (nullptr != m_CurScene && true == m_CurScene->IsUpdate())
+	if (nullptr != m_CurScene && true == m_CurScene->Is_Active())
 	{
 		m_CurScene->AfterProgress();
 	}
 }
 
 void HSceneMgr::Release() {
-	if (nullptr != m_CurScene && true == m_CurScene->IsUpdate())
+	if (nullptr != m_CurScene && true == m_CurScene->Is_Active())
 	{
 		m_CurScene->Release();
 	}
