@@ -5,7 +5,7 @@
 #include "HDevice.h"
 #include "HWindow.h"
 #include "HMaterial.h"
-#include "HVAR.h"
+#include "Core_Class.h"
 
 HRenderer::HRenderer() : m_RsState(nullptr)
 {
@@ -118,10 +118,10 @@ void HRenderer::TransCBUpdate()
 		ROpt.TexCount = m_Mat->TexDataSetting(ROpt.ArrTex);
 	}
 
-	HVAR::MainDevice().SettingCB<MATDATA>(L"MATDATA", m_MatData, SHTYPE::ST_VS);
-	HVAR::MainDevice().SettingCB<MATDATA>(L"MATDATA", m_MatData, SHTYPE::ST_PS);
-	HVAR::MainDevice().SettingCB<RenderOption>(L"RENDEROPTION", ROpt, SHTYPE::ST_VS);
-	HVAR::MainDevice().SettingCB<RenderOption>(L"RENDEROPTION", ROpt, SHTYPE::ST_PS);
+	Core_Class::MainDevice().SettingCB<MATDATA>(L"MATDATA", m_MatData, SHTYPE::ST_VS);
+	Core_Class::MainDevice().SettingCB<MATDATA>(L"MATDATA", m_MatData, SHTYPE::ST_PS);
+	Core_Class::MainDevice().SettingCB<RenderOption>(L"RENDEROPTION", ROpt, SHTYPE::ST_VS);
+	Core_Class::MainDevice().SettingCB<RenderOption>(L"RENDEROPTION", ROpt, SHTYPE::ST_PS);
 }
 
 void HRenderer::MatUpdate() 

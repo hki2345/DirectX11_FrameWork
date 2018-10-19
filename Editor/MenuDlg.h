@@ -2,7 +2,7 @@
 #include "afxcmn.h"
 #include <vector>
 #include <HScene.h>
-#include <HVAR.h>
+#include <Core_Class.h>
 #include "TabDlg.h"
 
 
@@ -53,10 +53,10 @@ private:
 
 		if (true == _IsSceneCreate)
 		{
-			KPtr<HScene> m_Scene = HVAR::MainSceneMgr().FindScene(_ItemName.GetString());
+			KPtr<HScene> m_Scene = Core_Class::MainSceneMgr().FindScene(_ItemName.GetString());
 			if (nullptr == m_Scene)
 			{
-				m_Scene = HVAR::MainSceneMgr().CreateScene(_ItemName.GetString());
+				m_Scene = Core_Class::MainSceneMgr().CreateScene(_ItemName.GetString());
 				KPtr<HActor> Camera = m_Scene->CreateActor();
 				Camera->Trans()->LPos(HVEC(0.0f, 0.0f, -10.0f));
 				KPtr<HCamera> CamCom = Camera->AddCom<HCamera>();

@@ -8,39 +8,39 @@
 
 ////////////////////////////////// static
 
-HINSTANCE HWindow::g_HInst = nullptr;
+HINSTANCE KWindow::g_HInst = nullptr;
 
 
-std::unordered_map<std::wstring, KPtr<HWindow>>::iterator HWindow::WinStartIter;
-std::unordered_map<std::wstring, KPtr<HWindow>>::iterator HWindow::WinEndIter;
+std::unordered_map<std::wstring, KPtr<KWindow>>::iterator KWindow::WinStartIter;
+std::unordered_map<std::wstring, KPtr<KWindow>>::iterator KWindow::WinEndIter;
 
-std::unordered_map<std::wstring, KPtr<HWindow>> HWindow::g_NWinMap;
-std::unordered_map<HWND, KPtr<HWindow>> HWindow::g_HWinMap;
+std::unordered_map<std::wstring, KPtr<KWindow>> KWindow::g_NWinMap;
+std::unordered_map<HWND, KPtr<KWindow>> KWindow::g_HWinMap;
 
-void HWindow::Init(HINSTANCE _HInst) 
+void KWindow::Init(HINSTANCE _HInst) 
 {
 	g_HInst = _HInst;
 }
 
 
-KPtr<HWindow> HWindow::CreateHWindow(const wchar_t* _Name, HWND _hWnd)
+KPtr<KWindow> KWindow::CreateHWindow(const wchar_t* _Name, HWND _hWnd)
 {
 	// 스마트 포인터를 사용하기 때문에 이제 왠만
-	KPtr<HWindow> Win = Map_Find<KPtr<HWindow>>(g_NWinMap, _Name);
+	KPtr<KWindow> Win = Map_Find<KPtr<KWindow>>(g_NWinMap, _Name);
 
 	if (nullptr != Win)
 	{
 		return Win;
 	}
 
-	HWindow* pNewWindow = nullptr;
+	KWindow* pNewWindow = nullptr;
 
 	if (nullptr == _hWnd)
 	{
-		pNewWindow = new HWindow(_Name);
+		pNewWindow = new KWindow(_Name);
 	}
 	else {
-		pNewWindow = new HWindow(_Name, _hWnd);
+		pNewWindow = new KWindow(_Name, _hWnd);
 	}
 
 	if (nullptr == pNewWindow->m_HWnd)
@@ -51,25 +51,25 @@ KPtr<HWindow> HWindow::CreateHWindow(const wchar_t* _Name, HWND _hWnd)
 
 	pNewWindow->Set_Type();
 
-	//if (true == pNewWindow->IsEqual<HWindow>())
+	//if (true == pNewWindow->IsEqual<KWindow>())
 	//{
 	//	int a = 0;
 	//}
 
-	g_NWinMap.insert(std::unordered_map<std::wstring, KPtr<HWindow>>::value_type(_Name, pNewWindow));
-	g_HWinMap.insert(std::unordered_map<HWND, KPtr<HWindow>>::value_type(pNewWindow->m_HWnd, pNewWindow));
+	g_NWinMap.insert(std::unordered_map<std::wstring, KPtr<KWindow>>::value_type(_Name, pNewWindow));
+	g_HWinMap.insert(std::unordered_map<HWND, KPtr<KWindow>>::value_type(pNewWindow->m_HWnd, pNewWindow));
 
 	return pNewWindow;
 }
 
-KPtr<HWindow> HWindow::FindHWindow(const wchar_t* _Name) 
+KPtr<KWindow> KWindow::FindHWindow(const wchar_t* _Name) 
 {
-	return Map_Find<KPtr<HWindow>>(g_NWinMap, _Name);
+	return Map_Find<KPtr<KWindow>>(g_NWinMap, _Name);
 }
 
-void HWindow::EraseHWindow(const HWND _Handle)
+void KWindow::EraseHWindow(const HWND _Handle)
 {
-	KPtr<HWindow> Win = Map_Find<KPtr<HWindow>>(g_HWinMap, _Handle);
+	KPtr<KWindow> Win = Map_Find<KPtr<KWindow>>(g_HWinMap, _Handle);
 
 	KASSERT(nullptr == Win);
 
@@ -83,7 +83,7 @@ void HWindow::EraseHWindow(const HWND _Handle)
 	Map_Erase(g_NWinMap, Name.c_str());
 }
 
-void HWindow::Progress()
+void KWindow::Progress()
 {
 	WinStartIter = g_NWinMap.begin();
 	WinEndIter = g_NWinMap.end();
@@ -95,7 +95,7 @@ void HWindow::Progress()
 }
 
 // 모든 여러개 만들어진 윈도우가 공유하는 윈도우 프록시 이다.
-LRESULT CALLBACK HWindow::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
+LRESULT CALLBACK KWindow::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
 	switch (message)
 	{
@@ -119,7 +119,7 @@ LRESULT CALLBACK HWindow::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM
 
 ////////////////////////////////// MEMBER
 
-HWindow::HWindow(const wchar_t* _Name) : Begin(_Name), m_HWnd(nullptr), SceneMgr(this), m_Device(this), m_bFull(true)
+KWindow::KWindow(const wchar_t* _Name) : Begin(_Name), m_HWnd(nullptr), SceneMgr(this), m_Device(this), m_bFull(true)
 {
 	RegClass();
 	if (FALSE == InitInst())
@@ -131,7 +131,7 @@ HWindow::HWindow(const wchar_t* _Name) : Begin(_Name), m_HWnd(nullptr), SceneMgr
 	m_Hdc = GetDC(m_HWnd);
 }
 
-HWindow::HWindow(const wchar_t* _Name, HWND _hWnd) : Begin(_Name), m_HWnd(nullptr), SceneMgr(this), m_Device(this), m_bFull(true)
+KWindow::KWindow(const wchar_t* _Name, HWND _hWnd) : Begin(_Name), m_HWnd(nullptr), SceneMgr(this), m_Device(this), m_bFull(true)
 {
 	m_HWnd = _hWnd;
 
@@ -145,24 +145,24 @@ HWindow::HWindow(const wchar_t* _Name, HWND _hWnd) : Begin(_Name), m_HWnd(nullpt
 }
 
 
-HWindow::~HWindow()
+KWindow::~KWindow()
 {
 }
 
-void HWindow::Show(int _ShowOption) {
+void KWindow::Show(int _ShowOption) {
 	ShowWindow(m_HWnd, _ShowOption);
 	UpdateWindow(m_HWnd);
 }
 
-void HWindow::FullScreenOn() {
+void KWindow::FullScr_On() {
 	m_bFull = false;
 }
 
-void HWindow::FullScreenOff() {
+void KWindow::FullScr_Off() {
 	m_bFull = true;
 }
 
-void HWindow::Size(size_t _X, size_t _Y) 
+void KWindow::size(const size_t&_X, const size_t& _Y)
 {
 	m_Width = _X;
 	m_Height = _Y;
@@ -173,7 +173,7 @@ void HWindow::Size(size_t _X, size_t _Y)
 		, Rc.bottom - Rc.top, SWP_NOMOVE | SWP_NOZORDER);
 }
 
-void HWindow::Update() 
+void KWindow::Update() 
 {
 	SceneMgr.Progress();
 
@@ -190,7 +190,7 @@ void HWindow::Update()
 }
 
 
-ATOM HWindow::RegClass()
+ATOM KWindow::RegClass()
 {
 	WNDCLASSEXW wcex;
 
@@ -212,7 +212,7 @@ ATOM HWindow::RegClass()
 }
 
 
-BOOL HWindow::InitInst()
+BOOL KWindow::InitInst()
 {
 	// 테두리 없는 윈도우를 만들고 싶다면 WS_OVERLAPPEDWINDOW
 	// 다른 걸로 넣어줘야 한다.
@@ -228,7 +228,7 @@ BOOL HWindow::InitInst()
 	return TRUE;
 }
 
-bool HWindow::DeviceInit() 
+bool KWindow::DeviceInit() 
 {
 	bool Return = m_Device.Init();
 

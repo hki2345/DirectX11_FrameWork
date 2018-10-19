@@ -8,10 +8,10 @@
 #include <vector>
 #include "MCRI.h"
 
-class HCore;
+class KCore;
 class GamePath 
 {
-	friend HCore;
+	friend KCore;
 
 private:
 	static std::wstring RootPath;
@@ -27,6 +27,7 @@ public:
 	static void CreateRootPath(const wchar_t* _Key);
 	static std::wstring CreateFilePath(const wchar_t* _FolderKey, const wchar_t* _FileName);
 	static const wchar_t* FindPath(const wchar_t* _Key);
+	static std::wstring FindPath_ToString(const wchar_t* _Key);
 	static bool IsFile(const wchar_t* _Path);
 	// static std::vector<std::wstring> FolderAllFile(const wchar_t* _Path);
 

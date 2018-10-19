@@ -1,36 +1,36 @@
-#include "HCore.h"
+#include "KCore.h"
 #include "HWindow.h"
 #include "TimeMgr.h"
 #include "InputMgr.h"
-#include "HVAR.h"
+#include "Core_Class.h"
 #include "HResMgr.h"
 #include "HColCom.h"
 #include "HSoundDevice.h"
-#include "HFBX.h"
-/////////////////////////// Builder
 
-HCore::HCoreBuilder::HCoreBuilder() 
+/////////////////////////// Launcher
+
+KCore::Launcher::Launcher() 
 {
 
 }
 
-HCore::HCoreBuilder::~HCoreBuilder() 
+KCore::Launcher::~Launcher() 
 {
 
 }
 
 /////////////////////////// Core
 
-HCore::HCore()
+KCore::KCore()
 {
 }
 
 
-HCore::~HCore()
+KCore::~KCore()
 {
 }
 
-int HCore::Loop() 
+int KCore::Loop() 
 {
 	MSG msg;
 	while (true)
@@ -47,7 +47,7 @@ int HCore::Loop()
 			Progress();
 		}
 
-		if (0 == HWindow::WindowCount())
+		if (0 == KWindow::WindowCount())
 		{
 			break;
 		}
@@ -56,37 +56,40 @@ int HCore::Loop()
 	return 1;
 }
 
-void HCore::Progress() 
+void KCore::Progress() 
 {
 	TimeMgr::Update();
 	InputMgr::Update();
 	HSoundDevice::Update();
-	HWindow::Progress();
+	KWindow::Progress();
 	// 데드 타임을 이용할것이다.
 }
 
-void HCore::CoreInit(HINSTANCE _Hinst, const wchar_t* _pMainWindowName, HWND _hWnd) {
-	HWindow::Init(_Hinst);
+void KCore::Init_Core(HINSTANCE _Hinst, const wchar_t* _pMainWindowName, HWND _hWnd) {
+
+	// 윈도우 초기화
+	KWindow::Init(_Hinst);
 	if (nullptr == _hWnd)
 	{
-		if (nullptr == HWindow::CreateHWindow(_pMainWindowName))
+		if (nullptr == KWindow::CreateHWindow(_pMainWindowName))
 		{
 			return;
 		}
 	}
 	else {
-		if (nullptr == HWindow::CreateHWindow(_pMainWindowName, _hWnd))
+		if (nullptr == KWindow::CreateHWindow(_pMainWindowName, _hWnd))
 		{
 			return;
 		}
 	}
 
-	HVAR::MainWindow(_pMainWindowName);
+	Core_Class::MainWindow(_pMainWindowName);
 	HSoundDevice::Init();
 	GamePath::Init();
 	GamePath::CreateRootPath(L"Shader");
 	GamePath::CreateRootPath(L"Texture");
 	GamePath::CreateRootPath(L"Sound");
+	GamePath::CreateRootPath(L"Mesh");
 	TimeMgr::Init();
 	HColCom::ColInit();
 }

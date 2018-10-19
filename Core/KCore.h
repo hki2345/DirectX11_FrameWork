@@ -1,25 +1,23 @@
 #pragma once
 #include <Windows.h>
+
+// 디버그 하는놈 - 릭 잡는 놈
 #include <crtdbg.h>
 
 #include "SmartPtr.h"
 #include "KMacro.h"
 
-// 다중상속
-// 모호함을 최대한 없애고 이용할수 있는 방법
-class HCore
+class KCore
 {
-public: // 딴애들이 이거 상속은 받아야 하잖아.
-	// 빌더패턴은 객체와 동작을 클래스를 조립하듯이 완성하는 패턴
-	// 빌더라는 클래스를 만들어서 
-	class HCoreBuilder : public SmartPtr
+public: 
+	class Launcher : public SmartPtr
 	{
 	public:
 		virtual void Build() = 0;
 
 	protected:
-		HCoreBuilder();
-		virtual ~HCoreBuilder() = 0;
+		Launcher();
+		virtual ~Launcher() = 0;
 	};
 
 private:
@@ -32,9 +30,13 @@ public:
 	template<typename T>
 	static int Start(HINSTANCE _Hinst, const wchar_t* _pMainWindowName, HWND _hWnd = nullptr) 
 	{
+		// 인위적이 릭 발 생 -> 잘 작동하는지 판별
 		new int;
-		CoreInit(_Hinst, _pMainWindowName, _hWnd);
 
+		// 이놈 먼저 초기화 - 프로세스와 윈도우를 띄운다.
+		Init_Core(_Hinst, _pMainWindowName, _hWnd);
+
+		// 그 후에 빌더의 내용의 실행하는 식
 		T m_pBuilder = T();
 		m_pBuilder.Build();
 
@@ -44,17 +46,22 @@ public:
 
 
 private:
-	static void CoreInit(HINSTANCE _Hinst, const wchar_t* _pMainWindowName, HWND _hWnd = nullptr);
+	static void Init_Core(HINSTANCE _Hinst, const wchar_t* _pMainWindowName, HWND _hWnd = nullptr);
 	static int Loop();
 
 public:
 	static void Progress();
 
 private:
-	HCore();
-	~HCore();
+	KCore();
+	~KCore();
 };
 
+
+// 연계되는 놈 - 런쳐에서 이놈을 쓴다. 헤더 쪽에
+// 그러면 자동으로 이게 실질적인 메인역할을 하게 되며 안에 있는 것들이 실행된다.
+// 여기서 코어의 스타트를 끊어주고 해당 빌더의 내용일 실행한다. 물론, 빌더의 내용은 윈도우가 만들어지고 나서다.
+// Start() -> Init() -> 
 #pragma region CORESTMACRO
 #define CORESTART(BUILDER, WINNAME) \
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance, \
@@ -63,8 +70,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance, \
 	_In_ int       nCmdShow) \
 { \
 	_CrtSetDbgFlag(_CRTDBG_LEAK_CHECK_DF | _CRTDBG_ALLOC_MEM_DF); \
-	HCore::Start<BUILDER>(hInstance, WINNAME); \
-	HCore::Loop(); \
+	KCore::Start<BUILDER>(hInstance, WINNAME); \
+	KCore::Loop(); \
 	return 0; \
 }
 #pragma endregion

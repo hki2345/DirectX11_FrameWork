@@ -4,11 +4,11 @@
 #include "HScene.h"
 
 class HActor;
-class HWindow;
+class KWindow;
 class HSceneMgr : public HWindowBase
 {
 public:
-	friend HWindow;
+	friend KWindow;
 	friend HActor;
 
 private:
@@ -75,7 +75,7 @@ private:
 	void Release();
 
 public:
-	HSceneMgr(HWindow* _Window);
+	HSceneMgr(KWindow* _Window);
 	~HSceneMgr();
 };
 

@@ -1,5 +1,5 @@
 #include "HTexture.h"
-#include "HVAR.h"
+#include "Core_Class.h"
 #include "KMacro.h"
 #include "MCRI.h"
 
@@ -64,7 +64,7 @@ bool HTexture::Load()
 		}
 	}
 
-	if (S_OK != DirectX::CreateShaderResourceView(HVAR::PDevice(),
+	if (S_OK != DirectX::CreateShaderResourceView(Core_Class::PDevice(),
 		m_Image.GetImages(),
 		m_Image.GetImageCount(),
 		m_Image.GetMetadata(),
@@ -83,15 +83,15 @@ bool HTexture::Load()
 
 void HTexture::Update(unsigned int _Slot)
 {
-	HVAR::Context()->VSSetShaderResources(_Slot, 1, &m_pSRV);
-	HVAR::Context()->PSSetShaderResources(_Slot, 1, &m_pSRV);
+	Core_Class::Context()->VSSetShaderResources(_Slot, 1, &m_pSRV);
+	Core_Class::Context()->PSSetShaderResources(_Slot, 1, &m_pSRV);
 }
 
 void HTexture::Reset(unsigned int _Slot)
 {
 	ID3D11ShaderResourceView* Reset = nullptr;
-	HVAR::Context()->VSSetShaderResources(_Slot, 1, &Reset);
-	HVAR::Context()->PSSetShaderResources(_Slot, 1, &Reset);
+	Core_Class::Context()->VSSetShaderResources(_Slot, 1, &Reset);
+	Core_Class::Context()->PSSetShaderResources(_Slot, 1, &Reset);
 }
 
 HVEC HTexture::GetPixel(int _X, int _Y) 
@@ -136,7 +136,7 @@ bool HTexture::Create(UINT _W, UINT _H, UINT _BindFlag, DXGI_FORMAT _eFormat, D3
 	tDecs.SampleDesc.Quality = 0;
 	tDecs.MipLevels = 1;
 
-	if (S_OK != HVAR::PDevice()->CreateTexture2D(&tDecs, nullptr, &m_pTex2D))
+	if (S_OK != Core_Class::PDevice()->CreateTexture2D(&tDecs, nullptr, &m_pTex2D))
 	{
 		BBY;
 		return false;
@@ -156,7 +156,7 @@ void HTexture::ViewSetting(UINT _BindFlag)
 {
 	if (D3D11_BIND_FLAG::D3D11_BIND_DEPTH_STENCIL & _BindFlag)
 	{
-		if (S_OK != HVAR::PDevice()->CreateDepthStencilView(m_pTex2D, 0, &m_pDSV))
+		if (S_OK != Core_Class::PDevice()->CreateDepthStencilView(m_pTex2D, 0, &m_pDSV))
 		{
 			BBY;
 			return;
@@ -166,7 +166,7 @@ void HTexture::ViewSetting(UINT _BindFlag)
 	{
 		if (D3D11_BIND_FLAG::D3D11_BIND_RENDER_TARGET & _BindFlag)
 		{
-			if (S_OK != HVAR::PDevice()->CreateRenderTargetView(m_pTex2D, 0, &m_pRTV))
+			if (S_OK != Core_Class::PDevice()->CreateRenderTargetView(m_pTex2D, 0, &m_pRTV))
 			{
 				BBY;
 				return;
@@ -174,7 +174,7 @@ void HTexture::ViewSetting(UINT _BindFlag)
 		}
 		if (D3D11_BIND_FLAG::D3D11_BIND_SHADER_RESOURCE & _BindFlag)
 		{
-			if (S_OK != HVAR::PDevice()->CreateShaderResourceView(m_pTex2D, 0, &m_pSRV))
+			if (S_OK != Core_Class::PDevice()->CreateShaderResourceView(m_pTex2D, 0, &m_pSRV))
 			{
 				BBY;
 				return;
@@ -182,7 +182,7 @@ void HTexture::ViewSetting(UINT _BindFlag)
 		}
 	}
 
-	if (S_OK != DirectX::CaptureTexture(HVAR::PDevice(), HVAR::Context(), m_pTex2D, m_Image))
+	if (S_OK != DirectX::CaptureTexture(Core_Class::PDevice(), Core_Class::Context(), m_pTex2D, m_Image))
 	{
 		BBY;
 		return;

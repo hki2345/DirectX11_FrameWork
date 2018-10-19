@@ -1,6 +1,6 @@
 #pragma once
 #include "afxdialogex.h"
-#include <HVAR.h>
+#include <Core_Class.h>
 
 class TabDlg : public CDialogEx
 {

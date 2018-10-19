@@ -6,7 +6,7 @@
 class GameDebug
 {
 private:
-	friend class HWindow;
+	friend class KWindow;
 
 private:
 	class LogMsg

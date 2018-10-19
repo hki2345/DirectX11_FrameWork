@@ -1,5 +1,5 @@
 #include "HBlend.h"
-#include "HVAR.h"
+#include "Core_Class.h"
 #include "KMacro.h"
 
 
@@ -33,7 +33,7 @@ bool HBlend::Create()
 	BDesc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
 	BDesc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ZERO;
 
-	if (S_OK != HVAR::PDevice()->CreateBlendState(&BDesc, &m_pBlendState))
+	if (S_OK != Core_Class::PDevice()->CreateBlendState(&BDesc, &m_pBlendState))
 	{
 		KASSERT(true);
 		return false;
@@ -44,14 +44,14 @@ bool HBlend::Create()
 
 bool HBlend::Update() 
 {
-	HVAR::Context()->OMSetBlendState(m_pBlendState, m_Color.s, 0xffffffff);
+	Core_Class::Context()->OMSetBlendState(m_pBlendState, m_Color.s, 0xffffffff);
 
 	return true;
 }
 
 bool HBlend::Create(D3D11_BLEND_DESC _Decs) {
 	BDesc = _Decs;
-	if (S_OK != HVAR::PDevice()->CreateBlendState(&_Decs, &m_pBlendState))
+	if (S_OK != Core_Class::PDevice()->CreateBlendState(&_Decs, &m_pBlendState))
 	{
 		KASSERT(true);
 		return false;

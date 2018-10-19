@@ -2,7 +2,7 @@
 #include "HComponent.h"
 #include "KMacro.h"
 #include "HScene.h"
-#include "HVAR.h"
+#include "Core_Class.h"
 #include "HRenderMgr.h"
 #include "HCol2DMgr.h"
 

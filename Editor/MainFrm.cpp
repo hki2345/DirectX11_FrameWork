@@ -10,7 +10,7 @@
 #include "LeftView.h"
 #include "RightView.h"
 
-#include <HCore.h>
+#include <KCore.h>
 #include <HResMgr.h>
 #include <HImage.h>
 #include "ToolCoreBuilder.h"
@@ -61,7 +61,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	m_MainWnd.CreateView(0, 0, RUNTIME_CLASS(LeftView), SIZE{ 800, 600 }, nullptr);
 		
 	CWnd* pWnd = m_MainWnd.GetPane(0, 0);
-	HCore::Start<ToolCoreBuilder>(AfxGetInstanceHandle(), L"MainWindow", pWnd->m_hWnd);
+	KCore::Start<ToolCoreBuilder>(AfxGetInstanceHandle(), L"MainWindow", pWnd->m_hWnd);
 
 	m_MainWnd.CreateView(0, 1, RUNTIME_CLASS(RightView), SIZE{ 500, 600 }, nullptr);
 

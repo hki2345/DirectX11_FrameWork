@@ -15,11 +15,11 @@ enum KEYMGRERROR
 	KM_MAX,
 };
 
-class HCore;
+class KCore;
 class InputMgr
 {
 public:
-	friend HCore;
+	friend KCore;
 
 public:
 	static const char KM_ERRORMSG[KM_MAX][256];

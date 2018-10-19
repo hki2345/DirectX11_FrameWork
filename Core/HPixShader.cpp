@@ -1,5 +1,5 @@
 #include "HPixShader.h"
-#include "HVAR.h"
+#include "Core_Class.h"
 #include "KMacro.h"
 
 
@@ -37,7 +37,7 @@ bool HPixShader::Load(const char* _FuncName, UINT _VH, UINT _VL)
 		return false;
 	}
 
-	if (S_OK != HVAR::PDevice()->CreatePixelShader(
+	if (S_OK != Core_Class::PDevice()->CreatePixelShader(
 		m_pBlob->GetBufferPointer(),
 		m_pBlob->GetBufferSize(),
 		nullptr, &m_pShader))
@@ -52,7 +52,7 @@ bool HPixShader::Load(const char* _FuncName, UINT _VH, UINT _VL)
 
 void HPixShader::Update() 
 {
-	HVAR::Context()->PSSetShader(m_pShader, 0, 0);
+	Core_Class::Context()->PSSetShader(m_pShader, 0, 0);
 }
 
 void HPixShader::UpdateCB(KPtr<HShader::CBUFFER> _Buf)

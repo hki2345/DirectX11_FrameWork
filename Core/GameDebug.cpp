@@ -1,5 +1,5 @@
 #include "GameDebug.h"
-#include "HVAR.h"
+#include "Core_Class.h"
 #include "HWindow.h"
 #include "HMesh.h"
 #include "HMaterial.h"
@@ -31,19 +31,19 @@ void GameDebug::DrawRect(HVEC2 _Pos, HVEC2 _Size, float _Border/* = 1*/)
 // 카메라 행렬이 없을수는 없다.
 void GameDebug::DrawRect(const HRECT& _Rect, float _Border) 
 {
-	if (nullptr == HVAR::MainWindow().SceneMgr.CurScene()->Camera())
+	if (nullptr == Core_Class::MainWindow().SceneMgr.CurScene()->Camera())
 	{
 		return;
 	}
 
-	HVEC2 m_Size = HVAR::MainWindow().SceneMgr.CurScene()->Camera()->ScreenSize();
+	HVEC2 m_Size = Core_Class::MainWindow().SceneMgr.CurScene()->Camera()->ScreenSize();
 
 	HMAT m_View;
 	HMAT m_Proj;
 	m_View.ViewToLH(HVEC::ZERO, HVEC::FORWORD, HVEC::UP);
 	m_Proj.OrthLH(m_Size.x, m_Size.y, 0.1f, 1000.0f);
 
-	HMAT m1 = HVAR::MainWindow().SceneMgr.CurScene()->Camera()->VP();
+	HMAT m1 = Core_Class::MainWindow().SceneMgr.CurScene()->Camera()->VP();
 	HMAT m2 = m_View * m_Proj;
 
 	HMAT m_Scale;
@@ -70,7 +70,7 @@ void GameDebug::DrawFont(wchar_t* _pStr, HVEC2 _Pos, float _fSize, HVEC _COLOR, 
 
 		// FindFont->DrawFont(_pStr, _Pos, _fSize, 0xffffffff, _Flag);
 	}
-	HVAR::MainDevice().ResetContext();
+	Core_Class::MainDevice().ResetContext();
 }
 
 void GameDebug::DrawLog(wchar_t* _pStr, HVEC _COLOR /*= HVEC::ONE*/)
@@ -94,7 +94,7 @@ void GameDebug::TagetDebug()
 	HMAT m_View;
 	HMAT m_Proj;
 	m_View.ViewToLH(HVEC::ZERO, HVEC::FORWORD, HVEC::UP);
-	m_Proj.OrthLH(HVAR::MainWindow().FWidth(), HVAR::MainWindow().FHeight(), 0.1f, 1000.0f);
+	m_Proj.OrthLH(Core_Class::MainWindow().width_f(), Core_Class::MainWindow().height_f(), 0.1f, 1000.0f);
 
 	MATDATA tMatData;
 
@@ -102,8 +102,8 @@ void GameDebug::TagetDebug()
 	int CountY = 0;
 	int WCount = 5;
 
-	float SizeX = HVAR::MainWindow().FWidth() / WCount;
-	float SizeY = HVAR::MainWindow().FHeight() / WCount;
+	float SizeX = Core_Class::MainWindow().width_f() / WCount;
+	float SizeY = Core_Class::MainWindow().height_f() / WCount;
 
 	for (size_t i = 0; i < Vec.size(); i++)
 	{
@@ -118,8 +118,8 @@ void GameDebug::TagetDebug()
 			m_Scale.Scale(HVEC(SizeX, SizeY, 1.0F));
 			m_Pos.Iden();
 			m_Pos.Trans(
-				HVEC( (-HVAR::MainWindow().FWidth() * 0.5F) + (CountX * SizeX) + (SizeX * 0.5F)
-					, (HVAR::MainWindow().FHeight() * 0.5F) + (-CountY * SizeY) - (SizeY * 0.5F)
+				HVEC( (-Core_Class::MainWindow().width_f() * 0.5F) + (CountX * SizeX) + (SizeX * 0.5F)
+					, (Core_Class::MainWindow().height_f() * 0.5F) + (-CountY * SizeY) - (SizeY * 0.5F)
 					, 1.1f));
 
 			HMAT m_W = m_Scale * m_Pos;
@@ -138,7 +138,7 @@ void GameDebug::TagetDebug()
 			}
 			TagetVec[j]->TagetTex()->Update(0);
 
-			HVAR::MainDevice().SettingCB<MATDATA>(L"MATDATA", tMatData, SHTYPE::ST_VS);
+			Core_Class::MainDevice().SettingCB<MATDATA>(L"MATDATA", tMatData, SHTYPE::ST_VS);
 
 			Mat->Update();
 			Mesh->Update();
@@ -159,8 +159,8 @@ void GameDebug::TagetDebug()
 	CountX = 0;
 	CountY += 1;
 
-	std::map<int, KPtr<HCamera>>::iterator m_CamStartIter = HVAR::MainScene()->RenderMgr.m_CameraMap.begin();
-	std::map<int, KPtr<HCamera>>::iterator m_CamEndIter = HVAR::MainScene()->RenderMgr.m_CameraMap.end();;
+	std::map<int, KPtr<HCamera>>::iterator m_CamStartIter = Core_Class::MainScene()->RenderMgr.m_CameraMap.begin();
+	std::map<int, KPtr<HCamera>>::iterator m_CamEndIter = Core_Class::MainScene()->RenderMgr.m_CameraMap.end();;
 
 	for (; m_CamStartIter != m_CamEndIter; ++m_CamStartIter)
 	{
@@ -175,8 +175,8 @@ void GameDebug::TagetDebug()
 			m_Scale.Scale(HVEC(SizeX, SizeY, 1.0F));
 			m_Pos.Iden();
 			m_Pos.Trans(
-				HVEC((-HVAR::MainWindow().FWidth() * 0.5F) + (CountX * SizeX) + (SizeX * 0.5F)
-					, (HVAR::MainWindow().FHeight() * 0.5F) + (-CountY * SizeY) - (SizeY * 0.5F)
+				HVEC((-Core_Class::MainWindow().width_f() * 0.5F) + (CountX * SizeX) + (SizeX * 0.5F)
+					, (Core_Class::MainWindow().height_f() * 0.5F) + (-CountY * SizeY) - (SizeY * 0.5F)
 					, 1.1f));
 
 			HMAT m_W = m_Scale * m_Pos;
@@ -195,7 +195,7 @@ void GameDebug::TagetDebug()
 			}
 			TagetVec[j]->TagetTex()->Update(0);
 
-			HVAR::MainDevice().SettingCB<MATDATA>(L"MATDATA", tMatData, SHTYPE::ST_VS);
+			Core_Class::MainDevice().SettingCB<MATDATA>(L"MATDATA", tMatData, SHTYPE::ST_VS);
 
 			Mat->Update();
 			Mesh->Update();

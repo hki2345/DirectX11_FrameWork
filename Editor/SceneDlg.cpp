@@ -5,7 +5,7 @@
 #include "AR14TOOL.h"
 #include "SceneDlg.h"
 #include "afxdialogex.h"
-#include <HVAR.h>
+#include <Core_Class.h>
 #include <HSpRenderer.h>
 #include <HCol2D.h>
 #include "TVAR.h"
@@ -85,7 +85,7 @@ void SceneDlg::OnBnClickedCrescene()
 		return;
 	}
 
-	KPtr<HScene> m_Scene = HVAR::MainSceneMgr().FindScene(m_SceneName.GetString());
+	KPtr<HScene> m_Scene = Core_Class::MainSceneMgr().FindScene(m_SceneName.GetString());
 
 	if (nullptr != m_Scene)
 	{
@@ -96,9 +96,9 @@ void SceneDlg::OnBnClickedCrescene()
 
 	m_SceneList.AddString(m_SceneName);
 
-	m_Scene = HVAR::MainSceneMgr().CreateScene(m_SceneName.GetString());
+	m_Scene = Core_Class::MainSceneMgr().CreateScene(m_SceneName.GetString());
 	m_Scene->CreateUpdater<ToolSceneUpdater>();
-	HVAR::MainSceneMgr().ChangeScene(m_SceneName.GetString());
+	Core_Class::MainSceneMgr().ChangeScene(m_SceneName.GetString());
 
 	KPtr<HActor> Camera = m_Scene->CreateActor();
 	Camera->Trans()->LPos(HVEC(0.0f, 0.0f, -10.0f));
@@ -118,7 +118,7 @@ void SceneDlg::OnLbnSelchangeScenelist()
 
 	m_SceneList.GetText(m_SceneList.GetCurSel(), m_CurSceneName);
 
-	TVAR::SelectScene = HVAR::MainSceneMgr().FindScene(m_CurSceneName.GetString());
+	TVAR::SelectScene = Core_Class::MainSceneMgr().FindScene(m_CurSceneName.GetString());
 
 	if (nullptr == TVAR::SelectScene)
 	{
@@ -126,7 +126,7 @@ void SceneDlg::OnLbnSelchangeScenelist()
 		return;
 	}
 
-	HVAR::MainSceneMgr().ChangeScene(m_CurSceneName.GetString());
+	Core_Class::MainSceneMgr().ChangeScene(m_CurSceneName.GetString());
 
 	UpdateData(FALSE);
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
@@ -134,12 +134,12 @@ void SceneDlg::OnLbnSelchangeScenelist()
 
 //void SceneDlg::OnBnClickedCreateobj()
 //{
-//	if (nullptr == HVAR::MainScene())
+//	if (nullptr == Core_Class::MainScene())
 //	{
 //		return;
 //	}
 //
-//	 KPtr<HActor> pActor = HVAR::MainScene()->CreateActor(L"TestActor");
+//	 KPtr<HActor> pActor = Core_Class::MainScene()->CreateActor(L"TestActor");
 //	 KPtr<HSpRenderer> SpriteRender = pActor->AddCom<HSpRenderer>();
 //	 SpriteRender->Image(L"Rock.png");
 //	 pActor->Trans()->LScale({ 100, 100, 1 });
@@ -167,12 +167,12 @@ void SceneDlg::OnShowWindow(BOOL bShow, UINT nStatus)
 		return;
 	}
 
-	if (nullptr == HVAR::MainSceneMgr().FindScene(TVAR::SceneDlg->m_CurSceneName))
+	if (nullptr == Core_Class::MainSceneMgr().FindScene(TVAR::SceneDlg->m_CurSceneName))
 	{
 		return;
 	}
 
-	HVAR::MainSceneMgr().ChangeScene(m_CurSceneName);
+	Core_Class::MainSceneMgr().ChangeScene(m_CurSceneName);
 	// TODO: 여기에 메시지 처리기 코드를 추가합니다.
 }
 
@@ -183,9 +183,9 @@ void SceneDlg::OnBnClickedSavescene()
 
 	DataPath += m_CurSceneName + L".SData";
 
-	HVAR::MainScene()->Save(DataPath.GetString());
+	Core_Class::MainScene()->Save(DataPath.GetString());
 
-	// HVAR::MainScene()->Load(DataPath.GetString(), nullptr, nullptr, nullptr);
+	// Core_Class::MainScene()->Load(DataPath.GetString(), nullptr, nullptr, nullptr);
 
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 }

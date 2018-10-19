@@ -2,7 +2,7 @@
 #include "HTrans.h"
 #include "HActor.h"
 #include "HWindow.h"
-#include "HVAR.h"
+#include "Core_Class.h"
 #include "InputMgr.h"
 #include "TimeMgr.h"
 #include "HResMgr.h"
@@ -39,7 +39,7 @@ bool HCamera::Init(int _Order /*= 0*/)
 	}
 	
 	m_CameraTaget = new HMultiRenderTaget();
-	m_CameraTaget->CreateTaget(HVAR::MainWindow().UWidth(), HVAR::MainWindow().UHeight(), D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE, DXGI_FORMAT_R32G32B32A32_FLOAT);
+	m_CameraTaget->CreateTaget(Core_Class::MainWindow().width_u(), Core_Class::MainWindow().height_u(), D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE, DXGI_FORMAT_R32G32B32A32_FLOAT);
 
 	return true;
 }
@@ -58,7 +58,7 @@ HVEC HCamera::ScreenToWorld(HVEC2 _ScreenPos)
 	{
 		HVEC Pos;
 
-		HVEC2 WinSize = Window()->Size();
+		HVEC2 WinSize = Window()->size();
 		//         1024               200
 		float fX = _ScreenPos.x / WinSize.x;
 		float fY = _ScreenPos.y / WinSize.y;
@@ -87,8 +87,8 @@ void HCamera::FinalUpdate()
 	switch (m_eSMode)
 	{
 	case HCamera::SM_WINDOW:
-		m_ScreenSize.x = Window()->FWidth();
-		m_ScreenSize.y = Window()->FHeight();
+		m_ScreenSize.x = Window()->width_f();
+		m_ScreenSize.y = Window()->height_f();
 		break;
 	default:
 		break;

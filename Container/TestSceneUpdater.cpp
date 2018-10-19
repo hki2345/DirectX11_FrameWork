@@ -2,7 +2,7 @@
 #include <HWindow.h>
 #include <InputMgr.h>
 #include <TimeMgr.h>
-#include <HVAR.h>
+#include <Core_Class.h>
 
 TestSceneUpdater::TestSceneUpdater()
 {
@@ -17,12 +17,12 @@ void TestSceneUpdater::SceneUpdate()
 {
 	if (InputMgr::IsDown(L"E"))
 	{
-		HVAR::MainSceneMgr().ChangeScene(L"Test2");
+		Core_Class::MainSceneMgr().ChangeScene(L"Test2");
 	}
 
 	if (InputMgr::IsDown(L"Q"))
 	{
-		HVAR::MainSceneMgr().ChangeScene(L"Test");
+		Core_Class::MainSceneMgr().ChangeScene(L"Test");
 	}
 
 }

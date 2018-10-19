@@ -5,7 +5,7 @@
 #include "AR14TOOL.h"
 #include "HToolDlg.h"
 #include "afxdialogex.h"
-#include <HVAR.h>
+#include <Core_Class.h>
 #include <HScene.h>
 #include <HActor.h>
 #include <H3DRectRenderer.h>
@@ -68,7 +68,11 @@ BOOL HToolDlg::OnInitDialog()
 	HResMgr<HTexture>::Load(L"Texture", L"TILE_01.png");
 	HResMgr<HTexture>::Load(L"Texture", L"TILE_01_N.png");
 
-	KPtr<HScene> TabScene = HVAR::MainSceneMgr().FindScene(SceneName.GetString());
+
+	HFBX FBXLoader;
+	FBXLoader.Load((GamePath::FindPath_ToString(L"Mesh") + L"Monster.FBX").c_str());
+
+	KPtr<HScene> TabScene = Core_Class::MainSceneMgr().FindScene(SceneName.GetString());
 
 	if (nullptr == TabScene) 
 	{

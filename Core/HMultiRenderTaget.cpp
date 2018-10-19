@@ -1,5 +1,5 @@
 #include "HMultiRenderTaget.h"
-#include "HVAR.h"
+#include "Core_Class.h"
 
 
 HMultiRenderTaget::HMultiRenderTaget() : m_DepthTex(nullptr), m_bDefaultDepth(true)
@@ -36,7 +36,7 @@ void HMultiRenderTaget::CreateDepth(unsigned int _W, unsigned int _H)
 	m_DepthState.BackFace = defaultStencilOp;
 
 
-	HVAR::PDevice()->CreateDepthStencilState(&m_DepthState, &m_pDepthStencilState);
+	Core_Class::PDevice()->CreateDepthStencilState(&m_DepthState, &m_pDepthStencilState);
 
 	if (nullptr == m_pDepthStencilState)
 	{
@@ -51,20 +51,20 @@ void HMultiRenderTaget::OMSet()
 {
 	if (nullptr != m_DepthTex)
 	{
-		HVAR::Context()->OMSetRenderTargets(TagetCount(), &m_RenderTagetView[0], m_DepthTex->DSV());
-		HVAR::Context()->OMSetDepthStencilState(m_pDepthStencilState, 1);
+		Core_Class::Context()->OMSetRenderTargets(TagetCount(), &m_RenderTagetView[0], m_DepthTex->DSV());
+		Core_Class::Context()->OMSetDepthStencilState(m_pDepthStencilState, 1);
 	} else 
 	{
 		if (false == m_bDefaultDepth)
 		{
 			ID3D11DepthStencilView* OldDepth;
-			HVAR::Context()->OMGetRenderTargets(0, nullptr, &OldDepth);
-			HVAR::Context()->OMSetRenderTargets(TagetCount(), &m_RenderTagetView[0], OldDepth);
-			// HVAR::Context()->OMSetDepthStencilState(m_pDepthStencilState, 1);
+			Core_Class::Context()->OMGetRenderTargets(0, nullptr, &OldDepth);
+			Core_Class::Context()->OMSetRenderTargets(TagetCount(), &m_RenderTagetView[0], OldDepth);
+			// Core_Class::Context()->OMSetDepthStencilState(m_pDepthStencilState, 1);
 			OldDepth->Release();
 		}
 		else {
-			HVAR::Context()->OMSetRenderTargets(TagetCount(), &m_RenderTagetView[0], HVAR::MainDevice().Depth());
+			Core_Class::Context()->OMSetRenderTargets(TagetCount(), &m_RenderTagetView[0], Core_Class::MainDevice().Depth());
 		}
 
 	}
@@ -79,7 +79,7 @@ void HMultiRenderTaget::Clear()
 
 	if (nullptr != m_DepthTex)
 	{
-		HVAR::Context()->ClearDepthStencilView(m_DepthTex->DSV()
+		Core_Class::Context()->ClearDepthStencilView(m_DepthTex->DSV()
 			, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1, 0);
 	}
 }

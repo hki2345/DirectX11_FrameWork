@@ -6,7 +6,7 @@
 #include "BWStream.h"
 #include "BRStream.h"
 #include "HSceneMgr.h"
-#include "HVAR.h"
+#include "Core_Class.h"
 #include <atlstr.h>
 
 HCamera* HScene::Camera() 
@@ -484,7 +484,7 @@ KPtr<HScene> HScene::Load(const wchar_t* _FilePath, HSceneBuilder*(*CBPtr)(const
 
 	Name[0] += 1;
 
-	KPtr<HScene> LoadScene = HVAR::MainSceneMgr().CreateScene(Name);
+	KPtr<HScene> LoadScene = Core_Class::MainSceneMgr().CreateScene(Name);
 
 	if (nullptr == LoadScene)
 	{

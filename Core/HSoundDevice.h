@@ -11,7 +11,7 @@
 class HSoundDevice
 {
 public:
-	friend class HCore;
+	friend class KCore;
 	friend class HSound;
 	friend class HSoundPlayer;
 

@@ -7,7 +7,7 @@
 #include "afxdialogex.h"
 #include <HResMgr.h>
 #include "TVAR.h"
-#include <HVAR.h>
+#include <Core_Class.h>
 #include <HImage.h>
 #include <HTexture.h>
 #include <HCamera.h>
@@ -87,7 +87,7 @@ void SpriteDlg::SpriteInit()
 {
 	// SpriteCheck(GamePath::FindPath(L"Texture"), L"Texture", m_SpriteTree.InsertItem(L"Texture"));
 
-	KPtr<HScene> m_Scene = HVAR::MainSceneMgr().FindScene(L"SpriteDlg");
+	KPtr<HScene> m_Scene = Core_Class::MainSceneMgr().FindScene(L"SpriteDlg");
 	KPtr<HActor> pActor = m_Scene->CreateActor();
 	KPtr<HSpriteCut> SpriteCut = pActor->AddCom<HSpriteCut>();
 	m_SpriteRender = SpriteCut->SpriteRender;
@@ -226,7 +226,7 @@ void SpriteDlg::OnTvnSelchangedSpritetree(NMHDR *pNMHDR, LRESULT *pResult)
 		{
 			HVEC2 ImgSize = m_SpriteRender->Texture()->ImageSize();
 			HVEC2 CameraSize = m_SpriteRender->Scene()->Camera()->ScreenSize();
-			HVEC2 WindowSize = HVAR::MainWindow().Size();
+			HVEC2 WindowSize = Core_Class::MainWindow().size();
 
 			m_SpriteRender->ImageIndex(m_SpriteRender->Image()->CutCount() - 1);
 

@@ -38,7 +38,7 @@ void HSceneMgr::OverCheck(HScene* _NewScene)
 }
 
 
-HSceneMgr::HSceneMgr(HWindow* _Window)
+HSceneMgr::HSceneMgr(KWindow* _Window)
 {
 	Window(_Window);
 }

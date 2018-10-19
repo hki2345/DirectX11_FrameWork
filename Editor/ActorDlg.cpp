@@ -68,7 +68,7 @@ void ActorDlg::OnBnClickedCreactor()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 
-	if (nullptr == HVAR::MainScene())
+	if (nullptr == Core_Class::MainScene())
 	{
 		return;
 	}
@@ -77,7 +77,7 @@ void ActorDlg::OnBnClickedCreactor()
 	{
 		HTREEITEM item = m_ObjectTree.InsertItem(L"GameObject");
 
-		KPtr<HActor> pActor = HVAR::MainScene()->CreateActor(L"GameObject");
+		KPtr<HActor> pActor = Core_Class::MainScene()->CreateActor(L"GameObject");
 
 
 		KPtr<IsoMapRender> IsoRender = pActor->AddCom<IsoMapRender>(L"Tile.png", HVEC2(128.0f, 64.0f));
@@ -104,7 +104,7 @@ void ActorDlg::OnBnClickedCreactor()
 		HTREEITEM item = m_ObjectTree.InsertItem(L"GameObject", m_SelectObject);
 		m_ObjectTree.Expand(m_SelectObject, TVE_EXPAND);
 
-		KPtr<HActor> pActor = HVAR::MainScene()->CreateActor(L"GameObject");
+		KPtr<HActor> pActor = Core_Class::MainScene()->CreateActor(L"GameObject");
 		pActor->AddCom<HCol2D>();
 
 		KPtr<HSpRenderer> SpriteRender = pActor->AddCom<HSpRenderer>();
@@ -118,11 +118,11 @@ void ActorDlg::OnBnClickedCreactor()
 
 void ActorDlg::ResetObjectTreeItem() {
 
-	HVAR::MainSceneMgr().ChangeScene(TVAR::SceneDlg->m_CurSceneName);
+	Core_Class::MainSceneMgr().ChangeScene(TVAR::SceneDlg->m_CurSceneName);
 
 	m_ObjectTree.DeleteAllItems();
 
-	std::unordered_map<int, std::list<KPtr<HActor>>> AllActor = HVAR::NextScene()->AllActor();
+	std::unordered_map<int, std::list<KPtr<HActor>>> AllActor = Core_Class::NextScene()->AllActor();
 
 	std::unordered_map<int, std::list<KPtr<HActor>>>::iterator m_StartMapIter = AllActor.begin();
 	std::unordered_map<int, std::list<KPtr<HActor>>>::iterator m_EndMapIter = AllActor.end();
@@ -150,7 +150,7 @@ void ActorDlg::OnShowWindow(BOOL bShow, UINT nStatus)
 		return;
 	}
 
-	if (nullptr == HVAR::MainSceneMgr().FindScene(TVAR::SceneDlg->m_CurSceneName))
+	if (nullptr == Core_Class::MainSceneMgr().FindScene(TVAR::SceneDlg->m_CurSceneName))
 	{
 		return;
 	}

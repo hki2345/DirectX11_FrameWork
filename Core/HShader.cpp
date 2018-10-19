@@ -1,6 +1,6 @@
 #include "HShader.h"
 #include "Stl_AID.h"
-#include "HVAR.h"
+#include "Core_Class.h"
 
 HShader::HShader() : m_Type(ST_NONE)
 {
@@ -14,12 +14,12 @@ HShader::~HShader()
 
 void HShader::DefInit() 
 {
-	m_pContext = HVAR::Context();
+	m_pContext = Core_Class::Context();
 }
 
 bool HShader::CreateCB(CBUFFER* NewBuf)
 {
-	if (S_OK != HVAR::PDevice()->CreateBuffer(&NewBuf->tDesc, nullptr, &NewBuf->pConstBuffer))
+	if (S_OK != Core_Class::PDevice()->CreateBuffer(&NewBuf->tDesc, nullptr, &NewBuf->pConstBuffer))
 	{
 		delete NewBuf;
 		return false;

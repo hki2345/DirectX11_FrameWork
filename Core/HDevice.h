@@ -242,7 +242,7 @@ public:
 	KPtr<GCBUFFER> FindCB(const wchar_t* _Name);
 
 public:
-	HDevice(HWindow* _Win);
+	HDevice(KWindow* _Win);
 	~HDevice();
 };
 

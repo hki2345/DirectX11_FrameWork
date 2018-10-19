@@ -147,12 +147,12 @@ public:
 };
 
 
-class HCore;
+class KCore;
 class HCol2DMgr;
 class HColCom : public HBaseCom
 {
 public:
-	friend HCore;
+	friend KCore;
 	friend HCol2DMgr;
 
 private:

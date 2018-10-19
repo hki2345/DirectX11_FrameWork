@@ -1,6 +1,6 @@
 #include "HFont.h"
 #include "KMacro.h"
-#include "HVAR.h"
+#include "Core_Class.h"
 
 
 HFont::HFont() : m_pFW1Factory(nullptr), m_pFontWrapper(nullptr)
@@ -29,7 +29,7 @@ bool HFont::Create(const wchar_t* _FontName)
 		return false;
 	}
 
-	if (S_OK != m_pFW1Factory->CreateFontWrapper(HVAR::PDevice(), _FontName, &m_pFontWrapper))
+	if (S_OK != m_pFW1Factory->CreateFontWrapper(Core_Class::PDevice(), _FontName, &m_pFontWrapper))
 	{
 		KASSERT(true);
 		return false;
@@ -39,5 +39,5 @@ bool HFont::Create(const wchar_t* _FontName)
 
 void HFont::DrawFont(wchar_t* _pStr, HVEC2 _Pos, float _fSize, UINT _COLOR, FW1_TEXT_FLAG _Flag)
 {
-	m_pFontWrapper->DrawString(HVAR::Context(), _pStr, _fSize, _Pos.x, _Pos.y, _COLOR, _Flag);
+	m_pFontWrapper->DrawString(Core_Class::Context(), _pStr, _fSize, _Pos.x, _Pos.y, _COLOR, _Flag);
 }

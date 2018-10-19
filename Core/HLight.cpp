@@ -1,7 +1,7 @@
 #include "HLight.h"
 #include "HScene.h"
 #include "HResMgr.h"
-#include "HVAR.h"
+#include "Core_Class.h"
 #include "HMesh.h"
 #include "HMaterial.h"
 #include "GameDebug.h"
@@ -54,7 +54,7 @@ void HLight::LightRender(KPtr<HCamera> _Camera)
 {
 	// 라이트 데이터
 	
-	HVAR::MainDevice().SettingCB<LightData>(L"DEFFERDLIGHTDATA", Data, SHTYPE::ST_PS);
+	Core_Class::MainDevice().SettingCB<LightData>(L"DEFFERDLIGHTDATA", Data, SHTYPE::ST_PS);
 
 	if (nullptr == m_LightMat || nullptr == m_LightMesh)
 	{
@@ -63,7 +63,7 @@ void HLight::LightRender(KPtr<HCamera> _Camera)
 
 	if (m_eType == LIGHTTYPE::POINT)
 	{
-		HVAR::MainDevice().SetBsMode(L"VOLUME");
+		Core_Class::MainDevice().SetBsMode(L"VOLUME");
 		HMAT Scale;
 		Scale.Scale(HVEC(m_Trans->WScale().x, m_Trans->WScale().x, m_Trans->WScale().x));
 		HMAT World;
@@ -76,23 +76,23 @@ void HLight::LightRender(KPtr<HCamera> _Camera)
 		m_MatData.m_WV = (World * _Camera->CV()).RTranspose();
 		m_MatData.m_WVP = (World * _Camera->VP()).RTranspose();
 
-		HVAR::MainDevice().SettingCB<MATDATA>(L"MATDATA", m_MatData, SHTYPE::ST_VS);
-		HVAR::MainDevice().SettingCB<MATDATA>(L"MATDATA", m_MatData, SHTYPE::ST_PS);
+		Core_Class::MainDevice().SettingCB<MATDATA>(L"MATDATA", m_MatData, SHTYPE::ST_VS);
+		Core_Class::MainDevice().SettingCB<MATDATA>(L"MATDATA", m_MatData, SHTYPE::ST_PS);
 
 		// 두번해야 하느냐?
 		// 후면보다 앞에 있는 픽셀 검색.
-		HVAR::MainDevice().SetRsMode(L"SFRONT");
-		HVAR::MainDevice().SetDsMode(L"BACK_ST", 1);
+		Core_Class::MainDevice().SetRsMode(L"SFRONT");
+		Core_Class::MainDevice().SetDsMode(L"BACK_ST", 1);
 		m_VolumeMat->Update();
 		m_VolumMesh->Update();
 		m_VolumMesh->Render();
 
-		HVAR::MainDevice().SetRsMode(L"SBACK");
-		HVAR::MainDevice().SetDsMode(L"FRONT_ST", 1);
+		Core_Class::MainDevice().SetRsMode(L"SBACK");
+		Core_Class::MainDevice().SetDsMode(L"FRONT_ST", 1);
 		m_VolumeMat->Update();
 		m_VolumMesh->Update();
 		m_VolumMesh->Render();
-		HVAR::MainDevice().SetDsMode(L"PASS_ST", 1);
+		Core_Class::MainDevice().SetDsMode(L"PASS_ST", 1);
 	}
 	else if (m_eType == LIGHTTYPE::SPOT)
 	{
@@ -100,12 +100,12 @@ void HLight::LightRender(KPtr<HCamera> _Camera)
 	}
 	else 
 	{
-		HVAR::MainDevice().SetDsMode(L"PASS_ST", 0);
+		Core_Class::MainDevice().SetDsMode(L"PASS_ST", 0);
 	}
 
 
 	// 색이 어떻든 더한다.
-	HVAR::MainDevice().SetBsMode(L"LIGHTONE");
+	Core_Class::MainDevice().SetBsMode(L"LIGHTONE");
 	m_LightMat->Update();
 	m_LightMat->TexUpdate();
 	m_LightMesh->Update();

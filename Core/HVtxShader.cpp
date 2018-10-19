@@ -1,5 +1,5 @@
 #include "HVtxShader.h"
-#include "HVAR.h"
+#include "Core_Class.h"
 #include "KMacro.h"	
 
 
@@ -38,7 +38,7 @@ bool HVtxShader::Load(const char* _FuncName, UINT _VH, UINT _VL)
 		return false;
 	}
 
-	if (S_OK != HVAR::PDevice()->CreateVertexShader(
+	if (S_OK != Core_Class::PDevice()->CreateVertexShader(
 		m_pBlob->GetBufferPointer(),
 		m_pBlob->GetBufferSize(),
 		nullptr, &m_pShader))
@@ -52,7 +52,7 @@ bool HVtxShader::Load(const char* _FuncName, UINT _VH, UINT _VL)
 }
 
 void HVtxShader::Update() {
-	HVAR::Context()->VSSetShader(m_pShader, 0, 0);
+	Core_Class::Context()->VSSetShader(m_pShader, 0, 0);
 }
 
 bool HVtxShader::AddLayoutEnd(LPCSTR _SName, UINT _SI, DXGI_FORMAT _Fm, UINT _IS, D3D11_INPUT_CLASSIFICATION _ISC /*= D3D11_INPUT_CLASSIFICATION::D3D11_INPUT_PER_VERTEX_DATA*/, UINT _IDSR /*= 0*/)
@@ -95,7 +95,7 @@ bool HVtxShader::CreateLayout()
 		return false;
 	}
 
-	if (S_OK != HVAR::PDevice()->CreateInputLayout(&m_InputLayoutData[0], (UINT)m_InputLayoutData.size(), m_pBlob->GetBufferPointer(), m_pBlob->GetBufferSize(), &m_pInputLayout) )
+	if (S_OK != Core_Class::PDevice()->CreateInputLayout(&m_InputLayoutData[0], (UINT)m_InputLayoutData.size(), m_pBlob->GetBufferPointer(), m_pBlob->GetBufferSize(), &m_pInputLayout) )
 	{
 		return false;
 	}
@@ -105,7 +105,7 @@ bool HVtxShader::CreateLayout()
 
 void HVtxShader::SetLayout() 
 {
-	HVAR::Context()->IASetInputLayout(m_pInputLayout);
+	Core_Class::Context()->IASetInputLayout(m_pInputLayout);
 }
 
 void HVtxShader::UpdateCB(KPtr<HVtxShader::CBUFFER> _Buf) 

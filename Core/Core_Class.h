@@ -1,23 +1,25 @@
 #pragma once
 #include "DHeader.h"
-#include "HCore.h"
+#include "KCore.h"
 #include "SmartPtr.h"
 #include "HSceneMgr.h"
 #include "HWindow.h"
 #include "HDevice.h"
 #include "HScene.h"
+#include "HFBX.h"
 
-class HVAR
+// 일종의 연관 시켜져야할 클래스들을 포인터로 들고 있음 - 꽤나 유용한 클래스
+class Core_Class
 {
 public:
-	friend HCore;
+	friend KCore;
 
 private:
-	static KPtr<HWindow> g_MainWindow;
+	static KPtr<KWindow> g_MainWindow;
 	static void MainWindow(const wchar_t* _Name);
 
 public:
-	static HWindow& MainWindow();
+	static KWindow& MainWindow();
 	static HSceneMgr& MainSceneMgr();
 	static KPtr<HScene> MainScene();
 	static KPtr<HScene> NextScene();
@@ -27,7 +29,7 @@ public:
 	static ID3D11DeviceContext*	Context();
 
 public:
-	HVAR();
-	~HVAR();
+	Core_Class();
+	~Core_Class();
 };
 

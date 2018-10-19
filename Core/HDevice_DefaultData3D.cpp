@@ -3,7 +3,7 @@
 #include "HWindow.h"
 #include "Stl_AID.h"
 #include "HMesh.h"
-#include "HVAR.h"
+#include "Core_Class.h"
 #include "HVtxShader.h"
 #include "HPixShader.h"
 #include "HResMgr.h"
@@ -24,15 +24,15 @@ bool HDevice::DefRenderTaget()
 
 
 	// Defferd용
-	HResMgr<HRenderTaget>::Create(L"COLOR_DIFFUSE" , HVAR::MainWindow().UWidth() , HVAR::MainWindow().UHeight()	, D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE	, DXGI_FORMAT_R32G32B32A32_FLOAT);
-	HResMgr<HRenderTaget>::Create(L"POSTION", HVAR::MainWindow().UWidth(), HVAR::MainWindow().UHeight(), D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE, DXGI_FORMAT_R32G32B32A32_FLOAT);
-	HResMgr<HRenderTaget>::Create(L"NORMAL", HVAR::MainWindow().UWidth(), HVAR::MainWindow().UHeight(), D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE, DXGI_FORMAT_R32G32B32A32_FLOAT);
-	HResMgr<HRenderTaget>::Create(L"DEPTH", HVAR::MainWindow().UWidth(), HVAR::MainWindow().UHeight(), D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE, DXGI_FORMAT_R32G32B32A32_FLOAT);
+	HResMgr<HRenderTaget>::Create(L"COLOR_DIFFUSE" , Core_Class::MainWindow().width_u() , Core_Class::MainWindow().height_u()	, D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE	, DXGI_FORMAT_R32G32B32A32_FLOAT);
+	HResMgr<HRenderTaget>::Create(L"POSTION", Core_Class::MainWindow().width_u(), Core_Class::MainWindow().height_u(), D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE, DXGI_FORMAT_R32G32B32A32_FLOAT);
+	HResMgr<HRenderTaget>::Create(L"NORMAL", Core_Class::MainWindow().width_u(), Core_Class::MainWindow().height_u(), D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE, DXGI_FORMAT_R32G32B32A32_FLOAT);
+	HResMgr<HRenderTaget>::Create(L"DEPTH", Core_Class::MainWindow().width_u(), Core_Class::MainWindow().height_u(), D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE, DXGI_FORMAT_R32G32B32A32_FLOAT);
 
 	KPtr<HMultiRenderTaget> DefMRT = HResMgr<HMultiRenderTaget>::Create(L"DEFFERD", L"COLOR_DIFFUSE", L"POSTION", L"NORMAL", L"DEPTH");
 
-	HResMgr<HRenderTaget>::Create(L"LIGHT_DIFFUSE", HVAR::MainWindow().UWidth(), HVAR::MainWindow().UHeight(), HVEC::BLACK, D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE, DXGI_FORMAT_R32G32B32A32_FLOAT);
-	HResMgr<HRenderTaget>::Create(L"LIGHT_SPECULAR", HVAR::MainWindow().UWidth(), HVAR::MainWindow().UHeight(),HVEC::BLACK,  D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE, DXGI_FORMAT_R32G32B32A32_FLOAT);
+	HResMgr<HRenderTaget>::Create(L"LIGHT_DIFFUSE", Core_Class::MainWindow().width_u(), Core_Class::MainWindow().height_u(), HVEC::BLACK, D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE, DXGI_FORMAT_R32G32B32A32_FLOAT);
+	HResMgr<HRenderTaget>::Create(L"LIGHT_SPECULAR", Core_Class::MainWindow().width_u(), Core_Class::MainWindow().height_u(),HVEC::BLACK,  D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE, DXGI_FORMAT_R32G32B32A32_FLOAT);
 
 	KPtr<HMultiRenderTaget> LightMRT = HResMgr<HMultiRenderTaget>::Create(L"LIGHT", L"LIGHT_DIFFUSE", L"LIGHT_SPECULAR");
 
@@ -47,19 +47,19 @@ bool HDevice::Def3DCreate()
 	HResMgr<HBlend>::Create(L"ALPHA");
 	HResMgr<HFont>::Create(L"궁서", L"궁서");
 
-	HVAR::MainDevice().CreateCB<MATDATA>(L"MATDATA", D3D11_USAGE_DYNAMIC, 10);
-	HVAR::MainDevice().CreateCB<RenderOption>(L"RENDEROPTION", D3D11_USAGE_DYNAMIC, 11);
-	HVAR::MainDevice().CreateCB<HLight::LightCBDATA>(L"LIGHTDATA", D3D11_USAGE_DYNAMIC, 12);
-	HVAR::MainDevice().CreateCB<HLight::LightData>(L"DEFFERDLIGHTDATA", D3D11_USAGE_DYNAMIC, 12);
+	Core_Class::MainDevice().CreateCB<MATDATA>(L"MATDATA", D3D11_USAGE_DYNAMIC, 10);
+	Core_Class::MainDevice().CreateCB<RenderOption>(L"RENDEROPTION", D3D11_USAGE_DYNAMIC, 11);
+	Core_Class::MainDevice().CreateCB<HLight::LightCBDATA>(L"LIGHTDATA", D3D11_USAGE_DYNAMIC, 12);
+	Core_Class::MainDevice().CreateCB<HLight::LightData>(L"DEFFERDLIGHTDATA", D3D11_USAGE_DYNAMIC, 12);
 
-	HVAR::MainDevice().CreateRsMode(L"SNONE", D3D11_FILL_MODE::D3D11_FILL_SOLID, D3D11_CULL_MODE::D3D11_CULL_NONE);
-	HVAR::MainDevice().CreateRsMode(L"SBACK", D3D11_FILL_MODE::D3D11_FILL_SOLID, D3D11_CULL_MODE::D3D11_CULL_BACK);
-	HVAR::MainDevice().CreateRsMode(L"SFRONT", D3D11_FILL_MODE::D3D11_FILL_SOLID, D3D11_CULL_MODE::D3D11_CULL_FRONT);
+	Core_Class::MainDevice().CreateRsMode(L"SNONE", D3D11_FILL_MODE::D3D11_FILL_SOLID, D3D11_CULL_MODE::D3D11_CULL_NONE);
+	Core_Class::MainDevice().CreateRsMode(L"SBACK", D3D11_FILL_MODE::D3D11_FILL_SOLID, D3D11_CULL_MODE::D3D11_CULL_BACK);
+	Core_Class::MainDevice().CreateRsMode(L"SFRONT", D3D11_FILL_MODE::D3D11_FILL_SOLID, D3D11_CULL_MODE::D3D11_CULL_FRONT);
 
-	HVAR::MainDevice().CreateRsMode(L"WNONE", D3D11_FILL_MODE::D3D11_FILL_WIREFRAME, D3D11_CULL_MODE::D3D11_CULL_NONE);
-	HVAR::MainDevice().CreateRsMode(L"WBACK", D3D11_FILL_MODE::D3D11_FILL_WIREFRAME, D3D11_CULL_MODE::D3D11_CULL_BACK);
-	HVAR::MainDevice().CreateRsMode(L"WFRONT", D3D11_FILL_MODE::D3D11_FILL_WIREFRAME, D3D11_CULL_MODE::D3D11_CULL_FRONT);
-	HVAR::MainDevice().SetDefRsMode(L"SBACK");
+	Core_Class::MainDevice().CreateRsMode(L"WNONE", D3D11_FILL_MODE::D3D11_FILL_WIREFRAME, D3D11_CULL_MODE::D3D11_CULL_NONE);
+	Core_Class::MainDevice().CreateRsMode(L"WBACK", D3D11_FILL_MODE::D3D11_FILL_WIREFRAME, D3D11_CULL_MODE::D3D11_CULL_BACK);
+	Core_Class::MainDevice().CreateRsMode(L"WFRONT", D3D11_FILL_MODE::D3D11_FILL_WIREFRAME, D3D11_CULL_MODE::D3D11_CULL_FRONT);
+	Core_Class::MainDevice().SetDefRsMode(L"SBACK");
 
 	// 뎊스를 켜놓고
 	D3D11_DEPTH_STENCIL_DESC DepthState;
@@ -78,18 +78,18 @@ bool HDevice::Def3DCreate()
 	{ D3D11_STENCIL_OP_KEEP, D3D11_STENCIL_OP_KEEP, D3D11_STENCIL_OP_KEEP, D3D11_COMPARISON_ALWAYS };
 	DepthState.FrontFace = defaultStencil;
 	DepthState.BackFace = defaultStencil;
-	HVAR::MainDevice().CreateDsMode(L"DEBUG", DepthState);
+	Core_Class::MainDevice().CreateDsMode(L"DEBUG", DepthState);
 
 	// 정상적인것.
 	DepthState.DepthFunc = D3D11_COMPARISON_LESS;
-	HVAR::MainDevice().CreateDsMode(L"BASIC", DepthState);
+	Core_Class::MainDevice().CreateDsMode(L"BASIC", DepthState);
 
 	DepthState.DepthFunc = D3D11_COMPARISON_ALWAYS;
-	HVAR::MainDevice().CreateDsMode(L"ALWAYS", DepthState);
+	Core_Class::MainDevice().CreateDsMode(L"ALWAYS", DepthState);
 
 	DepthState.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;
 	DepthState.DepthFunc = D3D11_COMPARISON_ALWAYS;
-	HVAR::MainDevice().CreateDsMode(L"LIGHTDEPTH", DepthState);
+	Core_Class::MainDevice().CreateDsMode(L"LIGHTDEPTH", DepthState);
 
 
 	//////////////// VOLUMBACK
@@ -105,7 +105,7 @@ bool HDevice::Def3DCreate()
 
 	DepthState.FrontFace = LightStencil;
 	DepthState.BackFace = LightStencil;
-	HVAR::MainDevice().CreateDsMode(L"BACK_ST", DepthState);
+	Core_Class::MainDevice().CreateDsMode(L"BACK_ST", DepthState);
 
 	//////////////// VOLUMFORONT
 	DepthState.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;
@@ -119,7 +119,7 @@ bool HDevice::Def3DCreate()
 
 	DepthState.FrontFace = LightStencil;
 	DepthState.BackFace = LightStencil;
-	HVAR::MainDevice().CreateDsMode(L"FRONT_ST", DepthState);
+	Core_Class::MainDevice().CreateDsMode(L"FRONT_ST", DepthState);
 
 	//////////////// PASS
 
@@ -135,11 +135,11 @@ bool HDevice::Def3DCreate()
 	DepthState.FrontFace = LightStencil;
 	DepthState.BackFace = LightStencil;
 
-	HVAR::MainDevice().CreateDsMode(L"PASS_ST", DepthState);
+	Core_Class::MainDevice().CreateDsMode(L"PASS_ST", DepthState);
 
 	// 하나를 더 만들어야 한다.
 
-	HVAR::MainDevice().SetDefDsMode(L"BASIC");
+	Core_Class::MainDevice().SetDefDsMode(L"BASIC");
 
 
 

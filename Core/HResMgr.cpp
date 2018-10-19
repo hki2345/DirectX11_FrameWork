@@ -21,7 +21,7 @@ void GamePath::Init()
 	RootPath = Arr;
 
 	size_t CutCount = RootPath.find_last_of('\\', RootPath.size());
-	RootPath.replace(CutCount, RootPath.size(), L"\\BIN\\");
+	RootPath.replace(CutCount, RootPath.size(), L"\\bin\\");
 }
 
 void GamePath::CreatePath(const wchar_t* _Key, const wchar_t* _FullPath) {
@@ -65,6 +65,11 @@ const wchar_t* GamePath::FindPath(const wchar_t* _Key)
 	}
 
 	return PathIter->second.c_str();
+}
+
+std::wstring GamePath::FindPath_ToString(const wchar_t* _Key)
+{
+	return FindPath(_Key);
 }
 
 bool GamePath::IsFile(const wchar_t* _Path)

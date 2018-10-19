@@ -83,10 +83,10 @@ void MenuDlg::ShowDlg(size_t _Index)
 
 	if (true == m_VecDlg[_Index]->m_SceneChange)
 	{
-		HVAR::MainSceneMgr().ChangeScene(m_VecDlg[_Index]->SceneName.GetString());
+		Core_Class::MainSceneMgr().ChangeScene(m_VecDlg[_Index]->SceneName.GetString());
 	}
 	else {
-		HVAR::MainSceneMgr().ChangeScene(nullptr);
+		Core_Class::MainSceneMgr().ChangeScene(nullptr);
 	}
 
 	m_VecDlg[m_CurIndex]->ShowWindow(SW_HIDE);

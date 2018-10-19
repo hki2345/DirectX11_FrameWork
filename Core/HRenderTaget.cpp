@@ -1,6 +1,6 @@
 #include "HRenderTaget.h"
 #include "KMacro.h"
-#include "HVAR.h"
+#include "Core_Class.h"
 
 HRenderTaget::HRenderTaget() : m_Color(HVEC::BLUE)
 {
@@ -46,6 +46,6 @@ void HRenderTaget::Clear()
 		BBY;
 	}
 
-	HVAR::Context()->ClearRenderTargetView(m_Tex->RTV(), m_Color.s);
+	Core_Class::Context()->ClearRenderTargetView(m_Tex->RTV(), m_Color.s);
 	
 }

@@ -1,5 +1,5 @@
 #include "HSampler.h"
-#include "HVAR.h"
+#include "Core_Class.h"
 
 
 HSampler::HSampler()
@@ -54,7 +54,7 @@ bool HSampler::Setting(D3D11_FILTER Filter,
 	m_Desc.MaxLOD = MaxLOD;
 	m_Desc.MinLOD = MinLOD;
 
-	if (S_OK != HVAR::PDevice()->CreateSamplerState(&m_Desc, &m_pState))
+	if (S_OK != Core_Class::PDevice()->CreateSamplerState(&m_Desc, &m_pState))
 	{
 		return false;
 	}
@@ -65,6 +65,6 @@ bool HSampler::Setting(D3D11_FILTER Filter,
 
 void HSampler::Update(unsigned int _Slot)
 {
-	HVAR::Context()->VSSetSamplers(_Slot, 1, &m_pState);
-	HVAR::Context()->PSSetSamplers(_Slot, 1, &m_pState);
+	Core_Class::Context()->VSSetSamplers(_Slot, 1, &m_pState);
+	Core_Class::Context()->PSSetSamplers(_Slot, 1, &m_pState);
 }

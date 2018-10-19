@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "ToolCoreBuilder.h"
-#include <HVAR.h>
+#include <Core_Class.h>
 #include <HWindow.h>
 #include <HResMgr.h>
 #include <InputMgr.h>
@@ -17,7 +17,7 @@ ToolCoreBuilder::~ToolCoreBuilder()
 
 void ToolCoreBuilder::Build()
 {
-	HVAR::MainWindow().DeviceInit();
+	Core_Class::MainWindow().DeviceInit();
 
 	GamePath::CreateRootPath(L"Data");
 	GamePath::CreateRootPath(L"SpriteBack", L"Data\\Back\\Sprite");

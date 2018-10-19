@@ -1,7 +1,7 @@
 #include "InputMgr.h"
 #include <Windows.h>
 #include "TimeMgr.h"
-#include "HVAR.h"
+#include "Core_Class.h"
 
 HVEC2 InputMgr::m_MousePos;
 HVEC2 InputMgr::m_OriMousePos;
@@ -148,7 +148,7 @@ InputMgr::~InputMgr()
 void InputMgr::Update() 
 {
 	GetCursorPos(&m_iPoint);
-	ScreenToClient(HVAR::MainWindow().WINHWND(), &m_iPoint);
+	ScreenToClient(Core_Class::MainWindow().KHwnd(), &m_iPoint);
 
 	m_OriMousePos = m_MousePos;
 	m_MousePos.m_Vec.x = (float)m_iPoint.x;

@@ -5,7 +5,7 @@
 #include "HBlend.h"
 
 
-HDevice::HDevice(HWindow* _Win) : HWindowBase(_Win),
+HDevice::HDevice(KWindow* _Win) : HWindowBase(_Win),
 m_pDevice(nullptr),
 m_pContext(nullptr),
 m_pTagetView(nullptr),
@@ -100,8 +100,8 @@ bool HDevice::CreateSwapChain()
 	DXGI_SWAP_CHAIN_DESC tDecs = {};
 
 	// 백버퍼의 크기
-	tDecs.BufferDesc.Width = (UINT)Window()->Width();
-	tDecs.BufferDesc.Height = (UINT)Window()->Height();
+	tDecs.BufferDesc.Width = (UINT)Window()->width_st();
+	tDecs.BufferDesc.Height = (UINT)Window()->height_st();
 
 	// 버퍼 갱신 주기및 버퍼의 개수
 	tDecs.BufferDesc.RefreshRate.Numerator = 60;
@@ -121,7 +121,7 @@ bool HDevice::CreateSwapChain()
 	tDecs.SampleDesc.Count = 1;
 	tDecs.SampleDesc.Quality = 0;
 
-	tDecs.OutputWindow = Window()->WINHWND();
+	tDecs.OutputWindow = Window()->KHwnd();
 
 	tDecs.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
 
@@ -186,8 +186,8 @@ bool HDevice::CreateView()
 	D3D11_TEXTURE2D_DESC tDecs = {};
 
 	tDecs.ArraySize = 1;
-	tDecs.Width = (UINT)Window()->Width();
-	tDecs.Height = (UINT)Window()->Height();
+	tDecs.Width = (UINT)Window()->width_st();
+	tDecs.Height = (UINT)Window()->height_st();
 	tDecs.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
 	// 앞의 24비트는 float을 통해서 깊이를 체크하고
 	// 뒤의 8비트는 int형으로 비트단위 연산등을 통한
@@ -232,8 +232,8 @@ bool HDevice::CreateViewPort()
 	tDecs.TopLeftX = 0;
 	tDecs.TopLeftY = 0;
 
-	tDecs.Width = (float)Window()->Width();
-	tDecs.Height = (float)Window()->Height();
+	tDecs.Width = (float)Window()->width_st();
+	tDecs.Height = (float)Window()->height_st();
 
 	tDecs.MinDepth = 0;
 	tDecs.MaxDepth = 1;

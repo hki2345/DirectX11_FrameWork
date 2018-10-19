@@ -1,7 +1,7 @@
 #pragma once
-#include <HCore.h>
+#include <KCore.h>
 
-class ToolCoreBuilder : public HCore::HCoreBuilder
+class ToolCoreBuilder : public KCore::Launcher
 {
 public:
 	void Build() override;

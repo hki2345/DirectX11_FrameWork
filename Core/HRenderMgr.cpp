@@ -7,7 +7,7 @@
 #include "HSampler.h"
 #include "GameDebug.h"
 #include "HMultiRenderTaget.h"
-#include "HVAR.h"
+#include "Core_Class.h"
 
 HRenderMgr::HRenderMgr()
 {
@@ -52,8 +52,8 @@ void HRenderMgr::ResetSR()
 
 void HRenderMgr::Render() 
 {
-	HVAR::MainDevice().ClearTaget();
-	HVAR::MainDevice().OMSet(); // 0
+	Core_Class::MainDevice().ClearTaget();
+	Core_Class::MainDevice().OMSet(); // 0
 
 	ResetSR();
 
@@ -71,12 +71,12 @@ void HRenderMgr::Render()
 			{
 				continue;
 			}
-			HVAR::MainDevice().SetDsMode(L"BASIC");
+			Core_Class::MainDevice().SetDsMode(L"BASIC");
 			// 디퍼드타겟 그린다.
 			Render_Defferd(m_CamStartIter->second, m_GFindIter, i);
 			// 라이트 연산을 한다.
 
-			HVAR::MainDevice().SetDsMode(L"LIGHTDEPTH");
+			Core_Class::MainDevice().SetDsMode(L"LIGHTDEPTH");
 			// 디퍼드는 끈다는 개념을 하던가 해야한다.
 			Render_Defferd_Light(m_CamStartIter->second, (int)i);
 
@@ -85,7 +85,7 @@ void HRenderMgr::Render()
 			m_CamStartIter->second->LightMerge();
 			// 타겟 머지
 
-			HVAR::MainDevice().SetDsMode(L"BASIC");
+			Core_Class::MainDevice().SetDsMode(L"BASIC");
 			// 다시 켜야되.
 			Render_Forward(m_CamStartIter->second, m_GFindIter, i);
 
@@ -98,20 +98,20 @@ void HRenderMgr::Render()
 		} // for (; m_GroupStartIter != m_GroupEndIter; ++m_GroupStartIter)
 	} // for (; m_CamStartIter != m_CamEndIter; ++m_CamStartIter)
 
-	HVAR::MainDevice().OMSet();
+	Core_Class::MainDevice().OMSet();
 	ScreenMerge();
 	
 
 	if (GameDebug::IsDebug())
 	{
-		HVAR::MainDevice().SetDsMode(L"ALWAYS");
-		HVAR::MainScene()->DebugRender();
+		Core_Class::MainDevice().SetDsMode(L"ALWAYS");
+		Core_Class::MainScene()->DebugRender();
 		GameDebug::TagetDebug();
 		GameDebug::RenderLog();
 	}
 
 	
-	HVAR::MainDevice().Present();
+	Core_Class::MainDevice().Present();
 	// 카메라의 랜더타겟들을 합쳐서
 	// 백버퍼 텍스처에 그릴 것이다.
 
@@ -211,8 +211,8 @@ void HRenderMgr::LightCheck(KPtr<HCamera> _Camera, int _Group)
 
 	Data.LightCount = Count;
 
-	HVAR::MainDevice().SettingCB<HLight::LightCBDATA>(L"LIGHTDATA", Data, SHTYPE::ST_VS);
-	HVAR::MainDevice().SettingCB<HLight::LightCBDATA>(L"LIGHTDATA", Data, SHTYPE::ST_PS);
+	Core_Class::MainDevice().SettingCB<HLight::LightCBDATA>(L"LIGHTDATA", Data, SHTYPE::ST_VS);
+	Core_Class::MainDevice().SettingCB<HLight::LightCBDATA>(L"LIGHTDATA", Data, SHTYPE::ST_PS);
 
 	// HDevice::SettingCB()
 
@@ -268,7 +268,7 @@ void HRenderMgr::Render_Defferd_Light(KPtr<HCamera> _Camera, int _Group)
 			KPtr<HLight> Ptr = *m_LightStartIter;
 			Ptr->CalLightData(_Camera);
 			Ptr->LightRender(_Camera);
-			HVAR::MainDevice().SetDsMode(L"LIGHTDEPTH");
+			Core_Class::MainDevice().SetDsMode(L"LIGHTDEPTH");
 		}
 	}
 }

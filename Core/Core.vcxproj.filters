@@ -44,15 +44,6 @@
     <ClInclude Include="HTexture.h" />
     <ClInclude Include="HTrans.h" />
     <ClInclude Include="HVtxShader.h" />
-    <ClInclude Include="HCore.h">
-      <Filter>00 Core</Filter>
-    </ClInclude>
-    <ClInclude Include="HVAR.h">
-      <Filter>00 Core</Filter>
-    </ClInclude>
-    <ClInclude Include="GameMath.h">
-      <Filter>00 Core\SubClass</Filter>
-    </ClInclude>
     <ClInclude Include="KMacro.h">
       <Filter>00 Core\Assistor</Filter>
     </ClInclude>
@@ -110,6 +101,15 @@
     <ClInclude Include="FileStream.h">
       <Filter>03 Manager\Stream</Filter>
     </ClInclude>
+    <ClInclude Include="GameMath.h">
+      <Filter>02 Device\DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="KCore.h">
+      <Filter>00 Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core_Class.h">
+      <Filter>00 Core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="H3DGRID.cpp" />
@@ -151,15 +151,6 @@
     <ClCompile Include="HTexture.cpp" />
     <ClCompile Include="HTrans.cpp" />
     <ClCompile Include="HVtxShader.cpp" />
-    <ClCompile Include="HCore.cpp">
-      <Filter>00 Core</Filter>
-    </ClCompile>
-    <ClCompile Include="HVAR.cpp">
-      <Filter>00 Core</Filter>
-    </ClCompile>
-    <ClCompile Include="GameMath.cpp">
-      <Filter>00 Core\SubClass</Filter>
-    </ClCompile>
     <ClCompile Include="SmartPtr.cpp">
       <Filter>00 Core\Begin</Filter>
     </ClCompile>
@@ -208,6 +199,15 @@
     <ClCompile Include="FileStream.cpp">
       <Filter>03 Manager\Stream</Filter>
     </ClCompile>
+    <ClCompile Include="GameMath.cpp">
+      <Filter>02 Device\DirectX</Filter>
+    </ClCompile>
+    <ClCompile Include="KCore.cpp">
+      <Filter>00 Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core_Class.cpp">
+      <Filter>00 Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
@@ -233,9 +233,6 @@
     </Filter>
     <Filter Include="99 TheOne">
       <UniqueIdentifier>{932a90e7-a05b-40dd-88d1-bbf7b70fb614}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="00 Core\SubClass">
-      <UniqueIdentifier>{e0342f60-0ec9-4ff2-bec4-33cc8df41840}</UniqueIdentifier>
     </Filter>
     <Filter Include="00 Core\Assistor">
       <UniqueIdentifier>{4fca9643-1870-4c94-bf84-995bf1be533d}</UniqueIdentifier>

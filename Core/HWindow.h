@@ -4,40 +4,48 @@
 #include "HRenderMgr.h"
 
 #include <Windows.h>
-// #include "hpotr"
-// 해시로 관리된다.
+
+// 윈도우 창을 여러개 띄울 수있게 하며, 그 창을 해쉬로 관리
+// unordered_map - 해쉬로 관리하며 따라서 순서는 없다.ㄴ
 #include <unordered_map>
 
 
-// "MainWindow"
-// int HeshNumber = Hesh("MainWindow"); 24
-// int HeshNumber = Hesh("SubWindow"); 85
-// 배열로 관리할수 있다.
 
-class HCore;
-class HWindow : public Begin
+class KCore;
+class KWindow : public Begin
 {
 public:
-	friend HCore;
+	friend KCore;
+
+protected:
+	KWindow(const wchar_t* _Name);
+	KWindow(const wchar_t* _Name, HWND _hWnd);
+	~KWindow();
+
+
+	// 데이터 - 다른 윈도우와 공유될 수 있는 분모 격
+private:
+	static std::unordered_map<std::wstring, KPtr<KWindow>>::iterator WinStartIter;
+	static std::unordered_map<std::wstring, KPtr<KWindow>>::iterator WinEndIter;
+
+	static std::unordered_map<std::wstring, KPtr<KWindow>> g_NWinMap;
+	static std::unordered_map<HWND, KPtr<KWindow>> g_HWinMap;
 
 private:
-	static std::unordered_map<std::wstring, KPtr<HWindow>>::iterator WinStartIter;
-	static std::unordered_map<std::wstring, KPtr<HWindow>>::iterator WinEndIter;
-
-	static std::unordered_map<std::wstring, KPtr<HWindow>> g_NWinMap;
-	static std::unordered_map<HWND, KPtr<HWindow>> g_HWinMap;
-
-private:
+	// 이 클래스는 인스턴스를 들고 있음 -> HWND 같은 거는 데이터 영역이 아님
+	// 멤버로 들고있어야 할 녀석들은 멤버로
+	// 요녀석은 곧 프로세스다 보니 공통 분모임
 	static HINSTANCE g_HInst;
 	static void Init(HINSTANCE _HInst);
 
 public:
-	static KPtr<HWindow> CreateHWindow(const wchar_t* _Name, HWND _hWnd = nullptr);
-	static KPtr<HWindow> FindHWindow(const wchar_t* _Name);
+	static KPtr<KWindow> CreateHWindow(const wchar_t* _Name, HWND _hWnd = nullptr);
+	static KPtr<KWindow> FindHWindow(const wchar_t* _Name);
 	static void EraseHWindow(const HWND _Handle);
 	static void Progress();
 
 private:
+	// 해당 윈도우의 포록시 -> 메시지 받는 거
 	static LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
 public:
@@ -46,7 +54,9 @@ public:
 		return g_NWinMap.size();
 	}
 
-	///////////////////////////////////////////// Member
+	
+
+	// 멤버들 - 이 창만이 가져야 할 정보들 
 
 private:
 	HWND m_HWnd;
@@ -55,58 +65,29 @@ private:
 	size_t m_Height;
 	bool m_bFull;
 
-protected:
-	HWindow(const wchar_t* _Name);
-	HWindow(const wchar_t* _Name, HWND _hWnd);
-	~HWindow();
 
 public:
 
-	bool IsFull() {
-		return !m_bFull;
-	}
+	// 다이렉트 11에서는 Full모드가 false이고 창모드가 true이다. 따라서 한번 바뀌어야 함
+	bool IsFull() { return !m_bFull; }
 
-	HWND WINHWND() {
-		return m_HWnd;
-	}
+	HWND KHwnd() { return m_HWnd; }
+	HDC KHdc() { return m_Hdc; }
 
-	HDC WINDC() {
-		return m_Hdc;
-	}
 
-	UINT UWidth() {
-		return (unsigned)m_Width;
-	}
-
-	UINT UHeight() {
-		return (unsigned)m_Height;
-	}
-
-	size_t Width() {
-		return m_Width;
-	}
-
-	size_t Height() {
-		return m_Height;
-	}
-
-	float FWidth() {
-		return (float)m_Width;
-	}
-
-	float FHeight() {
-		return (float)m_Height;
-	}
-
-	HVEC2 Size() {
-		return{ FWidth(), FHeight() };
-	}
+	KUINT width_u() { return (KUINT)m_Width; }
+	KUINT height_u() { return (KUINT)m_Height; }
+	size_t width_st() { return m_Width; }
+	size_t height_st() { return m_Height; }
+	float width_f() { return (float)m_Width; }
+	float height_f() { return (float)m_Height; }
+	HVEC2 size() { return{ width_f(), height_f() }; }
+	void size(const size_t&_X, const size_t& _Y);
 
 public:
 	void Show(int _ShowOption = SW_SHOWDEFAULT);
-	void Size(size_t _X, size_t _Y);
-	void FullScreenOn();
-	void FullScreenOff();
+	void FullScr_On();
+	void FullScr_Off();
 
 private:
 	void Update();

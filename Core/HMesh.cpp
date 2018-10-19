@@ -1,5 +1,5 @@
 #include "HMesh.h"
-#include "HVAR.h"
+#include "Core_Class.h"
 
 
 HMesh::HMesh() : m_VB(nullptr), m_IB(nullptr)
@@ -60,7 +60,7 @@ bool HMesh::CreateVtx(UINT _iVtxCount, UINT _iVtxSize, D3D11_USAGE _eVtxUsage, v
 	D3D11_SUBRESOURCE_DATA tSub = D3D11_SUBRESOURCE_DATA();
 	tSub.pSysMem = _VtxMem;
 
-	if (S_OK != HVAR::PDevice()->CreateBuffer(&tBD, &tSub, &m_VB))
+	if (S_OK != Core_Class::PDevice()->CreateBuffer(&tBD, &tSub, &m_VB))
 	{
 		return false;
 	}
@@ -85,7 +85,7 @@ bool HMesh::CreateIdx(UINT _iTriCount, UINT _iIdxSize, D3D11_USAGE _eIdxUsage, v
 	D3D11_SUBRESOURCE_DATA tSub = D3D11_SUBRESOURCE_DATA();
 	tSub.pSysMem = _IdxMem;
 
-	if (S_OK != HVAR::PDevice()->CreateBuffer(&tBD, &tSub, &m_IB))
+	if (S_OK != Core_Class::PDevice()->CreateBuffer(&tBD, &tSub, &m_IB))
 	{
 		return false;
 	}
@@ -98,10 +98,10 @@ void HMesh::Update()
 	UINT iOff = 0;
 	UINT iSize = m_VtxSize;
 
-	HVAR::Context()->IASetVertexBuffers(0, 1, &m_VB, &iSize, &iOff);
-	HVAR::Context()->IASetPrimitiveTopology(m_eDrawMode);
-	HVAR::Context()->IASetIndexBuffer(m_IB, m_IdxFm, 0);
+	Core_Class::Context()->IASetVertexBuffers(0, 1, &m_VB, &iSize, &iOff);
+	Core_Class::Context()->IASetPrimitiveTopology(m_eDrawMode);
+	Core_Class::Context()->IASetIndexBuffer(m_IB, m_IdxFm, 0);
 }
 void HMesh::Render() {
-	HVAR::Context()->DrawIndexed(m_IdxCount, 0, 0);
+	Core_Class::Context()->DrawIndexed(m_IdxCount, 0, 0);
 }

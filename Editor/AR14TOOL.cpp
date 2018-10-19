@@ -9,7 +9,7 @@
 #include "MainFrm.h"
 #include "TVAR.h"
 
-#include <HCore.h>
+#include <KCore.h>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -141,7 +141,7 @@ BOOL CAR14TOOLApp::OnIdle(LONG lCount)
 	// TODO: 여기에 특수화된 코드를 추가 및/또는 기본 클래스를 호출합니다.
 	lCount = 0;
 
-	HCore::Progress();
+	KCore::Progress();
 
 	return CWinApp::OnIdle(lCount);
 }

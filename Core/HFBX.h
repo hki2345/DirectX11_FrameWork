@@ -20,31 +20,19 @@
 
 class HFBX
 {
-private:
-	static bool m_bInit;
-	static FbxManager* m_pManager;
-	//static FbxScene* m_pScene;
-	//static FbxImporter* m_pImporter; // 파일을 읽어드리기 위한 
-
-private:
-	class Des 
-	{
-	public:
-		~Des() {
-			HFBX::Destroy();
-		}
-	};
-	friend Des;
-	static Des Destroyer;
-
-public:
-	static void Destroy();
-
-public:
-	static void Init();
-
 public:
 	HFBX();
 	~HFBX();
+
+private:
+	FbxManager* m_pManager;
+
+public:
+	void Load(const wchar_t* _Path);
+
+private:
+	void Load_Triangle(FbxNode* _pNode);
+	void Load_Mesh(FbxMesh* _pMesh);
+
 };
 

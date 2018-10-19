@@ -3,7 +3,7 @@
 #include "HWindow.h"
 #include "Stl_AID.h"
 #include "HMesh.h"
-#include "HVAR.h"
+#include "Core_Class.h"
 #include "HVtxShader.h"
 #include "HPixShader.h"
 #include "HResMgr.h"
@@ -129,9 +129,9 @@ bool HDevice::DefaultDataInit()
 	//HResMgr<HBlend>::Create(L"AlphaBlend");
 	//HResMgr<HFont>::Create(L"±Ã¼­", L"±Ã¼­");
 
-	//HVAR::MainDevice().CreateCB<HMAT>(L"TRANS", D3D11_USAGE_DYNAMIC, 0);
-	//HVAR::MainDevice().CreateCB<HCOLOR>(L"MULCOLOR", D3D11_USAGE_DYNAMIC, 0);
-	//HVAR::MainDevice().CreateCB<HVEC>(L"IMGUV", D3D11_USAGE_DYNAMIC, 1);
+	//Core_Class::MainDevice().CreateCB<HMAT>(L"TRANS", D3D11_USAGE_DYNAMIC, 0);
+	//Core_Class::MainDevice().CreateCB<HCOLOR>(L"MULCOLOR", D3D11_USAGE_DYNAMIC, 0);
+	//Core_Class::MainDevice().CreateCB<HVEC>(L"IMGUV", D3D11_USAGE_DYNAMIC, 1);
 
 	return true;
 }

@@ -42,7 +42,7 @@
     <ClInclude Include="HCol2DMgr.h" />
     <ClInclude Include="HColCom.h" />
     <ClInclude Include="HComponent.h" />
-    <ClInclude Include="HCore.h" />
+    <ClInclude Include="KCore.h" />
     <ClInclude Include="HDevice.h" />
     <ClInclude Include="HFBX.h" />
     <ClInclude Include="HFont.h" />
@@ -75,7 +75,7 @@
     <ClInclude Include="HThread.h" />
     <ClInclude Include="HTrans.h" />
     <ClInclude Include="Begin_Updater.h" />
-    <ClInclude Include="HVAR.h" />
+    <ClInclude Include="Core_Class.h" />
     <ClInclude Include="HVtxShader.h" />
     <ClInclude Include="HWindow.h" />
     <ClInclude Include="HWindowBase.h" />
@@ -104,7 +104,7 @@
     <ClCompile Include="HCol2DMgr.cpp" />
     <ClCompile Include="HColCom.cpp" />
     <ClCompile Include="HComponent.cpp" />
-    <ClCompile Include="HCore.cpp" />
+    <ClCompile Include="KCore.cpp" />
     <ClCompile Include="HDevice.cpp" />
     <ClCompile Include="HDevice_DefaultData.cpp" />
     <ClCompile Include="HDevice_DefaultData3D.cpp" />
@@ -137,7 +137,7 @@
     <ClCompile Include="HThread.cpp" />
     <ClCompile Include="HTrans.cpp" />
     <ClCompile Include="Begin_Updater.cpp" />
-    <ClCompile Include="HVAR.cpp" />
+    <ClCompile Include="Core_Class.cpp" />
     <ClCompile Include="HVtxShader.cpp" />
     <ClCompile Include="HWindow.cpp" />
     <ClCompile Include="InputMgr.cpp" />

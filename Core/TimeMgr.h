@@ -5,11 +5,11 @@
 
 #include "SmartPtr.h"
 
-class HCore;
+class KCore;
 class TimeMgr
 {
 private:
-	friend HCore;
+	friend KCore;
 
 public:
 	// 초당 프레임을 계산해 오세요.
