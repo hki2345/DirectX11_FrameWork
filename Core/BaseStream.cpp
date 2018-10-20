@@ -1,13 +1,13 @@
-#include "FileStream.h"
+#include "BaseStream.h"
 
 
-FileStream::FileStream(const wchar_t* _FileName, const wchar_t* _Mode) : m_pFile(nullptr)
+BaseStream::BaseStream(const wchar_t* _FileName, const wchar_t* _Mode) : m_pFile(nullptr)
 {
 	_wfopen_s(&m_pFile, _FileName, _Mode);
 }
 
 
-FileStream::~FileStream()
+BaseStream::~BaseStream()
 {
 	if (nullptr != m_pFile)
 	{
@@ -15,7 +15,7 @@ FileStream::~FileStream()
 	}
 }
 
-void FileStream::Seek(long _Size, int _Mode) 
+void BaseStream::Seek(long _Size, int _Mode)
 {
 	if (nullptr != m_pFile)
 	{
@@ -23,7 +23,7 @@ void FileStream::Seek(long _Size, int _Mode)
 	}
 }
 
-void FileStream::Write(void* _WBuf, int _ByteSize) {
+void BaseStream::Write(void* _WBuf, int _ByteSize) {
 
 	if (nullptr != m_pFile)
 	{
@@ -31,7 +31,7 @@ void FileStream::Write(void* _WBuf, int _ByteSize) {
 	}
 }
 
-void FileStream::Read(void* _RBuf, int _BufByteSize, int _ReadByteSize)
+void BaseStream::Read(void* _RBuf, int _BufByteSize, int _ReadByteSize)
 {
 	if (nullptr != m_pFile)
 	{

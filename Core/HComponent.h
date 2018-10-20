@@ -1,7 +1,7 @@
 #pragma once
 #include "Begin_Updater.h"
 #include "HActorBase.h"
-#include "HWindowBase.h"
+#include "Mof_KWindow.h"
 #include "HActor.h"
 
 // 크게 기하(트랜스폼, 카메라)
@@ -12,9 +12,9 @@
 
 //  리소스 Mesh
 
-class BWStream;
-class BRStream;
-class HComponent : public Begin_Updater, public HActorBase, public HWindowBase, public HSceneBase
+class WriteStream;
+class ReadStream;
+class HComponent : public Begin_Updater, public HActorBase, public Mof_KWindow, public HSceneBase
 {
 public:
 	friend HActor;
@@ -39,8 +39,8 @@ public:
 	}
 
 public:
-	virtual void Save(BWStream& _Stream);
-	virtual void Load(BRStream& _Stream);
+	virtual void Save(WriteStream& _Stream);
+	virtual void Load(ReadStream& _Stream);
 
 public:
 	virtual void ComInit();

@@ -58,7 +58,7 @@ private:
 			{
 				m_Scene = Core_Class::MainSceneMgr().CreateScene(_ItemName.GetString());
 				KPtr<HActor> Camera = m_Scene->CreateActor();
-				Camera->Trans()->LPos(HVEC(0.0f, 0.0f, -10.0f));
+				Camera->Trans()->LPos(KVector4(0.0f, 0.0f, -10.0f));
 				KPtr<HCamera> CamCom = Camera->AddCom<HCamera>();
 				CamCom->PushRenderLayer(0, 1, 2, 3, 4);
 			}

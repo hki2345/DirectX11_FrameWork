@@ -1,6 +1,6 @@
 #pragma once
-#include "HRes.h"
-#include "DHeader.h"
+#include "Resource.h"
+#include "DXContainer.h"
 #include "FW1CompileSettings.h"
 #include "FW1FontWrapper.h"
 
@@ -18,18 +18,18 @@
 #endif
 #endif // DEBUG
 
-class HFont : public HRes
+class HFont : public Resource
 {
+public:
+	HFont();
+	~HFont();
+
 private:
 	IFW1Factory* m_pFW1Factory;
 	IFW1FontWrapper* m_pFontWrapper;
 
 public:
 	bool Create(const wchar_t* _FontName);
-	void DrawFont(wchar_t* _pStr, HVEC2 _Pos, float _fSize, UINT _COLOR, FW1_TEXT_FLAG _Flag = FW1_TEXT_FLAG::FW1_TOP);
-
-public:
-	HFont();
-	~HFont();
+	void DrawFont(wchar_t* _pStr, KVector2 _Pos, float _fSize, UINT _COLOR, FW1_TEXT_FLAG _Flag = FW1_TEXT_FLAG::FW1_TOP);
 };
 

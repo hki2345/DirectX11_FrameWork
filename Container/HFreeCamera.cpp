@@ -1,7 +1,7 @@
 #include "HFreeCamera.h"
 #include <InputMgr.h>
 #include <TimeMgr.h>
-#include <GameDebug.h>
+#include <DebugManager.h>
 
 
 HFreeCamera::HFreeCamera() : m_Speed(10.0f)
@@ -111,21 +111,21 @@ void HFreeCamera::Update()
 
 	if (true == InputMgr::IsDown(L"Z"))
 	{
-		HVEC Rot = m_Trans->LRot();
+		KVector4 Rot = m_Trans->LRot();
 		Rot.z = 0.0f;
 		m_Trans->LRot(Rot);
 	}
 
 	if (true == InputMgr::IsDown(L"Z"))
 	{
-		HVEC Rot = m_Trans->LRot();
+		KVector4 Rot = m_Trans->LRot();
 		Rot.z = 0.0f;
 		m_Trans->LRot(Rot);
 	}
 
 	if (true == InputMgr::IsDown(L"X"))
 	{
-		HVEC Rot = m_Trans->LRot();
+		KVector4 Rot = m_Trans->LRot();
 		Rot.x = 0.0f;
 		m_Trans->LRot(Rot);
 	}
@@ -133,7 +133,7 @@ void HFreeCamera::Update()
 	if (true == InputMgr::IsDown(L"F"))
 	{
 		m_Trans->Reset();
-		m_Trans->LMove(HVEC(0.0f, 0.0f, -10.0f));
+		m_Trans->LMove(KVector4(0.0f, 0.0f, -10.0f));
 	}
 
 	if (true == InputMgr::IsDownStay(L"FREELEFT"))
@@ -168,35 +168,35 @@ void HFreeCamera::Update()
 
 	if (true == InputMgr::IsDownStay(L"ROTLOCK"))
 	{
-		m_Trans->LAccRotDeg(HVEC(InputMgr::MouseDir().y * m_RotSpeed * TimeMgr::DeltaTime(), InputMgr::MouseDir().x * m_RotSpeed * TimeMgr::DeltaTime()));
+		m_Trans->LAccRotDeg(KVector4(InputMgr::MouseDir().y * m_RotSpeed * TimeMgr::DeltaTime(), InputMgr::MouseDir().x * m_RotSpeed * TimeMgr::DeltaTime()));
 	}
 
 	wchar_t Arr[256];
 
 	swprintf_s(Arr, L"CameraPos : %f, %f, %f", Trans()->LPos().x, Trans()->LPos().y, Trans()->LPos().z);
-	GameDebug::DrawLog(Arr);
+	DebugManager::DrawLog(Arr);
 }
 void HFreeCamera::DebugRender() 
 {
 	//wchar_t Arr[256];
 
 	//swprintf_s(Arr, L"RotScale : %f, %f", RotPos.x, RotPos.y);
-	//GameDebug::DrawFont(Arr, { 10.0f, 20.0f }, 20.0f);
+	//DebugManager::DrawFont(Arr, { 10.0f, 20.0f }, 20.0f);
 
 	//HVEC2 CurMouse = InputMgr::MousePos();
 
 	//swprintf_s(Arr, L"MousePos : %f, %f", CurMouse.x, CurMouse.y);
-	//GameDebug::DrawFont(Arr, { 10.0f, 40.0f }, 20.0f);
+	//DebugManager::DrawFont(Arr, { 10.0f, 40.0f }, 20.0f);
 
 	//swprintf_s(Arr, L"CameraRot : %f, %f", m_Trans->LRot().x, m_Trans->LRot().y);
-	//GameDebug::DrawFont(Arr, { 10.0f, 60.0f }, 20.0f);
+	//DebugManager::DrawFont(Arr, { 10.0f, 60.0f }, 20.0f);
 
 	//swprintf_s(Arr, L"CameraF : %f, %f, %f", m_Trans->LForward().x, m_Trans->LForward().y, m_Trans->LForward().z);
-	//GameDebug::DrawFont(Arr, { 10.0f, 80.0f }, 20.0f);
+	//DebugManager::DrawFont(Arr, { 10.0f, 80.0f }, 20.0f);
 
 	//swprintf_s(Arr, L"CameraU : %f, %f, %f", m_Trans->LUp().x, m_Trans->LUp().y, m_Trans->LUp().z);
-	//GameDebug::DrawFont(Arr, { 10.0f, 100.0f }, 20.0f);
+	//DebugManager::DrawFont(Arr, { 10.0f, 100.0f }, 20.0f);
 
 	//swprintf_s(Arr, L"CameraPos : %f, %f, %f", m_Trans->LPos().x, m_Trans->LPos().y, m_Trans->LPos().z);
-	//GameDebug::DrawFont(Arr, { 10.0f, 120.0f }, 20.0f);
+	//DebugManager::DrawFont(Arr, { 10.0f, 120.0f }, 20.0f);
 }

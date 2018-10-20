@@ -4,14 +4,14 @@
 #include "Core_Class.h"
 #include "HMesh.h"
 #include "HMaterial.h"
-#include "GameDebug.h"
+#include "DebugManager.h"
 
 
 HLight::HLight() : m_eType(LIGHTTYPE::DIR)
 {
-	Data.Lc.Diff = HVEC(1.0f, 1.0f, 1.0f, 1.0f);
-	Data.Lc.Spec = HVEC(0.2f, 0.2f, 0.2f, 1.0f);
-	Data.Lc.Ambi = HVEC(0.1f, 0.1f, 0.1f, 1.0f);
+	Data.Lc.Diff = KVector4(1.0f, 1.0f, 1.0f, 1.0f);
+	Data.Lc.Spec = KVector4(0.2f, 0.2f, 0.2f, 1.0f);
+	Data.Lc.Ambi = KVector4(0.1f, 0.1f, 0.1f, 1.0f);
 	SetType(LIGHTTYPE::DIR);
 }
 
@@ -41,9 +41,9 @@ void HLight::CalLightData(KPtr<HCamera> _Camera) {
 
 	//wchar_t Arr[256];
 	//swprintf_s(Arr, L"LightDir : %f, %f, %f", Data.LightDir.x, Data.LightDir.y, Data.LightDir.z);
-	//GameDebug::DrawLog(Arr);
+	//DebugManager::DrawLog(Arr);
 	//swprintf_s(Arr, L"LightPos : %f, %f, %f", Data.LightPos.x, Data.LightPos.y, Data.LightPos.z);
-	//GameDebug::DrawLog(Arr);
+	//DebugManager::DrawLog(Arr);
 
 	Data.LightDir = _Camera->CV().MulVecZero(Data.LightDir);
 	Data.LightDirInv = -Data.LightDir;
@@ -64,9 +64,9 @@ void HLight::LightRender(KPtr<HCamera> _Camera)
 	if (m_eType == LIGHTTYPE::POINT)
 	{
 		Core_Class::MainDevice().SetBsMode(L"VOLUME");
-		HMAT Scale;
-		Scale.Scale(HVEC(m_Trans->WScale().x, m_Trans->WScale().x, m_Trans->WScale().x));
-		HMAT World;
+		KMatrix Scale;
+		Scale.Scale(KVector4(m_Trans->WScale().x, m_Trans->WScale().x, m_Trans->WScale().x));
+		KMatrix World;
 		World.Iden();
 		World = Scale * m_Trans->CRMat() * m_Trans->CPMat();
 
@@ -76,8 +76,8 @@ void HLight::LightRender(KPtr<HCamera> _Camera)
 		m_MatData.m_WV = (World * _Camera->CV()).RTranspose();
 		m_MatData.m_WVP = (World * _Camera->VP()).RTranspose();
 
-		Core_Class::MainDevice().SettingCB<MATDATA>(L"MATDATA", m_MatData, SHTYPE::ST_VS);
-		Core_Class::MainDevice().SettingCB<MATDATA>(L"MATDATA", m_MatData, SHTYPE::ST_PS);
+		Core_Class::MainDevice().SettingCB<MatrixContainer>(L"MATDATA", m_MatData, SHTYPE::ST_VS);
+		Core_Class::MainDevice().SettingCB<MatrixContainer>(L"MATDATA", m_MatData, SHTYPE::ST_PS);
 
 		// 두번해야 하느냐?
 		// 후면보다 앞에 있는 픽셀 검색.
@@ -120,11 +120,11 @@ void HLight::SetType(LIGHTTYPE _Type)
 	switch (_Type)
 	{
 	case HLight::DIR:
-		m_LightMesh = HResMgr<HMesh>::Find(L"RECT");
+		m_LightMesh = ResourceManager<HMesh>::Find(L"RECT");
 		break;
 	case HLight::POINT:
-		m_VolumMesh = HResMgr<HMesh>::Find(L"SPHERE");
-		m_LightMesh = HResMgr<HMesh>::Find(L"RECT");		
+		m_VolumMesh = ResourceManager<HMesh>::Find(L"SPHERE");
+		m_LightMesh = ResourceManager<HMesh>::Find(L"RECT");		
 		break;
 	case HLight::SPOT:
 		break;
@@ -132,6 +132,6 @@ void HLight::SetType(LIGHTTYPE _Type)
 		break;
 	}
 
-	m_VolumeMat = HResMgr<HMaterial>::Find(L"VOLUMEMAT");
-	m_LightMat = HResMgr<HMaterial>::Find(L"DEFFERDLIGHTMAT");
+	m_VolumeMat = ResourceManager<HMaterial>::Find(L"VOLUMEMAT");
+	m_LightMat = ResourceManager<HMaterial>::Find(L"DEFFERDLIGHTMAT");
 }

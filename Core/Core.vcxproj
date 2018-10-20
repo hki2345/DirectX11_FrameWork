@@ -19,16 +19,16 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BRStream.h" />
-    <ClInclude Include="BWStream.h" />
-    <ClInclude Include="DHeader.h" />
+    <ClInclude Include="ReadStream.h" />
+    <ClInclude Include="WriteStream.h" />
+    <ClInclude Include="DXContainer.h" />
     <ClInclude Include="DirectXTex.h" />
-    <ClInclude Include="DVHeader.h" />
-    <ClInclude Include="FileStream.h" />
+    <ClInclude Include="DXContainer_DE.h" />
+    <ClInclude Include="BaseStream.h" />
     <ClInclude Include="FW1CompileSettings.h" />
     <ClInclude Include="FW1FontWrapper.h" />
-    <ClInclude Include="GameDebug.h" />
-    <ClInclude Include="GameMath.h" />
+    <ClInclude Include="DebugManager.h" />
+    <ClInclude Include="KMath.h" />
     <ClInclude Include="H3DGRID.h" />
     <ClInclude Include="H3DMeshRenderer.h" />
     <ClInclude Include="H3DRectRenderer.h" />
@@ -43,7 +43,7 @@
     <ClInclude Include="HColCom.h" />
     <ClInclude Include="HComponent.h" />
     <ClInclude Include="KCore.h" />
-    <ClInclude Include="HDevice.h" />
+    <ClInclude Include="KDevice.h" />
     <ClInclude Include="HFBX.h" />
     <ClInclude Include="HFont.h" />
     <ClInclude Include="HImage.h" />
@@ -58,7 +58,7 @@
     <ClInclude Include="HRenderer.h" />
     <ClInclude Include="HRenderMgr.h" />
     <ClInclude Include="HRenderTaget.h" />
-    <ClInclude Include="HRes.h" />
+    <ClInclude Include="Resource.h" />
     <ClInclude Include="HResMgr.h" />
     <ClInclude Include="HSampler.h" />
     <ClInclude Include="HScene.h" />
@@ -77,8 +77,8 @@
     <ClInclude Include="Begin_Updater.h" />
     <ClInclude Include="Core_Class.h" />
     <ClInclude Include="HVtxShader.h" />
-    <ClInclude Include="HWindow.h" />
-    <ClInclude Include="HWindowBase.h" />
+    <ClInclude Include="KWindow.h" />
+    <ClInclude Include="Mof_KWindow.h" />
     <ClInclude Include="InputMgr.h" />
     <ClInclude Include="MCRI.h" />
     <ClInclude Include="SmartPtr.h" />
@@ -86,12 +86,12 @@
     <ClInclude Include="TimeMgr.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="BRStream.cpp" />
-    <ClCompile Include="BWStream.cpp" />
-    <ClCompile Include="DHeader.cpp" />
-    <ClCompile Include="FileStream.cpp" />
-    <ClCompile Include="GameDebug.cpp" />
-    <ClCompile Include="GameMath.cpp" />
+    <ClCompile Include="ReadStream.cpp" />
+    <ClCompile Include="WriteStream.cpp" />
+    <ClCompile Include="DXContainer.cpp" />
+    <ClCompile Include="BaseStream.cpp" />
+    <ClCompile Include="DebugManager.cpp" />
+    <ClCompile Include="KMath.cpp" />
     <ClCompile Include="H3DGRID.cpp" />
     <ClCompile Include="H3DMeshRenderer.cpp" />
     <ClCompile Include="H3DRectRenderer.cpp" />
@@ -105,7 +105,7 @@
     <ClCompile Include="HColCom.cpp" />
     <ClCompile Include="HComponent.cpp" />
     <ClCompile Include="KCore.cpp" />
-    <ClCompile Include="HDevice.cpp" />
+    <ClCompile Include="KDevice.cpp" />
     <ClCompile Include="HDevice_DefaultData.cpp" />
     <ClCompile Include="HDevice_DefaultData3D.cpp" />
     <ClCompile Include="HFBX.cpp" />
@@ -121,7 +121,7 @@
     <ClCompile Include="HRenderer.cpp" />
     <ClCompile Include="HRenderMgr.cpp" />
     <ClCompile Include="HRenderTaget.cpp" />
-    <ClCompile Include="HRes.cpp" />
+    <ClCompile Include="Resource.cpp" />
     <ClCompile Include="HResMgr.cpp" />
     <ClCompile Include="HSampler.cpp" />
     <ClCompile Include="HScene.cpp" />
@@ -139,7 +139,7 @@
     <ClCompile Include="Begin_Updater.cpp" />
     <ClCompile Include="Core_Class.cpp" />
     <ClCompile Include="HVtxShader.cpp" />
-    <ClCompile Include="HWindow.cpp" />
+    <ClCompile Include="KWindow.cpp" />
     <ClCompile Include="InputMgr.cpp" />
     <ClCompile Include="MCRI.cpp" />
     <ClCompile Include="SmartPtr.cpp" />

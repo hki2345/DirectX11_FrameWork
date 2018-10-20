@@ -5,7 +5,7 @@
 
 class HActor;
 class KWindow;
-class HSceneMgr : public HWindowBase
+class HSceneMgr : public Mof_KWindow
 {
 public:
 	friend KWindow;
@@ -44,7 +44,7 @@ public:
 		}
 
 		HScene* pNewScene = new HScene();
-		pNewScene->SceneMgr(this);
+		pNewScene->ThisStateManager(this);
 		pNewScene->Name(_Name);
 		pNewScene->Window(Window());
 		pNewScene->Set_Type();

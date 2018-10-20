@@ -29,7 +29,7 @@ bool HVtxShader::Load(const char* _FuncName, UINT _VH, UINT _VL)
 	// _FuncName == VS_Color
 
 	// 컴파일만 해본거다.
-	if (S_OK != D3DCompileFromFile(Path(), nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE
+	if (S_OK != D3DCompileFromFile(AllPath(), nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE
 		, _FuncName, szBuffer, iFlag, 0, &m_pBlob, &m_pErrBlob))
 	{
 		std::string ErrorText = (char*)m_pErrBlob->GetBufferPointer();
@@ -81,7 +81,7 @@ bool HVtxShader::AddLayout(LPCSTR _SName, UINT _SI, DXGI_FORMAT _Fm
 	_NewInputLayout.InstanceDataStepRate = _IDSR;
 	_NewInputLayout.AlignedByteOffset = m_Offset;
 
-	m_Offset += DHelper::GetFmSize(_Fm);
+	m_Offset += DHelper::Size_Format(_Fm);
 	m_InputLayoutData.push_back(_NewInputLayout);
 
 	return true;

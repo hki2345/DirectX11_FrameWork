@@ -1,7 +1,7 @@
 #pragma once
 #include <iostream>
 
-class FileStream
+class BaseStream
 {
 public:
 	FILE* m_pFile;
@@ -23,7 +23,7 @@ public:
 	void Read(void* _RBuf, int _BufByteSize, int _ReadByteSize);
 
 public:
-	FileStream(const wchar_t* _FileName, const wchar_t* _Mode);
-	~FileStream();
+	BaseStream(const wchar_t* _FileName, const wchar_t* _Mode);
+	~BaseStream();
 };
 

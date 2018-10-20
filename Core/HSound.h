@@ -1,8 +1,8 @@
 #pragma once
-#include "HRes.h"
+#include "Resource.h"
 #include "HSoundDevice.h"
 
-class HSound final : public HRes
+class HSound final : public Resource
 {
 private:
 	friend class HSoundPlayer;

@@ -37,7 +37,7 @@ bool HFont::Create(const wchar_t* _FontName)
 	return true;
 }
 
-void HFont::DrawFont(wchar_t* _pStr, HVEC2 _Pos, float _fSize, UINT _COLOR, FW1_TEXT_FLAG _Flag)
+void HFont::DrawFont(wchar_t* _pStr, KVector2 _Pos, float _fSize, UINT _COLOR, FW1_TEXT_FLAG _Flag)
 {
 	m_pFontWrapper->DrawString(Core_Class::Context(), _pStr, _fSize, _Pos.x, _Pos.y, _COLOR, _Flag);
 }

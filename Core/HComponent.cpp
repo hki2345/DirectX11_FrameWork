@@ -1,6 +1,6 @@
 #include "HComponent.h"
-#include "BWStream.h"
-#include "BRStream.h"
+#include "WriteStream.h"
+#include "ReadStream.h"
 #include <Windows.h>
 
 
@@ -34,7 +34,7 @@ void HComponent::EndUpdate()
 
 }
 
-void HComponent::Save(BWStream& _Stream)
+void HComponent::Save(WriteStream& _Stream)
 {
 	std::string Name = TypeInfo()->name();
 	 
@@ -43,7 +43,7 @@ void HComponent::Save(BWStream& _Stream)
 	_Stream.WriteT(Name.c_str(), sizeof(char) * Size);
 }
 
-void HComponent::Load(BRStream& _Stream)
+void HComponent::Load(ReadStream& _Stream)
 {
 	char Arr[256];
 	unsigned int Size;

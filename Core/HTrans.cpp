@@ -12,13 +12,13 @@ bool HTrans::IsMulti(HActor* _pActor) {
 
 HTrans::HTrans() : m_LScale(1.0f), m_bLS(true), m_bLR(true), m_bLP(true), m_bW(true)
 {
-	m_LAx[AXIS::AX_F] = HVEC::FORWORD;
-	m_LAx[AXIS::AX_U] = HVEC::UP;
-	m_LAx[AXIS::AX_R] = HVEC::RIGHT;
+	m_LAx[AXIS::AX_F] = KVector4::Forword;
+	m_LAx[AXIS::AX_U] = KVector4::Up;
+	m_LAx[AXIS::AX_R] = KVector4::Right;
 
-	m_WAx[AXIS::AX_F] = HVEC::FORWORD;
-	m_WAx[AXIS::AX_U] = HVEC::UP;
-	m_WAx[AXIS::AX_R] = HVEC::RIGHT;
+	m_WAx[AXIS::AX_F] = KVector4::Forword;
+	m_WAx[AXIS::AX_U] = KVector4::Up;
+	m_WAx[AXIS::AX_R] = KVector4::Right;
 }
 
 
@@ -33,13 +33,13 @@ void HTrans::Reset()
 	m_LScale = 1.0f;
 	m_bLS, m_bLR, m_bLP, m_bW = true;
 
-	m_LAx[AXIS::AX_F] = HVEC::FORWORD;
-	m_LAx[AXIS::AX_U] = HVEC::UP;
-	m_LAx[AXIS::AX_R] = HVEC::RIGHT;
+	m_LAx[AXIS::AX_F] = KVector4::Forword;
+	m_LAx[AXIS::AX_U] = KVector4::Up	;
+	m_LAx[AXIS::AX_R] = KVector4::Right;
 
-	m_WAx[AXIS::AX_F] = HVEC::FORWORD;
-	m_WAx[AXIS::AX_U] = HVEC::UP;
-	m_WAx[AXIS::AX_R] = HVEC::RIGHT;
+	m_WAx[AXIS::AX_F] = KVector4::Forword;
+	m_WAx[AXIS::AX_U] = KVector4::Up;
+	m_WAx[AXIS::AX_R] = KVector4::Right;
 }
 
 bool HTrans::Init()
@@ -64,23 +64,23 @@ void HTrans::FinalUpdate()
 							   // 자전
 		m_RMat = m_RMatX * m_RMatY * m_RMatZ;
 
-		m_LAx[AXIS::AX_F] = HVEC::FORWORD;
-		m_LAx[AXIS::AX_U] = HVEC::UP;
-		m_LAx[AXIS::AX_R] = HVEC::RIGHT;
+		m_LAx[AXIS::AX_F] = KVector4::Forword;
+		m_LAx[AXIS::AX_U] = KVector4::Up;
+		m_LAx[AXIS::AX_R] = KVector4::Right;
 		for (size_t i = 0; i < AXIS::AX_MAX; i++)
 		{
 			m_LAx[i] = m_RMat.MulVecZero(m_LAx[i]);
-			m_LAx[i].Normalize3D();
+			m_LAx[i].NormalizeVec3();
 		}
 
 		if (nullptr != Actor()->Parent())
 		{
 			m_WRot = Actor()->Trans()->WRot() + m_LRot;
 
-			HMAT WRotMat;
-			HMAT TempWRotMatX;
-			HMAT TempWRotMatY;
-			HMAT TempWRotMatZ;
+			KMatrix WRotMat;
+			KMatrix TempWRotMatX;
+			KMatrix TempWRotMatY;
+			KMatrix TempWRotMatZ;
 
 			TempWRotMatX.RotX(m_WRot.x); // X
 			TempWRotMatY.RotY(m_WRot.y); // Y
@@ -88,21 +88,21 @@ void HTrans::FinalUpdate()
 										 // 자전
 			WRotMat = TempWRotMatX * TempWRotMatY * TempWRotMatZ;
 
-			m_WAx[AXIS::AX_F] = HVEC::FORWORD;
-			m_WAx[AXIS::AX_U] = HVEC::UP;
-			m_WAx[AXIS::AX_R] = HVEC::RIGHT;
+			m_WAx[AXIS::AX_F] = KVector4::Forword;
+			m_WAx[AXIS::AX_U] = KVector4::Up;
+			m_WAx[AXIS::AX_R] = KVector4::Right;
 
 			for (size_t i = 0; i < AXIS::AX_MAX; i++)
 			{
 				m_WAx[i] = WRotMat.MulVecZero(m_WAx[i]);
-				m_WAx[i].Normalize3D();
+				m_WAx[i].NormalizeVec3();
 			}
 		}
 		else {
 			for (size_t i = 0; i < AXIS::AX_MAX; i++)
 			{
 				m_WAx[i] = m_LAx[i];
-				m_WAx[i].Normalize3D();
+				m_WAx[i].NormalizeVec3();
 			}
 		}
 
@@ -122,18 +122,18 @@ void HTrans::FinalUpdate()
 			m_WMat = m_SMat * m_RMat * m_PMat;
 
 			m_WPos = m_WMat.v4;
-			m_WScale = HVEC(m_WMat.v1.x, m_WMat.v2.y, m_WMat.v3.z);
+			m_WScale = KVector4(m_WMat.v1.x, m_WMat.v2.y, m_WMat.v3.z);
 		}
 	}
 	else if (nullptr != Actor()->Parent()->Trans())
 	{
 		if (true == m_bW || true == Actor()->Parent()->Trans()->m_bW)
 		{
-			HMAT WW = Actor()->Parent()->Trans()->WMat();
+			KMatrix WW = Actor()->Parent()->Trans()->WMat();
 			m_WMat = m_SMat * m_RMat * m_PMat * Actor()->Parent()->Trans()->WMat();
 
 			m_WPos = m_WMat.v4;
-			m_WScale = HVEC(m_WMat.v1.x, m_WMat.v2.y, m_WMat.v3.z);
+			m_WScale = KVector4(m_WMat.v1.x, m_WMat.v2.y, m_WMat.v3.z);
 		}
 	}
 }

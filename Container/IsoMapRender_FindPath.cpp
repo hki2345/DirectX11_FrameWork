@@ -10,14 +10,14 @@ IsoMapRender::PathNode::~PathNode()
 {
 }
 
-void IsoMapRender::CreateNode(HVEC2 _Index)
+void IsoMapRender::CreateNode(KVector2 _Index)
 {
 	// 안만들때 체크해줘야 한다.
 
 
 	KPtr<PathNode> NewNode = new PathNode();
 	NewNode->m_Index = _Index;
-	NewNode->m_Pos = NewNode->m_Index.ConvertIntToFloat();
+	NewNode->m_Pos = NewNode->m_Index.IntToFloat();
 	NewNode->m_Parent = m_CurNode;
 
 	if (_Index == EndIndex)
@@ -40,12 +40,12 @@ void IsoMapRender::CalNode(KPtr<IsoMapRender::PathNode> _Node)
 	}
 	else {
 		_Node->G = _Node->m_Parent->G;
-		HVEC2 CheckDir = _Node->m_Pos - _Node->m_Parent->m_Pos;
-		_Node->G += CheckDir.Len();
+		KVector2 CheckDir = _Node->m_Pos - _Node->m_Parent->m_Pos;
+		_Node->G += CheckDir.length();
 	}
 
-	HVEC2 EndDir = EndIndex.ConvertIntToFloat();
-	_Node->H = (_Node->m_Pos - EndDir).Len();
+	KVector2 EndDir = EndIndex.IntToFloat();
+	_Node->H = (_Node->m_Pos - EndDir).length();
 	_Node->F = _Node->G + _Node->H;
 }
 
@@ -74,7 +74,7 @@ void IsoMapRender::CheckNode()
 		return;
 	}
 
-	HVEC2 CheckIndex;
+	KVector2 CheckIndex;
 
 	for (size_t i = 0; i < 4; i++)
 	{
@@ -108,24 +108,24 @@ void IsoMapRender::CheckNode()
 
 }
 
-std::list<HVEC2> IsoMapRender::WorldPathFind(HVEC2 _Start, HVEC2 _End) 
+std::list<KVector2> IsoMapRender::WorldPathFind(KVector2 _Start, KVector2 _End) 
 {
 	return IndexPathFind(WorldToIndex(_Start), WorldToIndex(_End));
 }
 
-std::list<HVEC2> IsoMapRender::IndexPathFind(HVEC2 _Start, HVEC2 _End) 
+std::list<KVector2> IsoMapRender::IndexPathFind(KVector2 _Start, KVector2 _End) 
 {
 	if (_Start == _End)
 	{
-		std::list<HVEC2> ReturnList = std::list<HVEC2>();
+		std::list<KVector2> ReturnList = std::list<KVector2>();
 		ReturnList.push_back(_End);
 		return ReturnList;
 	}
 
-	CheckDir[0] = HVEC2((int)1, (int)0);
-	CheckDir[1] = HVEC2((int)-1, (int)0);
-	CheckDir[2] = HVEC2((int)0, (int)1);
-	CheckDir[3] = HVEC2((int)0, (int)-1);
+	CheckDir[0] = KVector2((int)1, (int)0);
+	CheckDir[1] = KVector2((int)-1, (int)0);
+	CheckDir[2] = KVector2((int)0, (int)1);
+	CheckDir[3] = KVector2((int)0, (int)-1);
 
 	m_CurNode = nullptr;
 	m_EndNode = nullptr;
@@ -148,7 +148,7 @@ std::list<HVEC2> IsoMapRender::IndexPathFind(HVEC2 _Start, HVEC2 _End)
 
 		if (nullptr == m_CurNode)
 		{
-			return std::list<HVEC2>();
+			return std::list<KVector2>();
 		}
 
 		CheckNode();
@@ -161,10 +161,10 @@ std::list<HVEC2> IsoMapRender::IndexPathFind(HVEC2 _Start, HVEC2 _End)
 
 	if (nullptr == m_EndNode)
 	{
-		return std::list<HVEC2>();
+		return std::list<KVector2>();
 	}
 
-	std::list<HVEC2> ReturnList = std::list<HVEC2>();
+	std::list<KVector2> ReturnList = std::list<KVector2>();
 
 	m_CurNode = m_EndNode;
 

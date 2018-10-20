@@ -19,8 +19,8 @@ public:
 // class MonsterData
 // {
 // public:
-// 	HVEC Pos;
-// 	HVEC Scale;
+// 	KVector4 Pos;
+// 	KVector4 Scale;
 // 	wchar_t AniSpriteName[256];
 // 	HVEC2 AttAniIndex;
 // 	HVEC2 DeathAniIndex;

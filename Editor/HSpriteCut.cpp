@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "HSpriteCut.h"
-#include <GameDebug.h>
+#include <DebugManager.h>
 
 HSpriteCut::HSpriteCut()
 {
@@ -25,18 +25,18 @@ void HSpriteCut::DebugRender()
 		return;
 	}
 	
-	HVEC2 ImageCount = SpriteRender->Image()->CutIndex();
+	KVector2 ImageCount = SpriteRender->Image()->CutIndex();
 
-	HVEC2 ImageSize = SpriteRender->Image()->GetTex()->ImageSize();
+	KVector2 ImageSize = SpriteRender->Image()->GetTex()->ImageSize();
 
-	HVEC2 RectSize;
+	KVector2 RectSize;
 
 	RectSize.x = ImageSize.x / ImageCount.x;
 	RectSize.y = ImageSize.y / ImageCount.y;
 
 
-	HVEC2 PivotPos = { -ImageSize.x * 0.5f + RectSize.x * 0.5f, ImageSize.y * 0.5f - RectSize.y * 0.5f };
-	HVEC2 RectPos;
+	KVector2 PivotPos = { -ImageSize.x * 0.5f + RectSize.x * 0.5f, ImageSize.y * 0.5f - RectSize.y * 0.5f };
+	KVector2 RectPos;
 
 
 	//if (0 >= Size.stx || 0 >= Size.sty)
@@ -50,13 +50,13 @@ void HSpriteCut::DebugRender()
 	{
 		for (size_t x = 0; x < (size_t)ImageCount.x; x++)
 		{
-			RectPos = HVEC2{ x * RectSize.x, y * -RectSize.y };
+			RectPos = KVector2{ x * RectSize.x, y * -RectSize.y };
 
 			RectPos += PivotPos;
 
-			// HRECT(x * 100, y * 100, (x + 1) * 100, (y + 1) * 100);
+			// KRect(x * 100, y * 100, (x + 1) * 100, (y + 1) * 100);
 
-			GameDebug::DrawRect(HRECT(RectPos.x, RectPos.y, RectSize.x, RectSize.y));
+			DebugManager::DrawRect(KRect(RectPos.x, RectPos.y, RectSize.x, RectSize.y));
 		}
 	}
 

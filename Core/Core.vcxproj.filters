@@ -1,8 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClInclude Include="FW1CompileSettings.h" />
-    <ClInclude Include="FW1FontWrapper.h" />
     <ClInclude Include="H3DGRID.h" />
     <ClInclude Include="H3DMeshRenderer.h" />
     <ClInclude Include="H3DRectRenderer.h" />
@@ -11,13 +9,9 @@
     <ClInclude Include="HBaseCom.h" />
     <ClInclude Include="HBlend.h" />
     <ClInclude Include="HCamera.h" />
-    <ClInclude Include="HCol2D.h" />
-    <ClInclude Include="HCol2DBase.h" />
-    <ClInclude Include="HCol2DMgr.h" />
     <ClInclude Include="HColCom.h" />
     <ClInclude Include="HComponent.h" />
     <ClInclude Include="HFBX.h" />
-    <ClInclude Include="HFont.h" />
     <ClInclude Include="HImage.h" />
     <ClInclude Include="HLight.h" />
     <ClInclude Include="HLogic.h" />
@@ -28,8 +22,6 @@
     <ClInclude Include="HRenderer.h" />
     <ClInclude Include="HRenderMgr.h" />
     <ClInclude Include="HRenderTaget.h" />
-    <ClInclude Include="HRes.h" />
-    <ClInclude Include="HResMgr.h" />
     <ClInclude Include="HSampler.h" />
     <ClInclude Include="HScene.h" />
     <ClInclude Include="HSceneBase.h" />
@@ -59,22 +51,7 @@
     <ClInclude Include="Begin_Updater.h">
       <Filter>00 Core\Begin</Filter>
     </ClInclude>
-    <ClInclude Include="HWindow.h">
-      <Filter>01 WIndow</Filter>
-    </ClInclude>
-    <ClInclude Include="HWindowBase.h">
-      <Filter>01 WIndow</Filter>
-    </ClInclude>
-    <ClInclude Include="HDevice.h">
-      <Filter>02 Device</Filter>
-    </ClInclude>
     <ClInclude Include="DirectXTex.h">
-      <Filter>02 Device\DirectX</Filter>
-    </ClInclude>
-    <ClInclude Include="DVHeader.h">
-      <Filter>02 Device\DirectX</Filter>
-    </ClInclude>
-    <ClInclude Include="DHeader.h">
       <Filter>02 Device\DirectX</Filter>
     </ClInclude>
     <ClInclude Include="InputMgr.h">
@@ -89,26 +66,65 @@
     <ClInclude Include="HThread.h">
       <Filter>03 Manager\Thread</Filter>
     </ClInclude>
-    <ClInclude Include="BWStream.h">
-      <Filter>03 Manager\Stream</Filter>
-    </ClInclude>
-    <ClInclude Include="BRStream.h">
-      <Filter>03 Manager\Stream</Filter>
-    </ClInclude>
-    <ClInclude Include="GameDebug.h">
-      <Filter>03 Manager\Debug</Filter>
-    </ClInclude>
-    <ClInclude Include="FileStream.h">
-      <Filter>03 Manager\Stream</Filter>
-    </ClInclude>
-    <ClInclude Include="GameMath.h">
-      <Filter>02 Device\DirectX</Filter>
-    </ClInclude>
     <ClInclude Include="KCore.h">
       <Filter>00 Core</Filter>
     </ClInclude>
     <ClInclude Include="Core_Class.h">
       <Filter>00 Core</Filter>
+    </ClInclude>
+    <ClInclude Include="HCol2DMgr.h">
+      <Filter>03 Manager\Collision\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="HCol2D.h">
+      <Filter>03 Manager\Collision\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="HCol2DBase.h">
+      <Filter>03 Manager\Collision\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="KWindow.h">
+      <Filter>01 WIndow</Filter>
+    </ClInclude>
+    <ClInclude Include="Mof_KWindow.h">
+      <Filter>01 WIndow</Filter>
+    </ClInclude>
+    <ClInclude Include="DXContainer.h">
+      <Filter>02 Device\DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="DXContainer_DE.h">
+      <Filter>02 Device\DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="KMath.h">
+      <Filter>02 Device\DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="KDevice.h">
+      <Filter>02 Device</Filter>
+    </ClInclude>
+    <ClInclude Include="ReadStream.h">
+      <Filter>03 Manager\Stream</Filter>
+    </ClInclude>
+    <ClInclude Include="WriteStream.h">
+      <Filter>03 Manager\Stream</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseStream.h">
+      <Filter>03 Manager\Stream</Filter>
+    </ClInclude>
+    <ClInclude Include="DebugManager.h">
+      <Filter>03 Manager\Debug</Filter>
+    </ClInclude>
+    <ClInclude Include="FW1CompileSettings.h">
+      <Filter>03 Manager\Resource\Child\Font</Filter>
+    </ClInclude>
+    <ClInclude Include="FW1FontWrapper.h">
+      <Filter>03 Manager\Resource\Child\Font</Filter>
+    </ClInclude>
+    <ClInclude Include="HFont.h">
+      <Filter>03 Manager\Resource\Child\Font</Filter>
+    </ClInclude>
+    <ClInclude Include="HResMgr.h">
+      <Filter>03 Manager\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Resource.h">
+      <Filter>03 Manager\Resource</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -119,13 +135,9 @@
     <ClCompile Include="HBaseCom.cpp" />
     <ClCompile Include="HBlend.cpp" />
     <ClCompile Include="HCamera.cpp" />
-    <ClCompile Include="HCol2D.cpp" />
-    <ClCompile Include="HCol2DBase.cpp" />
-    <ClCompile Include="HCol2DMgr.cpp" />
     <ClCompile Include="HColCom.cpp" />
     <ClCompile Include="HComponent.cpp" />
     <ClCompile Include="HFBX.cpp" />
-    <ClCompile Include="HFont.cpp" />
     <ClCompile Include="HImage.cpp" />
     <ClCompile Include="HLight.cpp" />
     <ClCompile Include="HLogic.cpp" />
@@ -136,8 +148,6 @@
     <ClCompile Include="HRenderer.cpp" />
     <ClCompile Include="HRenderMgr.cpp" />
     <ClCompile Include="HRenderTaget.cpp" />
-    <ClCompile Include="HRes.cpp" />
-    <ClCompile Include="HResMgr.cpp" />
     <ClCompile Include="HSampler.cpp" />
     <ClCompile Include="HScene.cpp" />
     <ClCompile Include="HSceneMgr.cpp" />
@@ -160,20 +170,11 @@
     <ClCompile Include="Begin_Updater.cpp">
       <Filter>00 Core\Begin</Filter>
     </ClCompile>
-    <ClCompile Include="HWindow.cpp">
-      <Filter>01 WIndow</Filter>
-    </ClCompile>
     <ClCompile Include="HDevice_DefaultData3D.cpp">
       <Filter>02 Device</Filter>
     </ClCompile>
     <ClCompile Include="HDevice_DefaultData.cpp">
       <Filter>02 Device</Filter>
-    </ClCompile>
-    <ClCompile Include="DHeader.cpp">
-      <Filter>02 Device\DirectX</Filter>
-    </ClCompile>
-    <ClCompile Include="HDevice.cpp">
-      <Filter>02 Device\DirectX</Filter>
     </ClCompile>
     <ClCompile Include="InputMgr.cpp">
       <Filter>03 Manager\Input</Filter>
@@ -187,26 +188,53 @@
     <ClCompile Include="HThread.cpp">
       <Filter>03 Manager\Thread</Filter>
     </ClCompile>
-    <ClCompile Include="BRStream.cpp">
-      <Filter>03 Manager\Stream</Filter>
-    </ClCompile>
-    <ClCompile Include="BWStream.cpp">
-      <Filter>03 Manager\Stream</Filter>
-    </ClCompile>
-    <ClCompile Include="GameDebug.cpp">
-      <Filter>03 Manager\Debug</Filter>
-    </ClCompile>
-    <ClCompile Include="FileStream.cpp">
-      <Filter>03 Manager\Stream</Filter>
-    </ClCompile>
-    <ClCompile Include="GameMath.cpp">
-      <Filter>02 Device\DirectX</Filter>
-    </ClCompile>
     <ClCompile Include="KCore.cpp">
       <Filter>00 Core</Filter>
     </ClCompile>
     <ClCompile Include="Core_Class.cpp">
       <Filter>00 Core</Filter>
+    </ClCompile>
+    <ClCompile Include="HCol2D.cpp">
+      <Filter>03 Manager\Collision\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="HCol2DBase.cpp">
+      <Filter>03 Manager\Collision\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="HCol2DMgr.cpp">
+      <Filter>03 Manager\Collision\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="KWindow.cpp">
+      <Filter>01 WIndow</Filter>
+    </ClCompile>
+    <ClCompile Include="DXContainer.cpp">
+      <Filter>02 Device\DirectX</Filter>
+    </ClCompile>
+    <ClCompile Include="KMath.cpp">
+      <Filter>02 Device\DirectX</Filter>
+    </ClCompile>
+    <ClCompile Include="KDevice.cpp">
+      <Filter>02 Device</Filter>
+    </ClCompile>
+    <ClCompile Include="ReadStream.cpp">
+      <Filter>03 Manager\Stream</Filter>
+    </ClCompile>
+    <ClCompile Include="WriteStream.cpp">
+      <Filter>03 Manager\Stream</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseStream.cpp">
+      <Filter>03 Manager\Stream</Filter>
+    </ClCompile>
+    <ClCompile Include="DebugManager.cpp">
+      <Filter>03 Manager\Debug</Filter>
+    </ClCompile>
+    <ClCompile Include="HFont.cpp">
+      <Filter>03 Manager\Resource\Child\Font</Filter>
+    </ClCompile>
+    <ClCompile Include="HResMgr.cpp">
+      <Filter>03 Manager\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Resource.cpp">
+      <Filter>03 Manager\Resource</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -278,6 +306,12 @@
     </Filter>
     <Filter Include="03 Manager\Render\Child">
       <UniqueIdentifier>{763ad756-f16e-417b-bfac-0c1a6d7b01e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03 Manager\Collision\2D">
+      <UniqueIdentifier>{cf0c50f2-dfd7-4ffb-a409-49ce3df8255c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03 Manager\Resource\Child\Font">
+      <UniqueIdentifier>{dcfbc7f2-b97a-407c-a406-a5519051e22a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

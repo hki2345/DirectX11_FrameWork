@@ -18,7 +18,7 @@ void HCol2DMgr::Progress()
 	for (; StartColIter != EndColIter; ++StartColIter)
 	{
 		// 
-		HIndex Link = (*StartColIter);
+		int_compare Link = (*StartColIter);
 
 		LeftGIter = m_2DColMap.find(Link.Left);
 		RightGIter = m_2DColMap.find(Link.Right);
@@ -102,7 +102,7 @@ void HCol2DMgr::Link(int _Value)
 }
 void HCol2DMgr::Link(int _Left, int _Right) 
 {
-	HIndex Index = { _Left , _Right };
+	int_compare Index = { _Left , _Right };
 
 	std::unordered_map<int, std::list<KPtr<HColCom>>>::iterator FindIter;
 	FindIter = m_2DColMap.find(_Left);

@@ -1,12 +1,13 @@
-#include "HWindow.h"
+#include "KWindow.h"
 #include "Stl_AID.h"
 
 #include "KMacro.h"
 #include "HResMgr.h"
-#include "GameDebug.h"
+#include "DebugManager.h"
 
 
-////////////////////////////////// static
+
+/*************** Static ************/
 
 HINSTANCE KWindow::g_HInst = nullptr;
 
@@ -16,6 +17,44 @@ std::unordered_map<std::wstring, KPtr<KWindow>>::iterator KWindow::WinEndIter;
 
 std::unordered_map<std::wstring, KPtr<KWindow>> KWindow::g_NWinMap;
 std::unordered_map<HWND, KPtr<KWindow>> KWindow::g_HWinMap;
+
+
+
+// 생성자에서 윈도우 관련 것들이 실행 된다.
+
+KWindow::KWindow(const wchar_t* _Name) : Begin(_Name), m_HWnd(nullptr), ThisStateManager(this), m_Device(this), m_bFull(true)
+{
+	KRegisterClass();
+	if (FALSE == Init_Instance())
+	{
+		m_HWnd = nullptr;
+		return;
+	}
+
+	m_Hdc = GetDC(m_HWnd);
+}
+
+KWindow::KWindow(const wchar_t* _Name, HWND _hWnd) : Begin(_Name), m_HWnd(nullptr), ThisStateManager(this), m_Device(this), m_bFull(true)
+{
+	m_HWnd = _hWnd;
+
+	RECT RC;
+	GetClientRect(_hWnd, &RC);
+
+	m_Width = RC.right;
+	m_Height = RC.bottom;
+
+	m_Hdc = GetDC(m_HWnd);
+}
+
+
+KWindow::~KWindow()
+{
+}
+
+
+/*************** Func ************/
+
 
 void KWindow::Init(HINSTANCE _HInst) 
 {
@@ -50,11 +89,7 @@ KPtr<KWindow> KWindow::CreateHWindow(const wchar_t* _Name, HWND _hWnd)
 	}
 
 	pNewWindow->Set_Type();
-
-	//if (true == pNewWindow->IsEqual<KWindow>())
-	//{
-	//	int a = 0;
-	//}
+	
 
 	g_NWinMap.insert(std::unordered_map<std::wstring, KPtr<KWindow>>::value_type(_Name, pNewWindow));
 	g_HWinMap.insert(std::unordered_map<HWND, KPtr<KWindow>>::value_type(pNewWindow->m_HWnd, pNewWindow));
@@ -117,37 +152,6 @@ LRESULT CALLBACK KWindow::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM
 
 
 
-////////////////////////////////// MEMBER
-
-KWindow::KWindow(const wchar_t* _Name) : Begin(_Name), m_HWnd(nullptr), SceneMgr(this), m_Device(this), m_bFull(true)
-{
-	RegClass();
-	if (FALSE == InitInst())
-	{
-		m_HWnd = nullptr;
-		return;
-	}
-
-	m_Hdc = GetDC(m_HWnd);
-}
-
-KWindow::KWindow(const wchar_t* _Name, HWND _hWnd) : Begin(_Name), m_HWnd(nullptr), SceneMgr(this), m_Device(this), m_bFull(true)
-{
-	m_HWnd = _hWnd;
-
-	RECT RC;
-	GetClientRect(_hWnd, &RC);
-
-	m_Width = RC.right;
-	m_Height = RC.bottom;
-
-	m_Hdc = GetDC(m_HWnd);
-}
-
-
-KWindow::~KWindow()
-{
-}
 
 void KWindow::Show(int _ShowOption) {
 	ShowWindow(m_HWnd, _ShowOption);
@@ -175,22 +179,22 @@ void KWindow::size(const size_t&_X, const size_t& _Y)
 
 void KWindow::Update() 
 {
-	SceneMgr.Progress();
+	ThisStateManager.Progress();
 
 	if (true == m_Device.IsInit())
 	{
 		// m_Device.ClearTaget();
-		SceneMgr.Render();
+		ThisStateManager.Render();
 		// m_Device.Present();
 	}
 
 	// 충돌
-	SceneMgr.AfterProgress();
-	SceneMgr.Release();
+	ThisStateManager.AfterProgress();
+	ThisStateManager.Release();
 }
 
 
-ATOM KWindow::RegClass()
+ATOM KWindow::KRegisterClass()
 {
 	WNDCLASSEXW wcex;
 
@@ -204,7 +208,7 @@ ATOM KWindow::RegClass()
 	wcex.hIcon = nullptr;
 	wcex.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 2);
-	wcex.lpszMenuName = nullptr; //  MAKEINTRESOURCEW(IDC_AR14APICLIENT);
+	wcex.lpszMenuName = nullptr;
 	wcex.lpszClassName = Name();
 	wcex.hIconSm = nullptr;
 
@@ -212,7 +216,7 @@ ATOM KWindow::RegClass()
 }
 
 
-BOOL KWindow::InitInst()
+BOOL KWindow::Init_Instance()
 {
 	// 테두리 없는 윈도우를 만들고 싶다면 WS_OVERLAPPEDWINDOW
 	// 다른 걸로 넣어줘야 한다.
@@ -228,7 +232,7 @@ BOOL KWindow::InitInst()
 	return TRUE;
 }
 
-bool KWindow::DeviceInit() 
+bool KWindow::Init_Device() 
 {
 	bool Return = m_Device.Init();
 

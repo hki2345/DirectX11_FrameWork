@@ -1,13 +1,13 @@
 #pragma once
-#include "DHeader.h"
-#include "HRes.h"
+#include "DXContainer.h"
+#include "Resource.h"
 
-class HBlend : public HRes
+class HBlend : public Resource
 {
 private:
 	ID3D11BlendState* m_pBlendState;
 	D3D11_BLEND_DESC BDesc;
-	HCOLOR			 m_Color;
+	KColor			 m_Color;
 
 public:
 	bool Create();

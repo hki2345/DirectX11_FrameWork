@@ -1,10 +1,10 @@
 #pragma once
-#include "HRes.h"
-#include "DHeader.h"
+#include "Resource.h"
+#include "DXContainer.h"
 #include "DirectXTex.h"
 
 
-class HTexture : public HRes
+class HTexture : public Resource
 {
 private:
 	DirectX::ScratchImage			m_Image;
@@ -18,8 +18,8 @@ private:
 public:
 	float Width() { return (float)m_Image.GetMetadata().width; }
 	float Height() { return (float)m_Image.GetMetadata().height; }
-	HVEC2 ImageSize() { return { Width(), Height() }; }
-	HVEC GetPixel(int _X, int _Y);
+	KVector2 ImageSize() { return { Width(), Height() }; }
+	KVector4 GetPixel(int _X, int _Y);
 
 
 	// ViewSetting

@@ -21,18 +21,18 @@ public:
 	class LightColor 
 	{
 	public:
-		HVEC Diff; // Ȯ�걤
-		HVEC Spec; // �ݻ籤
-		HVEC Ambi; // ȯ�汤
+		KVector4 Diff; // Ȯ�걤
+		KVector4 Spec; // �ݻ籤
+		KVector4 Ambi; // ȯ�汤
 	};
 
 	class LightData 
 	{
 	public:
 		LightColor Lc;
-		HVEC LightPos;
-		HVEC LightDir;
-		HVEC LightDirInv;
+		KVector4 LightPos;
+		KVector4 LightDir;
+		KVector4 LightDirInv;
 		float Range;
 		float Angle;
 		int Type;
@@ -55,7 +55,7 @@ private:
 	std::set<int> m_RenderGroup;
 
 public:
-	MATDATA		m_MatData;
+	MatrixContainer		m_MatData;
 	KPtr<HMesh> m_LightMesh;
 	KPtr<HMesh> m_VolumMesh;
 	KPtr<HMaterial> m_VolumeMat;

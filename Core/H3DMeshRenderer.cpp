@@ -1,6 +1,6 @@
 #include "H3DMeshRenderer.h"
 #include "KMacro.h"
-#include "HWindow.h"
+#include "KWindow.h"
 #include "HTrans.h"
 #include "HResMgr.h"
 

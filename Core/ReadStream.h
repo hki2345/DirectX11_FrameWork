@@ -1,6 +1,6 @@
 #pragma once
-#include "FileStream.h"
-class BRStream : public FileStream
+#include "BaseStream.h"
+class ReadStream : public BaseStream
 {
 public:
 	void Read(void* _RBuf, int _BufByteSize);
@@ -8,7 +8,7 @@ public:
 	void Seek(long _Size, int _Mode = SEEK_SET);
 
 public:
-	BRStream(const wchar_t* _Path);
-	~BRStream();
+	ReadStream(const wchar_t* _Path);
+	~ReadStream();
 };
 

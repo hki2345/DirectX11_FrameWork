@@ -3,9 +3,9 @@
 #include "TimeMgr.h"
 #include "Core_Class.h"
 
-HVEC2 InputMgr::m_MousePos;
-HVEC2 InputMgr::m_OriMousePos;
-HVEC2 InputMgr::m_MouseDir;
+KVector2 InputMgr::m_MousePos;
+KVector2 InputMgr::m_OriMousePos;
+KVector2 InputMgr::m_MouseDir;
 POINT InputMgr::m_iPoint;
 std::unordered_map<std::wstring, KPtr<InputMgr::KEYDATA>>::iterator InputMgr::m_KeyStartIter;
 std::unordered_map<std::wstring, KPtr<InputMgr::KEYDATA>>::iterator InputMgr::m_KeyEndIter;
@@ -151,8 +151,8 @@ void InputMgr::Update()
 	ScreenToClient(Core_Class::MainWindow().KHwnd(), &m_iPoint);
 
 	m_OriMousePos = m_MousePos;
-	m_MousePos.m_Vec.x = (float)m_iPoint.x;
-	m_MousePos.m_Vec.y = (float)m_iPoint.y;
+	m_MousePos.m_XMVec.x = (float)m_iPoint.x;
+	m_MousePos.m_XMVec.y = (float)m_iPoint.y;
 
 	m_MouseDir = m_MousePos - m_OriMousePos;
 

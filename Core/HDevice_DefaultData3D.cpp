@@ -1,6 +1,6 @@
-#include "HDevice.h"
-#include "DVHeader.h"
-#include "HWindow.h"
+#include "KDevice.h"
+#include "DXContainer_DE.h"
+#include "KWindow.h"
 #include "Stl_AID.h"
 #include "HMesh.h"
 #include "Core_Class.h"
@@ -10,7 +10,7 @@
 #include "HMaterial.h"
 #include "HBlend.h"
 #include "HFont.h"
-#include "GameMath.h"
+#include "KMath.h"
 #include "HLight.h"
 #include "HRenderer.h"
 #include "HTexture.h"
@@ -19,35 +19,32 @@
 
 
 
-bool HDevice::DefRenderTaget() 
+bool KDevice::DefRenderTaget() 
 {
 
 
 	// Defferd¿ë
-	HResMgr<HRenderTaget>::Create(L"COLOR_DIFFUSE" , Core_Class::MainWindow().width_u() , Core_Class::MainWindow().height_u()	, D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE	, DXGI_FORMAT_R32G32B32A32_FLOAT);
-	HResMgr<HRenderTaget>::Create(L"POSTION", Core_Class::MainWindow().width_u(), Core_Class::MainWindow().height_u(), D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE, DXGI_FORMAT_R32G32B32A32_FLOAT);
-	HResMgr<HRenderTaget>::Create(L"NORMAL", Core_Class::MainWindow().width_u(), Core_Class::MainWindow().height_u(), D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE, DXGI_FORMAT_R32G32B32A32_FLOAT);
-	HResMgr<HRenderTaget>::Create(L"DEPTH", Core_Class::MainWindow().width_u(), Core_Class::MainWindow().height_u(), D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE, DXGI_FORMAT_R32G32B32A32_FLOAT);
+	ResourceManager<HRenderTaget>::Create(L"COLOR_DIFFUSE" , Core_Class::MainWindow().width_u() , Core_Class::MainWindow().height_u()	, D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE	, DXGI_FORMAT_R32G32B32A32_FLOAT);
+	ResourceManager<HRenderTaget>::Create(L"POSTION", Core_Class::MainWindow().width_u(), Core_Class::MainWindow().height_u(), D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE, DXGI_FORMAT_R32G32B32A32_FLOAT);
+	ResourceManager<HRenderTaget>::Create(L"NORMAL", Core_Class::MainWindow().width_u(), Core_Class::MainWindow().height_u(), D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE, DXGI_FORMAT_R32G32B32A32_FLOAT);
+	ResourceManager<HRenderTaget>::Create(L"DEPTH", Core_Class::MainWindow().width_u(), Core_Class::MainWindow().height_u(), D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE, DXGI_FORMAT_R32G32B32A32_FLOAT);
 
-	KPtr<HMultiRenderTaget> DefMRT = HResMgr<HMultiRenderTaget>::Create(L"DEFFERD", L"COLOR_DIFFUSE", L"POSTION", L"NORMAL", L"DEPTH");
+	KPtr<HMultiRenderTaget> DefMRT = ResourceManager<HMultiRenderTaget>::Create(L"DEFFERD", L"COLOR_DIFFUSE", L"POSTION", L"NORMAL", L"DEPTH");
 
-	HResMgr<HRenderTaget>::Create(L"LIGHT_DIFFUSE", Core_Class::MainWindow().width_u(), Core_Class::MainWindow().height_u(), HVEC::BLACK, D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE, DXGI_FORMAT_R32G32B32A32_FLOAT);
-	HResMgr<HRenderTaget>::Create(L"LIGHT_SPECULAR", Core_Class::MainWindow().width_u(), Core_Class::MainWindow().height_u(),HVEC::BLACK,  D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE, DXGI_FORMAT_R32G32B32A32_FLOAT);
+	ResourceManager<HRenderTaget>::Create(L"LIGHT_DIFFUSE", Core_Class::MainWindow().width_u(), Core_Class::MainWindow().height_u(), KVector4::Black, D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE, DXGI_FORMAT_R32G32B32A32_FLOAT);
+	ResourceManager<HRenderTaget>::Create(L"LIGHT_SPECULAR", Core_Class::MainWindow().width_u(), Core_Class::MainWindow().height_u(),KVector4::Black,  D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE, DXGI_FORMAT_R32G32B32A32_FLOAT);
 
-	KPtr<HMultiRenderTaget> LightMRT = HResMgr<HMultiRenderTaget>::Create(L"LIGHT", L"LIGHT_DIFFUSE", L"LIGHT_SPECULAR");
+	KPtr<HMultiRenderTaget> LightMRT = ResourceManager<HMultiRenderTaget>::Create(L"LIGHT", L"LIGHT_DIFFUSE", L"LIGHT_SPECULAR");
 
 	return true;
 }
 
-bool HDevice::Def3DCreate() 
+bool KDevice::Def3DCreate() 
 {
-	HResMgr<HTexture>::Load(L"Texture", L"Sky01.png");
+	ResourceManager<HSampler>::Create(L"DefaultSmp");
+	ResourceManager<HBlend>::Create(L"ALPHA");
 
-	HResMgr<HSampler>::Create(L"DefaultSmp");
-	HResMgr<HBlend>::Create(L"ALPHA");
-	HResMgr<HFont>::Create(L"±Ã¼­", L"±Ã¼­");
-
-	Core_Class::MainDevice().CreateCB<MATDATA>(L"MATDATA", D3D11_USAGE_DYNAMIC, 10);
+	Core_Class::MainDevice().CreateCB<MatrixContainer>(L"MATDATA", D3D11_USAGE_DYNAMIC, 10);
 	Core_Class::MainDevice().CreateCB<RenderOption>(L"RENDEROPTION", D3D11_USAGE_DYNAMIC, 11);
 	Core_Class::MainDevice().CreateCB<HLight::LightCBDATA>(L"LIGHTDATA", D3D11_USAGE_DYNAMIC, 12);
 	Core_Class::MainDevice().CreateCB<HLight::LightData>(L"DEFFERDLIGHTDATA", D3D11_USAGE_DYNAMIC, 12);
@@ -184,47 +181,47 @@ bool HDevice::Def3DCreate()
 		BDesc.RenderTarget[i] = D3D11_RENDER_TARGET_BLEND_DESC{};
 	}
 
-	HResMgr<HBlend>::Create(L"LIGHTONE", BDesc);
+	ResourceManager<HBlend>::Create(L"LIGHTONE", BDesc);
 
 	BDesc.RenderTarget[0] = D3D11_RENDER_TARGET_BLEND_DESC{};
 	BDesc.RenderTarget[0].RenderTargetWriteMask = 0;
 
 
-	HResMgr<HBlend>::Create(L"VOLUME", BDesc);
+	ResourceManager<HBlend>::Create(L"VOLUME", BDesc);
 
 	return true;
 }
-bool HDevice::Mesh3DCreate() {
+bool KDevice::Mesh3DCreate() {
 
 	////////////////////////////////// RECT
 #pragma region RectMeshCreate
 	VTX3D ArrVTX3D[4];
-	ArrVTX3D[0].Pos = HVEC(-0.5f, 0.5f, 0.0f, 1.0f);
-	ArrVTX3D[1].Pos = HVEC(0.5f, 0.5f, 0.0f, 1.0f);
-	ArrVTX3D[2].Pos = HVEC(-0.5f, -0.5f, 0.0f, 1.0f);
-	ArrVTX3D[3].Pos = HVEC(0.5f, -0.5f, 0.0f, 1.0f);
+	ArrVTX3D[0].Pos = KVector4(-0.5f, 0.5f, 0.0f, 1.0f);
+	ArrVTX3D[1].Pos = KVector4(0.5f, 0.5f, 0.0f, 1.0f);
+	ArrVTX3D[2].Pos = KVector4(-0.5f, -0.5f, 0.0f, 1.0f);
+	ArrVTX3D[3].Pos = KVector4(0.5f, -0.5f, 0.0f, 1.0f);
 
-	ArrVTX3D[0].Color = HVEC(1.0f, 1.0f, 1.0f, 1.0f);
-	ArrVTX3D[1].Color = HVEC(1.0f, 1.0f, 1.0f, 1.0f);
-	ArrVTX3D[2].Color = HVEC(1.0f, 1.0f, 1.0f, 1.0f);
-	ArrVTX3D[3].Color = HVEC(1.0f, 1.0f, 1.0f, 1.0f);
+	ArrVTX3D[0].Color = KVector4(1.0f, 1.0f, 1.0f, 1.0f);
+	ArrVTX3D[1].Color = KVector4(1.0f, 1.0f, 1.0f, 1.0f);
+	ArrVTX3D[2].Color = KVector4(1.0f, 1.0f, 1.0f, 1.0f);
+	ArrVTX3D[3].Color = KVector4(1.0f, 1.0f, 1.0f, 1.0f);
 
-	ArrVTX3D[0].Uv = HVEC2(0.0f, 0.0f);
-	ArrVTX3D[1].Uv = HVEC2(1.0f, 0.0f);
-	ArrVTX3D[2].Uv = HVEC2(0.0f, 1.0f);
-	ArrVTX3D[3].Uv = HVEC2(1.0f, 1.0f);
+	ArrVTX3D[0].Uv = KVector2(0.0f, 0.0f);
+	ArrVTX3D[1].Uv = KVector2(1.0f, 0.0f);
+	ArrVTX3D[2].Uv = KVector2(0.0f, 1.0f);
+	ArrVTX3D[3].Uv = KVector2(1.0f, 1.0f);
 
-	ArrVTX3D[0].Normal = HVEC(0.0f, 0.0f, -1.0f, 1.0f);
-	ArrVTX3D[1].Normal = HVEC(0.0f, 0.0f, -1.0f, 1.0f);
-	ArrVTX3D[2].Normal = HVEC(0.0f, 0.0f, -1.0f, 1.0f);
-	ArrVTX3D[3].Normal = HVEC(0.0f, 0.0f, -1.0f, 1.0f);
+	ArrVTX3D[0].Normal = KVector4(0.0f, 0.0f, -1.0f, 1.0f);
+	ArrVTX3D[1].Normal = KVector4(0.0f, 0.0f, -1.0f, 1.0f);
+	ArrVTX3D[2].Normal = KVector4(0.0f, 0.0f, -1.0f, 1.0f);
+	ArrVTX3D[3].Normal = KVector4(0.0f, 0.0f, -1.0f, 1.0f);
 
 	IDX16 ArrColorIDX[2] = {};
 
 	ArrColorIDX[0] = IDX16(0, 3, 2);
 	ArrColorIDX[1] = IDX16(0, 1, 3);
 
-	HResMgr<HMesh>::Create(L"RECT"
+	ResourceManager<HMesh>::Create(L"RECT"
 		, 4, (UINT)VTX3D::TypeSize(), D3D11_USAGE_DYNAMIC, ArrVTX3D
 		, 6, (UINT)IDX16::MemberSize(), D3D11_USAGE_DEFAULT, ArrColorIDX
 		, IDX16::FM());
@@ -237,154 +234,154 @@ bool HDevice::Mesh3DCreate() {
 	std::vector<WORD> OverIdx;
 
 	VTX3D V;
-	V.Pos = HVEC{ -0.5f, 0.5f, 0.5f, 1.0f };
-	V.Uv = HVEC2{ 0.0f, 0.0f };
-	V.Color = HVEC{ 1.0f, 1.0f, 1.0f, 1.0f };
-	V.Normal = HVEC{ 0.0f, 1.0f, 0.0f, 0.0f };
+	V.Pos = KVector4{ -0.5f, 0.5f, 0.5f, 1.0f };
+	V.Uv = KVector2{ 0.0f, 0.0f };
+	V.Color = KVector4{ 1.0f, 1.0f, 1.0f, 1.0f };
+	V.Normal = KVector4{ 0.0f, 1.0f, 0.0f, 0.0f };
 	OverCube.push_back(V);
 
-	V.Pos = HVEC{ 0.5f, 0.5f, 0.5f, 1.0f };
-	V.Uv = HVEC2{ 0.0f, 0.0f };
-	V.Color = HVEC{ 1.0f, 1.0f, 1.0f, 1.0f };
-	V.Normal = HVEC{ 0.0f, 1.0f, 0.0f, 0.0f };
+	V.Pos = KVector4{ 0.5f, 0.5f, 0.5f, 1.0f };
+	V.Uv = KVector2{ 0.0f, 0.0f };
+	V.Color = KVector4{ 1.0f, 1.0f, 1.0f, 1.0f };
+	V.Normal = KVector4{ 0.0f, 1.0f, 0.0f, 0.0f };
 	OverCube.push_back(V);
 
-	V.Pos = HVEC{ 0.5f, 0.5f, -0.5f, 1.0f };
-	V.Uv = HVEC2{ 0.0f, 0.0f };
-	V.Color = HVEC{ 1.0f, 1.0f, 1.0f, 1.0f };
-	V.Normal = HVEC{ 0.0f, 1.0f, 0.0f, 0.0f };
+	V.Pos = KVector4{ 0.5f, 0.5f, -0.5f, 1.0f };
+	V.Uv = KVector2{ 0.0f, 0.0f };
+	V.Color = KVector4{ 1.0f, 1.0f, 1.0f, 1.0f };
+	V.Normal = KVector4{ 0.0f, 1.0f, 0.0f, 0.0f };
 	OverCube.push_back(V);
 
-	V.Pos = HVEC{ -0.5f, 0.5f, -0.5f, 1.0f };
-	V.Uv = HVEC2{ 0.0f, 0.0f };
-	V.Color = HVEC{ 1.0f, 1.0f, 1.0f, 1.0f };
-	V.Normal = HVEC{ 0.0f, 1.0f, 0.0f, 0.0f };
+	V.Pos = KVector4{ -0.5f, 0.5f, -0.5f, 1.0f };
+	V.Uv = KVector2{ 0.0f, 0.0f };
+	V.Color = KVector4{ 1.0f, 1.0f, 1.0f, 1.0f };
+	V.Normal = KVector4{ 0.0f, 1.0f, 0.0f, 0.0f };
 	OverCube.push_back(V);
 
 	// ¾Æ·§¸é
-	V.Pos = HVEC{ -0.5f, -0.5f, 0.5f, 1.0f };
-	V.Uv = HVEC2{ 0.0f, 0.0f };
-	V.Color = HVEC{ 1.0f, 1.0f, 1.0f, 1.0f };
-	V.Normal = HVEC{ 0.0f, -1.0f, 0.0f, 0.0f };
+	V.Pos = KVector4{ -0.5f, -0.5f, 0.5f, 1.0f };
+	V.Uv = KVector2{ 0.0f, 0.0f };
+	V.Color = KVector4{ 1.0f, 1.0f, 1.0f, 1.0f };
+	V.Normal = KVector4{ 0.0f, -1.0f, 0.0f, 0.0f };
 	OverCube.push_back(V);
 
-	V.Pos = HVEC{ 0.5f, -0.5f, 0.5f, 1.0f };
-	V.Uv = HVEC2{ 0.0f, 0.0f };
-	V.Color = HVEC{ 1.0f, 1.0f, 1.0f, 1.0f };
-	V.Normal = HVEC{ 0.0f, -1.0f, 0.0f, 0.0f };
+	V.Pos = KVector4{ 0.5f, -0.5f, 0.5f, 1.0f };
+	V.Uv = KVector2{ 0.0f, 0.0f };
+	V.Color = KVector4{ 1.0f, 1.0f, 1.0f, 1.0f };
+	V.Normal = KVector4{ 0.0f, -1.0f, 0.0f, 0.0f };
 	OverCube.push_back(V);
 
-	V.Pos = HVEC{ 0.5f, -0.5f, -0.5f, 1.0f };
-	V.Uv = HVEC2{ 0.0f, 0.0f };
-	V.Color = HVEC{ 1.0f, 1.0f, 1.0f, 1.0f };
-	V.Normal = HVEC{ 0.0f, -1.0f, 0.0f, 0.0f };
+	V.Pos = KVector4{ 0.5f, -0.5f, -0.5f, 1.0f };
+	V.Uv = KVector2{ 0.0f, 0.0f };
+	V.Color = KVector4{ 1.0f, 1.0f, 1.0f, 1.0f };
+	V.Normal = KVector4{ 0.0f, -1.0f, 0.0f, 0.0f };
 	OverCube.push_back(V);
 
-	V.Pos = HVEC{ -0.5f, -0.5f, -0.5f, 1.0f };
-	V.Uv = HVEC2{ 0.0f, 0.0f };
-	V.Color = HVEC{ 1.0f, 1.0f, 1.0f, 1.0f };
-	V.Normal = HVEC{ 0.0f, -1.0f, 0.0f, 0.0f };
+	V.Pos = KVector4{ -0.5f, -0.5f, -0.5f, 1.0f };
+	V.Uv = KVector2{ 0.0f, 0.0f };
+	V.Color = KVector4{ 1.0f, 1.0f, 1.0f, 1.0f };
+	V.Normal = KVector4{ 0.0f, -1.0f, 0.0f, 0.0f };
 	OverCube.push_back(V);
 
 
 	// ¿À¸¥ÂÊ
-	V.Pos = HVEC{ 0.5f, 0.5f, -0.5f, 1.0f };
-	V.Uv = HVEC2{ 0.0f, 0.0f };
-	V.Color = HVEC{ 1.0f, 1.0f, 1.0f, 1.0f };
-	V.Normal = HVEC{ 1.0f, 0.0f, 0.0f, 0.0f };
+	V.Pos = KVector4{ 0.5f, 0.5f, -0.5f, 1.0f };
+	V.Uv = KVector2{ 0.0f, 0.0f };
+	V.Color = KVector4{ 1.0f, 1.0f, 1.0f, 1.0f };
+	V.Normal = KVector4{ 1.0f, 0.0f, 0.0f, 0.0f };
 	OverCube.push_back(V);
 
-	V.Pos = HVEC{ 0.5f, 0.5f, 0.5f, 1.0f };
-	V.Uv = HVEC2{ 0.0f, 0.0f };
-	V.Color = HVEC{ 1.0f, 1.0f, 1.0f, 1.0f };
-	V.Normal = HVEC{ 1.0f, 0.0f, 0.0f, 0.0f };
+	V.Pos = KVector4{ 0.5f, 0.5f, 0.5f, 1.0f };
+	V.Uv = KVector2{ 0.0f, 0.0f };
+	V.Color = KVector4{ 1.0f, 1.0f, 1.0f, 1.0f };
+	V.Normal = KVector4{ 1.0f, 0.0f, 0.0f, 0.0f };
 	OverCube.push_back(V);
 
-	V.Pos = HVEC{ 0.5f, -0.5f, 0.5f, 1.0f };
-	V.Uv = HVEC2{ 0.0f, 0.0f };
-	V.Color = HVEC{ 1.0f, 1.0f, 1.0f, 1.0f };
-	V.Normal = HVEC{ 1.0f, 0.0f, 0.0f, 0.0f };
+	V.Pos = KVector4{ 0.5f, -0.5f, 0.5f, 1.0f };
+	V.Uv = KVector2{ 0.0f, 0.0f };
+	V.Color = KVector4{ 1.0f, 1.0f, 1.0f, 1.0f };
+	V.Normal = KVector4{ 1.0f, 0.0f, 0.0f, 0.0f };
 	OverCube.push_back(V);
 
-	V.Pos = HVEC{ 0.5f, -0.5f, -0.5f, 1.0f };
-	V.Uv = HVEC2{ 0.0f, 0.0f };
-	V.Color = HVEC{ 1.0f, 1.0f, 1.0f, 1.0f };
-	V.Normal = HVEC{ 1.0f, 0.0f, 0.0f, 0.0f };
+	V.Pos = KVector4{ 0.5f, -0.5f, -0.5f, 1.0f };
+	V.Uv = KVector2{ 0.0f, 0.0f };
+	V.Color = KVector4{ 1.0f, 1.0f, 1.0f, 1.0f };
+	V.Normal = KVector4{ 1.0f, 0.0f, 0.0f, 0.0f };
 	OverCube.push_back(V);
 
 	// ¿ÞÂÊ
-	V.Pos = HVEC{ -0.5f, 0.5f, -0.5f, 1.0f };
-	V.Uv = HVEC2{ 0.0f, 0.0f };
-	V.Color = HVEC{ 1.0f, 1.0f, 1.0f, 1.0f };
-	V.Normal = HVEC{ -1.0f, 0.0f, 0.0f, 0.0f };
+	V.Pos = KVector4{ -0.5f, 0.5f, -0.5f, 1.0f };
+	V.Uv = KVector2{ 0.0f, 0.0f };
+	V.Color = KVector4{ 1.0f, 1.0f, 1.0f, 1.0f };
+	V.Normal = KVector4{ -1.0f, 0.0f, 0.0f, 0.0f };
 	OverCube.push_back(V);
 
-	V.Pos = HVEC{ -0.5f, 0.5f, 0.5f, 1.0f };
-	V.Uv = HVEC2{ 0.0f, 0.0f };
-	V.Color = HVEC{ 1.0f, 1.0f, 1.0f, 1.0f };
-	V.Normal = HVEC{ -1.0f, 0.0f, 0.0f, 0.0f };
+	V.Pos = KVector4{ -0.5f, 0.5f, 0.5f, 1.0f };
+	V.Uv = KVector2{ 0.0f, 0.0f };
+	V.Color = KVector4{ 1.0f, 1.0f, 1.0f, 1.0f };
+	V.Normal = KVector4{ -1.0f, 0.0f, 0.0f, 0.0f };
 	OverCube.push_back(V);
 
-	V.Pos = HVEC{ -0.5f, -0.5f, 0.5f, 1.0f };
-	V.Uv = HVEC2{ 0.0f, 0.0f };
-	V.Color = HVEC{ 1.0f, 1.0f, 1.0f, 1.0f };
-	V.Normal = HVEC{ -1.0f, 0.0f, 0.0f, 0.0f };
+	V.Pos = KVector4{ -0.5f, -0.5f, 0.5f, 1.0f };
+	V.Uv = KVector2{ 0.0f, 0.0f };
+	V.Color = KVector4{ 1.0f, 1.0f, 1.0f, 1.0f };
+	V.Normal = KVector4{ -1.0f, 0.0f, 0.0f, 0.0f };
 	OverCube.push_back(V);
 
-	V.Pos = HVEC{ -0.5f, -0.5f, -0.5f, 1.0f };
-	V.Uv = HVEC2{ 0.0f, 0.0f };
-	V.Color = HVEC{ 1.0f, 1.0f, 1.0f, 1.0f };
-	V.Normal = HVEC{ -1.0f, 0.0f, 0.0f, 0.0f };
+	V.Pos = KVector4{ -0.5f, -0.5f, -0.5f, 1.0f };
+	V.Uv = KVector2{ 0.0f, 0.0f };
+	V.Color = KVector4{ 1.0f, 1.0f, 1.0f, 1.0f };
+	V.Normal = KVector4{ -1.0f, 0.0f, 0.0f, 0.0f };
 	OverCube.push_back(V);
 
 	// ¾Õ
-	V.Pos = HVEC{ -0.5f, 0.5f, 0.5f, 1.0f };
-	V.Uv = HVEC2{ 0.0f, 0.0f };
-	V.Color = HVEC{ 1.0f, 1.0f, 1.0f, 1.0f };
-	V.Normal = HVEC{ 0.0f, 0.0f, -1.0f, 0.0f };
+	V.Pos = KVector4{ -0.5f, 0.5f, 0.5f, 1.0f };
+	V.Uv = KVector2{ 0.0f, 0.0f };
+	V.Color = KVector4{ 1.0f, 1.0f, 1.0f, 1.0f };
+	V.Normal = KVector4{ 0.0f, 0.0f, -1.0f, 0.0f };
 	OverCube.push_back(V);
 
-	V.Pos = HVEC{ 0.5f, 0.5f, 0.5f, 1.0f };
-	V.Uv = HVEC2{ 0.0f, 0.0f };
-	V.Color = HVEC{ 1.0f, 1.0f, 1.0f, 1.0f };
-	V.Normal = HVEC{ 0.0f, 0.0f, -1.0f, 0.0f };
+	V.Pos = KVector4{ 0.5f, 0.5f, 0.5f, 1.0f };
+	V.Uv = KVector2{ 0.0f, 0.0f };
+	V.Color = KVector4{ 1.0f, 1.0f, 1.0f, 1.0f };
+	V.Normal = KVector4{ 0.0f, 0.0f, -1.0f, 0.0f };
 	OverCube.push_back(V);
 
-	V.Pos = HVEC{ 0.5f, -0.5f, 0.5f, 1.0f };
-	V.Uv = HVEC2{ 0.0f, 0.0f };
-	V.Color = HVEC{ 1.0f, 1.0f, 1.0f, 1.0f };
-	V.Normal = HVEC{ 0.0f, 0.0f, -1.0f, 0.0f };
+	V.Pos = KVector4{ 0.5f, -0.5f, 0.5f, 1.0f };
+	V.Uv = KVector2{ 0.0f, 0.0f };
+	V.Color = KVector4{ 1.0f, 1.0f, 1.0f, 1.0f };
+	V.Normal = KVector4{ 0.0f, 0.0f, -1.0f, 0.0f };
 	OverCube.push_back(V);
 
-	V.Pos = HVEC{ -0.5f, -0.5f, 0.5f, 1.0f };
-	V.Uv = HVEC2{ 0.0f, 0.0f };
-	V.Color = HVEC{ 1.0f, 1.0f, 1.0f, 1.0f };
-	V.Normal = HVEC{ 0.0f, 0.0f, -1.0f, 0.0f };
+	V.Pos = KVector4{ -0.5f, -0.5f, 0.5f, 1.0f };
+	V.Uv = KVector2{ 0.0f, 0.0f };
+	V.Color = KVector4{ 1.0f, 1.0f, 1.0f, 1.0f };
+	V.Normal = KVector4{ 0.0f, 0.0f, -1.0f, 0.0f };
 	OverCube.push_back(V);
 
 	// µÚ
-	V.Pos = HVEC{ -0.5f, 0.5f, -0.5f, 1.0f };
-	V.Uv = HVEC2{ 0.0f, 0.0f };
-	V.Color = HVEC{ 1.0f, 1.0f, 1.0f, 1.0f };
-	V.Normal = HVEC{ 0.0f, 0.0f, 1.0f, 0.0f };
+	V.Pos = KVector4{ -0.5f, 0.5f, -0.5f, 1.0f };
+	V.Uv = KVector2{ 0.0f, 0.0f };
+	V.Color = KVector4{ 1.0f, 1.0f, 1.0f, 1.0f };
+	V.Normal = KVector4{ 0.0f, 0.0f, 1.0f, 0.0f };
 	OverCube.push_back(V);
 
-	V.Pos = HVEC{ 0.5f, 0.5f, -0.5f, 1.0f };
-	V.Uv = HVEC2{ 0.0f, 0.0f };
-	V.Color = HVEC{ 1.0f, 1.0f, 1.0f, 1.0f };
-	V.Normal = HVEC{ 0.0f, 0.0f, 1.0f, 0.0f };
+	V.Pos = KVector4{ 0.5f, 0.5f, -0.5f, 1.0f };
+	V.Uv = KVector2{ 0.0f, 0.0f };
+	V.Color = KVector4{ 1.0f, 1.0f, 1.0f, 1.0f };
+	V.Normal = KVector4{ 0.0f, 0.0f, 1.0f, 0.0f };
 	OverCube.push_back(V);
 
-	V.Pos = HVEC{ 0.5f, -0.5f, -0.5f, 1.0f };
-	V.Uv = HVEC2{ 0.0f, 0.0f };
-	V.Color = HVEC{ 1.0f, 1.0f, 1.0f, 1.0f };
-	V.Normal = HVEC{ 0.0f, 0.0f, 1.0f, 0.0f };
+	V.Pos = KVector4{ 0.5f, -0.5f, -0.5f, 1.0f };
+	V.Uv = KVector2{ 0.0f, 0.0f };
+	V.Color = KVector4{ 1.0f, 1.0f, 1.0f, 1.0f };
+	V.Normal = KVector4{ 0.0f, 0.0f, 1.0f, 0.0f };
 	OverCube.push_back(V);
 
-	V.Pos = HVEC{ -0.5f, -0.5f, -0.5f, 1.0f };
-	V.Uv = HVEC2{ 0.0f, 0.0f };
-	V.Color = HVEC{ 1.0f, 1.0f, 1.0f, 1.0f };
-	V.Normal = HVEC{ 0.0f, 0.0f, 1.0f, 0.0f };
+	V.Pos = KVector4{ -0.5f, -0.5f, -0.5f, 1.0f };
+	V.Uv = KVector2{ 0.0f, 0.0f };
+	V.Color = KVector4{ 1.0f, 1.0f, 1.0f, 1.0f };
+	V.Normal = KVector4{ 0.0f, 0.0f, 1.0f, 0.0f };
 	OverCube.push_back(V);
 
 	// À­¸é ÀÎµ¦½º
@@ -411,7 +408,7 @@ bool HDevice::Mesh3DCreate() {
 	OverIdx.push_back(20); OverIdx.push_back(21); OverIdx.push_back(22);
 	OverIdx.push_back(20); OverIdx.push_back(22); OverIdx.push_back(23);
 
-	HResMgr<HMesh>::Create(L"CUBE"
+	ResourceManager<HMesh>::Create(L"CUBE"
 		, (UINT)OverCube.size(), (UINT)VTX3D::TypeSize(), D3D11_USAGE_DYNAMIC, &OverCube[0]
 		, (UINT)OverIdx.size(), (UINT)IDX16::MemberSize(), D3D11_USAGE_DEFAULT, &OverIdx[0]
 		, IDX16::FM());
@@ -425,14 +422,14 @@ bool HDevice::Mesh3DCreate() {
 	float fRadius = 0.5f;
 
 	// ºÏ±ØÁ¡
-	V.Pos = HVEC{ 0.0f, fRadius, 0.0f, 1.0f };
-	V.Uv = HVEC2{ 0.5f, 0.0f };
-	V.Color = HVEC{ 1.0f, 1.0f, 1.0f, 1.0f };
+	V.Pos = KVector4{ 0.0f, fRadius, 0.0f, 1.0f };
+	V.Uv = KVector2{ 0.5f, 0.0f };
+	V.Color = KVector4{ 1.0f, 1.0f, 1.0f, 1.0f };
 	V.Normal = V.Pos;
-	V.Normal.Normalize3D();
+	V.Normal.NormalizeVec3();
 	V.Normal.w = 0.0f;
-	V.Tangent = HVEC{ 1.0f, 0.0f, 0.0f, 0.0f };
-	V.BNormal = HVEC{ 0.0f, 0.0f, 1.0f, 0.0f };
+	V.Tangent = KVector4{ 1.0f, 0.0f, 0.0f, 0.0f };
+	V.BNormal = KVector4{ 0.0f, 0.0f, 1.0f, 0.0f };
 
 	SphereVtx.push_back(V);
 
@@ -455,7 +452,7 @@ bool HDevice::Mesh3DCreate() {
 		{
 			float theta = z * zRotAngle;
 
-			V.Pos = HVEC
+			V.Pos = KVector4
 			{
 				fRadius * sinf(y * yRotAngle) * cosf(z * zRotAngle),
 				fRadius * cosf(y * yRotAngle),
@@ -463,23 +460,23 @@ bool HDevice::Mesh3DCreate() {
 				1.0f
 			};
 
-			V.Pos.EpCut();
+			V.Pos.ElipseCut();
 
 			V.Pos.w = 1.0f;
-			V.Uv = HVEC2{ yUvRatio * z, zUvRatio * y };
-			V.Color = HVEC{ 1.0f, 1.0f, 1.0f, 1.0f };
+			V.Uv = KVector2{ yUvRatio * z, zUvRatio * y };
+			V.Color = KVector4{ 1.0f, 1.0f, 1.0f, 1.0f };
 			V.Normal = V.Pos;
-			V.Normal.Normalize3D();
+			V.Normal.NormalizeVec3();
 			V.Normal.w = 0.0f;
 
 			V.Tangent.x = -fRadius * sinf(phi) * sinf(theta);
 			V.Tangent.y = 0.0f;
 			V.Tangent.z = fRadius * sinf(phi) * cosf(theta);
-			V.Tangent.Normalize3D();
+			V.Tangent.NormalizeVec3();
 			V.Tangent.w = 0.0f;
 
-			V.BNormal = HVEC::Cross3D(V.Tangent, V.Normal);
-			V.BNormal.Normalize3D();
+			V.BNormal = KVector4::cross3D(V.Tangent, V.Normal);
+			V.BNormal.NormalizeVec3();
 			V.BNormal.w = 0.0f;
 
 			SphereVtx.push_back(V);
@@ -487,11 +484,11 @@ bool HDevice::Mesh3DCreate() {
 	}
 
 	// ºÏ±ØÁ¡
-	V.Pos = HVEC{ 0.0f, -fRadius, 0.0f, 1.0f };
-	V.Uv = HVEC2{ 0.5f, 1.0f };
-	V.Color = HVEC{ 1.0f, 1.0f, 1.0f, 1.0f };
+	V.Pos = KVector4{ 0.0f, -fRadius, 0.0f, 1.0f };
+	V.Uv = KVector2{ 0.5f, 1.0f };
+	V.Color = KVector4{ 1.0f, 1.0f, 1.0f, 1.0f };
 	V.Normal = V.Pos;
-	V.Normal.Normalize3D();
+	V.Normal.NormalizeVec3();
 	V.Normal.w = 0.0f;
 
 	SphereVtx.push_back(V);
@@ -532,7 +529,7 @@ bool HDevice::Mesh3DCreate() {
 		SphereIdx.push_back(iBotStart - (i + 1));
 	}
 
-	HResMgr<HMesh>::Create(L"SPHERE"
+	ResourceManager<HMesh>::Create(L"SPHERE"
 		, (UINT)SphereVtx.size(), (UINT)VTX3D::TypeSize(), D3D11_USAGE_DYNAMIC, &SphereVtx[0]
 		, (UINT)SphereIdx.size(), (UINT)IDX32::MemberSize(), D3D11_USAGE_DEFAULT, &SphereIdx[0]
 		, IDX32::FM());
@@ -540,105 +537,105 @@ bool HDevice::Mesh3DCreate() {
 #pragma endregion
 	return true;
 }
-bool HDevice::Mat3DCreate() {
+bool KDevice::Mat3DCreate() {
 
 	// NONE
-	KPtr<HVtxShader> NONE3DVTX = HResMgr<HVtxShader>::LoadToKey(L"NONEVTX", L"Shader", L"NONE.fx", "VTXNONE3D");
+	KPtr<HVtxShader> NONE3DVTX = ResourceManager<HVtxShader>::Load_FromKey(L"NONEVTX", L"Shader", L"NONE.fx", "VTXNONE3D");
 	NONE3DVTX->AddLayoutEnd("POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
-	KPtr<HPixShader> NONE3DPIX = HResMgr<HPixShader>::LoadToKey(L"NONEPIX", L"Shader", L"NONE.fx", "PIXNONE3D");
+	KPtr<HPixShader> NONE3DPIX = ResourceManager<HPixShader>::Load_FromKey(L"NONEPIX", L"Shader", L"NONE.fx", "PIXNONE3D");
 
-	KPtr<HMaterial> NONEMAT = HResMgr<HMaterial>::Create(L"NONEMAT");
+	KPtr<HMaterial> NONEMAT = ResourceManager<HMaterial>::Create(L"NONEMAT");
 	NONEMAT->SetVtxShader(L"NONEVTX");
 	NONEMAT->SetPixShader(L"NONEPIX");
 	NONEMAT->SetBlend(L"ALPHA");
 
-	KPtr<HVtxShader> TAGETDEBUGVTX = HResMgr<HVtxShader>::LoadToKey(L"TAGETDEBUGVTX", L"Shader", L"TagetDebug.fx", "VS_TagetTex");
+	KPtr<HVtxShader> TAGETDEBUGVTX = ResourceManager<HVtxShader>::Load_FromKey(L"TAGETDEBUGVTX", L"Shader", L"TagetDebug.fx", "VS_TagetTex");
 	TAGETDEBUGVTX->AddLayout("POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
 	TAGETDEBUGVTX->AddLayoutEnd("TEXCOORD", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32_FLOAT, 0);
-	KPtr<HPixShader> TAGETDEBUGPIX = HResMgr<HPixShader>::LoadToKey(L"TAGETDEBUGPIX", L"Shader", L"TagetDebug.fx", "PS_TagetTex");
+	KPtr<HPixShader> TAGETDEBUGPIX = ResourceManager<HPixShader>::Load_FromKey(L"TAGETDEBUGPIX", L"Shader", L"TagetDebug.fx", "PS_TagetTex");
 
-	KPtr<HMaterial> TAGETDEBUGMAT = HResMgr<HMaterial>::Create(L"TAGETDEBUGMAT");
+	KPtr<HMaterial> TAGETDEBUGMAT = ResourceManager<HMaterial>::Create(L"TAGETDEBUGMAT");
 	TAGETDEBUGMAT->SetVtxShader(L"TAGETDEBUGVTX");
 	TAGETDEBUGMAT->SetPixShader(L"TAGETDEBUGPIX");
 	TAGETDEBUGMAT->SetBlend(L"ALPHA");
 
 	///////////////////////////////////////// GRID
-	KPtr<HVtxShader> GRID3DVTX = HResMgr<HVtxShader>::LoadToKey(L"GRID3DVTX", L"Shader", L"GRID3D.fx", "VS_GRID3D");
+	KPtr<HVtxShader> GRID3DVTX = ResourceManager<HVtxShader>::Load_FromKey(L"GRID3DVTX", L"Shader", L"GRID3D.fx", "VS_GRID3D");
 	GRID3DVTX->AddLayout("POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
 	GRID3DVTX->AddLayout("TEXCOORD", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32_FLOAT, 0);
 	GRID3DVTX->AddLayout("COLOR", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
 	GRID3DVTX->AddLayoutEnd("NORMAL", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
 
-	KPtr<HPixShader> GRID3DPIX = HResMgr<HPixShader>::LoadToKey(L"GRID3DPIX", L"Shader", L"GRID3D.fx", "PS_GRID3D");
-	GRID3DPIX->CreateCB<HVEC>(L"GRIDDATA", D3D11_USAGE_DYNAMIC, 0);
+	KPtr<HPixShader> GRID3DPIX = ResourceManager<HPixShader>::Load_FromKey(L"GRID3DPIX", L"Shader", L"GRID3D.fx", "PS_GRID3D");
+	GRID3DPIX->CreateCB<KVector4>(L"GRIDDATA", D3D11_USAGE_DYNAMIC, 0);
 
-	KPtr<HMaterial> GRID3DMAT = HResMgr<HMaterial>::Create(L"GRID3DMAT");
+	KPtr<HMaterial> GRID3DMAT = ResourceManager<HMaterial>::Create(L"GRID3DMAT");
 	GRID3DMAT->SetVtxShader(L"GRID3DVTX");
 	GRID3DMAT->SetPixShader(L"GRID3DPIX");
 	GRID3DMAT->SetBlend(L"ALPHA");
 
 	// RECT
-	KPtr<HVtxShader> RECT3DVTX = HResMgr<HVtxShader>::LoadToKey(L"RECT3DVTX", L"Shader", L"RECT3D.fx", "VS_RECT3D");
+	KPtr<HVtxShader> RECT3DVTX = ResourceManager<HVtxShader>::Load_FromKey(L"RECT3DVTX", L"Shader", L"RECT3D.fx", "VS_RECT3D");
 	RECT3DVTX->AddLayout("POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
 	RECT3DVTX->AddLayout("TEXCOORD", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32_FLOAT, 0);
 	RECT3DVTX->AddLayout("COLOR", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
 	RECT3DVTX->AddLayoutEnd("NORMAL", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
-	KPtr<HPixShader> RECT3DPIX = HResMgr<HPixShader>::LoadToKey(L"RECT3DPIX", L"Shader", L"RECT3D.fx", "PS_RECT3D");
+	KPtr<HPixShader> RECT3DPIX = ResourceManager<HPixShader>::Load_FromKey(L"RECT3DPIX", L"Shader", L"RECT3D.fx", "PS_RECT3D");
 
-	KPtr<HMaterial> RECT3DMAT = HResMgr<HMaterial>::Create(L"RECT3DMAT");
+	KPtr<HMaterial> RECT3DMAT = ResourceManager<HMaterial>::Create(L"RECT3DMAT");
 	RECT3DMAT->SetVtxShader(L"RECT3DVTX");
 	RECT3DMAT->SetPixShader(L"RECT3DPIX");
 	RECT3DMAT->SetBlend(L"ALPHA");
 
 	// SKY
-	KPtr<HVtxShader> SKY3DVTX = HResMgr<HVtxShader>::LoadToKey(L"SKY3DVTX", L"Shader", L"SkyBox.fx", "VS_SKY3D");
+	KPtr<HVtxShader> SKY3DVTX = ResourceManager<HVtxShader>::Load_FromKey(L"SKY3DVTX", L"Shader", L"SkyBox.fx", "VS_SKY3D");
 	SKY3DVTX->AddLayout("POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
 	SKY3DVTX->AddLayout("TEXCOORD", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32_FLOAT, 0);
 	SKY3DVTX->AddLayout("COLOR", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
 	SKY3DVTX->AddLayoutEnd("NORMAL", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
-	KPtr<HPixShader> SKY3DPIX = HResMgr<HPixShader>::LoadToKey(L"SKY3DPIX", L"Shader", L"SkyBox.fx", "PS_SKY3D");
+	KPtr<HPixShader> SKY3DPIX = ResourceManager<HPixShader>::Load_FromKey(L"SKY3DPIX", L"Shader", L"SkyBox.fx", "PS_SKY3D");
 
-	KPtr<HMaterial> SKY3DMAT = HResMgr<HMaterial>::Create(L"SKY3DMAT");
+	KPtr<HMaterial> SKY3DMAT = ResourceManager<HMaterial>::Create(L"SKY3DMAT");
 	SKY3DMAT->SetVtxShader(L"SKY3DVTX");
 	SKY3DMAT->SetPixShader(L"SKY3DPIX");
 	SKY3DMAT->SetBlend(L"ALPHA");
-	SKY3DMAT->AddTexData(TEXTYPE::TT_COLOR, 0, L"Sky01.png");
+	// SKY3DMAT->AddTexData(TEXTYPE::TT_COLOR, 0, L"Sky01.png");
 
-	KPtr<HVtxShader> MESH3DVTX = HResMgr<HVtxShader>::LoadToKey(L"MESH3DVTX", L"Shader", L"MeshMat.fx", "VS_MESH3D");
+	KPtr<HVtxShader> MESH3DVTX = ResourceManager<HVtxShader>::Load_FromKey(L"MESH3DVTX", L"Shader", L"MeshMat.fx", "VS_MESH3D");
 	MESH3DVTX->AddLayout("POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
 	MESH3DVTX->AddLayout("TEXCOORD", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32_FLOAT, 0);
 	MESH3DVTX->AddLayout("COLOR", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
 	MESH3DVTX->AddLayout("NORMAL", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
 	MESH3DVTX->AddLayout("TANGENT", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
 	MESH3DVTX->AddLayoutEnd("BINORMAL", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
-	KPtr<HPixShader> MESH3DPIX = HResMgr<HPixShader>::LoadToKey(L"MESH3DPIX", L"Shader", L"MeshMat.fx", "PS_MESH3D");
+	KPtr<HPixShader> MESH3DPIX = ResourceManager<HPixShader>::Load_FromKey(L"MESH3DPIX", L"Shader", L"MeshMat.fx", "PS_MESH3D");
 
-	KPtr<HMaterial> MESH3DMAT = HResMgr<HMaterial>::Create(L"MESH3DMAT");
+	KPtr<HMaterial> MESH3DMAT = ResourceManager<HMaterial>::Create(L"MESH3DMAT");
 	MESH3DMAT->SetVtxShader(L"MESH3DVTX");
 	MESH3DMAT->SetPixShader(L"MESH3DPIX");
 	MESH3DMAT->SetBlend(L"ALPHA");
 
-	KPtr<HVtxShader> DEFFERD3DVTX = HResMgr<HVtxShader>::LoadToKey(L"DEFFERD3DVTX", L"Shader", L"Defferd.fx", "VS_DEFFERD");
+	KPtr<HVtxShader> DEFFERD3DVTX = ResourceManager<HVtxShader>::Load_FromKey(L"DEFFERD3DVTX", L"Shader", L"Defferd.fx", "VS_DEFFERD");
 	DEFFERD3DVTX->AddLayout("POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
 	DEFFERD3DVTX->AddLayout("TEXCOORD", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32_FLOAT, 0);
 	DEFFERD3DVTX->AddLayout("COLOR", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
 	DEFFERD3DVTX->AddLayout("NORMAL", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
 	DEFFERD3DVTX->AddLayout("TANGENT", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
 	DEFFERD3DVTX->AddLayoutEnd("BINORMAL", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
-	KPtr<HPixShader> DEFFERD3DPIX = HResMgr<HPixShader>::LoadToKey(L"DEFFERD3DPIX", L"Shader", L"Defferd.fx", "PS_DEFFERD");
+	KPtr<HPixShader> DEFFERD3DPIX = ResourceManager<HPixShader>::Load_FromKey(L"DEFFERD3DPIX", L"Shader", L"Defferd.fx", "PS_DEFFERD");
 
-	KPtr<HMaterial> DEFFERD3DMAT = HResMgr<HMaterial>::Create(L"DEFFERD3DMAT");
+	KPtr<HMaterial> DEFFERD3DMAT = ResourceManager<HMaterial>::Create(L"DEFFERD3DMAT");
 	DEFFERD3DMAT->SetVtxShader(L"DEFFERD3DVTX");
 	DEFFERD3DMAT->SetPixShader(L"DEFFERD3DPIX");
 	DEFFERD3DMAT->SetBlend(L"ALPHA");
 
 	// DefferdDirLight
-	KPtr<HVtxShader> DEFFERDLIGHTVTX = HResMgr<HVtxShader>::LoadToKey(L"DEFFERDLIGHTVTX", L"Shader", L"Defferd.fx", "VS_DEFFERDLIGHT");
+	KPtr<HVtxShader> DEFFERDLIGHTVTX = ResourceManager<HVtxShader>::Load_FromKey(L"DEFFERDLIGHTVTX", L"Shader", L"Defferd.fx", "VS_DEFFERDLIGHT");
 	DEFFERDLIGHTVTX->AddLayout("POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
 	DEFFERDLIGHTVTX->AddLayoutEnd("TEXCOORD", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32_FLOAT, 0);
-	KPtr<HPixShader> DEFFERDLIGHTPIX = HResMgr<HPixShader>::LoadToKey(L"DEFFERDLIGHTPIX", L"Shader", L"Defferd.fx", "PS_DEFFERDLIGHT");
+	KPtr<HPixShader> DEFFERDLIGHTPIX = ResourceManager<HPixShader>::Load_FromKey(L"DEFFERDLIGHTPIX", L"Shader", L"Defferd.fx", "PS_DEFFERDLIGHT");
 
-	KPtr<HMaterial> DEFFERDMAT = HResMgr<HMaterial>::Create(L"DEFFERDLIGHTMAT");
+	KPtr<HMaterial> DEFFERDMAT = ResourceManager<HMaterial>::Create(L"DEFFERDLIGHTMAT");
 	DEFFERDMAT->SetVtxShader(L"DEFFERDLIGHTVTX");
 	DEFFERDMAT->SetPixShader(L"DEFFERDLIGHTPIX");
 	DEFFERDMAT->SetBlend(L"LIGHTONE");
@@ -647,12 +644,12 @@ bool HDevice::Mat3DCreate() {
 	DEFFERDMAT->AddTexData(TEXTYPE::TT_TAGET, 2, L"DEPTH");
 
 	// MERGE
-	KPtr<HVtxShader> DEFFERDMERGEVTX = HResMgr<HVtxShader>::LoadToKey(L"DEFFERDMERGEVTX", L"Shader", L"Defferd.fx", "VS_DEFFERDMERGE");
+	KPtr<HVtxShader> DEFFERDMERGEVTX = ResourceManager<HVtxShader>::Load_FromKey(L"DEFFERDMERGEVTX", L"Shader", L"Defferd.fx", "VS_DEFFERDMERGE");
 	DEFFERDMERGEVTX->AddLayout("POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
 	DEFFERDMERGEVTX->AddLayoutEnd("TEXCOORD", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32_FLOAT, 0);
-	KPtr<HPixShader> DEFFERDMERGEPIX = HResMgr<HPixShader>::LoadToKey(L"DEFFERDMERGEPIX", L"Shader", L"Defferd.fx", "PS_DEFFERDMERGE");
+	KPtr<HPixShader> DEFFERDMERGEPIX = ResourceManager<HPixShader>::Load_FromKey(L"DEFFERDMERGEPIX", L"Shader", L"Defferd.fx", "PS_DEFFERDMERGE");
 
-	KPtr<HMaterial> DEFFERDMERGEMAT = HResMgr<HMaterial>::Create(L"DEFFERDMERGEMAT");
+	KPtr<HMaterial> DEFFERDMERGEMAT = ResourceManager<HMaterial>::Create(L"DEFFERDMERGEMAT");
 	DEFFERDMERGEMAT->SetVtxShader(L"DEFFERDMERGEVTX");
 	DEFFERDMERGEMAT->SetPixShader(L"DEFFERDMERGEPIX");
 	DEFFERDMERGEMAT->SetBlend(L"ALPHA");
@@ -660,20 +657,20 @@ bool HDevice::Mat3DCreate() {
 	DEFFERDMERGEMAT->AddTexData(TEXTYPE::TT_TAGET, 1, L"LIGHT_DIFFUSE");
 	DEFFERDMERGEMAT->AddTexData(TEXTYPE::TT_TAGET, 2, L"LIGHT_SPECULAR");
 
-	KPtr<HVtxShader> SCREENMERGEVTX = HResMgr<HVtxShader>::LoadToKey(L"SCREENMERGEVTX", L"Shader", L"ScreenMerge.fx", "VS_SCREENMERGE");
+	KPtr<HVtxShader> SCREENMERGEVTX = ResourceManager<HVtxShader>::Load_FromKey(L"SCREENMERGEVTX", L"Shader", L"ScreenMerge.fx", "VS_SCREENMERGE");
 	SCREENMERGEVTX->AddLayout("POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
 	SCREENMERGEVTX->AddLayoutEnd("TEXCOORD", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32_FLOAT, 0);
-	KPtr<HPixShader> SCREENMERGEPIX = HResMgr<HPixShader>::LoadToKey(L"SCREENMERGEPIX", L"Shader", L"ScreenMerge.fx", "PS_SCREENMERGE");
+	KPtr<HPixShader> SCREENMERGEPIX = ResourceManager<HPixShader>::Load_FromKey(L"SCREENMERGEPIX", L"Shader", L"ScreenMerge.fx", "PS_SCREENMERGE");
 
-	KPtr<HMaterial> SCREENMERGEMAT = HResMgr<HMaterial>::Create(L"SCREENMERGEMAT");
+	KPtr<HMaterial> SCREENMERGEMAT = ResourceManager<HMaterial>::Create(L"SCREENMERGEMAT");
 	SCREENMERGEMAT->SetVtxShader(L"SCREENMERGEVTX");
 	SCREENMERGEMAT->SetPixShader(L"SCREENMERGEPIX");
 
-	KPtr<HVtxShader> VOLUMEVTX = HResMgr<HVtxShader>::LoadToKey(L"VOLUMEVTX", L"Shader", L"VolumeMesh.fx", "VS_VOLUME");
+	KPtr<HVtxShader> VOLUMEVTX = ResourceManager<HVtxShader>::Load_FromKey(L"VOLUMEVTX", L"Shader", L"VolumeMesh.fx", "VS_VOLUME");
 	VOLUMEVTX->AddLayoutEnd("POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
-	KPtr<HPixShader> VOLUMEPIX = HResMgr<HPixShader>::LoadToKey(L"VOLUMEPIX", L"Shader", L"VolumeMesh.fx", "PS_VOLUME");
+	KPtr<HPixShader> VOLUMEPIX = ResourceManager<HPixShader>::Load_FromKey(L"VOLUMEPIX", L"Shader", L"VolumeMesh.fx", "PS_VOLUME");
 
-	KPtr<HMaterial> VOLUMEMAT = HResMgr<HMaterial>::Create(L"VOLUMEMAT");
+	KPtr<HMaterial> VOLUMEMAT = ResourceManager<HMaterial>::Create(L"VOLUMEMAT");
 	VOLUMEMAT->SetBlend(L"VOLUME");
 	VOLUMEMAT->SetVtxShader(L"VOLUMEVTX");
 	VOLUMEMAT->SetPixShader(L"VOLUMEPIX");
@@ -681,7 +678,7 @@ bool HDevice::Mat3DCreate() {
 	return true;
 }
 
-bool HDevice::DefaultDataInit3D() 
+bool KDevice::DefaultDataInit3D() 
 {
 
 	DefRenderTaget();

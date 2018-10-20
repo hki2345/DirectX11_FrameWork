@@ -1,7 +1,7 @@
 #include "HCamera.h"
 #include "HTrans.h"
 #include "HActor.h"
-#include "HWindow.h"
+#include "KWindow.h"
 #include "Core_Class.h"
 #include "InputMgr.h"
 #include "TimeMgr.h"
@@ -11,9 +11,9 @@
 
 HCamera::HCamera() : m_eSMode(SM_WINDOW), m_ePMode(PM_ORTH), m_fFov(3.14f * 0.5f), m_fNear(1.0f), m_fFar(1000.0f), m_Order(0)
 {
-	m_CamMesh = HResMgr<HMesh>::Find(L"RECT");
-	m_CamMat = HResMgr<HMaterial>::Find(L"DEFFERDMERGEMAT");
-	m_CamScreenMat = HResMgr<HMaterial>::Find(L"SCREENMERGEMAT");
+	m_CamMesh = ResourceManager<HMesh>::Find(L"RECT");
+	m_CamMat = ResourceManager<HMaterial>::Find(L"DEFFERDMERGEMAT");
+	m_CamScreenMat = ResourceManager<HMaterial>::Find(L"SCREENMERGEMAT");
 }
 
 HCamera::~HCamera()
@@ -48,7 +48,7 @@ void HCamera::Update()
 {
 }
 
-HVEC HCamera::ScreenToWorld(HVEC2 _ScreenPos)
+KVector4 HCamera::ScreenToWorld(KVector2 _ScreenPos)
 {
 	switch (m_ePMode)
 	{
@@ -56,18 +56,18 @@ HVEC HCamera::ScreenToWorld(HVEC2 _ScreenPos)
 		break;
 	case HCamera::PM_ORTH:
 	{
-		HVEC Pos;
+		KVector4 Pos;
 
-		HVEC2 WinSize = Window()->size();
+		KVector2 WinSize = Window()->size();
 		//         1024               200
 		float fX = _ScreenPos.x / WinSize.x;
 		float fY = _ScreenPos.y / WinSize.y;
 
 		//         600
-		float rX = m_ScreenSize.x * fX - m_ScreenSize.HX();
-		float rY = m_ScreenSize.y * -fY + m_ScreenSize.HY();
+		float rX = m_ScreenSize.x * fX - m_ScreenSize.x_part();
+		float rY = m_ScreenSize.y * -fY + m_ScreenSize.y_part();
 
-		Pos.m_Pos = HVEC2(rX, rY);
+		Pos.m_Pos = KVector2(rX, rY);
 
 		Pos.m_Pos += m_Trans->WPos();
 
@@ -77,7 +77,7 @@ HVEC HCamera::ScreenToWorld(HVEC2 _ScreenPos)
 		break;
 	}
 
-	return HVEC::ZERO;
+	return KVector4::Zero;
 }
 
 void HCamera::FinalUpdate()

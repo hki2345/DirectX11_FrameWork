@@ -143,13 +143,13 @@ void TransDlg::SettingComponent(HComponent* _pCom)
 	UpdateData(TRUE);
 
 
-	HVEC3 Temp;
+	KVector3 Temp;
 	Temp = m_pTrans->LPos().m_Vec3;
-	memcpy(&TransValue.v1, &Temp, sizeof(HVEC3));
+	memcpy(&TransValue.v1, &Temp, sizeof(KVector3));
 	Temp = m_pTrans->LRot().m_Vec3;
-	memcpy(&TransValue.v2, &Temp, sizeof(HVEC3));
+	memcpy(&TransValue.v2, &Temp, sizeof(KVector3));
 	Temp = m_pTrans->LScale().m_Vec3;
-	memcpy(&TransValue.v3, &Temp, sizeof(HVEC3));
+	memcpy(&TransValue.v3, &Temp, sizeof(KVector3));
 
 	UpdateData(FALSE);
 }

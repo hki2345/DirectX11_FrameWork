@@ -56,7 +56,7 @@ BOOL SpriteSelectDlg::OnInitDialog()
 	// m_ImageList.inser
 
 	RECT Rc = { 0, 0, m_SampleSize.cx * (LONG)CountX
-		, m_SlotSize.cy * (LONG)((UINT)HResMgr<HImage>::AllResCount() / CountX + 1) };
+		, m_SlotSize.cy * (LONG)((UINT)ResourceManager<HImage>::All_Count() / CountX + 1) };
 
 	AdjustWindowRect(&Rc, WS_OVERLAPPEDWINDOW, false);
 	SetWindowPos(nullptr, 0, 0, Rc.right - Rc.left
@@ -69,7 +69,7 @@ BOOL SpriteSelectDlg::OnInitDialog()
 	SIZE BtnSize = { 100, 20 };
 	RECT m_BtnRect = { 0, 0, 100, 100 };
 
-	std::list<KPtr<HImage>> List = HResMgr<HImage>::GetAllSingleResList();
+	std::list<KPtr<HImage>> List = ResourceManager<HImage>::All_SingleList();
 	std::list<KPtr<HImage>>::iterator ImageStartIter;
 	std::list<KPtr<HImage>>::iterator ImageEndIter;
 
@@ -82,7 +82,7 @@ BOOL SpriteSelectDlg::OnInitDialog()
 	{
 		ImageSelectButton* p = new ImageSelectButton();
 
-		p->m_ImageKey = (*ImageStartIter)->FullFileName();
+		p->m_ImageKey = (*ImageStartIter)->FileNameExt();
 		CRect BtnRc = { StartPoint.x, StartPoint.y, StartPoint.x + BtnSize.cx, StartPoint.y + BtnSize.cy };
 		m_ButtonVector.push_back(p);
 		p->Create(L"선택", BS_DEFPUSHBUTTON, BtnRc, this, IdCout++);
@@ -110,7 +110,7 @@ void SpriteSelectDlg::OnPaint()
 	CPaintDC dc(this); // device context for painting
 					   // TODO: 여기에 메시지 처리기 코드를 추가합니다.
 					   // 그리기 메시지에 대해서는 CDialogEx::OnPaint()을(를) 호출하지 마십시오.
-	std::list<KPtr<HImage>> List = HResMgr<HImage>::GetAllSingleResList();
+	std::list<KPtr<HImage>> List = ResourceManager<HImage>::All_SingleList();
 
 	std::list<KPtr<HImage>>::iterator ImageStartIter;
 	std::list<KPtr<HImage>>::iterator ImageEndIter;
@@ -127,7 +127,7 @@ void SpriteSelectDlg::OnPaint()
 	{
 		CImage Image;
 		RECT m_DestRect = { 0, 0, (int)(*ImageStartIter)->GetTex()->Width(), (int)(*ImageStartIter)->GetTex()->Height() };
-		CString Path = (*ImageStartIter)->Path();
+		CString Path = (*ImageStartIter)->AllPath();
 		Image.Load(Path);
 		m_SrcRect = { StartPoint .x, StartPoint .y, StartPoint.x + m_SampleSize.cx, StartPoint.y + m_SampleSize.cy };
 		Image.AlphaBlend(dc.m_hDC, m_SrcRect, m_DestRect);

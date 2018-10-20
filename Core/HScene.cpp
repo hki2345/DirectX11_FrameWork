@@ -3,8 +3,8 @@
 #include "Stl_AID.h"
 #include "HTrans.h"
 #include "KMacro.h"
-#include "BWStream.h"
-#include "BRStream.h"
+#include "WriteStream.h"
+#include "ReadStream.h"
 #include "HSceneMgr.h"
 #include "Core_Class.h"
 #include <atlstr.h>
@@ -407,7 +407,7 @@ std::vector<KPtr<HActor>> HScene::AllObjectList()
 
 void HScene::Save(const wchar_t* _FilePath) 
 {
-	BWStream SaveStream = BWStream(_FilePath);
+	WriteStream SaveStream = WriteStream(_FilePath);
 
 	UINT Size = NameSize() + 1;
 	SaveStream.Write(&Size, sizeof(UINT));
@@ -474,7 +474,7 @@ void HScene::Save(const wchar_t* _FilePath)
 
 KPtr<HScene> HScene::Load(const wchar_t* _FilePath, HSceneBuilder*(*CBPtr)(const wchar_t*), HSceneUpdater*(*CUPtr)(const wchar_t*), void(*_ComLoadPtr)(KPtr<HActor>, const std::string& _ComName))
 {
-	BRStream LoadStream = BRStream(_FilePath);
+	ReadStream LoadStream = ReadStream(_FilePath);
 
 	wchar_t Name[1024];
 
@@ -518,7 +518,7 @@ KPtr<HScene> HScene::Load(const wchar_t* _FilePath, HSceneBuilder*(*CBPtr)(const
 	return nullptr;
 }
 
-KPtr<HActor> HScene::CreateActor(BRStream& _Stream, void(*_ComLoadPtr)(KPtr<HActor>, const std::string& _ComName), bool _Root)
+KPtr<HActor> HScene::CreateActor(ReadStream& _Stream, void(*_ComLoadPtr)(KPtr<HActor>, const std::string& _ComName), bool _Root)
 {
 	wchar_t Name[1024];
 

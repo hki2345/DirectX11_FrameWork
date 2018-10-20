@@ -5,7 +5,7 @@
 #include "HLight.h"
 #include "HResMgr.h"
 #include "HSampler.h"
-#include "GameDebug.h"
+#include "DebugManager.h"
 #include "HMultiRenderTaget.h"
 #include "Core_Class.h"
 
@@ -31,7 +31,7 @@ bool HRenderMgr::ZOrderSort(KPtr<HRenderer> _Left, KPtr<HRenderer> _Right)
 
 void HRenderMgr::ResetSR() 
 {
-	KPtr<HSampler> Smp = HResMgr<HSampler>::Find(L"DefaultSmp");
+	KPtr<HSampler> Smp = ResourceManager<HSampler>::Find(L"DefaultSmp");
 
 	if (nullptr == Smp)
 	{
@@ -102,12 +102,12 @@ void HRenderMgr::Render()
 	ScreenMerge();
 	
 
-	if (GameDebug::IsDebug())
+	if (DebugManager::Is_Debug())
 	{
 		Core_Class::MainDevice().SetDsMode(L"ALWAYS");
 		Core_Class::MainScene()->DebugRender();
-		GameDebug::TagetDebug();
-		GameDebug::RenderLog();
+		DebugManager::TagetDebug();
+		DebugManager::RenderLog();
 	}
 
 	
@@ -214,7 +214,7 @@ void HRenderMgr::LightCheck(KPtr<HCamera> _Camera, int _Group)
 	Core_Class::MainDevice().SettingCB<HLight::LightCBDATA>(L"LIGHTDATA", Data, SHTYPE::ST_VS);
 	Core_Class::MainDevice().SettingCB<HLight::LightCBDATA>(L"LIGHTDATA", Data, SHTYPE::ST_PS);
 
-	// HDevice::SettingCB()
+	// KDevice::SettingCB()
 
 	// 이건 어느 쉐이더에도 속하지 않는 아주. 글로벌한 녀석이어야 한다.
 	// 상수버퍼에 세팅해줘야 하는데 전역 상수버퍼가 없다.
@@ -225,11 +225,11 @@ void HRenderMgr::LightCheck(KPtr<HCamera> _Camera, int _Group)
 void HRenderMgr::Render_Defferd(KPtr<HCamera> _Camera, std::map<int, std::list<KPtr<HRenderer>>>::iterator _Iter, size_t _Index)
 {
 	// 디퍼드용 메테리얼로 
-	KPtr<HMultiRenderTaget> DEFFERDTAGET = HResMgr<HMultiRenderTaget>::Find(L"DEFFERD");
+	KPtr<HMultiRenderTaget> DEFFERDTAGET = ResourceManager<HMultiRenderTaget>::Find(L"DEFFERD");
 	DEFFERDTAGET->Clear();
 	DEFFERDTAGET->OMSet();
 
-	KPtr<HMaterial> DEFFERD3DMAT = HResMgr<HMaterial>::Find(L"DEFFERD3DMAT");
+	KPtr<HMaterial> DEFFERD3DMAT = ResourceManager<HMaterial>::Find(L"DEFFERD3DMAT");
 	KASSERT(nullptr == DEFFERD3DMAT);
 	if (nullptr == DEFFERD3DMAT)
 	{
@@ -254,7 +254,7 @@ void HRenderMgr::Render_Defferd(KPtr<HCamera> _Camera, std::map<int, std::list<K
 
 void HRenderMgr::Render_Defferd_Light(KPtr<HCamera> _Camera, int _Group)
 {
-	KPtr<HMultiRenderTaget> LIGHTTAGET = HResMgr<HMultiRenderTaget>::Find(L"LIGHT");
+	KPtr<HMultiRenderTaget> LIGHTTAGET = ResourceManager<HMultiRenderTaget>::Find(L"LIGHT");
 	LIGHTTAGET->Clear();
 	LIGHTTAGET->OMSet();
 

@@ -2,7 +2,7 @@
 #include <vector>
 #include <unordered_map>
 #include "KMacro.h"
-#include "DHeader.h"
+#include "DXContainer.h"
 
 #include "Stl_AID.h"
 #include "SmartPtr.h"
@@ -74,16 +74,16 @@ private:
 
 private:
 	static POINT m_iPoint;
-	static HVEC2 m_MousePos;
-	static HVEC2 m_OriMousePos;
-	static HVEC2 m_MouseDir;
+	static KVector2 m_MousePos;
+	static KVector2 m_OriMousePos;
+	static KVector2 m_MouseDir;
 
 public:
-	static HVEC2 MousePos() {
+	static KVector2 MousePos() {
 		return m_MousePos;
 	}
 
-	static HVEC2 MouseDir() {
+	static KVector2 MouseDir() {
 		return m_MouseDir;
 	}
 

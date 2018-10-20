@@ -1,19 +1,30 @@
 #pragma once
-#include "DHeader.h"
-#include "HWindowBase.h"
+#include "DXContainer.h"
+#include "Mof_KWindow.h"
 #include "SmartPtr.h"
 #include "KMacro.h"
 
 #include <string>
 #include <unordered_map>
 
-class HDevice : public HWindowBase
+
+
+// 본격적으로 그래픽카드의 권한 일부를 가져오는 놈이다.
+// 여기서 이 구조는 어떻게 보면 Window, fmod에서 권한을 가져오는 것과 일맥상 통한다.
+// 권한을 가져올 포인터 마련 -> 가져옴 -> 다른 연결된 포인터 가져옴 -> 적용
+// 디바이스는 해당 권한을 불러오려는 윈도우를 알아야한다.
+class KDevice : public Mof_KWindow
 {
+	// 렌더에서 해당 디바이스의 컨텍스트를 실행한다.
 public:
 	friend class HRenderer;
 	friend class HRenderMgr;
 
 public:
+	// 어떤식으로 보여지게 할 것이냐///
+	// 앞면만 뒷면만
+	// 모든면 와이어 -> 3D MAX 생각하면 됌
+	// 레스터 타입
 	enum RS_TYPE
 	{
 		RT_FRONT,
@@ -27,6 +38,12 @@ private:
 	// 마소의 프로그래밍 방식중 하나.
 	// 컴객체 방식에 대해서 공부해 보세요.
 	// 리소스 관련 내용과 함수들에 대한 객체
+
+	// 컴객체란 https://docs.microsoft.com/en-us/windows/desktop/com/the-component-object-model
+	// 어떤 원하는 함수를 실행하기 위해서 다른 함수에서 포인터를 입력받아 그 포인터에서 실행하는 과정
+	// 이 과정은 소위 "뇌가 있는" 과정이라 하여 해당 함수를 정상적으로 실행할 수 있는지에 대한
+	// 판별을 자동으로 실시하는 것이다. 실시 할 수 없을 경우 해당 포인터가 nullptr로 대입되어
+	// 어떤 함수도 실행할 수 없게 되는 것이다.
 	ID3D11Device*				m_pDevice;				// 최종적으로 디바이스의 장치 권한을 얻어오는 것
 	// 랜더링 관련
 	ID3D11DeviceContext*		m_pContext;				// 컨텍스트
@@ -40,13 +57,10 @@ private:
 	ID3D11Texture2D*			m_pDepthStencilTex;		// 깊이 스텐실용 텍스처
 	ID3D11DepthStencilView*		m_pDepthStencilView;	// 깊이 스텐실 뷰
 
-	//D3D11_DEPTH_STENCIL_DESC	m_DepthState;
-	//ID3D11DepthStencilState*	m_pDepthStencilState;	// 깊이 스텐실 뷰
-	//ID3D11DepthStencilState*	m_pDepthStencilStateDebug;	// 깊이 스텐실 뷰
 
 
 	UINT						m_iMSLv;
-	HCOLOR						m_Color;
+	KColor						m_Color;
 	bool						m_bInit;
 
 
@@ -56,6 +70,8 @@ public:
 	ID3D11DepthStencilView*		Depth() { return m_pDepthStencilView; };
 
 private:
+	// 레스터라이즈 상태 -> 와이어 프레임인지 솔리드인지 결정은
+	// 렌더러가 할 수 있게 한다.
 	class RSState : public SmartPtr
 	{
 	public:
@@ -91,6 +107,11 @@ public:
 	void SetRsMode(const wchar_t* _Name);
 
 private:
+
+	/***************** Depth Stencil ****************/
+
+	// 뎁스 스텐실 -> 렌더 순서를 결정해준다.
+	// + 윤곽 처리 그런 거
 	class DSState : public SmartPtr
 	{
 	public:
@@ -155,6 +176,9 @@ private:
 public:
 	bool Init();
 
+	// 다이렉트 초기화를 여러번 해야 하는 경우가 생긴다. -> 초기화가 됐는데
+	// 전체화면 도중 튕기거나 alt +tab을 눌러 바탕화면으로 빠져나올 경우에도
+	// 디바이스를 잃어버릴 수도 있기 때문에 이러한 설정을 한다.
 	bool IsInit() {
 		return m_bInit;
 	}
@@ -162,21 +186,26 @@ public:
 public:
 	void Release();
 
-////////////////////////////////////////// ConstBuffer
-private:
-		// 윈도우 기반이기 때문에 Window가 그냥 값으로 들고 있을 것이다.
-		class GCBUFFER : public SmartPtr
-		{
-		public:
-			D3D11_BUFFER_DESC tDesc;
-			ID3D11Buffer*	pConstBuffer;
-			UINT			iReg;
 
-			~GCBUFFER()
-			{
-				if (nullptr != pConstBuffer) { pConstBuffer->Release(); };
-			}
-		};
+
+
+
+private:
+	/********** Const Buffer ************/
+	// 윈도우 기반이기 때문에 Window가 그냥 값으로 들고 있을 것이다.
+	class GCBUFFER : public SmartPtr
+	{
+	public:
+		D3D11_BUFFER_DESC tDesc;
+		ID3D11Buffer*		pConstBuffer; // 요놈이 상수 버퍼 -> D11에선 쉐이더에서 쓰일 버퍼따위도
+										   // 모두 요놈 자료형으로 저장된당
+		KUINT			iReg;
+
+		~GCBUFFER()
+		{
+			if (nullptr != pConstBuffer) { pConstBuffer->Release(); };
+		}
+	};
 
 private:
 	std::unordered_map<std::wstring, KPtr<GCBUFFER>> m_MapConstBuffer;
@@ -242,7 +271,7 @@ public:
 	KPtr<GCBUFFER> FindCB(const wchar_t* _Name);
 
 public:
-	HDevice(KWindow* _Win);
-	~HDevice();
+	KDevice(KWindow* _Win);
+	~KDevice();
 };
 

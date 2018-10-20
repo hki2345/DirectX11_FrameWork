@@ -1,6 +1,6 @@
 #pragma once
 #include <vector>
-#include "DHeader.h"
+#include "DXContainer.h"
 #include "HBaseCom.h"
 #include "HMultiRenderTaget.h"
 
@@ -12,7 +12,7 @@ class HCamera final : public HBaseCom
 {
 public:
 	friend HRenderMgr;
-	friend class GameDebug;
+	friend class DebugManager;
 
 public:
 	enum PROJMODE
@@ -31,12 +31,12 @@ private:
 	int      m_Order;
 	PROJMODE m_ePMode;
 
-	HMAT m_View; // 카메라
-	HMAT m_Proj; // 투영
-	HMAT m_VP; // 투영
+	KMatrix m_View; // 카메라
+	KMatrix m_Proj; // 투영
+	KMatrix m_VP; // 투영
 
 	SIZEMODE m_eSMode;
-	HVEC2 m_ScreenSize;
+	KVector2 m_ScreenSize;
 	float m_ScreenRatioX;
 	float m_ScreenRatioY;
 	float m_fFov;
@@ -62,17 +62,17 @@ public:
 		m_fFar = _fFar;
 	}
 
-	const HMAT& CV() const
+	const KMatrix& CV() const
 	{
 		return m_View;
 	}
 
-	const HMAT& CP() const
+	const KMatrix& CP() const
 	{
 		return m_Proj;
 	}
 
-	const HMAT& VP() const
+	const KMatrix& VP() const
 	{
 		return m_VP;
 	}
@@ -87,7 +87,7 @@ public:
 		PushLayer(Arg...);
 	}
 
-	HVEC ScreenToWorld(HVEC2 _ScreenPos);
+	KVector4 ScreenToWorld(KVector2 _ScreenPos);
 
 private:
 	template<typename ...Rest>
@@ -116,12 +116,12 @@ public:
 		}
 	}
 
-	void ScreenSize(HVEC2 _ScreenSize) {
+	void ScreenSize(KVector2 _ScreenSize) {
 		m_ScreenSize = _ScreenSize;
 		m_eSMode = SM_CUSTOM;
 	}
 	
-	HVEC2 ScreenSize() {
+	KVector2 ScreenSize() {
 		return m_ScreenSize;
 	}
 

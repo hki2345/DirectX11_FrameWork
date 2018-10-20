@@ -14,8 +14,8 @@
 #include "HSpriteCut.h"
 #include <HThread.h>
 
-#include <BWStream.h>
-#include <BRStream.h>
+#include <WriteStream.h>
+#include <ReadStream.h>
 
 
 // SpriteDlg 대화 상자입니다.
@@ -85,7 +85,7 @@ BOOL SpriteDlg::OnInitDialog()
 
 void SpriteDlg::SpriteInit() 
 {
-	// SpriteCheck(GamePath::FindPath(L"Texture"), L"Texture", m_SpriteTree.InsertItem(L"Texture"));
+	// SpriteCheck(PathManager::Find_ForderPath(L"Texture"), L"Texture", m_SpriteTree.InsertItem(L"Texture"));
 
 	KPtr<HScene> m_Scene = Core_Class::MainSceneMgr().FindScene(L"SpriteDlg");
 	KPtr<HActor> pActor = m_Scene->CreateActor();
@@ -100,10 +100,10 @@ void SpriteDlg::SpriteInit()
 	// HThread::StartThread<SpriteDlg>(L"PlayerLoader", &SpriteDlg::TestPlayerLoad, this);
 	// HThread::StartThread<SpriteDlg>(L"Player2Loader", &SpriteDlg::TestPlayerLoad2, this);
 
-	//std::wstring Path1 = GamePath::FindPath(L"Texture");
+	//std::wstring Path1 = PathManager::Find_ForderPath(L"Texture");
 	//Path1 += L"\\Player\\";
 	//SpriteCheck(Path1.c_str(), L"Player", m_SpriteTree.InsertItem(L"Player"));
-	//std::wstring Path2 = GamePath::FindPath(L"Texture");
+	//std::wstring Path2 = PathManager::Find_ForderPath(L"Texture");
 	//Path2 += L"\\Player2\\";
 	//SpriteCheck(Path2.c_str(), L"Player2", m_SpriteTree.InsertItem(L"Player2"));
 }
@@ -113,12 +113,12 @@ unsigned int SpriteDlg::TestPlayerLoad(void* _Arg)
 	OnBnClickedLoaddata();
 
 	return 0;
-	//std::wstring Path1 = GamePath::FindPath(L"Texture");
+	//std::wstring Path1 = PathManager::Find_ForderPath(L"Texture");
 	//Path1 += L"\\Player\\";
 	//SpriteCheck(Path1.c_str(), L"Player", m_SpriteTree.InsertItem(L"Player"));
 }
 unsigned int SpriteDlg::TestPlayerLoad2(void* _Arg) {
-	std::wstring Path2 = GamePath::FindPath(L"Texture");
+	std::wstring Path2 = PathManager::Find_ForderPath(L"Texture");
 	Path2 += L"\\Player2\\";
 	SpriteCheck(Path2.c_str(), L"Player2", m_SpriteTree.InsertItem(L"Player2"));
 
@@ -129,8 +129,8 @@ void SpriteDlg::SpriteCheck(const wchar_t* _Path, const wchar_t* _Folder, HTREEI
 {
 	
 	CFileFind FileFind;
-	CString FindPath = _Path;
-	BOOL bFile = FileFind.FindFile(FindPath + L"*.*");
+	CString Find_ForderPath = _Path;
+	BOOL bFile = FileFind.FindFile(Find_ForderPath + L"*.*");
 	// 리스트를 찾은거라.
 	while (bFile)
 	{
@@ -144,9 +144,9 @@ void SpriteDlg::SpriteCheck(const wchar_t* _Path, const wchar_t* _Folder, HTREEI
 		{
 			CString Path = FileFind.GetFilePath();
 			Path += L"\\";
-			if (nullptr == GamePath::FindPath(FileFind.GetFileName()))
+			if (nullptr == PathManager::Find_ForderPath(FileFind.GetFileName()))
 			{
-				GamePath::CreatePath(FileFind.GetFileName(), Path.GetString());
+				PathManager::Create_FilePath(FileFind.GetFileName(), Path.GetString());
 			}
 
 			HTREEITEM FolderItem = m_SpriteTree.InsertItem(FileFind.GetFileName(), _ParentItem);
@@ -159,15 +159,15 @@ void SpriteDlg::SpriteCheck(const wchar_t* _Path, const wchar_t* _Folder, HTREEI
 
 			if (FindIter != m_pDataList.end())
 			{
-				if (nullptr == HResMgr<HTexture>::Find(FileFind.GetFileName()))
+				if (nullptr == ResourceManager<HTexture>::Find(FileFind.GetFileName()))
 				{
-					HResMgr<HTexture>::Load(FileFind.GetFilePath());
-					HResMgr<HImage>::Load(FileFind.GetFilePath());
+					ResourceManager<HTexture>::Load(FileFind.GetFilePath());
+					ResourceManager<HImage>::Load(FileFind.GetFilePath());
 				}
 
-				KPtr<HImage> m_Img = HResMgr<HImage>::Find(FileFind.GetFileName());
+				KPtr<HImage> m_Img = ResourceManager<HImage>::Find(FileFind.GetFileName());
 				m_Img->Cut(FindIter->second->CutX, FindIter->second->CutY);
-				size_t Index = m_Img->Cut(HVEC(0.0f, 0.0f, 1.0f, 1.0f));
+				size_t Index = m_Img->Cut(KVector4(0.0f, 0.0f, 1.0f, 1.0f));
 				m_SpriteRender->ImageIndex(Index);
 				
 				HTREEITEM FileItem = m_SpriteTree.InsertItem(FileFind.GetFileName(), _ParentItem);
@@ -177,14 +177,14 @@ void SpriteDlg::SpriteCheck(const wchar_t* _Path, const wchar_t* _Folder, HTREEI
 
 				CString Name = FileFind.GetFilePath();
 
-				KPtr<HTexture> Tex = HResMgr<HTexture>::Load(Name);
-				KPtr<HImage> Img = HResMgr<HImage>::Load(Name);
+				KPtr<HTexture> Tex = ResourceManager<HTexture>::Load(Name);
+				KPtr<HImage> Img = ResourceManager<HImage>::Load(Name);
 
 				if (nullptr != Img)
 				{
 					SpriteData* pNewData = new SpriteData();
 					lstrcpyW(pNewData->ImagePath, FileFind.GetFilePath());
-					lstrcpyW(pNewData->FileName, Img->FullFileName());
+					lstrcpyW(pNewData->FileName, Img->FileNameExt());
 
 					m_pDataList.insert(std::map<std::wstring, SpriteData*>::value_type(pNewData->FileName, pNewData));
 
@@ -224,25 +224,25 @@ void SpriteDlg::OnTvnSelchangedSpritetree(NMHDR *pNMHDR, LRESULT *pResult)
 		if (nullptr != m_SpriteRender->Texture()
 			&& nullptr != m_SpriteRender->Scene()->Camera())
 		{
-			HVEC2 ImgSize = m_SpriteRender->Texture()->ImageSize();
-			HVEC2 CameraSize = m_SpriteRender->Scene()->Camera()->ScreenSize();
-			HVEC2 WindowSize = Core_Class::MainWindow().size();
+			KVector2 ImgSize = m_SpriteRender->Texture()->ImageSize();
+			KVector2 CameraSize = m_SpriteRender->Scene()->Camera()->ScreenSize();
+			KVector2 WindowSize = Core_Class::MainWindow().size();
 
 			m_SpriteRender->ImageIndex(m_SpriteRender->Image()->CutCount() - 1);
 
-			if (ImgSize.RatioX() > CameraSize.RatioX())
+			if (ImgSize.x_ratio() > CameraSize.x_ratio())
 			{
 				// 너비로 맞춘다.
-				m_SpriteRender->Scene()->Camera()->ScreenSize({ ImgSize.x, ImgSize.x * WindowSize.RatioY() });
+				m_SpriteRender->Scene()->Camera()->ScreenSize({ ImgSize.x, ImgSize.x * WindowSize.y_ratio() });
 			}
-			else if (ImgSize.RatioX() < CameraSize.RatioX())
+			else if (ImgSize.x_ratio() < CameraSize.x_ratio())
 			{
 				// 길이로 맞춘다.
-				m_SpriteRender->Scene()->Camera()->ScreenSize({ ImgSize.y * WindowSize.RatioX(), ImgSize.y });
+				m_SpriteRender->Scene()->Camera()->ScreenSize({ ImgSize.y * WindowSize.x_ratio(), ImgSize.y });
 			}
 			else 
 			{
-				m_SpriteRender->Scene()->Camera()->ScreenSize({ ImgSize.y, ImgSize.y * WindowSize.RatioY() });
+				m_SpriteRender->Scene()->Camera()->ScreenSize({ ImgSize.y, ImgSize.y * WindowSize.y_ratio() });
 				// 별 상관 없다.
 			}
 		}
@@ -278,7 +278,7 @@ void SpriteDlg::OnEnChangeCutx()
 	}
 
 	m_SpriteRender->Image()->Cut((size_t)PTR->CutX, (size_t)PTR->CutY);
-	size_t Index = m_SpriteRender->Image()->Cut(HVEC(0.0f, 0.0f, 1.0f, 1.0f));
+	size_t Index = m_SpriteRender->Image()->Cut(KVector4(0.0f, 0.0f, 1.0f, 1.0f));
 	m_SpriteRender->ImageIndex(Index);
 
 	// TODO:  RICHEDIT 컨트롤인 경우, 이 컨트롤은
@@ -310,7 +310,7 @@ void SpriteDlg::OnEnChangeCuty()
 	PTR->CutY = m_CurY;
 
 	m_SpriteRender->Image()->Cut((size_t)PTR->CutX, (size_t)PTR->CutY);
-	size_t Index = m_SpriteRender->Image()->Cut(HVEC(0.0f, 0.0f, 1.0f, 1.0f));
+	size_t Index = m_SpriteRender->Image()->Cut(KVector4(0.0f, 0.0f, 1.0f, 1.0f));
 	m_SpriteRender->ImageIndex(Index);
 
 
@@ -341,10 +341,10 @@ void SpriteDlg::Release() {
 
 void SpriteDlg::OnBnClickedSavedata()
 {
-	CString SaveFolder = GamePath::FindPath(L"Data");
+	CString SaveFolder = PathManager::Find_ForderPath(L"Data");
 	SaveFolder += L"SpriteData.dat";
 
-	CString BackFolder = GamePath::FindPath(L"SpriteBack");
+	CString BackFolder = PathManager::Find_ForderPath(L"SpriteBack");
 
 	wchar_t BackNumber[256];
 
@@ -354,8 +354,8 @@ void SpriteDlg::OnBnClickedSavedata()
 	BackFolder += BackNumber;
 	BackFolder += L".dat";
 
-	BWStream SaveStream = BWStream(SaveFolder);
-	BWStream SaveBackStream = BWStream(BackFolder);
+	WriteStream SaveStream = WriteStream(SaveFolder);
+	WriteStream SaveBackStream = WriteStream(BackFolder);
 
 	int Size = (int)m_pDataList.size();
 	SaveStream.Write(&Size, sizeof(int));
@@ -380,30 +380,30 @@ void SpriteDlg::OnBnClickedLoaddata()
 	Release();
 	m_SpriteTree.DeleteAllItems();
 
-	CString SaveFolder = GamePath::FindPath(L"Data");
+	CString SaveFolder = PathManager::Find_ForderPath(L"Data");
 	SaveFolder += L"SpriteData.dat";
 
-	BRStream ReadStream = BRStream(SaveFolder);
+	ReadStream NewStream = ReadStream(SaveFolder);
 
-	if (false == ReadStream.IsFile())
+	if (false == NewStream.IsFile())
 	{
-		SpriteCheck(GamePath::FindPath(L"Texture"), L"Texture", m_SpriteTree.InsertItem(L"Texture"));
+		SpriteCheck(PathManager::Find_ForderPath(L"Texture"), L"Texture", m_SpriteTree.InsertItem(L"Texture"));
 		return;
 	}
 
 	int Count = 0;
-	ReadStream.Read(&Count, sizeof(int), sizeof(int));
+	NewStream.Read(&Count, sizeof(int), sizeof(int));
 
 	for (int i = 0; i < Count; i++)
 	{
 		SpriteData* NewData = new SpriteData();
 
-		ReadStream.Read(NewData, sizeof(SpriteData), sizeof(SpriteData));
+		NewStream.Read(NewData, sizeof(SpriteData), sizeof(SpriteData));
 		m_pDataList.insert(std::map<std::wstring, SpriteData*>::value_type(NewData->FileName, NewData));
 	}
 
 	m_CurSelectItem = nullptr;
 	m_SpriteRender->Image(nullptr);
 
-	SpriteCheck(GamePath::FindPath(L"Texture"), L"Texture", m_SpriteTree.InsertItem(L"Texture"));
+	SpriteCheck(PathManager::Find_ForderPath(L"Texture"), L"Texture", m_SpriteTree.InsertItem(L"Texture"));
 }

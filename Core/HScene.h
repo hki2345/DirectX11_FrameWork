@@ -4,18 +4,18 @@
 #include <unordered_map>
 #include <list>
 
-#include "HWindowBase.h"
+#include "Mof_KWindow.h"
 #include "HSceneBase.h"
 #include "HRenderMgr.h"
 #include "HCol2DMgr.h"
 
-#include "BRStream.h"
+#include "ReadStream.h"
 // c++ 11 이후
 
 class HActor;
 class HSceneMgr;
 class HCamera;
-class HScene final : public Begin_Updater, public HWindowBase
+class HScene final : public Begin_Updater, public Mof_KWindow
 {
 private:
 	friend HSceneMgr;
@@ -24,7 +24,7 @@ private:
 
 #pragma region UPDATEBUILD
 public:
-	class HSceneUpdater : public Begin_Type, public HSceneBase, public HWindowBase
+	class HSceneUpdater : public Begin_Type, public HSceneBase, public Mof_KWindow
 	{
 	public:
 		friend HScene;
@@ -39,7 +39,7 @@ public:
 		~HSceneUpdater() {}
 	};
 
-	class HSceneBuilder : public Begin_Type, public HSceneBase, public HWindowBase
+	class HSceneBuilder : public Begin_Type, public HSceneBase, public Mof_KWindow
 	{
 	public:
 		friend HScene;
@@ -70,12 +70,12 @@ private:
 public:
 	HSceneMgr* m_ParentSceneMgr;
 
-	HSceneMgr* SceneMgr() {
+	HSceneMgr* ThisStateManager() {
 		return m_ParentSceneMgr;
 	}
 
 private:
-	void SceneMgr(HSceneMgr* _SceneMgr) 
+	void ThisStateManager(HSceneMgr* _SceneMgr) 
 	{
 		m_ParentSceneMgr = _SceneMgr;
 	}
@@ -168,7 +168,7 @@ private:
 	void Release();
 
 private:
-	KPtr<HActor> CreateActor(BRStream& _Stream, void(*_ComLoadPtr)(KPtr<HActor>, const std::string& _ComName), bool _Root = true);
+	KPtr<HActor> CreateActor(ReadStream& _Stream, void(*_ComLoadPtr)(KPtr<HActor>, const std::string& _ComName), bool _Root = true);
 
 public:
 	// 트랜스폼이 기본 추가 됩니다.

@@ -1,6 +1,6 @@
 #include "H3DRectRenderer.h"
 #include "KMacro.h"
-#include "HWindow.h"
+#include "KWindow.h"
 #include "HTrans.h"
 
 
@@ -27,7 +27,7 @@ void H3DRectRenderer::Render(KPtr<HCamera> _Camera)
 	m_MatData.m_P = _Camera->CP();
 	m_MatData.m_WVP = (CSWMat() * _Camera->VP()).RTranspose();
 
-	m_Mat->VTXSH()->SettingCB<MATDATA>(L"MATDATA", m_MatData);
+	m_Mat->VTXSH()->SettingCB<MatrixContainer>(L"MATDATA", m_MatData);
 
 	m_Mat->Update();
 	m_Mesh->Update();

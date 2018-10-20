@@ -40,7 +40,7 @@ public:
 
 	HTrans* m_pTrans;
 
-	HMAT TransValue;
+	KMatrix TransValue;
 	CEdit ArrMatValue[3][3];
 
 	DropEditor NameXYZ[3][3];

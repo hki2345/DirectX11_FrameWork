@@ -60,7 +60,7 @@ HSoundPlayer::~HSoundPlayer()
 
 bool HSoundPlayer::SoundPlay(const wchar_t* _SoundName)
 {
-	m_Sound = HResMgr<HSound>::Find(_SoundName);
+	m_Sound = ResourceManager<HSound>::Find(_SoundName);
 
 	KASSERT(nullptr == m_Sound);
 

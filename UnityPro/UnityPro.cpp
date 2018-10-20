@@ -122,8 +122,8 @@ int UnityPro::ExitInstance()
 void UnityPro::Product_Cpp(const wchar_t* _Path, const wchar_t* _Name, const PROD_TYPE& _Type)
 {
 	CFileFind FileFind;
-	CString FindPath = _Path;
-	BOOL bFile = FileFind.FindFile(FindPath + L"*.cpp");
+	CString Find_ForderPath = _Path;
+	BOOL bFile = FileFind.FindFile(Find_ForderPath + L"*.cpp");
 
 	// 폴더 -> 내부에 cpp
 	// 유니티 cpp -> cpp를 모두다 모아놓은 파일

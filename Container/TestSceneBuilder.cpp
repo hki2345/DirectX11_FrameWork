@@ -1,7 +1,7 @@
 #include "TestSceneBuilder.h"
 
 #include <HActor.h>
-#include <HWindow.h>
+#include <KWindow.h>
 #include <HCamera.h>
 #include <HTrans.h>
 #include <HSpRenderer.h>

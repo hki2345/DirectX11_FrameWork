@@ -1,36 +1,49 @@
-#include "DHeader.h"
+#include "DXContainer.h"
 
-const HVEC HVEC::LEFT = HVEC(-1.0f, 0.0f, 0.0f, 0.0f);
-const HVEC HVEC::RIGHT = HVEC(1.0f, 0.0f, 0.0f, 0.0f);
-const HVEC HVEC::UP = HVEC(0.0f, 1.0f, 0.0f, 0.0f);
-const HVEC HVEC::DOWN = HVEC(0.0f, -1.0f, 0.0f, 0.0f);
-const HVEC HVEC::FORWORD = HVEC(0.0f, 0.0f, 1.0f, 0.0f);
 
-const HVEC HVEC::RX = HVEC(1.0f, 0.0f, 0.0f, 0.0f);
-const HVEC HVEC::RY = HVEC(0.0f, 1.0f, 0.0f, 0.0f);
-const HVEC HVEC::RZ = HVEC(0.0f, 0.0f, 1.0f, 0.0f);
+const KVector4 KVector4::Left = KVector4(-1.0f, 0.0f, 0.0f, 0.0f);
+const KVector4 KVector4::Right = KVector4(1.0f, 0.0f, 0.0f, 0.0f);
+const KVector4 KVector4::Up = KVector4(0.0f, 1.0f, 0.0f, 0.0f);
+const KVector4 KVector4::Down = KVector4(0.0f, -1.0f, 0.0f, 0.0f);
+const KVector4 KVector4::Forword = KVector4(0.0f, 0.0f, 1.0f, 0.0f);
+const KVector4 KVector4::Back = KVector4(0.0f, 0.0f, -1.0f, 0.0f);
+const KVector4 KVector4::Zero = KVector4(0.0f);
+const KVector4 KVector4::One = KVector4(1.0f);
 
-const HVEC HVEC::MRX = HVEC(-1.0f, 0.0f, 0.0f, 0.0f);
-const HVEC HVEC::MRY = HVEC(0.0f, -1.0f, 0.0f, 0.0f);
-const HVEC HVEC::MRZ = HVEC(0.0f, 0.0f, -1.0f, 0.0f);
 
-const HVEC HVEC::BACK = HVEC(0.0f, 0.0f, -1.0f, 0.0f);
-const HVEC HVEC::ZERO = HVEC(0.0f);
-const HVEC HVEC::ONE = HVEC(1.0f);
+const KVector4 KColor::Color_None = KVector4(0.0f, 0.0f, 0.0f, 1.0f);
+const KVector4 KColor::White = KVector4(1.0f, 1.0f, 1.0f, 1.0f);
+const KVector4 KColor::Black = KVector4(0.0f, 0.0f, 0.0f, 1.0f);
+const KVector4 KColor::Red = KVector4(1.0f, 0.0f, 0.0f, 1.0f);
+const KVector4 KColor::Green = KVector4(0.0f, 1.0f, 0.0f, 1.0f);
+const KVector4 KColor::Blue = KVector4(0.0f, 0.0f, 1.0f, 1.0f);
+const KVector4 KColor::Yellow = KVector4(1.0f, 1.0f, 0.0f, 1.0f);
+const KVector4 KColor::Majenta = KVector4(1.0f, 0.0f, 1.0f, 1.0f);
+const KVector4 KColor::Cyan = KVector4(0.0f, 1.0f, 1.0f, 1.0f);
+const KVector4 KColor::Gray = KVector4(0.5f, 0.5f, 0.5f, 1.0f);
 
-const HVEC HVEC::BLACK = HVEC(0.0f, 0.0f, 0.0f, 1.0f);
-const HVEC HVEC::RED = HVEC(1.0f, 0.0f, 0.0f, 1.0f);
-const HVEC HVEC::WHITE = HVEC(1.0f, 1.0f, 1.0f, 1.0f);
-const HVEC HVEC::GREEN = HVEC(0.0f, 1.0f, 0.0f, 1.0f);
-const HVEC HVEC::BLUE = HVEC(0.0f, 0.0f, 1.0f, 1.0f);
-const HVEC HVEC::MAGENTA = HVEC(1.0f, 0.0f, 1.0f, 1.0f);
+const KVector3 KVector3::Zero = KVector3(.0f);
+const KVector3 KVector3::Left = KVector3(-1.0f, .0f, .0f);
+const KVector3 KVector3::Right = KVector3(1.0f, .0f, .0f);
+const KVector3 KVector3::Up = KVector3(.0f, 1.0f, .0f);
+const KVector3 KVector3::Down = KVector3(.0f, -1.0f, .0f);
+const KVector3 KVector3::Forword = KVector3(0.0f, 0.0f, 1.0f);
+const KVector3 KVector3::Back = KVector3(0.0f, 0.0f, -1.0f);
+const KVector3 KVector3::One = KVector3(1.0f);
+
+const KVector2 KVector2::Zero = KVector2(.0f, .0f);
+const KVector2 KVector2::Left = KVector2(-1.0f, .0f);
+const KVector2 KVector2::Right = KVector2(1.0f, .0f);
+const KVector2 KVector2::Up = KVector2(.0f, 1.0f);
+const KVector2 KVector2::Down = KVector2(.0f, -1.0f);
+
 
 const float HMATHVAR::DTOR = DirectX::XM_PI / 180.0f;
 const float HMATHVAR::RTOD = 180.0f / DirectX::XM_PI;
 
 
 
-UINT DHelper::GetFmSize(DXGI_FORMAT _Fm) 
+KUINT  DHelper::Size_Format(DXGI_FORMAT _Fm)
 {
 	switch (_Fm)
 	{

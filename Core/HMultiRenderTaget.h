@@ -9,7 +9,7 @@
 // 달라진다.
 // https://docs.microsoft.com/en-us/windows/desktop/direct3d11/overviews-direct3d-11-resources-limits
 
-class HMultiRenderTaget : public HRes
+class HMultiRenderTaget : public Resource
 {
 public:
 	friend HRenderMgr;
@@ -50,7 +50,7 @@ private:
 	template<typename... Rest>
 	void InsertTaget(const wchar_t* _TagetName, Rest... _Arg)
 	{
-		KPtr<HRenderTaget> Taget = HResMgr<HRenderTaget>::Find(_TagetName);
+		KPtr<HRenderTaget> Taget = ResourceManager<HRenderTaget>::Find(_TagetName);
 
 		if (nullptr == Taget)
 		{

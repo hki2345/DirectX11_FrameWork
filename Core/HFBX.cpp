@@ -1,7 +1,7 @@
 #include "HFBX.h"
 #include <atlstr.h>
 #include "KMacro.h"
-#include "DHeader.h"
+#include "DXContainer.h"
 
 
 HFBX::HFBX()
@@ -101,7 +101,7 @@ void HFBX::Load_Mesh(FbxMesh* _pMesh)
 
 	FbxVector4* pVtxPos = _pMesh->GetControlPoints();
 
-	HVEC NewPos;
+	KVector4 NewPos;
 
 
 	// FBX에서 제공하는 Vector는 x, z, y 순이다.

@@ -1,5 +1,5 @@
 #include "TestSceneUpdater.h"
-#include <HWindow.h>
+#include <KWindow.h>
 #include <InputMgr.h>
 #include <TimeMgr.h>
 #include <Core_Class.h>

@@ -4,7 +4,7 @@
 class H3DRectRenderer : public HRenderer
 {
 public:
-	MATDATA m_MatData;
+	MatrixContainer m_MatData;
 
 public:
 	void Render(KPtr<HCamera> _Camera) override;

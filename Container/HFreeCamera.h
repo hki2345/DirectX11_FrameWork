@@ -7,8 +7,8 @@ class HFreeCamera : public HLogic
 {
 private:
 	KPtr<HCamera> m_Camera;
-	HVEC2 PrevMouse;
-	HVEC2 RotPos;
+	KVector2 PrevMouse;
+	KVector2 RotPos;
 	float m_RotSpeed;
 	float m_Speed;
 	float m_Boost;

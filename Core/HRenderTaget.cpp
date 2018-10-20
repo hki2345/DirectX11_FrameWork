@@ -2,7 +2,7 @@
 #include "KMacro.h"
 #include "Core_Class.h"
 
-HRenderTaget::HRenderTaget() : m_Color(HVEC::BLUE)
+HRenderTaget::HRenderTaget() : m_Color(KVector4::Blue)
 {
 }
 
@@ -10,7 +10,7 @@ HRenderTaget::~HRenderTaget()
 {
 }
 
-bool HRenderTaget::Create(const KUINT& _W, const KUINT& _H, HVEC _Color, const KUINT& _BindFlag, DXGI_FORMAT _eFormat, D3D11_USAGE _eUsage /*= D3D11_USAGE::D3D11_USAGE_DEFAULT*/)
+bool HRenderTaget::Create(const KUINT& _W, const KUINT& _H, KVector4 _Color, const KUINT& _BindFlag, DXGI_FORMAT _eFormat, D3D11_USAGE _eUsage /*= D3D11_USAGE::D3D11_USAGE_DEFAULT*/)
 {
 	m_Tex = new HTexture();
 	if (false == m_Tex->Create(_W, _H, _BindFlag, _eFormat, _eUsage))
@@ -25,7 +25,7 @@ bool HRenderTaget::Create(const KUINT& _W, const KUINT& _H, HVEC _Color, const K
 
 bool HRenderTaget::Create(const KUINT& _W, const KUINT& _H, const KUINT& _BindFlag, DXGI_FORMAT _eFormat, D3D11_USAGE _eUsage)
 {
-	return Create(_W, _H, HVEC::BLUE, _BindFlag, _eFormat, _eUsage);
+	return Create(_W, _H, KVector4::Blue, _BindFlag, _eFormat, _eUsage);
 }
 
 bool HRenderTaget::Create(ID3D11Texture2D* _pTex2D, UINT _BindFlag) 

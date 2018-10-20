@@ -1,8 +1,8 @@
 #pragma once
-#include "HRes.h"
-#include "DHeader.h"
+#include "Resource.h"
+#include "DXContainer.h"
 
-class HSampler : public HRes
+class HSampler : public Resource
 {
 private:
 	D3D11_SAMPLER_DESC m_Desc;
@@ -22,9 +22,9 @@ public:
 	D3D11_TEXTURE_ADDRESS_MODE AddressV = D3D11_TEXTURE_ADDRESS_CLAMP,
 	D3D11_TEXTURE_ADDRESS_MODE AddressW = D3D11_TEXTURE_ADDRESS_CLAMP,
 	FLOAT MipLODBias = 1.0f,
-	UINT MaxAnisotropy = 0,
+	KUINT MaxAnisotropy = 0,
 	D3D11_COMPARISON_FUNC ComparisonFunc = D3D11_COMPARISON_NEVER,
-	HCOLOR BorderColor = HVEC::ONE,
+	KColor BorderColor = KVector4::One,
 	FLOAT MinLOD = -FLT_MAX,
 	FLOAT MaxLOD = FLT_MAX
 	);
@@ -36,7 +36,7 @@ public:
 	//	FLOAT MipLODBias = 1.0f,
 	//	UINT MaxAnisotropy = 0,
 	//	D3D11_COMPARISON_FUNC ComparisonFunc = D3D11_COMPARISON_NEVER,
-	//	HVEC BorderColor = HVEC::ONE,
+	//	KVector4 BorderColor = KVector4::One,
 	//	FLOAT MinLOD = -FLT_MAX,
 	//	FLOAT MaxLOD = FLT_MAX
 	//);

@@ -1,5 +1,5 @@
 #include "KCore.h"
-#include "HWindow.h"
+#include "KWindow.h"
 #include "TimeMgr.h"
 #include "InputMgr.h"
 #include "Core_Class.h"
@@ -82,14 +82,11 @@ void KCore::Init_Core(HINSTANCE _Hinst, const wchar_t* _pMainWindowName, HWND _h
 			return;
 		}
 	}
+	
 
 	Core_Class::MainWindow(_pMainWindowName);
 	HSoundDevice::Init();
-	GamePath::Init();
-	GamePath::CreateRootPath(L"Shader");
-	GamePath::CreateRootPath(L"Texture");
-	GamePath::CreateRootPath(L"Sound");
-	GamePath::CreateRootPath(L"Mesh");
+	PathManager::Init();
 	TimeMgr::Init();
 	HColCom::ColInit();
 }

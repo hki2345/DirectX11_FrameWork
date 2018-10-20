@@ -1,8 +1,8 @@
 #include "H3DGRID.h"
 #include "KMacro.h"
-#include "HWindow.h"
+#include "KWindow.h"
 #include "HTrans.h"
-#include "GameDebug.h"
+#include "DebugManager.h"
 
 
 H3DGRID::H3DGRID() : m_BlockSizeInter(10.0f)
@@ -45,7 +45,7 @@ void H3DGRID::CalData(KPtr<HCamera> _Camera)
 	wchar_t Arr[256];
 
 	swprintf_s(Arr, L"Alpha : %f", m_GridData.z);
-	GameDebug::DrawLog(Arr);
+	DebugManager::DrawLog(Arr);
 }
 
 void H3DGRID::TransUpdate(KPtr<HCamera> _Camera)
@@ -74,7 +74,7 @@ void H3DGRID::TransUpdate(KPtr<HCamera> _Camera)
 
 void H3DGRID::Render(KPtr<HCamera> _Camera)
 {
-	m_Mat->PIXSH()->SettingCB<HVEC>(L"GRIDDATA", m_GridData);
+	m_Mat->PIXSH()->SettingCB<KVector4>(L"GRIDDATA", m_GridData);
 }
 
 bool H3DGRID::Init(int _Order /*= 0*/)
@@ -92,7 +92,7 @@ bool H3DGRID::Init(int _Order /*= 0*/)
 
 	//if (nullptr == Window()->Device().FindCB(L"GRIDDATA"))
 	//{
-	//	Window()->Device().CreateCB<HVEC>(L"GRIDDATA", D3D11_USAGE_DYNAMIC, 0);
+	//	Window()->Device().CreateCB<KVector4>(L"GRIDDATA", D3D11_USAGE_DYNAMIC, 0);
 	//}
 
 	SetRSState(L"SNONE");

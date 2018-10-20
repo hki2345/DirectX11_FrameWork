@@ -6,12 +6,12 @@
 template<typename RETURN, typename MAP, typename KEY>
 RETURN Map_Find(MAP& _Map, const KEY& _Key)
 {
-	MAP::iterator FindIter = _Map.find(_Key);
-	if (FindIter == _Map.end())
+	MAP::iterator FI = _Map.find(_Key);
+	if (FI == _Map.end())
 	{
 		return nullptr;
 	}
-	return FindIter->second;
+	return FI->second;
 }
 
 // 단지 있다 없다만 판별해 준다.

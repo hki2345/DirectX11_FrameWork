@@ -1,7 +1,7 @@
 #include "HCol2D.h"
 #include "HScene.h"
 #include "HTrans.h"
-#include "GameDebug.h"
+#include "DebugManager.h"
 
 
 HCol2D::HCol2D()
@@ -32,7 +32,7 @@ void HCol2D::ColFiUpdate()
 		switch (m_2DCol->m_ColType)
 		{
 		case CT_RECT2D:
-			m_2DCol->m_Vec.m_Size.Setting(fabsf(m_Trans->LScale().x), fabsf(m_Trans->LScale().y));
+			m_2DCol->m_Vec.m_Size.set_vector2(fabsf(m_Trans->LScale().x), fabsf(m_Trans->LScale().y));
 			break;
 		case CT_CIRCLE2D:
 			m_2DCol->m_Vec.m_Vec3.Radius = (fabsf(m_Trans->LScale().x) * 0.5f);
@@ -44,7 +44,7 @@ void HCol2D::ColFiUpdate()
 		switch (m_2DCol->m_ColType)
 		{
 		case CT_RECT2D:
-			m_2DCol->m_Vec.m_Size.Setting(fabsf(Size.x), fabsf(Size.y));
+			m_2DCol->m_Vec.m_Size.set_vector2(fabsf(Size.x), fabsf(Size.y));
 			break;
 		case CT_CIRCLE2D:
 			m_2DCol->m_Vec.m_Vec3.Radius = (fabsf(Size.x) * 0.5f);
@@ -73,5 +73,5 @@ void HCol2D::DebugRender()
 	ColFiUpdate();
 // #endif
 
-	GameDebug::DrawRect(m_2DCol->m_Vec);
+	DebugManager::DrawRect(m_2DCol->m_Vec);
 }

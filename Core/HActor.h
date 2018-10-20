@@ -1,9 +1,9 @@
 #pragma once
 #include "Begin_Updater.h"
-#include "HWindowBase.h"
+#include "Mof_KWindow.h"
 #include "HSceneBase.h"
 #include <list>
-#include "BWStream.h"
+#include "WriteStream.h"
 
 enum OVERTYPE
 {
@@ -20,7 +20,7 @@ class HComponent;
 class HTrans;
 class HRenderMgr;
 class HCol2DMgr;
-class HActor final : public Begin_Updater, public HWindowBase, public HSceneBase
+class HActor final : public Begin_Updater, public Mof_KWindow, public HSceneBase
 {
 public:
 	friend HScene;
@@ -201,7 +201,7 @@ private:
 	void OverPushCol2D(HCol2DMgr* _pCol2DMgr);
 
 public:
-	void Save(BWStream& _Stream);
+	void Save(WriteStream& _Stream);
 
 private:
 	HActor();

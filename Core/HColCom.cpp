@@ -1,5 +1,5 @@
 #include "HColCom.h"
-#include "GameMath.h"
+#include "KMath.h"
 
 bool(*HColCom::ColFunc[CT_MAX][CT_MAX])(const HColFi* _Left, const HColFi* _Right);
 

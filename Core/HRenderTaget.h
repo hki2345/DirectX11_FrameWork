@@ -18,11 +18,11 @@
 // 내부연산을 극적으로 줄이는것.
 
 // 멀티랜더 타겟이.
-class HRenderTaget : public HRes
+class HRenderTaget : public Resource
 {
 private:
 	KPtr<HTexture> m_Tex;
-	HVEC		   m_Color;
+	KVector4		   m_Color;
 
 public:
 	KPtr<HTexture> TagetTex() 
@@ -32,7 +32,7 @@ public:
 
 public:
 	bool Create(const KUINT& _W, const KUINT& _H, const KUINT& _BindFlag, DXGI_FORMAT _eFormat, D3D11_USAGE _eUsage = D3D11_USAGE::D3D11_USAGE_DEFAULT);
-	bool Create(const KUINT& _W, const KUINT& _H, HVEC _Color, const KUINT& _BindFlag, DXGI_FORMAT _eFormat, D3D11_USAGE _eUsage = D3D11_USAGE::D3D11_USAGE_DEFAULT);
+	bool Create(const KUINT& _W, const KUINT& _H, KVector4 _Color, const KUINT& _BindFlag, DXGI_FORMAT _eFormat, D3D11_USAGE _eUsage = D3D11_USAGE::D3D11_USAGE_DEFAULT);
 	bool Create(ID3D11Texture2D* _pTex2D, UINT _BindFlag);
 
 	void Clear();

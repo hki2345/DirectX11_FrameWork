@@ -8,14 +8,14 @@ class IsoMapRender : public HRenderer
 {
 private:
 	KPtr<HImage> m_Img;
-	HCOLOR	     m_Color;
+	KColor	     m_Color;
 
-	HMAT TilePosMat;
-	HMAT TileSizeMat;
+	KMatrix TilePosMat;
+	KMatrix TileSizeMat;
 
-	HVEC2 Index;
-	HVEC TilePos;
-	HVEC         m_TileSIze;
+	KVector2 Index;
+	KVector4 TilePos;
+	KVector4         m_TileSIze;
 
 public:
 	class HTile : public SmartPtr
@@ -43,12 +43,12 @@ private:
 
 
 public:
-	KPtr<HTile> FindTile(HVEC2 _Tile);
+	KPtr<HTile> FindTile(KVector2 _Tile);
 	// 마우스 포인터 넣어줬을대 벌어지는 일.
-	void CreateTile(HVEC2 _WorldPos, int _Index = 0);
+	void CreateTile(KVector2 _WorldPos, int _Index = 0);
 	// 인덱스 넣어서 만들기.
 	void CreateTile(int _x, int _y, int _Index = 0);
-	HVEC2 WorldToIndex(HVEC2 _WorldPos);
+	KVector2 WorldToIndex(KVector2 _WorldPos);
 
 public:
 	IsoMapRender();
@@ -60,7 +60,7 @@ public:
 
 public:
 	bool Init(int _Order = 0) override;
-	bool Init(const wchar_t* _ImgName, HVEC2 _Size,int _Order = 0);
+	bool Init(const wchar_t* _ImgName, KVector2 _Size,int _Order = 0);
 	void Render(KPtr<HCamera> _Camera) override;
 
 private: ///////////////////////////////// AStar
@@ -70,8 +70,8 @@ private: ///////////////////////////////// AStar
 		float F;
 		float H;
 		float G;
-		HVEC2 m_Index;
-		HVEC2 m_Pos;
+		KVector2 m_Index;
+		KVector2 m_Pos;
 		PathNode* m_Parent;
 
 	public:
@@ -81,19 +81,19 @@ private: ///////////////////////////////// AStar
 
 private: ///////////////////// AstartMember
 
-	HVEC2 StartIndex;
-	HVEC2 EndIndex;
+	KVector2 StartIndex;
+	KVector2 EndIndex;
 	KPtr<PathNode> m_CurNode;
 
 	KPtr<PathNode> m_EndNode;
-	HVEC2 CheckDir[4];
+	KVector2 CheckDir[4];
 
 	std::multimap<float, KPtr<PathNode>> m_OpenList; // 찾아야할 가능성이 있는 노드
 	std::map<__int64, KPtr<PathNode>> m_OpenFindList; // 찾아야할 가능성이 있는 노드
 	std::map<__int64, KPtr<PathNode>> m_CloseList; // 이미 찾아서 또 찾을 필요가 없는 노드.
 
 private:
-	void CreateNode(HVEC2 _Index);
+	void CreateNode(KVector2 _Index);
 	void CalNode(KPtr<PathNode> _Node);
 	void CheckNode();
 
@@ -101,8 +101,8 @@ private:
 
 public:
 	// 월드 위치로 준다.
-	std::list<HVEC2> WorldPathFind(HVEC2 _Start, HVEC2 _End);
-	std::list<HVEC2> IndexPathFind(HVEC2 _Start, HVEC2 _End);
+	std::list<KVector2> WorldPathFind(KVector2 _Start, KVector2 _End);
+	std::list<KVector2> IndexPathFind(KVector2 _Start, KVector2 _End);
 
 };
 

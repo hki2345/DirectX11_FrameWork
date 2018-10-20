@@ -17,7 +17,7 @@ public:
 	friend HScene;
 	friend HCamera;
 	friend HRenderer;
-	friend class GameDebug;
+	friend class DebugManager;
 
 private:
 	static bool ZOrderSort(KPtr<HRenderer> _Left, KPtr<HRenderer> _Right);

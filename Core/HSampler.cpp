@@ -34,7 +34,7 @@ bool HSampler::Setting(D3D11_FILTER Filter,
 	FLOAT MipLODBias,
 	UINT MaxAnisotropy,
 	D3D11_COMPARISON_FUNC ComparisonFunc,
-	HCOLOR BorderColor,
+	KColor BorderColor,
 	FLOAT MinLOD,
 	FLOAT MaxLOD) 
 {
@@ -47,7 +47,7 @@ bool HSampler::Setting(D3D11_FILTER Filter,
 	m_Desc.AddressU = AddressU;
 	m_Desc.AddressV = AddressV;
 	m_Desc.AddressW = AddressW;
-	memcpy_s(m_Desc.BorderColor, sizeof(HCOLOR), BorderColor.s, sizeof(HCOLOR));
+	memcpy_s(m_Desc.BorderColor, sizeof(KColor), BorderColor.s, sizeof(KColor));
 	m_Desc.ComparisonFunc = ComparisonFunc;
 	m_Desc.MaxAnisotropy = MaxAnisotropy;
 	m_Desc.MipLODBias = MipLODBias;

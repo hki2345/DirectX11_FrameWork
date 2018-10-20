@@ -42,23 +42,23 @@ bool HTexture::Load()
 	MCRI A{ 0 };
 
 	// bmp
-	if (true == IsExt(L".DDs") || true == IsExt(L".dds"))
+	if (true == Compare_Ext(L".DDs") || true == Compare_Ext(L".dds"))
 	{
-		if (S_OK != DirectX::LoadFromDDSFile(Path(), DirectX::DDS_FLAGS_NONE, nullptr, m_Image))
+		if (S_OK != DirectX::LoadFromDDSFile(AllPath(), DirectX::DDS_FLAGS_NONE, nullptr, m_Image))
 		{
 			return false;
 		}
 	}
-	else if(true == IsExt(L".tga") || true == IsExt(L".TGA"))
+	else if(true == Compare_Ext(L".tga") || true == Compare_Ext(L".TGA"))
 	{
-		if (S_OK != DirectX::LoadFromTGAFile(Path(), nullptr, m_Image))
+		if (S_OK != DirectX::LoadFromTGAFile(AllPath(), nullptr, m_Image))
 		{
 			return false;
 		}
 	}
 	else {
 		// pNG BMP JPG
-		if (S_OK != DirectX::LoadFromWICFile(Path(), DirectX::WIC_FLAGS_NONE, nullptr, m_Image))
+		if (S_OK != DirectX::LoadFromWICFile(AllPath(), DirectX::WIC_FLAGS_NONE, nullptr, m_Image))
 		{
 			return false;
 		}
@@ -94,9 +94,9 @@ void HTexture::Reset(unsigned int _Slot)
 	Core_Class::Context()->PSSetShaderResources(_Slot, 1, &Reset);
 }
 
-HVEC HTexture::GetPixel(int _X, int _Y) 
+KVector4 HTexture::GetPixel(int _X, int _Y) 
 {
-	size_t Size = DHelper::GetFmSize(m_Image.GetMetadata().format);
+	size_t Size = DHelper::Size_Format(m_Image.GetMetadata().format);
 
 	BaseColor Color;
 	uint8_t* p = m_Image.GetPixels();
@@ -105,9 +105,9 @@ HVEC HTexture::GetPixel(int _X, int _Y)
 
 	memcpy_s(&Color, Size, p, Size);
 
-	HVEC ReturnColor;
+	KVector4 ReturnColor;
 
-	ReturnColor.SetColor(Color.b, Color.g, Color.r, Color.a);
+	ReturnColor.Set_Color(Color.b, Color.g, Color.r, Color.a);
 
 	return ReturnColor;
 }

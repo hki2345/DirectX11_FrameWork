@@ -1,5 +1,5 @@
 #pragma once
-#include "GameMath.h"
+#include "KMath.h"
 #include "HComponent.h"
 
 // 내가 지름 이렇게 존재한다.
@@ -35,27 +35,27 @@ private:
 	bool m_bLP;
 	bool m_bW;
 
-	HVEC m_LScale;		// 크
-	HVEC m_LRot;		// 자
-	HVEC m_LPos;		// 이
+	KVector4 m_LScale;		// 크
+	KVector4 m_LRot;		// 자
+	KVector4 m_LPos;		// 이
 
-	HVEC m_WRot;		// 이
-	HVEC m_WScale;		// 크
-	HVEC m_WPos;		// 이
+	KVector4 m_WRot;		// 이
+	KVector4 m_WScale;		// 크
+	KVector4 m_WPos;		// 이
 
-	HVEC m_LRevolve;	// 공
+	KVector4 m_LRevolve;	// 공
 
 	// 기저벡터
-	HVEC m_LAx[AXIS::AX_MAX];		// 이
-	HVEC m_WAx[AXIS::AX_MAX];		// 이
+	KVector4 m_LAx[AXIS::AX_MAX];		// 이
+	KVector4 m_WAx[AXIS::AX_MAX];		// 이
 
-	HMAT m_SMat; // 크
-	HMAT m_RMat; // 자
-	HMAT m_PMat; // 이
+	KMatrix m_SMat; // 크
+	KMatrix m_RMat; // 자
+	KMatrix m_PMat; // 이
 
-	HMAT m_WMat; // 이
+	KMatrix m_WMat; // 이
 
-	HMAT m_RMatX, m_RMatY, m_RMatZ; // 자
+	KMatrix m_RMatX, m_RMatY, m_RMatZ; // 자
 
 
 
@@ -63,7 +63,7 @@ public:
 	bool IsWorldUpdate() {		return m_bW;	}
 
 
-	void LPos(const HVEC& _Value)
+	void LPos(const KVector4& _Value)
 	{
 		m_LPos = _Value;
 
@@ -77,14 +77,14 @@ public:
 	}
 
 
-	void LMove(const HVEC& _Value)
+	void LMove(const KVector4& _Value)
 	{
 		m_LPos += _Value;
 		m_bLP = true;
 		m_bW = true;
 	}
 
-	void WPos(const HVEC& _Value)
+	void WPos(const KVector4& _Value)
 	{
 		// 여기서 바로 계산해 버리는 방법이 있고.
 		// 부모를 무시하고 나는 무조건 거기로 가면 된다.
@@ -99,35 +99,35 @@ public:
 		m_bW = true;
 	}
 
-	void LAccRotDeg(const HVEC& _Value)
+	void LAccRotDeg(const KVector4& _Value)
 	{
 		m_LRot += _Value * HMATHVAR::DTOR;
 		m_bLR = true;
 		m_bW = true;
 	}
 
-	void LAccRotRad(const HVEC& _Value)
+	void LAccRotRad(const KVector4& _Value)
 	{
 		m_LRot += _Value;
 		m_bLR = true;
 		m_bW = true;
 	}
 
-	void LRotRad(const HVEC& _Value)
+	void LRotRad(const KVector4& _Value)
 	{
 		m_LRot = _Value;
 		m_bLR = true;
 		m_bW = true;
 	}
 
-	void LRot(const HVEC& _Value)
+	void LRot(const KVector4& _Value)
 	{
 		m_LRot = _Value * HMATHVAR::DTOR;
 		m_bLR = true;
 		m_bW = true;
 	}
 
-	void WRot(const HVEC& _Value) 
+	void WRot(const KVector4& _Value) 
 	{ 
 		if (nullptr != Actor()->Parent())
 		{
@@ -142,7 +142,7 @@ public:
 	}
 
 
-	void LScale(const HVEC& _Scale)
+	void LScale(const KVector4& _Scale)
 	{
 		// 여기서 바로 계산해 버리는 방법이 있고.
 		m_LScale = _Scale;
@@ -150,7 +150,7 @@ public:
 		m_bW = true;
 	}
 
-	void WScale(const HVEC& _Scale)
+	void WScale(const KVector4& _Scale)
 	{
 		// 여기서 바로 계산해 버리는 방법이 있고.
 		if (nullptr != Actor()->Parent())
@@ -165,30 +165,30 @@ public:
 		m_bW = true;
 	}
 
-	HVEC LForward() {		return m_LAx[AX_F];	}
-	HVEC WForward() {		return m_WAx[AX_F];	}
-	HVEC LUp() { return m_LAx[AX_U]; }
-	HVEC WUp() { return m_WAx[AX_U]; }
-	HVEC LRight() { return m_LAx[AX_R]; }
-	HVEC WRight() { return m_WAx[AX_R]; }
-	HVEC LBack() { return -m_LAx[AX_F]; }
-	HVEC WBack() { return -m_WAx[AX_F]; }
-	HVEC LLeft() { return -m_LAx[AX_R]; }
-	HVEC WLeft() { return -m_WAx[AX_R]; }
-	HVEC LDown() { return -m_LAx[AX_U]; }
-	HVEC WDown() { return -m_WAx[AX_U]; }
+	KVector4 LForward() {		return m_LAx[AX_F];	}
+	KVector4 WForward() {		return m_WAx[AX_F];	}
+	KVector4 LUp() { return m_LAx[AX_U]; }
+	KVector4 WUp() { return m_WAx[AX_U]; }
+	KVector4 LRight() { return m_LAx[AX_R]; }
+	KVector4 WRight() { return m_WAx[AX_R]; }
+	KVector4 LBack() { return -m_LAx[AX_F]; }
+	KVector4 WBack() { return -m_WAx[AX_F]; }
+	KVector4 LLeft() { return -m_LAx[AX_R]; }
+	KVector4 WLeft() { return -m_WAx[AX_R]; }
+	KVector4 LDown() { return -m_LAx[AX_U]; }
+	KVector4 WDown() { return -m_WAx[AX_U]; }
 
-	HVEC LPos() const	{ return m_LPos; }
-	HVEC WPos() const { return m_WPos; }
-	HVEC LScale() const { return m_LScale; }
+	KVector4 LPos() const	{ return m_LPos; }
+	KVector4 WPos() const { return m_WPos; }
+	KVector4 LScale() const { return m_LScale; }
 
-	HVEC WScale() const { return m_WScale; }
-	const HVEC& CWScale() const { return m_WScale; }
+	KVector4 WScale() const { return m_WScale; }
+	const KVector4& CWScale() const { return m_WScale; }
 
-	HVEC LRot()	{ return m_LRot;	}
-	HVEC WRot() { return m_WRot; }
+	KVector4 LRot()	{ return m_LRot;	}
+	KVector4 WRot() { return m_WRot; }
 
-	HMAT WMat() const
+	KMatrix WMat() const
 	{
 		return m_WMat;
 	}
@@ -197,22 +197,22 @@ public:
 		
 		
 
-	const HMAT& CPMat() const
+	const KMatrix& CPMat() const
 	{
 		return m_PMat;
 	}
 
-	const HMAT& CSMat() const
+	const KMatrix& CSMat() const
 	{
 		return m_SMat;
 	}
 
-	const HMAT& CRMat() const
+	const KMatrix& CRMat() const
 	{
 		return m_RMat;
 	}
 
-	const HMAT& CWMat() const
+	const KMatrix& CWMat() const
 	{
 		return m_WMat;
 	}

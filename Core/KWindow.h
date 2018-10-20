@@ -1,6 +1,6 @@
 #pragma once
 #include "HSceneMgr.h"
-#include "HDevice.h"
+#include "KDevice.h"
 #include "HRenderMgr.h"
 
 #include <Windows.h>
@@ -81,7 +81,7 @@ public:
 	size_t height_st() { return m_Height; }
 	float width_f() { return (float)m_Width; }
 	float height_f() { return (float)m_Height; }
-	HVEC2 size() { return{ width_f(), height_f() }; }
+	KVector2 size() { return{ width_f(), height_f() }; }
 	void size(const size_t&_X, const size_t& _Y);
 
 public:
@@ -91,24 +91,25 @@ public:
 
 private:
 	void Update();
-	ATOM RegClass();
-	BOOL InitInst();
+	ATOM KRegisterClass();
+	BOOL Init_Instance();
 
 public:
-	HSceneMgr SceneMgr;
+	HSceneMgr ThisStateManager;
 
 ////////////////////////////////////////////////////////// 디바이스
+// 윈도우에 디바이스가 장착되는 형식
 private:
-	HDevice m_Device;
+	KDevice m_Device;
 
 public:
-	HDevice& Device() { return m_Device; }
+	KDevice& Device() { return m_Device; }
 
 public:
-	bool DeviceInit();
+	bool Init_Device();
 
 private:
-	HRenderMgr m_RenderMgr;
+	HRenderMgr ThisRenderManager;
 
 };
 

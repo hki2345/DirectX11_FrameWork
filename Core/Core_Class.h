@@ -1,10 +1,10 @@
 #pragma once
-#include "DHeader.h"
+#include "DXContainer.h"
 #include "KCore.h"
 #include "SmartPtr.h"
 #include "HSceneMgr.h"
-#include "HWindow.h"
-#include "HDevice.h"
+#include "KWindow.h"
+#include "KDevice.h"
 #include "HScene.h"
 #include "HFBX.h"
 
@@ -24,7 +24,7 @@ public:
 	static KPtr<HScene> MainScene();
 	static KPtr<HScene> NextScene();
 
-	static HDevice& MainDevice();
+	static KDevice& MainDevice();
 	static ID3D11Device* PDevice();
 	static ID3D11DeviceContext*	Context();
 

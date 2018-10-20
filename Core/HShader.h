@@ -1,9 +1,9 @@
 #pragma once
-#include "HRes.h"
-#include "DHeader.h"
+#include "Resource.h"
+#include "DXContainer.h"
 #include <unordered_map>
 
-class HShader : public HRes
+class HShader : public Resource
 {
 public:
 

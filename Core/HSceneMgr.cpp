@@ -1,8 +1,8 @@
 #include "HSceneMgr.h"
 #include "Stl_AID.h"
 #include "KMacro.h"
-#include "HWindow.h"
-#include "GameDebug.h"
+#include "KWindow.h"
+#include "DebugManager.h"
 
 bool HSceneMgr::OverFind(KPtr<HActor> _Actor)
 {
@@ -118,7 +118,7 @@ KPtr<HScene> HSceneMgr::CreateScene(const wchar_t* _Name)
 	}
 
 	HScene* pNewScene = new HScene();
-	pNewScene->SceneMgr(this);
+	pNewScene->ThisStateManager(this);
 	pNewScene->Name(_Name);
 	pNewScene->Window(Window());
 	pNewScene->Set_Type();

@@ -3,7 +3,7 @@
 #include "KMacro.h"
 
 
-HBlend::HBlend() : m_pBlendState(nullptr), m_Color(1, 1, 1, 1)
+HBlend::HBlend() : m_pBlendState(nullptr), m_Color(KColor::Black)
 {
 }
 

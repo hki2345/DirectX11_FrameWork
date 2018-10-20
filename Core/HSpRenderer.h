@@ -7,7 +7,7 @@ class HSpRenderer : public HRenderer
 {
 private:
 	KPtr<HImage> m_Img;
-	HCOLOR	     m_Color;
+	KColor	     m_Color;
 	size_t		 m_ImgIndex;
 	
 public:
@@ -15,7 +15,7 @@ public:
 
 	void Render(KPtr<HCamera> _Camera) override;
 
-	void Color(HCOLOR _Color)
+	void Color(const KColor& _Color)
 	{
 		m_Color = _Color;
 	}

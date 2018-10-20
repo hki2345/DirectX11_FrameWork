@@ -3,7 +3,7 @@
 #include <InputMgr.h>
 #include <HSpFrameAnimater.h>
 #include <HCol2D.h>
-#include <GameDebug.h>
+#include <DebugManager.h>
 
 TestPanzaLogic::TestPanzaLogic() : m_ImgIndex(0)
 {
@@ -18,7 +18,7 @@ bool TestPanzaLogic::Init()
 {
 	ChRender = AddCom<HSpRenderer>(L"Test.png");
 	ChRender2 = AddCom<HSpRenderer>(L"BW.png");
-	// ChRender2->Color(HCOLOR(1.0f, 0.0f, 0.0f, 1.0f));
+	// ChRender2->Color(KColor(1.0f, 0.0f, 0.0f, 1.0f));
 
 	AniMater = AddCom<HSpFrameAnimater>();
 	AniMater->SettingSpRender(ChRender2);
@@ -38,17 +38,17 @@ void TestPanzaLogic::Update()
 {
 	if (InputMgr::IsDownStay(L"Q"))
 	{
-		m_Trans->LAccRotDeg(HVEC::MRZ * 360.0f * TimeMgr::DeltaTime());
+		m_Trans->LAccRotDeg(KVector4::Up * 360.0f * TimeMgr::DeltaTime());
 	}
 
 	if (InputMgr::IsDownStay(L"E"))
 	{
-		m_Trans->LAccRotDeg(HVEC::RZ * 360.0f * TimeMgr::DeltaTime());
+		m_Trans->LAccRotDeg(KVector4::Down * 360.0f * TimeMgr::DeltaTime());
 	}
 
 	if (InputMgr::IsDownStay(L"XS"))
 	{
-		m_Trans->LMove(HVEC::LEFT * 100.0f * TimeMgr::DeltaTime());
+		m_Trans->LMove(KVector4::Left * 100.0f * TimeMgr::DeltaTime());
 	}
 
 	if (InputMgr::IsDown(L"LEFT"))
@@ -92,5 +92,5 @@ void TestPanzaLogic::MyColExitTest(HColCom* _Left, HColCom* _Right) {
 
 void TestPanzaLogic::DebugRender() 
 {
-	// GameDebug::DrawFont(L"馬馬馬", {100.0f, 100.0f }, 50.0f, 0xff000000);
+	// DebugManager::DrawFont(L"馬馬馬", {100.0f, 100.0f }, 50.0f, 0xff000000);
 }

@@ -1,6 +1,6 @@
 #pragma once
-#include "HRes.h"
-#include "DHeader.h"
+#include "Resource.h"
+#include "DXContainer.h"
 #include "HTexture.h"
 #include "HSampler.h"
 
@@ -8,17 +8,17 @@
 
 class HTexture;
 class HSampler;
-class HImage : public HRes
+class HImage : public Resource
 {
 private:
 	KPtr<HTexture> m_Tex;
 	KPtr<HSampler> m_Sam;
-	std::vector<HVEC> m_VecUv;
+	std::vector<KVector4> m_VecUv;
 
-	HVEC2 m_CutIndex;
+	KVector2 m_CutIndex;
 
 public:
-	HVEC2 CutIndex() {
+	KVector2 CutIndex() {
 		return m_CutIndex;
 	}
 
@@ -26,7 +26,7 @@ public:
 		return m_VecUv.size();
 	}
 
-	const HVEC& Uv(size_t _Index = 0) 
+	const KVector4& Uv(size_t _Index = 0) 
 	{
 		return m_VecUv[_Index];
 	}
@@ -39,7 +39,7 @@ public:
 public:
 	// 이미지를 자르는 함수입니다.
 	void Cut(size_t _X, size_t _Y);
-	size_t Cut(HVEC _Vec);
+	size_t Cut(KVector4 _Vec);
 
 public:
 	bool Load(const wchar_t* _SmpName = L"DefaultSmp");

@@ -80,7 +80,7 @@ void ActorDlg::OnBnClickedCreactor()
 		KPtr<HActor> pActor = Core_Class::MainScene()->CreateActor(L"GameObject");
 
 
-		KPtr<IsoMapRender> IsoRender = pActor->AddCom<IsoMapRender>(L"Tile.png", HVEC2(128.0f, 64.0f));
+		KPtr<IsoMapRender> IsoRender = pActor->AddCom<IsoMapRender>(L"Tile.png", KVector2(128.0f, 64.0f));
 		IsoRender->CreateTile(0, 0);
 		IsoRender->CreateTile(1, 0);
 

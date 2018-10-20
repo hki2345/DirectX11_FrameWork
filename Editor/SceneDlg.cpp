@@ -101,7 +101,7 @@ void SceneDlg::OnBnClickedCrescene()
 	Core_Class::MainSceneMgr().ChangeScene(m_SceneName.GetString());
 
 	KPtr<HActor> Camera = m_Scene->CreateActor();
-	Camera->Trans()->LPos(HVEC(0.0f, 0.0f, -10.0f));
+	Camera->Trans()->LPos(KVector4(0.0f, 0.0f, -10.0f));
 	KPtr<HCamera> CamCom = Camera->AddCom<HCamera>();
 	CamCom->PushRenderLayer(0, 1, 2, 3, 4);
 
@@ -179,7 +179,7 @@ void SceneDlg::OnShowWindow(BOOL bShow, UINT nStatus)
 
 void SceneDlg::OnBnClickedSavescene()
 {
-	CString DataPath = GamePath::FindPath(L"Data");
+	CString DataPath = PathManager::Find_ForderPath(L"Data");
 
 	DataPath += m_CurSceneName + L".SData";
 

@@ -19,15 +19,15 @@ void HActor::Over()
 {
 	m_OverType = OT_ALLOVER;
 
-	if (true == Window()->SceneMgr.OverFind(this))
+	if (true == Window()->ThisStateManager.OverFind(this))
 	{
 		return;
 	}
 
-	Window()->SceneMgr.m_OverActorList.push_back(this);
+	Window()->ThisStateManager.m_OverActorList.push_back(this);
 
-	std::unordered_map<std::wstring, KPtr<HScene>>::iterator StartMapIter = Window()->SceneMgr.m_SceneMap.begin();
-	std::unordered_map<std::wstring, KPtr<HScene>>::iterator EndMapIter = Window()->SceneMgr.m_SceneMap.end();
+	std::unordered_map<std::wstring, KPtr<HScene>>::iterator StartMapIter = Window()->ThisStateManager.m_SceneMap.begin();
+	std::unordered_map<std::wstring, KPtr<HScene>>::iterator EndMapIter = Window()->ThisStateManager.m_SceneMap.end();
 
 	for (; StartMapIter != EndMapIter; ++StartMapIter)
 	{
@@ -267,24 +267,24 @@ void HActor::AddChild(KPtr<HActor> _Actor, bool _TransWorld /*= true*/)
 		// 100, 100, 100
 		// 100, 100, 100
 		// 크기
-		HVEC CScale = _Actor->Trans()->LScale();
-		HVEC Scale = Trans()->LScale();
+		KVector4 CScale = _Actor->Trans()->LScale();
+		KVector4 Scale = Trans()->LScale();
 
-		// HVEC R = CScale / Scale;
+		// KVector4 R = CScale / Scale;
 
 		_Actor->Trans()->LScale(CScale / Scale);
 
 		// 100, 100 // 자식
 		// 50, 50 // 부모
-		HVEC CPos = _Actor->Trans()->LPos();
-		HVEC Pos = Trans()->LPos();
+		KVector4 CPos = _Actor->Trans()->LPos();
+		KVector4 Pos = Trans()->LPos();
 		_Actor->Trans()->LPos((CPos - Pos) / Trans()->LScale());
 
 		// 90 
 		// 90
 		// 회전
-		HVEC CRot = _Actor->Trans()->LRot();
-		HVEC Rot = Trans()->LRot();
+		KVector4 CRot = _Actor->Trans()->LRot();
+		KVector4 Rot = Trans()->LRot();
 		_Actor->Trans()->LRot(CRot - Rot);
 	}
 	else if (false == _TransWorld && nullptr != Trans() && nullptr != _Actor->Trans())
@@ -368,7 +368,7 @@ void HActor::OverPushCol2D(HCol2DMgr* _pCol2DMgr)
 	}
 }
 
-void HActor::Save(BWStream& _Stream) 
+void HActor::Save(WriteStream& _Stream)
 {
 	UINT Size = Order();
 	_Stream.Write(&Size, sizeof(UINT));

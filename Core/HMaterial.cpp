@@ -18,7 +18,7 @@ HMaterial::~HMaterial()
 }
 
 HMaterial::HMaterial(const HMaterial& _Other)
-	: HRes(_Other),
+	: Resource(_Other),
 	m_VtxShader(_Other.m_VtxShader),
 	m_PixShader(_Other.m_PixShader),
 	m_Blend(_Other.m_Blend),
@@ -32,7 +32,7 @@ HMaterial::HMaterial(const HMaterial& _Other)
 
 bool HMaterial::SetVtxShader(const wchar_t* _VtxName) 
 {
-	m_VtxShader = HResMgr<HVtxShader>::Find(_VtxName);
+	m_VtxShader = ResourceManager<HVtxShader>::Find(_VtxName);
 	KASSERT(nullptr == m_VtxShader);
 
 	if (nullptr == m_VtxShader)
@@ -45,7 +45,7 @@ bool HMaterial::SetVtxShader(const wchar_t* _VtxName)
 
 bool HMaterial::SetPixShader(const wchar_t* _PixName) 
 {
-	m_PixShader = HResMgr<HPixShader>::Find(_PixName);
+	m_PixShader = ResourceManager<HPixShader>::Find(_PixName);
 	KASSERT(nullptr == m_PixShader);
 
 	if (nullptr == m_PixShader)
@@ -59,7 +59,7 @@ bool HMaterial::SetPixShader(const wchar_t* _PixName)
 
 bool HMaterial::SetBlend(const wchar_t* _PixName) 
 {
-	m_Blend = HResMgr<HBlend>::Find(_PixName);
+	m_Blend = ResourceManager<HBlend>::Find(_PixName);
 	KASSERT(nullptr == m_Blend);
 
 	if (nullptr == m_Blend)
@@ -86,7 +86,7 @@ bool HMaterial::Create()
 
 void HMaterial::SetTex(unsigned int _Slot, const wchar_t* _TexName) 
 {
-	KPtr<HTexture> FindTex = HResMgr<HTexture>::Find(_TexName);
+	KPtr<HTexture> FindTex = ResourceManager<HTexture>::Find(_TexName);
 	if (nullptr == FindTex)
 	{
 		BBY;
@@ -107,7 +107,7 @@ void HMaterial::SetTex(unsigned int _Slot, const wchar_t* _TexName)
 
 void HMaterial::SetTagetTex(unsigned int _Slot, const wchar_t* _TexName)
 {
-	KPtr<HRenderTaget> FindTaget = HResMgr<HRenderTaget>::Find(_TexName);
+	KPtr<HRenderTaget> FindTaget = ResourceManager<HRenderTaget>::Find(_TexName);
 	if (nullptr == FindTaget)
 	{
 		BBY;
@@ -127,7 +127,7 @@ void HMaterial::SetTagetTex(unsigned int _Slot, const wchar_t* _TexName)
 
 void HMaterial::SetSmp(unsigned int _Slot, const wchar_t* _SmpName) 
 {
-	KPtr<HSampler> FindSmp = HResMgr<HSampler>::Find(_SmpName);
+	KPtr<HSampler> FindSmp = ResourceManager<HSampler>::Find(_SmpName);
 	if (nullptr == FindSmp)
 	{
 		BBY;

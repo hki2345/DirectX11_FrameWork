@@ -1,6 +1,6 @@
 #pragma once
 #include "HBaseCom.h"
-#include "GameMath.h"
+#include "KMath.h"
 #include <set>
 #include <functional>
 
@@ -15,7 +15,7 @@
 
 // 상대 점이
 // 방정식은 항상 X Y == 0
-// HVEC 하나만 있다면 뭘 표현할수 있는가?
+// KVector4 하나만 있다면 뭘 표현할수 있는가?
 
 enum COLTYPE
 {
@@ -51,7 +51,7 @@ public:
 class Base2DColFi : public HColFi
 {
 public:
-	HVEC m_Vec;
+	KVector4 m_Vec;
 
 public:
 	Base2DColFi() {}
@@ -73,7 +73,7 @@ public:
 			return false;
 		}
 #endif
-		return GameMath::RectToRect(((Base2DColFi*)_Left)->m_Vec, ((Base2DColFi*)_Right)->m_Vec);
+		return KMath::RectToRect(((Base2DColFi*)_Left)->m_Vec, ((Base2DColFi*)_Right)->m_Vec);
 	}
 	static bool CirCleToCirCleFi(const HColFi* _Left, const HColFi* _Right)
 	{
@@ -87,7 +87,7 @@ public:
 			return false;
 		}
 #endif
-		return GameMath::CirCleToCirCle(((Base2DColFi*)_Left)->m_Vec.m_Vec3, ((Base2DColFi*)_Right)->m_Vec.m_Vec3);
+		return KMath::CirCleToCirCle(((Base2DColFi*)_Left)->m_Vec.m_Vec3, ((Base2DColFi*)_Right)->m_Vec.m_Vec3);
 	}
 
 	static bool PointToCirCleFi(const HColFi* _Left, const  HColFi* _Right) {
@@ -105,7 +105,7 @@ public:
 			return false;
 		}
 #endif
-		return GameMath::CirCleToPoint(((Base2DColFi*)_Left)->m_Vec.m_Vec3, ((Base2DColFi*)_Right)->m_Vec.m_Pos);
+		return KMath::CirCleToPoint(((Base2DColFi*)_Left)->m_Vec.m_Vec3, ((Base2DColFi*)_Right)->m_Vec.m_Pos);
 	}
 
 	static bool PointToRectFi(const HColFi* _Left, const  HColFi* _Right) {
@@ -123,7 +123,7 @@ public:
 			return false;
 		}
 #endif
-		return GameMath::RectToPoint(((Base2DColFi*)_Left)->m_Vec, ((Base2DColFi*)_Right)->m_Vec.m_Pos);
+		return KMath::RectToPoint(((Base2DColFi*)_Left)->m_Vec, ((Base2DColFi*)_Right)->m_Vec.m_Pos);
 	}
 
 	static bool CirCleToRectFi(const HColFi* _Left, const HColFi* _Right) {
@@ -142,7 +142,7 @@ public:
 			return false;
 		}
 #endif
-		return GameMath::RectToCirCle(((Base2DColFi*)_Left)->m_Vec, ((Base2DColFi*)_Right)->m_Vec.m_Vec3);
+		return KMath::RectToCirCle(((Base2DColFi*)_Left)->m_Vec, ((Base2DColFi*)_Right)->m_Vec.m_Vec3);
 	}
 };
 

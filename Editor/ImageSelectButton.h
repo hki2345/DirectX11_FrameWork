@@ -8,7 +8,7 @@ class ImageSelectButton : public CButton
 	DECLARE_DYNAMIC(ImageSelectButton)
 
 public:
-	CString m_Path;
+	CString m_ForderPath;
 	CString m_ImageKey;
 
 public:

@@ -4,7 +4,7 @@
 #include "HMaterial.h"
 #include "HMesh.h"
 #include "HBlend.h"
-#include "HDevice.h"
+#include "KDevice.h"
 
 class RenderOption
 {
@@ -33,12 +33,12 @@ class HRenderer : public HSubTransCom
 {
 	friend class HRenderMgr;
 protected:
-	MATDATA		m_MatData;
+	MatrixContainer		m_MatData;
 	int         m_bLight;
 	int		    m_Order;
 	KPtr<HMesh> m_Mesh;
 	KPtr<HMaterial> m_Mat;
-	KPtr<HDevice::RSState> m_RsState;
+	KPtr<KDevice::RSState> m_RsState;
 
 public:
 	RenderOption ROpt;

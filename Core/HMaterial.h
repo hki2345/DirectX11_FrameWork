@@ -1,5 +1,5 @@
 #pragma once
-#include "HRes.h"
+#include "Resource.h"
 #include "HVtxShader.h"
 #include "HPixShader.h"
 #include "HBlend.h"
@@ -28,7 +28,7 @@ public:
 // 텍스처를 사용하면 어떤 텍스처를 사용하는가?
 class HTexture;
 class HSampler;
-class HMaterial : public HRes
+class HMaterial : public Resource
 {
 	friend class HRenderer;
 	friend class HLight;

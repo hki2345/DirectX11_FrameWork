@@ -24,19 +24,19 @@ KPtr<HSampler> HImage::GetSam() {
 
 bool HImage::Load(const wchar_t* _SmpName /*= L"DefaultSmp"*/)
 {
-	m_Tex = HResMgr<HTexture>::Find(FullFileName());
+	m_Tex = ResourceManager<HTexture>::Find(FileNameExt());
 
 	if (nullptr == m_Tex)
 	{
-		m_Tex = HResMgr<HTexture>::Load(PathKey(), FullFileName());
+		m_Tex = ResourceManager<HTexture>::Load(FileForder(), FileNameExt());
 		KASSERT(nullptr == m_Tex);
 	}
 
-	m_Sam = HResMgr<HSampler>::Find(_SmpName);
+	m_Sam = ResourceManager<HSampler>::Find(_SmpName);
 
 	if (nullptr == m_Sam)
 	{
-		m_Sam = HResMgr<HSampler>::Create(_SmpName);
+		m_Sam = ResourceManager<HSampler>::Create(_SmpName);
 		KASSERT(nullptr == m_Tex);
 	}
 
@@ -69,7 +69,7 @@ void HImage::Cut(size_t _X, size_t _Y)
 	// 0,0,1,1 ³¯·È´Ù.
 	m_VecUv.clear();
 
-	HVEC CutVec;
+	KVector4 CutVec;
 
 	CutVec.z = 1.0f / (float)_X;
 	CutVec.w = 1.0f / (float)_Y;
@@ -85,7 +85,7 @@ void HImage::Cut(size_t _X, size_t _Y)
 	}
 }
 
-size_t HImage::Cut(HVEC _Vec) 
+size_t HImage::Cut(KVector4 _Vec) 
 {
 	m_VecUv.push_back(_Vec);
 	return m_VecUv.size() - 1;

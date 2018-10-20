@@ -1,6 +1,6 @@
 #pragma once
 
-#include "DHeader.h"
+#include "DXContainer.h"
 
 #define TypeS(TYPE) public: \
 	static UINT TypeSize() { \
@@ -15,8 +15,8 @@
 class COLORVTX
 {
 public:
-	HVEC Pos;
-	HVEC Color;
+	KVector4 Pos;
+	KVector4 Color;
 
 	TypeS(COLORVTX)
 };
@@ -25,12 +25,12 @@ public:
 class VTX3D
 {
 public:
-	HVEC Pos;
-	HVEC2 Uv;
-	HVEC Color;
-	HVEC Normal;
-	HVEC Tangent;
-	HVEC BNormal;
+	KVector4 Pos;
+	KVector2 Uv;
+	KVector4 Color;
+	KVector4 Normal;
+	KVector4 Tangent;
+	KVector4 BNormal;
 
 	TypeS(VTX3D)
 };
@@ -38,8 +38,8 @@ public:
 class TEXVTX
 {
 public:
-	HVEC Pos;
-	HVEC2 Uv;
+	KVector4 Pos;
+	KVector2 Uv;
 
 	TypeS(TEXVTX)
 };

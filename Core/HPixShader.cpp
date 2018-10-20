@@ -26,7 +26,7 @@ bool HPixShader::Load(const char* _FuncName, UINT _VH, UINT _VL)
 	sprintf_s(szBuffer, "ps_%d_%d", _VH, _VL);
 
 	// 컴파일만 해본거다.
-	if (S_OK != D3DCompileFromFile(Path(), nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE
+	if (S_OK != D3DCompileFromFile(AllPath(), nullptr, D3D_COMPILE_STANDARD_FILE_INCLUDE
 		, _FuncName, szBuffer, iFlag, 0, &m_pBlob, &m_pErrBlob))
 	{
 		// "strcut {"

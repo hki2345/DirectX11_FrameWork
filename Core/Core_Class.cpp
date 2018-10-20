@@ -1,7 +1,7 @@
 #include "Core_Class.h"
 #include "KMacro.h"
-#include "HWindow.h"
-#include "HDevice.h"
+#include "KWindow.h"
+#include "KDevice.h"
 
 KPtr<KWindow> Core_Class::g_MainWindow = nullptr;
 
@@ -26,18 +26,18 @@ KWindow& Core_Class::MainWindow() {
 
 HSceneMgr& Core_Class::MainSceneMgr()
 {
-	return g_MainWindow->SceneMgr;
+	return g_MainWindow->ThisStateManager;
 }
 
 KPtr<HScene> Core_Class::MainScene() {
-	return g_MainWindow->SceneMgr.CurScene();
+	return g_MainWindow->ThisStateManager.CurScene();
 }
 
 KPtr<HScene> Core_Class::NextScene() {
-	return g_MainWindow->SceneMgr.NextScene();
+	return g_MainWindow->ThisStateManager.NextScene();
 }
 
-HDevice& Core_Class::MainDevice() {
+KDevice& Core_Class::MainDevice() {
 	return g_MainWindow->Device();
 }
 ID3D11Device* Core_Class::PDevice() {

@@ -1,10 +1,10 @@
 #pragma once
-#include "HRes.h"
-#include "DHeader.h"
+#include "Resource.h"
+#include "DXContainer.h"
 #include <vector>
 
 
-class HMesh : public HRes
+class HMesh : public Resource
 {
 private:
 	ID3D11Buffer*				m_VB; // 버텍스 버퍼입니다.

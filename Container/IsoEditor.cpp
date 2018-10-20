@@ -1,7 +1,7 @@
 #include "IsoEditor.h"
 #include <HScene.h>
 #include <InputMgr.h>
-#include <GameDebug.h>
+#include <DebugManager.h>
 
 
 IsoEditor::IsoEditor()
@@ -22,7 +22,7 @@ bool IsoEditor::Init()
 }
 void IsoEditor::Update() 
 {
-	HVEC2 MPos = Scene()->Camera()->ScreenToWorld(InputMgr::MousePos());
+	KVector2 MPos = Scene()->Camera()->ScreenToWorld(InputMgr::MousePos());
 
 	if (InputMgr::IsDownStay(L"MouseButton"))
 	{
@@ -33,11 +33,11 @@ void IsoEditor::Update()
 	{
 		SoundPlayer->SoundPlay(L"1-Up.wav");
 
-		HVEC2 MPos = Scene()->Camera()->ScreenToWorld(InputMgr::MousePos());
-		std::list<HVEC2> List = IsoRender->WorldPathFind(HVEC2(0.0f, 0.0f), MPos);
+		KVector2 MPos = Scene()->Camera()->ScreenToWorld(InputMgr::MousePos());
+		std::list<KVector2> List = IsoRender->WorldPathFind(KVector2(0.0f, 0.0f), MPos);
 
-		std::list<HVEC2>::iterator StartIter = List.begin();
-		std::list<HVEC2>::iterator EndIter = List.end();
+		std::list<KVector2>::iterator StartIter = List.begin();
+		std::list<KVector2>::iterator EndIter = List.end();
 
 		for (; StartIter != EndIter; ++StartIter)
 		{
@@ -48,9 +48,9 @@ void IsoEditor::Update()
 }
 void IsoEditor::DebugRender() 
 {
-	HVEC2 MPos = Scene()->Camera()->ScreenToWorld(InputMgr::MousePos());
-	HVEC2 Index = IsoRender->WorldToIndex(MPos);
+	KVector2 MPos = Scene()->Camera()->ScreenToWorld(InputMgr::MousePos());
+	KVector2 Index = IsoRender->WorldToIndex(MPos);
 	wchar_t Arr[256];
 	swprintf_s(Arr, L"MWorldPos : %d, %d", Index.ix, Index.iy);
-	GameDebug::DrawFont(Arr, { 10.0f, 300.0f }, 20.0f);
+	DebugManager::DrawFont(Arr, { 10.0f, 300.0f }, 20.0f);
 }

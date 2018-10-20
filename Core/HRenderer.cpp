@@ -2,8 +2,8 @@
 #include "KMacro.h"
 #include "HResMgr.h"
 #include "HScene.h"
-#include "HDevice.h"
-#include "HWindow.h"
+#include "KDevice.h"
+#include "KWindow.h"
 #include "HMaterial.h"
 #include "Core_Class.h"
 
@@ -38,7 +38,7 @@ bool HRenderer::Init(int _Order)
 }
 
 bool HRenderer::SetMesh(const wchar_t* _Res) {
-	m_Mesh = HResMgr<HMesh>::Find(_Res);
+	m_Mesh = ResourceManager<HMesh>::Find(_Res);
 	KASSERT(nullptr == m_Mesh);
 
 	if (nullptr == m_Mesh)
@@ -50,7 +50,7 @@ bool HRenderer::SetMesh(const wchar_t* _Res) {
 
 bool HRenderer::SetMat(const wchar_t* _Res)
 {
-	m_Mat = HResMgr<HMaterial>::Find(_Res);
+	m_Mat = ResourceManager<HMaterial>::Find(_Res);
 	KASSERT(nullptr == m_Mat);
 
 	if (nullptr == m_Mat)
@@ -118,8 +118,8 @@ void HRenderer::TransCBUpdate()
 		ROpt.TexCount = m_Mat->TexDataSetting(ROpt.ArrTex);
 	}
 
-	Core_Class::MainDevice().SettingCB<MATDATA>(L"MATDATA", m_MatData, SHTYPE::ST_VS);
-	Core_Class::MainDevice().SettingCB<MATDATA>(L"MATDATA", m_MatData, SHTYPE::ST_PS);
+	Core_Class::MainDevice().SettingCB<MatrixContainer>(L"MATDATA", m_MatData, SHTYPE::ST_VS);
+	Core_Class::MainDevice().SettingCB<MatrixContainer>(L"MATDATA", m_MatData, SHTYPE::ST_PS);
 	Core_Class::MainDevice().SettingCB<RenderOption>(L"RENDEROPTION", ROpt, SHTYPE::ST_VS);
 	Core_Class::MainDevice().SettingCB<RenderOption>(L"RENDEROPTION", ROpt, SHTYPE::ST_PS);
 }

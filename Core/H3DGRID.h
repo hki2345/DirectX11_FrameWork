@@ -4,15 +4,15 @@
 class H3DGRID : public HRenderer
 {
 public:
-	// HVEC.x는 BlockSize;
-	// HVEC.y는 보더;
-	// HVEC.z는 알파;
-	// HVEC.w는 더미;
+	// KVector4.x는 BlockSize;
+	// KVector4.y는 보더;
+	// KVector4.z는 알파;
+	// KVector4.w는 더미;
 
 	float m_BlockSizeCur;
 	float m_BlockSizeInter;
 	// float m_BlockSizeMax;
-	HVEC m_GridData;
+	KVector4 m_GridData;
 
 public:
 	void TransUpdate(KPtr<HCamera> _Camera) override;

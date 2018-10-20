@@ -1,7 +1,7 @@
 #include "PixelChecker.h"
 #include <HScene.h>
 #include <InputMgr.h>
-#include <GameDebug.h>
+#include <DebugManager.h>
 #include <HSpRenderer.h>
 
 
@@ -24,11 +24,11 @@ bool PixelChecker::Init()
 
 void PixelChecker::DebugRender() 
 {
-	HVEC2 MPos = Scene()->Camera()->ScreenToWorld(InputMgr::MousePos());
+	KVector2 MPos = Scene()->Camera()->ScreenToWorld(InputMgr::MousePos());
 
-	HVEC Color = SpriteRender->Image()->GetTex()->GetPixel(262, 82);
+	KVector4 Color = SpriteRender->Image()->GetTex()->GetPixel(262, 82);
 
 	wchar_t Arr[256];
 	swprintf_s(Arr, L"MWorldPos : R %d G %d B %d A %d", Color.ir, Color.ig, Color.ib, Color.ia);
-	GameDebug::DrawFont(Arr, { 10.0f, 300.0f }, 20.0f);
+	DebugManager::DrawFont(Arr, { 10.0f, 300.0f }, 20.0f);
 }

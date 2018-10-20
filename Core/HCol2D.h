@@ -10,7 +10,7 @@ public:
 	bool Init(int _Order = 0);
 	void ColFiUpdate() override;
 	void Mode(COLTYPE _Type);
-	void Radius(HVEC2 _Size)
+	void Radius(KVector2 _Size)
 	{
 		m_SizeSelf = true;
 		m_2DCol->m_Vec.m_Size = _Size;
