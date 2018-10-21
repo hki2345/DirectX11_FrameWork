@@ -1,5 +1,5 @@
 #pragma once
-#include <HScene.h>
+#include <State.h>
 #include "SpriteDlg.h"
 #include "MenuDlg.h"
 #include "SceneDlg.h"
@@ -9,7 +9,7 @@
 class TVAR
 {
 public:
-	static KPtr<HScene> SelectScene;
+	static KPtr<State> SelectScene;
 	static MenuDlg* MDlg;
 	static SceneDlg* SceneDlg;
 	static SpriteDlg* SpDlg;

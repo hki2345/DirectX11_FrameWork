@@ -87,7 +87,7 @@ void ComView::Dump(CDumpContext& dc) const
 
 
 // ComView 메시지 처리기입니다.
-void ComView::ActorSetting(HActor* _pActor)
+void ComView::ActorSetting(TheOne* _pActor)
 {
 	m_pActor = _pActor;
 
@@ -97,7 +97,7 @@ void ComView::ActorSetting(HActor* _pActor)
 
 void ComView::Reset() 
 {
-	HActor* m_TempActor = m_pActor;
+	TheOne* m_TempActor = m_pActor;
 
 	AllDlgDestroy();
 
@@ -108,10 +108,10 @@ void ComView::Reset()
 		return;
 	}
 
-	std::list<KPtr<HComponent>> List = m_pActor->AllComList();
+	std::list<KPtr<Component>> List = m_pActor->list_component();
 
-	std::list<KPtr<HComponent>>::iterator StartIter = List.begin();
-	std::list<KPtr<HComponent>>::iterator EndIter = List.end();
+	std::list<KPtr<Component>>::iterator StartIter = List.begin();
+	std::list<KPtr<Component>>::iterator EndIter = List.end();
 
 	POINT Pos = { 0, 0 };
 	POINT Size = { 480, 0 };

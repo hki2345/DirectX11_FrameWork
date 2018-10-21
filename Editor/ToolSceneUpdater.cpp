@@ -1,9 +1,9 @@
 #include "stdafx.h"
 #include "ToolSceneUpdater.h"
-#include <InputMgr.h>
+#include <InputManager.h>
 #include <DebugManager.h>
-#include <HThread.h>
-#include <TimeMgr.h>
+#include <KThread.h>
+#include <TimeManager.h>
 
 
 ToolSceneUpdater::ToolSceneUpdater()
@@ -23,67 +23,67 @@ ToolSceneUpdater::~ToolSceneUpdater()
 	delete pColFi;
 }
 
-void ToolSceneUpdater::SceneUpdate()
+void ToolSceneUpdater::Update_State()
 {
 	pColFi->m_Vec.m_Pos = KVector2{0.0f, 0.0f};
 	Check = false;
 
-	pColFi->m_Vec.m_Pos = Scene()->Camera()->ScreenToWorld(InputMgr::MousePos());
+	pColFi->m_Vec.m_Pos = state()->Camera()->ScreenTo_World(InputManager::MousePos());
 
-	if (InputMgr::IsDown(L"Q"))
+	if (InputManager::Down(L"Q"))
 	{
-		HThread::StartThread<ToolSceneUpdater>(L"TestThread", &ToolSceneUpdater::Func, this);
+		KThread::Start_Thread<ToolSceneUpdater>(L"TestThread", &ToolSceneUpdater::Func, this);
 
 		//if (true == m_bTestThread)
 		//{
-		//	HThread::PauseThread(L"TestThread");
+		//	KThread::Pause_Thread(L"TestThread");
 		//	CheckNumber = Number;
 		//	m_bTestThread = false;
 		//}
 		//else {
-		//	HThread::ResumThread(L"TestThread");
+		//	KThread::Recov_Thread(L"TestThread");
 		//	m_bTestThread = true;
 		//}
 	}
 
-	if (InputMgr::IsDownStay(L"Up"))
+	if (InputManager::Press(L"Up"))
 	{
-		Scene()->Camera()->Actor()->Trans()->LMove(KVector4::Up * CameraSpeed * TimeMgr::DeltaTime());
+		state()->Camera()->one()->Trans()->Moving(KVector4::Up * CameraSpeed * TimeManager::DeltaTime());
 	}
 
-	if (InputMgr::IsDownStay(L"Down"))
+	if (InputManager::Press(L"Down"))
 	{
-		Scene()->Camera()->Actor()->Trans()->LMove(KVector4::Down * CameraSpeed * TimeMgr::DeltaTime());
+		state()->Camera()->one()->Trans()->Moving(KVector4::Down * CameraSpeed * TimeManager::DeltaTime());
 	}
 
-	if (InputMgr::IsDownStay(L"Left"))
+	if (InputManager::Press(L"Left"))
 	{
-		Scene()->Camera()->Actor()->Trans()->LMove(KVector4::Left * CameraSpeed * TimeMgr::DeltaTime());
+		state()->Camera()->one()->Trans()->Moving(KVector4::Left * CameraSpeed * TimeManager::DeltaTime());
 	}
 
-	if (InputMgr::IsDownStay(L"Right"))
+	if (InputManager::Press(L"Right"))
 	{
-		Scene()->Camera()->Actor()->Trans()->LMove(KVector4::Right * CameraSpeed * TimeMgr::DeltaTime());
+		state()->Camera()->one()->Trans()->Moving(KVector4::Right * CameraSpeed * TimeManager::DeltaTime());
 	}
 
-	if (InputMgr::IsDown(L"MouseButton"))
+	if (InputManager::Down(L"MouseButton"))
 	{
-		KPtr<HColCom> m_Col = Scene()->Col2DMgr.UpdateColCheck(0, pColFi);
+		KPtr<HColCom> m_Col = state()->Col2DMgr.UpdateColCheck(0, pColFi);
 		if (nullptr != m_Col)
 		{
-			m_SelectActor = m_Col->Actor();
+			m_SelectActor = m_Col->one();
 		}
 	}
 
-	if (InputMgr::IsUp(L"MouseButton"))
+	if (InputManager::Up(L"MouseButton"))
 	{
 		m_SelectActor = nullptr;
 	}
 
 	if (nullptr != m_SelectActor)
 	{
-		KVector4 ObjPos = m_SelectActor->Trans()->LPos();
-		m_SelectActor->Trans()->LPos({ pColFi->m_Vec.m_Pos.x, pColFi->m_Vec.m_Pos.y , ObjPos.z });
+		KVector4 ObjPos = m_SelectActor->Trans()->pos_local();
+		m_SelectActor->Trans()->pos_local({ pColFi->m_Vec.m_Pos.x, pColFi->m_Vec.m_Pos.y , ObjPos.z });
 	}
 }
 
@@ -93,11 +93,11 @@ unsigned int ToolSceneUpdater::Func(void* _Test)
 	float Time = 0.0f;
 
 	// 1. 항상 스택을 사용하면 안전하다.
-	TimeMgr::GameTimer Timer;
+	TimeManager::GameTimer Timer;
 
 	// 2. 터미네이트 쓰레드는 항상 위험한다.
 
-	// KPtr<TimeMgr::GameTimer> ptr = TimeMgr::CreatTimer(L"TestTimer");
+	// KPtr<TimeManager::GameTimer> ptr = TimeManager::CreatTimer(L"TestTimer");
 
 	while (true)
 	{
@@ -113,9 +113,9 @@ unsigned int ToolSceneUpdater::Func(void* _Test)
 	return 0;
 }
 
-void ToolSceneUpdater::SceneStart()
+void ToolSceneUpdater::Start_State()
 {
-	HThread::StartThread<ToolSceneUpdater>(L"TestThread", &ToolSceneUpdater::Func, this);
+	KThread::Start_Thread<ToolSceneUpdater>(L"TestThread", &ToolSceneUpdater::Func, this);
 }
 
 void ToolSceneUpdater::DebugRender() {
@@ -124,37 +124,37 @@ void ToolSceneUpdater::DebugRender() {
 
 	
 
-	swprintf_s(Arr, L"ScreenPos : %f, %f", InputMgr::MousePos().x, InputMgr::MousePos().y);
+	swprintf_s(Arr, L"ScreenPos : %f, %f", InputManager::MousePos().x, InputManager::MousePos().y);
 
-	DebugManager::DrawFont(Arr, { 10.0f, 40.0f }, 20.0f);
+	DebugManager::Draw_Font(Arr, { 10.0f, 40.0f }, 20.0f);
 
-	KVector2 MPos = Scene()->Camera()->ScreenToWorld(InputMgr::MousePos());
+	KVector2 MPos = state()->Camera()->ScreenTo_World(InputManager::MousePos());
 
 	swprintf_s(Arr, L"MWorldPos : %f, %f", MPos.x, MPos.y);
-	DebugManager::DrawFont(Arr, { 10.0f, 60.0f }, 20.0f);
+	DebugManager::Draw_Font(Arr, { 10.0f, 60.0f }, 20.0f);
 
 	if (false == Check)
 	{
-		DebugManager::DrawFont(L"안걸림", { 10.0f, 10.0f }, 40.0f);
+		DebugManager::Draw_Font(L"안걸림", { 10.0f, 10.0f }, 40.0f);
 	}
 	else {
-		DebugManager::DrawFont(L"걸려부렀어", { 10.0f, 10.0f }, 40.0f);
+		DebugManager::Draw_Font(L"걸려부렀어", { 10.0f, 10.0f }, 40.0f);
 	}
 
 	if (false == m_bTestThread)
 	{
-		DebugManager::DrawFont(L"멈춰", { 300.0f, 10.0f }, 40.0f);
+		DebugManager::Draw_Font(L"멈춰", { 300.0f, 10.0f }, 40.0f);
 	}
 	else {
-		DebugManager::DrawFont(L"안멈춰", { 300.0f, 10.0f }, 40.0f);
+		DebugManager::Draw_Font(L"안멈춰", { 300.0f, 10.0f }, 40.0f);
 	}
 
 	
 
 	_itow_s(Number, Arr, 10);
 
-	DebugManager::DrawFont(Arr, { 10.0f, 80.0f }, 50.0f);
+	DebugManager::Draw_Font(Arr, { 10.0f, 80.0f }, 50.0f);
 
 	_itow_s(CheckNumber, Arr, 10);
-	DebugManager::DrawFont(Arr, { 320.0f, 80.0f }, 50.0f);
+	DebugManager::Draw_Font(Arr, { 320.0f, 80.0f }, 50.0f);
 }

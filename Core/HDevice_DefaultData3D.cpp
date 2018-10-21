@@ -2,20 +2,20 @@
 #include "DXContainer_DE.h"
 #include "KWindow.h"
 #include "Stl_AID.h"
-#include "HMesh.h"
+#include "KMesh.h"
 #include "Core_Class.h"
-#include "HVtxShader.h"
-#include "HPixShader.h"
-#include "HResMgr.h"
-#include "HMaterial.h"
-#include "HBlend.h"
-#include "HFont.h"
+#include "Shader_Vertex.h"
+#include "Shader_Pixel.h"
+#include "ResourceManager.h"
+#include "KMaterial.h"
+#include "KBlend.h"
+#include "KFont.h"
 #include "KMath.h"
-#include "HLight.h"
-#include "HRenderer.h"
-#include "HTexture.h"
-#include "HSampler.h"
-#include "HMultiRenderTaget.h"
+#include "Light.h"
+#include "Renderer.h"
+#include "Texture.h"
+#include "Sampler.h"
+#include "RenderTarget_Multi.h"
 
 
 
@@ -24,39 +24,39 @@ bool KDevice::DefRenderTaget()
 
 
 	// Defferd용
-	ResourceManager<HRenderTaget>::Create(L"COLOR_DIFFUSE" , Core_Class::MainWindow().width_u() , Core_Class::MainWindow().height_u()	, D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE	, DXGI_FORMAT_R32G32B32A32_FLOAT);
-	ResourceManager<HRenderTaget>::Create(L"POSTION", Core_Class::MainWindow().width_u(), Core_Class::MainWindow().height_u(), D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE, DXGI_FORMAT_R32G32B32A32_FLOAT);
-	ResourceManager<HRenderTaget>::Create(L"NORMAL", Core_Class::MainWindow().width_u(), Core_Class::MainWindow().height_u(), D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE, DXGI_FORMAT_R32G32B32A32_FLOAT);
-	ResourceManager<HRenderTaget>::Create(L"DEPTH", Core_Class::MainWindow().width_u(), Core_Class::MainWindow().height_u(), D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE, DXGI_FORMAT_R32G32B32A32_FLOAT);
+	ResourceManager<RenderTarget>::Create(L"COLOR_DIFFUSE" , Core_Class::MainWindow().width_u() , Core_Class::MainWindow().height_u()	, D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE	, DXGI_FORMAT_R32G32B32A32_FLOAT);
+	ResourceManager<RenderTarget>::Create(L"POSTION", Core_Class::MainWindow().width_u(), Core_Class::MainWindow().height_u(), D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE, DXGI_FORMAT_R32G32B32A32_FLOAT);
+	ResourceManager<RenderTarget>::Create(L"NORMAL", Core_Class::MainWindow().width_u(), Core_Class::MainWindow().height_u(), D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE, DXGI_FORMAT_R32G32B32A32_FLOAT);
+	ResourceManager<RenderTarget>::Create(L"DEPTH", Core_Class::MainWindow().width_u(), Core_Class::MainWindow().height_u(), D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE, DXGI_FORMAT_R32G32B32A32_FLOAT);
 
-	KPtr<HMultiRenderTaget> DefMRT = ResourceManager<HMultiRenderTaget>::Create(L"DEFFERD", L"COLOR_DIFFUSE", L"POSTION", L"NORMAL", L"DEPTH");
+	KPtr<RenderTarget_Multi> DefMRT = ResourceManager<RenderTarget_Multi>::Create(L"DEFFERD", L"COLOR_DIFFUSE", L"POSTION", L"NORMAL", L"DEPTH");
 
-	ResourceManager<HRenderTaget>::Create(L"LIGHT_DIFFUSE", Core_Class::MainWindow().width_u(), Core_Class::MainWindow().height_u(), KVector4::Black, D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE, DXGI_FORMAT_R32G32B32A32_FLOAT);
-	ResourceManager<HRenderTaget>::Create(L"LIGHT_SPECULAR", Core_Class::MainWindow().width_u(), Core_Class::MainWindow().height_u(),KVector4::Black,  D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE, DXGI_FORMAT_R32G32B32A32_FLOAT);
+	ResourceManager<RenderTarget>::Create(L"LIGHT_DIFFUSE", Core_Class::MainWindow().width_u(), Core_Class::MainWindow().height_u(), KVector4::Black, D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE, DXGI_FORMAT_R32G32B32A32_FLOAT);
+	ResourceManager<RenderTarget>::Create(L"LIGHT_SPECULAR", Core_Class::MainWindow().width_u(), Core_Class::MainWindow().height_u(),KVector4::Black,  D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE, DXGI_FORMAT_R32G32B32A32_FLOAT);
 
-	KPtr<HMultiRenderTaget> LightMRT = ResourceManager<HMultiRenderTaget>::Create(L"LIGHT", L"LIGHT_DIFFUSE", L"LIGHT_SPECULAR");
+	KPtr<RenderTarget_Multi> LightMRT = ResourceManager<RenderTarget_Multi>::Create(L"LIGHT", L"LIGHT_DIFFUSE", L"LIGHT_SPECULAR");
 
 	return true;
 }
 
 bool KDevice::Def3DCreate() 
 {
-	ResourceManager<HSampler>::Create(L"DefaultSmp");
-	ResourceManager<HBlend>::Create(L"ALPHA");
+	ResourceManager<Sampler>::Create(L"DefaultSmp");
+	ResourceManager<KBlend>::Create(L"ALPHA");
 
-	Core_Class::MainDevice().CreateCB<MatrixContainer>(L"MATDATA", D3D11_USAGE_DYNAMIC, 10);
+	Core_Class::MainDevice().CreateCB<MatrixContainer>(L"MATCON", D3D11_USAGE_DYNAMIC, 10);
 	Core_Class::MainDevice().CreateCB<RenderOption>(L"RENDEROPTION", D3D11_USAGE_DYNAMIC, 11);
-	Core_Class::MainDevice().CreateCB<HLight::LightCBDATA>(L"LIGHTDATA", D3D11_USAGE_DYNAMIC, 12);
-	Core_Class::MainDevice().CreateCB<HLight::LightData>(L"DEFFERDLIGHTDATA", D3D11_USAGE_DYNAMIC, 12);
+	Core_Class::MainDevice().CreateCB<Light::LightCBDATA>(L"LIGHTDATA", D3D11_USAGE_DYNAMIC, 12);
+	Core_Class::MainDevice().CreateCB<Light::LightData>(L"DEFFERDLIGHTDATA", D3D11_USAGE_DYNAMIC, 12);
 
-	Core_Class::MainDevice().CreateRsMode(L"SNONE", D3D11_FILL_MODE::D3D11_FILL_SOLID, D3D11_CULL_MODE::D3D11_CULL_NONE);
-	Core_Class::MainDevice().CreateRsMode(L"SBACK", D3D11_FILL_MODE::D3D11_FILL_SOLID, D3D11_CULL_MODE::D3D11_CULL_BACK);
-	Core_Class::MainDevice().CreateRsMode(L"SFRONT", D3D11_FILL_MODE::D3D11_FILL_SOLID, D3D11_CULL_MODE::D3D11_CULL_FRONT);
+	Core_Class::MainDevice().Create_RS(L"SNONE", D3D11_FILL_MODE::D3D11_FILL_SOLID, D3D11_CULL_MODE::D3D11_CULL_NONE);
+	Core_Class::MainDevice().Create_RS(L"SBACK", D3D11_FILL_MODE::D3D11_FILL_SOLID, D3D11_CULL_MODE::D3D11_CULL_BACK);
+	Core_Class::MainDevice().Create_RS(L"SFRONT", D3D11_FILL_MODE::D3D11_FILL_SOLID, D3D11_CULL_MODE::D3D11_CULL_FRONT);
 
-	Core_Class::MainDevice().CreateRsMode(L"WNONE", D3D11_FILL_MODE::D3D11_FILL_WIREFRAME, D3D11_CULL_MODE::D3D11_CULL_NONE);
-	Core_Class::MainDevice().CreateRsMode(L"WBACK", D3D11_FILL_MODE::D3D11_FILL_WIREFRAME, D3D11_CULL_MODE::D3D11_CULL_BACK);
-	Core_Class::MainDevice().CreateRsMode(L"WFRONT", D3D11_FILL_MODE::D3D11_FILL_WIREFRAME, D3D11_CULL_MODE::D3D11_CULL_FRONT);
-	Core_Class::MainDevice().SetDefRsMode(L"SBACK");
+	Core_Class::MainDevice().Create_RS(L"WNONE", D3D11_FILL_MODE::D3D11_FILL_WIREFRAME, D3D11_CULL_MODE::D3D11_CULL_NONE);
+	Core_Class::MainDevice().Create_RS(L"WBACK", D3D11_FILL_MODE::D3D11_FILL_WIREFRAME, D3D11_CULL_MODE::D3D11_CULL_BACK);
+	Core_Class::MainDevice().Create_RS(L"WFRONT", D3D11_FILL_MODE::D3D11_FILL_WIREFRAME, D3D11_CULL_MODE::D3D11_CULL_FRONT);
+	Core_Class::MainDevice().Set_RSDef(L"SBACK");
 
 	// 뎊스를 켜놓고
 	D3D11_DEPTH_STENCIL_DESC DepthState;
@@ -75,18 +75,18 @@ bool KDevice::Def3DCreate()
 	{ D3D11_STENCIL_OP_KEEP, D3D11_STENCIL_OP_KEEP, D3D11_STENCIL_OP_KEEP, D3D11_COMPARISON_ALWAYS };
 	DepthState.FrontFace = defaultStencil;
 	DepthState.BackFace = defaultStencil;
-	Core_Class::MainDevice().CreateDsMode(L"DEBUG", DepthState);
+	Core_Class::MainDevice().Create_DSS(L"DEBUG", DepthState);
 
 	// 정상적인것.
 	DepthState.DepthFunc = D3D11_COMPARISON_LESS;
-	Core_Class::MainDevice().CreateDsMode(L"BASIC", DepthState);
+	Core_Class::MainDevice().Create_DSS(L"BASIC", DepthState);
 
 	DepthState.DepthFunc = D3D11_COMPARISON_ALWAYS;
-	Core_Class::MainDevice().CreateDsMode(L"ALWAYS", DepthState);
+	Core_Class::MainDevice().Create_DSS(L"ALWAYS", DepthState);
 
 	DepthState.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;
 	DepthState.DepthFunc = D3D11_COMPARISON_ALWAYS;
-	Core_Class::MainDevice().CreateDsMode(L"LIGHTDEPTH", DepthState);
+	Core_Class::MainDevice().Create_DSS(L"LIGHTDEPTH", DepthState);
 
 
 	//////////////// VOLUMBACK
@@ -102,7 +102,7 @@ bool KDevice::Def3DCreate()
 
 	DepthState.FrontFace = LightStencil;
 	DepthState.BackFace = LightStencil;
-	Core_Class::MainDevice().CreateDsMode(L"BACK_ST", DepthState);
+	Core_Class::MainDevice().Create_DSS(L"BACK_ST", DepthState);
 
 	//////////////// VOLUMFORONT
 	DepthState.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;
@@ -116,7 +116,7 @@ bool KDevice::Def3DCreate()
 
 	DepthState.FrontFace = LightStencil;
 	DepthState.BackFace = LightStencil;
-	Core_Class::MainDevice().CreateDsMode(L"FRONT_ST", DepthState);
+	Core_Class::MainDevice().Create_DSS(L"FRONT_ST", DepthState);
 
 	//////////////// PASS
 
@@ -132,62 +132,62 @@ bool KDevice::Def3DCreate()
 	DepthState.FrontFace = LightStencil;
 	DepthState.BackFace = LightStencil;
 
-	Core_Class::MainDevice().CreateDsMode(L"PASS_ST", DepthState);
+	Core_Class::MainDevice().Create_DSS(L"PASS_ST", DepthState);
 
 	// 하나를 더 만들어야 한다.
 
-	Core_Class::MainDevice().SetDefDsMode(L"BASIC");
+	Core_Class::MainDevice().Set_DSSDef(L"BASIC");
 
 
 
 	///////////////////////////////////////////// BS
-	D3D11_BLEND_DESC BDesc;
-	BDesc.AlphaToCoverageEnable = false;
+	D3D11_BLEND_DESC m_Desc;
+	m_Desc.AlphaToCoverageEnable = false;
 
 	// 다른 랜더 타겟도 따로따로 쓰겠다 혹은 아니다.
 	// 블랜드 설정이 false로 하면 0번으로 초기화 된다.
-	BDesc.IndependentBlendEnable = true;
+	m_Desc.IndependentBlendEnable = true;
 
 
 	// 디퓨즈 -> 디퓨즈는 기존 꺼에 덮어 씌우는 개념 ㅇㅇ
-	BDesc.RenderTarget[0].BlendEnable = true;
-	BDesc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+	m_Desc.RenderTarget[0].BlendEnable = true;
+	m_Desc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
 
-	BDesc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
-	BDesc.RenderTarget[0].SrcBlend = D3D11_BLEND_ONE;
-	BDesc.RenderTarget[0].DestBlend = D3D11_BLEND_ONE;
+	m_Desc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
+	m_Desc.RenderTarget[0].SrcBlend = D3D11_BLEND_ONE;
+	m_Desc.RenderTarget[0].DestBlend = D3D11_BLEND_ONE;
 
-	BDesc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
-	BDesc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
-	BDesc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ZERO;
+	m_Desc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
+	m_Desc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
+	m_Desc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ZERO;
 
 
 	// 스펙 큘러 - 색이 있으면 알파 랜더러 적요 -> 기존 알파렌더와 같은 방식으로 적용된다.
 	// 기존 알파 방식은 -> 알파와 알파가 섞이는 식임
-	BDesc.RenderTarget[1].BlendEnable = true;
-	BDesc.RenderTarget[1].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+	m_Desc.RenderTarget[1].BlendEnable = true;
+	m_Desc.RenderTarget[1].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
 
-	BDesc.RenderTarget[1].BlendOp = D3D11_BLEND_OP_ADD;
-	BDesc.RenderTarget[1].SrcBlend = D3D11_BLEND_SRC_ALPHA;
-	BDesc.RenderTarget[1].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
+	m_Desc.RenderTarget[1].BlendOp = D3D11_BLEND_OP_ADD;
+	m_Desc.RenderTarget[1].SrcBlend = D3D11_BLEND_SRC_ALPHA;
+	m_Desc.RenderTarget[1].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
 
-	BDesc.RenderTarget[1].BlendOpAlpha = D3D11_BLEND_OP_ADD;
-	BDesc.RenderTarget[1].SrcBlendAlpha = D3D11_BLEND_ONE;
-	BDesc.RenderTarget[1].DestBlendAlpha = D3D11_BLEND_ZERO;
+	m_Desc.RenderTarget[1].BlendOpAlpha = D3D11_BLEND_OP_ADD;
+	m_Desc.RenderTarget[1].SrcBlendAlpha = D3D11_BLEND_ONE;
+	m_Desc.RenderTarget[1].DestBlendAlpha = D3D11_BLEND_ZERO;
 
 
 	for (size_t i = 2; i < 8; i++)
 	{
-		BDesc.RenderTarget[i] = D3D11_RENDER_TARGET_BLEND_DESC{};
+		m_Desc.RenderTarget[i] = D3D11_RENDER_TARGET_BLEND_DESC{};
 	}
 
-	ResourceManager<HBlend>::Create(L"LIGHTONE", BDesc);
+	ResourceManager<KBlend>::Create(L"LIGHTONE", m_Desc);
 
-	BDesc.RenderTarget[0] = D3D11_RENDER_TARGET_BLEND_DESC{};
-	BDesc.RenderTarget[0].RenderTargetWriteMask = 0;
+	m_Desc.RenderTarget[0] = D3D11_RENDER_TARGET_BLEND_DESC{};
+	m_Desc.RenderTarget[0].RenderTargetWriteMask = 0;
 
 
-	ResourceManager<HBlend>::Create(L"VOLUME", BDesc);
+	ResourceManager<KBlend>::Create(L"VOLUME", m_Desc);
 
 	return true;
 }
@@ -221,7 +221,7 @@ bool KDevice::Mesh3DCreate() {
 	ArrColorIDX[0] = IDX16(0, 3, 2);
 	ArrColorIDX[1] = IDX16(0, 1, 3);
 
-	ResourceManager<HMesh>::Create(L"RECT"
+	ResourceManager<KMesh>::Create(L"RECT"
 		, 4, (UINT)VTX3D::TypeSize(), D3D11_USAGE_DYNAMIC, ArrVTX3D
 		, 6, (UINT)IDX16::MemberSize(), D3D11_USAGE_DEFAULT, ArrColorIDX
 		, IDX16::FM());
@@ -408,7 +408,7 @@ bool KDevice::Mesh3DCreate() {
 	OverIdx.push_back(20); OverIdx.push_back(21); OverIdx.push_back(22);
 	OverIdx.push_back(20); OverIdx.push_back(22); OverIdx.push_back(23);
 
-	ResourceManager<HMesh>::Create(L"CUBE"
+	ResourceManager<KMesh>::Create(L"CUBE"
 		, (UINT)OverCube.size(), (UINT)VTX3D::TypeSize(), D3D11_USAGE_DYNAMIC, &OverCube[0]
 		, (UINT)OverIdx.size(), (UINT)IDX16::MemberSize(), D3D11_USAGE_DEFAULT, &OverIdx[0]
 		, IDX16::FM());
@@ -529,7 +529,7 @@ bool KDevice::Mesh3DCreate() {
 		SphereIdx.push_back(iBotStart - (i + 1));
 	}
 
-	ResourceManager<HMesh>::Create(L"SPHERE"
+	ResourceManager<KMesh>::Create(L"SPHERE"
 		, (UINT)SphereVtx.size(), (UINT)VTX3D::TypeSize(), D3D11_USAGE_DYNAMIC, &SphereVtx[0]
 		, (UINT)SphereIdx.size(), (UINT)IDX32::MemberSize(), D3D11_USAGE_DEFAULT, &SphereIdx[0]
 		, IDX32::FM());
@@ -540,145 +540,145 @@ bool KDevice::Mesh3DCreate() {
 bool KDevice::Mat3DCreate() {
 
 	// NONE
-	KPtr<HVtxShader> NONE3DVTX = ResourceManager<HVtxShader>::Load_FromKey(L"NONEVTX", L"Shader", L"NONE.fx", "VTXNONE3D");
-	NONE3DVTX->AddLayoutEnd("POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
-	KPtr<HPixShader> NONE3DPIX = ResourceManager<HPixShader>::Load_FromKey(L"NONEPIX", L"Shader", L"NONE.fx", "PIXNONE3D");
+	KPtr<Shader_Vertex> NONE3DVTX = ResourceManager<Shader_Vertex>::Load_FromKey(L"NONEVTX", L"Shader", L"NONE.fx", "VTXNONE3D");
+	NONE3DVTX->Add_LayoutFin("POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
+	KPtr<Shader_Pixel> NONE3DPIX = ResourceManager<Shader_Pixel>::Load_FromKey(L"NONEPIX", L"Shader", L"NONE.fx", "PIXNONE3D");
 
-	KPtr<HMaterial> NONEMAT = ResourceManager<HMaterial>::Create(L"NONEMAT");
-	NONEMAT->SetVtxShader(L"NONEVTX");
-	NONEMAT->SetPixShader(L"NONEPIX");
-	NONEMAT->SetBlend(L"ALPHA");
+	KPtr<KMaterial> NONEMAT = ResourceManager<KMaterial>::Create(L"NONEMAT");
+	NONEMAT->Set_VTShader(L"NONEVTX");
+	NONEMAT->Set_PXShader(L"NONEPIX");
+	NONEMAT->Set_Blend(L"ALPHA");
 
-	KPtr<HVtxShader> TAGETDEBUGVTX = ResourceManager<HVtxShader>::Load_FromKey(L"TAGETDEBUGVTX", L"Shader", L"TagetDebug.fx", "VS_TagetTex");
-	TAGETDEBUGVTX->AddLayout("POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
-	TAGETDEBUGVTX->AddLayoutEnd("TEXCOORD", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32_FLOAT, 0);
-	KPtr<HPixShader> TAGETDEBUGPIX = ResourceManager<HPixShader>::Load_FromKey(L"TAGETDEBUGPIX", L"Shader", L"TagetDebug.fx", "PS_TagetTex");
+	KPtr<Shader_Vertex> TAGETDEBUGVTX = ResourceManager<Shader_Vertex>::Load_FromKey(L"TAGETDEBUGVTX", L"Shader", L"TagetDebug.fx", "VS_TagetTex");
+	TAGETDEBUGVTX->Add_Layout("POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
+	TAGETDEBUGVTX->Add_LayoutFin("TEXCOORD", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32_FLOAT, 0);
+	KPtr<Shader_Pixel> TAGETDEBUGPIX = ResourceManager<Shader_Pixel>::Load_FromKey(L"TAGETDEBUGPIX", L"Shader", L"TagetDebug.fx", "PS_TagetTex");
 
-	KPtr<HMaterial> TAGETDEBUGMAT = ResourceManager<HMaterial>::Create(L"TAGETDEBUGMAT");
-	TAGETDEBUGMAT->SetVtxShader(L"TAGETDEBUGVTX");
-	TAGETDEBUGMAT->SetPixShader(L"TAGETDEBUGPIX");
-	TAGETDEBUGMAT->SetBlend(L"ALPHA");
+	KPtr<KMaterial> TAGETDEBUGMAT = ResourceManager<KMaterial>::Create(L"TAGETDEBUGMAT");
+	TAGETDEBUGMAT->Set_VTShader(L"TAGETDEBUGVTX");
+	TAGETDEBUGMAT->Set_PXShader(L"TAGETDEBUGPIX");
+	TAGETDEBUGMAT->Set_Blend(L"ALPHA");
 
 	///////////////////////////////////////// GRID
-	KPtr<HVtxShader> GRID3DVTX = ResourceManager<HVtxShader>::Load_FromKey(L"GRID3DVTX", L"Shader", L"GRID3D.fx", "VS_GRID3D");
-	GRID3DVTX->AddLayout("POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
-	GRID3DVTX->AddLayout("TEXCOORD", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32_FLOAT, 0);
-	GRID3DVTX->AddLayout("COLOR", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
-	GRID3DVTX->AddLayoutEnd("NORMAL", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
+	KPtr<Shader_Vertex> GRID3DVTX = ResourceManager<Shader_Vertex>::Load_FromKey(L"GRID3DVTX", L"Shader", L"GRID3D.fx", "VS_GRID3D");
+	GRID3DVTX->Add_Layout("POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
+	GRID3DVTX->Add_Layout("TEXCOORD", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32_FLOAT, 0);
+	GRID3DVTX->Add_Layout("COLOR", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
+	GRID3DVTX->Add_LayoutFin("NORMAL", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
 
-	KPtr<HPixShader> GRID3DPIX = ResourceManager<HPixShader>::Load_FromKey(L"GRID3DPIX", L"Shader", L"GRID3D.fx", "PS_GRID3D");
+	KPtr<Shader_Pixel> GRID3DPIX = ResourceManager<Shader_Pixel>::Load_FromKey(L"GRID3DPIX", L"Shader", L"GRID3D.fx", "PS_GRID3D");
 	GRID3DPIX->CreateCB<KVector4>(L"GRIDDATA", D3D11_USAGE_DYNAMIC, 0);
 
-	KPtr<HMaterial> GRID3DMAT = ResourceManager<HMaterial>::Create(L"GRID3DMAT");
-	GRID3DMAT->SetVtxShader(L"GRID3DVTX");
-	GRID3DMAT->SetPixShader(L"GRID3DPIX");
-	GRID3DMAT->SetBlend(L"ALPHA");
+	KPtr<KMaterial> GRID3DMAT = ResourceManager<KMaterial>::Create(L"GRID3DMAT");
+	GRID3DMAT->Set_VTShader(L"GRID3DVTX");
+	GRID3DMAT->Set_PXShader(L"GRID3DPIX");
+	GRID3DMAT->Set_Blend(L"ALPHA");
 
 	// RECT
-	KPtr<HVtxShader> RECT3DVTX = ResourceManager<HVtxShader>::Load_FromKey(L"RECT3DVTX", L"Shader", L"RECT3D.fx", "VS_RECT3D");
-	RECT3DVTX->AddLayout("POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
-	RECT3DVTX->AddLayout("TEXCOORD", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32_FLOAT, 0);
-	RECT3DVTX->AddLayout("COLOR", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
-	RECT3DVTX->AddLayoutEnd("NORMAL", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
-	KPtr<HPixShader> RECT3DPIX = ResourceManager<HPixShader>::Load_FromKey(L"RECT3DPIX", L"Shader", L"RECT3D.fx", "PS_RECT3D");
+	KPtr<Shader_Vertex> RECT3DVTX = ResourceManager<Shader_Vertex>::Load_FromKey(L"RECT3DVTX", L"Shader", L"RECT3D.fx", "VS_RECT3D");
+	RECT3DVTX->Add_Layout("POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
+	RECT3DVTX->Add_Layout("TEXCOORD", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32_FLOAT, 0);
+	RECT3DVTX->Add_Layout("COLOR", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
+	RECT3DVTX->Add_LayoutFin("NORMAL", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
+	KPtr<Shader_Pixel> RECT3DPIX = ResourceManager<Shader_Pixel>::Load_FromKey(L"RECT3DPIX", L"Shader", L"RECT3D.fx", "PS_RECT3D");
 
-	KPtr<HMaterial> RECT3DMAT = ResourceManager<HMaterial>::Create(L"RECT3DMAT");
-	RECT3DMAT->SetVtxShader(L"RECT3DVTX");
-	RECT3DMAT->SetPixShader(L"RECT3DPIX");
-	RECT3DMAT->SetBlend(L"ALPHA");
+	KPtr<KMaterial> RECT3DMAT = ResourceManager<KMaterial>::Create(L"RECT3DMAT");
+	RECT3DMAT->Set_VTShader(L"RECT3DVTX");
+	RECT3DMAT->Set_PXShader(L"RECT3DPIX");
+	RECT3DMAT->Set_Blend(L"ALPHA");
 
 	// SKY
-	KPtr<HVtxShader> SKY3DVTX = ResourceManager<HVtxShader>::Load_FromKey(L"SKY3DVTX", L"Shader", L"SkyBox.fx", "VS_SKY3D");
-	SKY3DVTX->AddLayout("POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
-	SKY3DVTX->AddLayout("TEXCOORD", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32_FLOAT, 0);
-	SKY3DVTX->AddLayout("COLOR", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
-	SKY3DVTX->AddLayoutEnd("NORMAL", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
-	KPtr<HPixShader> SKY3DPIX = ResourceManager<HPixShader>::Load_FromKey(L"SKY3DPIX", L"Shader", L"SkyBox.fx", "PS_SKY3D");
+	KPtr<Shader_Vertex> SKY3DVTX = ResourceManager<Shader_Vertex>::Load_FromKey(L"SKY3DVTX", L"Shader", L"SkyBox.fx", "VS_SKY3D");
+	SKY3DVTX->Add_Layout("POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
+	SKY3DVTX->Add_Layout("TEXCOORD", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32_FLOAT, 0);
+	SKY3DVTX->Add_Layout("COLOR", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
+	SKY3DVTX->Add_LayoutFin("NORMAL", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
+	KPtr<Shader_Pixel> SKY3DPIX = ResourceManager<Shader_Pixel>::Load_FromKey(L"SKY3DPIX", L"Shader", L"SkyBox.fx", "PS_SKY3D");
 
-	KPtr<HMaterial> SKY3DMAT = ResourceManager<HMaterial>::Create(L"SKY3DMAT");
-	SKY3DMAT->SetVtxShader(L"SKY3DVTX");
-	SKY3DMAT->SetPixShader(L"SKY3DPIX");
-	SKY3DMAT->SetBlend(L"ALPHA");
-	// SKY3DMAT->AddTexData(TEXTYPE::TT_COLOR, 0, L"Sky01.png");
+	KPtr<KMaterial> SKY3DMAT = ResourceManager<KMaterial>::Create(L"SKY3DMAT");
+	SKY3DMAT->Set_VTShader(L"SKY3DVTX");
+	SKY3DMAT->Set_PXShader(L"SKY3DPIX");
+	SKY3DMAT->Set_Blend(L"ALPHA");
+	// SKY3DMAT->Insert_TexData(TEX_TYPE::TEX_COLOR, 0, L"Sky01.png");
 
-	KPtr<HVtxShader> MESH3DVTX = ResourceManager<HVtxShader>::Load_FromKey(L"MESH3DVTX", L"Shader", L"MeshMat.fx", "VS_MESH3D");
-	MESH3DVTX->AddLayout("POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
-	MESH3DVTX->AddLayout("TEXCOORD", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32_FLOAT, 0);
-	MESH3DVTX->AddLayout("COLOR", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
-	MESH3DVTX->AddLayout("NORMAL", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
-	MESH3DVTX->AddLayout("TANGENT", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
-	MESH3DVTX->AddLayoutEnd("BINORMAL", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
-	KPtr<HPixShader> MESH3DPIX = ResourceManager<HPixShader>::Load_FromKey(L"MESH3DPIX", L"Shader", L"MeshMat.fx", "PS_MESH3D");
+	KPtr<Shader_Vertex> MESH3DVTX = ResourceManager<Shader_Vertex>::Load_FromKey(L"MESH3DVTX", L"Shader", L"MeshMat.fx", "VS_MESH3D");
+	MESH3DVTX->Add_Layout("POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
+	MESH3DVTX->Add_Layout("TEXCOORD", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32_FLOAT, 0);
+	MESH3DVTX->Add_Layout("COLOR", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
+	MESH3DVTX->Add_Layout("NORMAL", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
+	MESH3DVTX->Add_Layout("TANGENT", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
+	MESH3DVTX->Add_LayoutFin("BINORMAL", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
+	KPtr<Shader_Pixel> MESH3DPIX = ResourceManager<Shader_Pixel>::Load_FromKey(L"MESH3DPIX", L"Shader", L"MeshMat.fx", "PS_MESH3D");
 
-	KPtr<HMaterial> MESH3DMAT = ResourceManager<HMaterial>::Create(L"MESH3DMAT");
-	MESH3DMAT->SetVtxShader(L"MESH3DVTX");
-	MESH3DMAT->SetPixShader(L"MESH3DPIX");
-	MESH3DMAT->SetBlend(L"ALPHA");
+	KPtr<KMaterial> MESH3DMAT = ResourceManager<KMaterial>::Create(L"MESH3DMAT");
+	MESH3DMAT->Set_VTShader(L"MESH3DVTX");
+	MESH3DMAT->Set_PXShader(L"MESH3DPIX");
+	MESH3DMAT->Set_Blend(L"ALPHA");
 
-	KPtr<HVtxShader> DEFFERD3DVTX = ResourceManager<HVtxShader>::Load_FromKey(L"DEFFERD3DVTX", L"Shader", L"Defferd.fx", "VS_DEFFERD");
-	DEFFERD3DVTX->AddLayout("POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
-	DEFFERD3DVTX->AddLayout("TEXCOORD", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32_FLOAT, 0);
-	DEFFERD3DVTX->AddLayout("COLOR", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
-	DEFFERD3DVTX->AddLayout("NORMAL", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
-	DEFFERD3DVTX->AddLayout("TANGENT", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
-	DEFFERD3DVTX->AddLayoutEnd("BINORMAL", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
-	KPtr<HPixShader> DEFFERD3DPIX = ResourceManager<HPixShader>::Load_FromKey(L"DEFFERD3DPIX", L"Shader", L"Defferd.fx", "PS_DEFFERD");
+	KPtr<Shader_Vertex> DEFFERD3DVTX = ResourceManager<Shader_Vertex>::Load_FromKey(L"DEFFERD3DVTX", L"Shader", L"Defferd.fx", "VS_DEFFERD");
+	DEFFERD3DVTX->Add_Layout("POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
+	DEFFERD3DVTX->Add_Layout("TEXCOORD", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32_FLOAT, 0);
+	DEFFERD3DVTX->Add_Layout("COLOR", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
+	DEFFERD3DVTX->Add_Layout("NORMAL", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
+	DEFFERD3DVTX->Add_Layout("TANGENT", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
+	DEFFERD3DVTX->Add_LayoutFin("BINORMAL", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
+	KPtr<Shader_Pixel> DEFFERD3DPIX = ResourceManager<Shader_Pixel>::Load_FromKey(L"DEFFERD3DPIX", L"Shader", L"Defferd.fx", "PS_DEFFERD");
 
-	KPtr<HMaterial> DEFFERD3DMAT = ResourceManager<HMaterial>::Create(L"DEFFERD3DMAT");
-	DEFFERD3DMAT->SetVtxShader(L"DEFFERD3DVTX");
-	DEFFERD3DMAT->SetPixShader(L"DEFFERD3DPIX");
-	DEFFERD3DMAT->SetBlend(L"ALPHA");
+	KPtr<KMaterial> DEFFERD3DMAT = ResourceManager<KMaterial>::Create(L"DEFFERD3DMAT");
+	DEFFERD3DMAT->Set_VTShader(L"DEFFERD3DVTX");
+	DEFFERD3DMAT->Set_PXShader(L"DEFFERD3DPIX");
+	DEFFERD3DMAT->Set_Blend(L"ALPHA");
 
 	// DefferdDirLight
-	KPtr<HVtxShader> DEFFERDLIGHTVTX = ResourceManager<HVtxShader>::Load_FromKey(L"DEFFERDLIGHTVTX", L"Shader", L"Defferd.fx", "VS_DEFFERDLIGHT");
-	DEFFERDLIGHTVTX->AddLayout("POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
-	DEFFERDLIGHTVTX->AddLayoutEnd("TEXCOORD", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32_FLOAT, 0);
-	KPtr<HPixShader> DEFFERDLIGHTPIX = ResourceManager<HPixShader>::Load_FromKey(L"DEFFERDLIGHTPIX", L"Shader", L"Defferd.fx", "PS_DEFFERDLIGHT");
+	KPtr<Shader_Vertex> DEFFERDLIGHTVTX = ResourceManager<Shader_Vertex>::Load_FromKey(L"DEFFERDLIGHTVTX", L"Shader", L"Defferd.fx", "VS_DEFFERDLIGHT");
+	DEFFERDLIGHTVTX->Add_Layout("POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
+	DEFFERDLIGHTVTX->Add_LayoutFin("TEXCOORD", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32_FLOAT, 0);
+	KPtr<Shader_Pixel> DEFFERDLIGHTPIX = ResourceManager<Shader_Pixel>::Load_FromKey(L"DEFFERDLIGHTPIX", L"Shader", L"Defferd.fx", "PS_DEFFERDLIGHT");
 
-	KPtr<HMaterial> DEFFERDMAT = ResourceManager<HMaterial>::Create(L"DEFFERDLIGHTMAT");
-	DEFFERDMAT->SetVtxShader(L"DEFFERDLIGHTVTX");
-	DEFFERDMAT->SetPixShader(L"DEFFERDLIGHTPIX");
-	DEFFERDMAT->SetBlend(L"LIGHTONE");
-	DEFFERDMAT->AddTexData(TEXTYPE::TT_TAGET, 0, L"POSTION");
-	DEFFERDMAT->AddTexData(TEXTYPE::TT_TAGET, 1, L"NORMAL");
-	DEFFERDMAT->AddTexData(TEXTYPE::TT_TAGET, 2, L"DEPTH");
+	KPtr<KMaterial> DEFFERDMAT = ResourceManager<KMaterial>::Create(L"DEFFERDLIGHTMAT");
+	DEFFERDMAT->Set_VTShader(L"DEFFERDLIGHTVTX");
+	DEFFERDMAT->Set_PXShader(L"DEFFERDLIGHTPIX");
+	DEFFERDMAT->Set_Blend(L"LIGHTONE");
+	DEFFERDMAT->Insert_TexData(TEX_TYPE::TEX_TAGET, 0, L"POSTION");
+	DEFFERDMAT->Insert_TexData(TEX_TYPE::TEX_TAGET, 1, L"NORMAL");
+	DEFFERDMAT->Insert_TexData(TEX_TYPE::TEX_TAGET, 2, L"DEPTH");
 
 	// MERGE
-	KPtr<HVtxShader> DEFFERDMERGEVTX = ResourceManager<HVtxShader>::Load_FromKey(L"DEFFERDMERGEVTX", L"Shader", L"Defferd.fx", "VS_DEFFERDMERGE");
-	DEFFERDMERGEVTX->AddLayout("POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
-	DEFFERDMERGEVTX->AddLayoutEnd("TEXCOORD", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32_FLOAT, 0);
-	KPtr<HPixShader> DEFFERDMERGEPIX = ResourceManager<HPixShader>::Load_FromKey(L"DEFFERDMERGEPIX", L"Shader", L"Defferd.fx", "PS_DEFFERDMERGE");
+	KPtr<Shader_Vertex> DEFFERDMERGEVTX = ResourceManager<Shader_Vertex>::Load_FromKey(L"DEFFERDMERGEVTX", L"Shader", L"Defferd.fx", "VS_DEFFERDMERGE");
+	DEFFERDMERGEVTX->Add_Layout("POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
+	DEFFERDMERGEVTX->Add_LayoutFin("TEXCOORD", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32_FLOAT, 0);
+	KPtr<Shader_Pixel> DEFFERDMERGEPIX = ResourceManager<Shader_Pixel>::Load_FromKey(L"DEFFERDMERGEPIX", L"Shader", L"Defferd.fx", "PS_DEFFERDMERGE");
 
-	KPtr<HMaterial> DEFFERDMERGEMAT = ResourceManager<HMaterial>::Create(L"DEFFERDMERGEMAT");
-	DEFFERDMERGEMAT->SetVtxShader(L"DEFFERDMERGEVTX");
-	DEFFERDMERGEMAT->SetPixShader(L"DEFFERDMERGEPIX");
-	DEFFERDMERGEMAT->SetBlend(L"ALPHA");
-	DEFFERDMERGEMAT->AddTexData(TEXTYPE::TT_TAGET, 0, L"COLOR_DIFFUSE");
-	DEFFERDMERGEMAT->AddTexData(TEXTYPE::TT_TAGET, 1, L"LIGHT_DIFFUSE");
-	DEFFERDMERGEMAT->AddTexData(TEXTYPE::TT_TAGET, 2, L"LIGHT_SPECULAR");
+	KPtr<KMaterial> DEFFERDMERGEMAT = ResourceManager<KMaterial>::Create(L"DEFFERDMERGEMAT");
+	DEFFERDMERGEMAT->Set_VTShader(L"DEFFERDMERGEVTX");
+	DEFFERDMERGEMAT->Set_PXShader(L"DEFFERDMERGEPIX");
+	DEFFERDMERGEMAT->Set_Blend(L"ALPHA");
+	DEFFERDMERGEMAT->Insert_TexData(TEX_TYPE::TEX_TAGET, 0, L"COLOR_DIFFUSE");
+	DEFFERDMERGEMAT->Insert_TexData(TEX_TYPE::TEX_TAGET, 1, L"LIGHT_DIFFUSE");
+	DEFFERDMERGEMAT->Insert_TexData(TEX_TYPE::TEX_TAGET, 2, L"LIGHT_SPECULAR");
 
-	KPtr<HVtxShader> SCREENMERGEVTX = ResourceManager<HVtxShader>::Load_FromKey(L"SCREENMERGEVTX", L"Shader", L"ScreenMerge.fx", "VS_SCREENMERGE");
-	SCREENMERGEVTX->AddLayout("POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
-	SCREENMERGEVTX->AddLayoutEnd("TEXCOORD", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32_FLOAT, 0);
-	KPtr<HPixShader> SCREENMERGEPIX = ResourceManager<HPixShader>::Load_FromKey(L"SCREENMERGEPIX", L"Shader", L"ScreenMerge.fx", "PS_SCREENMERGE");
+	KPtr<Shader_Vertex> SCREENMERGEVTX = ResourceManager<Shader_Vertex>::Load_FromKey(L"SCREENMERGEVTX", L"Shader", L"ScreenMerge.fx", "VS_SCREENMERGE");
+	SCREENMERGEVTX->Add_Layout("POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
+	SCREENMERGEVTX->Add_LayoutFin("TEXCOORD", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32_FLOAT, 0);
+	KPtr<Shader_Pixel> SCREENMERGEPIX = ResourceManager<Shader_Pixel>::Load_FromKey(L"SCREENMERGEPIX", L"Shader", L"ScreenMerge.fx", "PS_SCREENMERGE");
 
-	KPtr<HMaterial> SCREENMERGEMAT = ResourceManager<HMaterial>::Create(L"SCREENMERGEMAT");
-	SCREENMERGEMAT->SetVtxShader(L"SCREENMERGEVTX");
-	SCREENMERGEMAT->SetPixShader(L"SCREENMERGEPIX");
+	KPtr<KMaterial> SCREENMERGEMAT = ResourceManager<KMaterial>::Create(L"SCREENMERGEMAT");
+	SCREENMERGEMAT->Set_VTShader(L"SCREENMERGEVTX");
+	SCREENMERGEMAT->Set_PXShader(L"SCREENMERGEPIX");
 
-	KPtr<HVtxShader> VOLUMEVTX = ResourceManager<HVtxShader>::Load_FromKey(L"VOLUMEVTX", L"Shader", L"VolumeMesh.fx", "VS_VOLUME");
-	VOLUMEVTX->AddLayoutEnd("POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
-	KPtr<HPixShader> VOLUMEPIX = ResourceManager<HPixShader>::Load_FromKey(L"VOLUMEPIX", L"Shader", L"VolumeMesh.fx", "PS_VOLUME");
+	KPtr<Shader_Vertex> VOLUMEVTX = ResourceManager<Shader_Vertex>::Load_FromKey(L"VOLUMEVTX", L"Shader", L"VolumeMesh.fx", "VS_VOLUME");
+	VOLUMEVTX->Add_LayoutFin("POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
+	KPtr<Shader_Pixel> VOLUMEPIX = ResourceManager<Shader_Pixel>::Load_FromKey(L"VOLUMEPIX", L"Shader", L"VolumeMesh.fx", "PS_VOLUME");
 
-	KPtr<HMaterial> VOLUMEMAT = ResourceManager<HMaterial>::Create(L"VOLUMEMAT");
-	VOLUMEMAT->SetBlend(L"VOLUME");
-	VOLUMEMAT->SetVtxShader(L"VOLUMEVTX");
-	VOLUMEMAT->SetPixShader(L"VOLUMEPIX");
+	KPtr<KMaterial> VOLUMEMAT = ResourceManager<KMaterial>::Create(L"VOLUMEMAT");
+	VOLUMEMAT->Set_Blend(L"VOLUME");
+	VOLUMEMAT->Set_VTShader(L"VOLUMEVTX");
+	VOLUMEMAT->Set_PXShader(L"VOLUMEPIX");
 
 	return true;
 }
 
-bool KDevice::DefaultDataInit3D() 
+bool KDevice::Init_BasicFigure3D() 
 {
 
 	DefRenderTaget();

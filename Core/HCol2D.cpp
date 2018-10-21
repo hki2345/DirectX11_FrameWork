@@ -1,6 +1,6 @@
 #include "HCol2D.h"
-#include "HScene.h"
-#include "HTrans.h"
+#include "State.h"
+#include "TransPosition.h"
 #include "DebugManager.h"
 
 
@@ -18,24 +18,24 @@ bool HCol2D::Init(int _Order /*= 0*/)
 {
 	m_Order = _Order;
 
-	Scene()->Col2DMgr.Push2DCol(this);
+	state()->Col2DMgr.Push2DCol(this);
 
 	return true;
 }
 
 void HCol2D::ColFiUpdate() 
 {
-	m_2DCol->m_Vec.m_Pos = Pivot + m_Trans->WPos();
+	m_2DCol->m_Vec.m_Pos = Pivot + m_Trans->pos_world();
 
 	if (false == m_SizeSelf) 
 	{
 		switch (m_2DCol->m_ColType)
 		{
 		case CT_RECT2D:
-			m_2DCol->m_Vec.m_Size.set_vector2(fabsf(m_Trans->LScale().x), fabsf(m_Trans->LScale().y));
+			m_2DCol->m_Vec.m_Size.set_vector2(fabsf(m_Trans->scale_local().x), fabsf(m_Trans->scale_local().y));
 			break;
 		case CT_CIRCLE2D:
-			m_2DCol->m_Vec.m_Vec3.Radius = (fabsf(m_Trans->LScale().x) * 0.5f);
+			m_2DCol->m_Vec.m_Vec3.Radius = (fabsf(m_Trans->scale_local().x) * 0.5f);
 			break;
 		default:
 			break;
@@ -73,5 +73,5 @@ void HCol2D::DebugRender()
 	ColFiUpdate();
 // #endif
 
-	DebugManager::DrawRect(m_2DCol->m_Vec);
+	DebugManager::Draw_Rect(m_2DCol->m_Vec);
 }

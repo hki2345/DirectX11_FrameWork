@@ -2,7 +2,7 @@
 #include "Stl_AID.h"
 #include "HSpFrameAnimater.h"
 #include "HSpRenderer.h"
-#include "TimeMgr.h"
+#include "TimeManager.h"
 
 
 HSpFrameAnimater::HSpFrameAnimater() : m_SpRender(nullptr)
@@ -44,7 +44,7 @@ void HSpFrameAnimater::Update()
 {
 	if (nullptr != m_CurAni)
 	{
-		m_CurFrameTime += TimeMgr::DeltaTime();
+		m_CurFrameTime += TimeManager::DeltaTime();
 		size_t Count = (size_t)(m_CurFrameTime / m_CurAni->m_FrameSpeed);
 		if (0 < Count)
 		{

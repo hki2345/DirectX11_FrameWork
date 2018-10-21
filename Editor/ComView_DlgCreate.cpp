@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "resource.h"
-#include <HComponent.h>
+#include <Component.h>
 
 #include "ComView.h"
 #include "TransDlg.h"
@@ -11,7 +11,7 @@ ComDlg* ComView::CreateDlg(const type_info* _Type)
 {
 	ComDlg* NewDlg = nullptr;
 
-	if (_Type == &typeid(HTrans))
+	if (_Type == &typeid(TransPosition))
 	{
 		NewDlg = new TransDlg();
 		NewDlg->Create(IDD_TRANSCOM, this);

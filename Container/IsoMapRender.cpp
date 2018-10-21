@@ -1,5 +1,5 @@
 #include "IsoMapRender.h"
-#include <HResMgr.h>
+#include <ResourceManager.h>
 #include <KMacro.h>
 #include <KWindow.h>
 
@@ -16,7 +16,7 @@ IsoMapRender::~IsoMapRender()
 
 bool IsoMapRender::Init(int _Order)
 {
-	HRenderer::Init(_Order);
+	Renderer::Init(_Order);
 
 	if (false == SetMat(L"IMGMAT"))
 	{
@@ -59,11 +59,11 @@ void IsoMapRender::Image(const wchar_t* _ImageName)
 		return;
 	}
 
-	m_Img = ResourceManager<HImage>::Find(_ImageName);
+	m_Img = ResourceManager<KImage>::Find(_ImageName);
 	KASSERT(nullptr == m_Img);
 }
 
-void IsoMapRender::Render(KPtr<HCamera> _Camera)
+void IsoMapRender::Render(KPtr<Camera> _Camera)
 {
 	KASSERT(nullptr == m_Trans);
 	if (nullptr == m_Trans)
@@ -96,15 +96,15 @@ void IsoMapRender::Render(KPtr<HCamera> _Camera)
 		TilePosMat.Trans(TilePos);
 
 		KMatrix Mat = TileSizeMat * TilePosMat * CSWMat();
-		Mat = Mat * _Camera->VP();
+		Mat = Mat * _Camera->ViewProj();
 
-		m_Mat->VTXSH()->SettingCB<KMatrix>(L"TRANS", Mat.RTranspose());
-		m_Mat->PIXSH()->SettingCB<KVector4>(L"MULCOLOR", m_Color);
-		m_Mat->PIXSH()->SettingCB<KVector4>(L"IMGUV", m_Img->Uv(StartIter->second->Index));
+		m_Mat->VShader()->SettingCB<KMatrix>(L"TRANS", Mat.RTranspose());
+		m_Mat->PShader()->SettingCB<KVector4>(L"MULCOLOR", m_Color);
+		m_Mat->PShader()->SettingCB<KVector4>(L"IMGUV", m_Img->Uv(StartIter->second->Index));
 
 		m_Mat->Update();
-		m_Img->GetSam()->Update(0);
-		m_Img->GetTex()->Update(0);
+		m_Img->sampler()->Update(0);
+		m_Img->texture()->Update(0);
 		m_Mesh->Update();
 		m_Mesh->Render();
 	}

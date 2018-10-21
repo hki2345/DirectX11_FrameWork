@@ -1,8 +1,8 @@
 #pragma once
-#include <HLogic.h>
+#include <SomeOne.h>
 #include <HSpRenderer.h>
 
-class HSpriteCut : public HLogic
+class HSpriteCut : public SomeOne
 {
 public:
 	KPtr<HSpRenderer> SpriteRender;

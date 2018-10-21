@@ -11,11 +11,11 @@
 #include "RightView.h"
 
 #include <KCore.h>
-#include <HResMgr.h>
-#include <HImage.h>
+#include <ResourceManager.h>
+#include <KImage.h>
 #include "ToolCoreBuilder.h"
 #include "TVAR.h"
-#include <InputMgr.h>
+#include <InputManager.h>
 
 #ifdef _DEBUG
 #define new DEBUG_NEW

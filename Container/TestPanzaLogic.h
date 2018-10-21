@@ -1,11 +1,11 @@
 #pragma once
-#include <HLogic.h>
+#include <SomeOne.h>
 #include <HColCom.h>
 
 class HSpRenderer;
 class HSpFrameAnimater;
 class HCol2D;
-class TestPanzaLogic : public HLogic
+class TestPanzaLogic : public SomeOne
 {
 private:
 	size_t m_ImgIndex;

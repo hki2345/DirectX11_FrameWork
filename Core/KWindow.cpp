@@ -2,7 +2,7 @@
 #include "Stl_AID.h"
 
 #include "KMacro.h"
-#include "HResMgr.h"
+#include "ResourceManager.h"
 #include "DebugManager.h"
 
 
@@ -22,7 +22,7 @@ std::unordered_map<HWND, KPtr<KWindow>> KWindow::g_HWinMap;
 
 // 생성자에서 윈도우 관련 것들이 실행 된다.
 
-KWindow::KWindow(const wchar_t* _Name) : Begin(_Name), m_HWnd(nullptr), ThisStateManager(this), m_Device(this), m_bFull(true)
+KWindow::KWindow(const wchar_t* _Name) : Begin(_Name), m_HWnd(nullptr), statemanager(this), m_Device(this), m_bFull(true)
 {
 	KRegisterClass();
 	if (FALSE == Init_Instance())
@@ -34,7 +34,7 @@ KWindow::KWindow(const wchar_t* _Name) : Begin(_Name), m_HWnd(nullptr), ThisStat
 	m_Hdc = GetDC(m_HWnd);
 }
 
-KWindow::KWindow(const wchar_t* _Name, HWND _hWnd) : Begin(_Name), m_HWnd(nullptr), ThisStateManager(this), m_Device(this), m_bFull(true)
+KWindow::KWindow(const wchar_t* _Name, HWND _hWnd) : Begin(_Name), m_HWnd(nullptr), statemanager(this), m_Device(this), m_bFull(true)
 {
 	m_HWnd = _hWnd;
 
@@ -179,18 +179,18 @@ void KWindow::size(const size_t&_X, const size_t& _Y)
 
 void KWindow::Update() 
 {
-	ThisStateManager.Progress();
+	statemanager.Progress();
 
 	if (true == m_Device.IsInit())
 	{
 		// m_Device.ClearTaget();
-		ThisStateManager.Render();
+		statemanager.Render();
 		// m_Device.Present();
 	}
 
 	// 충돌
-	ThisStateManager.AfterProgress();
-	ThisStateManager.Release();
+	statemanager.NextProgress();
+	statemanager.Release();
 }
 
 
@@ -236,8 +236,8 @@ bool KWindow::Init_Device()
 {
 	bool Return = m_Device.Init();
 
-	// m_Device.DefaultDataInit();
-	m_Device.DefaultDataInit3D();
+	// m_Device.Init_BasicFigure2D();
+	m_Device.Init_BasicFigure3D();
 
 	return Return;
 }

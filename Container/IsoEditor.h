@@ -1,14 +1,14 @@
 #pragma once
-#include "HLogic.h"
+#include "SomeOne.h"
 #include "IsoMapRender.h"
-#include <HSoundPlayer.h>
+#include <SoundPlayer.h>
 
 class IsoEditor :
-	public HLogic
+	public SomeOne
 {
 public:
 	KPtr<IsoMapRender> IsoRender;
-	KPtr<HSoundPlayer> SoundPlayer;
+	KPtr<SoundPlayer> m_SndPlayer;
 
 public:
 	bool Init() override;

@@ -1072,7 +1072,7 @@ public:
 	}
 
 public:
-	KMatrix& Iden() 
+	KMatrix& Identity() 
 	{
 		*this = DirectX::XMMatrixIdentity();
 		return *this;
@@ -1170,7 +1170,7 @@ public:
 	}
 };
 
-class DHelper
+class VS_Format
 {
 public:
 	static KUINT Size_Format(DXGI_FORMAT _Fm);

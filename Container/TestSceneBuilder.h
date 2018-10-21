@@ -1,14 +1,14 @@
 #pragma once
-#include <HScene.h>
+#include <State.h>
 
-class TestSceneBuilder : public HScene::HSceneBuilder
+class TestSceneBuilder : public State::State_Builder
 {
 
 public:
 	TestSceneBuilder();
 	~TestSceneBuilder();
 
-	// HSceneBuilder을(를) 통해 상속됨
-	virtual void SceneBuild() override;
+	// State_Builder을(를) 통해 상속됨
+	virtual void Build_State() override;
 };
 

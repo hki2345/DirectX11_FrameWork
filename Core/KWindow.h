@@ -1,7 +1,7 @@
 #pragma once
-#include "HSceneMgr.h"
+#include "StateManager.h"
 #include "KDevice.h"
-#include "HRenderMgr.h"
+#include "RenderManager.h"
 
 #include <Windows.h>
 
@@ -95,7 +95,7 @@ private:
 	BOOL Init_Instance();
 
 public:
-	HSceneMgr ThisStateManager;
+	StateManager statemanager;
 
 ////////////////////////////////////////////////////////// 디바이스
 // 윈도우에 디바이스가 장착되는 형식
@@ -109,7 +109,7 @@ public:
 	bool Init_Device();
 
 private:
-	HRenderMgr ThisRenderManager;
+	RenderManager ThisRenderManager;
 
 };
 

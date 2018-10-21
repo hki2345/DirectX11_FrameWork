@@ -1,5 +1,5 @@
 #pragma once
-#include <HComponent.h>
+#include <Component.h>
 
 // ComDlg 대화 상자입니다.
 
@@ -9,7 +9,7 @@ public:
 	UINT SIZEY;
 
 public:
-	virtual void SettingComponent(HComponent* _pCom) {}
+	virtual void SettingComponent(Component* _pCom) {}
 
 public:
 	ComDlg(int _id, CWnd* _pWnd) : CDialogEx(_id, _pWnd) 

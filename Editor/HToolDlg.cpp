@@ -6,15 +6,15 @@
 #include "HToolDlg.h"
 #include "afxdialogex.h"
 #include <Core_Class.h>
-#include <HScene.h>
-#include <HActor.h>
-#include <H3DRectRenderer.h>
+#include <State.h>
+#include <TheOne.h>
+#include <Renderer_Rect.h>
 #include <HFreeCamera.h>
-#include <H3DGRID.h>
-#include <H3DMeshRenderer.h>
-#include <HResMgr.h>
-#include <HImage.h>
-#include <HLight.h>
+#include <Renderer_Grid.h>
+#include <Renderer_Mesh.h>
+#include <ResourceManager.h>
+#include <KImage.h>
+#include <Light.h>
 
 
 // HToolDlg 대화 상자입니다.
@@ -62,83 +62,83 @@ BOOL HToolDlg::OnInitDialog()
 {
 	TabDlg::OnInitDialog();
 
-	ResourceManager<HTexture>::Load(L"Texture", L"BUMPTEST.png");
-	ResourceManager<HTexture>::Load(L"Texture", L"BUMPTEST_N.png");
-
-	ResourceManager<HTexture>::Load(L"Texture", L"TILE_01.png");
-	ResourceManager<HTexture>::Load(L"Texture", L"TILE_01_N.png");
+	// ResourceManager<Texture>::Load(L"Texture", L"BUMPTEST.png");
+	// ResourceManager<Texture>::Load(L"Texture", L"BUMPTEST_N.png");
+	// 
+	// ResourceManager<Texture>::Load(L"Texture", L"TILE_01.png");
+	// ResourceManager<Texture>::Load(L"Texture", L"TILE_01_N.png");
 
 
 	HFBX FBXLoader;
 	// FBXLoader.Load((PathManager::Find_ForderPathStr(L"Mesh") + L"BattleTest.FBX").c_str());
 
-	KPtr<HScene> TabScene = Core_Class::MainSceneMgr().FindScene(SceneName.GetString());
+	KPtr<State> TabScene = Core_Class::MainSceneMgr().Find_State(SceneName.GetString());
 
 	if (nullptr == TabScene) 
 	{
 		KASSERT(true);
 	}
 
-	TabScene->Camera()->AddCom<HFreeCamera>();
+	TabScene->Camera()->Add_Component<HFreeCamera>();
 	TabScene->Camera()->Far(10000.0f);
-	TabScene->Camera()->Actor()->Trans()->LPos(KVector4(0.0f, 10.0f, -20.0f));
+	TabScene->Camera()->one()->Trans()->pos_local(KVector4(0.0f, 10.0f, -20.0f));
 
 
-	KPtr<HActor> Light3 = TabScene->CreateActor();
+	KPtr<TheOne> Light3 = TabScene->Create_One();
 	// 스케일은 dir이 아닌 빛의 크기를 나타낸다.
-	// Light->Trans()->LScale(KVector4(1000.0f, 1000.0f, 1000.0f));
+	// Light->Trans()->scale_local(KVector4(1000.0f, 1000.0f, 1000.0f));
 	// Foward로 비춘다고 생각한다.
-	KPtr<HLight> pLight3 = Light3->AddCom<HLight>();
-	pLight3->SetType(HLight::LIGHTTYPE::POINT);
-	pLight3->Trans()->WPos(KVector4(25.0F, 0.0F, 0.0f));
-	pLight3->Trans()->WScale(KVector4(20.0f, 20.0f, 20.0f));
+	KPtr<Light> pLight3 = Light3->Add_Component<Light>();
+	pLight3->SetType(Light::LIGHTTYPE::POINT);
+	pLight3->Trans()->pos_world(KVector4(25.0F, 0.0F, 0.0f));
+	pLight3->Trans()->scale_world(KVector4(20.0f, 20.0f, 20.0f));
 	pLight3->PushLightLayer(0, 1, 2, 3, 4, 5);
 
 
-	KPtr<HActor> Light = TabScene->CreateActor();
+	KPtr<TheOne> Light1 = TabScene->Create_One();
 	// 스케일은 dir이 아닌 빛의 크기를 나타낸다.
-	// Light->Trans()->LScale(KVector4(1000.0f, 1000.0f, 1000.0f));
+	// Light->Trans()->scale_local(KVector4(1000.0f, 1000.0f, 1000.0f));
 	// Foward로 비춘다고 생각한다.
-	KPtr<HLight> pLight = Light->AddCom<HLight>();
-	pLight->SetType(HLight::LIGHTTYPE::POINT);
-	pLight->Trans()->WScale(KVector4(30.0f, 30.0f, 30.0f));
+	KPtr<Light> pLight = Light1->Add_Component<Light>();
+	pLight->SetType(Light::LIGHTTYPE::POINT);
+	pLight->Trans()->scale_world(KVector4(30.0f, 30.0f, 30.0f));
 	pLight->PushLightLayer(0, 1, 2, 3, 4, 5);
 
 
-	KPtr<HActor> Light2 = TabScene->CreateActor();
+	KPtr<TheOne> Light2 = TabScene->Create_One();
 	// 스케일은 dir이 아닌 빛의 크기를 나타낸다.
-	// Light->Trans()->LScale(KVector4(1000.0f, 1000.0f, 1000.0f));
+	// Light->Trans()->scale_local(KVector4(1000.0f, 1000.0f, 1000.0f));
 	// Foward로 비춘다고 생각한다.
-	KPtr<HLight> pLight2 = Light2->AddCom<HLight>();
-	pLight2->Trans()->WRot(KVector4(45.0F, 0.0F, 0.0f));
-	pLight2->Trans()->WScale(KVector4(30.0f, 30.0f, 30.0f));
+	KPtr<Light> pLight2 = Light2->Add_Component<Light>();
+	pLight2->Trans()->rotate_world(KVector4(45.0F, 0.0F, 0.0f));
+	pLight2->Trans()->scale_world(KVector4(30.0f, 30.0f, 30.0f));
 	pLight2->PushLightLayer(0, 1, 2, 3, 4, 5);
 
 
 
-	KPtr<HActor> GRIDACTOR = TabScene->CreateActor();
-	GRIDACTOR->Trans()->WRot(KVector4(90.0f, 0.0f, 0.0f));
-	GRIDACTOR->Trans()->WScale(KVector4(10000.0f, 10000.0f, 10000.0f));
-	GRIDACTOR->AddCom<H3DGRID>();
+	KPtr<TheOne> GRIDACTOR = TabScene->Create_One();
+	GRIDACTOR->Trans()->rotate_world(KVector4(90.0f, 0.0f, 0.0f));
+	GRIDACTOR->Trans()->scale_world(KVector4(10000.0f, 10000.0f, 10000.0f));
+	GRIDACTOR->Add_Component<Renderer_Grid>();
 
-	KPtr<HActor> SPHERELEFT = TabScene->CreateActor();
-	SPHERELEFT->Trans()->LScale(KVector4(10.0f, 10.0f, 10.0f));
-	SPHERELEFT->Trans()->LPos(KVector4(-15.0f, 0.0f, 0.0f));
-	KPtr<H3DMeshRenderer> PTRMESH1 = SPHERELEFT->AddCom<H3DMeshRenderer>();
+	KPtr<TheOne> SPHERELEFT = TabScene->Create_One();
+	SPHERELEFT->Trans()->scale_local(KVector4(10.0f, 10.0f, 10.0f));
+	SPHERELEFT->Trans()->pos_local(KVector4(-15.0f, 0.0f, 0.0f));
+	KPtr<Renderer_Mesh> PTRMESH1 = SPHERELEFT->Add_Component<Renderer_Mesh>();
 	PTRMESH1->ROpt.IsLight = 1;
 	PTRMESH1->SetMat(L"MESH3DMAT");
 	PTRMESH1->SetMesh(L"SPHERE");
 
-	PTRMESH1->Mat()->AddTexData(TEXTYPE::TT_COLOR, 0, L"TILE_01.png");
-	PTRMESH1->Mat()->AddTexData(TEXTYPE::TT_BUMP, 1, L"TILE_01_N.png");
+	PTRMESH1->material()->Insert_TexData(TEX_TYPE::TEX_COLOR, 0, L"TILE_01.png");
+	PTRMESH1->material()->Insert_TexData(TEX_TYPE::TEX_BUMP, 1, L"TILE_01_N.png");
 
-	// PTRMESH1->Mat()->AddTexData(TEXTYPE::TT_COLOR, 0, L"BUMPTEST.png");
-	// PTRMESH1->Mat()->AddTexData(TEXTYPE::TT_BUMP, 1, L"BUMPTEST_N.png");
+	// PTRMESH1->material()->Insert_TexData(TEX_TYPE::TEX_COLOR, 0, L"BUMPTEST.png");
+	// PTRMESH1->material()->Insert_TexData(TEX_TYPE::TEX_BUMP, 1, L"BUMPTEST_N.png");
 
-	KPtr<HActor> SPHERERIGHT = TabScene->CreateActor();
-	SPHERERIGHT->Trans()->LScale(KVector4(10.0f, 10.0f, 10.0f));
-	SPHERERIGHT->Trans()->LPos(KVector4(15.0f, 0.0f, 0.0f));
-	KPtr<H3DMeshRenderer> PTRMESH2 = SPHERERIGHT->AddCom<H3DMeshRenderer>();
+	KPtr<TheOne> SPHERERIGHT = TabScene->Create_One();
+	SPHERERIGHT->Trans()->scale_local(KVector4(10.0f, 10.0f, 10.0f));
+	SPHERERIGHT->Trans()->pos_local(KVector4(15.0f, 0.0f, 0.0f));
+	KPtr<Renderer_Mesh> PTRMESH2 = SPHERERIGHT->Add_Component<Renderer_Mesh>();
 	//PTRMESH2->SetMat(L"PIXLIGHT3DMAT");
 	PTRMESH2->SetMesh(L"SPHERE");
 

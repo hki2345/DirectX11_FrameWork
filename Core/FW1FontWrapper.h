@@ -1014,7 +1014,7 @@ MIDL_INTERFACE("8004DB2B-B5F9-4420-A6A2-E17E15E4C336") IFW1Factory : public IUnk
 		/// <param name="pDevice">The ID3D11Device the font-wrapper will be used with.</param>
 		/// <param name="pszFontFamily">The default font-family to use when drawing strings.
 		/// Valid values include for example L"Arial" and L"Courier New", provided that the fonts are installed on the system.
-		/// Font-fallback will automatically choose a different font if the specified one is not available.</param>
+		/// KFont-fallback will automatically choose a different font if the specified one is not available.</param>
 		/// <param name="ppFontWrapper">Address of a pointer to a font-wrapper (See IFW1FontWrapper).</param>
 		virtual HRESULT STDMETHODCALLTYPE CreateFontWrapper(
 			__in ID3D11Device *pDevice,

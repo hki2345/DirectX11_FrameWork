@@ -9,7 +9,7 @@
 #include <HSpRenderer.h>
 #include <HCol2D.h>
 #include "TVAR.h"
-#include <HResMgr.h>
+#include <ResourceManager.h>
 
 #include "ToolSceneUpdater.h"
 
@@ -85,7 +85,7 @@ void SceneDlg::OnBnClickedCrescene()
 		return;
 	}
 
-	KPtr<HScene> m_Scene = Core_Class::MainSceneMgr().FindScene(m_SceneName.GetString());
+	KPtr<State> m_Scene = Core_Class::MainSceneMgr().Find_State(m_SceneName.GetString());
 
 	if (nullptr != m_Scene)
 	{
@@ -96,14 +96,14 @@ void SceneDlg::OnBnClickedCrescene()
 
 	m_SceneList.AddString(m_SceneName);
 
-	m_Scene = Core_Class::MainSceneMgr().CreateScene(m_SceneName.GetString());
+	m_Scene = Core_Class::MainSceneMgr().Create_State(m_SceneName.GetString());
 	m_Scene->CreateUpdater<ToolSceneUpdater>();
-	Core_Class::MainSceneMgr().ChangeScene(m_SceneName.GetString());
+	Core_Class::MainSceneMgr().Change_State(m_SceneName.GetString());
 
-	KPtr<HActor> Camera = m_Scene->CreateActor();
-	Camera->Trans()->LPos(KVector4(0.0f, 0.0f, -10.0f));
-	KPtr<HCamera> CamCom = Camera->AddCom<HCamera>();
-	CamCom->PushRenderLayer(0, 1, 2, 3, 4);
+	KPtr<TheOne> Cam = m_Scene->Create_One();
+	Cam->Trans()->pos_local(KVector4(0.0f, 0.0f, -10.0f));
+	KPtr<Camera> CamCom = Cam->Add_Component<Camera>();
+	CamCom->Insert_LayerData(0, 1, 2, 3, 4);
 
 
 	UpdateData(FALSE);
@@ -118,7 +118,7 @@ void SceneDlg::OnLbnSelchangeScenelist()
 
 	m_SceneList.GetText(m_SceneList.GetCurSel(), m_CurSceneName);
 
-	TVAR::SelectScene = Core_Class::MainSceneMgr().FindScene(m_CurSceneName.GetString());
+	TVAR::SelectScene = Core_Class::MainSceneMgr().Find_State(m_CurSceneName.GetString());
 
 	if (nullptr == TVAR::SelectScene)
 	{
@@ -126,7 +126,7 @@ void SceneDlg::OnLbnSelchangeScenelist()
 		return;
 	}
 
-	Core_Class::MainSceneMgr().ChangeScene(m_CurSceneName.GetString());
+	Core_Class::MainSceneMgr().Change_State(m_CurSceneName.GetString());
 
 	UpdateData(FALSE);
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
@@ -139,10 +139,10 @@ void SceneDlg::OnLbnSelchangeScenelist()
 //		return;
 //	}
 //
-//	 KPtr<HActor> pActor = Core_Class::MainScene()->CreateActor(L"TestActor");
+//	 KPtr<TheOne> pActor = Core_Class::MainScene()->Create_One(L"TestActor");
 //	 KPtr<HSpRenderer> SpriteRender = pActor->AddCom<HSpRenderer>();
 //	 SpriteRender->Image(L"Rock.png");
-//	 pActor->Trans()->LScale({ 100, 100, 1 });
+//	 pActor->Trans()->scale_local({ 100, 100, 1 });
 //	 pActor->Trans()->LPos({ 0, 0, 5 });
 //
 //	// pActor->OverSetting("Stage1", "Stage2", "Stage3");
@@ -167,12 +167,12 @@ void SceneDlg::OnShowWindow(BOOL bShow, UINT nStatus)
 		return;
 	}
 
-	if (nullptr == Core_Class::MainSceneMgr().FindScene(TVAR::SceneDlg->m_CurSceneName))
+	if (nullptr == Core_Class::MainSceneMgr().Find_State(TVAR::SceneDlg->m_CurSceneName))
 	{
 		return;
 	}
 
-	Core_Class::MainSceneMgr().ChangeScene(m_CurSceneName);
+	Core_Class::MainSceneMgr().Change_State(m_CurSceneName);
 	// TODO: 여기에 메시지 처리기 코드를 추가합니다.
 }
 

@@ -1,9 +1,9 @@
 #pragma once
-#include "HBaseCom.h"
+#include "Component_DE.h"
 
 // 충돌체
 // 랜더러 등이 사용할 것이다.
-class HSubTransCom : public HBaseCom
+class HSubTransCom : public Component_DE
 {
 private:
 	enum SUBMODE

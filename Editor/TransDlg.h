@@ -1,6 +1,6 @@
 #pragma once
 #include "ComDlg.h"
-#include <HTrans.h>
+#include <TransPosition.h>
 #include "DropEditor.h"
 
 // TransDlg 대화 상자입니다.
@@ -38,7 +38,7 @@ public:
 		EV_SCAL
 	};
 
-	HTrans* m_pTrans;
+	TransPosition* m_pTrans;
 
 	KMatrix TransValue;
 	CEdit ArrMatValue[3][3];
@@ -46,7 +46,7 @@ public:
 	DropEditor NameXYZ[3][3];
 
 public:
-	void SettingComponent(HComponent* _pCom);
+	void SettingComponent(Component* _pCom);
 
-	void TransUpdate();
+	void Update_Trans();
 };

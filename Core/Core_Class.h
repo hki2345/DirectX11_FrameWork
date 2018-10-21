@@ -2,10 +2,10 @@
 #include "DXContainer.h"
 #include "KCore.h"
 #include "SmartPtr.h"
-#include "HSceneMgr.h"
+#include "StateManager.h"
 #include "KWindow.h"
 #include "KDevice.h"
-#include "HScene.h"
+#include "State.h"
 #include "HFBX.h"
 
 // 일종의 연관 시켜져야할 클래스들을 포인터로 들고 있음 - 꽤나 유용한 클래스
@@ -20,9 +20,9 @@ private:
 
 public:
 	static KWindow& MainWindow();
-	static HSceneMgr& MainSceneMgr();
-	static KPtr<HScene> MainScene();
-	static KPtr<HScene> NextScene();
+	static StateManager& MainSceneMgr();
+	static KPtr<State> MainScene();
+	static KPtr<State> next_state();
 
 	static KDevice& MainDevice();
 	static ID3D11Device* PDevice();

@@ -1,6 +1,6 @@
 #include "IsoEditor.h"
-#include <HScene.h>
-#include <InputMgr.h>
+#include <State.h>
+#include <InputManager.h>
 #include <DebugManager.h>
 
 
@@ -15,25 +15,25 @@ IsoEditor::~IsoEditor()
 
 bool IsoEditor::Init() 
 {
-	IsoRender = GetCom<IsoMapRender>();
-	SoundPlayer = AddCom<HSoundPlayer>();
+	IsoRender = Get_Component<IsoMapRender>();
+	m_SndPlayer = Add_Component<SoundPlayer>();
 
 	return true;
 }
 void IsoEditor::Update() 
 {
-	KVector2 MPos = Scene()->Camera()->ScreenToWorld(InputMgr::MousePos());
+	KVector2 MPos = state()->Camera()->ScreenTo_World(InputManager::MousePos());
 
-	if (InputMgr::IsDownStay(L"MouseButton"))
+	if (InputManager::Press(L"MouseButton"))
 	{
 		IsoRender->CreateTile(MPos, 1);
 	}
 
-	if (InputMgr::IsDown(L"RMouseButton"))
+	if (InputManager::Down(L"RMouseButton"))
 	{
-		SoundPlayer->SoundPlay(L"1-Up.wav");
+		m_SndPlayer->Play(L"1-Up.wav");
 
-		KVector2 MPos = Scene()->Camera()->ScreenToWorld(InputMgr::MousePos());
+		KVector2 MPos = state()->Camera()->ScreenTo_World(InputManager::MousePos());
 		std::list<KVector2> List = IsoRender->WorldPathFind(KVector2(0.0f, 0.0f), MPos);
 
 		std::list<KVector2>::iterator StartIter = List.begin();
@@ -48,9 +48,9 @@ void IsoEditor::Update()
 }
 void IsoEditor::DebugRender() 
 {
-	KVector2 MPos = Scene()->Camera()->ScreenToWorld(InputMgr::MousePos());
+	KVector2 MPos = state()->Camera()->ScreenTo_World(InputManager::MousePos());
 	KVector2 Index = IsoRender->WorldToIndex(MPos);
 	wchar_t Arr[256];
 	swprintf_s(Arr, L"MWorldPos : %d, %d", Index.ix, Index.iy);
-	DebugManager::DrawFont(Arr, { 10.0f, 300.0f }, 20.0f);
+	DebugManager::Draw_Font(Arr, { 10.0f, 300.0f }, 20.0f);
 }

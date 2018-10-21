@@ -77,10 +77,10 @@ void ActorDlg::OnBnClickedCreactor()
 	{
 		HTREEITEM item = m_ObjectTree.InsertItem(L"GameObject");
 
-		KPtr<HActor> pActor = Core_Class::MainScene()->CreateActor(L"GameObject");
+		KPtr<TheOne> pActor = Core_Class::MainScene()->Create_One(L"GameObject");
 
 
-		KPtr<IsoMapRender> IsoRender = pActor->AddCom<IsoMapRender>(L"Tile.png", KVector2(128.0f, 64.0f));
+		KPtr<IsoMapRender> IsoRender = pActor->Add_Component<IsoMapRender>(L"Tile.png", KVector2(128.0f, 64.0f));
 		IsoRender->CreateTile(0, 0);
 		IsoRender->CreateTile(1, 0);
 
@@ -96,46 +96,46 @@ void ActorDlg::OnBnClickedCreactor()
 		IsoRender->CreateTile(0, 0);
 		IsoRender->CreateTile(1, 0);
 
-		pActor->AddCom<IsoEditor>();
-		m_ObjectTree.SetItemData(item, (DWORD_PTR)((HActor*)pActor));
+		pActor->Add_Component<IsoEditor>();
+		m_ObjectTree.SetItemData(item, (DWORD_PTR)((TheOne*)pActor));
 
 	}
 	else {
 		HTREEITEM item = m_ObjectTree.InsertItem(L"GameObject", m_SelectObject);
 		m_ObjectTree.Expand(m_SelectObject, TVE_EXPAND);
 
-		KPtr<HActor> pActor = Core_Class::MainScene()->CreateActor(L"GameObject");
-		pActor->AddCom<HCol2D>();
+		KPtr<TheOne> pActor = Core_Class::MainScene()->Create_One(L"GameObject");
+		pActor->Add_Component<HCol2D>();
 
-		KPtr<HSpRenderer> SpriteRender = pActor->AddCom<HSpRenderer>();
+		KPtr<HSpRenderer> SpriteRender = pActor->Add_Component<HSpRenderer>();
 		SpriteRender->Image(L"Rock.png");
-		pActor->Trans()->LScale({ 100, 100, 1 });
-		pActor->Trans()->LPos({ 0, 0, 5 });
+		pActor->Trans()->scale_local({ 100, 100, 1 });
+		pActor->Trans()->pos_local({ 0, 0, 5 });
 
-		m_ObjectTree.SetItemData(item, (DWORD_PTR)((HActor*)pActor));
+		m_ObjectTree.SetItemData(item, (DWORD_PTR)((TheOne*)pActor));
 	}
 }
 
 void ActorDlg::ResetObjectTreeItem() {
 
-	Core_Class::MainSceneMgr().ChangeScene(TVAR::SceneDlg->m_CurSceneName);
+	Core_Class::MainSceneMgr().Change_State(TVAR::SceneDlg->m_CurSceneName);
 
 	m_ObjectTree.DeleteAllItems();
 
-	std::unordered_map<int, std::list<KPtr<HActor>>> AllActor = Core_Class::NextScene()->AllActor();
+	std::unordered_map<int, std::list<KPtr<TheOne>>> AllActor = Core_Class::next_state()->AllActor();
 
-	std::unordered_map<int, std::list<KPtr<HActor>>>::iterator m_StartMapIter = AllActor.begin();
-	std::unordered_map<int, std::list<KPtr<HActor>>>::iterator m_EndMapIter = AllActor.end();
+	std::unordered_map<int, std::list<KPtr<TheOne>>>::iterator m_StartMapIter = AllActor.begin();
+	std::unordered_map<int, std::list<KPtr<TheOne>>>::iterator m_EndMapIter = AllActor.end();
 
 	for (; m_StartMapIter != m_EndMapIter; ++m_StartMapIter)
 	{
-		std::list<KPtr<HActor>>::iterator m_StartListIter = m_StartMapIter->second.begin();
-		std::list<KPtr<HActor>>::iterator m_EndListIter = m_StartMapIter->second.end();
+		std::list<KPtr<TheOne>>::iterator m_StartListIter = m_StartMapIter->second.begin();
+		std::list<KPtr<TheOne>>::iterator m_EndListIter = m_StartMapIter->second.end();
 
 		for (; m_StartListIter != m_EndListIter; ++m_StartListIter)
 		{
 			HTREEITEM item = m_ObjectTree.InsertItem((*m_StartListIter)->Name());
-			m_ObjectTree.SetItemData(item, (DWORD_PTR)((HActor*)(*m_StartListIter)));
+			m_ObjectTree.SetItemData(item, (DWORD_PTR)((TheOne*)(*m_StartListIter)));
 			// (*m_StartListIter)
 		}
 	}
@@ -150,7 +150,7 @@ void ActorDlg::OnShowWindow(BOOL bShow, UINT nStatus)
 		return;
 	}
 
-	if (nullptr == Core_Class::MainSceneMgr().FindScene(TVAR::SceneDlg->m_CurSceneName))
+	if (nullptr == Core_Class::MainSceneMgr().Find_State(TVAR::SceneDlg->m_CurSceneName))
 	{
 		return;
 	}
@@ -182,7 +182,7 @@ void ActorDlg::OnTvnSelchangedActortree(NMHDR *pNMHDR, LRESULT *pResult)
 
 	m_SelectObject = pNMTreeView->itemNew.hItem;
 
-	HActor* pActor = (HActor*)m_ObjectTree.GetItemData(m_SelectObject);
+	TheOne* pActor = (TheOne*)m_ObjectTree.GetItemData(m_SelectObject);
 
 	if (nullptr != pActor)
 	{
@@ -213,15 +213,15 @@ void ActorDlg::OnTvnKeydownActortree(NMHDR *pNMHDR, LRESULT *pResult)
 
 	if (VK_DELETE == pTVKeyDown->wVKey && nullptr != m_SelectObject)
 	{
-		HActor* pActor = (HActor*)m_ObjectTree.GetItemData(m_SelectObject);
+		TheOne* pActor = (TheOne*)m_ObjectTree.GetItemData(m_SelectObject);
 
 		if (nullptr != pActor)
 		{
 			TVAR::g_ComView->AllDlgDestroy();
 			pActor->Set_Death();
-			// KPtr<HSpRenderer> Ptr = pActor->GetCom<HSpRenderer>();
+			// KPtr<HSpRenderer> Ptr = pActor->Get_Component<HSpRenderer>();
 /*
-			KPtr<HCol2D> Ptr = pActor->GetCom<HCol2D>();
+			KPtr<HCol2D> Ptr = pActor->Get_Component<HCol2D>();
 
 			if (nullptr != Ptr)
 			{
@@ -242,7 +242,7 @@ void ActorDlg::OnTvnEndlabeleditActortree(NMHDR *pNMHDR, LRESULT *pResult)
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 	*pResult = 0;
 
-	HActor* pActor = (HActor*)m_ObjectTree.GetItemData(m_SelectObject);
+	TheOne* pActor = (TheOne*)m_ObjectTree.GetItemData(m_SelectObject);
 
 	if (nullptr != pActor && nullptr != pTVDispInfo->item.pszText)
 	{

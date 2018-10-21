@@ -1,7 +1,7 @@
 #pragma once
 #include "ComDlg.h"
 #include "afxwin.h"
-#include <HActor.h>
+#include <TheOne.h>
 
 // AddCom 대화 상자입니다.
 
@@ -24,7 +24,7 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	CComboBox m_ComListCombo;
-	HActor*	  m_pActor;
+	TheOne*	  m_pActor;
 
 	virtual BOOL OnInitDialog();
 

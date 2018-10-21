@@ -1,10 +1,10 @@
 #include "HSpRenderer.h"
 #include "KMacro.h"
 #include "KWindow.h"
-#include "HResMgr.h"
-#include "HBlend.h"
-#include "HSampler.h"
-#include "HTexture.h"
+#include "ResourceManager.h"
+#include "KBlend.h"
+#include "Sampler.h"
+#include "Texture.h"
 
 
 HSpRenderer::HSpRenderer() : m_Color(1.0f, 1.0f, 1.0f, 1.0f), m_ImgIndex(0)
@@ -16,7 +16,7 @@ HSpRenderer::~HSpRenderer()
 {
 }
 
-void HSpRenderer::Render(KPtr<HCamera> _Camera)
+void HSpRenderer::Render(KPtr<Camera> _Camera)
 {
 	KASSERT(nullptr == m_Trans);
 	if (nullptr == m_Trans)
@@ -33,14 +33,14 @@ void HSpRenderer::Render(KPtr<HCamera> _Camera)
 
 	SubTransUpdate();
 
-	m_Mat->VTXSH()->SettingCB<KMatrix>(L"TRANS", (CSWMat() * _Camera->VP()).RTranspose());
-	m_Mat->PIXSH()->SettingCB<KVector4>(L"MULCOLOR", m_Color);
-	m_Mat->PIXSH()->SettingCB<KVector4>(L"IMGUV", m_Img->Uv(m_ImgIndex));
+	m_Mat->VShader()->SettingCB<KMatrix>(L"TRANS", (CSWMat() * _Camera->ViewProj()).RTranspose());
+	m_Mat->PShader()->SettingCB<KVector4>(L"MULCOLOR", m_Color);
+	m_Mat->PShader()->SettingCB<KVector4>(L"IMGUV", m_Img->Uv(m_ImgIndex));
 
 	m_Mat->Update();
 
-	m_Img->GetSam()->Update(0);
-	m_Img->GetTex()->Update(0);
+	m_Img->sampler()->Update(0);
+	m_Img->texture()->Update(0);
 
 	m_Mesh->Update();
 	m_Mesh->Render();
@@ -48,7 +48,7 @@ void HSpRenderer::Render(KPtr<HCamera> _Camera)
 
 bool HSpRenderer::Init(int _Order)
 {
-	HRenderer::Init(_Order);
+	Renderer::Init(_Order);
 
 	if (false == SetMat(L"IMGMAT"))
 	{
@@ -85,7 +85,7 @@ void HSpRenderer::ImageScaleSetting()
 		return;
 	}
 
-	KVector4 Scale = m_Img->GetTex()->ImageSize();
+	KVector4 Scale = m_Img->texture()->ImageSize();
 
 	Scale.z = 1.0f;
 
@@ -100,6 +100,6 @@ void HSpRenderer::Image(const wchar_t* _ImageName)
 		return;
 	}
 
-	m_Img = ResourceManager<HImage>::Find(_ImageName);
+	m_Img = ResourceManager<KImage>::Find(_ImageName);
 	KASSERT(nullptr == m_Img);
 }

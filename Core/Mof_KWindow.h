@@ -6,9 +6,9 @@ class KWindow;
 class Mof_KWindow
 {
 public:
-	friend class HSceneMgr;
-	friend class HActor;
-	friend class HScene;
+	friend class StateManager;
+	friend class TheOne;
+	friend class State;
 
 private:
 	KWindow* m_pWindow;

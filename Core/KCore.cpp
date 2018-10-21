@@ -1,11 +1,11 @@
 #include "KCore.h"
 #include "KWindow.h"
-#include "TimeMgr.h"
-#include "InputMgr.h"
+#include "TimeManager.h"
+#include "InputManager.h"
 #include "Core_Class.h"
-#include "HResMgr.h"
+#include "ResourceManager.h"
 #include "HColCom.h"
-#include "HSoundDevice.h"
+#include "SoundDevice.h"
 
 /////////////////////////// Launcher
 
@@ -58,9 +58,9 @@ int KCore::Loop()
 
 void KCore::Progress() 
 {
-	TimeMgr::Update();
-	InputMgr::Update();
-	HSoundDevice::Update();
+	TimeManager::Update();
+	InputManager::Update();
+	SoundDevice::Update();
 	KWindow::Progress();
 	// 데드 타임을 이용할것이다.
 }
@@ -85,8 +85,8 @@ void KCore::Init_Core(HINSTANCE _Hinst, const wchar_t* _pMainWindowName, HWND _h
 	
 
 	Core_Class::MainWindow(_pMainWindowName);
-	HSoundDevice::Init();
+	SoundDevice::Init();
 	PathManager::Init();
-	TimeMgr::Init();
+	TimeManager::Init();
 	HColCom::ColInit();
 }

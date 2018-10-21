@@ -24,17 +24,17 @@ KWindow& Core_Class::MainWindow() {
 	return *g_MainWindow;
 }
 
-HSceneMgr& Core_Class::MainSceneMgr()
+StateManager& Core_Class::MainSceneMgr()
 {
-	return g_MainWindow->ThisStateManager;
+	return g_MainWindow->statemanager;
 }
 
-KPtr<HScene> Core_Class::MainScene() {
-	return g_MainWindow->ThisStateManager.CurScene();
+KPtr<State> Core_Class::MainScene() {
+	return g_MainWindow->statemanager.cur_state();
 }
 
-KPtr<HScene> Core_Class::NextScene() {
-	return g_MainWindow->ThisStateManager.NextScene();
+KPtr<State> Core_Class::next_state() {
+	return g_MainWindow->statemanager.next_state();
 }
 
 KDevice& Core_Class::MainDevice() {

@@ -1,41 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClInclude Include="H3DGRID.h" />
-    <ClInclude Include="H3DMeshRenderer.h" />
-    <ClInclude Include="H3DRectRenderer.h" />
-    <ClInclude Include="HActor.h" />
-    <ClInclude Include="HActorBase.h" />
-    <ClInclude Include="HBaseCom.h" />
-    <ClInclude Include="HBlend.h" />
-    <ClInclude Include="HCamera.h" />
-    <ClInclude Include="HColCom.h" />
-    <ClInclude Include="HComponent.h" />
-    <ClInclude Include="HFBX.h" />
-    <ClInclude Include="HImage.h" />
-    <ClInclude Include="HLight.h" />
-    <ClInclude Include="HLogic.h" />
-    <ClInclude Include="HMaterial.h" />
-    <ClInclude Include="HMesh.h" />
-    <ClInclude Include="HMultiRenderTaget.h" />
-    <ClInclude Include="HPixShader.h" />
-    <ClInclude Include="HRenderer.h" />
-    <ClInclude Include="HRenderMgr.h" />
-    <ClInclude Include="HRenderTaget.h" />
-    <ClInclude Include="HSampler.h" />
-    <ClInclude Include="HScene.h" />
-    <ClInclude Include="HSceneBase.h" />
-    <ClInclude Include="HSceneMgr.h" />
-    <ClInclude Include="HShader.h" />
-    <ClInclude Include="HSound.h" />
-    <ClInclude Include="HSoundDevice.h" />
-    <ClInclude Include="HSoundPlayer.h" />
-    <ClInclude Include="HSpFrameAnimater.h" />
-    <ClInclude Include="HSpRenderer.h" />
-    <ClInclude Include="HSubTransCom.h" />
-    <ClInclude Include="HTexture.h" />
-    <ClInclude Include="HTrans.h" />
-    <ClInclude Include="HVtxShader.h" />
     <ClInclude Include="KMacro.h">
       <Filter>00 Core\Assistor</Filter>
     </ClInclude>
@@ -53,18 +18,6 @@
     </ClInclude>
     <ClInclude Include="DirectXTex.h">
       <Filter>02 Device\DirectX</Filter>
-    </ClInclude>
-    <ClInclude Include="InputMgr.h">
-      <Filter>03 Manager\Input</Filter>
-    </ClInclude>
-    <ClInclude Include="TimeMgr.h">
-      <Filter>03 Manager\Time</Filter>
-    </ClInclude>
-    <ClInclude Include="MCRI.h">
-      <Filter>03 Manager\Thread</Filter>
-    </ClInclude>
-    <ClInclude Include="HThread.h">
-      <Filter>03 Manager\Thread</Filter>
     </ClInclude>
     <ClInclude Include="KCore.h">
       <Filter>00 Core</Filter>
@@ -117,50 +70,134 @@
     <ClInclude Include="FW1FontWrapper.h">
       <Filter>03 Manager\Resource\Child\Font</Filter>
     </ClInclude>
-    <ClInclude Include="HFont.h">
-      <Filter>03 Manager\Resource\Child\Font</Filter>
-    </ClInclude>
-    <ClInclude Include="HResMgr.h">
-      <Filter>03 Manager\Resource</Filter>
-    </ClInclude>
     <ClInclude Include="Resource.h">
       <Filter>03 Manager\Resource</Filter>
     </ClInclude>
+    <ClInclude Include="ResourceManager.h">
+      <Filter>03 Manager\Resource</Filter>
+    </ClInclude>
+    <ClInclude Include="Sound.h">
+      <Filter>03 Manager\Resource\Child\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundDevice.h">
+      <Filter>03 Manager\Resource\Child\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="Component.h">
+      <Filter>98 Component</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundPlayer.h">
+      <Filter>03 Manager\Resource\Child\Sound</Filter>
+    </ClInclude>
+    <ClInclude Include="KThread.h">
+      <Filter>03 Manager\Thread</Filter>
+    </ClInclude>
+    <ClInclude Include="MultiCritical.h">
+      <Filter>03 Manager\Thread</Filter>
+    </ClInclude>
+    <ClInclude Include="TimeManager.h">
+      <Filter>03 Manager\Time</Filter>
+    </ClInclude>
+    <ClInclude Include="InputManager.h">
+      <Filter>03 Manager\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="Sampler.h">
+      <Filter>03 Manager\Resource\Child\Image</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.h">
+      <Filter>03 Manager\Resource\Child\Image</Filter>
+    </ClInclude>
+    <ClInclude Include="KImage.h">
+      <Filter>03 Manager\Resource\Child\Image</Filter>
+    </ClInclude>
+    <ClInclude Include="KShader.h">
+      <Filter>03 Manager\Resource\Child\Material</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader_Vertex.h">
+      <Filter>03 Manager\Resource\Child\Material</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader_Pixel.h">
+      <Filter>03 Manager\Resource\Child\Material</Filter>
+    </ClInclude>
+    <ClInclude Include="KMesh.h">
+      <Filter>03 Manager\Resource\Child\Material</Filter>
+    </ClInclude>
+    <ClInclude Include="KBlend.h">
+      <Filter>03 Manager\Resource\Child\Material</Filter>
+    </ClInclude>
+    <ClInclude Include="KMaterial.h">
+      <Filter>03 Manager\Resource\Child\Material</Filter>
+    </ClInclude>
+    <ClInclude Include="HSpFrameAnimater.h">
+      <Filter>03 Manager\Render\Child</Filter>
+    </ClInclude>
+    <ClInclude Include="HSpRenderer.h">
+      <Filter>03 Manager\Render\Child</Filter>
+    </ClInclude>
+    <ClInclude Include="Component_DE.h">
+      <Filter>98 Component</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer.h">
+      <Filter>03 Manager\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderManager.h">
+      <Filter>03 Manager\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Light.h">
+      <Filter>03 Manager\Render\Light</Filter>
+    </ClInclude>
+    <ClInclude Include="KFont.h">
+      <Filter>03 Manager\Resource\Child\Font</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer_Grid.h">
+      <Filter>03 Manager\Render\Child</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer_Mesh.h">
+      <Filter>03 Manager\Render\Child</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer_Rect.h">
+      <Filter>03 Manager\Render\Child</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderTarget.h">
+      <Filter>03 Manager\Render\Target</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderTarget_Multi.h">
+      <Filter>03 Manager\Render\Target</Filter>
+    </ClInclude>
+    <ClInclude Include="HColCom.h">
+      <Filter>98 Component\CoreCom</Filter>
+    </ClInclude>
+    <ClInclude Include="HSubTransCom.h">
+      <Filter>98 Component\CoreCom</Filter>
+    </ClInclude>
+    <ClInclude Include="HFBX.h">
+      <Filter>03 Manager\Resource\Child\FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="Mof_State.h">
+      <Filter>03 Manager\State</Filter>
+    </ClInclude>
+    <ClInclude Include="State.h">
+      <Filter>03 Manager\State</Filter>
+    </ClInclude>
+    <ClInclude Include="StateManager.h">
+      <Filter>03 Manager\State</Filter>
+    </ClInclude>
+    <ClInclude Include="TransPosition.h">
+      <Filter>98 Component\CoreCom</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>98 Component\CoreCom</Filter>
+    </ClInclude>
+    <ClInclude Include="TheOne.h">
+      <Filter>99 TheOne</Filter>
+    </ClInclude>
+    <ClInclude Include="Mof_One.h">
+      <Filter>99 TheOne</Filter>
+    </ClInclude>
+    <ClInclude Include="SomeOne.h">
+      <Filter>99 TheOne</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="H3DGRID.cpp" />
-    <ClCompile Include="H3DMeshRenderer.cpp" />
-    <ClCompile Include="H3DRectRenderer.cpp" />
-    <ClCompile Include="HActor.cpp" />
-    <ClCompile Include="HBaseCom.cpp" />
-    <ClCompile Include="HBlend.cpp" />
-    <ClCompile Include="HCamera.cpp" />
-    <ClCompile Include="HColCom.cpp" />
-    <ClCompile Include="HComponent.cpp" />
-    <ClCompile Include="HFBX.cpp" />
-    <ClCompile Include="HImage.cpp" />
-    <ClCompile Include="HLight.cpp" />
-    <ClCompile Include="HLogic.cpp" />
-    <ClCompile Include="HMaterial.cpp" />
-    <ClCompile Include="HMesh.cpp" />
-    <ClCompile Include="HMultiRenderTaget.cpp" />
-    <ClCompile Include="HPixShader.cpp" />
-    <ClCompile Include="HRenderer.cpp" />
-    <ClCompile Include="HRenderMgr.cpp" />
-    <ClCompile Include="HRenderTaget.cpp" />
-    <ClCompile Include="HSampler.cpp" />
-    <ClCompile Include="HScene.cpp" />
-    <ClCompile Include="HSceneMgr.cpp" />
-    <ClCompile Include="HShader.cpp" />
-    <ClCompile Include="HSound.cpp" />
-    <ClCompile Include="HSoundDevice.cpp" />
-    <ClCompile Include="HSoundPlayer.cpp" />
-    <ClCompile Include="HSpFrameAnimater.cpp" />
-    <ClCompile Include="HSpRenderer.cpp" />
-    <ClCompile Include="HSubTransCom.cpp" />
-    <ClCompile Include="HTexture.cpp" />
-    <ClCompile Include="HTrans.cpp" />
-    <ClCompile Include="HVtxShader.cpp" />
     <ClCompile Include="SmartPtr.cpp">
       <Filter>00 Core\Begin</Filter>
     </ClCompile>
@@ -175,18 +212,6 @@
     </ClCompile>
     <ClCompile Include="HDevice_DefaultData.cpp">
       <Filter>02 Device</Filter>
-    </ClCompile>
-    <ClCompile Include="InputMgr.cpp">
-      <Filter>03 Manager\Input</Filter>
-    </ClCompile>
-    <ClCompile Include="TimeMgr.cpp">
-      <Filter>03 Manager\Time</Filter>
-    </ClCompile>
-    <ClCompile Include="MCRI.cpp">
-      <Filter>03 Manager\Thread</Filter>
-    </ClCompile>
-    <ClCompile Include="HThread.cpp">
-      <Filter>03 Manager\Thread</Filter>
     </ClCompile>
     <ClCompile Include="KCore.cpp">
       <Filter>00 Core</Filter>
@@ -227,14 +252,125 @@
     <ClCompile Include="DebugManager.cpp">
       <Filter>03 Manager\Debug</Filter>
     </ClCompile>
-    <ClCompile Include="HFont.cpp">
-      <Filter>03 Manager\Resource\Child\Font</Filter>
-    </ClCompile>
-    <ClCompile Include="HResMgr.cpp">
-      <Filter>03 Manager\Resource</Filter>
-    </ClCompile>
     <ClCompile Include="Resource.cpp">
       <Filter>03 Manager\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceManager.cpp">
+      <Filter>03 Manager\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Sound.cpp">
+      <Filter>03 Manager\Resource\Child\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundDevice.cpp">
+      <Filter>03 Manager\Resource\Child\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="Component.cpp">
+      <Filter>98 Component</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundPlayer.cpp">
+      <Filter>03 Manager\Resource\Child\Sound</Filter>
+    </ClCompile>
+    <ClCompile Include="KThread.cpp">
+      <Filter>03 Manager\Thread</Filter>
+    </ClCompile>
+    <ClCompile Include="MultiCritical.cpp">
+      <Filter>03 Manager\Thread</Filter>
+    </ClCompile>
+    <ClCompile Include="TimeManager.cpp">
+      <Filter>03 Manager\Time</Filter>
+    </ClCompile>
+    <ClCompile Include="InputManager.cpp">
+      <Filter>03 Manager\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="Sampler.cpp">
+      <Filter>03 Manager\Resource\Child\Image</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>03 Manager\Resource\Child\Image</Filter>
+    </ClCompile>
+    <ClCompile Include="KImage.cpp">
+      <Filter>03 Manager\Resource\Child\Image</Filter>
+    </ClCompile>
+    <ClCompile Include="KShader.cpp">
+      <Filter>03 Manager\Resource\Child\Material</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader_Vertex.cpp">
+      <Filter>03 Manager\Resource\Child\Material</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader_Pixel.cpp">
+      <Filter>03 Manager\Resource\Child\Material</Filter>
+    </ClCompile>
+    <ClCompile Include="KMesh.cpp">
+      <Filter>03 Manager\Resource\Child\Material</Filter>
+    </ClCompile>
+    <ClCompile Include="KBlend.cpp">
+      <Filter>03 Manager\Resource\Child\Material</Filter>
+    </ClCompile>
+    <ClCompile Include="KMaterial.cpp">
+      <Filter>03 Manager\Resource\Child\Material</Filter>
+    </ClCompile>
+    <ClCompile Include="HSpFrameAnimater.cpp">
+      <Filter>03 Manager\Render\Child</Filter>
+    </ClCompile>
+    <ClCompile Include="HSpRenderer.cpp">
+      <Filter>03 Manager\Render\Child</Filter>
+    </ClCompile>
+    <ClCompile Include="Component_DE.cpp">
+      <Filter>98 Component</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer.cpp">
+      <Filter>03 Manager\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderManager.cpp">
+      <Filter>03 Manager\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Light.cpp">
+      <Filter>03 Manager\Render\Light</Filter>
+    </ClCompile>
+    <ClCompile Include="KFont.cpp">
+      <Filter>03 Manager\Resource\Child\Font</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer_Grid.cpp">
+      <Filter>03 Manager\Render\Child</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer_Mesh.cpp">
+      <Filter>03 Manager\Render\Child</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer_Rect.cpp">
+      <Filter>03 Manager\Render\Child</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderTarget.cpp">
+      <Filter>03 Manager\Render\Target</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderTarget_Multi.cpp">
+      <Filter>03 Manager\Render\Target</Filter>
+    </ClCompile>
+    <ClCompile Include="HColCom.cpp">
+      <Filter>98 Component\CoreCom</Filter>
+    </ClCompile>
+    <ClCompile Include="HSubTransCom.cpp">
+      <Filter>98 Component\CoreCom</Filter>
+    </ClCompile>
+    <ClCompile Include="HFBX.cpp">
+      <Filter>03 Manager\Resource\Child\FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="State.cpp">
+      <Filter>03 Manager\State</Filter>
+    </ClCompile>
+    <ClCompile Include="StateManager.cpp">
+      <Filter>03 Manager\State</Filter>
+    </ClCompile>
+    <ClCompile Include="TransPosition.cpp">
+      <Filter>98 Component\CoreCom</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>98 Component\CoreCom</Filter>
+    </ClCompile>
+    <ClCompile Include="TheOne.cpp">
+      <Filter>99 TheOne</Filter>
+    </ClCompile>
+    <ClCompile Include="SomeOne.cpp">
+      <Filter>99 TheOne</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -255,9 +391,6 @@
     </Filter>
     <Filter Include="03 Manager">
       <UniqueIdentifier>{c662c767-6440-441e-808b-45dc52f85903}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="04 Render">
-      <UniqueIdentifier>{b6bb8f23-6641-47e1-924f-8ec75f24f217}</UniqueIdentifier>
     </Filter>
     <Filter Include="99 TheOne">
       <UniqueIdentifier>{932a90e7-a05b-40dd-88d1-bbf7b70fb614}</UniqueIdentifier>
@@ -312,6 +445,27 @@
     </Filter>
     <Filter Include="03 Manager\Resource\Child\Font">
       <UniqueIdentifier>{dcfbc7f2-b97a-407c-a406-a5519051e22a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03 Manager\Resource\Child\Sound">
+      <UniqueIdentifier>{600c6758-7d0d-43d0-af8e-fafe52896981}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03 Manager\Resource\Child\Image">
+      <UniqueIdentifier>{4943d81d-aa8d-410c-9f63-20e1f0440d8b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03 Manager\Resource\Child\Material">
+      <UniqueIdentifier>{62a3ef34-c874-47be-a3cd-5bb48880c90d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03 Manager\Render\Target">
+      <UniqueIdentifier>{1f9396b3-1543-4be6-bca1-059984a21731}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03 Manager\Render\Light">
+      <UniqueIdentifier>{bad393a9-a664-42b0-9800-aee29bde6b9c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="98 Component\CoreCom">
+      <UniqueIdentifier>{bc36fb0a-48d0-4881-a8d1-9c57e3721a46}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03 Manager\Resource\Child\FBX">
+      <UniqueIdentifier>{df35e997-e966-4427-80da-39c09ab852f8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

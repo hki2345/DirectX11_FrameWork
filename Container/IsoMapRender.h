@@ -1,13 +1,13 @@
 #pragma once
-#include <HRenderer.h>
-#include <HImage.h>
+#include <Renderer.h>
+#include <KImage.h>
 #include <unordered_map>
 #include <map>
 
-class IsoMapRender : public HRenderer
+class IsoMapRender : public Renderer
 {
 private:
-	KPtr<HImage> m_Img;
+	KPtr<KImage> m_Img;
 	KColor	     m_Color;
 
 	KMatrix TilePosMat;
@@ -56,12 +56,12 @@ public:
 
 public:
 	void Image(const wchar_t* _ImageName);
-	KPtr<HImage> Image() { return m_Img; }
+	KPtr<KImage> Image() { return m_Img; }
 
 public:
 	bool Init(int _Order = 0) override;
 	bool Init(const wchar_t* _ImgName, KVector2 _Size,int _Order = 0);
-	void Render(KPtr<HCamera> _Camera) override;
+	void Render(KPtr<Camera> _Camera) override;
 
 private: ///////////////////////////////// AStar
 	class PathNode : public SmartPtr

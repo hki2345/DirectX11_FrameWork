@@ -1,7 +1,7 @@
 #pragma once
-#include <HScene.h>
+#include <State.h>
 
-class ToolSceneUpdater : public HScene::HSceneUpdater
+class ToolSceneUpdater : public State::State_Updater
 {
 public:
 	Base2DColFi* pColFi;
@@ -9,7 +9,7 @@ public:
 
 	float CameraSpeed;
 
-	KPtr<HActor> m_SelectActor;
+	KPtr<TheOne> m_SelectActor;
 
 	int Number;
 	int CheckNumber;
@@ -17,11 +17,11 @@ public:
 	bool m_bTestThread;
 
 public:
-	// HSceneUpdater을(를) 통해 상속됨
-	virtual void SceneUpdate() override;
+	// State_Updater을(를) 통해 상속됨
+	virtual void Update_State() override;
 
-	// HSceneUpdater을(를) 통해 상속됨
-	virtual void SceneStart() override;
+	// State_Updater을(를) 통해 상속됨
+	virtual void Start_State() override;
 
 	virtual void DebugRender() override;
 

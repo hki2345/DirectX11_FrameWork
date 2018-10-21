@@ -1,19 +1,19 @@
 #pragma once
-#include "HRenderer.h"
-#include "HImage.h"
+#include "Renderer.h"
+#include "KImage.h"
 
-class HBlend;
-class HSpRenderer : public HRenderer
+class KBlend;
+class HSpRenderer : public Renderer
 {
 private:
-	KPtr<HImage> m_Img;
+	KPtr<KImage> m_Img;
 	KColor	     m_Color;
 	size_t		 m_ImgIndex;
 	
 public:
 	void ImageScaleSetting();
 
-	void Render(KPtr<HCamera> _Camera) override;
+	void Render(KPtr<Camera> _Camera) override;
 
 	void Color(const KColor& _Color)
 	{
@@ -24,20 +24,20 @@ public:
 	{
 		return m_ImgIndex;
 	}
-	KPtr<HImage> Image() { return m_Img; }
+	KPtr<KImage> Image() { return m_Img; }
 
 	void ImageIndex(size_t _Index) 
 	{
 		m_ImgIndex = _Index;
 	}
 
-	KPtr<HTexture> Texture() 
+	KPtr<Texture> Texture() 
 	{ 
 		if (nullptr == m_Img)
 		{
 			return nullptr;
 		}
-		return m_Img->GetTex(); 
+		return m_Img->texture();
 	}
 
 	void Image(const wchar_t* _pImageName);

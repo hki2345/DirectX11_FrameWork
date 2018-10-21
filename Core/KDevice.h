@@ -15,10 +15,15 @@
 // 디바이스는 해당 권한을 불러오려는 윈도우를 알아야한다.
 class KDevice : public Mof_KWindow
 {
+public:
+	KDevice(KWindow* _Win);
+	~KDevice();
+
+
 	// 렌더에서 해당 디바이스의 컨텍스트를 실행한다.
 public:
-	friend class HRenderer;
-	friend class HRenderMgr;
+	friend class Renderer;
+	friend class RenderManager;
 
 public:
 	// 어떤식으로 보여지게 할 것이냐///
@@ -34,45 +39,12 @@ public:
 		END,
 	};
 
-private:
-	// 마소의 프로그래밍 방식중 하나.
-	// 컴객체 방식에 대해서 공부해 보세요.
-	// 리소스 관련 내용과 함수들에 대한 객체
-
-	// 컴객체란 https://docs.microsoft.com/en-us/windows/desktop/com/the-component-object-model
-	// 어떤 원하는 함수를 실행하기 위해서 다른 함수에서 포인터를 입력받아 그 포인터에서 실행하는 과정
-	// 이 과정은 소위 "뇌가 있는" 과정이라 하여 해당 함수를 정상적으로 실행할 수 있는지에 대한
-	// 판별을 자동으로 실시하는 것이다. 실시 할 수 없을 경우 해당 포인터가 nullptr로 대입되어
-	// 어떤 함수도 실행할 수 없게 되는 것이다.
-	ID3D11Device*				m_pDevice;				// 최종적으로 디바이스의 장치 권한을 얻어오는 것
-	// 랜더링 관련
-	ID3D11DeviceContext*		m_pContext;				// 컨텍스트
-
-	// 스왑체인에서 빠져나온 텍스처로 만든 타겟은 최종 랜더타겟으로 이용된다.
-	IDXGISwapChain*				m_pSwapChain;			// 출력을 위한 스왑체인을 정의하기 위한 객체
-
-	ID3D11Texture2D*			m_pBackBuffer;		// 깊이 스텐실용 텍스처
-	ID3D11RenderTargetView*		m_pTagetView;			// 출력될 타겟 뷰
-
-	ID3D11Texture2D*			m_pDepthStencilTex;		// 깊이 스텐실용 텍스처
-	ID3D11DepthStencilView*		m_pDepthStencilView;	// 깊이 스텐실 뷰
-
-
-
-	UINT						m_iMSLv;
-	KColor						m_Color;
-	bool						m_bInit;
-
-
-public:
-	ID3D11Device*				PDevice() { return m_pDevice; };
-	ID3D11DeviceContext*		Context() { return m_pContext; };
-	ID3D11DepthStencilView*		Depth() { return m_pDepthStencilView; };
 
 private:
+	/***************** Rasterize ****************/
 	// 레스터라이즈 상태 -> 와이어 프레임인지 솔리드인지 결정은
 	// 렌더러가 할 수 있게 한다.
-	class RSState : public SmartPtr
+	class RState : public SmartPtr
 	{
 	public:
 		ID3D11DeviceContext* m_pContext;
@@ -84,7 +56,7 @@ private:
 		void Create(ID3D11Device* _pDevice, ID3D11DeviceContext* _pContext, D3D11_FILL_MODE _FillMode, D3D11_CULL_MODE _CullMode);
 
 	public:
-		~RSState() 
+		~RState()
 		{
 			if (nullptr != m_pRS)
 			{
@@ -94,17 +66,17 @@ private:
 	};
 
 private:
-	KPtr<RSState> m_DefaultRState;
-	std::unordered_map<std::wstring, KPtr<RSState>> m_RSMap;
+	KPtr<RState> m_RStateDef;
+	std::unordered_map<std::wstring, KPtr<RState>> m_RSMap;
 
 private:
-	KPtr<RSState> FindRsMode(const wchar_t* _Name);
+	KPtr<RState> Find_RS(const wchar_t* _Name);
 
 public:
-	void ResetRSState();
-	void SetDefRsMode(const wchar_t* _Name);
-	void CreateRsMode(const wchar_t* _Name, D3D11_FILL_MODE _FillMode, D3D11_CULL_MODE _CullMode);
-	void SetRsMode(const wchar_t* _Name);
+	void Create_RS(const wchar_t* _Name, D3D11_FILL_MODE _FillMode, D3D11_CULL_MODE _CullMode);
+	void Set_RSDef(const wchar_t* _Name);
+	void Set_RS(const wchar_t* _Name);
+	void Reset_RS();
 
 private:
 
@@ -134,62 +106,21 @@ private:
 	};
 
 private:
-	KPtr<DSState> m_DefaultDState;
-	std::unordered_map<std::wstring, KPtr<DSState>> m_DSMap;
+	KPtr<DSState> m_DSStateDef;
+	std::unordered_map<std::wstring, KPtr<DSState>> m_DSSMap;
 
 private:
-	KPtr<DSState> FindDsMode(const wchar_t* _Name);
+	KPtr<DSState> Find_DSS(const wchar_t* _Name);
 
 
 public:
-	void ResetDSState();
-	void SetDefDsMode(const wchar_t* _Name);
-	void CreateDsMode(const wchar_t* _Name, D3D11_DEPTH_STENCIL_DESC _Desc);
-
-	void SetDsMode(const wchar_t* _Name, unsigned int _Ref = 0);
-
-public:
-	void SetBsMode(const wchar_t* _Name);
-
-public:
-	bool CreateSwapChain();
-	bool CreateView();
-	bool CreateViewPort();
-	bool DefaultDataInit();
+	void Create_DSS(const wchar_t* _Name, D3D11_DEPTH_STENCIL_DESC _Desc);
+	void Reset_DSS();
+	void Set_DSS(const wchar_t* _Name, unsigned int _Ref = 0);
+	void Set_DSSDef(const wchar_t* _Name);
 
 
-	bool DefaultDataInit3D();
-	bool DefRenderTaget();
-	bool Def3DCreate();
-	bool Mesh3DCreate();
-	bool Mat3DCreate();
 	
-
-public:
-	void ResetContext();
-	void OMSet();
-
-private:
-	void ClearTaget();
-	void Present();
-
-public:
-	bool Init();
-
-	// 다이렉트 초기화를 여러번 해야 하는 경우가 생긴다. -> 초기화가 됐는데
-	// 전체화면 도중 튕기거나 alt +tab을 눌러 바탕화면으로 빠져나올 경우에도
-	// 디바이스를 잃어버릴 수도 있기 때문에 이러한 설정을 한다.
-	bool IsInit() {
-		return m_bInit;
-	}
-
-public:
-	void Release();
-
-
-
-
-
 private:
 	/********** Const Buffer ************/
 	// 윈도우 기반이기 때문에 Window가 그냥 값으로 들고 있을 것이다.
@@ -270,8 +201,80 @@ public:
 	bool CreateCB(GCBUFFER* NewBuf);
 	KPtr<GCBUFFER> FindCB(const wchar_t* _Name);
 
+
+
+private:
+	// 마소의 프로그래밍 방식중 하나.
+	// 컴객체 방식에 대해서 공부해 보세요.
+	// 리소스 관련 내용과 함수들에 대한 객체
+
+	// 컴객체란 https://docs.microsoft.com/en-us/windows/desktop/com/the-component-object-model
+	// 어떤 원하는 함수를 실행하기 위해서 다른 함수에서 포인터를 입력받아 그 포인터에서 실행하는 과정
+	// 이 과정은 소위 "뇌가 있는" 과정이라 하여 해당 함수를 정상적으로 실행할 수 있는지에 대한
+	// 판별을 자동으로 실시하는 것이다. 실시 할 수 없을 경우 해당 포인터가 nullptr로 대입되어
+	// 어떤 함수도 실행할 수 없게 되는 것이다.
+	ID3D11Device*				m_pDevice;				// 최종적으로 디바이스의 장치 권한을 얻어오는 것
+														// 랜더링 관련
+	ID3D11DeviceContext*		m_pContext;				// 컨텍스트
+
+														// 스왑체인에서 빠져나온 텍스처로 만든 타겟은 최종 랜더타겟으로 이용된다.
+	IDXGISwapChain*				m_pSwapChain;			// 출력을 위한 스왑체인을 정의하기 위한 객체
+
+	ID3D11Texture2D*			m_pBackBuffer;		// 깊이 스텐실용 텍스처
+	ID3D11RenderTargetView*		m_pTagetView;			// 출력될 타겟 뷰
+
+	ID3D11Texture2D*			m_pDepthStencilTex;		// 깊이 스텐실용 텍스처
+	ID3D11DepthStencilView*		m_pDepthStencilView;	// 깊이 스텐실 뷰
+
+
+
+	UINT						m_iMSLv;
+	KColor						m_Color;
+	bool						m_bInit;
+
+
 public:
-	KDevice(KWindow* _Win);
-	~KDevice();
+	ID3D11Device*				PDevice() { return m_pDevice; };
+	ID3D11DeviceContext*		Context() { return m_pContext; };
+	ID3D11DepthStencilView*		Depth() { return m_pDepthStencilView; };
+
+
+
+public:
+	void Set_BS(const wchar_t* _Name);
+
+public:
+	bool Create_SwapChain();
+	bool Create_ViewPort();
+	bool Create_View();
+
+
+
+	// 다이렉트 초기화를 여러번 해야 하는 경우가 생긴다. -> 초기화가 됐는데
+	// 전체화면 도중 튕기거나 alt +tab을 눌러 바탕화면으로 빠져나올 경우에도
+	// 디바이스를 잃어버릴 수도 있기 때문에 이러한 설정을 한다.
+	bool IsInit() {
+		return m_bInit;
+	}
+
+
+	bool Init();
+	bool Init_BasicFigure2D();
+	bool Init_BasicFigure3D();
+	
+	bool DefRenderTaget();
+	bool Def3DCreate();
+	bool Mesh3DCreate();
+	bool Mat3DCreate();
+
+
+public:
+	void Release();
+	void ResetContext();
+	void OMSet();
+
+private:
+	void ClearTaget();
+	void Present();
 };
 

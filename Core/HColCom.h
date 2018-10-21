@@ -1,5 +1,5 @@
 #pragma once
-#include "HBaseCom.h"
+#include "Component_DE.h"
 #include "KMath.h"
 #include <set>
 #include <functional>
@@ -149,7 +149,7 @@ public:
 
 class KCore;
 class HCol2DMgr;
-class HColCom : public HBaseCom
+class HColCom : public Component_DE
 {
 public:
 	friend KCore;

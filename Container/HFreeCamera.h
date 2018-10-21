@@ -1,12 +1,12 @@
 #pragma once
-#include "HLogic.h"
-#include <HCamera.h>
+#include "SomeOne.h"
+#include <Camera.h>
 
 
-class HFreeCamera : public HLogic
+class HFreeCamera : public SomeOne
 {
 private:
-	KPtr<HCamera> m_Camera;
+	KPtr<Camera> m_Camera;
 	KVector2 PrevMouse;
 	KVector2 RotPos;
 	float m_RotSpeed;

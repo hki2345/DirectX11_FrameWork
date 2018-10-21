@@ -1,6 +1,6 @@
 #include "HFreeCamera.h"
-#include <InputMgr.h>
-#include <TimeMgr.h>
+#include <InputManager.h>
+#include <TimeManager.h>
 #include <DebugManager.h>
 
 
@@ -15,75 +15,75 @@ HFreeCamera::~HFreeCamera()
 
 bool HFreeCamera::Init() 
 {
-	m_Camera = GetCom<HCamera>();
-	m_Camera->ProjectionMode(HCamera::PROJMODE::PM_PERS);
+	m_Camera = Get_Component<Camera>();
+	m_Camera->ProjectionMode(Camera::PROJ_MODE::PM_PERS);
 
 #pragma region KEYCREATE
 
 
-	if (false == InputMgr::IsKey(L"FREELEFT"))
+	if (false == InputManager::IsKey(L"FREELEFT"))
 	{
-		InputMgr::CreateKey(L"FREELEFT", 'A');
+		InputManager::CreateKey(L"FREELEFT", 'A');
 	}
 
-	if (false == InputMgr::IsKey(L"FREERIGHT"))
+	if (false == InputManager::IsKey(L"FREERIGHT"))
 	{
-		InputMgr::CreateKey(L"FREERIGHT", 'D');
+		InputManager::CreateKey(L"FREERIGHT", 'D');
 	}
 
-	if (false == InputMgr::IsKey(L"FREEUP"))
+	if (false == InputManager::IsKey(L"FREEUP"))
 	{
-		InputMgr::CreateKey(L"FREEUP", 'Q');
+		InputManager::CreateKey(L"FREEUP", 'Q');
 	}
 
-	if (false == InputMgr::IsKey(L"FREEDOWN"))
+	if (false == InputManager::IsKey(L"FREEDOWN"))
 	{
-		InputMgr::CreateKey(L"FREEDOWN", 'E');
+		InputManager::CreateKey(L"FREEDOWN", 'E');
 	}
 
-	if (false == InputMgr::IsKey(L"FREEFORWARD"))
+	if (false == InputManager::IsKey(L"FREEFORWARD"))
 	{
-		InputMgr::CreateKey(L"FREEFORWARD", 'W');
+		InputManager::CreateKey(L"FREEFORWARD", 'W');
 	}
 
-	if (false == InputMgr::IsKey(L"FREEBACK"))
+	if (false == InputManager::IsKey(L"FREEBACK"))
 	{
-		InputMgr::CreateKey(L"FREEBACK", 'S');
+		InputManager::CreateKey(L"FREEBACK", 'S');
 	}
 
-	if (false == InputMgr::IsKey(L"ROTLOCK"))
+	if (false == InputManager::IsKey(L"ROTLOCK"))
 	{
-		InputMgr::CreateKey(L"ROTLOCK", VK_RBUTTON);
+		InputManager::CreateKey(L"ROTLOCK", VK_RBUTTON);
 	}
 
-	if (false == InputMgr::IsKey(L"Boost"))
+	if (false == InputManager::IsKey(L"Boost"))
 	{
-		InputMgr::CreateKey(L"Boost", VK_SHIFT);
+		InputManager::CreateKey(L"Boost", VK_SHIFT);
 	}
 
-	if (false == InputMgr::IsKey(L"MODECHANAGE"))
+	if (false == InputManager::IsKey(L"MODECHANAGE"))
 	{
-		InputMgr::CreateKey(L"MODECHANAGE", 'R');
+		InputManager::CreateKey(L"MODECHANAGE", 'R');
 	}
 
-	if (false == InputMgr::IsKey(L"Z"))
+	if (false == InputManager::IsKey(L"Z"))
 	{
-		InputMgr::CreateKey(L"Z", 'Z');
+		InputManager::CreateKey(L"Z", 'Z');
 	}
 
-	if (false == InputMgr::IsKey(L"X"))
+	if (false == InputManager::IsKey(L"X"))
 	{
-		InputMgr::CreateKey(L"X", 'X');
+		InputManager::CreateKey(L"X", 'X');
 	}
 
-	if (false == InputMgr::IsKey(L"C"))
+	if (false == InputManager::IsKey(L"C"))
 	{
-		InputMgr::CreateKey(L"C", 'C');
+		InputManager::CreateKey(L"C", 'C');
 	}
 
-	if (false == InputMgr::IsKey(L"F"))
+	if (false == InputManager::IsKey(L"F"))
 	{
-		InputMgr::CreateKey(L"F", 'F');
+		InputManager::CreateKey(L"F", 'F');
 	}
 
 #pragma endregion
@@ -93,7 +93,7 @@ void HFreeCamera::Update()
 {
 
 
-	if (true == InputMgr::IsDownStay(L"Boost"))
+	if (true == InputManager::Press(L"Boost"))
 	{
 		m_RotSpeed = 360.0f;
 		m_Speed = 100.0f;
@@ -103,100 +103,98 @@ void HFreeCamera::Update()
 		m_Speed = 10.0f;
 	}
 
-	if (true == InputMgr::IsDown(L"MODECHANAGE"))
+	if (true == InputManager::Down(L"MODECHANAGE"))
 	{
-		m_Camera->ModeChange();
+		m_Camera->Change_Mode();
 	}
 
 
-	if (true == InputMgr::IsDown(L"Z"))
+	if (true == InputManager::Down(L"Z"))
 	{
-		KVector4 Rot = m_Trans->LRot();
+		KVector4 Rot = m_Trans->rotate_local();
 		Rot.z = 0.0f;
-		m_Trans->LRot(Rot);
+		m_Trans->rotate_local(Rot);
 	}
 
-	if (true == InputMgr::IsDown(L"Z"))
+	if (true == InputManager::Down(L"Z"))
 	{
-		KVector4 Rot = m_Trans->LRot();
+		KVector4 Rot = m_Trans->rotate_local();
 		Rot.z = 0.0f;
-		m_Trans->LRot(Rot);
+		m_Trans->rotate_local(Rot);
 	}
 
-	if (true == InputMgr::IsDown(L"X"))
+	if (true == InputManager::Down(L"X"))
 	{
-		KVector4 Rot = m_Trans->LRot();
+		KVector4 Rot = m_Trans->rotate_local();
 		Rot.x = 0.0f;
-		m_Trans->LRot(Rot);
+		m_Trans->rotate_local(Rot);
 	}
 
-	if (true == InputMgr::IsDown(L"F"))
+	if (true == InputManager::Down(L"F"))
 	{
 		m_Trans->Reset();
-		m_Trans->LMove(KVector4(0.0f, 0.0f, -10.0f));
+		m_Trans->Moving(KVector4(0.0f, 0.0f, -10.0f));
 	}
 
-	if (true == InputMgr::IsDownStay(L"FREELEFT"))
+	if (true == InputManager::Press(L"FREELEFT"))
 	{
-		m_Trans->LMove(m_Trans->LLeft() * TimeMgr::DeltaTime() * m_Speed);
+		m_Trans->Moving(m_Trans->left_local() * TimeManager::DeltaTime() * m_Speed);
 	}
 
-	if (true == InputMgr::IsDownStay(L"FREERIGHT"))
+	if (true == InputManager::Press(L"FREERIGHT"))
 	{
-		m_Trans->LMove(m_Trans->LRight() * TimeMgr::DeltaTime() * m_Speed);
+		m_Trans->Moving(m_Trans->right_local() * TimeManager::DeltaTime() * m_Speed);
 	}
 
-	if (true == InputMgr::IsDownStay(L"FREEUP"))
+	if (true == InputManager::Press(L"FREEUP"))
 	{
-		m_Trans->LMove(m_Trans->LUp() * TimeMgr::DeltaTime() * m_Speed);
+		m_Trans->Moving(m_Trans->up_local() * TimeManager::DeltaTime() * m_Speed);
 	}
 
-	if (true == InputMgr::IsDownStay(L"FREEDOWN"))
+	if (true == InputManager::Press(L"FREEDOWN"))
 	{
-		m_Trans->LMove(m_Trans->LDown() * TimeMgr::DeltaTime() * m_Speed);
+		m_Trans->Moving(m_Trans->down_local() * TimeManager::DeltaTime() * m_Speed);
 	}
 
-	if (true == InputMgr::IsDownStay(L"FREEFORWARD"))
+	if (true == InputManager::Press(L"FREEFORWARD"))
 	{
-		m_Trans->LMove(m_Trans->LForward() * TimeMgr::DeltaTime() * m_Speed);
+		m_Trans->Moving(m_Trans->forward_local() * TimeManager::DeltaTime() * m_Speed);
 	}
 
-	if (true == InputMgr::IsDownStay(L"FREEBACK"))
+	if (true == InputManager::Press(L"FREEBACK"))
 	{
-		m_Trans->LMove(m_Trans->LBack() * TimeMgr::DeltaTime() * m_Speed);
+		m_Trans->Moving(m_Trans->back_local() * TimeManager::DeltaTime() * m_Speed);
 	}
 
-	if (true == InputMgr::IsDownStay(L"ROTLOCK"))
+	if (true == InputManager::Press(L"ROTLOCK"))
 	{
-		m_Trans->LAccRotDeg(KVector4(InputMgr::MouseDir().y * m_RotSpeed * TimeMgr::DeltaTime(), InputMgr::MouseDir().x * m_RotSpeed * TimeMgr::DeltaTime()));
+		m_Trans->Rotating_Deg(KVector4(InputManager::MouseDir().y * m_RotSpeed * TimeManager::DeltaTime(), InputManager::MouseDir().x * m_RotSpeed * TimeManager::DeltaTime()));
 	}
 
-	wchar_t Arr[256];
 
-	swprintf_s(Arr, L"CameraPos : %f, %f, %f", Trans()->LPos().x, Trans()->LPos().y, Trans()->LPos().z);
-	DebugManager::DrawLog(Arr);
+	DRAW_LOG(L"CameraPos : %f, %f, %f", Trans()->pos_local().x, Trans()->pos_local().y, Trans()->pos_local().z);
 }
 void HFreeCamera::DebugRender() 
 {
 	//wchar_t Arr[256];
 
 	//swprintf_s(Arr, L"RotScale : %f, %f", RotPos.x, RotPos.y);
-	//DebugManager::DrawFont(Arr, { 10.0f, 20.0f }, 20.0f);
+	//DebugManager::Draw_Font(Arr, { 10.0f, 20.0f }, 20.0f);
 
-	//HVEC2 CurMouse = InputMgr::MousePos();
+	//HVEC2 CurMouse = InputManager::MousePos();
 
 	//swprintf_s(Arr, L"MousePos : %f, %f", CurMouse.x, CurMouse.y);
-	//DebugManager::DrawFont(Arr, { 10.0f, 40.0f }, 20.0f);
+	//DebugManager::Draw_Font(Arr, { 10.0f, 40.0f }, 20.0f);
 
-	//swprintf_s(Arr, L"CameraRot : %f, %f", m_Trans->LRot().x, m_Trans->LRot().y);
-	//DebugManager::DrawFont(Arr, { 10.0f, 60.0f }, 20.0f);
+	//swprintf_s(Arr, L"CameraRot : %f, %f", m_Trans->rotate_local().x, m_Trans->rotate_local().y);
+	//DebugManager::Draw_Font(Arr, { 10.0f, 60.0f }, 20.0f);
 
-	//swprintf_s(Arr, L"CameraF : %f, %f, %f", m_Trans->LForward().x, m_Trans->LForward().y, m_Trans->LForward().z);
-	//DebugManager::DrawFont(Arr, { 10.0f, 80.0f }, 20.0f);
+	//swprintf_s(Arr, L"CameraF : %f, %f, %f", m_Trans->forward_local().x, m_Trans->forward_local().y, m_Trans->forward_local().z);
+	//DebugManager::Draw_Font(Arr, { 10.0f, 80.0f }, 20.0f);
 
-	//swprintf_s(Arr, L"CameraU : %f, %f, %f", m_Trans->LUp().x, m_Trans->LUp().y, m_Trans->LUp().z);
-	//DebugManager::DrawFont(Arr, { 10.0f, 100.0f }, 20.0f);
+	//swprintf_s(Arr, L"CameraU : %f, %f, %f", m_Trans->up_local().x, m_Trans->up_local().y, m_Trans->up_local().z);
+	//DebugManager::Draw_Font(Arr, { 10.0f, 100.0f }, 20.0f);
 
 	//swprintf_s(Arr, L"CameraPos : %f, %f, %f", m_Trans->LPos().x, m_Trans->LPos().y, m_Trans->LPos().z);
-	//DebugManager::DrawFont(Arr, { 10.0f, 120.0f }, 20.0f);
+	//DebugManager::Draw_Font(Arr, { 10.0f, 120.0f }, 20.0f);
 }

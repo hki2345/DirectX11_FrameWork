@@ -1,7 +1,7 @@
 #pragma once
-#include "HLogic.h"
+#include "SomeOne.h"
 
-class PixelChecker : public HLogic
+class PixelChecker : public SomeOne
 {
 private:
 	KPtr<class HSpRenderer> SpriteRender;

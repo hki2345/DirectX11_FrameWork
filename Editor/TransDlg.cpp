@@ -48,7 +48,7 @@ void TransDlg::DoDataExchange(CDataExchange* pDX)
 		{
 			NameXYZ[Y][X].pValue = &TransValue.m[Y][X];
 			NameXYZ[Y][X].Parent = this;
-			NameXYZ[Y][X].ValueChangeFunc(this, &TransDlg::TransUpdate);
+			NameXYZ[Y][X].ValueChangeFunc(this, &TransDlg::Update_Trans);
 			DDX_Control(pDX, StartId, NameXYZ[Y][X]);
 
 			switch (X)
@@ -125,39 +125,39 @@ void TransDlg::OnEnChangeTransValue(UINT _Id)
 	{
 		ArrMatValue[IndexY][IndexX].SetSel(1, 1);
 	}
-	TransUpdate();
+	Update_Trans();
 
 	// 
 	// TODO:  여기에 컨트롤 알림 처리기 코드를 추가합니다.
 }
 
-void TransDlg::SettingComponent(HComponent* _pCom) 
+void TransDlg::SettingComponent(Component* _pCom) 
 {
-	if (_pCom->TypeInfo() != &typeid(HTrans))
+	if (_pCom->TypeInfo() != &typeid(TransPosition))
 	{
 		return;
 	}
 
-	m_pTrans = (HTrans*)_pCom;
+	m_pTrans = (TransPosition*)_pCom;
 
 	UpdateData(TRUE);
 
 
 	KVector3 Temp;
-	Temp = m_pTrans->LPos().m_Vec3;
+	Temp = m_pTrans->pos_local().m_Vec3;
 	memcpy(&TransValue.v1, &Temp, sizeof(KVector3));
-	Temp = m_pTrans->LRot().m_Vec3;
+	Temp = m_pTrans->rotate_local().m_Vec3;
 	memcpy(&TransValue.v2, &Temp, sizeof(KVector3));
-	Temp = m_pTrans->LScale().m_Vec3;
+	Temp = m_pTrans->scale_local().m_Vec3;
 	memcpy(&TransValue.v3, &Temp, sizeof(KVector3));
 
 	UpdateData(FALSE);
 }
 
-void TransDlg::TransUpdate() 
+void TransDlg::Update_Trans() 
 {
 
-	m_pTrans->LPos(TransValue.v1);
-	m_pTrans->LRot(TransValue.v2);
-	m_pTrans->LScale(TransValue.v3);
+	m_pTrans->pos_local(TransValue.v1);
+	m_pTrans->rotate_local(TransValue.v2);
+	m_pTrans->scale_local(TransValue.v3);
 }

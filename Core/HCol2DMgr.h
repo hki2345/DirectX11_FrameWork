@@ -5,11 +5,11 @@
 #include "DXContainer.h"
 #include "HCol2DBase.h"
 
-class HScene;
+class State;
 class HCol2DMgr
 {
 public:
-	friend HScene;
+	friend State;
 
 private:
 	std::set<__int64>::iterator StartColIter;

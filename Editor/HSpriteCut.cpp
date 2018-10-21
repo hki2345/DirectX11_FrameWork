@@ -13,7 +13,7 @@ HSpriteCut::~HSpriteCut()
 
 bool HSpriteCut::Init() 
 {
-	SpriteRender = AddCom<HSpRenderer>();
+	SpriteRender = Add_Component<HSpRenderer>();
 
 	return true;
 }
@@ -27,7 +27,7 @@ void HSpriteCut::DebugRender()
 	
 	KVector2 ImageCount = SpriteRender->Image()->CutIndex();
 
-	KVector2 ImageSize = SpriteRender->Image()->GetTex()->ImageSize();
+	KVector2 ImageSize = SpriteRender->Image()->texture()->ImageSize();
 
 	KVector2 RectSize;
 
@@ -56,7 +56,7 @@ void HSpriteCut::DebugRender()
 
 			// KRect(x * 100, y * 100, (x + 1) * 100, (y + 1) * 100);
 
-			DebugManager::DrawRect(KRect(RectPos.x, RectPos.y, RectSize.x, RectSize.y));
+			DebugManager::Draw_Rect(KRect(RectPos.x, RectPos.y, RectSize.x, RectSize.y));
 		}
 	}
 

@@ -2,7 +2,7 @@
 #include "KWindow.h"
 #include "Stl_AID.h"
 #include "SmartPtr.h"
-#include "HBlend.h"
+#include "KBlend.h"
 
 
 KDevice::KDevice(KWindow* _Win) : Mof_KWindow(_Win),
@@ -71,20 +71,20 @@ bool KDevice::Init()
 	//	return false;
 	//}
 
-	if (false == CreateSwapChain())
+	if (false == Create_SwapChain())
 	{
 		Release();
 		return false;
 	}
 
 
-	if (false == CreateView())
+	if (false == Create_View())
 	{
 		Release();
 		return false;
 	}
 
-	if (false == CreateViewPort())
+	if (false == Create_ViewPort())
 	{
 		Release();
 		return false;
@@ -95,7 +95,7 @@ bool KDevice::Init()
 	return true;
 }
 
-bool KDevice::CreateSwapChain()
+bool KDevice::Create_SwapChain()
 {
 	DXGI_SWAP_CHAIN_DESC tDecs = {};
 
@@ -165,7 +165,7 @@ bool KDevice::CreateSwapChain()
 }
 
 // 스완체인에 사용될 텍스처를 여기서 만들어 준다.
-bool KDevice::CreateView()
+bool KDevice::Create_View()
 {
 	m_pBackBuffer = nullptr;
 	if (S_OK != m_pSwapChain->GetBuffer(0, __uuidof(ID3D11Texture2D), (void**)&m_pBackBuffer))
@@ -226,7 +226,7 @@ bool KDevice::CreateView()
 	return true;
 }
 
-bool KDevice::CreateViewPort()
+bool KDevice::Create_ViewPort()
 {
 	D3D11_VIEWPORT tDecs = {};
 	tDecs.TopLeftX = 0;
@@ -290,23 +290,37 @@ KPtr<KDevice::GCBUFFER> KDevice::FindCB(const wchar_t* _Name)
 	return Map_Find<KPtr<KDevice::GCBUFFER>>(m_MapConstBuffer, _Name);
 }
 
-////////////////////////////////////////// RS
 
-KPtr<KDevice::RSState> KDevice::FindRsMode(const wchar_t* _Name)
+
+
+
+/***************** Raster ***************/
+KPtr<KDevice::RState> KDevice::Find_RS(const wchar_t* _Name)
 {
-	return Map_Find<KPtr<RSState>>(m_RSMap, _Name);
+	return Map_Find<KPtr<RState>>(m_RSMap, _Name);
 }
 
-void KDevice::CreateRsMode(const wchar_t* _Name, D3D11_FILL_MODE _FillMode, D3D11_CULL_MODE _CullMode)
+void KDevice::Create_RS(const wchar_t* _Name, D3D11_FILL_MODE _FillMode, D3D11_CULL_MODE _CullMode)
 {
-	RSState* _Ptr = new RSState();
+	RState* _Ptr = new RState();
 	_Ptr->Create(m_pDevice, m_pContext, _FillMode, _CullMode);
-	m_RSMap.insert(std::unordered_map<std::wstring, KPtr<RSState>>::value_type(_Name, _Ptr));
+	m_RSMap.insert(std::unordered_map<std::wstring, KPtr<RState>>::value_type(_Name, _Ptr));
 }
 
-void KDevice::SetDefRsMode(const wchar_t* _Name)
+
+void KDevice::Set_RS(const wchar_t* _Name) 
 {
-	KPtr<RSState> RSS = Map_Find<KPtr<RSState>>(m_RSMap, _Name);
+	KPtr<RState> RSS = Map_Find<KPtr<RState>>(m_RSMap, _Name);
+	if (nullptr == RSS)
+	{
+		KASSERT(true);
+		return;
+	}
+	RSS->Update();
+}
+void KDevice::Set_RSDef(const wchar_t* _Name)
+{
+	KPtr<RState> RSS = Map_Find<KPtr<RState>>(m_RSMap, _Name);
 	if (nullptr == RSS)
 	{
 		KASSERT(true);
@@ -318,23 +332,23 @@ void KDevice::SetDefRsMode(const wchar_t* _Name)
 		KASSERT(true);
 		return;
 	}
-	m_DefaultRState = RSS;
-	m_DefaultRState->Update();
+	m_RStateDef = RSS;
+	m_RStateDef->Update();
 	return;
 }
 
-void KDevice::ResetRSState()
+void KDevice::Reset_RS()
 {
-	m_DefaultRState->Update();
+	m_RStateDef->Update();
 }
 
-void KDevice::RSState::Update()
+void KDevice::RState::Update()
 {
 	m_pContext->RSSetState(m_pRS);
 }
 
 
-void KDevice::RSState::Create(ID3D11Device* _pDevice, ID3D11DeviceContext* _pContext, D3D11_FILL_MODE _FillMode, D3D11_CULL_MODE _CullMode)
+void KDevice::RState::Create(ID3D11Device* _pDevice, ID3D11DeviceContext* _pContext, D3D11_FILL_MODE _FillMode, D3D11_CULL_MODE _CullMode)
 {
 	if (nullptr == _pContext)
 	{
@@ -353,33 +367,23 @@ void KDevice::RSState::Create(ID3D11Device* _pDevice, ID3D11DeviceContext* _pCon
 	}
 }
 
-void KDevice::SetRsMode(const wchar_t* _Name) 
+
+/******************** Depth Stencil ********************/
+KPtr<KDevice::DSState> KDevice::Find_DSS(const wchar_t* _Name)
 {
-	KPtr<RSState> RSS = Map_Find<KPtr<RSState>>(m_RSMap, _Name);
-	if (nullptr == RSS)
-	{
-		KASSERT(true);
-		return;
-	}
-	RSS->Update();
+	return Map_Find<KPtr<DSState>>(m_DSSMap, _Name);
 }
 
-////////////////////////////////////////// DS
-KPtr<KDevice::DSState> KDevice::FindDsMode(const wchar_t* _Name)
-{
-	return Map_Find<KPtr<DSState>>(m_DSMap, _Name);
-}
-
-void KDevice::CreateDsMode(const wchar_t* _Name, D3D11_DEPTH_STENCIL_DESC _Desc)
+void KDevice::Create_DSS(const wchar_t* _Name, D3D11_DEPTH_STENCIL_DESC _Desc)
 {
 	DSState* _Ptr = new DSState();
 	_Ptr->Create(m_pDevice, m_pContext, _Desc);
-	m_DSMap.insert(std::unordered_map<std::wstring, KPtr<DSState>>::value_type(_Name, _Ptr));
+	m_DSSMap.insert(std::unordered_map<std::wstring, KPtr<DSState>>::value_type(_Name, _Ptr));
 }
 
-void KDevice::SetDefDsMode(const wchar_t* _Name)
+void KDevice::Set_DSSDef(const wchar_t* _Name)
 {
-	KPtr<DSState> DSS = Map_Find<KPtr<DSState>>(m_DSMap, _Name);
+	KPtr<DSState> DSS = Map_Find<KPtr<DSState>>(m_DSSMap, _Name);
 	if (nullptr == DSS)
 	{
 		KASSERT(true);
@@ -391,14 +395,14 @@ void KDevice::SetDefDsMode(const wchar_t* _Name)
 		KASSERT(true);
 		return;
 	}
-	m_DefaultDState = DSS;
-	m_DefaultDState->Update();
+	m_DSStateDef = DSS;
+	m_DSStateDef->Update();
 	return;
 }
 
-void KDevice::ResetDSState()
+void KDevice::Reset_DSS()
 {
-	m_DefaultDState->Update();
+	m_DSStateDef->Update();
 }
 
 void KDevice::DSState::Update(unsigned int _Ref)
@@ -423,9 +427,9 @@ void KDevice::DSState::Create(ID3D11Device* _pDevice, ID3D11DeviceContext* _pCon
 	}
 }
 
-void KDevice::SetDsMode(const wchar_t* _Name, unsigned int _Ref)
+void KDevice::Set_DSS(const wchar_t* _Name, unsigned int _Ref)
 {
-	KPtr<DSState> DSS = Map_Find<KPtr<DSState>>(m_DSMap, _Name);
+	KPtr<DSState> DSS = Map_Find<KPtr<DSState>>(m_DSSMap, _Name);
 	if (nullptr == DSS)
 	{
 		KASSERT(true);
@@ -434,9 +438,9 @@ void KDevice::SetDsMode(const wchar_t* _Name, unsigned int _Ref)
 	DSS->Update(_Ref);
 }
 
-void KDevice::SetBsMode(const wchar_t* _Name) 
+void KDevice::Set_BS(const wchar_t* _Name) 
 {
-	KPtr<HBlend> Ptr = ResourceManager<HBlend>::Find(_Name);
+	KPtr<KBlend> Ptr = ResourceManager<KBlend>::Find(_Name);
 
 	if (nullptr == Ptr)
 	{

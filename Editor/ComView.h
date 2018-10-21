@@ -1,5 +1,5 @@
 #pragma once
-#include <HActor.h>
+#include <TheOne.h>
 #include <list>
 
 #include "ComDlg.h"
@@ -28,7 +28,7 @@ protected:
 	DECLARE_MESSAGE_MAP()
 
 public:
-	HActor* m_pActor;
+	TheOne* m_pActor;
 	std::list<ComDlg*>::iterator StartDlgiter;
 	std::list<ComDlg*>::iterator EndDlgiter;
 	std::list<ComDlg*> m_ComDlgList;
@@ -38,7 +38,7 @@ public:
 
 public:
 	void AllDlgDestroy();
-	void ActorSetting(HActor* _pActor);
+	void ActorSetting(TheOne* _pActor);
 	void Reset();
 };
 

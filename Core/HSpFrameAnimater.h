@@ -1,10 +1,10 @@
 #pragma once
-#include "HComponent.h"
+#include "Component.h"
 #include <unordered_map>
 #include "SmartPtr.h"
 
 class HSpRenderer;
-class HSpFrameAnimater : public HComponent
+class HSpFrameAnimater : public Component
 {
 private:
 	class SpriteAni : public SmartPtr

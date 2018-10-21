@@ -5,7 +5,7 @@
 #include <Core_Class.h>
 #include <ResourceManager.h>
 #include <KImage.h>
-#include <KSound.h>
+#include <Sound.h>
 #include <KFont.h>
 #include <Texture.h>
 #include <DebugManager.h>

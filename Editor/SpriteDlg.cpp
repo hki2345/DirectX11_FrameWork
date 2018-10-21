@@ -5,14 +5,14 @@
 #include "AR14TOOL.h"
 #include "SpriteDlg.h"
 #include "afxdialogex.h"
-#include <HResMgr.h>
+#include <ResourceManager.h>
 #include "TVAR.h"
 #include <Core_Class.h>
-#include <HImage.h>
-#include <HTexture.h>
-#include <HCamera.h>
+#include <KImage.h>
+#include <Texture.h>
+#include <Camera.h>
 #include "HSpriteCut.h"
-#include <HThread.h>
+#include <KThread.h>
 
 #include <WriteStream.h>
 #include <ReadStream.h>
@@ -87,18 +87,18 @@ void SpriteDlg::SpriteInit()
 {
 	// SpriteCheck(PathManager::Find_ForderPath(L"Texture"), L"Texture", m_SpriteTree.InsertItem(L"Texture"));
 
-	KPtr<HScene> m_Scene = Core_Class::MainSceneMgr().FindScene(L"SpriteDlg");
-	KPtr<HActor> pActor = m_Scene->CreateActor();
-	KPtr<HSpriteCut> SpriteCut = pActor->AddCom<HSpriteCut>();
+	KPtr<State> m_Scene = Core_Class::MainSceneMgr().Find_State(L"SpriteDlg");
+	KPtr<TheOne> pActor = m_Scene->Create_One();
+	KPtr<HSpriteCut> SpriteCut = pActor->Add_Component<HSpriteCut>();
 	m_SpriteRender = SpriteCut->SpriteRender;
-	pActor->Trans()->LPos({ 0, 0, 5 });
+	pActor->Trans()->pos_local({ 0, 0, 5 });
 
 	OnBnClickedLoaddata();
 
 	// OnBnClickedLoaddata();
 
-	// HThread::StartThread<SpriteDlg>(L"PlayerLoader", &SpriteDlg::TestPlayerLoad, this);
-	// HThread::StartThread<SpriteDlg>(L"Player2Loader", &SpriteDlg::TestPlayerLoad2, this);
+	// KThread::Start_Thread<SpriteDlg>(L"PlayerLoader", &SpriteDlg::TestPlayerLoad, this);
+	// KThread::Start_Thread<SpriteDlg>(L"Player2Loader", &SpriteDlg::TestPlayerLoad2, this);
 
 	//std::wstring Path1 = PathManager::Find_ForderPath(L"Texture");
 	//Path1 += L"\\Player\\";
@@ -159,15 +159,15 @@ void SpriteDlg::SpriteCheck(const wchar_t* _Path, const wchar_t* _Folder, HTREEI
 
 			if (FindIter != m_pDataList.end())
 			{
-				if (nullptr == ResourceManager<HTexture>::Find(FileFind.GetFileName()))
+				if (nullptr == ResourceManager<Texture>::Find(FileFind.GetFileName()))
 				{
-					ResourceManager<HTexture>::Load(FileFind.GetFilePath());
-					ResourceManager<HImage>::Load(FileFind.GetFilePath());
+					ResourceManager<Texture>::Load(FileFind.GetFilePath());
+					ResourceManager<KImage>::Load(FileFind.GetFilePath());
 				}
 
-				KPtr<HImage> m_Img = ResourceManager<HImage>::Find(FileFind.GetFileName());
-				m_Img->Cut(FindIter->second->CutX, FindIter->second->CutY);
-				size_t Index = m_Img->Cut(KVector4(0.0f, 0.0f, 1.0f, 1.0f));
+				KPtr<KImage> m_Img = ResourceManager<KImage>::Find(FileFind.GetFileName());
+				m_Img->Split(FindIter->second->CutX, FindIter->second->CutY);
+				size_t Index = m_Img->Split(KVector4(0.0f, 0.0f, 1.0f, 1.0f));
 				m_SpriteRender->ImageIndex(Index);
 				
 				HTREEITEM FileItem = m_SpriteTree.InsertItem(FileFind.GetFileName(), _ParentItem);
@@ -177,8 +177,8 @@ void SpriteDlg::SpriteCheck(const wchar_t* _Path, const wchar_t* _Folder, HTREEI
 
 				CString Name = FileFind.GetFilePath();
 
-				KPtr<HTexture> Tex = ResourceManager<HTexture>::Load(Name);
-				KPtr<HImage> Img = ResourceManager<HImage>::Load(Name);
+				KPtr<Texture> Tex = ResourceManager<Texture>::Load(Name);
+				KPtr<KImage> Img = ResourceManager<KImage>::Load(Name);
 
 				if (nullptr != Img)
 				{
@@ -222,10 +222,10 @@ void SpriteDlg::OnTvnSelchangedSpritetree(NMHDR *pNMHDR, LRESULT *pResult)
 		m_SpriteRender->Image(FileName.GetString());
 		m_SpriteRender->ImageScaleSetting();
 		if (nullptr != m_SpriteRender->Texture()
-			&& nullptr != m_SpriteRender->Scene()->Camera())
+			&& nullptr != m_SpriteRender->state()->Camera())
 		{
 			KVector2 ImgSize = m_SpriteRender->Texture()->ImageSize();
-			KVector2 CameraSize = m_SpriteRender->Scene()->Camera()->ScreenSize();
+			KVector2 CameraSize = m_SpriteRender->state()->Camera()->screen_size();
 			KVector2 WindowSize = Core_Class::MainWindow().size();
 
 			m_SpriteRender->ImageIndex(m_SpriteRender->Image()->CutCount() - 1);
@@ -233,16 +233,16 @@ void SpriteDlg::OnTvnSelchangedSpritetree(NMHDR *pNMHDR, LRESULT *pResult)
 			if (ImgSize.x_ratio() > CameraSize.x_ratio())
 			{
 				// 너비로 맞춘다.
-				m_SpriteRender->Scene()->Camera()->ScreenSize({ ImgSize.x, ImgSize.x * WindowSize.y_ratio() });
+				m_SpriteRender->state()->Camera()->screen_size({ ImgSize.x, ImgSize.x * WindowSize.y_ratio() });
 			}
 			else if (ImgSize.x_ratio() < CameraSize.x_ratio())
 			{
 				// 길이로 맞춘다.
-				m_SpriteRender->Scene()->Camera()->ScreenSize({ ImgSize.y * WindowSize.x_ratio(), ImgSize.y });
+				m_SpriteRender->state()->Camera()->screen_size({ ImgSize.y * WindowSize.x_ratio(), ImgSize.y });
 			}
 			else 
 			{
-				m_SpriteRender->Scene()->Camera()->ScreenSize({ ImgSize.y, ImgSize.y * WindowSize.y_ratio() });
+				m_SpriteRender->state()->Camera()->screen_size({ ImgSize.y, ImgSize.y * WindowSize.y_ratio() });
 				// 별 상관 없다.
 			}
 		}
@@ -277,8 +277,8 @@ void SpriteDlg::OnEnChangeCutx()
 		m_CurX = 1;
 	}
 
-	m_SpriteRender->Image()->Cut((size_t)PTR->CutX, (size_t)PTR->CutY);
-	size_t Index = m_SpriteRender->Image()->Cut(KVector4(0.0f, 0.0f, 1.0f, 1.0f));
+	m_SpriteRender->Image()->Split((size_t)PTR->CutX, (size_t)PTR->CutY);
+	size_t Index = m_SpriteRender->Image()->Split(KVector4(0.0f, 0.0f, 1.0f, 1.0f));
 	m_SpriteRender->ImageIndex(Index);
 
 	// TODO:  RICHEDIT 컨트롤인 경우, 이 컨트롤은
@@ -309,8 +309,8 @@ void SpriteDlg::OnEnChangeCuty()
 	SpriteData* PTR = (SpriteData*)m_SpriteTree.GetItemData(m_CurSelectItem);
 	PTR->CutY = m_CurY;
 
-	m_SpriteRender->Image()->Cut((size_t)PTR->CutX, (size_t)PTR->CutY);
-	size_t Index = m_SpriteRender->Image()->Cut(KVector4(0.0f, 0.0f, 1.0f, 1.0f));
+	m_SpriteRender->Image()->Split((size_t)PTR->CutX, (size_t)PTR->CutY);
+	size_t Index = m_SpriteRender->Image()->Split(KVector4(0.0f, 0.0f, 1.0f, 1.0f));
 	m_SpriteRender->ImageIndex(Index);
 
 

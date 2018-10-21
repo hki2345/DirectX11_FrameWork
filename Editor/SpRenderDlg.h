@@ -26,7 +26,7 @@ protected:
 
 public:
 	HSpRenderer* m_pRender;
-	void SettingComponent(HComponent* _pCom) override 
+	void SettingComponent(Component* _pCom) override 
 	{
 		m_pRender = (HSpRenderer*)_pCom;
 	}

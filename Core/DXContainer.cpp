@@ -43,7 +43,7 @@ const float HMATHVAR::RTOD = 180.0f / DirectX::XM_PI;
 
 
 
-KUINT  DHelper::Size_Format(DXGI_FORMAT _Fm)
+KUINT  VS_Format::Size_Format(DXGI_FORMAT _Fm)
 {
 	switch (_Fm)
 	{

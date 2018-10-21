@@ -1,9 +1,9 @@
 #include "TestSceneBuilder.h"
 
-#include <HActor.h>
+#include <TheOne.h>
 #include <KWindow.h>
-#include <HCamera.h>
-#include <HTrans.h>
+#include <Camera.h>
+#include <TransPosition.h>
 #include <HSpRenderer.h>
 #include <HCol2D.h>
 
@@ -21,7 +21,7 @@ TestSceneBuilder::~TestSceneBuilder()
 {
 }
 
-void TestSceneBuilder::SceneBuild()
+void TestSceneBuilder::Build_State()
 {
 	// 첫목표는 판자 하나를 띄운다.
 
@@ -41,45 +41,45 @@ void TestSceneBuilder::SceneBuild()
 	// 오브젝트하나
 	// 매쉬하나
 
-	Scene()->Col2DMgr.Link(0, 10);
+	state()->Col2DMgr.Link(0, 10);
 
 	// 카메라가 우선이다.
 	// 트랜스
-	KPtr<HActor> Camera = Scene()->CreateActor();
-	KPtr<HCamera> CamCom = Camera->AddCom<HCamera>();
-	CamCom->PushRenderLayer(0, 1, 2, 3, 4);
+	KPtr<TheOne> Cam = state()->Create_One();
+	KPtr<Camera> CamCom = Cam->Add_Component<Camera>();
+	CamCom->Insert_LayerData(0, 1, 2, 3, 4);
 
-	KPtr<HActor> TestPanza1 = Scene()->CreateActor();
-	TestPanza1->Trans()->LScale({ 106 * 2, 71 * 2, 1});
-	TestPanza1->Trans()->LPos({ 100, 0, 10 });
+	KPtr<TheOne> TestPanza1 = state()->Create_One();
+	TestPanza1->Trans()->scale_local({ 106 * 2, 71 * 2, 1});
+	TestPanza1->Trans()->pos_local({ 100, 0, 10 });
 
-	KPtr<HCol2D> Test = TestPanza1->AddCom<HCol2D>();
+	KPtr<HCol2D> Test = TestPanza1->Add_Component<HCol2D>();
 	Test->Mode(COLTYPE::CT_RECT2D);
-	 KPtr<TestPanzaLogic> TestPan = TestPanza1->AddCom<TestPanzaLogic>();
+	 KPtr<TestPanzaLogic> TestPan = TestPanza1->Add_Component<TestPanzaLogic>();
 
 	Test->EnterFunc<TestPanzaLogic>(TestPan, &TestPanzaLogic::MyColTest);
 	Test->ExitFunc<TestPanzaLogic>(TestPan, &TestPanzaLogic::MyColExitTest);
 
 /*
-	KPtr<HActor> Child = Scene()->CreateActor();
+	KPtr<TheOne> Child = state()->Create_One();
 	Child->AddCom<HSpRenderer>(L"Rock.png");
-	Child->Trans()->LScale({ 50, 50, 1 });
+	Child->Trans()->scale_local({ 50, 50, 1 });
 	Child->Trans()->LPos({ 300, 0, 5 });
 
 	TestPanza1->AddChild(Child);
 
-	KPtr<HActor> Monster = Scene()->CreateActor();
+	KPtr<TheOne> Monster = state()->Create_One();
 	Monster->AddCom<HSpRenderer>(L"Test.png");
 	Test = Monster->AddCom<HCol2D>(10);
 	Test->Mode(COLTYPE::CT_RECT2D);
 
-	Monster->Trans()->LScale({ 50, 50, 1 });
+	Monster->Trans()->scale_local({ 50, 50, 1 });
 	Monster->Trans()->LPos({ -100, 0, 5 });*/
 
-	//KPtr<HActor> TestPanza2 = Scene()->CreateActor();
+	//KPtr<TheOne> TestPanza2 = state()->Create_One();
 	//TestPanza2->AddCom<TestPanzaLogic>();
-	//TestPanza2->Trans()->LScale({ 500, 300, 1 });
+	//TestPanza2->Trans()->scale_local({ 500, 300, 1 });
 	//TestPanza2->Trans()->LPos({ -100, 0, 20 });
 
-	// KPtr<HActor> Camera = Scene()->CreateActor();
+	// KPtr<TheOne> Camera = state()->Create_One();
 }
