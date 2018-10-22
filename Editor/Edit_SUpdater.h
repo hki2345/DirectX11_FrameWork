@@ -1,7 +1,7 @@
 #pragma once
 #include <State.h>
 
-class ToolSceneUpdater : public State::State_Updater
+class Edit_SUpdater : public State::State_Updater
 {
 public:
 	Base2DColFi* pColFi;
@@ -28,7 +28,7 @@ public:
 	unsigned int Func(void* _Test);
 
 public:
-	ToolSceneUpdater();
-	~ToolSceneUpdater();
+	Edit_SUpdater();
+	~Edit_SUpdater();
 };
 

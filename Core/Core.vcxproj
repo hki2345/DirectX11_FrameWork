@@ -45,7 +45,7 @@
     <ClInclude Include="Component.h" />
     <ClInclude Include="KCore.h" />
     <ClInclude Include="KDevice.h" />
-    <ClInclude Include="HFBX.h" />
+    <ClInclude Include="KFBX.h" />
     <ClInclude Include="KFont.h" />
     <ClInclude Include="KImage.h" />
     <ClInclude Include="Light.h" />
@@ -109,7 +109,7 @@
     <ClCompile Include="KDevice.cpp" />
     <ClCompile Include="HDevice_DefaultData.cpp" />
     <ClCompile Include="HDevice_DefaultData3D.cpp" />
-    <ClCompile Include="HFBX.cpp" />
+    <ClCompile Include="KFBX.cpp" />
     <ClCompile Include="KFont.cpp" />
     <ClCompile Include="KImage.cpp" />
     <ClCompile Include="Light.cpp" />

@@ -23,67 +23,67 @@ bool HFreeCamera::Init()
 
 	if (false == InputManager::IsKey(L"FREELEFT"))
 	{
-		InputManager::CreateKey(L"FREELEFT", 'A');
+		InputManager::Create_Command(L"FREELEFT", 'A');
 	}
 
 	if (false == InputManager::IsKey(L"FREERIGHT"))
 	{
-		InputManager::CreateKey(L"FREERIGHT", 'D');
+		InputManager::Create_Command(L"FREERIGHT", 'D');
 	}
 
 	if (false == InputManager::IsKey(L"FREEUP"))
 	{
-		InputManager::CreateKey(L"FREEUP", 'Q');
+		InputManager::Create_Command(L"FREEUP", 'Q');
 	}
 
 	if (false == InputManager::IsKey(L"FREEDOWN"))
 	{
-		InputManager::CreateKey(L"FREEDOWN", 'E');
+		InputManager::Create_Command(L"FREEDOWN", 'E');
 	}
 
 	if (false == InputManager::IsKey(L"FREEFORWARD"))
 	{
-		InputManager::CreateKey(L"FREEFORWARD", 'W');
+		InputManager::Create_Command(L"FREEFORWARD", 'W');
 	}
 
 	if (false == InputManager::IsKey(L"FREEBACK"))
 	{
-		InputManager::CreateKey(L"FREEBACK", 'S');
+		InputManager::Create_Command(L"FREEBACK", 'S');
 	}
 
 	if (false == InputManager::IsKey(L"ROTLOCK"))
 	{
-		InputManager::CreateKey(L"ROTLOCK", VK_RBUTTON);
+		InputManager::Create_Command(L"ROTLOCK", VK_RBUTTON);
 	}
 
 	if (false == InputManager::IsKey(L"Boost"))
 	{
-		InputManager::CreateKey(L"Boost", VK_SHIFT);
+		InputManager::Create_Command(L"Boost", VK_SHIFT);
 	}
 
 	if (false == InputManager::IsKey(L"MODECHANAGE"))
 	{
-		InputManager::CreateKey(L"MODECHANAGE", 'R');
+		InputManager::Create_Command(L"MODECHANAGE", 'R');
 	}
 
 	if (false == InputManager::IsKey(L"Z"))
 	{
-		InputManager::CreateKey(L"Z", 'Z');
+		InputManager::Create_Command(L"Z", 'Z');
 	}
 
 	if (false == InputManager::IsKey(L"X"))
 	{
-		InputManager::CreateKey(L"X", 'X');
+		InputManager::Create_Command(L"X", 'X');
 	}
 
 	if (false == InputManager::IsKey(L"C"))
 	{
-		InputManager::CreateKey(L"C", 'C');
+		InputManager::Create_Command(L"C", 'C');
 	}
 
 	if (false == InputManager::IsKey(L"F"))
 	{
-		InputManager::CreateKey(L"F", 'F');
+		InputManager::Create_Command(L"F", 'F');
 	}
 
 #pragma endregion

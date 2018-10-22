@@ -1,15 +1,15 @@
 #pragma once
 
 
-// LeftView 뷰입니다.
+// View_Device 뷰입니다.
 
-class LeftView : public CView
+class View_Device : public CView
 {
-	DECLARE_DYNCREATE(LeftView)
+	DECLARE_DYNCREATE(View_Device)
 
 protected:
-	LeftView();           // 동적 만들기에 사용되는 protected 생성자입니다.
-	virtual ~LeftView();
+	View_Device();           // 동적 만들기에 사용되는 protected 생성자입니다.
+	virtual ~View_Device();
 
 public:
 	virtual void OnDraw(CDC* pDC);      // 이 뷰를 그리기 위해 재정의되었습니다.

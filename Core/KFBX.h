@@ -18,11 +18,11 @@
 
 #include <fbxsdk.h>
 
-class HFBX
+class KFBX
 {
 public:
-	HFBX();
-	~HFBX();
+	KFBX();
+	~KFBX();
 
 private:
 	FbxManager* m_pManager;

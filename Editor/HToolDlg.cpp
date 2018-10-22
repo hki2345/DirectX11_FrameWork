@@ -2,7 +2,7 @@
 //
 
 #include "stdafx.h"
-#include "AR14TOOL.h"
+#include "KEditor.h"
 #include "HToolDlg.h"
 #include "afxdialogex.h"
 #include <Core_Class.h>
@@ -69,7 +69,7 @@ BOOL HToolDlg::OnInitDialog()
 	// ResourceManager<Texture>::Load(L"Texture", L"TILE_01_N.png");
 
 
-	HFBX FBXLoader;
+	KFBX FBXLoader;
 	// FBXLoader.Load((PathManager::Find_ForderPathStr(L"Mesh") + L"BattleTest.FBX").c_str());
 
 	KPtr<State> TabScene = Core_Class::MainSceneMgr().Find_State(SceneName.GetString());

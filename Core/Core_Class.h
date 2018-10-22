@@ -6,7 +6,7 @@
 #include "KWindow.h"
 #include "KDevice.h"
 #include "State.h"
-#include "HFBX.h"
+#include "KFBX.h"
 
 // 일종의 연관 시켜져야할 클래스들을 포인터로 들고 있음 - 꽤나 유용한 클래스
 class Core_Class

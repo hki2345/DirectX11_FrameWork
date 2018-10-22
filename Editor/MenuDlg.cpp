@@ -2,14 +2,14 @@
 //
 
 #include "stdafx.h"
-#include "AR14TOOL.h"
+#include "KEditor.h"
 #include "MenuDlg.h"
 #include "afxdialogex.h"
 //#include "SceneDlg.h"
 //#include "SpriteDlg.h"
 //#include "ActorDlg.h"
 #include "HToolDlg.h"
-#include "TVAR.h"
+#include "Edit_Class.h"
 
 
 // MenuDlg 대화 상자입니다.
@@ -19,7 +19,7 @@ IMPLEMENT_DYNAMIC(MenuDlg, CDialogEx)
 MenuDlg::MenuDlg(CWnd* pParent /*=NULL*/)
 	: CDialogEx(IDD_MENUDLG, pParent), m_CurIndex(0)
 {
-	TVAR::MDlg = this;
+	Edit_Class::MDlg = this;
 }
 
 MenuDlg::~MenuDlg()

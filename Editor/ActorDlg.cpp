@@ -2,11 +2,11 @@
 //
 
 #include "stdafx.h"
-#include "AR14TOOL.h"
+#include "KEditor.h"
 #include "ActorDlg.h"
 #include "afxdialogex.h"
 #include <HSpRenderer.h>
-#include "TVAR.h"
+#include "Edit_Class.h"
 #include <HCol2D.h>
 #include "ComView.h"
 #include <IsoMapRender.h>
@@ -20,7 +20,7 @@ IMPLEMENT_DYNAMIC(ActorDlg, CDialogEx)
 ActorDlg::ActorDlg(CWnd* pParent /*=NULL*/)
 	: TabDlg(IDD_ACTORDLG, pParent)
 {
-	TVAR::ADlg = this;
+	Edit_Class::ADlg = this;
 }
 
 ActorDlg::~ActorDlg()
@@ -118,7 +118,7 @@ void ActorDlg::OnBnClickedCreactor()
 
 void ActorDlg::ResetObjectTreeItem() {
 
-	Core_Class::MainSceneMgr().Change_State(TVAR::SceneDlg->m_CurSceneName);
+	Core_Class::MainSceneMgr().Change_State(Edit_Class::SceneDlg->m_CurSceneName);
 
 	m_ObjectTree.DeleteAllItems();
 
@@ -150,7 +150,7 @@ void ActorDlg::OnShowWindow(BOOL bShow, UINT nStatus)
 		return;
 	}
 
-	if (nullptr == Core_Class::MainSceneMgr().Find_State(TVAR::SceneDlg->m_CurSceneName))
+	if (nullptr == Core_Class::MainSceneMgr().Find_State(Edit_Class::SceneDlg->m_CurSceneName))
 	{
 		return;
 	}
@@ -186,8 +186,8 @@ void ActorDlg::OnTvnSelchangedActortree(NMHDR *pNMHDR, LRESULT *pResult)
 
 	if (nullptr != pActor)
 	{
-		TVAR::g_ComView->AllDlgDestroy();
-		TVAR::g_ComView->ActorSetting(pActor);
+		Edit_Class::g_ComView->AllDlgDestroy();
+		Edit_Class::g_ComView->ActorSetting(pActor);
 	}
 	// rc.left
 	
@@ -217,7 +217,7 @@ void ActorDlg::OnTvnKeydownActortree(NMHDR *pNMHDR, LRESULT *pResult)
 
 		if (nullptr != pActor)
 		{
-			TVAR::g_ComView->AllDlgDestroy();
+			Edit_Class::g_ComView->AllDlgDestroy();
 			pActor->Set_Death();
 			// KPtr<HSpRenderer> Ptr = pActor->Get_Component<HSpRenderer>();
 /*
@@ -294,7 +294,7 @@ void ActorDlg::OnNMRClickActortree(NMHDR *pNMHDR, LRESULT *pResult)
 	if (Pos.x < rc.left || Pos.x > rc.right || Pos.y < rc.top || Pos.y > rc.bottom)
 	{
 		m_SelectObject = nullptr;
-		TVAR::g_ComView->AllDlgDestroy();
+		Edit_Class::g_ComView->AllDlgDestroy();
 		m_ObjectTree.Select(nullptr, TVGN_CARET);
 		return;
 	}
@@ -322,7 +322,7 @@ void ActorDlg::OnNMClickActortree(NMHDR *pNMHDR, LRESULT *pResult)
 
 	if (Pos.x < rc.left || Pos.x > rc.right || Pos.y < rc.top || Pos.y > rc.bottom)
 	{
-		TVAR::g_ComView->AllDlgDestroy();
+		Edit_Class::g_ComView->AllDlgDestroy();
 		m_ObjectTree.Select(nullptr, TVGN_CARET);
 		return;
 	}

@@ -5,9 +5,9 @@
 #include "stdafx.h"
 #include "afxwinappex.h"
 #include "afxdialogex.h"
-#include "AR14TOOL.h"
+#include "KEditor.h"
 #include "MainFrm.h"
-#include "TVAR.h"
+#include "Edit_Class.h"
 
 #include <KCore.h>
 
@@ -16,16 +16,16 @@
 #endif
 
 
-// CAR14TOOLApp
+// KEditorApp
 
-BEGIN_MESSAGE_MAP(CAR14TOOLApp, CWinApp)
-	ON_COMMAND(ID_APP_ABOUT, &CAR14TOOLApp::OnAppAbout)
+BEGIN_MESSAGE_MAP(KEditorApp, CWinApp)
+	ON_COMMAND(ID_APP_ABOUT, &KEditorApp::OnAppAbout)
 END_MESSAGE_MAP()
 
 
-// CAR14TOOLApp 생성
+// KEditorApp 생성
 
-CAR14TOOLApp::CAR14TOOLApp()
+KEditorApp::KEditorApp()
 {
 
 	// TODO: 아래 응용 프로그램 ID 문자열을 고유 ID 문자열로 바꾸십시오(권장).
@@ -36,14 +36,14 @@ CAR14TOOLApp::CAR14TOOLApp()
 	// InitInstance에 모든 중요한 초기화 작업을 배치합니다.
 }
 
-// 유일한 CAR14TOOLApp 개체입니다.
+// 유일한 KEditorApp 개체입니다.
 
-CAR14TOOLApp theApp;
+KEditorApp theApp;
 
 
-// CAR14TOOLApp 초기화
+// KEditorApp 초기화
 
-BOOL CAR14TOOLApp::InitInstance()
+BOOL KEditorApp::InitInstance()
 {
 	CWinApp::InitInstance();
 
@@ -81,18 +81,18 @@ BOOL CAR14TOOLApp::InitInstance()
 	return TRUE;
 }
 
-void CAR14TOOLApp::MyCurSor(HCURSOR _hCur) 
+void KEditorApp::MyCurSor(HCURSOR _hCur) 
 {
 	SetCursor(_hCur);
 }
 
-int CAR14TOOLApp::ExitInstance()
+int KEditorApp::ExitInstance()
 {
 	//TODO: 추가한 추가 리소스를 처리합니다.
 	return CWinApp::ExitInstance();
 }
 
-// CAR14TOOLApp 메시지 처리기
+// KEditorApp 메시지 처리기
 
 
 // 응용 프로그램 정보에 사용되는 CAboutDlg 대화 상자입니다.
@@ -128,15 +128,15 @@ BEGIN_MESSAGE_MAP(CAboutDlg, CDialogEx)
 END_MESSAGE_MAP()
 
 // 대화 상자를 실행하기 위한 응용 프로그램 명령입니다.
-void CAR14TOOLApp::OnAppAbout()
+void KEditorApp::OnAppAbout()
 {
 	CAboutDlg aboutDlg;
 	aboutDlg.DoModal();
 }
 
-// CAR14TOOLApp 메시지 처리기
+// KEditorApp 메시지 처리기
 
-BOOL CAR14TOOLApp::OnIdle(LONG lCount)
+BOOL KEditorApp::OnIdle(LONG lCount)
 {
 	// TODO: 여기에 특수화된 코드를 추가 및/또는 기본 클래스를 호출합니다.
 	lCount = 0;

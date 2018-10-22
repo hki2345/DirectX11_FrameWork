@@ -4,64 +4,128 @@
     <ClCompile Include="ActorDlg.cpp" />
     <ClCompile Include="AddCom.cpp" />
     <ClCompile Include="AddCom_CreateCom.cpp" />
-    <ClCompile Include="AR14TOOL.cpp" />
     <ClCompile Include="ComDlg.cpp" />
-    <ClCompile Include="ComView.cpp" />
-    <ClCompile Include="ComView_DlgCreate.cpp" />
     <ClCompile Include="DropEditor.cpp" />
     <ClCompile Include="HSpriteCut.cpp" />
-    <ClCompile Include="HSpWnd.cpp" />
     <ClCompile Include="HToolDlg.cpp" />
     <ClCompile Include="ImageSelectButton.cpp" />
-    <ClCompile Include="LeftView.cpp" />
-    <ClCompile Include="MainFrm.cpp" />
     <ClCompile Include="MenuDlg.cpp" />
     <ClCompile Include="NoneComDlg.cpp" />
-    <ClCompile Include="RightView.cpp" />
     <ClCompile Include="SceneDlg.cpp" />
     <ClCompile Include="SpRenderDlg.cpp" />
     <ClCompile Include="SpriteDlg.cpp" />
     <ClCompile Include="SpriteSelectDlg.cpp" />
-    <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="TabDlg.cpp" />
-    <ClCompile Include="ToolCoreBuilder.cpp" />
-    <ClCompile Include="ToolSceneUpdater.cpp" />
     <ClCompile Include="TransDlg.cpp" />
-    <ClCompile Include="TVAR.cpp" />
+    <ClCompile Include="stdafx.cpp">
+      <Filter>00 MFC</Filter>
+    </ClCompile>
+    <ClCompile Include="MainFrm.cpp">
+      <Filter>00 MFC</Filter>
+    </ClCompile>
+    <ClCompile Include="KEditor.cpp">
+      <Filter>00 MFC</Filter>
+    </ClCompile>
+    <ClCompile Include="Edit_Class.cpp">
+      <Filter>02 Launcher</Filter>
+    </ClCompile>
+    <ClCompile Include="Edit_SUpdater.cpp">
+      <Filter>02 Launcher</Filter>
+    </ClCompile>
+    <ClCompile Include="Edit_Launcher.cpp">
+      <Filter>02 Launcher</Filter>
+    </ClCompile>
+    <ClCompile Include="ComView.cpp">
+      <Filter>01 SubWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="ComView_DlgCreate.cpp">
+      <Filter>01 SubWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="View_Device.cpp">
+      <Filter>01 SubWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="View_Edit.cpp">
+      <Filter>01 SubWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="Splitter_Edit.cpp">
+      <Filter>01 SubWindow</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ActorDlg.h" />
     <ClInclude Include="AddCom.h" />
-    <ClInclude Include="AR14TOOL.h" />
     <ClInclude Include="ComDlg.h" />
-    <ClInclude Include="ComView.h" />
     <ClInclude Include="DropEditor.h" />
     <ClInclude Include="HSpriteCut.h" />
-    <ClInclude Include="HSpWnd.h" />
     <ClInclude Include="HToolDlg.h" />
     <ClInclude Include="ImageSelectButton.h" />
-    <ClInclude Include="LeftView.h" />
-    <ClInclude Include="MainFrm.h" />
     <ClInclude Include="MenuDlg.h" />
     <ClInclude Include="NoneComDlg.h" />
-    <ClInclude Include="resource.h" />
-    <ClInclude Include="RightView.h" />
     <ClInclude Include="SceneDlg.h" />
     <ClInclude Include="SpRenderDlg.h" />
     <ClInclude Include="SpriteDlg.h" />
     <ClInclude Include="SpriteSelectDlg.h" />
-    <ClInclude Include="stdafx.h" />
     <ClInclude Include="TabDlg.h" />
-    <ClInclude Include="targetver.h" />
-    <ClInclude Include="ToolCoreBuilder.h" />
-    <ClInclude Include="ToolSceneUpdater.h" />
     <ClInclude Include="TransDlg.h" />
-    <ClInclude Include="TVAR.h" />
+    <ClInclude Include="stdafx.h">
+      <Filter>00 MFC</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>00 MFC</Filter>
+    </ClInclude>
+    <ClInclude Include="MainFrm.h">
+      <Filter>00 MFC</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>00 MFC</Filter>
+    </ClInclude>
+    <ClInclude Include="KEditor.h">
+      <Filter>00 MFC</Filter>
+    </ClInclude>
+    <ClInclude Include="Edit_Class.h">
+      <Filter>02 Launcher</Filter>
+    </ClInclude>
+    <ClInclude Include="Edit_SUpdater.h">
+      <Filter>02 Launcher</Filter>
+    </ClInclude>
+    <ClInclude Include="Edit_Launcher.h">
+      <Filter>02 Launcher</Filter>
+    </ClInclude>
+    <ClInclude Include="ComView.h">
+      <Filter>01 SubWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="View_Device.h">
+      <Filter>01 SubWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="View_Edit.h">
+      <Filter>01 SubWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="Splitter_Edit.h">
+      <Filter>01 SubWindow</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ResourceCompile Include="Editor.rc" />
+    <Filter Include="00 MFC">
+      <UniqueIdentifier>{e0ad6559-ad8a-44f5-9676-32384b55163c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="리소스 파일">
+      <UniqueIdentifier>{d76d747b-9188-4360-986a-d68aa9485b23}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="01 SubWindow">
+      <UniqueIdentifier>{a9561e62-a676-4ac9-9f5b-f955480045b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="02 Launcher">
+      <UniqueIdentifier>{ef02636b-a17a-48d7-b95f-22036842d7b6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <None Include="res\Editor.rc2" />
+    <None Include="res\Editor.rc2">
+      <Filter>리소스 파일</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Editor.rc">
+      <Filter>리소스 파일</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

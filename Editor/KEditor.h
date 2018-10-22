@@ -1,5 +1,5 @@
 
-// AR14TOOL.h : AR14TOOL 응용 프로그램에 대한 주 헤더 파일
+// KEditor.h : AR14TOOL 응용 프로그램에 대한 주 헤더 파일
 //
 #pragma once
 
@@ -10,14 +10,14 @@
 #include "resource.h"       // 주 기호입니다.
 
 
-// CAR14TOOLApp:
-// 이 클래스의 구현에 대해서는 AR14TOOL.cpp을 참조하십시오.
+// KEditorApp:
+// 이 클래스의 구현에 대해서는 KEditor.cpp을 참조하십시오.
 //
 
-class CAR14TOOLApp : public CWinApp
+class KEditorApp : public CWinApp
 {
 public:
-	CAR14TOOLApp();
+	KEditorApp();
 
 public:
 	void MyCurSor(HCURSOR _hCur);
@@ -35,4 +35,4 @@ public:
 	virtual BOOL OnIdle(LONG lCount);
 };
 
-extern CAR14TOOLApp theApp;
+extern KEditorApp theApp;

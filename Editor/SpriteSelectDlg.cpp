@@ -2,7 +2,7 @@
 //
 
 #include "stdafx.h"
-#include "AR14TOOL.h"
+#include "KEditor.h"
 #include "SpriteSelectDlg.h"
 #include "afxdialogex.h"
 #include <ResourceManager.h>

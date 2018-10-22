@@ -169,9 +169,6 @@
     <ClInclude Include="HSubTransCom.h">
       <Filter>98 Component\CoreCom</Filter>
     </ClInclude>
-    <ClInclude Include="HFBX.h">
-      <Filter>03 Manager\Resource\Child\FBX</Filter>
-    </ClInclude>
     <ClInclude Include="Mof_State.h">
       <Filter>03 Manager\State</Filter>
     </ClInclude>
@@ -195,6 +192,9 @@
     </ClInclude>
     <ClInclude Include="SomeOne.h">
       <Filter>99 TheOne</Filter>
+    </ClInclude>
+    <ClInclude Include="KFBX.h">
+      <Filter>03 Manager\Resource\Child\FBX</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -351,9 +351,6 @@
     <ClCompile Include="HSubTransCom.cpp">
       <Filter>98 Component\CoreCom</Filter>
     </ClCompile>
-    <ClCompile Include="HFBX.cpp">
-      <Filter>03 Manager\Resource\Child\FBX</Filter>
-    </ClCompile>
     <ClCompile Include="State.cpp">
       <Filter>03 Manager\State</Filter>
     </ClCompile>
@@ -371,6 +368,9 @@
     </ClCompile>
     <ClCompile Include="SomeOne.cpp">
       <Filter>99 TheOne</Filter>
+    </ClCompile>
+    <ClCompile Include="KFBX.cpp">
+      <Filter>03 Manager\Resource\Child\FBX</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

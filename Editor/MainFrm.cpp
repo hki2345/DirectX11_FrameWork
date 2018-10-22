@@ -3,18 +3,18 @@
 //
 
 #include "stdafx.h"
-#include "AR14TOOL.h"
+#include "KEditor.h"
 
 #include "MainFrm.h"
 
-#include "LeftView.h"
-#include "RightView.h"
+#include "View_Device.h"
+#include "View_Edit.h"
 
 #include <KCore.h>
 #include <ResourceManager.h>
 #include <KImage.h>
-#include "ToolCoreBuilder.h"
-#include "TVAR.h"
+#include "Edit_Launcher.h"
+#include "Edit_Class.h"
 #include <InputManager.h>
 
 #ifdef _DEBUG
@@ -46,6 +46,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	if (CFrameWnd::OnCreate(lpCreateStruct) == -1)
 		return -1;
 
+	// 기조은 이렇게 실행
 	//// 프레임의 클라이언트 영역을 차지하는 뷰를 만듭니다.
 	//if (!m_wndView.Create(NULL, NULL, AFX_WS_DEFAULT_VIEW,
 	//	CRect(0, 0, 0, 0), this, AFX_IDW_PANE_FIRST, NULL))
@@ -58,24 +59,26 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 	m_MainWnd.CreateStatic(this, 1, 2, WS_CHILD | WS_VISIBLE);
 
-	m_MainWnd.CreateView(0, 0, RUNTIME_CLASS(LeftView), SIZE{ 800, 600 }, nullptr);
+
+	// 여기서 핸들 넘겨서 디바이스를 초기화하는 모습
+	m_MainWnd.CreateView(0, 0, RUNTIME_CLASS(View_Device), SIZE{ 800, 600 }, nullptr);
 		
 	CWnd* pWnd = m_MainWnd.GetPane(0, 0);
-	KCore::Start<ToolCoreBuilder>(AfxGetInstanceHandle(), L"MainWindow", pWnd->m_hWnd);
+	KCore::Start<Edit_Launcher>(AfxGetInstanceHandle(), L"MainWindow", pWnd->m_hWnd);
 
-	m_MainWnd.CreateView(0, 1, RUNTIME_CLASS(RightView), SIZE{ 500, 600 }, nullptr);
+	m_MainWnd.CreateView(0, 1, RUNTIME_CLASS(View_Edit), SIZE{ 500, 600 }, nullptr);
 
 	RECT Rc = { 0, 0, 1600, 600 };
 
 	AdjustWindowRect(&Rc, WS_OVERLAPPEDWINDOW, false);
 	SetWindowPos(nullptr, 0, 0, Rc.right, Rc.bottom - Rc.top + m_MainWnd.GetBoderSizeY() * 2, SWP_NOMOVE | SWP_NOZORDER);
 
-	// TVAR::MDlg->DlgInit();
-	// TVAR::SpDlg->SpriteInit();
-	// TVAR::SceneDlg->Init();
+	// Edit_Class::MDlg->DlgInit();
+	// Edit_Class::SpDlg->SpriteInit();
+	// Edit_Class::SceneDlg->Init();
 
 
-	// TVAR::ADlg->ResetObjectTreeItem();
+	// Edit_Class::ADlg->ResetObjectTreeItem();
 
 
 	return 0;

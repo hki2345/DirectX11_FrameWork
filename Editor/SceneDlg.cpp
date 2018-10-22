@@ -2,16 +2,16 @@
 //
 
 #include "stdafx.h"
-#include "AR14TOOL.h"
+#include "KEditor.h"
 #include "SceneDlg.h"
 #include "afxdialogex.h"
 #include <Core_Class.h>
 #include <HSpRenderer.h>
 #include <HCol2D.h>
-#include "TVAR.h"
+#include "Edit_Class.h"
 #include <ResourceManager.h>
 
-#include "ToolSceneUpdater.h"
+#include "Edit_SUpdater.h"
 
 
 // SceneDlg 대화 상자입니다.
@@ -23,7 +23,7 @@ SceneDlg::SceneDlg(CWnd* pParent /*=NULL*/)
 	, m_SceneName(_T("TestScene"))
 	, m_CurSceneName(_T("TestScene"))
 {
-	TVAR::SceneDlg = this;
+	Edit_Class::SceneDlg = this;
 }
 
 SceneDlg::~SceneDlg()
@@ -97,7 +97,7 @@ void SceneDlg::OnBnClickedCrescene()
 	m_SceneList.AddString(m_SceneName);
 
 	m_Scene = Core_Class::MainSceneMgr().Create_State(m_SceneName.GetString());
-	m_Scene->CreateUpdater<ToolSceneUpdater>();
+	m_Scene->CreateUpdater<Edit_SUpdater>();
 	Core_Class::MainSceneMgr().Change_State(m_SceneName.GetString());
 
 	KPtr<TheOne> Cam = m_Scene->Create_One();
@@ -118,9 +118,9 @@ void SceneDlg::OnLbnSelchangeScenelist()
 
 	m_SceneList.GetText(m_SceneList.GetCurSel(), m_CurSceneName);
 
-	TVAR::SelectScene = Core_Class::MainSceneMgr().Find_State(m_CurSceneName.GetString());
+	Edit_Class::Select_State = Core_Class::MainSceneMgr().Find_State(m_CurSceneName.GetString());
 
-	if (nullptr == TVAR::SelectScene)
+	if (nullptr == Edit_Class::Select_State)
 	{
 		m_CurSceneName = L"현재씬 없음";
 		return;
@@ -167,7 +167,7 @@ void SceneDlg::OnShowWindow(BOOL bShow, UINT nStatus)
 		return;
 	}
 
-	if (nullptr == Core_Class::MainSceneMgr().Find_State(TVAR::SceneDlg->m_CurSceneName))
+	if (nullptr == Core_Class::MainSceneMgr().Find_State(Edit_Class::SceneDlg->m_CurSceneName))
 	{
 		return;
 	}

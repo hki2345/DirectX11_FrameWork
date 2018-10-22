@@ -6,10 +6,10 @@
 #include "ActorDlg.h"
 #include "ComView.h"
 
-class TVAR
+class Edit_Class
 {
 public:
-	static KPtr<State> SelectScene;
+	static KPtr<State> Select_State;
 	static MenuDlg* MDlg;
 	static SceneDlg* SceneDlg;
 	static SpriteDlg* SpDlg;
@@ -17,7 +17,7 @@ public:
 	static ComView* g_ComView;
 
 private:
-	TVAR();
-	~TVAR();
+	Edit_Class();
+	~Edit_Class();
 };
 

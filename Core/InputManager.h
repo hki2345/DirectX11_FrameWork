@@ -122,7 +122,7 @@ private:
 
 public:
 	template<typename... Rest>
-	static INPMGR_ERR CreateKey(const wchar_t* _Name, Rest... _Arg) 
+	static INPMGR_ERR Create_Command(const wchar_t* _Name, Rest... _Arg) 
 	{
 		KPtr<Input_Command> pKEY = Map_Find<KPtr<Input_Command>>(m_KeyMap, _Name);
 

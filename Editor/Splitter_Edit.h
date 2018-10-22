@@ -1,6 +1,6 @@
 #pragma once
 
-class HSpWnd : public CSplitterWnd
+class Splitter_Edit : public CSplitterWnd
 {
 private:
 	bool m_bLock;
@@ -12,8 +12,8 @@ public:
 	int GetBoderSizeY() { return  m_cyBorder; }
 
 public:
-	HSpWnd();
-	~HSpWnd();
+	Splitter_Edit();
+	~Splitter_Edit();
 
 private:
 	BOOL PreCreateWindow(CREATESTRUCT& cs);

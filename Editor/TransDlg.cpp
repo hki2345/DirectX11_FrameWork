@@ -2,7 +2,7 @@
 //
 
 #include "stdafx.h"
-#include "AR14TOOL.h"
+#include "KEditor.h"
 #include "TransDlg.h"
 #include "afxdialogex.h"
 

@@ -1,6 +1,6 @@
 #include "stdafx.h"
 #include "DropEditor.h"
-#include "AR14TOOL.h"
+#include "KEditor.h"
 
 BEGIN_MESSAGE_MAP(DropEditor, CEdit)
 	ON_WM_SETCURSOR()
@@ -20,7 +20,7 @@ DropEditor::~DropEditor()
 
 afx_msg BOOL DropEditor::OnSetCursor(CWnd* _pWnd, UINT _nHitTest, UINT _Msg) 
 {
-	CAR14TOOLApp* App = (CAR14TOOLApp*)AfxGetApp();
+	KEditorApp* App = (KEditorApp*)AfxGetApp();
 
 	App->MyCurSor(LoadCursor(nullptr, IDC_HAND));
 	return TRUE;

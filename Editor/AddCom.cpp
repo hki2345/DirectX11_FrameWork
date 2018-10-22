@@ -2,10 +2,10 @@
 //
 
 #include "stdafx.h"
-#include "AR14TOOL.h"
+#include "KEditor.h"
 #include "AddCom.h"
 #include "afxdialogex.h"
-#include "TVAR.h"
+#include "Edit_Class.h"
 
 
 // AddCom 대화 상자입니다.
@@ -65,7 +65,7 @@ void AddCom::OnBnClickedAddcom()
 
 	CreateCom(Name);
 
-	TVAR::g_ComView->Reset();
+	Edit_Class::g_ComView->Reset();
 
 	UpdateData(FALSE);
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.

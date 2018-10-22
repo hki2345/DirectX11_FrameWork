@@ -2,9 +2,9 @@
 //
 
 #include "stdafx.h"
-#include "AR14TOOL.h"
+#include "KEditor.h"
 #include "ComView.h"
-#include "TVAR.h"
+#include "Edit_Class.h"
 #include "AddCom.h"
 
 
@@ -15,7 +15,7 @@ IMPLEMENT_DYNCREATE(ComView, CScrollView)
 
 ComView::ComView() : m_pActor(nullptr)
 {
-	TVAR::g_ComView = this;
+	Edit_Class::g_ComView = this;
 }
 
 ComView::~ComView()

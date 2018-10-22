@@ -1,12 +1,12 @@
 #include "stdafx.h"
-#include "ToolSceneUpdater.h"
+#include "Edit_SUpdater.h"
 #include <InputManager.h>
 #include <DebugManager.h>
 #include <KThread.h>
 #include <TimeManager.h>
 
 
-ToolSceneUpdater::ToolSceneUpdater()
+Edit_SUpdater::Edit_SUpdater()
 {
 	Number = 0;
 	m_bTestThread = true;
@@ -17,14 +17,18 @@ ToolSceneUpdater::ToolSceneUpdater()
 }
 
 
-ToolSceneUpdater::~ToolSceneUpdater()
+Edit_SUpdater::~Edit_SUpdater()
 {
 
 	delete pColFi;
 }
 
-void ToolSceneUpdater::Update_State()
+void Edit_SUpdater::Update_State()
 {
+	// 이거 순환참조 일어나서 -> 이거 알아내는 거 힘듬 ㅋㅋ
+	// 문제는 업데이터에서 스테이트를 들고 있으려고 하니문제생김 ㅋㅋㅋㅋ
+	// FindState = Edit_Class::Cur_State();
+
 	pColFi->m_Vec.m_Pos = KVector2{0.0f, 0.0f};
 	Check = false;
 
@@ -32,7 +36,7 @@ void ToolSceneUpdater::Update_State()
 
 	if (InputManager::Down(L"Q"))
 	{
-		KThread::Start_Thread<ToolSceneUpdater>(L"TestThread", &ToolSceneUpdater::Func, this);
+		KThread::Start_Thread<Edit_SUpdater>(L"TestThread", &Edit_SUpdater::Func, this);
 
 		//if (true == m_bTestThread)
 		//{
@@ -87,7 +91,7 @@ void ToolSceneUpdater::Update_State()
 	}
 }
 
-unsigned int ToolSceneUpdater::Func(void* _Test)
+unsigned int Edit_SUpdater::Func(void* _Test)
 {
 	Number = 0;
 	float Time = 0.0f;
@@ -113,12 +117,12 @@ unsigned int ToolSceneUpdater::Func(void* _Test)
 	return 0;
 }
 
-void ToolSceneUpdater::Start_State()
+void Edit_SUpdater::Start_State()
 {
-	KThread::Start_Thread<ToolSceneUpdater>(L"TestThread", &ToolSceneUpdater::Func, this);
+	KThread::Start_Thread<Edit_SUpdater>(L"TestThread", &Edit_SUpdater::Func, this);
 }
 
-void ToolSceneUpdater::DebugRender() {
+void Edit_SUpdater::DebugRender() {
 
 	wchar_t Arr[256];
 

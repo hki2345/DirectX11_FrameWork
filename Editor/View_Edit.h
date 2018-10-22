@@ -1,15 +1,15 @@
 #pragma once
 #include "MenuDlg.h"
 
-// RightView 뷰입니다.
+// View_Edit 뷰입니다.
 
-class RightView : public CView
+class View_Edit : public CView
 {
-	DECLARE_DYNCREATE(RightView)
+	DECLARE_DYNCREATE(View_Edit)
 
 protected:
-	RightView();           // 동적 만들기에 사용되는 protected 생성자입니다.
-	virtual ~RightView();
+	View_Edit();           // 동적 만들기에 사용되는 protected 생성자입니다.
+	virtual ~View_Edit();
 
 private:
 	MenuDlg MDlg;

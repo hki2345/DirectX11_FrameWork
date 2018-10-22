@@ -3,7 +3,7 @@
 //
 
 #pragma once
-#include "HSpWnd.h"
+#include "Splitter_Edit.h"
 
 class CMainFrame : public CFrameWnd
 {
@@ -32,7 +32,7 @@ public:
 	virtual void Dump(CDumpContext& dc) const;
 #endif
 	
-	HSpWnd  m_MainWnd;
+	Splitter_Edit  m_MainWnd;
 	// CSplitterWnd m_MainWnd;
 
 // 생성된 메시지 맵 함수

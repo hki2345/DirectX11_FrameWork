@@ -2,11 +2,11 @@
 //
 
 #include "stdafx.h"
-#include "AR14TOOL.h"
+#include "KEditor.h"
 #include "SpriteDlg.h"
 #include "afxdialogex.h"
 #include <ResourceManager.h>
-#include "TVAR.h"
+#include "Edit_Class.h"
 #include <Core_Class.h>
 #include <KImage.h>
 #include <Texture.h>
@@ -28,7 +28,7 @@ SpriteDlg::SpriteDlg(CWnd* pParent /*=NULL*/)
 	, m_CurX(0)
 	, m_CurY(0)
 {
-	TVAR::SpDlg = this;
+	Edit_Class::SpDlg = this;
 }
 
 SpriteDlg::~SpriteDlg()

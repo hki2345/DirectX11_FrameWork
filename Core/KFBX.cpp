@@ -1,22 +1,22 @@
-#include "HFBX.h"
+#include "KFBX.h"
 #include <atlstr.h>
 #include "KMacro.h"
 #include "DXContainer.h"
 
 
-HFBX::HFBX()
+KFBX::KFBX()
 {
 	
 }
 
 
-HFBX::~HFBX()
+KFBX::~KFBX()
 {
 }
 
 
 
-void HFBX::Load(const wchar_t* _Path)
+void KFBX::Load(const wchar_t* _Path)
 {
 	// 전역으로 선언해 어디서든 볼 수 있게 함ㅇㅇ
 	m_pManager = FbxManager::Create();;
@@ -55,7 +55,7 @@ void HFBX::Load(const wchar_t* _Path)
 
 
 // FBX라 해도 트리구조로 되어있다.
-void HFBX::Load_Triangle(FbxNode* _pNode)
+void KFBX::Load_Triangle(FbxNode* _pNode)
 {
 	FbxNodeAttribute* pAttr = _pNode->GetNodeAttribute();
 
@@ -95,7 +95,7 @@ void HFBX::Load_Triangle(FbxNode* _pNode)
 }
 
 
-void HFBX::Load_Mesh(FbxMesh* _pMesh)
+void KFBX::Load_Mesh(FbxMesh* _pMesh)
 {
 	int iVtxCnt = _pMesh->GetControlPointsCount();
 
