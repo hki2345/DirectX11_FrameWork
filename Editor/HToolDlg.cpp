@@ -69,8 +69,8 @@ BOOL HToolDlg::OnInitDialog()
 	// ResourceManager<Texture>::Load(L"Texture", L"TILE_01_N.png");
 
 
-	KFBX FBXLoader;
-	// FBXLoader.Load((PathManager::Find_ForderPathStr(L"Mesh") + L"BattleTest.FBX").c_str());
+	// KFBX FLoad;
+	// FLoad.Load((PathManager::Find_ForderPathStr(L"Mesh") + L"BattleTest.FBX").c_str());
 
 	KPtr<State> TabScene = Core_Class::MainSceneMgr().Find_State(SceneName.GetString());
 
