@@ -24,7 +24,7 @@
 class KeyFrame
 {
 public:
-	FbxMatrix	BoneMat;
+	FbxMatrix	BoneMatrix;
 	double		KeyTime;
 };
 
@@ -36,7 +36,7 @@ public:
 	KUINT Index;
 	KBone* m_pPBone;
 	FbxMatrix Offset;
-	FbxMatrix BoneMat;
+	FbxMatrix BoneMatrix;
 	std::vector<KeyFrame> KFVec;
 };
 
@@ -76,7 +76,7 @@ public:
 
 	std::vector<std::vector<KUINT>> IdxVec;
 
-	Matrix_FbxData m_MatData;
+	Matrix_FbxData m_MaterialData;
 
 	bool m_bAni;
 
