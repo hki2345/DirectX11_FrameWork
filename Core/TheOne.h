@@ -22,6 +22,10 @@ class RenderManager;
 class HCol2DMgr;
 class TheOne final : public Begin_Updater, public Mof_KWindow, public Mof_State
 {
+private:
+	TheOne();
+	~TheOne();
+
 public:
 	friend State;
 
@@ -96,7 +100,7 @@ public:
 		Com* NewCom = new Com();
 		NewCom->Set_Type();
 		NewCom->one(this);
-		NewCom->Window(Window());
+		NewCom->kwindow(kwindow());
 		NewCom->state(state());
 		NewCom->ComInit();
 
@@ -121,7 +125,7 @@ public:
 		Com* NewCom = new Com();
 		NewCom->Set_Type();
 		NewCom->one(this);
-		NewCom->Window(Window());
+		NewCom->kwindow(kwindow());
 		NewCom->state(state());
 		NewCom->ComInit();
 
@@ -146,7 +150,7 @@ public:
 		Com* NewCom = new Com();
 		NewCom->Set_Type();
 		NewCom->one(this);
-		NewCom->Window(Window());
+		NewCom->kwindow(kwindow());
 		NewCom->state(state());
 		NewCom->ComInit();
 
@@ -194,17 +198,66 @@ private:
 	void Detach();
 
 public:
-	void AddChild(KPtr<TheOne> _Actor, bool _TransWorld = true);
+	void Add_Child(KPtr<TheOne> _Actor, bool _TransWorld = true);
 
 private:
-	void OverPushRender(RenderManager* _pRenMgr);
-	void OverPushCol2D(HCol2DMgr* _pCol2DMgr);
+	void Insert_ABSRender(RenderManager* _pRenMgr);
+	void Insert_ABSCol2D(HCol2DMgr* _pCol2DMgr);
 
 public:
 	void Save(WriteStream& _Stream);
 
-private:
-	TheOne();
-	~TheOne();
+
+
+	/******************** TransPosition ************************/
+	// KVector4 forward_world();
+	// KVector4 up_world();
+	// KVector4 right_world();
+	// KVector4 back_world();
+	// KVector4 left_world();
+	// KVector4 down_world();
+	// KVector4 pos_world() const;
+	// KVector4 scale_world() const;
+	// KVector4 rotate_world();
+	// const KVector4& scale_worldconst() const;
+	// 
+	// KVector4 forward_local();
+	// KVector4 up_local();
+	// KVector4 right_local();
+	// KVector4 back_local();
+	// KVector4 left_local();
+	// KVector4 down_local();
+	// KVector4 pos_local() const;
+	// KVector4 scale_local() const;
+	// KVector4 rotate_local();
+	// 
+	// 
+	// bool BWorld() const;
+	// 
+	// void World_Scale(const KVector4& _Value);
+	// void World_Pos(const KVector4& _Value);
+	// void World_Rotate(const KVector4& _Value);
+	// 
+	// void World_Scale(const float& _X, const float& _Y, const float& _Z);
+	// void World_Pos(const float& _X, const float& _Y, const float& _Z);
+	// void World_Rotate(const float& _X, const float& _Y, const float& _Z);
+	// 
+	// void World_Scale(const KVector2& _Vec, const float& _Z);
+	// void World_Pos(const KVector2& _Vec, const float& _Z);
+	// void World_Rotate(const KVector2& _Vec, const float& _Z);
+	// 
+	// 
+	// 
+	// void Local_Scale(const KVector4& _Value);
+	// void Local_Pos(const KVector4& _Value);
+	// void Local_Rotate(const KVector4& _Value);
+	// 
+	// void Local_Scale(const float& _X, const float& _Y, const float& _Z);
+	// void Local_Pos(const float& _X, const float& _Y, const float& _Z);
+	// void Local_Rotate(const float& _X, const float& _Y, const float& _Z);
+	// 
+	// void Local_Scale(const KVector2& _Vec, const float& _Z);
+	// void Local_Pos(const KVector2& _Vec, const float& _Z);
+	// void Local_Rotate(const KVector2& _Vec, const float& _Z);
 };
 

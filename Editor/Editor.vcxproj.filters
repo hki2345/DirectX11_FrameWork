@@ -1,22 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClCompile Include="ActorDlg.cpp" />
-    <ClCompile Include="AddCom.cpp" />
-    <ClCompile Include="AddCom_CreateCom.cpp" />
-    <ClCompile Include="ComDlg.cpp" />
-    <ClCompile Include="DropEditor.cpp" />
-    <ClCompile Include="HSpriteCut.cpp" />
-    <ClCompile Include="HToolDlg.cpp" />
-    <ClCompile Include="ImageSelectButton.cpp" />
-    <ClCompile Include="MenuDlg.cpp" />
-    <ClCompile Include="NoneComDlg.cpp" />
-    <ClCompile Include="SceneDlg.cpp" />
-    <ClCompile Include="SpRenderDlg.cpp" />
-    <ClCompile Include="SpriteDlg.cpp" />
-    <ClCompile Include="SpriteSelectDlg.cpp" />
-    <ClCompile Include="TabDlg.cpp" />
-    <ClCompile Include="TransDlg.cpp" />
     <ClCompile Include="stdafx.cpp">
       <Filter>00 MFC</Filter>
     </ClCompile>
@@ -35,12 +19,6 @@
     <ClCompile Include="Edit_Launcher.cpp">
       <Filter>02 Launcher</Filter>
     </ClCompile>
-    <ClCompile Include="ComView.cpp">
-      <Filter>01 SubWindow</Filter>
-    </ClCompile>
-    <ClCompile Include="ComView_DlgCreate.cpp">
-      <Filter>01 SubWindow</Filter>
-    </ClCompile>
     <ClCompile Include="View_Device.cpp">
       <Filter>01 SubWindow</Filter>
     </ClCompile>
@@ -50,23 +28,62 @@
     <ClCompile Include="Splitter_Edit.cpp">
       <Filter>01 SubWindow</Filter>
     </ClCompile>
+    <ClCompile Include="View_Component.cpp">
+      <Filter>01 SubWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="View_ComponentDE.cpp">
+      <Filter>01 SubWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="ActorDlg.cpp">
+      <Filter>99 Dialog\Legacy</Filter>
+    </ClCompile>
+    <ClCompile Include="AddCom.cpp">
+      <Filter>99 Dialog\Legacy</Filter>
+    </ClCompile>
+    <ClCompile Include="AddCom_CreateCom.cpp">
+      <Filter>99 Dialog\Legacy</Filter>
+    </ClCompile>
+    <ClCompile Include="ComDlg.cpp">
+      <Filter>99 Dialog\Legacy</Filter>
+    </ClCompile>
+    <ClCompile Include="DropEditor.cpp">
+      <Filter>99 Dialog\Legacy</Filter>
+    </ClCompile>
+    <ClCompile Include="HSpriteCut.cpp">
+      <Filter>99 Dialog\Legacy</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageSelectButton.cpp">
+      <Filter>99 Dialog\Legacy</Filter>
+    </ClCompile>
+    <ClCompile Include="NoneComDlg.cpp">
+      <Filter>99 Dialog\Legacy</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneDlg.cpp">
+      <Filter>99 Dialog\Legacy</Filter>
+    </ClCompile>
+    <ClCompile Include="SpRenderDlg.cpp">
+      <Filter>99 Dialog\Legacy</Filter>
+    </ClCompile>
+    <ClCompile Include="SpriteDlg.cpp">
+      <Filter>99 Dialog\Legacy</Filter>
+    </ClCompile>
+    <ClCompile Include="SpriteSelectDlg.cpp">
+      <Filter>99 Dialog\Legacy</Filter>
+    </ClCompile>
+    <ClCompile Include="TabDlg.cpp">
+      <Filter>99 Dialog\Legacy</Filter>
+    </ClCompile>
+    <ClCompile Include="Dlg_Editor.cpp">
+      <Filter>99 Dialog</Filter>
+    </ClCompile>
+    <ClCompile Include="Dlg_MainMenu.cpp">
+      <Filter>99 Dialog</Filter>
+    </ClCompile>
+    <ClCompile Include="Dlg_TransPosition.cpp">
+      <Filter>99 Dialog</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ActorDlg.h" />
-    <ClInclude Include="AddCom.h" />
-    <ClInclude Include="ComDlg.h" />
-    <ClInclude Include="DropEditor.h" />
-    <ClInclude Include="HSpriteCut.h" />
-    <ClInclude Include="HToolDlg.h" />
-    <ClInclude Include="ImageSelectButton.h" />
-    <ClInclude Include="MenuDlg.h" />
-    <ClInclude Include="NoneComDlg.h" />
-    <ClInclude Include="SceneDlg.h" />
-    <ClInclude Include="SpRenderDlg.h" />
-    <ClInclude Include="SpriteDlg.h" />
-    <ClInclude Include="SpriteSelectDlg.h" />
-    <ClInclude Include="TabDlg.h" />
-    <ClInclude Include="TransDlg.h" />
     <ClInclude Include="stdafx.h">
       <Filter>00 MFC</Filter>
     </ClInclude>
@@ -91,9 +108,6 @@
     <ClInclude Include="Edit_Launcher.h">
       <Filter>02 Launcher</Filter>
     </ClInclude>
-    <ClInclude Include="ComView.h">
-      <Filter>01 SubWindow</Filter>
-    </ClInclude>
     <ClInclude Include="View_Device.h">
       <Filter>01 SubWindow</Filter>
     </ClInclude>
@@ -102,6 +116,54 @@
     </ClInclude>
     <ClInclude Include="Splitter_Edit.h">
       <Filter>01 SubWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="View_Component.h">
+      <Filter>01 SubWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="ActorDlg.h">
+      <Filter>99 Dialog\Legacy</Filter>
+    </ClInclude>
+    <ClInclude Include="AddCom.h">
+      <Filter>99 Dialog\Legacy</Filter>
+    </ClInclude>
+    <ClInclude Include="ComDlg.h">
+      <Filter>99 Dialog\Legacy</Filter>
+    </ClInclude>
+    <ClInclude Include="DropEditor.h">
+      <Filter>99 Dialog\Legacy</Filter>
+    </ClInclude>
+    <ClInclude Include="HSpriteCut.h">
+      <Filter>99 Dialog\Legacy</Filter>
+    </ClInclude>
+    <ClInclude Include="ImageSelectButton.h">
+      <Filter>99 Dialog\Legacy</Filter>
+    </ClInclude>
+    <ClInclude Include="NoneComDlg.h">
+      <Filter>99 Dialog\Legacy</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneDlg.h">
+      <Filter>99 Dialog\Legacy</Filter>
+    </ClInclude>
+    <ClInclude Include="SpRenderDlg.h">
+      <Filter>99 Dialog\Legacy</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteDlg.h">
+      <Filter>99 Dialog\Legacy</Filter>
+    </ClInclude>
+    <ClInclude Include="SpriteSelectDlg.h">
+      <Filter>99 Dialog\Legacy</Filter>
+    </ClInclude>
+    <ClInclude Include="TabDlg.h">
+      <Filter>99 Dialog\Legacy</Filter>
+    </ClInclude>
+    <ClInclude Include="Dlg_Editor.h">
+      <Filter>99 Dialog</Filter>
+    </ClInclude>
+    <ClInclude Include="Dlg_MainMenu.h">
+      <Filter>99 Dialog</Filter>
+    </ClInclude>
+    <ClInclude Include="Dlg_TransPosition.h">
+      <Filter>99 Dialog</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -116,6 +178,12 @@
     </Filter>
     <Filter Include="02 Launcher">
       <UniqueIdentifier>{ef02636b-a17a-48d7-b95f-22036842d7b6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="99 Dialog">
+      <UniqueIdentifier>{e978ff1d-f1f5-47e6-b2e2-51b294bcc52c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="99 Dialog\Legacy">
+      <UniqueIdentifier>{db6045b9-117d-4912-b06f-47c2bbbf0e00}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

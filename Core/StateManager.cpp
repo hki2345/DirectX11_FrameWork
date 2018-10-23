@@ -40,7 +40,7 @@ void StateManager::Check_Abs(State* _NewScene)
 
 StateManager::StateManager(KWindow* _Window)
 {
-	Window(_Window);
+	kwindow(_Window);
 }
 
 StateManager::~StateManager()
@@ -120,7 +120,7 @@ KPtr<State> StateManager::Create_State(const wchar_t* _Name)
 	State* pNewScene = new State();
 	pNewScene->statemanager(this);
 	pNewScene->Name(_Name);
-	pNewScene->Window(Window());
+	pNewScene->kwindow(kwindow());
 	pNewScene->Set_Type();
 
 	Check_Abs(pNewScene);

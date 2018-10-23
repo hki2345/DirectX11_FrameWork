@@ -216,16 +216,16 @@
     <ClCompile Include="AddCom_CreateCom.cpp" />
     <ClCompile Include="KEditor.cpp" />
     <ClCompile Include="ComDlg.cpp" />
-    <ClCompile Include="ComView.cpp" />
-    <ClCompile Include="ComView_DlgCreate.cpp" />
+    <ClCompile Include="View_Component.cpp" />
+    <ClCompile Include="View_ComponentDE.cpp" />
     <ClCompile Include="DropEditor.cpp" />
     <ClCompile Include="HSpriteCut.cpp" />
     <ClCompile Include="Splitter_Edit.cpp" />
-    <ClCompile Include="HToolDlg.cpp" />
+    <ClCompile Include="Dlg_Editor.cpp" />
     <ClCompile Include="ImageSelectButton.cpp" />
     <ClCompile Include="View_Device.cpp" />
     <ClCompile Include="MainFrm.cpp" />
-    <ClCompile Include="MenuDlg.cpp" />
+    <ClCompile Include="Dlg_MainMenu.cpp" />
     <ClCompile Include="NoneComDlg.cpp" />
     <ClCompile Include="View_Edit.cpp" />
     <ClCompile Include="SceneDlg.cpp" />
@@ -236,7 +236,7 @@
     <ClCompile Include="TabDlg.cpp" />
     <ClCompile Include="Edit_Launcher.cpp" />
     <ClCompile Include="Edit_SUpdater.cpp" />
-    <ClCompile Include="TransDlg.cpp" />
+    <ClCompile Include="Dlg_TransPosition.cpp" />
     <ClCompile Include="Edit_Class.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -244,15 +244,15 @@
     <ClInclude Include="AddCom.h" />
     <ClInclude Include="KEditor.h" />
     <ClInclude Include="ComDlg.h" />
-    <ClInclude Include="ComView.h" />
+    <ClInclude Include="View_Component.h" />
     <ClInclude Include="DropEditor.h" />
     <ClInclude Include="HSpriteCut.h" />
     <ClInclude Include="Splitter_Edit.h" />
-    <ClInclude Include="HToolDlg.h" />
+    <ClInclude Include="Dlg_Editor.h" />
     <ClInclude Include="ImageSelectButton.h" />
     <ClInclude Include="View_Device.h" />
     <ClInclude Include="MainFrm.h" />
-    <ClInclude Include="MenuDlg.h" />
+    <ClInclude Include="Dlg_MainMenu.h" />
     <ClInclude Include="NoneComDlg.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="View_Edit.h" />
@@ -265,7 +265,7 @@
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Edit_Launcher.h" />
     <ClInclude Include="Edit_SUpdater.h" />
-    <ClInclude Include="TransDlg.h" />
+    <ClInclude Include="Dlg_TransPosition.h" />
     <ClInclude Include="Edit_Class.h" />
   </ItemGroup>
   <ItemGroup>

@@ -252,7 +252,7 @@ KPtr<TheOne> State::Create_One(const wchar_t* _pName /*= L"HObject"*/, int _Orde
 	pNewActor->Name(_pName);
 	pNewActor->order(_Order);
 	pNewActor->Set_Type();
-	pNewActor->Window(Window());
+	pNewActor->kwindow(kwindow());
 	pNewActor->state(this);
 	pNewActor->Add_Component<TransPosition>();
 
@@ -272,7 +272,7 @@ KPtr<TheOne> State::Create_OneNoneTrans(const wchar_t* _pName /*= L"HObject"*/, 
 	pNewActor->Name(_pName);
 	pNewActor->order(_Order);
 	pNewActor->Set_Type();
-	pNewActor->Window(Window());
+	pNewActor->kwindow(kwindow());
 	pNewActor->state(this);
 
 	ActorIter->second.push_back(pNewActor);
@@ -365,8 +365,8 @@ void State::OverPushActor(TheOne* _pActor)
 	ActorIter->second.push_back(_pActor);
 
 	// 랜더러를 다 넣어준다.
-	_pActor->OverPushRender(&RenderMgr);
-	_pActor->OverPushCol2D(&Col2DMgr);
+	_pActor->Insert_ABSRender(&RenderMgr);
+	_pActor->Insert_ABSCol2D(&Col2DMgr);
 }
 
 std::vector<KPtr<TheOne>> State::AllObjectList()
@@ -536,7 +536,7 @@ KPtr<TheOne> State::Create_One(ReadStream& _Stream, void(*_ComLoadPtr)(KPtr<TheO
 
 	TheOne* pNewActor = new TheOne();
 	pNewActor->Set_Type();
-	pNewActor->Window(Window());
+	pNewActor->kwindow(kwindow());
 	pNewActor->state(this);
 	pNewActor->order(ReadSize);
 
@@ -575,7 +575,7 @@ KPtr<TheOne> State::Create_One(ReadStream& _Stream, void(*_ComLoadPtr)(KPtr<TheO
 	for (size_t i = 0; i < ReadSize; i++)
 	{
 		KPtr<TheOne> ChildActor = Create_One(_Stream, _ComLoadPtr, false);
-		pNewActor->AddChild(ChildActor, true);
+		pNewActor->Add_Child(ChildActor, true);
 	}
 
 	return pNewActor;

@@ -93,9 +93,9 @@ bool Renderer_Grid::Init(int _Order /*= 0*/)
 		return false;
 	}
 
-	if (nullptr == Window()->Device().FindCB(L"GRIDDATA"))
+	if (nullptr == kwindow()->Device().FindCB(L"GRIDDATA"))
 	{
-		Window()->Device().CreateCB<KVector4>(L"GRIDDATA", D3D11_USAGE_DYNAMIC, 0);
+		kwindow()->Device().CreateCB<KVector4>(L"GRIDDATA", D3D11_USAGE_DYNAMIC, 0);
 	}
 
 	SetRSState(L"SNONE");

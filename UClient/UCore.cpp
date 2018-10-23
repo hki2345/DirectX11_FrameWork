@@ -53,6 +53,7 @@
 #include "StateManager.cpp"
 #include "Texture.cpp"
 #include "TheOne.cpp"
+#include "TheOne_Trans.cpp"
 #include "TimeManager.cpp"
 #include "TransPosition.cpp"
 #include "WriteStream.cpp"

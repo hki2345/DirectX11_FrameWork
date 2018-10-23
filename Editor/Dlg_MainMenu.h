@@ -6,15 +6,15 @@
 #include "TabDlg.h"
 
 
-// MenuDlg 대화 상자입니다.
+// Dlg_MainMenu 대화 상자입니다.
 
-class MenuDlg : public CDialogEx
+class Dlg_MainMenu : public CDialogEx
 {
-	DECLARE_DYNAMIC(MenuDlg)
+	DECLARE_DYNAMIC(Dlg_MainMenu)
 
 public:
-	MenuDlg(CWnd* pParent = NULL);   // 표준 생성자입니다.
-	virtual ~MenuDlg();
+	Dlg_MainMenu(CWnd* pParent = NULL);   // 표준 생성자입니다.
+	virtual ~Dlg_MainMenu();
 
 // 대화 상자 데이터입니다.
 #ifdef AFX_DESIGN_TIME
@@ -51,6 +51,8 @@ private:
 		TabMenu.InsertItem((int)m_VecDlg.size(), _ItemName);
 
 
+		// Dlg를 만들떄 변수가 거짓으로 들어 오면
+		// 해당 탭은 씬을 만들어주지 않는다. -> 업데이터 자체가 없다.
 		if (true == _IsSceneCreate)
 		{
 			KPtr<State> m_Scene = Core_Class::MainSceneMgr().Find_State(_ItemName.GetString());
@@ -78,7 +80,7 @@ private:
 		UpdateData(FALSE);
 	}
 
-	void ShowDlg(size_t _Index);
+	void Show_Dlg(size_t _Index);
 
 public:
 	afx_msg void OnTcnSelchangeMenutab(NMHDR *pNMHDR, LRESULT *pResult);

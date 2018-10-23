@@ -100,8 +100,8 @@ bool KDevice::Create_SwapChain()
 	DXGI_SWAP_CHAIN_DESC tDecs = {};
 
 	// 백버퍼의 크기
-	tDecs.BufferDesc.Width = (UINT)Window()->width_st();
-	tDecs.BufferDesc.Height = (UINT)Window()->height_st();
+	tDecs.BufferDesc.Width = (UINT)kwindow()->width_st();
+	tDecs.BufferDesc.Height = (UINT)kwindow()->height_st();
 
 	// 버퍼 갱신 주기및 버퍼의 개수
 	tDecs.BufferDesc.RefreshRate.Numerator = 60;
@@ -121,14 +121,14 @@ bool KDevice::Create_SwapChain()
 	tDecs.SampleDesc.Count = 1;
 	tDecs.SampleDesc.Quality = 0;
 
-	tDecs.OutputWindow = Window()->KHwnd();
+	tDecs.OutputWindow = kwindow()->KHwnd();
 
 	tDecs.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
 
 	tDecs.BufferCount = 1;
 
 	// 전체화면을 쓰느냐 마느냐?
-	tDecs.Windowed = !Window()->IsFull();
+	tDecs.Windowed = !kwindow()->IsFull();
 
 	// 이녀석들은 추후 설명하겠습니다.
 	// 스왑체인을 만들기 위해서 얻어다 줘야 하는 녀석들이라고
@@ -186,8 +186,8 @@ bool KDevice::Create_View()
 	D3D11_TEXTURE2D_DESC tDecs = {};
 
 	tDecs.ArraySize = 1;
-	tDecs.Width = (UINT)Window()->width_st();
-	tDecs.Height = (UINT)Window()->height_st();
+	tDecs.Width = (UINT)kwindow()->width_st();
+	tDecs.Height = (UINT)kwindow()->height_st();
 	tDecs.Format = DXGI_FORMAT_D24_UNORM_S8_UINT;
 	// 앞의 24비트는 float을 통해서 깊이를 체크하고
 	// 뒤의 8비트는 int형으로 비트단위 연산등을 통한
@@ -232,8 +232,8 @@ bool KDevice::Create_ViewPort()
 	tDecs.TopLeftX = 0;
 	tDecs.TopLeftY = 0;
 
-	tDecs.Width = (float)Window()->width_st();
-	tDecs.Height = (float)Window()->height_st();
+	tDecs.Width = (float)kwindow()->width_st();
+	tDecs.Height = (float)kwindow()->height_st();
 
 	tDecs.MinDepth = 0;
 	tDecs.MaxDepth = 1;

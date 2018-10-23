@@ -19,15 +19,15 @@ void TheOne::Set_Abs()
 {
 	m_AbsType = AT_ALLOVER;
 
-	if (true == Window()->statemanager.Find_Abs(this))
+	if (true == kwindow()->statemanager.Find_Abs(this))
 	{
 		return;
 	}
 
-	Window()->statemanager.m_ABSOneList.push_back(this);
+	kwindow()->statemanager.m_ABSOneList.push_back(this);
 
-	std::unordered_map<std::wstring, KPtr<State>>::iterator StartMapIter = Window()->statemanager.m_StateMap.begin();
-	std::unordered_map<std::wstring, KPtr<State>>::iterator EndMapIter = Window()->statemanager.m_StateMap.end();
+	std::unordered_map<std::wstring, KPtr<State>>::iterator StartMapIter = kwindow()->statemanager.m_StateMap.begin();
+	std::unordered_map<std::wstring, KPtr<State>>::iterator EndMapIter = kwindow()->statemanager.m_StateMap.end();
 
 	for (; StartMapIter != EndMapIter; ++StartMapIter)
 	{
@@ -247,7 +247,7 @@ void TheOne::Set_Death()
 	}
 }
 
-void TheOne::AddChild(KPtr<TheOne> _Actor, bool _TransWorld /*= true*/)
+void TheOne::Add_Child(KPtr<TheOne> _Actor, bool _TransWorld /*= true*/)
 {
 	if (AT_NONE != _Actor->abs_type())
 	{
@@ -322,7 +322,7 @@ void TheOne::Detach()
 
 #include "Renderer.h"
 
-void TheOne::OverPushRender(RenderManager* _pRenMgr)
+void TheOne::Insert_ABSRender(RenderManager* _pRenMgr)
 {
 	m_ComSI = m_ComList.begin();
 	m_ComEI = m_ComList.end();
@@ -341,11 +341,11 @@ void TheOne::OverPushRender(RenderManager* _pRenMgr)
 
 	for (; ChildStartIter != ChildEndIter; ++ChildStartIter)
 	{
-		(*ChildStartIter)->OverPushRender(_pRenMgr);
+		(*ChildStartIter)->Insert_ABSRender(_pRenMgr);
 	}
 }
 
-void TheOne::OverPushCol2D(HCol2DMgr* _pCol2DMgr)
+void TheOne::Insert_ABSCol2D(HCol2DMgr* _pCol2DMgr)
 {
 	m_ComSI = m_ComList.begin();
 	m_ComEI = m_ComList.end();
@@ -364,7 +364,7 @@ void TheOne::OverPushCol2D(HCol2DMgr* _pCol2DMgr)
 
 	for (; ChildStartIter != ChildEndIter; ++ChildStartIter)
 	{
-		(*ChildStartIter)->OverPushCol2D(_pCol2DMgr);
+		(*ChildStartIter)->Insert_ABSCol2D(_pCol2DMgr);
 	}
 }
 

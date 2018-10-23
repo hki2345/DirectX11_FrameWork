@@ -1,4 +1,4 @@
-#include "HFreeCamera.cpp"
+#include "Camera_Free.cpp"
 #include "IsoEditor.cpp"
 #include "IsoMapRender.cpp"
 #include "IsoMapRender_FindPath.cpp"

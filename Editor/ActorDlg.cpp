@@ -8,7 +8,7 @@
 #include <HSpRenderer.h>
 #include "Edit_Class.h"
 #include <HCol2D.h>
-#include "ComView.h"
+#include "View_Component.h"
 #include <IsoMapRender.h>
 #include <IsoEditor.h>
 
@@ -260,9 +260,9 @@ BOOL ActorDlg::OnInitDialog()
 
 	CCreateContext         m_context;
 
-	m_context.m_pNewViewClass = RUNTIME_CLASS(ComView);
+	m_context.m_pNewViewClass = RUNTIME_CLASS(View_Component);
 
-	ComView* pView = (ComView*)((CFrameWnd*)this)->CreateView(&m_context);
+	View_Component* pView = (View_Component*)((CFrameWnd*)this)->CreateView(&m_context);
 
 	RECT ComViewSize = { 200, 10, 700, 530 };
 	pView->ShowWindow(SW_SHOW);

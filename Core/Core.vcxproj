@@ -86,8 +86,10 @@
     <ClInclude Include="TimeManager.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="KFBX.cpp" />
     <ClCompile Include="ReadStream.cpp" />
     <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="TheOne_Trans.cpp" />
     <ClCompile Include="WriteStream.cpp" />
     <ClCompile Include="DXContainer.cpp" />
     <ClCompile Include="BaseStream.cpp" />
@@ -109,7 +111,7 @@
     <ClCompile Include="KDevice.cpp" />
     <ClCompile Include="HDevice_DefaultData.cpp" />
     <ClCompile Include="HDevice_DefaultData3D.cpp" />
-    <ClCompile Include="KFBX.cpp" />
+    <ClCompile Include="KFBX_Loader.cpp" />
     <ClCompile Include="KFont.cpp" />
     <ClCompile Include="KImage.cpp" />
     <ClCompile Include="Light.cpp" />

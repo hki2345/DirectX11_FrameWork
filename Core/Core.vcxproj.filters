@@ -369,6 +369,12 @@
     <ClCompile Include="SomeOne.cpp">
       <Filter>99 TheOne</Filter>
     </ClCompile>
+    <ClCompile Include="TheOne_Trans.cpp">
+      <Filter>98 Component\CoreCom</Filter>
+    </ClCompile>
+    <ClCompile Include="KFBX_Loader.cpp">
+      <Filter>03 Manager\Resource\Child\FBX</Filter>
+    </ClCompile>
     <ClCompile Include="KFBX.cpp">
       <Filter>03 Manager\Resource\Child\FBX</Filter>
     </ClCompile>

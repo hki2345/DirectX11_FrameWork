@@ -14,13 +14,13 @@ private:
 	KWindow* m_pWindow;
 
 public:
-	KWindow* Window() 
+	KWindow* kwindow() 
 	{
 		return m_pWindow;
 	}
 
 private:
-	void Window(KWindow* _pWindow)
+	void kwindow(KWindow* _pWindow)
 	{
 		m_pWindow = _pWindow;
 	}

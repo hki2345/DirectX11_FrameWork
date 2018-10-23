@@ -1,5 +1,5 @@
 #pragma once
-#include "MenuDlg.h"
+#include "Dlg_MainMenu.h"
 
 // View_Edit 뷰입니다.
 
@@ -12,7 +12,7 @@ protected:
 	virtual ~View_Edit();
 
 private:
-	MenuDlg MDlg;
+	Dlg_MainMenu MDlg;
 
 public:
 	virtual void OnDraw(CDC* pDC);      // 이 뷰를 그리기 위해 재정의되었습니다.

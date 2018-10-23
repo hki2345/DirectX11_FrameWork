@@ -105,7 +105,7 @@ public:
 		T* State_Updater = new T();
 		State_Updater->Set_Type();
 		State_Updater->state(this);
-		State_Updater->Window(Window());
+		State_Updater->kwindow(kwindow());
 
 		m_SUpdaterList.push_back(State_Updater);
 	}
@@ -120,7 +120,7 @@ public:
 
 		m_SBuilder = new T();
 		m_SBuilder->state(this);
-		m_SBuilder->Window(Window());
+		m_SBuilder->kwindow(kwindow());
 	}
 
 #pragma endregion

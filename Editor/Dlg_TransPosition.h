@@ -3,15 +3,15 @@
 #include <TransPosition.h>
 #include "DropEditor.h"
 
-// TransDlg 대화 상자입니다.
+// Dlg_TransPosition 대화 상자입니다.
 
-class TransDlg : public ComDlg
+class Dlg_TransPosition : public ComDlg
 {
-	DECLARE_DYNAMIC(TransDlg)
+	DECLARE_DYNAMIC(Dlg_TransPosition)
 
 public:
-	TransDlg(CWnd* pParent = NULL);   // 표준 생성자입니다.
-	virtual ~TransDlg();
+	Dlg_TransPosition(CWnd* pParent = NULL);   // 표준 생성자입니다.
+	virtual ~Dlg_TransPosition();
 
 // 대화 상자 데이터입니다.
 #ifdef AFX_DESIGN_TIME

@@ -58,7 +58,7 @@ KVector4 Camera::ScreenTo_World(KVector2 _ScreenPos)
 	{
 		KVector4 Pos;
 
-		KVector2 WinSize = Window()->size();
+		KVector2 WinSize = kwindow()->size();
 		//         1024               200
 		float fX = _ScreenPos.x / WinSize.x;
 		float fY = _ScreenPos.y / WinSize.y;
@@ -87,8 +87,8 @@ void Camera::FinalUpdate()
 	switch (m_eSMode)
 	{
 	case Camera::SM_WINDOW:
-		m_ScreenSize.x = Window()->width_f();
-		m_ScreenSize.y = Window()->height_f();
+		m_ScreenSize.x = kwindow()->width_f();
+		m_ScreenSize.y = kwindow()->height_f();
 		break;
 	default:
 		break;

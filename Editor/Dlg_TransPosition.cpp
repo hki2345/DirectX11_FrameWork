@@ -1,27 +1,27 @@
-// TransDlg.cpp : 구현 파일입니다.
+// Dlg_TransPosition.cpp : 구현 파일입니다.
 //
 
 #include "stdafx.h"
 #include "KEditor.h"
-#include "TransDlg.h"
+#include "Dlg_TransPosition.h"
 #include "afxdialogex.h"
 
 
-// TransDlg 대화 상자입니다.
+// Dlg_TransPosition 대화 상자입니다.
 
-IMPLEMENT_DYNAMIC(TransDlg, ComDlg)
+IMPLEMENT_DYNAMIC(Dlg_TransPosition, ComDlg)
 
-TransDlg::TransDlg(CWnd* pParent /*=NULL*/)
+Dlg_TransPosition::Dlg_TransPosition(CWnd* pParent /*=NULL*/)
 	: ComDlg(IDD_TRANSCOM, pParent), m_pTrans(nullptr)
 {
 	SIZEY = 180;
 }
 
-TransDlg::~TransDlg()
+Dlg_TransPosition::~Dlg_TransPosition()
 {
 }
 
-void TransDlg::DoDataExchange(CDataExchange* pDX)
+void Dlg_TransPosition::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
 
@@ -48,7 +48,7 @@ void TransDlg::DoDataExchange(CDataExchange* pDX)
 		{
 			NameXYZ[Y][X].pValue = &TransValue.m[Y][X];
 			NameXYZ[Y][X].Parent = this;
-			NameXYZ[Y][X].ValueChangeFunc(this, &TransDlg::Update_Trans);
+			NameXYZ[Y][X].ValueChangeFunc(this, &Dlg_TransPosition::Update_Trans);
 			DDX_Control(pDX, StartId, NameXYZ[Y][X]);
 
 			switch (X)
@@ -72,33 +72,33 @@ void TransDlg::DoDataExchange(CDataExchange* pDX)
 }
 
 
-BEGIN_MESSAGE_MAP(TransDlg, CDialogEx)
-	ON_BN_CLICKED(IDOK, &TransDlg::OnBnClickedOk)
-	ON_BN_CLICKED(IDCANCEL, &TransDlg::OnBnClickedCancel)
-	ON_CONTROL_RANGE(EN_SETFOCUS, IDC_POSX, IDC_SCALZ, &TransDlg::OnEnFocusTransValue)
-	ON_CONTROL_RANGE(EN_CHANGE, IDC_POSX, IDC_SCALZ, &TransDlg::OnEnChangeTransValue)
+BEGIN_MESSAGE_MAP(Dlg_TransPosition, CDialogEx)
+	ON_BN_CLICKED(IDOK, &Dlg_TransPosition::OnBnClickedOk)
+	ON_BN_CLICKED(IDCANCEL, &Dlg_TransPosition::OnBnClickedCancel)
+	ON_CONTROL_RANGE(EN_SETFOCUS, IDC_POSX, IDC_SCALZ, &Dlg_TransPosition::OnEnFocusTransValue)
+	ON_CONTROL_RANGE(EN_CHANGE, IDC_POSX, IDC_SCALZ, &Dlg_TransPosition::OnEnChangeTransValue)
 END_MESSAGE_MAP()
 
 
-// TransDlg 메시지 처리기입니다.
+// Dlg_TransPosition 메시지 처리기입니다.
 
 
-void TransDlg::OnBnClickedOk()
+void Dlg_TransPosition::OnBnClickedOk()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 }
 
 
-void TransDlg::OnBnClickedCancel()
+void Dlg_TransPosition::OnBnClickedCancel()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 }
 
-void TransDlg::OnEnFocusTransValue(UINT _Id) {
+void Dlg_TransPosition::OnEnFocusTransValue(UINT _Id) {
 	int a = 0;
 }
 
-void TransDlg::OnEnChangeTransValue(UINT _Id)
+void Dlg_TransPosition::OnEnChangeTransValue(UINT _Id)
 {
 	// TODO:  RICHEDIT 컨트롤인 경우, 이 컨트롤은
 	// ComDlg::OnInitDialog() 함수를 재지정 
@@ -111,6 +111,7 @@ void TransDlg::OnEnChangeTransValue(UINT _Id)
 
 	bool Check = false;
 
+	// 짱나게 0 일때 데이터 최신화를 하면 커서가 앞으로 이동함 ㅋㅋㅋㅋ
 	if (0.0f == TransValue.m[IndexY][IndexX])
 	{
 		Check = true;
@@ -131,7 +132,7 @@ void TransDlg::OnEnChangeTransValue(UINT _Id)
 	// TODO:  여기에 컨트롤 알림 처리기 코드를 추가합니다.
 }
 
-void TransDlg::SettingComponent(Component* _pCom) 
+void Dlg_TransPosition::SettingComponent(Component* _pCom) 
 {
 	if (_pCom->TypeInfo() != &typeid(TransPosition))
 	{
@@ -154,7 +155,7 @@ void TransDlg::SettingComponent(Component* _pCom)
 	UpdateData(FALSE);
 }
 
-void TransDlg::Update_Trans() 
+void Dlg_TransPosition::Update_Trans() 
 {
 
 	m_pTrans->pos_local(TransValue.v1);

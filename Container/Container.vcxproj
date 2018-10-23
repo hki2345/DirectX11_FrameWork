@@ -152,7 +152,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GameDataStruct.h" />
-    <ClInclude Include="HFreeCamera.h" />
+    <ClInclude Include="Camera_Free.h" />
     <ClInclude Include="IsoEditor.h" />
     <ClInclude Include="IsoMapRender.h" />
     <ClInclude Include="PixelChecker.h" />
@@ -161,7 +161,7 @@
     <ClInclude Include="TestSceneUpdater.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="HFreeCamera.cpp" />
+    <ClCompile Include="Camera_Free.cpp" />
     <ClCompile Include="IsoEditor.cpp" />
     <ClCompile Include="IsoMapRender.cpp" />
     <ClCompile Include="IsoMapRender_FindPath.cpp" />

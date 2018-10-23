@@ -1,15 +1,15 @@
 #pragma once
 #include "TabDlg.h"
 
-// HToolDlg 대화 상자입니다.
+// Dlg_Editor 대화 상자입니다.
 
-class HToolDlg : public TabDlg
+class Dlg_Editor : public TabDlg
 {
-	DECLARE_DYNAMIC(HToolDlg)
+	DECLARE_DYNAMIC(Dlg_Editor)
 
 public:
-	HToolDlg(CWnd* pParent = NULL);   // 표준 생성자입니다.
-	virtual ~HToolDlg();
+	Dlg_Editor(CWnd* pParent = NULL);   // 표준 생성자입니다.
+	virtual ~Dlg_Editor();
 
 // 대화 상자 데이터입니다.
 #ifdef AFX_DESIGN_TIME

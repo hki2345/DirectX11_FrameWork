@@ -50,7 +50,7 @@ public:
 		State* pNewScene = new State();
 		pNewScene->statemanager(this);
 		pNewScene->Name(_Name);
-		pNewScene->Window(Window());
+		pNewScene->kwindow(kwindow());
 		pNewScene->Set_Type();
 
 		Check_Abs(pNewScene);

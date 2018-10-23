@@ -2,16 +2,15 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClInclude Include="GameDataStruct.h" />
-    <ClInclude Include="HFreeCamera.h" />
     <ClInclude Include="IsoEditor.h" />
     <ClInclude Include="IsoMapRender.h" />
     <ClInclude Include="PixelChecker.h" />
     <ClInclude Include="TestPanzaLogic.h" />
     <ClInclude Include="TestSceneBuilder.h" />
     <ClInclude Include="TestSceneUpdater.h" />
+    <ClInclude Include="Camera_Free.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="HFreeCamera.cpp" />
     <ClCompile Include="IsoEditor.cpp" />
     <ClCompile Include="IsoMapRender.cpp" />
     <ClCompile Include="IsoMapRender_FindPath.cpp" />
@@ -19,6 +18,7 @@
     <ClCompile Include="TestPanzaLogic.cpp" />
     <ClCompile Include="TestSceneBuilder.cpp" />
     <ClCompile Include="TestSceneUpdater.cpp" />
+    <ClCompile Include="Camera_Free.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />

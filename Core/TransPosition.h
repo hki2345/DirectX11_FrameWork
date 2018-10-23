@@ -188,7 +188,7 @@ public:
 	KVector4 scale_local() const { return m_LScale; }
 
 	KVector4 scale_world() const { return m_WScale; }
-	const KVector4& CWScale() const { return m_WScale; }
+	const KVector4& scale_worldconst() const { return m_WScale; }
 
 	KVector4 rotate_local()	{ return m_LRot;	}
 	KVector4 rotate_world() { return m_WRot; }

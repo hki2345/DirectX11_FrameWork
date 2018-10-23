@@ -1,15 +1,15 @@
-// HToolDlg.cpp : 구현 파일입니다.
+// Dlg_Editor.cpp : 구현 파일입니다.
 //
 
 #include "stdafx.h"
 #include "KEditor.h"
-#include "HToolDlg.h"
+#include "Dlg_Editor.h"
 #include "afxdialogex.h"
 #include <Core_Class.h>
 #include <State.h>
 #include <TheOne.h>
 #include <Renderer_Rect.h>
-#include <HFreeCamera.h>
+#include <Camera_Free.h>
 #include <Renderer_Grid.h>
 #include <Renderer_Mesh.h>
 #include <ResourceManager.h>
@@ -17,48 +17,48 @@
 #include <Light.h>
 
 
-// HToolDlg 대화 상자입니다.
+// Dlg_Editor 대화 상자입니다.
 
-IMPLEMENT_DYNAMIC(HToolDlg, TabDlg)
+IMPLEMENT_DYNAMIC(Dlg_Editor, TabDlg)
 
-HToolDlg::HToolDlg(CWnd* pParent /*=NULL*/)
+Dlg_Editor::Dlg_Editor(CWnd* pParent /*=NULL*/)
 	: TabDlg(IDD_TOOLDLG, pParent)
 {
 
 }
 
-HToolDlg::~HToolDlg()
+Dlg_Editor::~Dlg_Editor()
 {
 }
 
-void HToolDlg::DoDataExchange(CDataExchange* pDX)
+void Dlg_Editor::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
 }
 
 
-BEGIN_MESSAGE_MAP(HToolDlg, TabDlg)
-	ON_BN_CLICKED(IDOK, &HToolDlg::OnBnClickedOk)
-	ON_BN_CLICKED(IDCANCEL, &HToolDlg::OnBnClickedCancel)
+BEGIN_MESSAGE_MAP(Dlg_Editor, TabDlg)
+	ON_BN_CLICKED(IDOK, &Dlg_Editor::OnBnClickedOk)
+	ON_BN_CLICKED(IDCANCEL, &Dlg_Editor::OnBnClickedCancel)
 END_MESSAGE_MAP()
 
 
-// HToolDlg 메시지 처리기입니다.
+// Dlg_Editor 메시지 처리기입니다.
 
 
-void HToolDlg::OnBnClickedOk()
+void Dlg_Editor::OnBnClickedOk()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 }
 
 
-void HToolDlg::OnBnClickedCancel()
+void Dlg_Editor::OnBnClickedCancel()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 }
 
 
-BOOL HToolDlg::OnInitDialog()
+BOOL Dlg_Editor::OnInitDialog()
 {
 	TabDlg::OnInitDialog();
 
@@ -79,7 +79,7 @@ BOOL HToolDlg::OnInitDialog()
 		KASSERT(true);
 	}
 
-	TabScene->Camera()->Add_Component<HFreeCamera>();
+	TabScene->Camera()->Add_Component<Camera_Free>();
 	TabScene->Camera()->Far(10000.0f);
 	TabScene->Camera()->one()->Trans()->pos_local(KVector4(0.0f, 10.0f, -20.0f));
 

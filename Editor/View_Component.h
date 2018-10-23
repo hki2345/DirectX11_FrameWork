@@ -4,15 +4,15 @@
 
 #include "ComDlg.h"
 
-// ComView 뷰입니다.
+// View_Component 뷰입니다.
 
-class ComView : public CScrollView
+class View_Component : public CScrollView
 {
-	DECLARE_DYNCREATE(ComView)
+	DECLARE_DYNCREATE(View_Component)
 
 protected:
-	ComView();           // 동적 만들기에 사용되는 protected 생성자입니다.
-	virtual ~ComView();
+	View_Component();           // 동적 만들기에 사용되는 protected 생성자입니다.
+	virtual ~View_Component();
 
 public:
 #ifdef _DEBUG

@@ -21,7 +21,7 @@ Renderer::~Renderer()
 }
 
 void Renderer::SetRSState(const wchar_t* _Name) {
-	m_RsState = Window()->Device().Find_RS(_Name);
+	m_RsState = kwindow()->Device().Find_RS(_Name);
 
 	if (nullptr == m_RsState)
 	{
@@ -87,7 +87,7 @@ void Renderer::RenderUpdate()
 
 void Renderer::RenderFinalUpdate() 
 {
-	Window()->Device().Reset_RS();
+	kwindow()->Device().Reset_RS();
 }
 
 void Renderer::Update_Trans(KPtr<Camera> _Camera)

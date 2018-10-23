@@ -1,36 +1,36 @@
-// ComView.cpp : 구현 파일입니다.
+// View_Component.cpp : 구현 파일입니다.
 //
 
 #include "stdafx.h"
 #include "KEditor.h"
-#include "ComView.h"
+#include "View_Component.h"
 #include "Edit_Class.h"
 #include "AddCom.h"
 
 
 
-// ComView
+// View_Component
 
-IMPLEMENT_DYNCREATE(ComView, CScrollView)
+IMPLEMENT_DYNCREATE(View_Component, CScrollView)
 
-ComView::ComView() : m_pActor(nullptr)
+View_Component::View_Component() : m_pActor(nullptr)
 {
 	Edit_Class::g_ComView = this;
 }
 
-ComView::~ComView()
+View_Component::~View_Component()
 {
 	AllDlgDestroy();
 }
 
 
-BEGIN_MESSAGE_MAP(ComView, CScrollView)
+BEGIN_MESSAGE_MAP(View_Component, CScrollView)
 END_MESSAGE_MAP()
 
 
-// ComView 그리기입니다.
+// View_Component 그리기입니다.
 
-void ComView::AllDlgDestroy() 
+void View_Component::AllDlgDestroy() 
 {
 	m_pActor = nullptr;
 	StartDlgiter = m_ComDlgList.begin();
@@ -51,7 +51,7 @@ void ComView::AllDlgDestroy()
 	m_ComDlgList.clear();
 }
 
-void ComView::OnInitialUpdate()
+void View_Component::OnInitialUpdate()
 {
 	CScrollView::OnInitialUpdate();
 
@@ -62,23 +62,23 @@ void ComView::OnInitialUpdate()
 
 }
 
-void ComView::OnDraw(CDC* pDC)
+void View_Component::OnDraw(CDC* pDC)
 {
 	CDocument* pDoc = GetDocument();
 	// TODO: 여기에 그리기 코드를 추가합니다.
 }
 
 
-// ComView 진단입니다.
+// View_Component 진단입니다.
 
 #ifdef _DEBUG
-void ComView::AssertValid() const
+void View_Component::AssertValid() const
 {
 	CScrollView::AssertValid();
 }
 
 #ifndef _WIN32_WCE
-void ComView::Dump(CDumpContext& dc) const
+void View_Component::Dump(CDumpContext& dc) const
 {
 	CScrollView::Dump(dc);
 }
@@ -86,8 +86,8 @@ void ComView::Dump(CDumpContext& dc) const
 #endif //_DEBUG
 
 
-// ComView 메시지 처리기입니다.
-void ComView::ActorSetting(TheOne* _pActor)
+// View_Component 메시지 처리기입니다.
+void View_Component::ActorSetting(TheOne* _pActor)
 {
 	m_pActor = _pActor;
 
@@ -95,7 +95,7 @@ void ComView::ActorSetting(TheOne* _pActor)
 }
 
 
-void ComView::Reset() 
+void View_Component::Reset() 
 {
 	TheOne* m_TempActor = m_pActor;
 
@@ -116,6 +116,7 @@ void ComView::Reset()
 	POINT Pos = { 0, 0 };
 	POINT Size = { 480, 0 };
 
+	// 일단 있는 컴퍼넌트 다하는 방식
 	AddCom* NewDlg = new AddCom();
 	NewDlg->m_pActor = m_pActor;
 	NewDlg->Create(IDD_ADDCOM, this);

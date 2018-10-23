@@ -6,6 +6,7 @@
 
 #define DRAW_FONT	DebugManager::Draw_Font
 #define DRAW_LOG	DebugManager::Draw_Log
+#define KLOG		DRAW_LOG
 
 
 class DebugManager
