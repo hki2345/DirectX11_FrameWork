@@ -11,6 +11,7 @@
 #define IDD_SPRITEDLG                   314
 #define IDD_ACTORDLG                    318
 #define IDD_TRANSCOM                    322
+#define IDD_DLGTRANS                    322
 #define IDD_NONECOM                     324
 #define IDD_ADDCOM                      328
 #define IDD_SPRENDER                    331

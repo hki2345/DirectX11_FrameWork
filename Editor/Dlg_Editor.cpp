@@ -16,6 +16,8 @@
 #include <KImage.h>
 #include <Light.h>
 
+#include "Edit_Class.h"
+
 
 // Dlg_Editor 대화 상자입니다.
 
@@ -62,15 +64,10 @@ BOOL Dlg_Editor::OnInitDialog()
 {
 	TabDlg::OnInitDialog();
 
-	// ResourceManager<Texture>::Load(L"Texture", L"BUMPTEST.png");
-	// ResourceManager<Texture>::Load(L"Texture", L"BUMPTEST_N.png");
-	// 
-	// ResourceManager<Texture>::Load(L"Texture", L"TILE_01.png");
-	// ResourceManager<Texture>::Load(L"Texture", L"TILE_01_N.png");
+	
 
-
-	FBXLoader FLoad;
-	FLoad.Load((PathManager::Find_ForderPathStr(L"Mesh") + L"BattleTest.FBX").c_str());
+	// FBXLoader FLoad;
+	// FLoad.Load((PathManager::Find_ForderPathStr(L"Mesh") + L"BattleTest.FBX").c_str());
 
 	KPtr<State> TabScene = Core_Class::MainSceneMgr().Find_State(SceneName.GetString());
 
@@ -116,6 +113,22 @@ BOOL Dlg_Editor::OnInitDialog()
 
 
 
+	CCreateContext         m_context;
+
+	m_context.m_pNewViewClass = RUNTIME_CLASS(View_Component);
+	View_Component* pView = (View_Component*)((CFrameWnd*)this)->CreateView(&m_context);
+
+	RECT ViewSize = { 200, 10, 700, 530 };
+	pView->ShowWindow(SW_SHOW);
+	pView->MoveWindow(&ViewSize);
+
+	Edit_Class::m_gVIewCom->Release_AllDlg();
+	Edit_Class::m_gVIewCom->Set_One(Light2);
+
+
+
+
+
 	KPtr<TheOne> GRIDACTOR = TabScene->Create_One();
 	GRIDACTOR->Trans()->rotate_world(KVector4(90.0f, 0.0f, 0.0f));
 	GRIDACTOR->Trans()->scale_world(KVector4(10000.0f, 10000.0f, 10000.0f));
@@ -132,9 +145,7 @@ BOOL Dlg_Editor::OnInitDialog()
 	PTRMESH1->material()->Insert_TexData(TEX_TYPE::TEX_COLOR, 0, L"TILE_01.png");
 	PTRMESH1->material()->Insert_TexData(TEX_TYPE::TEX_BUMP, 1, L"TILE_01_N.png");
 
-	// PTRMESH1->material()->Insert_TexData(TEX_TYPE::TEX_COLOR, 0, L"BUMPTEST.png");
-	// PTRMESH1->material()->Insert_TexData(TEX_TYPE::TEX_BUMP, 1, L"BUMPTEST_N.png");
-
+	
 	KPtr<TheOne> SPHERERIGHT = TabScene->Create_One();
 	SPHERERIGHT->Trans()->scale_local(KVector4(10.0f, 10.0f, 10.0f));
 	SPHERERIGHT->Trans()->pos_local(KVector4(15.0f, 0.0f, 0.0f));
@@ -142,14 +153,12 @@ BOOL Dlg_Editor::OnInitDialog()
 	//PTRMESH2->SetMat(L"PIXLIGHT3DMAT");
 	PTRMESH2->SetMesh(L"SPHERE");
 
-	//if (false == SetMat(L"RECT3DMAT"))
-	//{
-	//	return false;
-	//}
-	//if (false == SetMesh(L"RECT"))
-	//{
-	//	return false;
-	//}
+	KPtr<TheOne> CUBEMIDDLE = TabScene->Create_One();
+	CUBEMIDDLE->Trans()->scale_local(KVector4(10.0f, 10.0f, 10.0f));
+	CUBEMIDDLE->Trans()->pos_local(KVector4(.0f, 10.0f, 0.0f));
+	KPtr<Renderer_Mesh> PTRMESH3 = CUBEMIDDLE->Add_Component<Renderer_Mesh>();
+	PTRMESH3->SetMesh(L"CUBE");
+
 
 
 	return TRUE;  // return TRUE unless you set the focus to a control

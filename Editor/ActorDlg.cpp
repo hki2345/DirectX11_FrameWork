@@ -186,8 +186,8 @@ void ActorDlg::OnTvnSelchangedActortree(NMHDR *pNMHDR, LRESULT *pResult)
 
 	if (nullptr != pActor)
 	{
-		Edit_Class::g_ComView->AllDlgDestroy();
-		Edit_Class::g_ComView->ActorSetting(pActor);
+		Edit_Class::m_gVIewCom->Release_AllDlg();
+		Edit_Class::m_gVIewCom->Set_One(pActor);
 	}
 	// rc.left
 	
@@ -217,7 +217,7 @@ void ActorDlg::OnTvnKeydownActortree(NMHDR *pNMHDR, LRESULT *pResult)
 
 		if (nullptr != pActor)
 		{
-			Edit_Class::g_ComView->AllDlgDestroy();
+			Edit_Class::m_gVIewCom->Release_AllDlg();
 			pActor->Set_Death();
 			// KPtr<HSpRenderer> Ptr = pActor->Get_Component<HSpRenderer>();
 /*
@@ -294,7 +294,7 @@ void ActorDlg::OnNMRClickActortree(NMHDR *pNMHDR, LRESULT *pResult)
 	if (Pos.x < rc.left || Pos.x > rc.right || Pos.y < rc.top || Pos.y > rc.bottom)
 	{
 		m_SelectObject = nullptr;
-		Edit_Class::g_ComView->AllDlgDestroy();
+		Edit_Class::m_gVIewCom->Release_AllDlg();
 		m_ObjectTree.Select(nullptr, TVGN_CARET);
 		return;
 	}
@@ -322,7 +322,7 @@ void ActorDlg::OnNMClickActortree(NMHDR *pNMHDR, LRESULT *pResult)
 
 	if (Pos.x < rc.left || Pos.x > rc.right || Pos.y < rc.top || Pos.y > rc.bottom)
 	{
-		Edit_Class::g_ComView->AllDlgDestroy();
+		Edit_Class::m_gVIewCom->Release_AllDlg();
 		m_ObjectTree.Select(nullptr, TVGN_CARET);
 		return;
 	}

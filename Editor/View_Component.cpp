@@ -15,12 +15,12 @@ IMPLEMENT_DYNCREATE(View_Component, CScrollView)
 
 View_Component::View_Component() : m_pActor(nullptr)
 {
-	Edit_Class::g_ComView = this;
+	Edit_Class::m_gVIewCom = this;
 }
 
 View_Component::~View_Component()
 {
-	AllDlgDestroy();
+	Release_AllDlg();
 }
 
 
@@ -30,7 +30,7 @@ END_MESSAGE_MAP()
 
 // View_Component 그리기입니다.
 
-void View_Component::AllDlgDestroy() 
+void View_Component::Release_AllDlg() 
 {
 	m_pActor = nullptr;
 	StartDlgiter = m_ComDlgList.begin();
@@ -87,7 +87,7 @@ void View_Component::Dump(CDumpContext& dc) const
 
 
 // View_Component 메시지 처리기입니다.
-void View_Component::ActorSetting(TheOne* _pActor)
+void View_Component::Set_One(TheOne* _pActor)
 {
 	m_pActor = _pActor;
 
@@ -99,7 +99,7 @@ void View_Component::Reset()
 {
 	TheOne* m_TempActor = m_pActor;
 
-	AllDlgDestroy();
+	Release_AllDlg();
 
 	m_pActor = m_TempActor;
 

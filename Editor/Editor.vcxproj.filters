@@ -196,4 +196,7 @@
       <Filter>리소스 파일</Filter>
     </ResourceCompile>
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\Editor.ico" />
+  </ItemGroup>
 </Project>

@@ -65,7 +65,7 @@ void AddCom::OnBnClickedAddcom()
 
 	CreateCom(Name);
 
-	Edit_Class::g_ComView->Reset();
+	Edit_Class::m_gVIewCom->Reset();
 
 	UpdateData(FALSE);
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.

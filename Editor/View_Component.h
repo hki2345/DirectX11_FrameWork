@@ -37,8 +37,8 @@ public:
 	ComDlg* CreateDlg(const type_info* _Type);
 
 public:
-	void AllDlgDestroy();
-	void ActorSetting(TheOne* _pActor);
+	void Release_AllDlg();
+	void Set_One(TheOne* _pActor);
 	void Reset();
 };
 

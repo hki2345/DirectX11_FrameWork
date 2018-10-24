@@ -193,8 +193,8 @@ bool KDevice::Def3DCreate()
 }
 bool KDevice::Mesh3DCreate() {
 
-	////////////////////////////////// RECT
-#pragma region RectMeshCreate
+	/* Mesh */
+#pragma region Rect
 	VTX3D ArrVTX3D[4];
 	ArrVTX3D[0].Pos = KVector4(-0.5f, 0.5f, 0.0f, 1.0f);
 	ArrVTX3D[1].Pos = KVector4(0.5f, 0.5f, 0.0f, 1.0f);
@@ -227,195 +227,78 @@ bool KDevice::Mesh3DCreate() {
 		, IDX16::FM());
 #pragma endregion
 
-#pragma region BoxMeshCreate
+#pragma region Cube
 
-	// Á¤À°¸éÃ¼ ¸Å½¬ºÎÅÍ ¸¸µé¾î º¸ÀÚ.
-	std::vector<VTX3D> OverCube;
-	std::vector<WORD> OverIdx;
+	VTX3D Cube3D_Vert[8] = {};
+	IDX16 Cube3D_Idx[12] = {};
 
-	VTX3D V;
-	V.Pos = KVector4{ -0.5f, 0.5f, 0.5f, 1.0f };
-	V.Uv = KVector2{ 0.0f, 0.0f };
-	V.Color = KVector4{ 1.0f, 1.0f, 1.0f, 1.0f };
-	V.Normal = KVector4{ 0.0f, 1.0f, 0.0f, 0.0f };
-	OverCube.push_back(V);
+	Cube3D_Vert[0].Pos = KVector4(-0.5f, 0.5f, -0.5f, 1.0f);
+	Cube3D_Vert[1].Pos = KVector4(0.5f, 0.5f, -0.5f, 1.0f);
+	Cube3D_Vert[2].Pos = KVector4(-0.5f, -0.5f, -0.5f, 1.0f);
+	Cube3D_Vert[3].Pos = KVector4(0.5f, -0.5f, -0.5f, 1.0f);
+	Cube3D_Vert[4].Pos = KVector4(-0.5f, 0.5f, 0.5f, 1.0f);
+	Cube3D_Vert[5].Pos = KVector4(0.5f, 0.5f, 0.5f, 1.0f);
+	Cube3D_Vert[6].Pos = KVector4(-0.5f, -0.5f, 0.5f, 1.0f);
+	Cube3D_Vert[7].Pos = KVector4(0.5f, -0.5f, 0.5f, 1.0f);
 
-	V.Pos = KVector4{ 0.5f, 0.5f, 0.5f, 1.0f };
-	V.Uv = KVector2{ 0.0f, 0.0f };
-	V.Color = KVector4{ 1.0f, 1.0f, 1.0f, 1.0f };
-	V.Normal = KVector4{ 0.0f, 1.0f, 0.0f, 0.0f };
-	OverCube.push_back(V);
+	Cube3D_Vert[0].Normal = KVector4(-0.5f, 0.5f, -0.5f, .0f);
+	Cube3D_Vert[1].Normal = KVector4(0.5f, 0.5f, -0.5f, .0f);
+	Cube3D_Vert[2].Normal = KVector4(-0.5f, -0.5f, -0.5f, .0f);
+	Cube3D_Vert[3].Normal = KVector4(0.5f, -0.5f, -0.5f, .0f);
+	Cube3D_Vert[4].Normal = KVector4(-0.5f, 0.5f, 0.5f, .0f);
+	Cube3D_Vert[5].Normal = KVector4(0.5f, 0.5f, 0.5f, .0f);
+	Cube3D_Vert[6].Normal = KVector4(-0.5f, -0.5f, 0.5f, .0f);
+	Cube3D_Vert[7].Normal = KVector4(0.5f, -0.5f, 0.5f, .0f);
 
-	V.Pos = KVector4{ 0.5f, 0.5f, -0.5f, 1.0f };
-	V.Uv = KVector2{ 0.0f, 0.0f };
-	V.Color = KVector4{ 1.0f, 1.0f, 1.0f, 1.0f };
-	V.Normal = KVector4{ 0.0f, 1.0f, 0.0f, 0.0f };
-	OverCube.push_back(V);
+	for (size_t i = 0; i < 8; i++)
+	{
+		Cube3D_Vert[i].Normal.NormalizeVec3();
+	}
 
-	V.Pos = KVector4{ -0.5f, 0.5f, -0.5f, 1.0f };
-	V.Uv = KVector2{ 0.0f, 0.0f };
-	V.Color = KVector4{ 1.0f, 1.0f, 1.0f, 1.0f };
-	V.Normal = KVector4{ 0.0f, 1.0f, 0.0f, 0.0f };
-	OverCube.push_back(V);
+	Cube3D_Vert[0].Uv = KVector2(0.0f, 0.0f);
+	Cube3D_Vert[1].Uv = KVector2(1.0f, 0.0f);
+	Cube3D_Vert[2].Uv = KVector2(0.0f, 1.0f);
+	Cube3D_Vert[3].Uv = KVector2(1.0f, 1.0f);
+	Cube3D_Vert[4].Uv = KVector2(0.0f, 0.0f);
+	Cube3D_Vert[5].Uv = KVector2(1.0f, 0.0f);
+	Cube3D_Vert[6].Uv = KVector2(1.0f, 1.0f);
+	Cube3D_Vert[7].Uv = KVector2(0.0f, 1.0f);
 
-	// ¾Æ·§¸é
-	V.Pos = KVector4{ -0.5f, -0.5f, 0.5f, 1.0f };
-	V.Uv = KVector2{ 0.0f, 0.0f };
-	V.Color = KVector4{ 1.0f, 1.0f, 1.0f, 1.0f };
-	V.Normal = KVector4{ 0.0f, -1.0f, 0.0f, 0.0f };
-	OverCube.push_back(V);
-
-	V.Pos = KVector4{ 0.5f, -0.5f, 0.5f, 1.0f };
-	V.Uv = KVector2{ 0.0f, 0.0f };
-	V.Color = KVector4{ 1.0f, 1.0f, 1.0f, 1.0f };
-	V.Normal = KVector4{ 0.0f, -1.0f, 0.0f, 0.0f };
-	OverCube.push_back(V);
-
-	V.Pos = KVector4{ 0.5f, -0.5f, -0.5f, 1.0f };
-	V.Uv = KVector2{ 0.0f, 0.0f };
-	V.Color = KVector4{ 1.0f, 1.0f, 1.0f, 1.0f };
-	V.Normal = KVector4{ 0.0f, -1.0f, 0.0f, 0.0f };
-	OverCube.push_back(V);
-
-	V.Pos = KVector4{ -0.5f, -0.5f, -0.5f, 1.0f };
-	V.Uv = KVector2{ 0.0f, 0.0f };
-	V.Color = KVector4{ 1.0f, 1.0f, 1.0f, 1.0f };
-	V.Normal = KVector4{ 0.0f, -1.0f, 0.0f, 0.0f };
-	OverCube.push_back(V);
+	Cube3D_Vert[0].Color = KColor::White;
+	Cube3D_Vert[1].Color = KColor::White;
+	Cube3D_Vert[2].Color = KColor::White;
+	Cube3D_Vert[3].Color = KColor::White;
+	Cube3D_Vert[4].Color = KColor::White;
+	Cube3D_Vert[5].Color = KColor::White;
+	Cube3D_Vert[6].Color = KColor::White;
+	Cube3D_Vert[7].Color = KColor::White;
 
 
-	// ¿À¸¥ÂÊ
-	V.Pos = KVector4{ 0.5f, 0.5f, -0.5f, 1.0f };
-	V.Uv = KVector2{ 0.0f, 0.0f };
-	V.Color = KVector4{ 1.0f, 1.0f, 1.0f, 1.0f };
-	V.Normal = KVector4{ 1.0f, 0.0f, 0.0f, 0.0f };
-	OverCube.push_back(V);
 
-	V.Pos = KVector4{ 0.5f, 0.5f, 0.5f, 1.0f };
-	V.Uv = KVector2{ 0.0f, 0.0f };
-	V.Color = KVector4{ 1.0f, 1.0f, 1.0f, 1.0f };
-	V.Normal = KVector4{ 1.0f, 0.0f, 0.0f, 0.0f };
-	OverCube.push_back(V);
+	Cube3D_Idx[0] = IDX16(0, 3, 2);
+	Cube3D_Idx[1] = IDX16(0, 1, 3);
+	Cube3D_Idx[2] = IDX16(0, 2, 6);
+	Cube3D_Idx[3] = IDX16(0, 6, 4);
+	Cube3D_Idx[4] = IDX16(4, 1, 0);
+	Cube3D_Idx[5] = IDX16(4, 5, 1);
+	Cube3D_Idx[6] = IDX16(4, 6, 5);
+	Cube3D_Idx[7] = IDX16(5, 6, 7);
+	Cube3D_Idx[8] = IDX16(1, 7, 3);
+	Cube3D_Idx[9] = IDX16(1, 5, 7);
+	Cube3D_Idx[10] = IDX16(7, 6, 3);
+	Cube3D_Idx[11] = IDX16(2, 3, 6);
 
-	V.Pos = KVector4{ 0.5f, -0.5f, 0.5f, 1.0f };
-	V.Uv = KVector2{ 0.0f, 0.0f };
-	V.Color = KVector4{ 1.0f, 1.0f, 1.0f, 1.0f };
-	V.Normal = KVector4{ 1.0f, 0.0f, 0.0f, 0.0f };
-	OverCube.push_back(V);
 
-	V.Pos = KVector4{ 0.5f, -0.5f, -0.5f, 1.0f };
-	V.Uv = KVector2{ 0.0f, 0.0f };
-	V.Color = KVector4{ 1.0f, 1.0f, 1.0f, 1.0f };
-	V.Normal = KVector4{ 1.0f, 0.0f, 0.0f, 0.0f };
-	OverCube.push_back(V);
-
-	// ¿ÞÂÊ
-	V.Pos = KVector4{ -0.5f, 0.5f, -0.5f, 1.0f };
-	V.Uv = KVector2{ 0.0f, 0.0f };
-	V.Color = KVector4{ 1.0f, 1.0f, 1.0f, 1.0f };
-	V.Normal = KVector4{ -1.0f, 0.0f, 0.0f, 0.0f };
-	OverCube.push_back(V);
-
-	V.Pos = KVector4{ -0.5f, 0.5f, 0.5f, 1.0f };
-	V.Uv = KVector2{ 0.0f, 0.0f };
-	V.Color = KVector4{ 1.0f, 1.0f, 1.0f, 1.0f };
-	V.Normal = KVector4{ -1.0f, 0.0f, 0.0f, 0.0f };
-	OverCube.push_back(V);
-
-	V.Pos = KVector4{ -0.5f, -0.5f, 0.5f, 1.0f };
-	V.Uv = KVector2{ 0.0f, 0.0f };
-	V.Color = KVector4{ 1.0f, 1.0f, 1.0f, 1.0f };
-	V.Normal = KVector4{ -1.0f, 0.0f, 0.0f, 0.0f };
-	OverCube.push_back(V);
-
-	V.Pos = KVector4{ -0.5f, -0.5f, -0.5f, 1.0f };
-	V.Uv = KVector2{ 0.0f, 0.0f };
-	V.Color = KVector4{ 1.0f, 1.0f, 1.0f, 1.0f };
-	V.Normal = KVector4{ -1.0f, 0.0f, 0.0f, 0.0f };
-	OverCube.push_back(V);
-
-	// ¾Õ
-	V.Pos = KVector4{ -0.5f, 0.5f, 0.5f, 1.0f };
-	V.Uv = KVector2{ 0.0f, 0.0f };
-	V.Color = KVector4{ 1.0f, 1.0f, 1.0f, 1.0f };
-	V.Normal = KVector4{ 0.0f, 0.0f, -1.0f, 0.0f };
-	OverCube.push_back(V);
-
-	V.Pos = KVector4{ 0.5f, 0.5f, 0.5f, 1.0f };
-	V.Uv = KVector2{ 0.0f, 0.0f };
-	V.Color = KVector4{ 1.0f, 1.0f, 1.0f, 1.0f };
-	V.Normal = KVector4{ 0.0f, 0.0f, -1.0f, 0.0f };
-	OverCube.push_back(V);
-
-	V.Pos = KVector4{ 0.5f, -0.5f, 0.5f, 1.0f };
-	V.Uv = KVector2{ 0.0f, 0.0f };
-	V.Color = KVector4{ 1.0f, 1.0f, 1.0f, 1.0f };
-	V.Normal = KVector4{ 0.0f, 0.0f, -1.0f, 0.0f };
-	OverCube.push_back(V);
-
-	V.Pos = KVector4{ -0.5f, -0.5f, 0.5f, 1.0f };
-	V.Uv = KVector2{ 0.0f, 0.0f };
-	V.Color = KVector4{ 1.0f, 1.0f, 1.0f, 1.0f };
-	V.Normal = KVector4{ 0.0f, 0.0f, -1.0f, 0.0f };
-	OverCube.push_back(V);
-
-	// µÚ
-	V.Pos = KVector4{ -0.5f, 0.5f, -0.5f, 1.0f };
-	V.Uv = KVector2{ 0.0f, 0.0f };
-	V.Color = KVector4{ 1.0f, 1.0f, 1.0f, 1.0f };
-	V.Normal = KVector4{ 0.0f, 0.0f, 1.0f, 0.0f };
-	OverCube.push_back(V);
-
-	V.Pos = KVector4{ 0.5f, 0.5f, -0.5f, 1.0f };
-	V.Uv = KVector2{ 0.0f, 0.0f };
-	V.Color = KVector4{ 1.0f, 1.0f, 1.0f, 1.0f };
-	V.Normal = KVector4{ 0.0f, 0.0f, 1.0f, 0.0f };
-	OverCube.push_back(V);
-
-	V.Pos = KVector4{ 0.5f, -0.5f, -0.5f, 1.0f };
-	V.Uv = KVector2{ 0.0f, 0.0f };
-	V.Color = KVector4{ 1.0f, 1.0f, 1.0f, 1.0f };
-	V.Normal = KVector4{ 0.0f, 0.0f, 1.0f, 0.0f };
-	OverCube.push_back(V);
-
-	V.Pos = KVector4{ -0.5f, -0.5f, -0.5f, 1.0f };
-	V.Uv = KVector2{ 0.0f, 0.0f };
-	V.Color = KVector4{ 1.0f, 1.0f, 1.0f, 1.0f };
-	V.Normal = KVector4{ 0.0f, 0.0f, 1.0f, 0.0f };
-	OverCube.push_back(V);
-
-	// À­¸é ÀÎµ¦½º
-	OverIdx.push_back(0); OverIdx.push_back(1); OverIdx.push_back(2);
-	OverIdx.push_back(0); OverIdx.push_back(2); OverIdx.push_back(3);
-
-	// ¾Æ·§¸é
-	OverIdx.push_back(6); OverIdx.push_back(5); OverIdx.push_back(4);
-	OverIdx.push_back(6); OverIdx.push_back(4); OverIdx.push_back(7);
-
-	// ¿À¸¥ÂÊ
-	OverIdx.push_back(8); OverIdx.push_back(9); OverIdx.push_back(10);
-	OverIdx.push_back(8); OverIdx.push_back(10); OverIdx.push_back(11);
-
-	// ¿ÞÂÊ ¸é
-	OverIdx.push_back(13); OverIdx.push_back(12); OverIdx.push_back(15);
-	OverIdx.push_back(13); OverIdx.push_back(15); OverIdx.push_back(14);
-
-	// ¾Õ¸é
-	OverIdx.push_back(17); OverIdx.push_back(16); OverIdx.push_back(19);
-	OverIdx.push_back(17); OverIdx.push_back(19); OverIdx.push_back(18);
-
-	// µÞ¸é
-	OverIdx.push_back(20); OverIdx.push_back(21); OverIdx.push_back(22);
-	OverIdx.push_back(20); OverIdx.push_back(22); OverIdx.push_back(23);
-
-	ResourceManager<KMesh>::Create(L"CUBE"
-		, (UINT)OverCube.size(), (UINT)VTX3D::TypeSize(), D3D11_USAGE_DYNAMIC, &OverCube[0]
-		, (UINT)OverIdx.size(), (UINT)IDX16::MemberSize(), D3D11_USAGE_DEFAULT, &OverIdx[0]
-		, IDX16::FM());
+	ResourceManager<KMesh>::Create(L"CUBE",
+		8, (UINT)sizeof(VTX3D), D3D11_USAGE_DYNAMIC, Cube3D_Vert,
+		36, (UINT)IDX16::MemberSize(), D3D11_USAGE_DEFAULT, Cube3D_Idx,
+		IDX16::FM()/*, D3D11_PRIMITIVE_TOPOLOGY::D3D10_PRIMITIVE_TOPOLOGY_LINESTRIP*/);
 
 #pragma endregion
 
-#pragma region SphereMeshCreate
+#pragma region Sphere
+	VTX3D V;
+	
 	std::vector<VTX3D> SphereVtx;
 	std::vector<UINT> SphereIdx;
 

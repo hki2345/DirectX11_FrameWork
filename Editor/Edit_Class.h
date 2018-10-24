@@ -14,7 +14,7 @@ public:
 	static SceneDlg* SceneDlg;
 	static SpriteDlg* SpDlg;
 	static ActorDlg* ADlg;
-	static View_Component* g_ComView;
+	static View_Component* m_gVIewCom;
 
 private:
 	Edit_Class();

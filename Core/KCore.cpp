@@ -85,6 +85,7 @@ void KCore::Init_Core(HINSTANCE _Hinst, const wchar_t* _pMainWindowName, HWND _h
 	
 
 	Core_Class::MainWindow(_pMainWindowName);
+	FBXLoader::Init_FBXLoader();
 	SoundDevice::Init();
 	PathManager::Init();
 	TimeManager::Init();

@@ -21,6 +21,7 @@
 #include "KCore.cpp"
 #include "KDevice.cpp"
 #include "KFBX.cpp"
+#include "KFBX_Loader.cpp"
 #include "KFont.cpp"
 #include "KImage.cpp"
 #include "KMaterial.cpp"
