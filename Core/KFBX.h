@@ -24,7 +24,7 @@
 class KeyFrame
 {
 public:
-	FbxMatrix	FrameMatrix;
+	FbxMatrix	MX_Frame;
 	double		KeyTime;
 };
 
@@ -35,8 +35,8 @@ public:
 	KUINT Depth;
 	KUINT Index;
 	KBone* m_pPBone;
-	FbxMatrix Offset;
-	FbxMatrix offsetMatrix;
+	FbxAMatrix Offset_MX;
+	FbxAMatrix Bone_MX;
 	std::vector<KeyFrame> KFVec;
 };
 
@@ -62,7 +62,7 @@ public:
 	Matrial_Info Info;
 	std::wstring MName;
 	std::wstring Diff;
-	std::wstring Bump;
+	std::wstring Ambi;
 	std::wstring Spec;
 	std::wstring Emiv;
 };
@@ -133,14 +133,14 @@ public:
 	// 리저브는 확보하는 개념이라면, 리사이즈는 때려 박는 식
 	void Set_VertexCount(const KUINT& _Count)
 	{
-		PosVec.reserve(_Count);
-		NormalVec.reserve(_Count);
-		TangentVec.reserve(_Count);
-		BinormalVec.reserve(_Count);
-		UvVec.reserve(_Count);
-		IndicesVec.reserve(_Count);
-		WeightsVec.reserve(_Count);
-		WIVec.reserve(_Count);
+		PosVec.resize(_Count);
+		NormalVec.resize(_Count);
+		TangentVec.resize(_Count);
+		BinormalVec.resize(_Count);
+		UvVec.resize(_Count);
+		IndicesVec.resize(_Count);
+		WeightsVec.resize(_Count);
+		WIVec.resize(_Count);
 	}
 };
 
@@ -187,7 +187,7 @@ public:
 
 	// Ani
 	FbxArray<FbxString*> AniName_Arr;
-	std::vector<std::wstring, Animation_Info*> Ani_Map;
+	std::map<std::wstring, Animation_Info*> Ani_Map;
 	
 	// 애니메이션 서브셋(초기값)에 대한 정보도 저장하기 위함
 	std::vector<Animation_Info*> Ani_Vec;
@@ -210,7 +210,7 @@ public:
 	// 반사 메트릭스 - 변형된 애니메이션에
 	// 이 행렬을 곱하게되면 OFfset이 나온다.
 private:
-	static FbxAMatrix m_MReflect;
+	static FbxAMatrix MX_Reflect;
 
 public:
 	FbxManager* m_pManager;
@@ -245,13 +245,14 @@ public:
 	void Set_WeightIndices(FbxCluster* _pC, KBone* _pBone, Mesh_FbxData* _pMeshData);
 	void Set_OffSetMatrix(FbxCluster* _pC, KBone* _pBone, Mesh_FbxData* _pMeshData);
 	void Set_FrameMatrix(FbxNode* _pNode, FbxCluster* _pC, KBone* _pBone, Mesh_FbxData* _pMeshData);
-	void WICheck(FbxMesh* _pMesh, Mesh_FbxData* _pMeshData);
+	void Check_WI(FbxMesh* _pMesh, Mesh_FbxData* _pMeshData);
 
-	// 
+	// 재질의 색상과 -> 고유 색깔 거기에 어떤 색을 곱할지 결정
 	KVector Get_MaterialColor(FbxSurfaceMaterial* _pFbxMatData,
-		const char* _pMtrlName,
-		const char* _pMtrlColorName);
+		const char* _pMtrlColorName,
+		const char* _pMtrlFactorName);
 
+	// 사용하고 있는 텍스쳐를 가져옴
 	std::wstring Get_MaterialTexName(FbxSurfaceMaterial* _pFbxMatData,
 		const char* _pMtrlTexName);
 

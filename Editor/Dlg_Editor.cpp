@@ -66,8 +66,8 @@ BOOL Dlg_Editor::OnInitDialog()
 
 	
 
-	// FBXLoader FLoad;
-	// FLoad.Load((PathManager::Find_ForderPathStr(L"Mesh") + L"BattleTest.FBX").c_str());
+	FBXLoader FLoad;
+	FLoad.Load_FBX((PathManager::Find_ForderPathStr(L"Mesh") + L"BattleTest2.FBX").c_str());
 
 	KPtr<State> TabScene = Core_Class::MainSceneMgr().Find_State(SceneName.GetString());
 
