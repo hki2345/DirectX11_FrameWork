@@ -14,7 +14,7 @@ FBXLoader::~FBXLoader()
 }
 
 
-void FBXLoader::Load(const wchar_t* _Path)
+void FBXLoader::Load_FBX(const wchar_t* _Path)
 {
 	m_pNewFbx = new KFBX();
 	m_pManager = FbxManager::Create();
