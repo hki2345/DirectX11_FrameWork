@@ -62,7 +62,7 @@ public:
 	Matrial_Info Info;
 	std::wstring MName;
 	std::wstring Diff;
-	std::wstring Ambi;
+	std::wstring Bump;
 	std::wstring Spec;
 	std::wstring Emiv;
 };
@@ -72,14 +72,13 @@ class WI
 {
 public:
 	int BoneIdx;
-	int IndiIdx;
+	int Indices;
 	double dWeight;
 };
 
 class Vertex_FbxData
 {
 public:
-	std::wstring Nmae;
 	KVector m_Pos;
 	KVector m_Normal;
 	KVector m_Tangent;
@@ -90,8 +89,6 @@ public:
 	KVector m_Indices;
 	// 가중치 정보 - 애니메이션 전환 간 이전 혹은 다음 애니메이션을 얼마나 섞을 것이냐
 	KVector m_Weights;
-
-	bool m_bAni;
 };
 
 class Mesh_FbxData
@@ -107,13 +104,7 @@ public:
 
 public:
 	std::wstring MName;
-
-	std::vector<KVector> PosVec;
-	std::vector<KVector> NormalVec;
-	std::vector<KVector> TangentVec;
-	std::vector<KVector> BinormalVec;
-	std::vector<KVector2> UvVec;
-
+	std::vector<Vertex_FbxData> VertVec;
 	std::vector<std::vector<KUINT>> IdxVec;
 	std::vector<Material_FbxData*> m_MaterialVec;
 
@@ -124,8 +115,6 @@ public:
 	// 계산하게 된다. - 2D 본 애니메이션 생각하면 쉬움
 
 	// 마지막 인덱스와 해당 인덱스의 가중치를 가지는 클래스도 관리한다.
-	std::vector<KVector> IndicesVec;
-	std::vector<KVector> WeightsVec;
 	std::vector<std::vector<WI>> WIVec;
 
 
@@ -133,13 +122,7 @@ public:
 	// 리저브는 확보하는 개념이라면, 리사이즈는 때려 박는 식
 	void Set_VertexCount(const KUINT& _Count)
 	{
-		PosVec.resize(_Count);
-		NormalVec.resize(_Count);
-		TangentVec.resize(_Count);
-		BinormalVec.resize(_Count);
-		UvVec.resize(_Count);
-		IndicesVec.resize(_Count);
-		WeightsVec.resize(_Count);
+		VertVec.resize(_Count);
 		WIVec.resize(_Count);
 	}
 };
@@ -170,10 +153,6 @@ public:
 		{
 			delete MeshData_Vec[i];
 		}
-		for (int i = 0; i < AniName_Arr.GetCount(); i++)
-		{
-			delete AniName_Arr[i];
-		}
 		for (size_t i = 0; i < Ani_Vec.size(); i++)
 		{
 			delete Ani_Vec[i];
@@ -186,7 +165,6 @@ public:
 	std::multimap<std::wstring, KBone*> Bone_Map;
 
 	// Ani
-	FbxArray<FbxString*> AniName_Arr;
 	std::map<std::wstring, Animation_Info*> Ani_Map;
 	
 	// 애니메이션 서브셋(초기값)에 대한 정보도 저장하기 위함
@@ -205,7 +183,10 @@ public:
 	~FBXLoader();
 
 public:
-	static void Init_FBXLoader();
+		static void Init_FBXLoader();
+		static KMatrix FMXtoKMX(const FbxMatrix& _Mat);
+		static KVector FVectoKVec(const FbxVector4& _Value);
+		static KVector FQTtoKVec(const FbxQuaternion& _Value);
 
 	// 반사 메트릭스 - 변형된 애니메이션에
 	// 이 행렬을 곱하게되면 OFfset이 나온다.
@@ -218,20 +199,22 @@ public:
 	KFBX* m_pNewFbx;
 	KUINT	m_BoneCnt;
 
-public:
+private:
+	void Check_AllBoneCnt(FbxNode* _pNode);
+
 	// 기본 세팅 - 데이터의 확인 유무와 정상적인 파일 혹은 보정
 	void Load_FBX(const wchar_t* _Path);
-	void Count_AllBone(FbxNode* _pNode);
 
 	// 본 얻어오기
 	void Load_Bone(FbxNode* _pNode, KUINT _Depth, KBone* _pParent);
 	
 	// 애니메이션 및 삼각화 - 삼각화가 되어야 그려지겠지
 	void Check_Animation();
-	void Triangulate(FbxNode* _pNode);
+	void Triangulate( FbxNode* _pNode);
 	
 	// 재질 정보
-	void Set_Material(FbxNode* _pNode);
+	void Set_Material(Mesh_FbxData* _pMD, FbxSurfaceMaterial* _pNode);
+	void Set_Mesh(Mesh_FbxData* _pMD, FbxMesh* _pNode);
 
 	// 메쉬
 	void Set_MeshData(FbxNode* _pNode);

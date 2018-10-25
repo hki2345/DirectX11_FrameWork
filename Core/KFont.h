@@ -30,6 +30,6 @@ private:
 
 public:
 	bool Create(const wchar_t* _FontName);
-	void Draw_Font(wchar_t* _pStr, KVector2 _Pos, float _fSize, UINT _COLOR, FW1_TEXT_FLAG _Flag = FW1_TEXT_FLAG::FW1_TOP);
+	void Draw_Font(wchar_t* _pStr, KVector2 _Pos, float _fSize, KUINT _COLOR, FW1_TEXT_FLAG _Flag = FW1_TEXT_FLAG::FW1_TOP);
 };
 

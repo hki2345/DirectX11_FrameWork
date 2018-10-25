@@ -20,6 +20,9 @@ private:
 	ID3D11RenderTargetView*			m_pRTV;
 	ID3D11DepthStencilView*			m_pDSV;
 
+	// 텍스쳐를 간헐적으로 데이터를 찍기위함 
+	D3D11_MAPPED_SUBRESOURCE SubData;
+
 public:
 	float Width() { return (float)m_Image.GetMetadata().width; }
 	float Height() { return (float)m_Image.GetMetadata().height; }
@@ -39,6 +42,7 @@ public:
 	bool Create(ID3D11Texture2D* _pTex2D, UINT _BindFlag);
 
 public:
+	void Set_Pixel(void* Src, size_t _Size);
 	bool Load();
 
 public:

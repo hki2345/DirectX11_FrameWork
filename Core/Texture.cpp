@@ -27,6 +27,7 @@ Texture::Texture() :
 	m_pRTV(nullptr),
 	m_pDSV(nullptr)
 {
+	SubData = D3D11_MAPPED_SUBRESOURCE();
 }
 
 
@@ -199,3 +200,20 @@ void Texture::Set_View(UINT _BindFlag)
 	}
 }
 
+void Texture::Set_Pixel(void* _pSrc, size_t _Size)
+{
+	size_t TexSize = VS_Format::Size_Format(m_Image.GetMetadata().format) *
+		m_Image.GetMetadata().width * m_Image.GetMetadata().height;
+
+	if (TexSize < _Size)
+	{
+		return;
+	}
+
+
+	// 텍스쳐를 그리는 녀석-> 이녀석이 저장되면 png가 되는 것이다.
+	Core_Class::Context()->Map(m_pTex2D, 0, D3D11_MAP_WRITE_DISCARD, 0, &SubData);
+
+	memcpy_s(SubData.pData, TexSize, _pSrc, _Size);
+	Core_Class::Context()->Unmap(m_pTex2D, 0);
+}

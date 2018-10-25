@@ -61,7 +61,7 @@ void FBXLoader::Load_FBX(const wchar_t* _Path)
 		m_pScene->GetGlobalSettings().SetAxisSystem(FbxAxisSystem::eMax);
 	}
 
-	Count_AllBone(m_pScene->GetRootNode());
+	Check_AllBoneCnt(m_pScene->GetRootNode());
 
 	// 본 개수 만큼 벡터 맞추기
 	m_pNewFbx->Bone_Vec.reserve(m_BoneCnt);
@@ -86,13 +86,13 @@ void FBXLoader::Load_FBX(const wchar_t* _Path)
 }
 
 // 제귀 돌려서 본의 전체 개수를 알아온다.
-void FBXLoader::Count_AllBone(FbxNode* _pNode)
+void FBXLoader::Check_AllBoneCnt(FbxNode* _pNode)
 {
 	++m_BoneCnt;
 	int Cnt = _pNode->GetChildCount();
 	for (int i = 0; i < Cnt; i++)
 	{
-		Count_AllBone(_pNode->GetChild(i));
+		Check_AllBoneCnt(_pNode->GetChild(i));
 	}
 }
 void FBXLoader::Load_Bone(FbxNode* _pNode, KUINT _Depth, KBone* _pParent)
@@ -128,11 +128,12 @@ void FBXLoader::Load_Bone(FbxNode* _pNode, KUINT _Depth, KBone* _pParent)
 
 void FBXLoader::Check_Animation()
 {
-	m_pScene->FillAnimStackNameArray(m_pNewFbx->AniName_Arr);
+	FbxArray<FbxString*> AniNameArr;
+	m_pScene->FillAnimStackNameArray(AniNameArr);
 
-	for (int i = 0; i < m_pNewFbx->AniName_Arr.GetCount(); i++)
+	for (int i = 0; i < AniNameArr.GetCount(); i++)
 	{
-		FbxAnimStack* TempStack = m_pScene->FindMember<FbxAnimStack>(m_pNewFbx->AniName_Arr[i]->Buffer());
+		FbxAnimStack* TempStack = m_pScene->FindMember<FbxAnimStack>(AniNameArr[i]->Buffer());
 
 		// 애니메이션이 없을 수도 있다 -> 건물 같은거
 		if (nullptr == TempStack)
@@ -160,6 +161,10 @@ void FBXLoader::Check_Animation()
 		m_pNewFbx->Ani_Map.insert(std::map<std::wstring, Animation_Info*>::value_type(NewInfo->Name, NewInfo));
 	}
 
+	for (int i = 0; i < AniNameArr.GetCount(); i++)
+	{
+		delete AniNameArr[i];
+	}
 }
 void FBXLoader::Triangulate(FbxNode* _pNode)
 {
@@ -202,105 +207,11 @@ void FBXLoader::Set_MeshData(FbxNode* _pNode)
 			m_pNewFbx->MeshData_Vec.push_back(NewMD);
 
 			NewMD->MName = CA2W(pMesh->GetName(), CP_UTF8);
-
-
-			// 정점의 개수를 가져온다. - 단 겹치는 걸 세진 안흔ㄴ다.
-			// 절대적인 버텍스 개수
-			// control point -> 버텍스
-			int iVtxCnt = pMesh->GetControlPointsCount();
-			NewMD->Set_VertexCount(iVtxCnt);
-
-			// 버텍스에서 Pos 포지션을 받아온다.
-			FbxVector4* pFbxPos = pMesh->GetControlPoints();
-			size_t Tmepb = sizeof(*pFbxPos);
-
-
-			// 저장할 떄 char 배열을 한번에 저장 -> 통으로 불러오기 위함
-			for (size_t i = 0; i < iVtxCnt; i++)
-			{
-				NewMD->PosVec[i].x = (float)pFbxPos[i].mData[0];
-				NewMD->PosVec[i].y = (float)pFbxPos[i].mData[2];
-				NewMD->PosVec[i].z = (float)pFbxPos[i].mData[1];
-				NewMD->PosVec[i].w = 1.0f;
-			}
-
-
-			// 인덱스 버퍼 - 삼각형 그리기
-			int TriCount = pMesh->GetPolygonCount();
-
-
-			// 서브 셋 개수 == 메터리얼 개수
-			// 버텍스 * 3 = 인덱스 --> 물론 인덱스가 삼각형이 아닌 다른 방식(도형)으로 그려지면
-			// 곱해지는 값이 달라진다. 그리고 결론적으로 저 곱해진 모든 값을 정상적으로 불러올 수 있어야함
-			int MtrlCount = pMesh->GetNode()->GetMaterialCount();
+			int MtrlCount = _pNode->GetMaterialCount();
 			NewMD->IdxVec.resize(MtrlCount);
 
-			// 정점정보가 속한 서브셋의 속성으 ㄹ알아내기 위한 정보
-			// 메터리얼의 정보가 곧 서브셋의 속성을 이룬다?
-			// 그 정점 좌표가 ㅇㅇ
-			FbxGeometryElementMaterial* pMtrl = pMesh->GetElementMaterial();
-
-
-			// 정점 좌표에 대한 메터리얼 정보를 불러온다.
-			NewMD->m_MaterialVec.reserve(MtrlCount);
-			for (int i = 0; i < MtrlCount; i++)
-			{
-				FbxSurfaceMaterial* pMtrSur = _pNode->GetMaterial(i);
-
-				Material_FbxData* NewMat = new Material_FbxData();
-
-				NewMat->Info.Diff = Get_MaterialColor(pMtrSur, FbxSurfaceMaterial::sDiffuse, FbxSurfaceMaterial::sDiffuseFactor);
-				NewMat->Info.Ambi = Get_MaterialColor(pMtrSur, FbxSurfaceMaterial::sAmbient, FbxSurfaceMaterial::sAmbient);
-				NewMat->Info.Emiv = Get_MaterialColor(pMtrSur, FbxSurfaceMaterial::sEmissive, FbxSurfaceMaterial::sEmissive);
-				NewMat->Info.Spec = Get_MaterialColor(pMtrSur, FbxSurfaceMaterial::sSpecular, FbxSurfaceMaterial::sSpecular);
-
-
-				NewMat->Diff = Get_MaterialTexName(pMtrSur, FbxSurfaceMaterial::sDiffuse);
-				NewMat->Ambi = Get_MaterialTexName(pMtrSur, FbxSurfaceMaterial::sAmbient);
-				NewMat->Emiv = Get_MaterialTexName(pMtrSur, FbxSurfaceMaterial::sEmissive);
-				NewMat->Spec = Get_MaterialTexName(pMtrSur, FbxSurfaceMaterial::sSpecular);
-
-				NewMD->m_MaterialVec.push_back(NewMat);
-			}
-
-
-			// 일단 삼각형이 아닌 도형을 그리지 않는다. -> 일단 기본적인 거라도 띄우는 식
-			int IdxSize = pMesh->GetPolygonSize(0);
-			if (3 != IdxSize)
-			{
-				BBY;
-			}
-
-			IDX32 tempIDX32 = {};
-			KUINT CurVtx = 0;
-
-			// 면의 개수
-			for (int i = 0; i < TriCount; i++)
-			{
-				// 그 면의 인덱스 개수
-				for (int j = 0; j < IdxSize; j++)
-				{
-					// 버텍스 순서대로 얻어와야 함
-					tempIDX32.p[j] = (DWORD)pMesh->GetPolygonVertex(i, j);
-
-					// 이 순서를 말함 -> 우리가 했던 그것들
-					Set_Normal(pMesh, NewMD, tempIDX32.p[j], CurVtx);
-					Set_Tangent(pMesh, NewMD, tempIDX32.p[j], CurVtx);
-					Set_BNormal(pMesh, NewMD, tempIDX32.p[j], CurVtx);
-					Set_Uv(pMesh, NewMD, tempIDX32.p[j], CurVtx);
-
-					++CurVtx;
-				} // for (size_t j = 0; j < IdxSize; j++)
-
-				// 인덱스 버퍼를 얻어낸다. 위에서 버텍스를 얻었으니 그걸 
-				// 인덱스로 그려야하는데 그 인덱스도 이렇게 받아오는 거다.
-				int SubIdx = pMtrl->GetIndexArray().GetAt(i);
-				NewMD->IdxVec[SubIdx].push_back(tempIDX32.p[0]);
-				NewMD->IdxVec[SubIdx].push_back(tempIDX32.p[2]);
-				NewMD->IdxVec[SubIdx].push_back(tempIDX32.p[1]);
-			} // for (size_t i = 0; i < TriCount; i++)
-
-
+			
+			
 			// 위에서 버텍스 인덱스까지 그려낸 메쉬 하나에 대한 애니메이션 정보를
 			// 가져왕야한다.
 			if (false == m_pNewFbx->Ani_Map.empty())
@@ -312,6 +223,12 @@ void FBXLoader::Set_MeshData(FbxNode* _pNode)
 			{
 				NewMD->m_bAni = false;
 			}
+
+			for (int i = 0; i < MtrlCount; i++)
+			{
+				Set_Material(NewMD, _pNode->GetMaterial(i));
+			}
+
 		} // if(nullptr != pMesh)
 	} // if (nullptr != pAtttr && pAtttr->GetAttributeType() == FbxNodeAttribute::eMesh)
 
@@ -380,12 +297,12 @@ void FBXLoader::Set_Normal(FbxMesh* _pMesh, Mesh_FbxData* _pMeshData, DWORD _Cur
 
 	// 아무래도 다 같은 코드를 반복해서 쓰기에 일단 이름을 맞추어 놓는다.
 	FbxVector4 vData = pE->GetDirectArray().GetAt(Idx);
-	_pMeshData->NormalVec[_CurIdx].x = (float)vData.mData[0];
-	_pMeshData->NormalVec[_CurIdx].y = (float)vData.mData[2];
-	_pMeshData->NormalVec[_CurIdx].z = (float)vData.mData[1];
+	_pMeshData->VertVec[_CurIdx].m_Normal.x = (float)vData.mData[0];
+	_pMeshData->VertVec[_CurIdx].m_Normal.y = (float)vData.mData[2];
+	_pMeshData->VertVec[_CurIdx].m_Normal.z = (float)vData.mData[1];
 
 	// 우리는 여기서 w를 쓰지 않는다.
-	_pMeshData->NormalVec[_CurIdx].w = .0f;
+	_pMeshData->VertVec[_CurIdx].m_Normal.w = .0f;
 }
 
 
@@ -398,6 +315,7 @@ void FBXLoader::Set_Tangent(FbxMesh* _pMesh, Mesh_FbxData* _pMeshData, DWORD _Cu
 	// 그것조차 하나가 아니면 터뜨림 - 하나인 파일은 기본적인 파일임
 	if (1 != Count)
 	{
+		return;
 		BBY;
 	}
 
@@ -437,12 +355,12 @@ void FBXLoader::Set_Tangent(FbxMesh* _pMesh, Mesh_FbxData* _pMeshData, DWORD _Cu
 
 	// 아무래도 다 같은 코드를 반복해서 쓰기에 일단 이름을 맞추어 놓는다.
 	FbxVector4 vData = pE->GetDirectArray().GetAt(Idx);
-	_pMeshData->NormalVec[_CurIdx].x = (float)vData.mData[0];
-	_pMeshData->NormalVec[_CurIdx].y = (float)vData.mData[2];
-	_pMeshData->NormalVec[_CurIdx].z = (float)vData.mData[1];
+	_pMeshData->VertVec[_CurIdx].m_Tangent.x = (float)vData.mData[0];
+	_pMeshData->VertVec[_CurIdx].m_Tangent.y = (float)vData.mData[2];
+	_pMeshData->VertVec[_CurIdx].m_Tangent.z = (float)vData.mData[1];
 
 	// 우리는 여기서 w를 쓰지 않는다.
-	_pMeshData->NormalVec[_CurIdx].w = .0f;
+	_pMeshData->VertVec[_CurIdx].m_Tangent.w = .0f;
 }
 
 
@@ -455,6 +373,7 @@ void FBXLoader::Set_BNormal(FbxMesh* _pMesh, Mesh_FbxData* _pMeshData, DWORD _Cu
 	// 그것조차 하나가 아니면 터뜨림 - 하나인 파일은 기본적인 파일임
 	if (1 != Count)
 	{
+		return;
 		BBY;
 	}
 
@@ -494,12 +413,12 @@ void FBXLoader::Set_BNormal(FbxMesh* _pMesh, Mesh_FbxData* _pMeshData, DWORD _Cu
 
 	// 아무래도 다 같은 코드를 반복해서 쓰기에 일단 이름을 맞추어 놓는다.
 	FbxVector4 vData = pE->GetDirectArray().GetAt(Idx);
-	_pMeshData->NormalVec[_CurIdx].x = (float)vData.mData[0];
-	_pMeshData->NormalVec[_CurIdx].y = (float)vData.mData[2];
-	_pMeshData->NormalVec[_CurIdx].z = (float)vData.mData[1];
+	_pMeshData->VertVec[_CurIdx].m_Binormal.x = (float)vData.mData[0];
+	_pMeshData->VertVec[_CurIdx].m_Binormal.y = (float)vData.mData[2];
+	_pMeshData->VertVec[_CurIdx].m_Binormal.z = (float)vData.mData[1];
 
 	// 우리는 여기서 w를 쓰지 않는다.
-	_pMeshData->NormalVec[_CurIdx].w = .0f;
+	_pMeshData->VertVec[_CurIdx].m_Binormal.w = .0f;
 }
 
 void FBXLoader::Set_Uv(FbxMesh* _pMesh, Mesh_FbxData* _pMeshData, DWORD _CurIdx, DWORD _CurVtx)
@@ -511,6 +430,7 @@ void FBXLoader::Set_Uv(FbxMesh* _pMesh, Mesh_FbxData* _pMeshData, DWORD _CurIdx,
 	// 그것조차 하나가 아니면 터뜨림 - 하나인 파일은 기본적인 파일임
 	if (1 != Count)
 	{
+		return;
 		BBY;
 	}
 
@@ -552,10 +472,11 @@ void FBXLoader::Set_Uv(FbxMesh* _pMesh, Mesh_FbxData* _pMeshData, DWORD _CurIdx,
 
 	// UV 는 당여하지만 Vector2로 관리한다.
 	FbxVector2 vData = pE->GetDirectArray().GetAt(Idx);
-	_pMeshData->NormalVec[_CurIdx].x = (float)vData.mData[0];
 
+	// 우리는 여기서 w를 쓰지 않는다.
+	_pMeshData->VertVec[_CurIdx].m_Tangent.x = (float)vData.mData[0];
 	// 그리고 max 좌표계는 왼쪽 아래부터 잰다. 따라서 다음과 같은 보정이 필요함
-	_pMeshData->NormalVec[_CurIdx].y = (float)(1.0f - vData.mData[1]);
+	_pMeshData->VertVec[_CurIdx].m_Tangent.y = (float)(1.0f - vData.mData[1]);
 }
 
 void FBXLoader::Set_AniData(FbxMesh* _pMesh, Mesh_FbxData* _pMeshData)
@@ -636,10 +557,81 @@ void FBXLoader::Set_AniData(FbxMesh* _pMesh, Mesh_FbxData* _pMeshData)
 }
 
 // 재질 정보
-void FBXLoader::Set_Material(FbxNode* _pNode)
+void FBXLoader::Set_Material(Mesh_FbxData* _pMD, FbxSurfaceMaterial* _pSur)
 {
+	Material_FbxData* NewMtl = new Material_FbxData();
+
+	NewMtl->Info.Diff = Get_MaterialColor(_pSur, FbxSurfaceMaterial::sDiffuse, FbxSurfaceMaterial::sDiffuseFactor);
+	NewMtl->Info.Ambi = Get_MaterialColor(_pSur, FbxSurfaceMaterial::sAmbient, FbxSurfaceMaterial::sAmbient);
+	NewMtl->Info.Emiv = Get_MaterialColor(_pSur, FbxSurfaceMaterial::sEmissive, FbxSurfaceMaterial::sEmissiveFactor);
+	NewMtl->Info.Spec = Get_MaterialColor(_pSur, FbxSurfaceMaterial::sSpecular, FbxSurfaceMaterial::sSpecularFactor);
+
+	NewMtl->Diff = Get_MaterialTexName(_pSur, FbxSurfaceMaterial::sDiffuse);
+	NewMtl->Bump = Get_MaterialTexName(_pSur, FbxSurfaceMaterial::sNormalMap);
+	NewMtl->Spec = Get_MaterialTexName(_pSur, FbxSurfaceMaterial::sSpecular);
+	NewMtl->Emiv = Get_MaterialTexName(_pSur, FbxSurfaceMaterial::sEmissive);
+
+	_pMD->m_MaterialVec.push_back(NewMtl);
+}
+
+// 메쉬 정보
+void FBXLoader::Set_Mesh(Mesh_FbxData* _pMD, FbxMesh* _pMesh)
+{
+	// 정점의 개수 확인 - 설치
+	int iVtxCnt = _pMesh->GetControlPointsCount();
+	_pMD->Set_VertexCount(iVtxCnt);
+
+
+	// 정점 받아오기
+	FbxVector4* pFbxPos = _pMesh->GetControlPoints();
+
+	for (size_t i = 0; i < iVtxCnt; i++)
+	{
+		_pMD->VertVec[i].m_Pos.x = (float)pFbxPos[i].mData[0];
+		_pMD->VertVec[i].m_Pos.y = (float)pFbxPos[i].mData[2];
+		_pMD->VertVec[i].m_Pos.z = (float)pFbxPos[i].mData[1];
+		_pMD->VertVec[i].m_Pos.w = 1.0f;
+	}
+
+	// 인덱스 버퍼
+	int TriCnt = _pMesh->GetPolygonCount();
+
+	int IdxSize = _pMesh->GetPolygonSize(0);
+
+	// 인덱스가 3이 아닌 경우도 있지만 우선 기본적으로는 3이기 때문에
+	// 일단 무조건 거른다.
+	if (3 != IdxSize)
+	{
+		BBY;
+	}
+
+	IDX32 tempIDX32 = {};
+	KUINT CurVtx = 0;
+
+	FbxGeometryElementMaterial* pMtrl = _pMesh->GetElementMaterial();
+
+	for (int i = 0; i < TriCnt; i++)
+	{
+		for (int j = 0; j < IdxSize; j++)
+		{
+			tempIDX32.p[j] = (DWORD)_pMesh->GetPolygonVertex(i, j);
+			Set_Normal(_pMesh, _pMD, tempIDX32.p[j], CurVtx);
+			Set_Tangent(_pMesh, _pMD, tempIDX32.p[j], CurVtx);
+			Set_BNormal(_pMesh, _pMD, tempIDX32.p[j], CurVtx);
+			Set_Uv(_pMesh, _pMD, tempIDX32.p[j], CurVtx);
+			++CurVtx;
+		}
+
+		// i 번쨰 서브셋 인덱스 버퍼에 접그ㄴ해
+		// 해당 데이터를 얻어낸다. - 해당 데이터 = 기준 축
+		int SubIdx = pMtrl->GetIndexArray().GetAt(i);
+		_pMD->IdxVec[SubIdx].push_back(tempIDX32.p[0]);
+		_pMD->IdxVec[SubIdx].push_back(tempIDX32.p[2]);
+		_pMD->IdxVec[SubIdx].push_back(tempIDX32.p[1]);
+	}
 
 }
+
 
 
 
@@ -667,8 +659,8 @@ void FBXLoader::Set_WeightIndices(FbxCluster* _pC, KBone* _pBone, Mesh_FbxData* 
 	{
 		tempWi.BoneIdx = _pBone->Index;
 		tempWi.dWeight = _pC->GetControlPointWeights()[i];
-		tempWi.IndiIdx = _pC->GetControlPointIndices()[i];
-		_pMeshData->WIVec[tempWi.IndiIdx].push_back(tempWi);
+		tempWi.Indices = _pC->GetControlPointIndices()[i];
+		_pMeshData->WIVec[tempWi.Indices].push_back(tempWi);
 	}
 }
 
@@ -778,17 +770,11 @@ void FBXLoader::Check_WI(FbxMesh* _pMesh, Mesh_FbxData* _pMeshData)
 			}
 		} // if (_pMeshData->WIVec[i].size() > 1)
 
-		KVector Weights = {};
-		KVector Indices = {};
-
 		for (int i = 0; i < (*Iter).size(); i++)
 		{
-			Weights.s[i] = (float)(*Iter)[i].dWeight;
-			Indices.s[i] = (float)(*Iter)[i].BoneIdx;
+			_pMeshData->VertVec[iVtxInx].m_Weights.s[i] = (float)(*Iter)[i].dWeight;
+			_pMeshData->VertVec[iVtxInx].m_Indices.s[i] = (float)(*Iter)[i].BoneIdx;
 		}
-
-		_pMeshData->WeightsVec[iVtxInx] = Weights;
-		_pMeshData->IndicesVec[iVtxInx] = Indices;
 	} // for (size_t i = 0, iVtxInx = 0; i < _pMeshData->WIVec.size(); i++)
 }
 
@@ -847,4 +833,47 @@ std::wstring FBXLoader::Get_MaterialTexName(FbxSurfaceMaterial* _pFbxMatData,
 	}
 
 	return CA2W(Name.c_str()).m_psz;
+}
+
+
+
+
+KMatrix FBXLoader::FMXtoKMX(const FbxMatrix& _Mat)
+{
+	KMatrix TMX;
+
+	for (int y = 0; y < 4; y++)
+	{
+		for (int x = 0; x < 4; x++)
+		{
+			TMX.m[y][x] = (float)_Mat.Get(y, x);
+		}
+	}
+
+	return TMX;
+}
+KVector FBXLoader::FVectoKVec(const FbxVector4& _Value)
+{
+	KVector TVec;
+
+	for (int i = 0; i < 4; i++)
+	{
+		TVec.s[i] = (float)_Value.mData[i];
+	}
+
+	return TVec;
+}
+
+
+KVector FBXLoader::FQTtoKVec(const FbxQuaternion& _Value)
+{
+	KVector TVec;
+	
+	
+	for (size_t i = 0; i < 4; i++)
+	{
+		TVec.s[i] = (float)_Value.mData[i];
+	}
+
+	return TVec;
 }
