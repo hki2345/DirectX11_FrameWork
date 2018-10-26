@@ -77,18 +77,18 @@ void Renderer_Grid::Update_Trans(KPtr<Camera> _Camera)
 
 void Renderer_Grid::Render(KPtr<Camera> _Camera)
 {
-	m_Mat->PShader()->SettingCB<KVector4>(L"GRIDDATA", m_GD);
+	m_MtlVec[0]->PShader()->SettingCB<KVector4>(L"GRIDDATA", m_GD);
 }
 
 bool Renderer_Grid::Init(int _Order /*= 0*/)
 {
 	Renderer::Init(_Order);
 
-	if (false == SetMat(L"GRID3DMAT"))
+	if (false == Set_Mat(L"GRID3DMAT"))
 	{
 		return false;
 	}
-	if (false == SetMesh(L"RECT"))
+	if (false == Set_Mesh(L"RECT"))
 	{
 		return false;
 	}
@@ -98,7 +98,7 @@ bool Renderer_Grid::Init(int _Order /*= 0*/)
 		kwindow()->Device().CreateCB<KVector4>(L"GRIDDATA", D3D11_USAGE_DYNAMIC, 0);
 	}
 
-	SetRSState(L"SNONE");
+	Set_RSState(L"SNONE");
 
 	return true;
 }

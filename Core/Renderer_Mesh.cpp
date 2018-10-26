@@ -20,7 +20,7 @@ bool Renderer_Mesh::Init(int _Order /*= 0*/)
 {
 	Renderer::Init(_Order);
 
-	SetRSState(L"SBACK");
+	Set_RSState(L"SBACK");
 	return true;
 }
 

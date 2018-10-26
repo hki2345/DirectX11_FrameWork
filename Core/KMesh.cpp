@@ -97,17 +97,17 @@ bool KMesh::Create_Index(UINT _iIdxCnt, UINT _iIdxSize, D3D11_USAGE _eIdxUsage, 
 	return true;
 }
 
-void KMesh::Update(const KUINT& _Start /*= 0*/, const KUINT& _VtxCnt /*= 1*/, KUINT* _pOff /*= nullptr*/)
+void KMesh::Update(const KUINT& _StartVtx /*= 0*/, const KUINT& _VtxCnt /*= 1*/, KUINT* _pOff /*= nullptr*/)
 {
-	UINT* iOff = _pOff;
 	UINT Idx = 0;
+	UINT* iOff = _pOff;
 	
 	if (nullptr == _pOff)
 	{
-		_pOff = &Idx;
+		iOff = &Idx;
 	}
 
-	Core_Class::Context()->IASetVertexBuffers(_Start, _VtxCnt, &VertBuff_Vec[0], &VertSize_Vec[0], iOff);
+	Core_Class::Context()->IASetVertexBuffers(_StartVtx, _VtxCnt, &VertBuff_Vec[0], &VertSize_Vec[0], iOff);
 	Core_Class::Context()->IASetPrimitiveTopology(m_eDrawMode);
 }
 void KMesh::Render(const KUINT& _Start /*= 0*/, const KUINT& _EndIdx /*= 1*/, KUINT* _pOff /*= nullptr*/) 
@@ -117,7 +117,7 @@ void KMesh::Render(const KUINT& _Start /*= 0*/, const KUINT& _EndIdx /*= 1*/, KU
 
 	if (nullptr == _pOff)
 	{
-		_pOff = &Idx;
+		iOff = &Idx;
 	}
 
 	for (size_t i = _Start; i < _EndIdx; i++)

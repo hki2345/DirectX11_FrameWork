@@ -27,26 +27,26 @@ void Renderer_Rect::Render(KPtr<Camera> _Camera)
 	m_MD.m_P = _Camera->Proj();
 	m_MD.m_WVP = (CSWMat() * _Camera->ViewProj()).RTranspose();
 
-	m_Mat->VShader()->SettingCB<MatrixContainer>(L"MATCON", m_MD);
+	m_MtlVec[0]->VShader()->SettingCB<MatrixContainer>(L"MATCON", m_MD);
 
-	m_Mat->Update();
-	m_Mesh->Update();
-	m_Mesh->Render();
+	m_MtlVec[0]->Update();
+	m_MeshVec[0]->Update();
+	m_MeshVec[0]->Render();
 }
 
 bool Renderer_Rect::Init(int _Order /*= 0*/) 
 {
 	Renderer::Init(_Order);
 
-	if (false == SetMat(L"RECT3DMAT"))
+	if (false == Set_Mat(L"RECT3DMAT"))
 	{
 		return false;
 	}
-	if (false == SetMesh(L"RECT"))
+	if (false == Set_Mesh(L"RECT"))
 	{
 		return false;
 	}
 
-	SetRSState(L"SBACK");
+	Set_RSState(L"SBACK");
 	return true;
 }

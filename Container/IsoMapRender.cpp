@@ -18,11 +18,11 @@ bool IsoMapRender::Init(int _Order)
 {
 	Renderer::Init(_Order);
 
-	if (false == SetMat(L"IMGMAT"))
+	if (false == Set_Mat(L"IMGMAT"))
 	{
 		return false;
 	}
-	if (false == SetMesh(L"TEXMESH"))
+	if (false == Set_Mesh(L"TEXMESH"))
 	{
 		return false;
 	}
@@ -98,15 +98,15 @@ void IsoMapRender::Render(KPtr<Camera> _Camera)
 		KMatrix Mat = TileSizeMat * TilePosMat * CSWMat();
 		Mat = Mat * _Camera->ViewProj();
 
-		m_Mat->VShader()->SettingCB<KMatrix>(L"TRANS", Mat.RTranspose());
-		m_Mat->PShader()->SettingCB<KVector4>(L"MULCOLOR", m_Color);
-		m_Mat->PShader()->SettingCB<KVector4>(L"IMGUV", m_Img->Uv(StartIter->second->Index));
+		m_MtlVec[0]->VShader()->SettingCB<KMatrix>(L"TRANS", Mat.RTranspose());
+		m_MtlVec[0]->PShader()->SettingCB<KVector4>(L"MULCOLOR", m_Color);
+		m_MtlVec[0]->PShader()->SettingCB<KVector4>(L"IMGUV", m_Img->Uv(StartIter->second->Index));
 
-		m_Mat->Update();
+		m_MtlVec[0]->Update();
 		m_Img->sampler()->Update(0);
 		m_Img->texture()->Update(0);
-		m_Mesh->Update();
-		m_Mesh->Render();
+		m_MeshVec[0]->Update();
+		m_MeshVec[0]->Render();
 	}
 
 }

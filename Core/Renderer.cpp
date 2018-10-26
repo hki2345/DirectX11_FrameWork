@@ -9,7 +9,7 @@
 
 Renderer::Renderer() : m_RsState(nullptr)
 {
-	if (false == SetMat(L"NONEMAT"))
+	if (false == Set_Mat(L"NONEMAT"))
 	{
 		BBY;
 	}
@@ -20,7 +20,7 @@ Renderer::~Renderer()
 {
 }
 
-void Renderer::SetRSState(const wchar_t* _Name) {
+void Renderer::Set_RSState(const wchar_t* _Name) {
 	m_RsState = kwindow()->Device().Find_RS(_Name);
 
 	if (nullptr == m_RsState)
@@ -37,23 +37,34 @@ bool Renderer::Init(int _Order)
 	return true;
 }
 
-bool Renderer::SetMesh(const wchar_t* _Res) {
-	m_Mesh = ResourceManager<KMesh>::Find(_Res);
-	KASSERT(nullptr == m_Mesh);
+bool Renderer::Set_Mesh(const wchar_t* _Res, const int& _Index) 
+{
+	if (m_MeshVec.size() <= _Index)
+	{
+		m_MeshVec.resize(_Index + 1);
+	}
 
-	if (nullptr == m_Mesh)
+	m_MeshVec[_Index] = ResourceManager<KMesh>::Find(_Res);
+	KASSERT(nullptr == m_MeshVec[_Index]);
+
+	if (nullptr == m_MeshVec[_Index])
 	{
 		return false;
 	}
 	return true;
 }
 
-bool Renderer::SetMat(const wchar_t* _Res)
+bool Renderer::Set_Mat(const wchar_t* _Res, const int& _Index)
 {
-	m_Mat = ResourceManager<KMaterial>::Find(_Res);
-	KASSERT(nullptr == m_Mat);
+	if (m_MtlVec.size() <= _Index)
+	{
+		m_MtlVec.resize(_Index + 1);
+	}
 
-	if (nullptr == m_Mat)
+	m_MtlVec[_Index] = ResourceManager<KMaterial>::Find(_Res);
+	KASSERT(nullptr == m_MtlVec[_Index]);
+
+	if (nullptr == m_MtlVec[_Index])
 	{
 		return false;
 	}
@@ -61,14 +72,14 @@ bool Renderer::SetMat(const wchar_t* _Res)
 	return true;
 }
 
-KPtr<KMaterial> Renderer::material() 
+KPtr<KMaterial> Renderer::material(const int& _Index) 
 {
-	if (m_Mat->m_bOrigin)
+	if (m_MtlVec[_Index]->m_bOrigin)
 	{
-		m_Mat = m_Mat->Clone();
+		m_MtlVec[_Index] = m_MtlVec[_Index]->Clone();
 	}
 
-	return m_Mat;
+	return m_MtlVec[_Index];
 }
 
 void Renderer::RenderUpdate()
@@ -76,12 +87,6 @@ void Renderer::RenderUpdate()
 	if (nullptr != m_RsState)
 	{
 		m_RsState->Update();
-	}
-
-	if (nullptr != m_Mat)
-	{
-		m_Mat->Update_Tex();
-		m_Mat->Update_Sam();
 	}
 }
 
@@ -105,38 +110,63 @@ void Renderer::Update_Trans(KPtr<Camera> _Camera)
 	m_MD.m_P = _Camera->Proj().RVTranspose();
 	m_MD.m_WV = (m_Trans->worldmat_const() * _Camera->View()).RTranspose();
 	m_MD.m_WVP = (m_Trans->worldmat_const() * _Camera->ViewProj()).RTranspose();
-
-	Update_TransCB();
 }
 
 void Renderer::Update_TransCB() 
 {
-	// size_t Size = sizeof(ROpt);
-
-	if (nullptr != m_Mat)
-	{
-		ROpt.TexCnt = m_Mat->Set_TexData(ROpt.TexArr);
-	}
-
 	Core_Class::MainDevice().SettingCB<MatrixContainer>(L"MATCON", m_MD, SHTYPE::ST_VS);
 	Core_Class::MainDevice().SettingCB<MatrixContainer>(L"MATCON", m_MD, SHTYPE::ST_PS);
+}
+
+
+
+
+void Renderer::Update_MtlCB(const KUINT _Index /*= 0*/)
+{
+	if (nullptr != m_MtlVec[_Index])
+	{
+		ROpt.TexCnt = m_MtlVec[_Index]->Set_TexData(ROpt.TexArr);
+	}
+
+
 	Core_Class::MainDevice().SettingCB<RenderOption>(L"RENDEROPTION", ROpt, SHTYPE::ST_VS);
 	Core_Class::MainDevice().SettingCB<RenderOption>(L"RENDEROPTION", ROpt, SHTYPE::ST_PS);
 }
 
-void Renderer::Update_Material() 
+void Renderer::Update_TexSmp(const KUINT _Index/* = 0*/)
 {
-	if (nullptr != m_Mat)
+	if (nullptr != m_MtlVec[_Index])
 	{
-		m_Mat->Update();
+		m_MtlVec[_Index]->Update_Tex();
+		m_MtlVec[_Index]->Update_Sam();
+	}
+	else
+	{
+		BBY;
 	}
 }
 
-void Renderer::Update_Mesh()
+void Renderer::Update_Material(const KUINT _Index /*= 0*/)
 {
-	if (nullptr != m_Mesh)
+	if (nullptr != m_MtlVec[_Index])
 	{
-		m_Mesh->Update();
-		m_Mesh->Render();
+		m_MtlVec[_Index]->Update();
+	}
+	else
+	{
+		BBY;
+	}
+}
+
+void Renderer::Update_Mesh(const KUINT _Index /*= 0*/)
+{
+	if (nullptr != m_MeshVec[_Index])
+	{
+		m_MeshVec[_Index]->Update();
+		m_MeshVec[_Index]->Render();
+	}
+	else
+	{
+		BBY;
 	}
 }

@@ -244,6 +244,10 @@ void RenderManager::Render_Defferd(KPtr<Camera> _Camera, std::map<int, std::list
 	DEFFERDTAGET->OMSet();
 
 	KPtr<KMaterial> DEFFERD3DMAT = ResourceManager<KMaterial>::Find(L"DEFFERD3DMAT");
+	
+	// KPtr<KMaterial> DEFFERD3DMATANI = ResourceManager<KMaterial>::Find(L"DEFFERD3DMATANI");
+
+
 	KASSERT(nullptr == DEFFERD3DMAT);
 	if (nullptr == DEFFERD3DMAT)
 	{
@@ -256,15 +260,76 @@ void RenderManager::Render_Defferd(KPtr<Camera> _Camera, std::map<int, std::list
 	{
 		if (1 == (*m_RSI)->ROpt.Defferd_orForward)
 		{
-			(*m_RSI)->RenderUpdate();
 			(*m_RSI)->Update_Trans(_Camera);
-			(*m_RSI)->Render(_Camera);
-			DEFFERD3DMAT->Update();
-			(*m_RSI)->Update_Mesh();
+			(*m_RSI)->Update_TransCB();
+
+
+			for (KUINT i = 0; i < (KUINT)(*m_RSI)->Count_Mesh(); i++)
+			{
+				for (KUINT j = 0; j < (KUINT)(*m_RSI)->Count_Material(); j++)
+				{
+					(*m_RSI)->RenderUpdate();
+					(*m_RSI)->Render(_Camera);
+					(*m_RSI)->Update_TexSmp(j);
+					(*m_RSI)->Update_MtlCB(j);
+					// (*m_RSI)->Update_Material();
+
+					// 애니메이션이면 이 재질 씀
+					//if (1 == (*m_RSI)->ROpt.IsBoneAni)
+					//{
+					//	DEFFERD3DMATANI->Update();
+					//}
+					//// 아니면 이거
+					//else
+
+					// 이지만 현재로선 오타가 많아 애니 재질을 쓸 수 없는 지경 ㄷㄷ
+					{
+						DEFFERD3DMAT->Update();
+					}
+
+					(*m_RSI)->Update_Mesh(i);
+
+				}
+			}
+
 			(*m_RSI)->RenderFinalUpdate();
 		}
 	}
 }
+
+void RenderManager::Render_Forward(KPtr<Camera> _Camera, std::map<int, std::list<KPtr<Renderer>>>::iterator _Iter, size_t _Index)
+{
+	m_RSI = m_ALLFI->second.begin();
+	m_REI = m_ALLFI->second.end();
+	Check_Light(_Camera, _Camera->m_Layer[_Index]);
+	for (; m_RSI != m_REI; m_RSI++)
+	{
+		if (0 == (*m_RSI)->ROpt.Defferd_orForward)
+		{
+			(*m_RSI)->Update_Trans(_Camera);
+			(*m_RSI)->Update_TransCB();
+
+
+			for (KUINT i = 0; i < (KUINT)(*m_RSI)->Count_Mesh(); i++)
+			{
+				for (KUINT j = 0; j < (KUINT)(*m_RSI)->Count_Material(); j++)
+				{
+					(*m_RSI)->RenderUpdate();
+					(*m_RSI)->Render(_Camera);
+					(*m_RSI)->Update_TexSmp(j);
+					(*m_RSI)->Update_MtlCB(j);
+					(*m_RSI)->Update_Material(j);
+					(*m_RSI)->Update_Mesh(i);
+
+				}
+			}
+
+			(*m_RSI)->RenderFinalUpdate();
+
+		}
+	}
+}
+
 
 void RenderManager::Render_DefLight(KPtr<Camera> _Camera, int _Group)
 {
@@ -283,25 +348,6 @@ void RenderManager::Render_DefLight(KPtr<Camera> _Camera, int _Group)
 			Ptr->Set_LightData(_Camera);
 			Ptr->Render_Light(_Camera);
 			Core_Class::MainDevice().Set_DSS(L"LIGHTDEPTH");
-		}
-	}
-}
-
-void RenderManager::Render_Forward(KPtr<Camera> _Camera, std::map<int, std::list<KPtr<Renderer>>>::iterator _Iter, size_t _Index)
-{
-	m_RSI = m_ALLFI->second.begin();
-	m_REI = m_ALLFI->second.end();
-	Check_Light(_Camera, _Camera->m_Layer[_Index]);
-	for (; m_RSI != m_REI; m_RSI++)
-	{
-		if (0 == (*m_RSI)->ROpt.Defferd_orForward)
-		{
-			(*m_RSI)->RenderUpdate();
-			(*m_RSI)->Update_Trans(_Camera);
-			(*m_RSI)->Render(_Camera);
-			(*m_RSI)->Update_Material();
-			(*m_RSI)->Update_Mesh();
-			(*m_RSI)->RenderFinalUpdate();
 		}
 	}
 }

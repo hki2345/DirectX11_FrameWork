@@ -33,28 +33,28 @@ void HSpRenderer::Render(KPtr<Camera> _Camera)
 
 	SubTransUpdate();
 
-	m_Mat->VShader()->SettingCB<KMatrix>(L"TRANS", (CSWMat() * _Camera->ViewProj()).RTranspose());
-	m_Mat->PShader()->SettingCB<KVector4>(L"MULCOLOR", m_Color);
-	m_Mat->PShader()->SettingCB<KVector4>(L"IMGUV", m_Img->Uv(m_ImgIndex));
+	m_MtlVec[0]->VShader()->SettingCB<KMatrix>(L"TRANS", (CSWMat() * _Camera->ViewProj()).RTranspose());
+	m_MtlVec[0]->PShader()->SettingCB<KVector4>(L"MULCOLOR", m_Color);
+	m_MtlVec[0]->PShader()->SettingCB<KVector4>(L"IMGUV", m_Img->Uv(m_ImgIndex));
 
-	m_Mat->Update();
+	m_MtlVec[0]->Update();
 
 	m_Img->sampler()->Update(0);
 	m_Img->texture()->Update(0);
 
-	m_Mesh->Update();
-	m_Mesh->Render();
+	m_MeshVec[0]->Update();
+	m_MeshVec[0]->Render();
 }
 
 bool HSpRenderer::Init(int _Order)
 {
 	Renderer::Init(_Order);
 
-	if (false == SetMat(L"IMGMAT"))
+	if (false == Set_Mat(L"IMGMAT"))
 	{
 		return false;
 	}
-	if (false == SetMesh(L"TEXMESH")) 
+	if (false == Set_Mesh(L"TEXMESH")) 
 	{
 		return false;
 	}

@@ -139,8 +139,8 @@ BOOL Dlg_Editor::OnInitDialog()
 	SPHERELEFT->Trans()->pos_local(KVector4(-15.0f, 0.0f, 0.0f));
 	KPtr<Renderer_Mesh> PTRMESH1 = SPHERELEFT->Add_Component<Renderer_Mesh>();
 	PTRMESH1->ROpt.IsLight = 1;
-	PTRMESH1->SetMat(L"MESH3DMAT");
-	PTRMESH1->SetMesh(L"SPHERE");
+	PTRMESH1->Set_Mat(L"MESH3DMAT");
+	PTRMESH1->Set_Mesh(L"SPHERE");
 
 	PTRMESH1->material()->Insert_TexData(TEX_TYPE::TEX_COLOR, 0, L"TILE_01.png");
 	PTRMESH1->material()->Insert_TexData(TEX_TYPE::TEX_BUMP, 1, L"TILE_01_N.png");
@@ -151,13 +151,13 @@ BOOL Dlg_Editor::OnInitDialog()
 	SPHERERIGHT->Trans()->pos_local(KVector4(15.0f, 0.0f, 0.0f));
 	KPtr<Renderer_Mesh> PTRMESH2 = SPHERERIGHT->Add_Component<Renderer_Mesh>();
 	//PTRMESH2->SetMat(L"PIXLIGHT3DMAT");
-	PTRMESH2->SetMesh(L"SPHERE");
+	PTRMESH2->Set_Mesh(L"SPHERE");
 
 	KPtr<TheOne> CUBEMIDDLE = TabScene->Create_One();
 	CUBEMIDDLE->Trans()->scale_local(KVector4(10.0f, 10.0f, 10.0f));
 	CUBEMIDDLE->Trans()->pos_local(KVector4(.0f, 10.0f, 0.0f));
 	KPtr<Renderer_Mesh> PTRMESH3 = CUBEMIDDLE->Add_Component<Renderer_Mesh>();
-	PTRMESH3->SetMesh(L"CUBE");
+	PTRMESH3->Set_Mesh(L"CUBE");
 
 
 

@@ -15,7 +15,8 @@ public:
 		IsLight(1),
 		TexCnt(0),
 		VTz_PXo(1),
-		Defferd_orForward(1) // 0 - 디퍼드 1 - 포워드
+		Defferd_orForward(1), // 0 - 디퍼드 1 - 포워드
+		IsBoneAni(0) // 0 - 본 애니 아님
 	{	}
 	// ~RenderOption();
 
@@ -28,6 +29,13 @@ public:
 	int Defferd_orForward;
 	int VTz_PXo;  // Vert -> 0, Pixel -> 1
 	int TexCnt;
+	int IsBoneAni; // 이것이 애니메이션이냐 -> 인트로 해야하는데 일단 박아넣음
+
+	// 이게 바로 인트 하나 추가하므로서 생긴 짜투리
+	int temp1;
+	int temp2;
+	int temp3;
+
 
 private:
 	Tex_Data TexArr[8];
@@ -56,8 +64,11 @@ protected:
 	int					m_Order;
 	bool				m_Bill;
 
-	KPtr<KMesh>				m_Mesh;
-	KPtr<KMaterial>			m_Mat;
+	std::vector<KPtr<KMesh>>		m_MeshVec;
+	std::vector<KPtr<KMaterial>> m_MtlVec;
+
+
+
 	KPtr<KDevice::RState>	m_RsState;
 
 public:
@@ -67,14 +78,17 @@ public:
 
 
 public:
-	// 이미지 설정을 이제 렌더러의 재질이 해준다.
-	KPtr<KMaterial> material();
+	size_t Count_Mesh() { return m_MeshVec.size(); }
+	size_t Count_Material() { return m_MtlVec.size(); }
 
-	void SetRSState(const wchar_t* _Name);
+	// 이미지 설정을 이제 렌더러의 재질이 해준다.
+	KPtr<KMaterial> material(const int& _Index = 0);
+
+	void Set_RSState(const wchar_t* _Name);
 	int order() { return m_Order; }
 
-	bool SetMesh(const wchar_t* _Res);
-	bool SetMat(const wchar_t* _Res);
+	bool Set_Mesh(const wchar_t* _Res, const int& Index = 0);
+	bool Set_Mat(const wchar_t* _Res, const int& Index = 0);
 
 private:
 	void RenderUpdate();
@@ -83,9 +97,12 @@ private:
 protected:
 	virtual void Update_Trans(KPtr<Camera> _Camera);
 	virtual void Update_TransCB();
+	virtual void Update_MtlCB(const KUINT _Index = 0);
 
-	virtual void Update_Material();
-	virtual void Update_Mesh();
+	virtual void Update_TexSmp(const KUINT _Index = 0);
+	virtual void Update_Material(const KUINT _Index = 0);
+	virtual void Update_Mesh(const KUINT _Index = 0);
+
 
 public:
 	virtual bool Init(int _Order = 0);
