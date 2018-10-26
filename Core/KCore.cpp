@@ -71,13 +71,13 @@ void KCore::Init_Core(HINSTANCE _Hinst, const wchar_t* _pMainWindowName, HWND _h
 	KWindow::Init(_Hinst);
 	if (nullptr == _hWnd)
 	{
-		if (nullptr == KWindow::CreateHWindow(_pMainWindowName))
+		if (nullptr == KWindow::Create_KWindow(_pMainWindowName))
 		{
 			return;
 		}
 	}
 	else {
-		if (nullptr == KWindow::CreateHWindow(_pMainWindowName, _hWnd))
+		if (nullptr == KWindow::Create_KWindow(_pMainWindowName, _hWnd))
 		{
 			return;
 		}

@@ -16,7 +16,7 @@ Core_Class::~Core_Class()
 
 void Core_Class::MainWindow(const wchar_t* _Name)
 {
-	g_MainWindow = KWindow::FindHWindow(_Name);
+	g_MainWindow = KWindow::Find_KWindow(_Name);
 	KASSERT(nullptr == g_MainWindow);
 }
 

@@ -12,39 +12,39 @@
 HINSTANCE KWindow::g_HInst = nullptr;
 
 
-std::unordered_map<std::wstring, KPtr<KWindow>>::iterator KWindow::WinStartIter;
-std::unordered_map<std::wstring, KPtr<KWindow>>::iterator KWindow::WinEndIter;
+std::unordered_map<std::wstring, KPtr<KWindow>>::iterator KWindow::m_KSI;
+std::unordered_map<std::wstring, KPtr<KWindow>>::iterator KWindow::m_KEI;
 
-std::unordered_map<std::wstring, KPtr<KWindow>> KWindow::g_NWinMap;
-std::unordered_map<HWND, KPtr<KWindow>> KWindow::g_HWinMap;
+std::unordered_map<std::wstring, KPtr<KWindow>> KWindow::g_WinMap;
 
 
 
 // 생성자에서 윈도우 관련 것들이 실행 된다.
-
-KWindow::KWindow(const wchar_t* _Name) : Begin(_Name), m_HWnd(nullptr), statemanager(this), m_Device(this), m_bFull(true)
-{
-	KRegisterClass();
-	if (FALSE == Init_Instance())
-	{
-		m_HWnd = nullptr;
-		return;
-	}
-
-	m_Hdc = GetDC(m_HWnd);
-}
-
 KWindow::KWindow(const wchar_t* _Name, HWND _hWnd) : Begin(_Name), m_HWnd(nullptr), statemanager(this), m_Device(this), m_bFull(true)
 {
-	m_HWnd = _hWnd;
+	if (nullptr == _hWnd)
+	{
+		KRegisterClass();
+		if (FALSE == Init_Instance())
+		{
+			BBY;
+		}
 
-	RECT RC;
-	GetClientRect(_hWnd, &RC);
+		m_Hdc = GetDC(m_HWnd);
+		return;
+	}
+	else
+	{
+		m_HWnd = _hWnd;
 
-	m_Width = RC.right;
-	m_Height = RC.bottom;
+		RECT RC;
+		GetClientRect(_hWnd, &RC);
 
-	m_Hdc = GetDC(m_HWnd);
+		m_Width = RC.right;
+		m_Height = RC.bottom;
+
+		m_Hdc = GetDC(m_HWnd);
+	}
 }
 
 
@@ -62,10 +62,10 @@ void KWindow::Init(HINSTANCE _HInst)
 }
 
 
-KPtr<KWindow> KWindow::CreateHWindow(const wchar_t* _Name, HWND _hWnd)
+KPtr<KWindow> KWindow::Create_KWindow(const wchar_t* _Name, HWND _hWnd)
 {
 	// 스마트 포인터를 사용하기 때문에 이제 왠만
-	KPtr<KWindow> Win = Map_Find<KPtr<KWindow>>(g_NWinMap, _Name);
+	KPtr<KWindow> Win = Map_Find<KPtr<KWindow>>(g_WinMap, _Name);
 
 	if (nullptr != Win)
 	{
@@ -74,14 +74,8 @@ KPtr<KWindow> KWindow::CreateHWindow(const wchar_t* _Name, HWND _hWnd)
 
 	KWindow* pNewWindow = nullptr;
 
-	if (nullptr == _hWnd)
-	{
-		pNewWindow = new KWindow(_Name);
-	}
-	else {
-		pNewWindow = new KWindow(_Name, _hWnd);
-	}
-
+	pNewWindow = new KWindow(_Name, _hWnd);
+	
 	if (nullptr == pNewWindow->m_HWnd)
 	{
 		delete pNewWindow;
@@ -91,20 +85,19 @@ KPtr<KWindow> KWindow::CreateHWindow(const wchar_t* _Name, HWND _hWnd)
 	pNewWindow->Set_Type();
 	
 
-	g_NWinMap.insert(std::unordered_map<std::wstring, KPtr<KWindow>>::value_type(_Name, pNewWindow));
-	g_HWinMap.insert(std::unordered_map<HWND, KPtr<KWindow>>::value_type(pNewWindow->m_HWnd, pNewWindow));
+	g_WinMap.insert(std::unordered_map<std::wstring, KPtr<KWindow>>::value_type(_Name, pNewWindow));
 
 	return pNewWindow;
 }
 
-KPtr<KWindow> KWindow::FindHWindow(const wchar_t* _Name) 
+KPtr<KWindow> KWindow::Find_KWindow(const wchar_t* _Name) 
 {
-	return Map_Find<KPtr<KWindow>>(g_NWinMap, _Name);
+	return Map_Find<KPtr<KWindow>>(g_WinMap, _Name);
 }
 
-void KWindow::EraseHWindow(const HWND _Handle)
+void KWindow::Erase_KWindow(const wchar_t* _Name)
 {
-	KPtr<KWindow> Win = Map_Find<KPtr<KWindow>>(g_HWinMap, _Handle);
+	KPtr<KWindow> Win = Map_Find<KPtr<KWindow>>(g_WinMap, _Name);
 
 	KASSERT(nullptr == Win);
 
@@ -114,18 +107,36 @@ void KWindow::EraseHWindow(const HWND _Handle)
 	}
 
 	std::wstring Name = Win->Name();
-	Map_Erase(g_HWinMap, _Handle);
-	Map_Erase(g_NWinMap, Name.c_str());
+	Map_Erase(g_WinMap, Name.c_str());
+}
+
+
+void KWindow::Erase_KWindow(const HWND _Hwnd)
+{
+	m_KSI = g_WinMap.begin();
+	m_KEI = g_WinMap.end();
+
+	for (; m_KSI != m_KEI; ++m_KSI)
+	{
+		if (m_KSI->second->m_HWnd == _Hwnd)
+		{
+			Map_Erase(g_WinMap, m_KSI->first);
+			return;
+		}
+	}
+
+	// 여기선 지우지 못하면 터짐 -> 없다는 소리니깡
+	BBY;
 }
 
 void KWindow::Progress()
 {
-	WinStartIter = g_NWinMap.begin();
-	WinEndIter = g_NWinMap.end();
+	m_KSI = g_WinMap.begin();
+	m_KEI = g_WinMap.end();
 
-	for (; WinStartIter != WinEndIter; ++WinStartIter)
+	for (; m_KSI != m_KEI; ++m_KSI)
 	{
-		WinStartIter->second->Update();
+		m_KSI->second->Update();
 	}
 }
 
@@ -142,7 +153,7 @@ LRESULT CALLBACK KWindow::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM
 	}
 	break;
 	case WM_DESTROY:
-		EraseHWindow(hWnd);
+		Erase_KWindow(hWnd);
 		break;
 	default:
 		return DefWindowProc(hWnd, message, wParam, lParam);

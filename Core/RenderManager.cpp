@@ -245,7 +245,7 @@ void RenderManager::Render_Defferd(KPtr<Camera> _Camera, std::map<int, std::list
 
 	KPtr<KMaterial> DEFFERD3DMAT = ResourceManager<KMaterial>::Find(L"DEFFERD3DMAT");
 	
-	// KPtr<KMaterial> DEFFERD3DMATANI = ResourceManager<KMaterial>::Find(L"DEFFERD3DMATANI");
+	KPtr<KMaterial> DEFFERD3DMATANI = ResourceManager<KMaterial>::Find(L"DEFFERD3DMATANI");
 
 
 	KASSERT(nullptr == DEFFERD3DMAT);
@@ -262,13 +262,13 @@ void RenderManager::Render_Defferd(KPtr<Camera> _Camera, std::map<int, std::list
 		{
 			(*m_RSI)->Update_Trans(_Camera);
 			(*m_RSI)->Update_TransCB();
+			(*m_RSI)->RenderUpdate();
 
 
 			for (KUINT i = 0; i < (KUINT)(*m_RSI)->Count_Mesh(); i++)
 			{
 				for (KUINT j = 0; j < (KUINT)(*m_RSI)->Count_Material(); j++)
 				{
-					(*m_RSI)->RenderUpdate();
 					(*m_RSI)->Render(_Camera);
 					(*m_RSI)->Update_TexSmp(j);
 					(*m_RSI)->Update_MtlCB(j);

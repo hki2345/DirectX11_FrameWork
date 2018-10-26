@@ -18,18 +18,16 @@ public:
 	friend KCore;
 
 protected:
-	KWindow(const wchar_t* _Name);
 	KWindow(const wchar_t* _Name, HWND _hWnd);
 	~KWindow();
 
 
 	// 데이터 - 다른 윈도우와 공유될 수 있는 분모 격
 private:
-	static std::unordered_map<std::wstring, KPtr<KWindow>>::iterator WinStartIter;
-	static std::unordered_map<std::wstring, KPtr<KWindow>>::iterator WinEndIter;
+	static std::unordered_map<std::wstring, KPtr<KWindow>>::iterator m_KSI;
+	static std::unordered_map<std::wstring, KPtr<KWindow>>::iterator m_KEI;
 
-	static std::unordered_map<std::wstring, KPtr<KWindow>> g_NWinMap;
-	static std::unordered_map<HWND, KPtr<KWindow>> g_HWinMap;
+	static std::unordered_map<std::wstring, KPtr<KWindow>> g_WinMap;
 
 private:
 	// 이 클래스는 인스턴스를 들고 있음 -> HWND 같은 거는 데이터 영역이 아님
@@ -39,9 +37,10 @@ private:
 	static void Init(HINSTANCE _HInst);
 
 public:
-	static KPtr<KWindow> CreateHWindow(const wchar_t* _Name, HWND _hWnd = nullptr);
-	static KPtr<KWindow> FindHWindow(const wchar_t* _Name);
-	static void EraseHWindow(const HWND _Handle);
+	static KPtr<KWindow> Create_KWindow(const wchar_t* _Name, HWND _hWnd = nullptr);
+	static KPtr<KWindow> Find_KWindow(const wchar_t* _Name);
+	static void Erase_KWindow(const wchar_t* _Name);
+	static void Erase_KWindow(const HWND _Name);
 	static void Progress();
 
 private:
@@ -51,7 +50,7 @@ private:
 public:
 	static size_t WindowCount()
 	{
-		return g_NWinMap.size();
+		return g_WinMap.size();
 	}
 
 	

@@ -69,19 +69,23 @@ public:
 	// 인덱스 버퍼의 용도가 무엇이냐? D3D11_USAGE _eIdxUsage
 	// 이하 동문
 	bool Create(UINT _iVtxCount, UINT _iVtxSize, D3D11_USAGE _eVtxUsage, void* _VtxMem, 
-		UINT _iTriCount, UINT _iIdxSize, D3D11_USAGE _eIdxUsage, void* _IdxMem, DXGI_FORMAT	_IdxFm
+		UINT _IdxCnt, UINT _iIdxSize, D3D11_USAGE _eIdxUsage, void* _IdxMem, DXGI_FORMAT	_IdxFm
 	, D3D11_PRIMITIVE_TOPOLOGY	_eDrawMode = D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 
 
 	// -> 일단 공개한다.
 public:
+	void draw_mode(D3D11_PRIMITIVE_TOPOLOGY _eDrawMode) { m_eDrawMode = _eDrawMode; }
 	bool Create_Vertex(UINT _iVtxCount, UINT _iVtxSize, D3D11_USAGE _eVtxUsage, void* _VtxMem);
 	bool Create_Index(UINT _iTriCount, UINT _iIdxSize, D3D11_USAGE _eIdxUsage, DXGI_FORMAT _IdxFm, void* _IdxMem);
 
 public:
 	void Update(const KUINT& _Start = 0, const KUINT& _VtxCnt = 1, KUINT* _pOff = nullptr);
 	void Render(const KUINT& _Start = 0, const KUINT& _EndIdx = 1, KUINT* _pOff = nullptr);
+
+	// 해당 버텍스, 인덱스의 정보를 (버퍼) 그리는 것 - 보내주는 것
+	void Update_Pick(const KUINT& _Vtx, const KUINT& _Sub);
 
 public:
 	KMesh();

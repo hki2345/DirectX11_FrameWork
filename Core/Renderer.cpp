@@ -37,6 +37,25 @@ bool Renderer::Init(int _Order)
 	return true;
 }
 
+bool Renderer::Set_Mesh(KPtr<KMesh> _Mesh, const int& _Index)
+{
+	KASSERT(nullptr == _Mesh);
+
+	if (m_MeshVec.size() <= _Index)
+	{
+		m_MeshVec.resize(_Index + 1);
+	}
+
+	m_MeshVec[_Index] = _Mesh;
+	KASSERT(nullptr == m_MeshVec[_Index]);
+
+	if (nullptr == m_MeshVec[_Index])
+	{
+		return false;
+	}
+	return true;
+}
+
 bool Renderer::Set_Mesh(const wchar_t* _Res, const int& _Index) 
 {
 	if (m_MeshVec.size() <= _Index)
@@ -164,6 +183,29 @@ void Renderer::Update_Mesh(const KUINT _Index /*= 0*/)
 	{
 		m_MeshVec[_Index]->Update();
 		m_MeshVec[_Index]->Render();
+	}
+	else
+	{
+		BBY;
+	}
+}
+
+
+
+
+// ·»´õµ¥ÀÌÅÍ¸¦ ½¦ÀÌ´õ·Î º¸³»±â À§ÇØ ¼¼ÆÃÀÌ ¸ÕÀú µÇ¾î¾ß ÇÑ´Ù. - ­w°¡ÇØ¾ß ÇÑ´Ù.
+// ±× ÀÛ¾÷
+void Renderer::Insert_RenderData(const KUINT& _Mesh, const KUINT& _Vtx, const KUINT& _Sub, const KUINT _Mat)
+{
+	m_RDVec.push_back({ _Mesh, _Vtx, _Sub, _Mat });
+}
+
+// ÇØ´ç ¸Þ½¬ µû·Î ÃÖ½ÅÈ­
+void Renderer::Update_SelectMesh(const KUINT& _Mesh, const KUINT& _Vtx, const KUINT& _Idx)
+{
+	if (nullptr != m_MeshVec[_Mesh])
+	{
+		m_MeshVec[_Mesh]->Update_Pick(_Vtx, _Idx);
 	}
 	else
 	{

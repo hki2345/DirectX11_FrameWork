@@ -80,15 +80,15 @@ class Vertex_FbxData
 {
 public:
 	KVector m_Pos;
+	KVector2 m_UV;
 	KVector m_Normal;
 	KVector m_Tangent;
 	KVector m_Binormal;
-	KVector2 m_UV;
 
-	// 스키닝 정보 - 
-	KVector m_Indices;
 	// 가중치 정보 - 애니메이션 전환 간 이전 혹은 다음 애니메이션을 얼마나 섞을 것이냐
 	KVector m_Weights;
+	// 스키닝 정보 - 
+	KVector m_Indices;
 };
 
 class Mesh_FbxData

@@ -11,7 +11,10 @@ FBXLoader::FBXLoader()
 }
 FBXLoader::~FBXLoader()
 {
-
+	if (nullptr != m_pNewFbx)
+	{
+		delete m_pNewFbx;
+	}
 }
 
 FbxAMatrix FBXLoader::MX_Reflect;
@@ -82,13 +85,19 @@ void FBXLoader::Load_FBX(const wchar_t* _Path)
 	pIos->Destroy();
 	m_pManager->Destroy();
 
-	delete m_pNewFbx;
+	// 소멸ㄹ자에서 한다.
+	// delete m_pNewFbx;
 }
 
 // 제귀 돌려서 본의 전체 개수를 알아온다.
 void FBXLoader::Check_AllBoneCnt(FbxNode* _pNode)
 {
-	++m_BoneCnt;
+	FbxNodeAttribute* pAttr = _pNode->GetNodeAttribute();
+	if (nullptr != pAttr && pAttr->GetAttributeType() == FbxNodeAttribute::eSkeleton)
+	{
+		++m_BoneCnt;
+	}
+	
 	int Cnt = _pNode->GetChildCount();
 	for (int i = 0; i < Cnt; i++)
 	{

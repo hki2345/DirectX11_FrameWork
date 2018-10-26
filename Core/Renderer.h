@@ -8,6 +8,32 @@
 #include "KBlend.h"
 #include "KDevice.h"
 
+
+class Render_Data
+{
+public:
+	friend Renderer;
+
+public:
+	KUINT Mesh;
+	KUINT Vertex;
+	KUINT Sub_inx;
+	KUINT Material;
+
+private:
+	Render_Data(const KUINT& _Mesh, const KUINT& _Vtx, const KUINT& _Sub, const KUINT& _Mtl)
+		: Mesh(_Mesh), Vertex(_Vtx), Sub_inx(_Sub), Material(_Mtl)
+	{
+
+	}
+};
+
+enum RENDER_DATATYPE
+{
+	RDT_BASE,
+	RDT_DATA,
+};
+
 class RenderOption
 {
 public:
@@ -30,9 +56,9 @@ public:
 	int VTz_PXo;  // Vert -> 0, Pixel -> 1
 	int TexCnt;
 	int IsBoneAni; // 이것이 애니메이션이냐 -> 인트로 해야하는데 일단 박아넣음
+	RENDER_DATATYPE Render_DT;
 
 	// 이게 바로 인트 하나 추가하므로서 생긴 짜투리
-	int temp1;
 	int temp2;
 	int temp3;
 
@@ -66,7 +92,7 @@ protected:
 
 	std::vector<KPtr<KMesh>>		m_MeshVec;
 	std::vector<KPtr<KMaterial>> m_MtlVec;
-
+	std::vector<Render_Data> m_RDVec;
 
 
 	KPtr<KDevice::RState>	m_RsState;
@@ -87,8 +113,15 @@ public:
 	void Set_RSState(const wchar_t* _Name);
 	int order() { return m_Order; }
 
+
+	// 직접 해당 메쉬를 넣어주는 방식
+	bool Set_Mesh(KPtr<KMesh> _Mesh, const int& _Index = 0);
+
+	// 이 둘은 이름을 리소스 메니저에서 찾아서 넣어주는 방식
 	bool Set_Mesh(const wchar_t* _Res, const int& Index = 0);
 	bool Set_Mat(const wchar_t* _Res, const int& Index = 0);
+
+	void Insert_RenderData(const KUINT& _Mesh, const KUINT& _Vtx, const KUINT& _Sub, const KUINT _Mat);
 
 private:
 	void RenderUpdate();
@@ -103,6 +136,8 @@ protected:
 	virtual void Update_Material(const KUINT _Index = 0);
 	virtual void Update_Mesh(const KUINT _Index = 0);
 
+	// 해당 메쉬 따로 최신화
+	virtual void Update_SelectMesh(const KUINT& _Mesh, const KUINT& _Vtx, const KUINT& _Idx);
 
 public:
 	virtual bool Init(int _Order = 0);

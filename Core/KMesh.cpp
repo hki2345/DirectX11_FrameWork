@@ -2,7 +2,7 @@
 #include "Core_Class.h"
 
 
-KMesh::KMesh() 
+KMesh::KMesh() : m_eDrawMode(D3D11_PRIMITIVE_TOPOLOGY::D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST)
 {
 }
 
@@ -126,4 +126,16 @@ void KMesh::Render(const KUINT& _Start /*= 0*/, const KUINT& _EndIdx /*= 1*/, KU
 			IndexBuffInfo_Vec[i]->m_IdxBuf, IndexBuffInfo_Vec[i]->m_IdxFm, iOff[i]);
 		Core_Class::Context()->DrawIndexed(IndexBuffInfo_Vec[i]->m_IdxCnt, 0, 0);
 	}
+}
+
+
+
+void KMesh::Update_Pick(const KUINT& _Vtx, const KUINT& _Sub)
+{
+	KUINT tIdx = 0;
+
+	Core_Class::Context()->IASetVertexBuffers(_Vtx, 1, &VertBuff_Vec[0], &VertSize_Vec[0], &tIdx);
+	Core_Class::Context()->IASetPrimitiveTopology(m_eDrawMode);
+	Core_Class::Context()->IASetIndexBuffer(IndexBuffInfo_Vec[_Sub]->m_IdxBuf, IndexBuffInfo_Vec[_Sub]->m_IdxFm, 0);
+	Core_Class::Context()->DrawIndexed(IndexBuffInfo_Vec[_Sub]->m_IdxCnt, 0, 0);
 }

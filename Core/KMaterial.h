@@ -9,6 +9,7 @@ enum TEX_TYPE
 {
 	TEX_COLOR,
 	TEX_BUMP,
+	TEX_SPEC,
 	TEX_TAGET,
 };
 
