@@ -244,8 +244,7 @@ void RenderManager::Render_Defferd(KPtr<Camera> _Camera, std::map<int, std::list
 	DEFFERDTAGET->OMSet();
 
 	KPtr<KMaterial> DEFFERD3DMAT = ResourceManager<KMaterial>::Find(L"DEFFERD3DMAT");
-	
-	KPtr<KMaterial> DEFFERD3DMATANI = ResourceManager<KMaterial>::Find(L"DEFFERD3DMATANI");
+	KPtr<KMaterial> DEFFERD3DMATANI = ResourceManager<KMaterial>::Find(L"DEFFERD3DANIMAT");
 
 
 	KASSERT(nullptr == DEFFERD3DMAT);
@@ -264,32 +263,66 @@ void RenderManager::Render_Defferd(KPtr<Camera> _Camera, std::map<int, std::list
 			(*m_RSI)->Update_TransCB();
 			(*m_RSI)->RenderUpdate();
 
-
-			for (KUINT i = 0; i < (KUINT)(*m_RSI)->Count_Mesh(); i++)
+			// 기본 베잇6ㅡ - 그냥 그리면 된다. -> 데이터가 곧 넘어가서 계산될 값이기 때문
+			// 무엇이 계산되냐... 그 있잖아 값들
+			if (RENDER_DATATYPE::RDT_BASE == (*m_RSI)->ROpt.Render_DT)
 			{
-				for (KUINT j = 0; j < (KUINT)(*m_RSI)->Count_Material(); j++)
+				for (KUINT i = 0; i < (KUINT)(*m_RSI)->Count_Mesh(); i++)
 				{
+					for (KUINT j = 0; j < (KUINT)(*m_RSI)->Count_Material(); j++)
+					{
+						(*m_RSI)->Render(_Camera);
+						(*m_RSI)->Update_TexSmp(j);
+						(*m_RSI)->Update_MtlCB(j);
+						// (*m_RSI)->Update_Material();
+
+						// 애니메이션이면 이 재질 씀
+						if (1 == (*m_RSI)->ROpt.IsBoneAni)
+						{
+							DEFFERD3DMATANI->Update();
+						}
+						// 아니면 이거
+						else
+
+							// 이지만 현재로선 오타가 많아 애니 재질을 쓸 수 없는 지경 ㄷㄷ
+						{
+							DEFFERD3DMAT->Update();
+						}
+
+						(*m_RSI)->Update_Mesh(i);
+
+					}
+				}
+				
+
+			}
+			else if (RENDER_DATATYPE::RDT_DATA == (*m_RSI)->ROpt.Render_DT)
+			{
+				for (KUINT i = 0; i < (KUINT)(*m_RSI)->m_RDVec.size(); i++)
+				{
+					Render_Data tData = (*m_RSI)->m_RDVec[i];
+
 					(*m_RSI)->Render(_Camera);
-					(*m_RSI)->Update_TexSmp(j);
-					(*m_RSI)->Update_MtlCB(j);
-					// (*m_RSI)->Update_Material();
+					(*m_RSI)->Update_TexSmp((*m_RSI)->m_RDVec[i].Material);
+					(*m_RSI)->Update_MtlCB((*m_RSI)->m_RDVec[i].Material);
 
 					// 애니메이션이면 이 재질 씀
-					//if (1 == (*m_RSI)->ROpt.IsBoneAni)
-					//{
-					//	DEFFERD3DMATANI->Update();
-					//}
-					//// 아니면 이거
-					//else
-
+					if (1 == (*m_RSI)->ROpt.IsBoneAni)
+					{
+						DEFFERD3DMATANI->Update();
+					}
+					// 아니면 이거
 					// 이지만 현재로선 오타가 많아 애니 재질을 쓸 수 없는 지경 ㄷㄷ
+					else
 					{
 						DEFFERD3DMAT->Update();
 					}
 
-					(*m_RSI)->Update_Mesh(i);
-
+					(*m_RSI)->Update_SelectMesh((*m_RSI)->m_RDVec[i].Mesh
+						, (*m_RSI)->m_RDVec[i].Vertex
+						, (*m_RSI)->m_RDVec[i].Sub_inx);
 				}
+
 			}
 
 			(*m_RSI)->RenderFinalUpdate();
@@ -309,19 +342,40 @@ void RenderManager::Render_Forward(KPtr<Camera> _Camera, std::map<int, std::list
 			(*m_RSI)->Update_Trans(_Camera);
 			(*m_RSI)->Update_TransCB();
 
-
-			for (KUINT i = 0; i < (KUINT)(*m_RSI)->Count_Mesh(); i++)
+			// 기본 베잇6ㅡ - 그냥 그리면 된다. -> 데이터가 곧 넘어가서 계산될 값이기 때문
+			// 무엇이 계산되냐... 그 있잖아 값들
+			if (RENDER_DATATYPE::RDT_BASE == (*m_RSI)->ROpt.Render_DT)
 			{
-				for (KUINT j = 0; j < (KUINT)(*m_RSI)->Count_Material(); j++)
+				for (KUINT i = 0; i < (KUINT)(*m_RSI)->Count_Mesh(); i++)
 				{
-					(*m_RSI)->RenderUpdate();
-					(*m_RSI)->Render(_Camera);
-					(*m_RSI)->Update_TexSmp(j);
-					(*m_RSI)->Update_MtlCB(j);
-					(*m_RSI)->Update_Material(j);
-					(*m_RSI)->Update_Mesh(i);
+					for (KUINT j = 0; j < (KUINT)(*m_RSI)->Count_Material(); j++)
+					{
+						(*m_RSI)->RenderUpdate();
+						(*m_RSI)->Render(_Camera);
+						(*m_RSI)->Update_TexSmp(j);
+						(*m_RSI)->Update_MtlCB(j);
+						(*m_RSI)->Update_Material(j);
+						(*m_RSI)->Update_Mesh(i);
 
+					}
 				}
+			}
+			else if (RENDER_DATATYPE::RDT_DATA == (*m_RSI)->ROpt.Render_DT)
+			{
+				for (KUINT i = 0; i < (KUINT)(*m_RSI)->m_RDVec.size(); i++)
+				{
+					Render_Data tData = (*m_RSI)->m_RDVec[i];
+
+					(*m_RSI)->Render(_Camera);
+					(*m_RSI)->Update_TexSmp((*m_RSI)->m_RDVec[i].Material);
+					(*m_RSI)->Update_MtlCB((*m_RSI)->m_RDVec[i].Material);
+					(*m_RSI)->Update_Material((*m_RSI)->m_RDVec[i].Material);
+
+					(*m_RSI)->Update_SelectMesh((*m_RSI)->m_RDVec[i].Mesh
+						, (*m_RSI)->m_RDVec[i].Vertex
+						, (*m_RSI)->m_RDVec[i].Sub_inx);
+				}
+
 			}
 
 			(*m_RSI)->RenderFinalUpdate();

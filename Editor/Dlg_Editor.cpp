@@ -12,6 +12,8 @@
 #include <Camera_Free.h>
 #include <Renderer_Grid.h>
 #include <Renderer_Mesh.h>
+#include <Renderer_BonAni.h>
+
 #include <ResourceManager.h>
 #include <KImage.h>
 #include <Light.h>
@@ -67,7 +69,7 @@ BOOL Dlg_Editor::OnInitDialog()
 	
 
 	// FBXLoader FLoad;
-	// FLoad.Load_FBX((PathManager::Find_ForderPathStr(L"Mesh") + L"Monster3.FBX").c_str());
+	// FLoad.Load_FBX((PathManager::Find_ForderPathStr(L"Mesh") + L"Warehouse01.FBX").c_str());
 
 	KPtr<State> TabScene = Core_Class::MainSceneMgr().Find_State(SceneName.GetString());
 
@@ -139,7 +141,7 @@ BOOL Dlg_Editor::OnInitDialog()
 	SPHERELEFT->Trans()->pos_local(KVector4(-15.0f, 0.0f, 0.0f));
 	KPtr<Renderer_Mesh> PTRMESH1 = SPHERELEFT->Add_Component<Renderer_Mesh>();
 	PTRMESH1->ROpt.IsLight = 1;
-	PTRMESH1->Set_Mat(L"MESH3DMAT");
+	PTRMESH1->Set_Material(L"MESH3DMAT");
 	PTRMESH1->Set_Mesh(L"SPHERE");
 
 	PTRMESH1->material()->Insert_TexData(TEX_TYPE::TEX_COLOR, 0, L"TILE_01.png");
@@ -159,6 +161,14 @@ BOOL Dlg_Editor::OnInitDialog()
 	KPtr<Renderer_Mesh> PTRMESH3 = CUBEMIDDLE->Add_Component<Renderer_Mesh>();
 	PTRMESH3->Set_Mesh(L"CUBE");
 
+
+	// AniTest
+	KPtr<TheOne> TestAni = TabScene->Create_One(L"Test");
+	TestAni->Trans()->pos_local(KVector(.0f));
+	TestAni->Trans()->scale_local(KVector(.1f, .1f, .1f, .0f));
+	KPtr<Renderer_BonAni> TestRender = TestAni->Add_Component<Renderer_BonAni>();
+
+	TestRender->Load_FbxTest((PathManager::Find_ForderPathStr(L"Mesh") + L"moster3.FBX").c_str());
 
 
 	return TRUE;  // return TRUE unless you set the focus to a control

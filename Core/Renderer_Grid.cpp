@@ -84,7 +84,7 @@ bool Renderer_Grid::Init(int _Order /*= 0*/)
 {
 	Renderer::Init(_Order);
 
-	if (false == Set_Mat(L"GRID3DMAT"))
+	if (false == Set_Material(L"GRID3DMAT"))
 	{
 		return false;
 	}

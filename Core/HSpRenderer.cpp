@@ -50,7 +50,7 @@ bool HSpRenderer::Init(int _Order)
 {
 	Renderer::Init(_Order);
 
-	if (false == Set_Mat(L"IMGMAT"))
+	if (false == Set_Material(L"IMGMAT"))
 	{
 		return false;
 	}

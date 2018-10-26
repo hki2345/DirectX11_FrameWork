@@ -9,7 +9,7 @@
 
 Renderer::Renderer() : m_RsState(nullptr)
 {
-	if (false == Set_Mat(L"NONEMAT"))
+	if (false == Set_Material(L"NONEMAT"))
 	{
 		BBY;
 	}
@@ -73,7 +73,7 @@ bool Renderer::Set_Mesh(const wchar_t* _Res, const int& _Index)
 	return true;
 }
 
-bool Renderer::Set_Mat(const wchar_t* _Res, const int& _Index)
+bool Renderer::Set_Material(const wchar_t* _Res, const int& _Index)
 {
 	if (m_MtlVec.size() <= _Index)
 	{

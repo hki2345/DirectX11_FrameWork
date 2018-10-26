@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ReadStream.h" />
+    <ClInclude Include="Renderer_BonAni.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="WriteStream.h" />
     <ClInclude Include="DXContainer.h" />
@@ -88,6 +89,7 @@
   <ItemGroup>
     <ClCompile Include="KFBX.cpp" />
     <ClCompile Include="ReadStream.cpp" />
+    <ClCompile Include="Renderer_BonAni.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TheOne_Trans.cpp" />
     <ClCompile Include="WriteStream.cpp" />

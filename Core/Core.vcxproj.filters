@@ -196,6 +196,9 @@
     <ClInclude Include="KFBX.h">
       <Filter>03 Manager\Resource\Child\FBX</Filter>
     </ClInclude>
+    <ClInclude Include="Renderer_BonAni.h">
+      <Filter>03 Manager\Render\Child</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SmartPtr.cpp">
@@ -377,6 +380,9 @@
     </ClCompile>
     <ClCompile Include="KFBX.cpp">
       <Filter>03 Manager\Resource\Child\FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer_BonAni.cpp">
+      <Filter>03 Manager\Render\Child</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -34,6 +34,7 @@
 #include "MultiCritical.cpp"
 #include "ReadStream.cpp"
 #include "Renderer.cpp"
+#include "Renderer_BonAni.cpp"
 #include "Renderer_Grid.cpp"
 #include "Renderer_Mesh.cpp"
 #include "Renderer_Rect.cpp"

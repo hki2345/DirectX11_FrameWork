@@ -44,7 +44,15 @@ void Resource::Split_Path(const wchar_t* _Path)
 
 	// m_FileForder = ArrDrive;
 	// m_FileForder += ArrFolder;
+
 	m_FileName = ArrFile;
 	m_FileExt = ArrExt; 
 	m_FileNameExi = m_FileName + m_FileExt;
+
+	// 폴더 별 저장은 - 멀티
+	// 폴더가 파일 이름으로 되는 순간 - 솔로
+	if (L"" == m_FileForder)
+	{
+		m_FileForder = m_FileNameExi;
+	}
 }

@@ -119,7 +119,7 @@ public:
 
 	// 이 둘은 이름을 리소스 메니저에서 찾아서 넣어주는 방식
 	bool Set_Mesh(const wchar_t* _Res, const int& Index = 0);
-	bool Set_Mat(const wchar_t* _Res, const int& Index = 0);
+	bool Set_Material(const wchar_t* _Res, const int& Index = 0);
 
 	void Insert_RenderData(const KUINT& _Mesh, const KUINT& _Vtx, const KUINT& _Sub, const KUINT _Mat);
 

@@ -214,11 +214,13 @@ void FBXLoader::Set_MeshData(FbxNode* _pNode)
 		{
 			Mesh_FbxData* NewMD = new Mesh_FbxData();
 			m_pNewFbx->MeshData_Vec.push_back(NewMD);
-
 			NewMD->MName = CA2W(pMesh->GetName(), CP_UTF8);
+
 			int MtrlCount = _pNode->GetMaterialCount();
 			NewMD->IdxVec.resize(MtrlCount);
+			NewMD->m_MtlVec.reserve(MtrlCount);
 
+			Set_Mesh(NewMD, pMesh);
 			
 			
 			// 위에서 버텍스 인덱스까지 그려낸 메쉬 하나에 대한 애니메이션 정보를
@@ -250,6 +252,63 @@ void FBXLoader::Set_MeshData(FbxNode* _pNode)
 }
 
 
+// 메쉬 정보
+void FBXLoader::Set_Mesh(Mesh_FbxData* _pMD, FbxMesh* _pMesh)
+{
+	// 정점의 개수 확인 - 설치
+	int iVtxCnt = _pMesh->GetControlPointsCount();
+	_pMD->Set_VertexCount(iVtxCnt);
+
+
+	// 정점 받아오기
+	FbxVector4* pFbxPos = _pMesh->GetControlPoints();
+
+	for (size_t i = 0; i < iVtxCnt; i++)
+	{
+		_pMD->VertVec[i].m_Pos.x = (float)pFbxPos[i].mData[0];
+		_pMD->VertVec[i].m_Pos.y = (float)pFbxPos[i].mData[2];
+		_pMD->VertVec[i].m_Pos.z = (float)pFbxPos[i].mData[1];
+		_pMD->VertVec[i].m_Pos.w = 1.0f;
+	}
+
+	// 인덱스 버퍼
+	int TriCnt = _pMesh->GetPolygonCount();
+
+	int IdxSize = _pMesh->GetPolygonSize(0);
+
+	// 인덱스가 3이 아닌 경우도 있지만 우선 기본적으로는 3이기 때문에
+	// 일단 무조건 거른다.
+	if (3 != IdxSize)
+	{
+		BBY;
+	}
+
+	IDX32 tempIDX32 = {};
+	KUINT CurVtx = 0;
+
+	FbxGeometryElementMaterial* pMtrl = _pMesh->GetElementMaterial();
+
+	for (int i = 0; i < TriCnt; i++)
+	{
+		for (int j = 0; j < IdxSize; j++)
+		{
+			tempIDX32.p[j] = (DWORD)_pMesh->GetPolygonVertex(i, j);
+			Set_Normal(_pMesh, _pMD, tempIDX32.p[j], CurVtx);
+			Set_Tangent(_pMesh, _pMD, tempIDX32.p[j], CurVtx);
+			Set_BNormal(_pMesh, _pMD, tempIDX32.p[j], CurVtx);
+			Set_Uv(_pMesh, _pMD, tempIDX32.p[j], CurVtx);
+			++CurVtx;
+		}
+
+		// i 번쨰 서브셋 인덱스 버퍼에 접그ㄴ해
+		// 해당 데이터를 얻어낸다. - 해당 데이터 = 기준 축
+		int SubIdx = pMtrl->GetIndexArray().GetAt(i);
+		_pMD->IdxVec[SubIdx].push_back(tempIDX32.p[0]);
+		_pMD->IdxVec[SubIdx].push_back(tempIDX32.p[2]);
+		_pMD->IdxVec[SubIdx].push_back(tempIDX32.p[1]);
+	}
+
+}
 
 // Semantic
 // MSDN 자료이고 HLSL에서 지원하는 형태 -> 디퍼드 쉐이더까지 했다면 굳이 이말이 뭔지 알거임.
@@ -580,66 +639,9 @@ void FBXLoader::Set_Material(Mesh_FbxData* _pMD, FbxSurfaceMaterial* _pSur)
 	NewMtl->Spec = Get_MaterialTexName(_pSur, FbxSurfaceMaterial::sSpecular);
 	NewMtl->Emiv = Get_MaterialTexName(_pSur, FbxSurfaceMaterial::sEmissive);
 
-	_pMD->m_MaterialVec.push_back(NewMtl);
+	_pMD->m_MtlVec.push_back(NewMtl);
 }
 
-// 메쉬 정보
-void FBXLoader::Set_Mesh(Mesh_FbxData* _pMD, FbxMesh* _pMesh)
-{
-	// 정점의 개수 확인 - 설치
-	int iVtxCnt = _pMesh->GetControlPointsCount();
-	_pMD->Set_VertexCount(iVtxCnt);
-
-
-	// 정점 받아오기
-	FbxVector4* pFbxPos = _pMesh->GetControlPoints();
-
-	for (size_t i = 0; i < iVtxCnt; i++)
-	{
-		_pMD->VertVec[i].m_Pos.x = (float)pFbxPos[i].mData[0];
-		_pMD->VertVec[i].m_Pos.y = (float)pFbxPos[i].mData[2];
-		_pMD->VertVec[i].m_Pos.z = (float)pFbxPos[i].mData[1];
-		_pMD->VertVec[i].m_Pos.w = 1.0f;
-	}
-
-	// 인덱스 버퍼
-	int TriCnt = _pMesh->GetPolygonCount();
-
-	int IdxSize = _pMesh->GetPolygonSize(0);
-
-	// 인덱스가 3이 아닌 경우도 있지만 우선 기본적으로는 3이기 때문에
-	// 일단 무조건 거른다.
-	if (3 != IdxSize)
-	{
-		BBY;
-	}
-
-	IDX32 tempIDX32 = {};
-	KUINT CurVtx = 0;
-
-	FbxGeometryElementMaterial* pMtrl = _pMesh->GetElementMaterial();
-
-	for (int i = 0; i < TriCnt; i++)
-	{
-		for (int j = 0; j < IdxSize; j++)
-		{
-			tempIDX32.p[j] = (DWORD)_pMesh->GetPolygonVertex(i, j);
-			Set_Normal(_pMesh, _pMD, tempIDX32.p[j], CurVtx);
-			Set_Tangent(_pMesh, _pMD, tempIDX32.p[j], CurVtx);
-			Set_BNormal(_pMesh, _pMD, tempIDX32.p[j], CurVtx);
-			Set_Uv(_pMesh, _pMD, tempIDX32.p[j], CurVtx);
-			++CurVtx;
-		}
-
-		// i 번쨰 서브셋 인덱스 버퍼에 접그ㄴ해
-		// 해당 데이터를 얻어낸다. - 해당 데이터 = 기준 축
-		int SubIdx = pMtrl->GetIndexArray().GetAt(i);
-		_pMD->IdxVec[SubIdx].push_back(tempIDX32.p[0]);
-		_pMD->IdxVec[SubIdx].push_back(tempIDX32.p[2]);
-		_pMD->IdxVec[SubIdx].push_back(tempIDX32.p[1]);
-	}
-
-}
 
 
 
@@ -729,7 +731,7 @@ void FBXLoader::Set_FrameMatrix(FbxNode* _pNode, FbxCluster* _pC, KBone* _pBone,
 			// 이 프레임ㅇ 워크로 공간 변환
 			MX_CurTrans = MX_Reflect * MX_CurTrans * MX_Reflect;
 
-			tFrame.KeyTime = tTime.GetSecondDouble();
+			tFrame.dTime = tTime.GetSecondDouble();
 			tFrame.MX_Frame = MX_CurTrans;
 			m_pNewFbx->Bone_Vec[_pBone->Index]->KFVec.push_back(tFrame);
 		}

@@ -24,8 +24,8 @@
 class KeyFrame
 {
 public:
-	FbxMatrix	MX_Frame;
-	double		KeyTime;
+	FbxAMatrix	MX_Frame;
+	double		dTime;
 };
 
 class KBone
@@ -96,9 +96,9 @@ class Mesh_FbxData
 public:
 	~Mesh_FbxData()
 	{
-		for (size_t i = 0; i < m_MaterialVec.size(); i++)
+		for (size_t i = 0; i < m_MtlVec.size(); i++)
 		{
-			delete m_MaterialVec[i];
+			delete m_MtlVec[i];
 		}
 	}
 
@@ -106,7 +106,7 @@ public:
 	std::wstring MName;
 	std::vector<Vertex_FbxData> VertVec;
 	std::vector<std::vector<KUINT>> IdxVec;
-	std::vector<Material_FbxData*> m_MaterialVec;
+	std::vector<Material_FbxData*> m_MtlVec;
 
 	bool m_bAni;
 
@@ -199,11 +199,12 @@ public:
 	KFBX* m_pNewFbx;
 	KUINT	m_BoneCnt;
 
-private:
-	void Check_AllBoneCnt(FbxNode* _pNode);
-
+public:
 	// 기본 세팅 - 데이터의 확인 유무와 정상적인 파일 혹은 보정
 	void Load_FBX(const wchar_t* _Path);
+
+private:
+	void Check_AllBoneCnt(FbxNode* _pNode);
 
 	// 본 얻어오기
 	void Load_Bone(FbxNode* _pNode, KUINT _Depth, KBone* _pParent);
