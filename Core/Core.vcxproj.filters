@@ -428,9 +428,6 @@
     <Filter Include="03 Manager\Collision">
       <UniqueIdentifier>{fdf6ba0b-d2e0-43da-9276-663b27f7a166}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03 Manager\Render">
-      <UniqueIdentifier>{c5e0d843-29ae-49bb-8081-7d553456815a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="03 Manager\Debug">
       <UniqueIdentifier>{2ec30f6c-5268-4337-8417-0df3ef9842fb}</UniqueIdentifier>
     </Filter>
@@ -449,9 +446,6 @@
     <Filter Include="03 Manager\Resource\Child">
       <UniqueIdentifier>{f7626e9e-bdb7-4f06-bf4b-69285113cae8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03 Manager\Render\Child">
-      <UniqueIdentifier>{763ad756-f16e-417b-bfac-0c1a6d7b01e3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="03 Manager\Collision\2D">
       <UniqueIdentifier>{cf0c50f2-dfd7-4ffb-a409-49ce3df8255c}</UniqueIdentifier>
     </Filter>
@@ -467,17 +461,23 @@
     <Filter Include="03 Manager\Resource\Child\Material">
       <UniqueIdentifier>{62a3ef34-c874-47be-a3cd-5bb48880c90d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="03 Manager\Render\Target">
-      <UniqueIdentifier>{1f9396b3-1543-4be6-bca1-059984a21731}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="03 Manager\Render\Light">
-      <UniqueIdentifier>{bad393a9-a664-42b0-9800-aee29bde6b9c}</UniqueIdentifier>
-    </Filter>
     <Filter Include="98 Component\CoreCom">
       <UniqueIdentifier>{bc36fb0a-48d0-4881-a8d1-9c57e3721a46}</UniqueIdentifier>
     </Filter>
     <Filter Include="03 Manager\Resource\Child\FBX">
       <UniqueIdentifier>{df35e997-e966-4427-80da-39c09ab852f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03 Manager\Render">
+      <UniqueIdentifier>{c5e0d843-29ae-49bb-8081-7d553456815a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03 Manager\Render\Child">
+      <UniqueIdentifier>{763ad756-f16e-417b-bfac-0c1a6d7b01e3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03 Manager\Render\Target">
+      <UniqueIdentifier>{1f9396b3-1543-4be6-bca1-059984a21731}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03 Manager\Render\Light">
+      <UniqueIdentifier>{bad393a9-a664-42b0-9800-aee29bde6b9c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

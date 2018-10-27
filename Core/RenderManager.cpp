@@ -244,7 +244,7 @@ void RenderManager::Render_Defferd(KPtr<Camera> _Camera, std::map<int, std::list
 	DEFFERDTAGET->OMSet();
 
 	KPtr<KMaterial> DEFFERD3DMAT = ResourceManager<KMaterial>::Find(L"DEFFERD3DMAT");
-	KPtr<KMaterial> DEFFERD3DMATANI = ResourceManager<KMaterial>::Find(L"DEFFERD3DANIMAT");
+	KPtr<KMaterial> DEFFERD3DANIMAT = ResourceManager<KMaterial>::Find(L"DEFFERD3DANIMAT");
 
 
 	KASSERT(nullptr == DEFFERD3DMAT);
@@ -279,7 +279,7 @@ void RenderManager::Render_Defferd(KPtr<Camera> _Camera, std::map<int, std::list
 						// 애니메이션이면 이 재질 씀
 						if (1 == (*m_RSI)->ROpt.IsBoneAni)
 						{
-							DEFFERD3DMATANI->Update();
+							DEFFERD3DANIMAT->Update();
 						}
 						// 아니면 이거
 						else
@@ -309,7 +309,7 @@ void RenderManager::Render_Defferd(KPtr<Camera> _Camera, std::map<int, std::list
 					// 애니메이션이면 이 재질 씀
 					if (1 == (*m_RSI)->ROpt.IsBoneAni)
 					{
-						DEFFERD3DMATANI->Update();
+						DEFFERD3DANIMAT->Update();
 					}
 					// 아니면 이거
 					// 이지만 현재로선 오타가 많아 애니 재질을 쓸 수 없는 지경 ㄷㄷ
@@ -341,6 +341,7 @@ void RenderManager::Render_Forward(KPtr<Camera> _Camera, std::map<int, std::list
 		{
 			(*m_RSI)->Update_Trans(_Camera);
 			(*m_RSI)->Update_TransCB();
+			(*m_RSI)->RenderUpdate();
 
 			// 기본 베잇6ㅡ - 그냥 그리면 된다. -> 데이터가 곧 넘어가서 계산될 값이기 때문
 			// 무엇이 계산되냐... 그 있잖아 값들
@@ -350,7 +351,6 @@ void RenderManager::Render_Forward(KPtr<Camera> _Camera, std::map<int, std::list
 				{
 					for (KUINT j = 0; j < (KUINT)(*m_RSI)->Count_Material(); j++)
 					{
-						(*m_RSI)->RenderUpdate();
 						(*m_RSI)->Render(_Camera);
 						(*m_RSI)->Update_TexSmp(j);
 						(*m_RSI)->Update_MtlCB(j);

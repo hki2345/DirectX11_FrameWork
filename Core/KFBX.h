@@ -81,6 +81,7 @@ class Vertex_FbxData
 public:
 	KVector m_Pos;
 	KVector2 m_UV;
+	KVector m_Color;
 	KVector m_Normal;
 	KVector m_Tangent;
 	KVector m_Binormal;
@@ -89,6 +90,11 @@ public:
 	KVector m_Weights;
 	// ½ºÅ°´× Á¤º¸ - 
 	KVector m_Indices;
+
+	Vertex_FbxData() : m_Color(KColor::White)
+	{
+
+	}
 };
 
 class Mesh_FbxData

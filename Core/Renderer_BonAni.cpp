@@ -11,7 +11,7 @@
 Renderer_BonAni::Renderer_BonAni() :
 m_pLoader(nullptr), 
 m_ClipInx(0), 
-m_FrameCnt(0), 
+m_FrameCnt(30), 
 m_UpdateSpd(.0f), 
 m_UpdateTime(.0f), 
 SFrame(0), 

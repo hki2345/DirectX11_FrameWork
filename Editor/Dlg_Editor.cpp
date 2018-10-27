@@ -125,7 +125,7 @@ BOOL Dlg_Editor::OnInitDialog()
 	pView->MoveWindow(&ViewSize);
 
 	Edit_Class::m_gVIewCom->Release_AllDlg();
-	Edit_Class::m_gVIewCom->Set_One(Light2);
+	Edit_Class::m_gVIewCom->Set_One(Light1);
 
 
 
@@ -136,16 +136,6 @@ BOOL Dlg_Editor::OnInitDialog()
 	GRIDACTOR->Trans()->scale_world(KVector4(10000.0f, 10000.0f, 10000.0f));
 	GRIDACTOR->Add_Component<Renderer_Grid>();
 
-	KPtr<TheOne> SPHERELEFT = TabScene->Create_One();
-	SPHERELEFT->Trans()->scale_local(KVector4(10.0f, 10.0f, 10.0f));
-	SPHERELEFT->Trans()->pos_local(KVector4(-15.0f, 0.0f, 0.0f));
-	KPtr<Renderer_Mesh> PTRMESH1 = SPHERELEFT->Add_Component<Renderer_Mesh>();
-	PTRMESH1->ROpt.IsLight = 1;
-	PTRMESH1->Set_Material(L"MESH3DMAT");
-	PTRMESH1->Set_Mesh(L"SPHERE");
-
-	PTRMESH1->material()->Insert_TexData(TEX_TYPE::TEX_COLOR, 0, L"TILE_01.png");
-	PTRMESH1->material()->Insert_TexData(TEX_TYPE::TEX_BUMP, 1, L"TILE_01_N.png");
 
 	
 	KPtr<TheOne> SPHERERIGHT = TabScene->Create_One();
@@ -155,9 +145,10 @@ BOOL Dlg_Editor::OnInitDialog()
 	//PTRMESH2->SetMat(L"PIXLIGHT3DMAT");
 	PTRMESH2->Set_Mesh(L"SPHERE");
 
+
 	KPtr<TheOne> CUBEMIDDLE = TabScene->Create_One();
 	CUBEMIDDLE->Trans()->scale_local(KVector4(10.0f, 10.0f, 10.0f));
-	CUBEMIDDLE->Trans()->pos_local(KVector4(.0f, 10.0f, 0.0f));
+	CUBEMIDDLE->Trans()->pos_local(KVector4(.0f, 50.0f, 0.0f));
 	KPtr<Renderer_Mesh> PTRMESH3 = CUBEMIDDLE->Add_Component<Renderer_Mesh>();
 	PTRMESH3->Set_Mesh(L"CUBE");
 
@@ -165,12 +156,22 @@ BOOL Dlg_Editor::OnInitDialog()
 	// AniTest
 	KPtr<TheOne> TestAni = TabScene->Create_One(L"Test");
 	TestAni->Trans()->pos_local(KVector(.0f));
-	TestAni->Trans()->scale_local(KVector(.1f, .1f, .1f, .0f));
+	TestAni->Trans()->scale_local(KVector(.3f, .3f, .3f));
 	KPtr<Renderer_BonAni> TestRender = TestAni->Add_Component<Renderer_BonAni>();
 
-	TestRender->Load_FbxTest((PathManager::Find_ForderPathStr(L"Mesh") + L"moster3.FBX").c_str());
+	TestRender->Load_FbxTest((PathManager::Find_ForderPathStr(L"Mesh") + L"Monster3.FBX").c_str());
+	// TestRender->Load_FbxTest((PathManager::Find_ForderPathStr(L"Mesh") + L"Warehouse01.FBX").c_str());
+	
+	KPtr<TheOne> SPHERELEFT = TabScene->Create_One();
+	SPHERELEFT->Trans()->scale_local(KVector4(10.0f, 10.0f, 10.0f));
+	SPHERELEFT->Trans()->pos_local(KVector4(-15.0f, 0.0f, 0.0f));
+	KPtr<Renderer_Mesh> PTRMESH1 = SPHERELEFT->Add_Component<Renderer_Mesh>();
+	PTRMESH1->ROpt.IsLight = 1;
+	PTRMESH1->Set_Material(L"MESH3DMAT");
+	PTRMESH1->Set_Mesh(L"SPHERE");
 
-
+	PTRMESH1->material()->Insert_TexData(TEX_TYPE::TEX_COLOR, 0, L"MoonDiff.jpg");
+	PTRMESH1->material()->Insert_TexData(TEX_TYPE::TEX_BUMP, 1, L"MoonBump.jpg");
 	return TRUE;  // return TRUE unless you set the focus to a control
 				  // 예외: OCX 속성 페이지는 FALSE를 반환해야 합니다.
 }

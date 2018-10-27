@@ -115,7 +115,7 @@ void FBXLoader::Load_Bone(FbxNode* _pNode, KUINT _Depth, KBone* _pParent)
 	if (nullptr != pAttr && pAttr->GetAttributeType() == FbxNodeAttribute::eSkeleton)
 	{
 		NBone = new KBone();
-		NBone->Name = CA2W(_pNode->GetName(), CP_UTF8).m_psz;
+		NBone->Name = CA2W(_pNode->GetName()).m_psz;
 		NBone->Depth = _Depth++; // 후위 증가인 이유는 -> Parent에서 1 늘려주고 들어오기 때문
 		NBone->Index = (int)m_pNewFbx->Bone_Vec.size();
 		NBone->m_pPBone = _pParent;
@@ -441,7 +441,6 @@ void FBXLoader::Set_BNormal(FbxMesh* _pMesh, Mesh_FbxData* _pMeshData, DWORD _Cu
 	// 그것조차 하나가 아니면 터뜨림 - 하나인 파일은 기본적인 파일임
 	if (1 != Count)
 	{
-		return;
 		BBY;
 	}
 
@@ -498,7 +497,6 @@ void FBXLoader::Set_Uv(FbxMesh* _pMesh, Mesh_FbxData* _pMeshData, DWORD _CurIdx,
 	// 그것조차 하나가 아니면 터뜨림 - 하나인 파일은 기본적인 파일임
 	if (1 != Count)
 	{
-		return;
 		BBY;
 	}
 
@@ -542,9 +540,9 @@ void FBXLoader::Set_Uv(FbxMesh* _pMesh, Mesh_FbxData* _pMeshData, DWORD _CurIdx,
 	FbxVector2 vData = pE->GetDirectArray().GetAt(Idx);
 
 	// 우리는 여기서 w를 쓰지 않는다.
-	_pMeshData->VertVec[_CurIdx].m_Tangent.x = (float)vData.mData[0];
+	_pMeshData->VertVec[_CurIdx].m_UV.x = (float)vData.mData[0];
 	// 그리고 max 좌표계는 왼쪽 아래부터 잰다. 따라서 다음과 같은 보정이 필요함
-	_pMeshData->VertVec[_CurIdx].m_Tangent.y = (float)(1.0f - vData.mData[1]);
+	_pMeshData->VertVec[_CurIdx].m_UV.y = 1.0f - (float)(vData.mData[1]);
 }
 
 void FBXLoader::Set_AniData(FbxMesh* _pMesh, Mesh_FbxData* _pMeshData)
@@ -630,9 +628,9 @@ void FBXLoader::Set_Material(Mesh_FbxData* _pMD, FbxSurfaceMaterial* _pSur)
 	Material_FbxData* NewMtl = new Material_FbxData();
 
 	NewMtl->Info.Diff = Get_MaterialColor(_pSur, FbxSurfaceMaterial::sDiffuse, FbxSurfaceMaterial::sDiffuseFactor);
-	NewMtl->Info.Ambi = Get_MaterialColor(_pSur, FbxSurfaceMaterial::sAmbient, FbxSurfaceMaterial::sAmbient);
-	NewMtl->Info.Emiv = Get_MaterialColor(_pSur, FbxSurfaceMaterial::sEmissive, FbxSurfaceMaterial::sEmissiveFactor);
+	NewMtl->Info.Ambi = Get_MaterialColor(_pSur, FbxSurfaceMaterial::sAmbient, FbxSurfaceMaterial::sAmbientFactor);
 	NewMtl->Info.Spec = Get_MaterialColor(_pSur, FbxSurfaceMaterial::sSpecular, FbxSurfaceMaterial::sSpecularFactor);
+	NewMtl->Info.Emiv = Get_MaterialColor(_pSur, FbxSurfaceMaterial::sEmissive, FbxSurfaceMaterial::sEmissiveFactor);
 
 	NewMtl->Diff = Get_MaterialTexName(_pSur, FbxSurfaceMaterial::sDiffuse);
 	NewMtl->Bump = Get_MaterialTexName(_pSur, FbxSurfaceMaterial::sNormalMap);
@@ -745,9 +743,11 @@ void FBXLoader::Check_WI(FbxMesh* _pMesh, Mesh_FbxData* _pMeshData)
 	// 가중치 누적 계산 -> 가중치에 대한 판별은 우리가 직접한다.
 	std::vector<std::vector<WI>>::iterator Iter = _pMeshData->WIVec.begin();
 
-	for (size_t i = 0, iVtxInx = 0; i < _pMeshData->WIVec.size(); i++)
+
+	int iVtxInx = 0;
+	for (iVtxInx = 0; Iter != _pMeshData->WIVec.end(); ++Iter, ++iVtxInx)
 	{
-		if (_pMeshData->WIVec[i].size() > 1)
+		if ((*Iter).size() > 1)
 		{
 			// 벡터 정렬 -> 이거 쓰려면 Algoritm 헤더가 필요하다.
 			// 그리고 이거 무명함수 특히 sort의 두번째 인자값이 바로 조건이 들어가는 부분인데
@@ -855,7 +855,7 @@ KMatrix FBXLoader::FMXtoKMX(const FbxMatrix& _Mat)
 
 	for (int y = 0; y < 4; y++)
 	{
-		for (int x = 0; x < 4; x++)
+		for (int x = 0; x < 4; ++x)
 		{
 			TMX.m[y][x] = (float)_Mat.Get(y, x);
 		}
@@ -867,7 +867,7 @@ KVector FBXLoader::FVectoKVec(const FbxVector4& _Value)
 {
 	KVector TVec;
 
-	for (int i = 0; i < 4; i++)
+	for (int i = 0; i < 4; ++i)
 	{
 		TVec.s[i] = (float)_Value.mData[i];
 	}
@@ -881,7 +881,7 @@ KVector FBXLoader::FQTtoKVec(const FbxQuaternion& _Value)
 	KVector TVec;
 	
 	
-	for (size_t i = 0; i < 4; i++)
+	for (int i = 0; i < 4; ++i)
 	{
 		TVec.s[i] = (float)_Value.mData[i];
 	}
