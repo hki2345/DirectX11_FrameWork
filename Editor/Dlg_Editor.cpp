@@ -156,12 +156,13 @@ BOOL Dlg_Editor::OnInitDialog()
 	// AniTest
 	KPtr<TheOne> TestAni = TabScene->Create_One(L"Test");
 	TestAni->Trans()->pos_local(KVector(.0f));
-	TestAni->Trans()->scale_local(KVector(.3f, .3f, .3f));
+	TestAni->Trans()->scale_local(KVector(1.f, 1.f, 1.f));
 	KPtr<Renderer_BonAni> TestRender = TestAni->Add_Component<Renderer_BonAni>();
 
-	TestRender->Load_FbxTest((PathManager::Find_ForderPathStr(L"Mesh") + L"Monster3.FBX").c_str());
-	// TestRender->Load_FbxTest((PathManager::Find_ForderPathStr(L"Mesh") + L"BattleTest.FBX").c_str());
-	// TestRender->Set_Static();
+	// TestRender->Load_FbxTest((PathManager::Find_ForderPathStr(L"Mesh") + L"Monster3.FBX").c_str());
+	TestRender->Load_FbxTest((PathManager::Find_ForderPathStr(L"Mesh") + L"BattleTest.FBX").c_str());
+	//TestRender->Load_FbxTest((PathManager::Find_ForderPathStr(L"Mesh") + L"Warehouse01.FBX").c_str());
+	//TestRender->Set_Static();
 
 
 

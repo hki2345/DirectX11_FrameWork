@@ -236,6 +236,14 @@ public:
 	{
 		Res* NewRes = new Res();
 		NewRes->Split_Path(_Path);
+
+		std::unordered_map<std::wstring, KPtr<Res>>::iterator FI = m_RSMap.find(NewRes->FileForder());
+
+		if (m_RSMap.end() != FI)
+		{
+			return FI->second;
+		}
+
 		NewRes->Name(NewRes->FileNameExt());
 		if (false == NewRes->Load())
 		{
