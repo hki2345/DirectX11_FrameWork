@@ -189,10 +189,10 @@ public:
 	~FBXLoader();
 
 public:
-		static void Init_FBXLoader();
-		static KMatrix FMXtoKMX(const FbxMatrix& _Mat);
-		static KVector FVectoKVec(const FbxVector4& _Value);
-		static KVector FQTtoKVec(const FbxQuaternion& _Value);
+	static void Init_FBXLoader();
+	static KMatrix FMXtoKMX(const FbxMatrix& _Mat);
+	static KVector FVectoKVec(const FbxVector4& _Value);
+	static KVector FQTtoKVec(const FbxQuaternion& _Value);
 
 	// 반사 메트릭스 - 변형된 애니메이션에
 	// 이 행렬을 곱하게되면 OFfset이 나온다.

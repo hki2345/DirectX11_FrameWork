@@ -40,6 +40,7 @@ void Renderer_BonAni::Load_FbxTest(const wchar_t* _Path)
 
 	KFBX* pFbx = m_pLoader->m_pNewFbx;
 
+
 	for (size_t MeshInx = 0; MeshInx < pFbx->MeshData_Vec.size(); MeshInx++)
 	{
 		Mesh_FbxData* pMD = pFbx->MeshData_Vec[MeshInx];
@@ -170,6 +171,7 @@ void Renderer_BonAni::EndUpdate()
 	// 현재 프레임이 프레임의 끝보다 크면 0으로 초기화
 	if (iFrameInx >= pFbx->Ani_Vec[m_ClipInx]->Length_Time - 1)
 	{
+		m_UpdateTime = .0f;
 		iFrameInx = 0;
 	}
 

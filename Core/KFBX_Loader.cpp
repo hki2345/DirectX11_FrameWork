@@ -28,6 +28,13 @@ void FBXLoader::Init_FBXLoader()
 }
 
 
+
+// 로드 순서 정리
+// [KFBX 생성] - [메니저 생성] - [메니저에게 IOS 세팅] - [MAX Scene을 생성] - [그 Scene Import 생성]
+// [세팅된 IOS로 파일 Import] - [파일 Scene에장착] - [파일에서 쓰인 축을 검사]
+// [Bone의 개수 세기 및 저장] (단 본의 개수가 애니메이션의 유무를 판별하진 않음) - [삼각화]
+// [본과 그 본애니메이션 불러오기] - [애니메이션 확인(애니메이션 이름의 개수로 확인)]
+// [메쉬 불러오기] - [애니메이션을 통한 오프셋 추출] - [재질 불러오기]
 void FBXLoader::Load_FBX(const wchar_t* _Path)
 {
 	m_pNewFbx = new KFBX();
@@ -315,7 +322,7 @@ void FBXLoader::Set_Mesh(Mesh_FbxData* _pMD, FbxMesh* _pMesh)
 // 디퍼드 혹은 포워드 쉐이더 같은 일종의 텍스쳐 합성을 하기 위해선 
 // (여기서 합성이라 함은 Diffuse뿐만 아니라 Spec과 Bump효과를 말함)
 // 텍스쳐가 여러 개 보내지는 게 핵심이다. 이건 이를 보낼 때의 형태이다.
-// https://docs.microsoft.com/en-us/windows/desktop/direct3dhlsl/dx-graphics-hlsl-semantics 
+// https://docs.microsoft.com/en-us/windows/desktop/direct3dhlsl/dx-graphics-hlsl-semantics
 
 void FBXLoader::Set_Normal(FbxMesh* _pMesh, Mesh_FbxData* _pMeshData, DWORD _CurIdx, DWORD _CurVtx)
 {
@@ -497,7 +504,7 @@ void FBXLoader::Set_Uv(FbxMesh* _pMesh, Mesh_FbxData* _pMeshData, DWORD _CurIdx,
 	// 그것조차 하나가 아니면 터뜨림 - 하나인 파일은 기본적인 파일임
 	if (1 != Count)
 	{
-		BBY;
+		// BBY;
 	}
 
 	FbxGeometryElementUV* pE = _pMesh->GetElementUV();

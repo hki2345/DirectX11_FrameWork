@@ -32,6 +32,16 @@ public:
 	KPtr<Texture> m_pBoneTex;
 
 public:
+	// true - 스테틱, false
+	void Set_Static()
+	{
+		ROpt.IsBoneAni = 0;
+	}
+	void Set_Dynamic()
+	{
+		ROpt.IsBoneAni = 1;
+	}
+
 	// 일단, 듸우는 거에 초점을 맞춘다.
 	void Load_FbxTest(const wchar_t* _Path);
 	void EndUpdate();
