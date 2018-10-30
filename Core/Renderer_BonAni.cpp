@@ -85,7 +85,7 @@ void Renderer_BonAni::Load_FbxTest(const wchar_t* _Path)
 			switch (ROpt.Defferd_orForward)
 			{
 			case 0:
-				Set_Material(L"MESH3DVTX", MtlIdx);
+				Set_Material(L"MESH3DMAT", MtlIdx);
 				break;
 
 			case 1:
@@ -182,7 +182,7 @@ void Renderer_BonAni::EndUpdate()
 	{
 		if (pFbx->Bone_Vec[i]->KFVec.empty())
 		{
-			m_MXData_CurAni[i] = FBXLoader::FMXtoKMX(pFbx->Bone_Vec[i]->Bone_MX);
+			m_MXData_CurAni[i] = FBXLoader::FMXtoKMX(pFbx->Bone_Vec[i]->Bone_FMX);
 			continue;
 		}
 
@@ -223,7 +223,7 @@ void Renderer_BonAni::EndUpdate()
 
 		// 기본 오프셋에 구해진 보간 행렬을 구함 -동작 구현
 		// 단 그 곱하는 과정도 크자이 공부를 곱해주는 녀석이 다이렉트에 있다.
-		KMatrix OffMat = FBXLoader::FMXtoKMX(pFbx->Bone_Vec[i]->Offset_MX);
+		KMatrix OffMat = FBXLoader::FMXtoKMX(pFbx->Bone_Vec[i]->Offset_FMX);
 		m_MXData_CurAni[i] = OffMat * DirectX::XMMatrixAffineTransformation(vS, vZero, vQ, vT);
 	}
 

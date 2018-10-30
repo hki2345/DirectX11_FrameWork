@@ -106,9 +106,5 @@ public:
 
 public:
 	bool Init_Device();
-
-private:
-	RenderManager ThisRenderManager;
-
 };
 

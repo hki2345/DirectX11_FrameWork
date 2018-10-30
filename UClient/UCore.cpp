@@ -24,6 +24,7 @@
 #include "KFBX_Loader.cpp"
 #include "KFont.cpp"
 #include "KImage.cpp"
+#include "KM3.cpp"
 #include "KMaterial.cpp"
 #include "KMath.cpp"
 #include "KMesh.cpp"

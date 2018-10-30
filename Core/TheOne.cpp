@@ -367,35 +367,3 @@ void TheOne::Insert_ABSCol2D(HCol2DMgr* _pCol2DMgr)
 		(*ChildStartIter)->Insert_ABSCol2D(_pCol2DMgr);
 	}
 }
-
-void TheOne::Save(WriteStream& _Stream)
-{
-	UINT Size = order();
-	_Stream.Write(&Size, sizeof(UINT));
-
-	Size = NameSize() + 1;
-	_Stream.Write(&Size, sizeof(UINT));
-	_Stream.WriteT(Name(), sizeof(wchar_t) * Size);
-
-	Size = (UINT)m_ComList.size();
-	_Stream.Write(&Size, sizeof(UINT));
-
-	std::list<KPtr<Component>>::iterator ComStartIter = m_ComList.begin();
-	std::list<KPtr<Component>>::iterator ComEndIter = m_ComList.end();
-
-	for (; ComStartIter != ComEndIter; ++ComStartIter)
-	{
-		(*ComStartIter)->Save(_Stream);
-	}
-
-	Size = (UINT)m_pChildList.size();
-	_Stream.Write(&Size, sizeof(UINT));
-
-	std::list<KPtr<TheOne>>::iterator tempChildStartIter = m_pChildList.begin();
-	std::list<KPtr<TheOne>>::iterator tempChildEndIter = m_pChildList.end();
-
-	for (; tempChildStartIter != tempChildEndIter; ++tempChildStartIter)
-	{
-		(*ChildStartIter)->Save(_Stream);
-	}
-}

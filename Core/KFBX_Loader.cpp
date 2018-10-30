@@ -122,7 +122,9 @@ void FBXLoader::Load_Bone(FbxNode* _pNode, KUINT _Depth, KBone* _pParent)
 	if (nullptr != pAttr && pAttr->GetAttributeType() == FbxNodeAttribute::eSkeleton)
 	{
 		NBone = new KBone();
-		NBone->Name = CA2W(_pNode->GetName()).m_psz;
+
+		std::wstring NewName = CA2W(_pNode->GetName()).m_psz;
+		memcpy_s(NBone->Name, sizeof(wchar_t) * 512, NewName.c_str(), NewName.size() * 2);
 		NBone->Depth = _Depth++; // 후위 증가인 이유는 -> Parent에서 1 늘려주고 들어오기 때문
 		NBone->Index = (int)m_pNewFbx->Bone_Vec.size();
 		NBone->m_pPBone = _pParent;
@@ -300,10 +302,10 @@ void FBXLoader::Set_Mesh(Mesh_FbxData* _pMD, FbxMesh* _pMesh)
 		for (int j = 0; j < IdxSize; j++)
 		{
 			tempIDX32.p[j] = (DWORD)_pMesh->GetPolygonVertex(i, j);
-			Set_Normal(_pMesh, _pMD, tempIDX32.p[j], CurVtx);
-			Set_Tangent(_pMesh, _pMD, tempIDX32.p[j], CurVtx);
-			Set_BNormal(_pMesh, _pMD, tempIDX32.p[j], CurVtx);
-			Set_Uv(_pMesh, _pMD, tempIDX32.p[j], CurVtx);
+			// Set_Normal(_pMesh, _pMD, tempIDX32.p[j], CurVtx);
+			// Set_Tangent(_pMesh, _pMD, tempIDX32.p[j], CurVtx);
+			// Set_BNormal(_pMesh, _pMD, tempIDX32.p[j], CurVtx);
+			// Set_Uv(_pMesh, _pMD, tempIDX32.p[j], CurVtx);
 			++CurVtx;
 		}
 
@@ -390,7 +392,6 @@ void FBXLoader::Set_Tangent(FbxMesh* _pMesh, Mesh_FbxData* _pMeshData, DWORD _Cu
 	// 그것조차 하나가 아니면 터뜨림 - 하나인 파일은 기본적인 파일임
 	if (1 != Count)
 	{
-		return;
 		BBY;
 	}
 
@@ -448,7 +449,6 @@ void FBXLoader::Set_BNormal(FbxMesh* _pMesh, Mesh_FbxData* _pMeshData, DWORD _Cu
 	// 그것조차 하나가 아니면 터뜨림 - 하나인 파일은 기본적인 파일임
 	if (1 != Count)
 	{
-		return;
 		BBY;
 	}
 
@@ -505,7 +505,7 @@ void FBXLoader::Set_Uv(FbxMesh* _pMesh, Mesh_FbxData* _pMeshData, DWORD _CurIdx,
 	// 그것조차 하나가 아니면 터뜨림 - 하나인 파일은 기본적인 파일임
 	if (1 != Count)
 	{
-		// BBY;
+		BBY;
 	}
 
 	FbxGeometryElementUV* pE = _pMesh->GetElementUV();
@@ -618,7 +618,7 @@ void FBXLoader::Set_AniData(FbxMesh* _pMesh, Mesh_FbxData* _pMeshData)
 					BBY;
 				}
 
-				pBone->Bone_MX = Get_FbxMatrix(_pMesh->GetNode());
+				pBone->Bone_FMX = Get_FbxMatrix(_pMesh->GetNode());
 
 				Set_WeightIndices(pCluster, pBone, _pMeshData);
 				Set_OffSetMatrix(pCluster, pBone, _pMeshData);
@@ -700,12 +700,12 @@ void FBXLoader::Set_OffSetMatrix(FbxCluster* _pC, KBone* _pBone, Mesh_FbxData* _
 	// 각 클러스터단위의 기본적인 오프셋 행렬을 구하는 과정이 된다.
 	// 노드와 링크된 다른 행렬의 역행렬 * 나의 행렬 * 본의 기본행렬
 	// 즉, 변화 되어잇는 형태에서 이전의 역행렬 나의 행렬로 부위 초기화 후 기본행렬을 곱해 보정
-	MX_Offset = MX_ClusterLinkTrans.Inverse() * MX_ClusterTrans * _pBone->Bone_MX;
+	MX_Offset = MX_ClusterLinkTrans.Inverse() * MX_ClusterTrans * _pBone->Bone_FMX;
 
 	// 이건 행렬 좌표역시 y, z 가 바뀌어 있기 때문에 바꿔주는 것 ->
 	// 두번 곱하는 이유는 먼저 행을 바꾸고 열을 바구기 때문에
 	MX_Offset = MX_Reflect * MX_Offset * MX_Reflect;
-	_pBone->Offset_MX = MX_Offset;
+	_pBone->Offset_FMX = MX_Offset;
 }
 
 
@@ -730,7 +730,7 @@ void FBXLoader::Set_FrameMatrix(FbxNode* _pNode, FbxCluster* _pC, KBone* _pBone,
 			tTime.SetFrame(i, eTimeMode);
 
 			// 해당 클ㄹ허스터와 링크된 클러스터를 모두 시간단위로 변환해줌
-			FbxAMatrix MX_FromTrans = _pNode->EvaluateGlobalTransform(tTime) * _pBone->Bone_MX;
+			FbxAMatrix MX_FromTrans = _pNode->EvaluateGlobalTransform(tTime) * _pBone->Bone_FMX;
 			FbxAMatrix MX_CurTrans = MX_FromTrans.Inverse() * _pC->GetLink()->EvaluateGlobalTransform(tTime);
 
 
@@ -855,7 +855,20 @@ std::wstring FBXLoader::Get_MaterialTexName(FbxSurfaceMaterial* _pFbxMatData,
 }
 
 
+FbxMatrix FBXLoader::KMXtoFMX(const KMatrix& _Mat)
+{
+	FbxMatrix TMX;
 
+	for (int y = 0; y < 4; y++)
+	{
+		for (int x = 0; x < 4; x++)
+		{
+			TMX.Set(y, x, _Mat.m[y][x]);
+		}
+	}
+
+	return TMX;
+}
 
 KMatrix FBXLoader::FMXtoKMX(const FbxMatrix& _Mat)
 {

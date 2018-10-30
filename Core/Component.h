@@ -38,10 +38,6 @@ public:
 	}
 
 public:
-	virtual void Save(WriteStream& _Stream);
-	virtual void Load(ReadStream& _Stream);
-
-public:
 	virtual void ComInit();
 
 	// 트렌스 및 랜더 콜리젼 모든 것을 계산한 뒤에 카메라에 보여질 최종

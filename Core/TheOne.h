@@ -204,9 +204,6 @@ private:
 	void Insert_ABSRender(RenderManager* _pRenMgr);
 	void Insert_ABSCol2D(HCol2DMgr* _pCol2DMgr);
 
-public:
-	void Save(WriteStream& _Stream);
-
 
 
 	/******************** TransPosition ************************/

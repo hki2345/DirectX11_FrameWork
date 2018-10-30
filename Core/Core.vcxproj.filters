@@ -199,6 +199,7 @@
     <ClInclude Include="Renderer_BonAni.h">
       <Filter>03 Manager\Render\Child</Filter>
     </ClInclude>
+    <ClInclude Include="KM3.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SmartPtr.cpp">
@@ -384,6 +385,7 @@
     <ClCompile Include="Renderer_BonAni.cpp">
       <Filter>03 Manager\Render\Child</Filter>
     </ClCompile>
+    <ClCompile Include="KM3.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />

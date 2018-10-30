@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="KM3.h" />
     <ClInclude Include="ReadStream.h" />
     <ClInclude Include="Renderer_BonAni.h" />
     <ClInclude Include="Texture.h" />
@@ -88,6 +89,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="KFBX.cpp" />
+    <ClCompile Include="KM3.cpp" />
     <ClCompile Include="ReadStream.cpp" />
     <ClCompile Include="Renderer_BonAni.cpp" />
     <ClCompile Include="Texture.cpp" />

@@ -134,7 +134,7 @@ PS_DEFFERDOUTPUT PS_DEFFERDANI(VTX3DMESH_OUTPUT _in)
     // 포워드 색깔을 아예 사용하지 않는 것은 아니다.
     outData.vDiffuse.rgb = CalColor;
     outData.vDiffuse.a = _in.vColor.a;
-    outData.vNoraml = _in.vNormal;
+    outData.vNoraml = -_in.vNormal;
     outData.vNoraml.a = 1.0f;
     outData.vPosition = _in.vViewPos;
     outData.vDepth.x = outData.vPosition.z;

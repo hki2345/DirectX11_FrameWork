@@ -36,5 +36,4 @@ public:
 	CListBox m_SceneList;
 	// afx_msg void OnBnClickedCreateobj();
 	afx_msg void OnShowWindow(BOOL bShow, UINT nStatus);
-	afx_msg void OnBnClickedSavescene();
 };

@@ -4,9 +4,9 @@ class WriteStream : public BaseStream
 {
 public:
 	template<typename T>
-	void WriteT(T* _WBuf, int _ByteSize) 
+	void WriteT(T* _WBuf) 
 	{
-		BaseStream::Write((void*)_WBuf, _ByteSize);
+		BaseStream::Write((void*)_WBuf, sizeof(T));
 	}
 
 	void Write(void* _WBuf, int _ByteSize);

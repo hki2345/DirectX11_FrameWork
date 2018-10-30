@@ -197,13 +197,5 @@ public:
 private:
 	void OverPushActor(TheOne* _pActor);
 
-public:
-	void Save(const wchar_t* _FilePath);
-
-	static KPtr<State> Load(const wchar_t* _FilePath
-		, State_Builder*(*CBPtr)(const wchar_t*)
-		, State_Updater*(*CUPtr)(const wchar_t*)
-		, void(*_ComLoadPtr)(KPtr<TheOne>, const std::string& _ComName));
-
 };
 

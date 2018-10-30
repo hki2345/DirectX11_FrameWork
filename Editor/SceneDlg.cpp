@@ -46,7 +46,6 @@ BEGIN_MESSAGE_MAP(SceneDlg, CDialogEx)
 	ON_LBN_SELCHANGE(IDC_SCENELIST, &SceneDlg::OnLbnSelchangeScenelist)
 	// ON_BN_CLICKED(IDC_CREATEOBJ, &SceneDlg::OnBnClickedCreateobj)
 	ON_WM_SHOWWINDOW()
-	ON_BN_CLICKED(IDC_SAVESCENE, &SceneDlg::OnBnClickedSavescene)
 END_MESSAGE_MAP()
 
 
@@ -174,18 +173,4 @@ void SceneDlg::OnShowWindow(BOOL bShow, UINT nStatus)
 
 	Core_Class::MainSceneMgr().Change_State(m_CurSceneName);
 	// TODO: 여기에 메시지 처리기 코드를 추가합니다.
-}
-
-
-void SceneDlg::OnBnClickedSavescene()
-{
-	CString DataPath = PathManager::Find_ForderPath(L"Data");
-
-	DataPath += m_CurSceneName + L".SData";
-
-	Core_Class::MainScene()->Save(DataPath.GetString());
-
-	// Core_Class::MainScene()->Load(DataPath.GetString(), nullptr, nullptr, nullptr);
-
-	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 }

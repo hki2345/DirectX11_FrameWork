@@ -1,2 +1,10 @@
 퐁 라이팅 관련 - https://www.3dgep.com/texturing-lighting-directx-11/#Lighting
 Browse - 에디터 활성화
+
+
+
+DirecXCollision
+DirectX::BoundingBox
+DirectX::BoundingFrustum
+DirectX::BoundingSphere
+DirectX::BoundingOrientedBox
