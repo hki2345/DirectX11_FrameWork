@@ -160,7 +160,7 @@ BOOL Dlg_Editor::OnInitDialog()
 	KPtr<Renderer_BonAni> TestRender = TestAni->Add_Component<Renderer_BonAni>();
 
 	// TestRender->Load_FbxTest((PathManager::Find_ForderPathStr(L"Mesh") + L"Monster3.FBX").c_str());
-	TestRender->Load_FbxTest((PathManager::Find_ForderPathStr(L"Mesh") + L"BattleTest.FBX").c_str());
+	TestRender->Load_FbxTest((PathManager::Find_ForderPathStr(L"Mesh") + L"BattleCruiser.FBX").c_str());
 	//TestRender->Load_FbxTest((PathManager::Find_ForderPathStr(L"Mesh") + L"Warehouse01.FBX").c_str());
 	//TestRender->Set_Static();
 

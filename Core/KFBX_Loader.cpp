@@ -448,6 +448,7 @@ void FBXLoader::Set_BNormal(FbxMesh* _pMesh, Mesh_FbxData* _pMeshData, DWORD _Cu
 	// 그것조차 하나가 아니면 터뜨림 - 하나인 파일은 기본적인 파일임
 	if (1 != Count)
 	{
+		return;
 		BBY;
 	}
 

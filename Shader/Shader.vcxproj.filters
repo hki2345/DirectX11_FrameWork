@@ -33,5 +33,7 @@
     <FxCompile Include="..\bin\Shader\BRectShader.fx" />
     <FxCompile Include="..\bin\Shader\ColorShader.fx" />
     <FxCompile Include="..\bin\Shader\DebugRectShader.fx" />
+    <FxCompile Include="..\bin\Shader\BoneAni.fx" />
+    <FxCompile Include="..\bin\Shader\DefferdAni.fx" />
   </ItemGroup>
 </Project>
