@@ -32,12 +32,12 @@ enum COLTYPE
 	CT_MAX
 };
 
-class HColCom;
+class KCollision;
 class HColFiFunc;
 class HColFi 
 {
 public:
-	friend HColCom;
+	friend KCollision;
 	friend HColFiFunc;
 
 public:
@@ -58,8 +58,36 @@ public:
 	virtual ~Base2DColFi() {}
 };
 
+
+
+class KSphereCon : public HColFi
+{
+public:
+	DirectX::BoundingSphere m_Sphere;
+public:
+	KSphereCon() {}
+	virtual ~KSphereCon() {}
+};
+
+class KRayCon : public HColFi
+{
+public:
+	KVector Ori;
+	KVector Dir;
+	float Dist;
+
+public:
+	KRayCon() {}
+	virtual ~KRayCon() {}
+};
+
+
+
+
 class HColFiFunc
 {
+
+#pragma region Funtion 2D
 public:
 	static bool RectToRectFi(const HColFi* _Left, const HColFi* _Right)
 	{
@@ -144,16 +172,55 @@ public:
 #endif
 		return KMath::RectToCirCle(((Base2DColFi*)_Left)->m_Vec, ((Base2DColFi*)_Right)->m_Vec.m_Vec3);
 	}
+
+#pragma endregion
+
+	static bool SphereToSphereFunc(const HColFi* _Left, const HColFi* _Right)
+	{
+#ifdef _DEBUG
+		if (nullptr == _Left || nullptr == _Right)
+		{
+			return false;
+		}
+		if (_Left->m_ColType != COLTYPE::CT_SPHERE3D || _Right->m_ColType != COLTYPE::CT_SPHERE3D)
+		{
+			return false;
+		}
+#endif
+		return KMath::SphereToSphere(((KSphereCon*)_Left)->m_Sphere, ((KSphereCon*)_Right)->m_Sphere);
+	}
+
+	static bool SphereToRayFunc(const HColFi* _Left, const HColFi* _Right)
+	{
+#ifdef _DEBUG
+		if (nullptr == _Left || nullptr == _Right)
+		{
+			return false;
+		}
+		if (_Left->m_ColType != COLTYPE::CT_SPHERE3D || _Right->m_ColType != COLTYPE::CT_RAY3D)
+		{
+			return false;
+		}
+#endif
+		return KMath::SphereToRay(((KSphereCon*)_Left)->m_Sphere, ((KRayCon*)_Right)->Ori, ((KRayCon*)_Right)->Dir, ((KRayCon*)_Right)->Dist);
+
+	}
+
+	static bool RayToSphereFunc(const HColFi* _Left, const HColFi* _Right)
+	{
+		return SphereToRayFunc(_Right, _Left);
+	}
+
 };
 
 
 class KCore;
-class HCol2DMgr;
-class HColCom : public Component_DE
+class CollisionManager;
+class KCollision : public Component_DE
 {
 public:
 	friend KCore;
-	friend HCol2DMgr;
+	friend CollisionManager;
 
 private:
 	static void ColInit();
@@ -166,8 +233,8 @@ protected:
 	int	    m_Order;
 
 private:
-	std::set<HColCom*>::iterator ColFindIter;
-	std::set<HColCom*> m_ColSet;
+	std::set<KCollision*>::iterator ColFindIter;
+	std::set<KCollision*> m_ColSet;
 
 public:
 	void DeathRelease();
@@ -187,26 +254,26 @@ protected:
 	}
 
 public:
-	void ColCheck(HColCom* _Col);
+	void ColCheck(KCollision* _Col);
 	bool FiColCheck(const HColFi* _Col);
 
 private:
-	std::list<std::function<void(HColCom* _Left, HColCom* _Right)>>::iterator m_EnterStartIter;
-	std::list<std::function<void(HColCom* _Left, HColCom* _Right)>>::iterator m_EnterEndIter;
-	std::list<std::function<void(HColCom* _Left, HColCom* _Right)>> m_EnterFuncList;
+	std::list<std::function<void(KCollision* _Left, KCollision* _Right)>>::iterator m_EnterStartIter;
+	std::list<std::function<void(KCollision* _Left, KCollision* _Right)>>::iterator m_EnterEndIter;
+	std::list<std::function<void(KCollision* _Left, KCollision* _Right)>> m_EnterFuncList;
 
-	std::list<std::function<void(HColCom* _Left, HColCom* _Right)>>::iterator m_StayStartIter;
-	std::list<std::function<void(HColCom* _Left, HColCom* _Right)>>::iterator m_StayEndIter;
-	std::list<std::function<void(HColCom* _Left, HColCom* _Right)>> m_StayFuncList;
+	std::list<std::function<void(KCollision* _Left, KCollision* _Right)>>::iterator m_StayStartIter;
+	std::list<std::function<void(KCollision* _Left, KCollision* _Right)>>::iterator m_StayEndIter;
+	std::list<std::function<void(KCollision* _Left, KCollision* _Right)>> m_StayFuncList;
 
-	std::list<std::function<void(HColCom* _Left, HColCom* _Right)>>::iterator m_ExitStartIter;
-	std::list<std::function<void(HColCom* _Left, HColCom* _Right)>>::iterator m_ExitEndIter;
-	std::list<std::function<void(HColCom* _Left, HColCom* _Right)>> m_ExitFuncList;
+	std::list<std::function<void(KCollision* _Left, KCollision* _Right)>>::iterator m_ExitStartIter;
+	std::list<std::function<void(KCollision* _Left, KCollision* _Right)>>::iterator m_ExitEndIter;
+	std::list<std::function<void(KCollision* _Left, KCollision* _Right)>> m_ExitFuncList;
 
 public:
 	// 함수를 호출할때 그 오브젝트가 지워진다면 터지게 된다.
 	template<typename T>
-	void EnterFunc(T* _Obj, void(T::*_PTR)(HColCom*, HColCom*))
+	void EnterFunc(T* _Obj, void(T::*_PTR)(KCollision*, KCollision*))
 	{
 		if (nullptr == _PTR)		{			return;		}
 		if (nullptr == _Obj)		{			return;		}
@@ -214,7 +281,7 @@ public:
 	}
 
 	template<typename T>
-	void StayFunc(T* _Obj, void(T::*_PTR)(HColCom*, HColCom*))
+	void StayFunc(T* _Obj, void(T::*_PTR)(KCollision*, KCollision*))
 	{
 		if (nullptr == _PTR) { return; }
 		if (nullptr == _Obj) { return; }
@@ -222,7 +289,7 @@ public:
 	}
 
 	template<typename T>
-	void ExitFunc(T* _Obj, void(T::*_PTR)(HColCom*, HColCom*))
+	void ExitFunc(T* _Obj, void(T::*_PTR)(KCollision*, KCollision*))
 	{
 		if (nullptr == _PTR) { return; }
 		if (nullptr == _Obj) { return; }
@@ -230,12 +297,12 @@ public:
 	}
 
 private:
-	void CallEnterList(HColCom* _Right);
-	void CallStayList(HColCom* _Right);
-	void CallExitList(HColCom* _Right);
+	void CallEnterList(KCollision* _Right);
+	void CallStayList(KCollision* _Right);
+	void CallExitList(KCollision* _Right);
 
 public:
-	HColCom();
-	virtual ~HColCom();
+	KCollision();
+	virtual ~KCollision();
 };
 

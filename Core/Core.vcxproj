@@ -20,6 +20,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="KM3.h" />
+    <ClInclude Include="KRay3D.h" />
+    <ClInclude Include="KSphere_Col.h" />
     <ClInclude Include="ReadStream.h" />
     <ClInclude Include="Renderer_BonAni.h" />
     <ClInclude Include="Texture.h" />
@@ -42,8 +44,8 @@
     <ClInclude Include="Camera.h" />
     <ClInclude Include="HCol2D.h" />
     <ClInclude Include="HCol2DBase.h" />
-    <ClInclude Include="HCol2DMgr.h" />
-    <ClInclude Include="HColCom.h" />
+    <ClInclude Include="CollisionManager.h" />
+    <ClInclude Include="KCollision.h" />
     <ClInclude Include="Component.h" />
     <ClInclude Include="KCore.h" />
     <ClInclude Include="KDevice.h" />
@@ -90,6 +92,8 @@
   <ItemGroup>
     <ClCompile Include="KFBX.cpp" />
     <ClCompile Include="KM3.cpp" />
+    <ClCompile Include="KRay3D.cpp" />
+    <ClCompile Include="KSphere_Col.cpp" />
     <ClCompile Include="ReadStream.cpp" />
     <ClCompile Include="Renderer_BonAni.cpp" />
     <ClCompile Include="Texture.cpp" />
@@ -108,8 +112,8 @@
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="HCol2D.cpp" />
     <ClCompile Include="HCol2DBase.cpp" />
-    <ClCompile Include="HCol2DMgr.cpp" />
-    <ClCompile Include="HColCom.cpp" />
+    <ClCompile Include="CollisionManager.cpp" />
+    <ClCompile Include="KCollision.cpp" />
     <ClCompile Include="Component.cpp" />
     <ClCompile Include="KCore.cpp" />
     <ClCompile Include="KDevice.cpp" />

@@ -4,6 +4,8 @@
 
 #include <d3d11.h> // 메인헤더
 #include <d3dcompiler.h>// 쉐이더용 디버깅헤더
+
+#include <DirectXCollision.h>
 #include <DirectXPackedVector.h>
 
 #pragma comment(lib, "d3d11")
@@ -102,7 +104,7 @@ public:
 		// 다이렉트X 에선 Vector3형식을 지원하는 것이 있으나
 		// 작용하는 벡터는 이 벡터(x, y, z, w)로 반환한다.
 		// 따라서 이 벡터를 멤버로 가지고 있는 것임
-		DirectX::XMFLOAT2 m_XMVec;
+		DirectX::XMFLOAT2 m_XMVec2;
 		float s[2];
 
 		// 이름없는 구조체 -> 선언없이 바로 추가해서 인자값에 접근가능
@@ -129,15 +131,15 @@ public:
 	};
 
 public:
-	KVector2() : m_XMVec(.0f, .0f) {}
+	KVector2() : m_XMVec2(.0f, .0f) {}
 	KVector2(__int64 _Value) : m_i64(_Value) {}
-	KVector2(float _Value) : m_XMVec(_Value, _Value) {}
-	KVector2(float _x, float _y) : m_XMVec(_x, _y) {}
+	KVector2(float _Value) : m_XMVec2(_Value, _Value) {}
+	KVector2(float _x, float _y) : m_XMVec2(_x, _y) {}
 	KVector2(int _x, int _y) : ix(_x), iy(_y) {}
-	KVector2(const KVector2& _Other) : m_XMVec(_Other.x, _Other.y) {}
+	KVector2(const KVector2& _Other) : m_XMVec2(_Other.x, _Other.y) {}
 
 	// 벡터에서 그때배운 플롯 4개를 리틀에디안 해 가장 빠르게 연산 할 수 있게 저장 아예 저장단계에서 부터 ㅇㅇ
-	KVector2(const DirectX::XMVECTOR& _Other) { DirectX::XMStoreFloat2(&m_XMVec, _Other); }
+	KVector2(const DirectX::XMVECTOR& _Other) { DirectX::XMStoreFloat2(&m_XMVec2, _Other); }
 
 
 public:
@@ -169,7 +171,7 @@ public:
 
 	KVector2& operator = (const KVector2& _Value)
 	{
-		m_XMVec = _Value.m_XMVec;
+		m_XMVec2 = _Value.m_XMVec2;
 		return *this;
 	}
 
@@ -278,7 +280,7 @@ public:
 
 	operator DirectX::XMVECTOR() const
 	{
-		return DirectX::XMLoadFloat2(&m_XMVec);
+		return DirectX::XMLoadFloat2(&m_XMVec2);
 	}
 
 	operator __int64() const
@@ -360,7 +362,7 @@ public:
 		// 다이렉트X 에선 Vector3형식을 지원하는 것이 있으나
 		// 작용하는 벡터는 이 벡터(x, y, z, w)로 반환한다.
 		// 따라서 이 벡터를 멤버로 가지고 있는 것임
-		DirectX::XMFLOAT3 m_XMVec;
+		DirectX::XMFLOAT3 m_XMVec3;
 
 		float s[3];
 
@@ -394,14 +396,14 @@ public:
 	};
 
 public:
-	KVector3() : m_XMVec(.0f, .0f, .0f) {}
-	KVector3(float _Value) : m_XMVec(_Value, _Value, _Value) {}
-	KVector3(float _x, float _y, float _z) : m_XMVec(_x, _y, _z) {}
-	KVector3(const KVector2& _Other, float _z) : m_XMVec(_Other.x, _Other.y, _z) {}
-	KVector3(const KVector3& _Other) : m_XMVec(_Other.x, _Other.y, _Other.z) {}
+	KVector3() : m_XMVec3(.0f, .0f, .0f) {}
+	KVector3(float _Value) : m_XMVec3(_Value, _Value, _Value) {}
+	KVector3(float _x, float _y, float _z) : m_XMVec3(_x, _y, _z) {}
+	KVector3(const KVector2& _Other, float _z) : m_XMVec3(_Other.x, _Other.y, _z) {}
+	KVector3(const KVector3& _Other) : m_XMVec3(_Other.x, _Other.y, _Other.z) {}
 
 	// 벡터에서 그때배운 플롯 4개를 리틀에디안 해 가장 빠르게 연산 할 수 있게 저장 아예 저장단계에서 부터 ㅇㅇ
-	KVector3(const DirectX::XMVECTOR& _Other) { DirectX::XMStoreFloat3(&m_XMVec, _Other); }
+	KVector3(const DirectX::XMVECTOR& _Other) { DirectX::XMStoreFloat3(&m_XMVec3, _Other); }
 
 
 public:
@@ -427,13 +429,13 @@ public:
 
 	KVector3& operator = (const KVector3& _Value)
 	{
-		m_XMVec = _Value.m_XMVec;
+		m_XMVec3 = _Value.m_XMVec3;
 		return *this;
 	}
 
 	KVector3& operator = (const DirectX::XMVECTOR& _Value)
 	{
-		DirectX::XMStoreFloat3(&m_XMVec, _Value);
+		DirectX::XMStoreFloat3(&m_XMVec3, _Value);
 		return *this;
 	}
 	KVector3 operator + (const KVector3& _Value) const
@@ -517,7 +519,7 @@ public:
 
 	operator DirectX::XMVECTOR() const
 	{
-		return DirectX::XMLoadFloat3(&m_XMVec);
+		return DirectX::XMLoadFloat3(&m_XMVec3);
 	}
 
 	const KVector3 dot(const KVector3& _Left, const KVector3& _Right)
@@ -592,7 +594,8 @@ public:
 		// 다이렉트X 에선 Vector3형식을 지원하는 것이 있으나
 		// 작용하는 벡터는 이 벡터(x, y, z, w)로 반환한다.
 		// 따라서 이 벡터를 멤버로 가지고 있는 것임
-		DirectX::XMFLOAT4 m_XMVec;
+		DirectX::XMFLOAT4 m_XMVec4;
+		DirectX::XMFLOAT3 m_XMVec3;
 		KVector2	m_Vec2;
 		KVector3	m_Vec3;
 
@@ -694,21 +697,21 @@ public:
 
 
 public:
-	KVector4() : m_XMVec(.0f, .0f, .0f, .0f) {}
-	KVector4(float _Value) : m_XMVec(_Value, _Value, _Value, _Value) {}
-	KVector4(float _x, float _y) : m_XMVec(_x, _y, .0f, .0f) {}
-	KVector4(float _x, float _y, float _z) : m_XMVec(_x, _y, _z, .0f) {}
-	KVector4(float _x, float _y, float _z, float _w) : m_XMVec(_x, _y, _z, _w) {}
+	KVector4() : m_XMVec4(.0f, .0f, .0f, .0f) {}
+	KVector4(float _Value) : m_XMVec4(_Value, _Value, _Value, _Value) {}
+	KVector4(float _x, float _y) : m_XMVec4(_x, _y, .0f, .0f) {}
+	KVector4(float _x, float _y, float _z) : m_XMVec4(_x, _y, _z, .0f) {}
+	KVector4(float _x, float _y, float _z, float _w) : m_XMVec4(_x, _y, _z, _w) {}
 	KVector4(float _x, float _y, const KVector2& _Vec) : m_Front(_x, _y), m_Back(_Vec) {}
-	KVector4(const KVector4& _Other) : m_XMVec(_Other.x, _Other.y, _Other.z, _Other.w) {}
+	KVector4(const KVector4& _Other) : m_XMVec4(_Other.x, _Other.y, _Other.z, _Other.w) {}
 	KVector4(const KVector2& _Other1, const KVector2& _Other2) : m_Front(_Other1), m_Back(_Other2) {}
-	KVector4(const KVector3& _Other) : m_XMVec(_Other.x, _Other.y, _Other.z, .0f) {}
-	KVector4(const KVector2& _Other) : m_XMVec(_Other.x, _Other.y, .0f, .0f) {}
-	KVector4(const KVector2& _Other, const float& _V1) : m_XMVec(_Other.x, _Other.y, _V1, .0f) {}
-	KVector4(const KVector2& _Other, const float& _V1, const float& _V2) : m_XMVec(_Other.x, _Other.y, _V1, _V2) {}
+	KVector4(const KVector3& _Other) : m_XMVec4(_Other.x, _Other.y, _Other.z, .0f) {}
+	KVector4(const KVector2& _Other) : m_XMVec4(_Other.x, _Other.y, .0f, .0f) {}
+	KVector4(const KVector2& _Other, const float& _V1) : m_XMVec4(_Other.x, _Other.y, _V1, .0f) {}
+	KVector4(const KVector2& _Other, const float& _V1, const float& _V2) : m_XMVec4(_Other.x, _Other.y, _V1, _V2) {}
 
 	// 벡터에서 그때배운 플롯 4개를 리틀에디안 해 가장 빠르게 연산 할 수 있게 저장 아예 저장단계에서 부터 ㅇㅇ
-	KVector4(const DirectX::XMVECTOR& _Other) { DirectX::XMStoreFloat4(&m_XMVec, _Other); }
+	KVector4(const DirectX::XMVECTOR& _Other) { DirectX::XMStoreFloat4(&m_XMVec4, _Other); }
 
 
 public:
@@ -772,7 +775,7 @@ public:
 
 	KVector4& operator = (const KVector4& _Value)
 	{
-		m_XMVec = _Value.m_XMVec;
+		m_XMVec4 = _Value.m_XMVec4;
 		return *this;
 	}
 
@@ -784,13 +787,13 @@ public:
 
 	KVector4& operator = (const DirectX::XMVECTOR& _Value)
 	{
-		DirectX::XMStoreFloat4(&m_XMVec, _Value);
+		DirectX::XMStoreFloat4(&m_XMVec4, _Value);
 		return *this;
 	}
 
 	KVector4& operator = (const float& _Value)
 	{
-		m_XMVec = { _Value, _Value, _Value, _Value };
+		m_XMVec4 = { _Value, _Value, _Value, _Value };
 		return *this;
 	}
 
@@ -965,12 +968,12 @@ public:
 
 	operator KVector2() const
 	{
-		return{ m_XMVec.x, m_XMVec.y };
+		return{ m_XMVec4.x, m_XMVec4.y };
 	}
 
 	operator DirectX::XMVECTOR() const
 	{
-		return DirectX::XMLoadFloat4(&m_XMVec);
+		return DirectX::XMLoadFloat4(&m_XMVec4);
 	}
 
 public:

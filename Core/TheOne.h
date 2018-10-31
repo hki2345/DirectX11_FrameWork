@@ -19,7 +19,7 @@ class State;
 class Component;
 class TransPosition;
 class RenderManager;
-class HCol2DMgr;
+class CollisionManager;
 class TheOne final : public Begin_Updater, public Mof_KWindow, public Mof_State
 {
 private:
@@ -202,7 +202,7 @@ public:
 
 private:
 	void Insert_ABSRender(RenderManager* _pRenMgr);
-	void Insert_ABSCol2D(HCol2DMgr* _pCol2DMgr);
+	void Insert_ABSCol2D(CollisionManager* _pCol2DMgr);
 
 
 

@@ -4,7 +4,7 @@
 #include "State.h"
 #include "Core_Class.h"
 #include "RenderManager.h"
-#include "HCol2DMgr.h"
+#include "CollisionManager.h"
 
 
 TheOne::TheOne()
@@ -345,7 +345,7 @@ void TheOne::Insert_ABSRender(RenderManager* _pRenMgr)
 	}
 }
 
-void TheOne::Insert_ABSCol2D(HCol2DMgr* _pCol2DMgr)
+void TheOne::Insert_ABSCol2D(CollisionManager* _pCol2DMgr)
 {
 	m_ComSI = m_ComList.begin();
 	m_ComEI = m_ComList.end();
@@ -356,7 +356,7 @@ void TheOne::Insert_ABSCol2D(HCol2DMgr* _pCol2DMgr)
 		{
 			continue;
 		}
-		_pCol2DMgr->Push2DCol((*m_ComSI));
+		_pCol2DMgr->PushCol((*m_ComSI));
 	}
 
 	ChildStartIter = m_pChildList.begin();

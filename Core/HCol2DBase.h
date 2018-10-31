@@ -1,7 +1,7 @@
 #pragma once
-#include "HColCom.h"
+#include "KCollision.h"
 
-class HCol2DBase : public HColCom
+class HCol2DBase : public KCollision
 {
 protected:
 	bool m_SizeSelf;

@@ -72,7 +72,7 @@ void Edit_SUpdater::Update_State()
 
 	if (InputManager::Down(L"MouseButton"))
 	{
-		KPtr<HColCom> m_Col = state()->Col2DMgr.UpdateColCheck(0, pColFi);
+		KPtr<KCollision> m_Col = state()->Col2DMgr.UpdateColCheck(0, pColFi);
 		if (nullptr != m_Col)
 		{
 			m_SelectActor = m_Col->one();

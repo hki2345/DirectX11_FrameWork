@@ -6,6 +6,8 @@ class KMath
 public:
 
 public:
+
+#pragma region Collision 2D
 	static bool RectToRect(const KRect& _Left, const KRect& _Right)
 	{ 
 		if (_Left.left() > _Right.right())
@@ -105,7 +107,18 @@ public:
 
 		return false;
 	}
+#pragma endregion
 
+
+	static bool SphereToSphere(const DirectX::BoundingSphere& _Left, const DirectX::BoundingSphere& _Right)
+	{
+		return _Left.Intersects(_Right);
+	}
+
+	static bool SphereToRay(const DirectX::BoundingSphere& _Left, KVector _Ori, KVector _Dir, float _dist)
+	{
+		return _Left.Intersects(_Ori, _Dir, _dist);
+	}
 
 	float DegToRad(const float& _Value)
 	{

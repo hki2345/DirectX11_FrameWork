@@ -1,6 +1,6 @@
 #pragma once
 #include <SomeOne.h>
-#include <HColCom.h>
+#include <KCollision.h>
 
 class HSpRenderer;
 class HSpFrameAnimater;
@@ -20,8 +20,8 @@ public:
 	void DebugRender() override;
 
 public:
-	void MyColTest(HColCom* _Left, HColCom* _Right);
-	void MyColExitTest(HColCom* _Left, HColCom* _Right);
+	void MyColTest(KCollision* _Left, KCollision* _Right);
+	void MyColExitTest(KCollision* _Left, KCollision* _Right);
 
 public:
 	TestPanzaLogic();

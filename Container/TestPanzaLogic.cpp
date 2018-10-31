@@ -82,11 +82,11 @@ void TestPanzaLogic::Update()
 	}
 }
 
-void TestPanzaLogic::MyColTest(HColCom* _Left, HColCom* _Right) {
+void TestPanzaLogic::MyColTest(KCollision* _Left, KCollision* _Right) {
 	int a = 0;
 }
 
-void TestPanzaLogic::MyColExitTest(HColCom* _Left, HColCom* _Right) {
+void TestPanzaLogic::MyColExitTest(KCollision* _Left, KCollision* _Right) {
 	int a = 0;
 }
 

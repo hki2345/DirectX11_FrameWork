@@ -4,7 +4,7 @@
 #include "InputManager.h"
 #include "Core_Class.h"
 #include "ResourceManager.h"
-#include "HColCom.h"
+#include "KCollision.h"
 #include "SoundDevice.h"
 
 /////////////////////////// Launcher
@@ -89,5 +89,5 @@ void KCore::Init_Core(HINSTANCE _Hinst, const wchar_t* _pMainWindowName, HWND _h
 	SoundDevice::Init();
 	PathManager::Init();
 	TimeManager::Init();
-	HColCom::ColInit();
+	KCollision::ColInit();
 }

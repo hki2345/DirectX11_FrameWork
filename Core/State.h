@@ -7,7 +7,7 @@
 #include "Mof_KWindow.h"
 #include "Mof_State.h"
 #include "RenderManager.h"
-#include "HCol2DMgr.h"
+#include "CollisionManager.h"
 
 #include "ReadStream.h"
 
@@ -192,7 +192,7 @@ public:
 
 public:
 	///////////////////////////// RenderMgr;
-	HCol2DMgr Col2DMgr;
+	CollisionManager Col2DMgr;
 
 private:
 	void OverPushActor(TheOne* _pActor);

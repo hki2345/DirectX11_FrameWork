@@ -1,9 +1,9 @@
-#include "HColCom.h"
+#include "KCollision.h"
 #include "KMath.h"
 
-bool(*HColCom::ColFunc[CT_MAX][CT_MAX])(const HColFi* _Left, const HColFi* _Right);
+bool(*KCollision::ColFunc[CT_MAX][CT_MAX])(const HColFi* _Left, const HColFi* _Right);
 
-void HColCom::ColInit() {
+void KCollision::ColInit() {
 
 	for (size_t y = 0; y < CT_MAX; ++y)
 	{
@@ -21,14 +21,18 @@ void HColCom::ColInit() {
 	ColFunc[CT_POINT2D][CT_RECT2D] = &HColFiFunc::PointToRectFi;
 	ColFunc[CT_RECT2D][CT_CIRCLE2D] = &HColFiFunc::RectToCirCleFi;
 	ColFunc[CT_CIRCLE2D][CT_RECT2D] = &HColFiFunc::CirCleToRectFi;
+
+	ColFunc[CT_SPHERE3D][CT_SPHERE3D] = &HColFiFunc::SphereToSphereFunc;
+	ColFunc[CT_SPHERE3D][CT_RAY3D] = &HColFiFunc::SphereToRayFunc;
+	ColFunc[CT_RAY3D][CT_SPHERE3D] = &HColFiFunc::RayToSphereFunc;
 }
 
-HColCom::HColCom()
+KCollision::KCollision()
 {
 }
 
 
-HColCom::~HColCom()
+KCollision::~KCollision()
 {
 	if (nullptr != m_Fi)
 	{
@@ -36,11 +40,11 @@ HColCom::~HColCom()
 	}
 }
 
-void HColCom::ColFiUpdate() {
+void KCollision::ColFiUpdate() {
 
 }
 
-void HColCom::ColCheck(HColCom* _Col) {
+void KCollision::ColCheck(KCollision* _Col) {
 
 	if (nullptr == ColFunc)
 	{
@@ -75,7 +79,7 @@ void HColCom::ColCheck(HColCom* _Col) {
 	return;
 }
 
-bool HColCom::FiColCheck(const HColFi* _Col)
+bool KCollision::FiColCheck(const HColFi* _Col)
 {
 	if (nullptr == _Col)
 	{
@@ -90,12 +94,12 @@ bool HColCom::FiColCheck(const HColFi* _Col)
 	return ColFunc[m_Fi->m_ColType][_Col->m_ColType](m_Fi, _Col);
 }
 
-bool HColCom::Init()
+bool KCollision::Init()
 {
 	return true;
 }
 
-void HColCom::CallEnterList(HColCom* _Right)
+void KCollision::CallEnterList(KCollision* _Right)
 {
 	m_EnterStartIter = m_EnterFuncList.begin();
 	m_EnterEndIter = m_EnterFuncList.end();
@@ -105,7 +109,7 @@ void HColCom::CallEnterList(HColCom* _Right)
 		(*m_EnterStartIter)(this, _Right);
 	}
 }
-void HColCom::CallStayList(HColCom* _Right) 
+void KCollision::CallStayList(KCollision* _Right) 
 {
 	m_StayStartIter = m_StayFuncList.begin();
 	m_StayEndIter = m_StayFuncList.end();
@@ -116,7 +120,7 @@ void HColCom::CallStayList(HColCom* _Right)
 	}
 }
 
-void HColCom::CallExitList(HColCom* _Right) {
+void KCollision::CallExitList(KCollision* _Right) {
 	m_ExitStartIter = m_ExitFuncList.begin();
 	m_ExitEndIter = m_ExitFuncList.end();
 
@@ -126,10 +130,10 @@ void HColCom::CallExitList(HColCom* _Right) {
 	}
 }
 
-void HColCom::DeathRelease() 
+void KCollision::DeathRelease() 
 {
-	std::set<HColCom*>::iterator StartIter = m_ColSet.begin();
-	std::set<HColCom*>::iterator EndIter = m_ColSet.end();
+	std::set<KCollision*>::iterator StartIter = m_ColSet.begin();
+	std::set<KCollision*>::iterator EndIter = m_ColSet.end();
 
 	for (; StartIter != EndIter; ++StartIter)
 	{

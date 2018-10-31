@@ -18,7 +18,7 @@ bool HCol2D::Init(int _Order /*= 0*/)
 {
 	m_Order = _Order;
 
-	state()->Col2DMgr.Push2DCol(this);
+	state()->Col2DMgr.PushCol(this);
 
 	return true;
 }
