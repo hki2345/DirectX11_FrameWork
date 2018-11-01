@@ -241,7 +241,7 @@ public:
 
 public:
 	virtual bool Init();
-	virtual void ColFiUpdate();
+	virtual void Update_Figure();
 
 protected:
 	template<typename T>

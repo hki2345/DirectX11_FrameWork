@@ -8,7 +8,7 @@ private:
 
 public:
 	bool Init(int _Order = 0);
-	void ColFiUpdate() override;
+	void Update_Figure() override;
 	void Mode(COLTYPE _Type);
 	void Radius(KVector2 _Size)
 	{

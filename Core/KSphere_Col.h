@@ -1,14 +1,14 @@
 #pragma once
-#include "KCollision.h"
+#include "KCollider3D_DE.h"
 
 
-class KSphere_Col : public KCollision
+class KSphere_Col : public KCollider3D_DE
 {
 public:
 	KSphereCon* pSphere;
 
 public:
-	void ColFiUpdate() override;
+	void Update_Figure() override;
 	void DebugRender() override;
 
 public:

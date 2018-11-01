@@ -23,7 +23,7 @@ bool KCollider2D::Init(int _Order /*= 0*/)
 	return true;
 }
 
-void KCollider2D::ColFiUpdate() 
+void KCollider2D::Update_Figure() 
 {
 	m_2DCol->m_Vec.m_Pos = Pivot + m_Trans->pos_world();
 
@@ -70,7 +70,7 @@ void KCollider2D::Mode(COLTYPE _Type)
 void KCollider2D::DebugRender() 
 {
 // #ifdef _DEBUG
-	ColFiUpdate();
+	Update_Figure();
 // #endif
 
 	DebugManager::Draw_Rect(m_2DCol->m_Vec);

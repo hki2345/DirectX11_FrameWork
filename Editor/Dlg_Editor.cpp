@@ -20,6 +20,9 @@
 
 #include "Edit_Class.h"
 
+#include <KSphere_Col.h>
+#include <KRay3D.h>
+
 
 // Dlg_Editor 대화 상자입니다.
 
@@ -178,6 +181,23 @@ BOOL Dlg_Editor::OnInitDialog()
 
 	PTRMESH1->material()->Insert_TexData(TEX_TYPE::TEX_COLOR, 0, L"MoonDiff.jpg");
 	PTRMESH1->material()->Insert_TexData(TEX_TYPE::TEX_BUMP, 1, L"MoonBump.jpg");
+
+
+	TabScene->This_Col3DManager.Link(101, 100);
+	TabScene->This_Col3DManager.Link(100, 101);
+
+
+	KPtr<KRay3D> RayCol = TabScene->Camera()->Add_Component<KRay3D>(101);
+	RayCol->EnterFunc(this, &Dlg_Editor::Collision_Test);
+
+	KPtr<KSphere_Col> RightCol = SPHERERIGHT->Add_Component<KSphere_Col>(100);
+
 	return TRUE;  // return TRUE unless you set the focus to a control
 				  // 예외: OCX 속성 페이지는 FALSE를 반환해야 합니다.
+}
+
+
+void Dlg_Editor::Collision_Test(KCollision*, KCollision*)
+{
+	int a = 0;
 }

@@ -40,7 +40,7 @@ KCollision::~KCollision()
 	}
 }
 
-void KCollision::ColFiUpdate() {
+void KCollision::Update_Figure() {
 
 }
 

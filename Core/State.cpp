@@ -44,6 +44,7 @@ void State::Progress()
 	FinalUpdate();
 	DebugUpdate();
 	This_Col2DManager.Progress();
+	This_Col3DManager.Progress();
 }
 
 void State::PrevUpdate() {
@@ -191,6 +192,7 @@ void State::Release()
 {
 	This_RenderManager.Release();
 	This_Col2DManager.Release();
+	This_Col3DManager.Release();
 
 	m_StartMapIter = m_ActorMap.begin();
 	m_EndMapIter = m_ActorMap.end();

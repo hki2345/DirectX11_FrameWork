@@ -3,6 +3,8 @@
 
 // Dlg_Editor 대화 상자입니다.
 
+
+class KCollision;
 class Dlg_Editor : public TabDlg
 {
 	DECLARE_DYNAMIC(Dlg_Editor)
@@ -24,4 +26,6 @@ public:
 	afx_msg void OnBnClickedOk();
 	afx_msg void OnBnClickedCancel();
 	virtual BOOL OnInitDialog();
+
+	void Collision_Test(KCollision*, KCollision*);
 };

@@ -37,14 +37,14 @@ void CollisionManager::Progress()
 		LeftEndIter = LeftGIter->second.end();
 		for (; LeftStartIter != LeftEndIter; ++LeftStartIter)
 		{
-			(*LeftStartIter)->ColFiUpdate();
+			(*LeftStartIter)->Update_Figure();
 		}
 
 		RightStartIter = RightGIter->second.begin();
 		RightEndIter = RightGIter->second.end();
 		for (; RightStartIter != RightEndIter; ++RightStartIter)
 		{
-			(*RightStartIter)->ColFiUpdate();
+			(*RightStartIter)->Update_Figure();
 		}
 
 		if (Link.Left == Link.Right)
