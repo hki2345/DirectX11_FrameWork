@@ -366,7 +366,7 @@ void State::OverPushActor(TheOne* _pActor)
 
 	// 랜더러를 다 넣어준다.
 	_pActor->Insert_ABSRender(&RenderMgr);
-	_pActor->Insert_ABSCol2D(&Col2DMgr);
+	_pActor->Insert_ABSCol(&Col2DMgr);
 }
 
 std::vector<KPtr<TheOne>> State::AllObjectList()

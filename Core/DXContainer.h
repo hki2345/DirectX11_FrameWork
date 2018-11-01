@@ -1171,6 +1171,18 @@ public:
 		memcpy_s(&CalMat, sizeof(KMatrix), this, sizeof(KMatrix));
 		return DirectX::XMVector3TransformNormal(_Vec, CalMat);
 	}
+
+	KMatrix& InverseRef()
+	{
+		*this = DirectX::XMMatrixInverse(nullptr, *this);
+		return *this;
+	}
+
+	KMatrix InverseValue()
+	{
+		KMatrix TMX = *this;
+		return TMX.InverseRef();
+	}
 };
 
 class VS_Format

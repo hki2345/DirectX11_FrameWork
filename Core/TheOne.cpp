@@ -345,18 +345,23 @@ void TheOne::Insert_ABSRender(RenderManager* _pRenMgr)
 	}
 }
 
-void TheOne::Insert_ABSCol2D(CollisionManager* _pCol2DMgr)
+void TheOne::Insert_ABSCol(CollisionManager* _pCol2DMgr, CollisionManager* _pCol3DMgr)
 {
 	m_ComSI = m_ComList.begin();
 	m_ComEI = m_ComList.end();
 
 	for (; m_ComSI != m_ComEI; ++m_ComSI)
 	{
-		if (false == (*m_ComSI)->IsParent<HCol2DBase>())
+		if (true == (*m_ComSI)->IsParent<HCol2DBase>())
 		{
-			continue;
+			_pCol2DMgr->PushCol((*m_ComSI));
 		}
-		_pCol2DMgr->PushCol((*m_ComSI));
+
+		<<<<<<
+		else if (true/* == (*m_ComSI)->IsParent<HCol2DBase>()*/)
+		{
+			_pCol3DMgr->PushCol((*m_ComSI));
+		}
 	}
 
 	ChildStartIter = m_pChildList.begin();
@@ -364,6 +369,6 @@ void TheOne::Insert_ABSCol2D(CollisionManager* _pCol2DMgr)
 
 	for (; ChildStartIter != ChildEndIter; ++ChildStartIter)
 	{
-		(*ChildStartIter)->Insert_ABSCol2D(_pCol2DMgr);
+		(*ChildStartIter)->Insert_ABSCol(_pCol2DMgr);
 	}
 }

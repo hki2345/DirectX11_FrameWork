@@ -202,7 +202,7 @@ public:
 
 private:
 	void Insert_ABSRender(RenderManager* _pRenMgr);
-	void Insert_ABSCol2D(CollisionManager* _pCol2DMgr);
+	void Insert_ABSCol(CollisionManager* _pCol2DMgr, CollisionManager* _pCol3DMgr);
 
 
 
