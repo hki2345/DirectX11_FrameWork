@@ -236,21 +236,21 @@ public:
 	{
 		Res* NewRes = new Res();
 		NewRes->Split_Path(_Path);
+		NewRes->Name(NewRes->FileNameExt());
 
 		std::unordered_map<std::wstring, KPtr<Res>>::iterator FI = m_RSMap.find(NewRes->FileForder());
 
-		if (m_RSMap.end() != FI)
+		if (FI != m_RSMap.end())
 		{
+			delete NewRes;
 			return FI->second;
 		}
 
-		NewRes->Name(NewRes->FileNameExt());
 		if (false == NewRes->Load())
 		{
 			delete NewRes;
 			return nullptr;
 		}
-
 
 		m_RSMap.insert(std::unordered_map<std::wstring, KPtr<Res>>::value_type(NewRes->FileForder(), NewRes));
 
@@ -265,9 +265,8 @@ public:
 		TempPath += _Name;
 
 		Res* NewRes = new Res();
-		NewRes->Name(_Name);
-		NewRes->FileForder(_Path);
 		NewRes->Split_Path(TempPath.c_str());
+		NewRes->FileForder(_Path);
 		if (false == NewRes->Load())
 		{
 			delete NewRes;
