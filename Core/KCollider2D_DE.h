@@ -1,7 +1,7 @@
 #pragma once
 #include "KCollision.h"
 
-class HCol2DBase : public KCollision
+class KCollider2D_DE : public KCollision
 {
 protected:
 	bool m_SizeSelf;
@@ -14,7 +14,7 @@ public:
 	void SizeSetting();
 
 public:
-	HCol2DBase();
-	~HCol2DBase();
+	KCollider2D_DE();
+	~KCollider2D_DE();
 };
 

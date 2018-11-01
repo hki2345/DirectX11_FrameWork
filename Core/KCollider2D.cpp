@@ -1,29 +1,29 @@
-#include "HCol2D.h"
+#include "KCollider2D.h"
 #include "State.h"
 #include "TransPosition.h"
 #include "DebugManager.h"
 
 
-HCol2D::HCol2D()
+KCollider2D::KCollider2D()
 {
-	m_2DCol = CreateColFi<Base2DColFi>(COLTYPE::CT_RECT2D);
+	m_2DCol = CreateColFi<Figure2D_DE>(COLTYPE::CT_RECT2D);
 }
 
 
-HCol2D::~HCol2D()
+KCollider2D::~KCollider2D()
 {
 }
 
-bool HCol2D::Init(int _Order /*= 0*/)
+bool KCollider2D::Init(int _Order /*= 0*/)
 {
 	m_Order = _Order;
 
-	state()->Col2DMgr.PushCol(this);
+	state()->This_Col2DManager.PushCol(this);
 
 	return true;
 }
 
-void HCol2D::ColFiUpdate() 
+void KCollider2D::ColFiUpdate() 
 {
 	m_2DCol->m_Vec.m_Pos = Pivot + m_Trans->pos_world();
 
@@ -55,7 +55,7 @@ void HCol2D::ColFiUpdate()
 	}
 }
 
-void HCol2D::Mode(COLTYPE _Type) 
+void KCollider2D::Mode(COLTYPE _Type) 
 {
 	switch (_Type)
 	{
@@ -67,7 +67,7 @@ void HCol2D::Mode(COLTYPE _Type)
 	}
 }
 
-void HCol2D::DebugRender() 
+void KCollider2D::DebugRender() 
 {
 // #ifdef _DEBUG
 	ColFiUpdate();

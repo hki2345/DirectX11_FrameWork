@@ -10,7 +10,7 @@ Edit_SUpdater::Edit_SUpdater()
 {
 	Number = 0;
 	m_bTestThread = true;
-	pColFi = new Base2DColFi();
+	pColFi = new Figure2D_DE();
 	pColFi->m_ColType = COLTYPE::CT_POINT2D;
 	CameraSpeed = 100.0f;
 	DebugOn();
@@ -72,7 +72,7 @@ void Edit_SUpdater::Update_State()
 
 	if (InputManager::Down(L"MouseButton"))
 	{
-		KPtr<KCollision> m_Col = state()->Col2DMgr.UpdateColCheck(0, pColFi);
+		KPtr<KCollision> m_Col = state()->This_Col2DManager.UpdateColCheck(0, pColFi);
 		if (nullptr != m_Col)
 		{
 			m_SelectActor = m_Col->one();

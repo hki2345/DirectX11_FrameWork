@@ -25,7 +25,12 @@
 class KeyFrame
 {
 public:
-	FbxAMatrix	MX_Frame;
+	// 안정적으로 저장하기 위해 - 자체 프레임 플롯으로 저장
+	// FbxAMatrix	MX_Frame;
+	KVector Scale;
+	KVector Rotate;
+	KVector Pos;
+	
 	double		dTime;
 };
 

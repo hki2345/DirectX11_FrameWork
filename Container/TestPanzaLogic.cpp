@@ -2,7 +2,7 @@
 #include <HSpRenderer.h>
 #include <InputManager.h>
 #include <HSpFrameAnimater.h>
-#include <HCol2D.h>
+#include <KCollider2D_DE.h>
 #include <DebugManager.h>
 
 TestPanzaLogic::TestPanzaLogic() : m_ImgIndex(0)
@@ -30,7 +30,7 @@ bool TestPanzaLogic::Init()
 	ChRender->SubPivot({ 0, 100.0f, 0 });
 	ChRender->SubScale({ 100.0f, 100.0f, 0 });
 
-	m_Col = Get_Component<HCol2D>();
+	m_Col = Get_Component<KCollider2D_DE>();
 	return true;
 }
 

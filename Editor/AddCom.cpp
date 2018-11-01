@@ -44,7 +44,7 @@ BOOL AddCom::OnInitDialog()
 	UpdateData(TRUE);
 
 	m_ComListCombo.AddString(L"HSpRenderer");
-	m_ComListCombo.AddString(L"HCol2D");
+	m_ComListCombo.AddString(L"KCollider2D");
 
 	UpdateData(FALSE);
 

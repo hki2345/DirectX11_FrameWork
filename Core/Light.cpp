@@ -23,7 +23,7 @@ Light::~Light()
 
 bool Light::Init() 
 {
-	state()->RenderMgr.Insert_Light(this);
+	state()->This_RenderManager.Insert_Light(this);
 
 	return true;
 }

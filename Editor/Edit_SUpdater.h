@@ -4,7 +4,7 @@
 class Edit_SUpdater : public State::State_Updater
 {
 public:
-	Base2DColFi* pColFi;
+	Figure2D_DE* pColFi;
 	bool Check;
 
 	float CameraSpeed;

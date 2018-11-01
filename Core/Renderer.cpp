@@ -33,7 +33,7 @@ void Renderer::Set_RSState(const wchar_t* _Name) {
 bool Renderer::Init(int _Order)
 {
 	m_Order = _Order;
-	state()->RenderMgr.Insert_Renderer(this);
+	state()->This_RenderManager.Insert_Renderer(this);
 	return true;
 }
 

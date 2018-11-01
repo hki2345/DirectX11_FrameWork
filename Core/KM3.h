@@ -4,13 +4,13 @@
 
 
 
-enum km3LOAD_MODE
+enum MESH_LMODE
 {
-	KL_FBX,
-	KL_km3,
+	LM_FBX,
+	LM_KM3,
 };
 
-class km3Bone
+class KM3Bone
 {
 public:
 	// 저장 불러오기가 쉽게 하려고 이렇게 크기를 지정한다.
@@ -18,10 +18,11 @@ public:
 	KUINT Depth;
 	KUINT Index;
 	KMatrix OffsetMX;
+	KMatrix BoneMX;
 	std::vector<KeyFrame> KFrameVec;
 };
 
-class km3Index
+class KM3Index
 {
 public:
 	// 크기를 불러오고 잘 저장하기 위함
@@ -29,33 +30,75 @@ public:
 	KUINT IxCnt;
 	D3D11_USAGE Usage;
 	DXGI_FORMAT Fm;
-	char* m_Index;
+	char* m_InxBD;
 
 public:
-	km3Index()
+	~KM3Index()
 	{
-		delete m_Index;
+		delete m_InxBD;
 	}
 };
 
-class km3Mesh
+class KM3Mesh
 {
 public:
 	KUINT VxSize;
 	KUINT VxCnt;
 
 	D3D11_USAGE Usage;
-	char* m_Vertex;
+	char* m_VertBD;
 
-	std::vector<km3Index> IxVec;
+	std::vector<KM3Index> IxVec;
+	std::vector<Material_FbxData> MtlVec;
 
+public:
+	~KM3Mesh()
+	{
+		delete m_VertBD;
+	}
 };
 
 
-class km3
+class KM3Data
 {
 public:
-	km3();
-	~km3();
+	std::vector<KM3Mesh*> MeshVec;
+	std::vector<Animation_Info> AniVec;
+	std::vector<KM3Bone*> BoneVec;
+
+	std::map<std::wstring, KM3Bone*> BoneMap;
+
+	
+public:
+	void ConvertToKM3(KFBX* _Data);
+	void SaveKM3(const wchar_t* _Path);
+	void LoadKM3(const wchar_t* _Path);
+
+public:
+	~KM3Data()
+	{
+		for (size_t i = 0; i < BoneVec.size(); i++)
+		{
+			delete BoneVec[i];
+		}
+
+		for (size_t i = 0; i < MeshVec.size(); i++)
+		{
+			delete MeshVec[i];
+		}
+	}
 };
 
+class MeshContainer : public Resource
+{
+public:
+	KM3Data m_Data;
+
+public:
+	bool Load(MESH_LMODE _eMode = MESH_LMODE::LM_FBX);
+	void Save(const wchar_t* _Path);
+
+public:
+	MeshContainer();
+	~MeshContainer();
+};

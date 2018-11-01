@@ -32,7 +32,7 @@ bool Camera::Init(int _Order /*= 0*/)
 	m_Proj.Identity();
 	m_View.Identity();
 
-	state()->RenderMgr.Insert_Cam(this);
+	state()->This_RenderManager.Insert_Cam(this);
 
 	if (nullptr == state()->m_Camera) {
 		state()->m_Camera = this;

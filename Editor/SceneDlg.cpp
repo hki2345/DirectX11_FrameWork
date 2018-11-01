@@ -7,7 +7,7 @@
 #include "afxdialogex.h"
 #include <Core_Class.h>
 #include <HSpRenderer.h>
-#include <HCol2D.h>
+#include <KCollider2D.h>
 #include "Edit_Class.h"
 #include <ResourceManager.h>
 

@@ -33,34 +33,34 @@ enum COLTYPE
 };
 
 class KCollision;
-class HColFiFunc;
-class HColFi 
+class Funtion_Col;
+class Figure_Col 
 {
 public:
 	friend KCollision;
-	friend HColFiFunc;
+	friend Funtion_Col;
 
 public:
 	COLTYPE m_ColType;
 
 public:
-	HColFi() : m_ColType(CT_MAX) {}
-	virtual ~HColFi() = 0 {	}
+	Figure_Col() : m_ColType(CT_MAX) {}
+	virtual ~Figure_Col() = 0 {	}
 };
 
-class Base2DColFi : public HColFi
+class Figure2D_DE : public Figure_Col
 {
 public:
 	KVector4 m_Vec;
 
 public:
-	Base2DColFi() {}
-	virtual ~Base2DColFi() {}
+	Figure2D_DE() {}
+	virtual ~Figure2D_DE() {}
 };
 
 
 
-class KSphereCon : public HColFi
+class KSphereCon : public Figure_Col
 {
 public:
 	DirectX::BoundingSphere m_Sphere;
@@ -69,7 +69,7 @@ public:
 	virtual ~KSphereCon() {}
 };
 
-class KRayCon : public HColFi
+class KRayCon : public Figure_Col
 {
 public:
 	KVector Ori;
@@ -84,12 +84,12 @@ public:
 
 
 
-class HColFiFunc
+class Funtion_Col
 {
 
 #pragma region Funtion 2D
 public:
-	static bool RectToRectFi(const HColFi* _Left, const HColFi* _Right)
+	static bool RectToRectFi(const Figure_Col* _Left, const Figure_Col* _Right)
 	{
 #ifdef _DEBUG
 		if (nullptr == _Left || nullptr == _Right)
@@ -101,9 +101,9 @@ public:
 			return false;
 		}
 #endif
-		return KMath::RectToRect(((Base2DColFi*)_Left)->m_Vec, ((Base2DColFi*)_Right)->m_Vec);
+		return KMath::RectToRect(((Figure2D_DE*)_Left)->m_Vec, ((Figure2D_DE*)_Right)->m_Vec);
 	}
-	static bool CirCleToCirCleFi(const HColFi* _Left, const HColFi* _Right)
+	static bool CirCleToCirCleFi(const Figure_Col* _Left, const Figure_Col* _Right)
 	{
 #ifdef _DEBUG
 		if (nullptr == _Left || nullptr == _Right)
@@ -115,13 +115,13 @@ public:
 			return false;
 		}
 #endif
-		return KMath::CirCleToCirCle(((Base2DColFi*)_Left)->m_Vec.m_Vec3, ((Base2DColFi*)_Right)->m_Vec.m_Vec3);
+		return KMath::CirCleToCirCle(((Figure2D_DE*)_Left)->m_Vec.m_Vec3, ((Figure2D_DE*)_Right)->m_Vec.m_Vec3);
 	}
 
-	static bool PointToCirCleFi(const HColFi* _Left, const  HColFi* _Right) {
+	static bool PointToCirCleFi(const Figure_Col* _Left, const  Figure_Col* _Right) {
 		return CirCleToPointFi(_Right, _Left);
 	}
-	static bool CirCleToPointFi(const HColFi* _Left, const  HColFi* _Right)
+	static bool CirCleToPointFi(const Figure_Col* _Left, const  Figure_Col* _Right)
 	{
 #ifdef _DEBUG
 		if (nullptr == _Left || nullptr == _Right)
@@ -133,13 +133,13 @@ public:
 			return false;
 		}
 #endif
-		return KMath::CirCleToPoint(((Base2DColFi*)_Left)->m_Vec.m_Vec3, ((Base2DColFi*)_Right)->m_Vec.m_Pos);
+		return KMath::CirCleToPoint(((Figure2D_DE*)_Left)->m_Vec.m_Vec3, ((Figure2D_DE*)_Right)->m_Vec.m_Pos);
 	}
 
-	static bool PointToRectFi(const HColFi* _Left, const  HColFi* _Right) {
+	static bool PointToRectFi(const Figure_Col* _Left, const  Figure_Col* _Right) {
 		return RectToPointFi(_Right, _Left);
 	}
-	static bool RectToPointFi(const HColFi* _Left, const HColFi* _Right)
+	static bool RectToPointFi(const Figure_Col* _Left, const Figure_Col* _Right)
 	{
 #ifdef _DEBUG
 		if (nullptr == _Left || nullptr == _Right)
@@ -151,14 +151,14 @@ public:
 			return false;
 		}
 #endif
-		return KMath::RectToPoint(((Base2DColFi*)_Left)->m_Vec, ((Base2DColFi*)_Right)->m_Vec.m_Pos);
+		return KMath::RectToPoint(((Figure2D_DE*)_Left)->m_Vec, ((Figure2D_DE*)_Right)->m_Vec.m_Pos);
 	}
 
-	static bool CirCleToRectFi(const HColFi* _Left, const HColFi* _Right) {
+	static bool CirCleToRectFi(const Figure_Col* _Left, const Figure_Col* _Right) {
 		return RectToCirCleFi(_Right, _Left);
 	}
 
-	static bool RectToCirCleFi(const HColFi* _Left, const  HColFi* _Right)
+	static bool RectToCirCleFi(const Figure_Col* _Left, const  Figure_Col* _Right)
 	{
 #ifdef _DEBUG
 		if (nullptr == _Left || nullptr == _Right)
@@ -170,12 +170,12 @@ public:
 			return false;
 		}
 #endif
-		return KMath::RectToCirCle(((Base2DColFi*)_Left)->m_Vec, ((Base2DColFi*)_Right)->m_Vec.m_Vec3);
+		return KMath::RectToCirCle(((Figure2D_DE*)_Left)->m_Vec, ((Figure2D_DE*)_Right)->m_Vec.m_Vec3);
 	}
 
 #pragma endregion
 
-	static bool SphereToSphereFunc(const HColFi* _Left, const HColFi* _Right)
+	static bool SphereToSphereFunc(const Figure_Col* _Left, const Figure_Col* _Right)
 	{
 #ifdef _DEBUG
 		if (nullptr == _Left || nullptr == _Right)
@@ -190,7 +190,7 @@ public:
 		return KMath::SphereToSphere(((KSphereCon*)_Left)->m_Sphere, ((KSphereCon*)_Right)->m_Sphere);
 	}
 
-	static bool SphereToRayFunc(const HColFi* _Left, const HColFi* _Right)
+	static bool SphereToRayFunc(const Figure_Col* _Left, const Figure_Col* _Right)
 	{
 #ifdef _DEBUG
 		if (nullptr == _Left || nullptr == _Right)
@@ -206,7 +206,7 @@ public:
 
 	}
 
-	static bool RayToSphereFunc(const HColFi* _Left, const HColFi* _Right)
+	static bool RayToSphereFunc(const Figure_Col* _Left, const Figure_Col* _Right)
 	{
 		return SphereToRayFunc(_Right, _Left);
 	}
@@ -224,10 +224,10 @@ public:
 
 private:
 	static void ColInit();
-	static bool(*ColFunc[CT_MAX][CT_MAX])(const HColFi* _Left, const  HColFi* _Right);
+	static bool(*ColFunc[CT_MAX][CT_MAX])(const Figure_Col* _Left, const  Figure_Col* _Right);
 
 private:
-	HColFi* m_Fi;
+	Figure_Col* m_Fi;
 
 protected:
 	int	    m_Order;
@@ -255,7 +255,7 @@ protected:
 
 public:
 	void ColCheck(KCollision* _Col);
-	bool FiColCheck(const HColFi* _Col);
+	bool FiColCheck(const Figure_Col* _Col);
 
 private:
 	std::list<std::function<void(KCollision* _Left, KCollision* _Right)>>::iterator m_EnterStartIter;

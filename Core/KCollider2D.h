@@ -1,10 +1,10 @@
 #pragma once
-#include "HCol2DBase.h"
+#include "KCollider2D_DE.h"
 
-class HCol2D : public HCol2DBase
+class KCollider2D : public KCollider2D_DE
 {
 private:
-	Base2DColFi* m_2DCol;
+	Figure2D_DE* m_2DCol;
 
 public:
 	bool Init(int _Order = 0);
@@ -25,7 +25,7 @@ public:
 	void DebugRender() override;
 
 public:
-	HCol2D();
-	~HCol2D();
+	KCollider2D();
+	~KCollider2D();
 };
 

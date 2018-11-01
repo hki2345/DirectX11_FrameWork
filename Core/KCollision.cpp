@@ -1,7 +1,7 @@
 #include "KCollision.h"
 #include "KMath.h"
 
-bool(*KCollision::ColFunc[CT_MAX][CT_MAX])(const HColFi* _Left, const HColFi* _Right);
+bool(*KCollision::ColFunc[CT_MAX][CT_MAX])(const Figure_Col* _Left, const Figure_Col* _Right);
 
 void KCollision::ColInit() {
 
@@ -13,18 +13,18 @@ void KCollision::ColInit() {
 		}
 	}
 
-	ColFunc[CT_RECT2D][CT_RECT2D] = &HColFiFunc::RectToRectFi;
-	ColFunc[CT_CIRCLE2D][CT_CIRCLE2D] = &HColFiFunc::CirCleToCirCleFi;
-	ColFunc[CT_CIRCLE2D][CT_POINT2D] = &HColFiFunc::CirCleToPointFi;
-	ColFunc[CT_POINT2D][CT_CIRCLE2D] = &HColFiFunc::PointToCirCleFi;
-	ColFunc[CT_RECT2D][CT_POINT2D] = &HColFiFunc::RectToPointFi;
-	ColFunc[CT_POINT2D][CT_RECT2D] = &HColFiFunc::PointToRectFi;
-	ColFunc[CT_RECT2D][CT_CIRCLE2D] = &HColFiFunc::RectToCirCleFi;
-	ColFunc[CT_CIRCLE2D][CT_RECT2D] = &HColFiFunc::CirCleToRectFi;
+	ColFunc[CT_RECT2D][CT_RECT2D] = &Funtion_Col::RectToRectFi;
+	ColFunc[CT_CIRCLE2D][CT_CIRCLE2D] = &Funtion_Col::CirCleToCirCleFi;
+	ColFunc[CT_CIRCLE2D][CT_POINT2D] = &Funtion_Col::CirCleToPointFi;
+	ColFunc[CT_POINT2D][CT_CIRCLE2D] = &Funtion_Col::PointToCirCleFi;
+	ColFunc[CT_RECT2D][CT_POINT2D] = &Funtion_Col::RectToPointFi;
+	ColFunc[CT_POINT2D][CT_RECT2D] = &Funtion_Col::PointToRectFi;
+	ColFunc[CT_RECT2D][CT_CIRCLE2D] = &Funtion_Col::RectToCirCleFi;
+	ColFunc[CT_CIRCLE2D][CT_RECT2D] = &Funtion_Col::CirCleToRectFi;
 
-	ColFunc[CT_SPHERE3D][CT_SPHERE3D] = &HColFiFunc::SphereToSphereFunc;
-	ColFunc[CT_SPHERE3D][CT_RAY3D] = &HColFiFunc::SphereToRayFunc;
-	ColFunc[CT_RAY3D][CT_SPHERE3D] = &HColFiFunc::RayToSphereFunc;
+	ColFunc[CT_SPHERE3D][CT_SPHERE3D] = &Funtion_Col::SphereToSphereFunc;
+	ColFunc[CT_SPHERE3D][CT_RAY3D] = &Funtion_Col::SphereToRayFunc;
+	ColFunc[CT_RAY3D][CT_SPHERE3D] = &Funtion_Col::RayToSphereFunc;
 }
 
 KCollision::KCollision()
@@ -79,7 +79,7 @@ void KCollision::ColCheck(KCollision* _Col) {
 	return;
 }
 
-bool KCollision::FiColCheck(const HColFi* _Col)
+bool KCollision::FiColCheck(const Figure_Col* _Col)
 {
 	if (nullptr == _Col)
 	{

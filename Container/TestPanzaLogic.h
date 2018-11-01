@@ -4,14 +4,14 @@
 
 class HSpRenderer;
 class HSpFrameAnimater;
-class HCol2D;
+class KCollider2D_DE;
 class TestPanzaLogic : public SomeOne
 {
 private:
 	size_t m_ImgIndex;
 	KPtr<HSpRenderer> ChRender;
 	KPtr<HSpRenderer> ChRender2;
-	KPtr<HCol2D> m_Col;
+	KPtr<KCollider2D_DE> m_Col;
 	KPtr<HSpFrameAnimater> AniMater;
 
 public:

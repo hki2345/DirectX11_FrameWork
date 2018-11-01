@@ -127,7 +127,7 @@ void CollisionManager::Link(int _Left, int _Right)
 	m_Link.insert(Index);
 }
 
-void CollisionManager::PushOverCol(KPtr<HCol2DBase> _Collision) 
+void CollisionManager::PushOverCol(KPtr<KCollider2D_DE> _Collision) 
 {
 	KASSERT(nullptr == _Collision);
 
@@ -142,7 +142,7 @@ void CollisionManager::PushOverCol(KPtr<HCol2DBase> _Collision)
 	FindGIter->second.push_back(_Collision);
 }
 
-std::list<KPtr<KCollision>> CollisionManager::AllUpdateColCheck(int _Order, const HColFi* _pColFi)
+std::list<KPtr<KCollision>> CollisionManager::AllUpdateColCheck(int _Order, const Figure_Col* _pColFi)
 {
 	std::list<KPtr<KCollision>> ReturnList;
 
@@ -168,7 +168,7 @@ std::list<KPtr<KCollision>> CollisionManager::AllUpdateColCheck(int _Order, cons
 	return ReturnList;
 }
 
-KPtr<KCollision> CollisionManager::UpdateColCheck(int _Order, const HColFi* _pColFi)
+KPtr<KCollision> CollisionManager::UpdateColCheck(int _Order, const Figure_Col* _pColFi)
 {
 	std::unordered_map<int, std::list<KPtr<KCollision>>>::iterator UpdateCheckIter = m_ColMap.find(_Order);
 

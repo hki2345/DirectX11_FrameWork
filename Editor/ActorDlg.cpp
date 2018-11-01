@@ -7,7 +7,7 @@
 #include "afxdialogex.h"
 #include <HSpRenderer.h>
 #include "Edit_Class.h"
-#include <HCol2D.h>
+#include <KCollider2D.h>
 #include "View_Component.h"
 #include <IsoMapRender.h>
 #include <IsoEditor.h>
@@ -105,7 +105,7 @@ void ActorDlg::OnBnClickedCreactor()
 		m_ObjectTree.Expand(m_SelectObject, TVE_EXPAND);
 
 		KPtr<TheOne> pActor = Core_Class::MainScene()->Create_One(L"GameObject");
-		pActor->Add_Component<HCol2D>();
+		pActor->Add_Component<KCollider2D>();
 
 		KPtr<HSpRenderer> SpriteRender = pActor->Add_Component<HSpRenderer>();
 		SpriteRender->Image(L"Rock.png");
@@ -221,7 +221,7 @@ void ActorDlg::OnTvnKeydownActortree(NMHDR *pNMHDR, LRESULT *pResult)
 			pActor->Set_Death();
 			// KPtr<HSpRenderer> Ptr = pActor->Get_Component<HSpRenderer>();
 /*
-			KPtr<HCol2D> Ptr = pActor->Get_Component<HCol2D>();
+			KPtr<KCollider2D> Ptr = pActor->Get_Component<KCollider2D>();
 
 			if (nullptr != Ptr)
 			{

@@ -240,8 +240,8 @@ void DebugManager::Targetting()
 	CountX = 0;
 	CountY += 1;
 
-	std::map<int, KPtr<Camera>>::iterator m_CSI = Core_Class::MainScene()->RenderMgr.m_CamMap.begin();
-	std::map<int, KPtr<Camera>>::iterator m_CEI = Core_Class::MainScene()->RenderMgr.m_CamMap.end();;
+	std::map<int, KPtr<Camera>>::iterator m_CSI = Core_Class::MainScene()->This_RenderManager.m_CamMap.begin();
+	std::map<int, KPtr<Camera>>::iterator m_CEI = Core_Class::MainScene()->This_RenderManager.m_CamMap.end();;
 
 	for (; m_CSI != m_CEI; ++m_CSI)
 	{

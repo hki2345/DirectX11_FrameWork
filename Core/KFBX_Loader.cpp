@@ -123,8 +123,8 @@ void FBXLoader::Load_Bone(FbxNode* _pNode, KUINT _Depth, KBone* _pParent)
 	{
 		NBone = new KBone();
 
-		std::wstring NewName = CA2W(_pNode->GetName()).m_psz;
-		memcpy_s(NBone->Name, sizeof(wchar_t) * 512, NewName.c_str(), NewName.size() * 2);
+		std::wstring NName = CA2W(_pNode->GetName()).m_psz;
+		memcpy_s(NBone->Name, sizeof(wchar_t) * 512, NName.c_str(), NName.size() * 2);
 		NBone->Depth = _Depth++; // 후위 증가인 이유는 -> Parent에서 1 늘려주고 들어오기 때문
 		NBone->Index = (int)m_pNewFbx->Bone_Vec.size();
 		NBone->m_pPBone = _pParent;
@@ -148,6 +148,7 @@ void FBXLoader::Check_Animation()
 {
 	FbxArray<FbxString*> AniNameArr;
 	m_pScene->FillAnimStackNameArray(AniNameArr);
+	m_pNewFbx->Ani_Vec.resize(AniNameArr.GetCount());
 
 	for (int i = 0; i < AniNameArr.GetCount(); i++)
 	{
@@ -159,24 +160,26 @@ void FBXLoader::Check_Animation()
 			continue;
 		}
 
-		Animation_Info* NewInfo = new Animation_Info();
-		NewInfo->Name = CA2W(TempStack->GetName());
+		Animation_Info NewInfo ;
+
+		std::wstring NName = CA2W(TempStack->GetName()).m_psz;
+		memcpy_s(NewInfo.Name, sizeof(wchar_t) * 512, NName.c_str(), NName.size() * 2);
 
 		// 애니메이션의 시작과 끝의 시간을 받아옴
 		FbxTakeInfo* TempInfo = m_pScene->GetTakeInfo(TempStack->GetName());
-		NewInfo->Stime = TempInfo->mLocalTimeSpan.GetStart();
-		NewInfo->Etime = TempInfo->mLocalTimeSpan.GetStop();
+		NewInfo.Stime = TempInfo->mLocalTimeSpan.GetStart();
+		NewInfo.Etime = TempInfo->mLocalTimeSpan.GetStop();
 
-		NewInfo->eMode = m_pScene->GetGlobalSettings().GetTimeMode();
-		NewInfo->Length_Time =
-			NewInfo->Etime.GetFrameCount(NewInfo->eMode) - 
-			NewInfo->Stime.GetFrameCount(NewInfo->eMode);
+		NewInfo.eMode = m_pScene->GetGlobalSettings().GetTimeMode();
+		NewInfo.Length_Time =
+			NewInfo.Etime.GetFrameCount(NewInfo.eMode) - 
+			NewInfo.Stime.GetFrameCount(NewInfo.eMode);
 
 		// 애니메이션에 인덱스를 넣어 관리하는데 - 처음에는 테이크 1이므로 
 		// 우선 1만 들어갈 검.. 하지만 ㅏㄴ중에 추가될 수 있으므로 보류
-		NewInfo->Index = i;
+		NewInfo.Index = i;
 		m_pNewFbx->Ani_Vec.push_back(NewInfo);
-		m_pNewFbx->Ani_Map.insert(std::map<std::wstring, Animation_Info*>::value_type(NewInfo->Name, NewInfo));
+		m_pNewFbx->Ani_Map.insert(std::map<std::wstring, Animation_Info*>::value_type(NewInfo.Name, &NewInfo));
 	}
 
 	for (int i = 0; i < AniNameArr.GetCount(); i++)
@@ -223,7 +226,10 @@ void FBXLoader::Set_MeshData(FbxNode* _pNode)
 		{
 			Mesh_FbxData* NewMD = new Mesh_FbxData();
 			m_pNewFbx->MeshData_Vec.push_back(NewMD);
-			NewMD->MName = CA2W(pMesh->GetName(), CP_UTF8);
+
+
+			std::wstring NName = CA2W(pMesh->GetName()).m_psz;
+			memcpy_s(NewMD->Name, sizeof(wchar_t) * 512, NName.c_str(), NName.size() * 2);
 
 			int MtrlCount = _pNode->GetMaterialCount();
 			NewMD->IdxVec.resize(MtrlCount);
@@ -302,10 +308,10 @@ void FBXLoader::Set_Mesh(Mesh_FbxData* _pMD, FbxMesh* _pMesh)
 		for (int j = 0; j < IdxSize; j++)
 		{
 			tempIDX32.p[j] = (DWORD)_pMesh->GetPolygonVertex(i, j);
-			// Set_Normal(_pMesh, _pMD, tempIDX32.p[j], CurVtx);
-			// Set_Tangent(_pMesh, _pMD, tempIDX32.p[j], CurVtx);
-			// Set_BNormal(_pMesh, _pMD, tempIDX32.p[j], CurVtx);
-			// Set_Uv(_pMesh, _pMD, tempIDX32.p[j], CurVtx);
+			Set_Normal(_pMesh, _pMD, tempIDX32.p[j], CurVtx);
+			Set_Tangent(_pMesh, _pMD, tempIDX32.p[j], CurVtx);
+			Set_BNormal(_pMesh, _pMD, tempIDX32.p[j], CurVtx);
+			Set_Uv(_pMesh, _pMD, tempIDX32.p[j], CurVtx);
 			++CurVtx;
 		}
 
@@ -392,6 +398,7 @@ void FBXLoader::Set_Tangent(FbxMesh* _pMesh, Mesh_FbxData* _pMeshData, DWORD _Cu
 	// 그것조차 하나가 아니면 터뜨림 - 하나인 파일은 기본적인 파일임
 	if (1 != Count)
 	{
+		return;
 		BBY;
 	}
 
@@ -449,6 +456,7 @@ void FBXLoader::Set_BNormal(FbxMesh* _pMesh, Mesh_FbxData* _pMeshData, DWORD _Cu
 	// 그것조차 하나가 아니면 터뜨림 - 하나인 파일은 기본적인 파일임
 	if (1 != Count)
 	{
+		return;
 		BBY;
 	}
 
@@ -505,7 +513,7 @@ void FBXLoader::Set_Uv(FbxMesh* _pMesh, Mesh_FbxData* _pMeshData, DWORD _CurIdx,
 	// 그것조차 하나가 아니면 터뜨림 - 하나인 파일은 기본적인 파일임
 	if (1 != Count)
 	{
-		BBY;
+		// BBY;
 	}
 
 	FbxGeometryElementUV* pE = _pMesh->GetElementUV();
@@ -607,7 +615,7 @@ void FBXLoader::Set_AniData(FbxMesh* _pMesh, Mesh_FbxData* _pMeshData)
 				}
 
 				// 그때의 본의 이름
-				KBone* pBone = m_pNewFbx->Find_Bone(CA2W(pCluster->GetLink()->GetName()).m_psz);
+				KBone* pBone = m_pNewFbx->Find_Bone(CA2W(pCluster->GetLink()->GetName(), CP_UTF8).m_psz);
 
 				// 아니 스킨이 있는데 본이 없는 건 애초에 말이 안되잖아?
 				// 는 말이 되는 경우가 있다.
@@ -619,6 +627,7 @@ void FBXLoader::Set_AniData(FbxMesh* _pMesh, Mesh_FbxData* _pMeshData)
 				}
 
 				pBone->Bone_FMX = Get_FbxMatrix(_pMesh->GetNode());
+				pBone->Bone_KMX = FMXtoKMX(pBone->Bone_FMX);
 
 				Set_WeightIndices(pCluster, pBone, _pMeshData);
 				Set_OffSetMatrix(pCluster, pBone, _pMeshData);
@@ -633,17 +642,21 @@ void FBXLoader::Set_AniData(FbxMesh* _pMesh, Mesh_FbxData* _pMeshData)
 // 재질 정보
 void FBXLoader::Set_Material(Mesh_FbxData* _pMD, FbxSurfaceMaterial* _pSur)
 {
-	Material_FbxData* NewMtl = new Material_FbxData();
+	Material_FbxData NewMtl = {};
 
-	NewMtl->Info.Diff = Get_MaterialColor(_pSur, FbxSurfaceMaterial::sDiffuse, FbxSurfaceMaterial::sDiffuseFactor);
-	NewMtl->Info.Ambi = Get_MaterialColor(_pSur, FbxSurfaceMaterial::sAmbient, FbxSurfaceMaterial::sAmbientFactor);
-	NewMtl->Info.Spec = Get_MaterialColor(_pSur, FbxSurfaceMaterial::sSpecular, FbxSurfaceMaterial::sSpecularFactor);
-	NewMtl->Info.Emiv = Get_MaterialColor(_pSur, FbxSurfaceMaterial::sEmissive, FbxSurfaceMaterial::sEmissiveFactor);
+	NewMtl.Info.Diff = Get_MaterialColor(_pSur, FbxSurfaceMaterial::sDiffuse, FbxSurfaceMaterial::sDiffuseFactor);
+	NewMtl.Info.Ambi = Get_MaterialColor(_pSur, FbxSurfaceMaterial::sAmbient, FbxSurfaceMaterial::sAmbientFactor);
+	NewMtl.Info.Spec = Get_MaterialColor(_pSur, FbxSurfaceMaterial::sSpecular, FbxSurfaceMaterial::sSpecularFactor);
+	NewMtl.Info.Emiv = Get_MaterialColor(_pSur, FbxSurfaceMaterial::sEmissive, FbxSurfaceMaterial::sEmissiveFactor);
 
-	NewMtl->Diff = Get_MaterialTexName(_pSur, FbxSurfaceMaterial::sDiffuse);
-	NewMtl->Bump = Get_MaterialTexName(_pSur, FbxSurfaceMaterial::sNormalMap);
-	NewMtl->Spec = Get_MaterialTexName(_pSur, FbxSurfaceMaterial::sSpecular);
-	NewMtl->Emiv = Get_MaterialTexName(_pSur, FbxSurfaceMaterial::sEmissive);
+	std::wstring NName = Get_MaterialTexName(_pSur, FbxSurfaceMaterial::sDiffuse);
+	memcpy_s(NewMtl.Diff, sizeof(wchar_t) * 512, NName.c_str(), NName.size() * 2);
+	NName = NName = Get_MaterialTexName(_pSur, FbxSurfaceMaterial::sNormalMap);
+	memcpy_s(NewMtl.Bump, sizeof(wchar_t) * 512, NName.c_str(), NName.size() * 2);
+	NName = NName = Get_MaterialTexName(_pSur, FbxSurfaceMaterial::sSpecular);
+	memcpy_s(NewMtl.Spec, sizeof(wchar_t) * 512, NName.c_str(), NName.size() * 2);
+	NName = NName = Get_MaterialTexName(_pSur, FbxSurfaceMaterial::sEmissive);
+	memcpy_s(NewMtl.Emiv, sizeof(wchar_t) * 512, NName.c_str(), NName.size() * 2);
 
 	_pMD->m_MtlVec.push_back(NewMtl);
 }
@@ -705,7 +718,9 @@ void FBXLoader::Set_OffSetMatrix(FbxCluster* _pC, KBone* _pBone, Mesh_FbxData* _
 	// 이건 행렬 좌표역시 y, z 가 바뀌어 있기 때문에 바꿔주는 것 ->
 	// 두번 곱하는 이유는 먼저 행을 바꾸고 열을 바구기 때문에
 	MX_Offset = MX_Reflect * MX_Offset * MX_Reflect;
+
 	_pBone->Offset_FMX = MX_Offset;
+	_pBone->Offset_KMX = FMXtoKMX(MX_Offset);
 }
 
 
@@ -717,8 +732,8 @@ void FBXLoader::Set_FrameMatrix(FbxNode* _pNode, FbxCluster* _pC, KBone* _pBone,
 
 	for (size_t i = 0; i < m_pNewFbx->Ani_Vec.size(); i++)
 	{
-		FbxLongLong SFrame = m_pNewFbx->Ani_Vec[i]->Stime.GetFrameCount(eTimeMode);
-		FbxLongLong EFrame = m_pNewFbx->Ani_Vec[i]->Etime.GetFrameCount(eTimeMode);
+		FbxLongLong SFrame = m_pNewFbx->Ani_Vec[i].Stime.GetFrameCount(eTimeMode);
+		FbxLongLong EFrame = m_pNewFbx->Ani_Vec[i].Etime.GetFrameCount(eTimeMode);
 
 		for (FbxLongLong i = SFrame; i < EFrame; i++)
 		{
@@ -738,7 +753,11 @@ void FBXLoader::Set_FrameMatrix(FbxNode* _pNode, FbxCluster* _pC, KBone* _pBone,
 			MX_CurTrans = MX_Reflect * MX_CurTrans * MX_Reflect;
 
 			tFrame.dTime = tTime.GetSecondDouble();
-			tFrame.MX_Frame = MX_CurTrans;
+			
+			tFrame.Scale = FBXLoader::FVectoKVec(MX_CurTrans.GetS());
+			tFrame.Rotate = FBXLoader::FQTtoKVec(MX_CurTrans.GetQ());
+			tFrame.Pos = FBXLoader::FVectoKVec(MX_CurTrans.GetT());
+
 			m_pNewFbx->Bone_Vec[_pBone->Index]->KFVec.push_back(tFrame);
 		}
 	}
@@ -851,7 +870,7 @@ std::wstring FBXLoader::Get_MaterialTexName(FbxSurfaceMaterial* _pFbxMatData,
 		}
 	}
 
-	return CA2W(Name.c_str()).m_psz;
+	return CA2W(Name.c_str(), CP_UTF8).m_psz;
 }
 
 

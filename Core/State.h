@@ -187,12 +187,13 @@ private:
 	bool EraseActor(KPtr<TheOne> _Actor);
 
 public:
-	///////////////////////////// RenderMgr;
-	RenderManager RenderMgr;
+	///////////////////////////// This_RenderManager;
+	RenderManager This_RenderManager;
 
 public:
-	///////////////////////////// RenderMgr;
-	CollisionManager Col2DMgr;
+	///////////////////////////// This_RenderManager;
+	CollisionManager This_Col2DManager;
+	CollisionManager This_Col3DManager;
 
 private:
 	void OverPushActor(TheOne* _pActor);

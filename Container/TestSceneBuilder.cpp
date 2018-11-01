@@ -5,7 +5,7 @@
 #include <Camera.h>
 #include <TransPosition.h>
 #include <HSpRenderer.h>
-#include <HCol2D.h>
+#include <KCollider2D_DE.h>
 
 #include "TestPanzaLogic.h"
 #include "TestSceneUpdater.h"
@@ -41,7 +41,7 @@ void TestSceneBuilder::Build_State()
 	// 오브젝트하나
 	// 매쉬하나
 
-	state()->Col2DMgr.Link(0, 10);
+	state()->This_Col2DManager.Link(0, 10);
 
 	// 카메라가 우선이다.
 	// 트랜스
@@ -53,8 +53,7 @@ void TestSceneBuilder::Build_State()
 	TestPanza1->Trans()->scale_local({ 106 * 2, 71 * 2, 1});
 	TestPanza1->Trans()->pos_local({ 100, 0, 10 });
 
-	KPtr<HCol2D> Test = TestPanza1->Add_Component<HCol2D>();
-	Test->Mode(COLTYPE::CT_RECT2D);
+	KPtr<KCollider2D_DE> Test = TestPanza1->Add_Component<KCollider2D_DE>();
 	 KPtr<TestPanzaLogic> TestPan = TestPanza1->Add_Component<TestPanzaLogic>();
 
 	Test->EnterFunc<TestPanzaLogic>(TestPan, &TestPanzaLogic::MyColTest);

@@ -43,7 +43,7 @@ void State::Progress()
 	NextUpdate();
 	FinalUpdate();
 	DebugUpdate();
-	Col2DMgr.Progress();
+	This_Col2DManager.Progress();
 }
 
 void State::PrevUpdate() {
@@ -152,7 +152,7 @@ void State::DebugUpdate() {
 
 void State::Render() 
 {
-	RenderMgr.Render();
+	This_RenderManager.Render();
 }
 
 void State::DebugRender() {
@@ -189,8 +189,8 @@ void State::DebugRender() {
 
 void State::Release() 
 {
-	RenderMgr.Release();
-	Col2DMgr.Release();
+	This_RenderManager.Release();
+	This_Col2DManager.Release();
 
 	m_StartMapIter = m_ActorMap.begin();
 	m_EndMapIter = m_ActorMap.end();
@@ -365,8 +365,8 @@ void State::OverPushActor(TheOne* _pActor)
 	ActorIter->second.push_back(_pActor);
 
 	// 랜더러를 다 넣어준다.
-	_pActor->Insert_ABSRender(&RenderMgr);
-	_pActor->Insert_ABSCol(&Col2DMgr);
+	_pActor->Insert_ABSRender(&This_RenderManager);
+	_pActor->Insert_ABSCol(&This_Col2DManager, &This_Col3DManager);
 }
 
 std::vector<KPtr<TheOne>> State::AllObjectList()

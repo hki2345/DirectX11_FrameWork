@@ -3,7 +3,7 @@
 #include <unordered_map>
 #include <list>
 #include "DXContainer.h"
-#include "HCol2DBase.h"
+#include "KCollider2D_DE.h"
 
 class State;
 class CollisionManager
@@ -29,15 +29,15 @@ public:
 	void Link(int _Value);
 	void Link(int _Left, int Right);
 	void PushCol(KPtr<KCollision> _Col);
-	std::list<KPtr<KCollision>> AllUpdateColCheck(int _Order, const HColFi* _pColFi);
-	KPtr<KCollision> UpdateColCheck(int _Order, const HColFi* _pColFi);
+	std::list<KPtr<KCollision>> AllUpdateColCheck(int _Order, const Figure_Col* _pColFi);
+	KPtr<KCollision> UpdateColCheck(int _Order, const Figure_Col* _pColFi);
 
 private:
 	void Progress();
 	void Release();
 
 private:
-	void PushOverCol(KPtr<HCol2DBase> _Renderer);
+	void PushOverCol(KPtr<KCollider2D_DE> _Renderer);
 
 public:
 	CollisionManager();

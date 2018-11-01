@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="KCollider3D_DE.h" />
     <ClInclude Include="KM3.h" />
     <ClInclude Include="KRay3D.h" />
     <ClInclude Include="KSphere_Col.h" />
@@ -42,8 +43,8 @@
     <ClInclude Include="Component_DE.h" />
     <ClInclude Include="KBlend.h" />
     <ClInclude Include="Camera.h" />
-    <ClInclude Include="HCol2D.h" />
-    <ClInclude Include="HCol2DBase.h" />
+    <ClInclude Include="KCollider2D.h" />
+    <ClInclude Include="KCollider2D_DE.h" />
     <ClInclude Include="CollisionManager.h" />
     <ClInclude Include="KCollision.h" />
     <ClInclude Include="Component.h" />
@@ -90,6 +91,7 @@
     <ClInclude Include="TimeManager.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="KCollider3D_DE.cpp" />
     <ClCompile Include="KFBX.cpp" />
     <ClCompile Include="KM3.cpp" />
     <ClCompile Include="KRay3D.cpp" />
@@ -110,8 +112,8 @@
     <ClCompile Include="Component_DE.cpp" />
     <ClCompile Include="KBlend.cpp" />
     <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="HCol2D.cpp" />
-    <ClCompile Include="HCol2DBase.cpp" />
+    <ClCompile Include="KCollider2D.cpp" />
+    <ClCompile Include="KCollider2D_DE.cpp" />
     <ClCompile Include="CollisionManager.cpp" />
     <ClCompile Include="KCollision.cpp" />
     <ClCompile Include="Component.cpp" />
