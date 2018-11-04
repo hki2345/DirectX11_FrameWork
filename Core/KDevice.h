@@ -139,7 +139,7 @@ private:
 	};
 
 private:
-	std::unordered_map<std::wstring, KPtr<GCBUFFER>> m_MapConstBuffer;
+	std::unordered_map<std::wstring, KPtr<GCBUFFER>> m_GCBMap;
 
 public:
 	template<typename BUFTYPE>
@@ -163,7 +163,7 @@ public:
 
 		NewBuf->iReg = _iReg;
 
-		m_MapConstBuffer.insert(std::unordered_map<std::wstring, KPtr<GCBUFFER>>::value_type(_Name, NewBuf));
+		m_GCBMap.insert(std::unordered_map<std::wstring, KPtr<GCBUFFER>>::value_type(_Name, NewBuf));
 
 		return true;
 	}

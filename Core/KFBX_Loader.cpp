@@ -398,7 +398,6 @@ void FBXLoader::Set_Tangent(FbxMesh* _pMesh, Mesh_FbxData* _pMeshData, DWORD _Cu
 	// 그것조차 하나가 아니면 터뜨림 - 하나인 파일은 기본적인 파일임
 	if (1 != Count)
 	{
-		return;
 		BBY;
 	}
 
@@ -456,7 +455,6 @@ void FBXLoader::Set_BNormal(FbxMesh* _pMesh, Mesh_FbxData* _pMeshData, DWORD _Cu
 	// 그것조차 하나가 아니면 터뜨림 - 하나인 파일은 기본적인 파일임
 	if (1 != Count)
 	{
-		return;
 		BBY;
 	}
 
@@ -511,9 +509,9 @@ void FBXLoader::Set_Uv(FbxMesh* _pMesh, Mesh_FbxData* _pMeshData, DWORD _CurIdx,
 	int Count = _pMesh->GetElementUVCount();
 
 	// 그것조차 하나가 아니면 터뜨림 - 하나인 파일은 기본적인 파일임
-	if (1 != Count)
+	if (1 > Count)
 	{
-		// BBY;
+		BBY;
 	}
 
 	FbxGeometryElementUV* pE = _pMesh->GetElementUV();
@@ -643,7 +641,7 @@ void FBXLoader::Set_AniData(FbxMesh* _pMesh, Mesh_FbxData* _pMeshData)
 void FBXLoader::Set_Material(Mesh_FbxData* _pMD, FbxSurfaceMaterial* _pSur)
 {
 	Material_FbxData NewMtl = {};
-
+	
 	NewMtl.Info.Diff = Get_MaterialColor(_pSur, FbxSurfaceMaterial::sDiffuse, FbxSurfaceMaterial::sDiffuseFactor);
 	NewMtl.Info.Ambi = Get_MaterialColor(_pSur, FbxSurfaceMaterial::sAmbient, FbxSurfaceMaterial::sAmbientFactor);
 	NewMtl.Info.Spec = Get_MaterialColor(_pSur, FbxSurfaceMaterial::sSpecular, FbxSurfaceMaterial::sSpecularFactor);

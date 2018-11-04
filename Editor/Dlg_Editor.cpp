@@ -86,25 +86,25 @@ BOOL Dlg_Editor::OnInitDialog()
 	TabScene->Camera()->one()->Trans()->pos_local(KVector4(0.0f, 10.0f, -20.0f));
 
 
-	KPtr<TheOne> Light3 = TabScene->Create_One();
-	// 스케일은 dir이 아닌 빛의 크기를 나타낸다.
-	// Light->Trans()->scale_local(KVector4(1000.0f, 1000.0f, 1000.0f));
-	// Foward로 비춘다고 생각한다.
-	KPtr<Light> pLight3 = Light3->Add_Component<Light>();
-	pLight3->SetType(Light::LIGHTTYPE::POINT);
-	pLight3->Trans()->pos_world(KVector4(25.0F, 0.0F, 0.0f));
-	pLight3->Trans()->scale_world(KVector4(20.0f, 20.0f, 20.0f));
-	pLight3->PushLightLayer(0, 1, 2, 3, 4, 5);
-
-
-	KPtr<TheOne> Light1 = TabScene->Create_One();
-	// 스케일은 dir이 아닌 빛의 크기를 나타낸다.
-	// Light->Trans()->scale_local(KVector4(1000.0f, 1000.0f, 1000.0f));
-	// Foward로 비춘다고 생각한다.
-	KPtr<Light> pLight = Light1->Add_Component<Light>();
-	pLight->SetType(Light::LIGHTTYPE::POINT);
-	pLight->Trans()->scale_world(KVector4(30.0f, 30.0f, 30.0f));
-	pLight->PushLightLayer(0, 1, 2, 3, 4, 5);
+	// KPtr<TheOne> Light3 = TabScene->Create_One();
+	// // 스케일은 dir이 아닌 빛의 크기를 나타낸다.
+	// // Light->Trans()->scale_local(KVector4(1000.0f, 1000.0f, 1000.0f));
+	// // Foward로 비춘다고 생각한다.
+	// KPtr<Light> pLight3 = Light3->Add_Component<Light>();
+	// pLight3->SetType(Light::LIGHTTYPE::POINT);
+	// pLight3->Trans()->pos_world(KVector4(25.0F, 0.0F, 0.0f));
+	// pLight3->Trans()->scale_world(KVector4(20.0f, 20.0f, 20.0f));
+	// pLight3->PushLightLayer(0, 1, 2, 3, 4, 5);
+	// 
+	// 
+	// KPtr<TheOne> Light1 = TabScene->Create_One();
+	// // 스케일은 dir이 아닌 빛의 크기를 나타낸다.
+	// // Light->Trans()->scale_local(KVector4(1000.0f, 1000.0f, 1000.0f));
+	// // Foward로 비춘다고 생각한다.
+	// KPtr<Light> pLight = Light1->Add_Component<Light>();
+	// pLight->SetType(Light::LIGHTTYPE::POINT);
+	// pLight->Trans()->scale_world(KVector4(30.0f, 30.0f, 30.0f));
+	// pLight->PushLightLayer(0, 1, 2, 3, 4, 5);
 
 
 	KPtr<TheOne> Light2 = TabScene->Create_One();
@@ -128,7 +128,7 @@ BOOL Dlg_Editor::OnInitDialog()
 	pView->MoveWindow(&ViewSize);
 
 	Edit_Class::m_gVIewCom->Release_AllDlg();
-	Edit_Class::m_gVIewCom->Set_One(Light1);
+	Edit_Class::m_gVIewCom->Set_One(Light2);
 
 
 
@@ -159,12 +159,12 @@ BOOL Dlg_Editor::OnInitDialog()
 	// AniTest
 	KPtr<TheOne> TestAni = TabScene->Create_One(L"Test");
 	TestAni->Trans()->pos_local(KVector(.0f));
-	TestAni->Trans()->scale_local(KVector(1.f, 1.f, 1.f));
+	TestAni->Trans()->scale_local(KVector(10.f, 10.f, 10.f));
 	KPtr<Renderer_BonAni> TestRender = TestAni->Add_Component<Renderer_BonAni>();
 
 	// TestRender->Load_FbxTest((PathManager::Find_ForderPathStr(L"Mesh") + L"Monster3.FBX").c_str());
-	KPtr<MeshContainer> MCon = ResourceManager<MeshContainer>::Load((PathManager::Find_ForderPathStr(L"Mesh") + L"BattleCruiser.FBX").c_str());
-	TestRender->Set_Fbx(L"BattleCruiser.FBX");
+	KPtr<MeshContainer> MCon = ResourceManager<MeshContainer>::Load((PathManager::Find_ForderPathStr(L"Mesh") + L"BattleTest.FBX").c_str());
+	TestRender->Set_Fbx(L"BattleTest.FBX");
 	//TestRender->Load_FbxTest((PathManager::Find_ForderPathStr(L"Mesh") + L"Warehouse01.FBX").c_str());
 	//TestRender->Set_Static();
 

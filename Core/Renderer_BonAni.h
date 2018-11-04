@@ -26,6 +26,8 @@ private:
 	int SFrame;
 	int EFrame;
 
+	KColor m_MeshColor;
+
 public:
 	std::vector<KMatrix> m_MXData_CurAni;
 

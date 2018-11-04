@@ -238,8 +238,8 @@ public:
 		NewRes->Split_Path(_Path);
 		NewRes->Name(NewRes->FileNameExt());
 
-		std::unordered_map<std::wstring, KPtr<Res>>::iterator FI = m_RSMap.find(NewRes->FileForder());
 
+		std::unordered_map<std::wstring, KPtr<Res>>::iterator FI = m_RSMap.find(NewRes->FileForder());
 		if (FI != m_RSMap.end())
 		{
 			delete NewRes;

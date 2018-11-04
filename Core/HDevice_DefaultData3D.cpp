@@ -579,6 +579,9 @@ bool KDevice::Mat3DCreate() {
 	VOLUMEMAT->Set_VTShader(L"VOLUMEVTX");
 	VOLUMEMAT->Set_PXShader(L"VOLUMEPIX");
 
+
+	Core_Class::MainDevice().CreateCB<KColor>(L"FORCE_COLOR", D3D11_USAGE_DYNAMIC, 5);
+
 	return true;
 }
 

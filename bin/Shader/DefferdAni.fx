@@ -40,6 +40,12 @@ class SkinInfo
     float4 vTangent; // U와 일치하는 X축
 };
 
+
+cbuffer ForceColor : register(b5)
+{
+    float4 m_Color;
+}
+
 matrix GetBoneMat(int _BoneIdx, int _RowIdx)
 {
     // 이녀석은 뭐냐?
@@ -101,6 +107,9 @@ VTX3DMESH_OUTPUT VS_DEFFERDANI(VTX3DMESH_INPUT _in)
 
     outData.vPos = mul(_in.vPos, g_WVP);
     outData.vUv = _in.vUv;
+
+    // 세력 색깔 - 테스트 부분 - 여기에 박아넣기엔 메쉬를 재생산해야하므로
+    // 그냥 컨스트 버퍼 하나 더 받는 식으로 했다.
     outData.vColor.rgba = _in.vColor.rgba;
     outData.vViewPos = mul(_in.vPos, g_WV);
     outData.vNormal = normalize(mul(_in.vNormal, g_WV));
@@ -113,16 +122,16 @@ VTX3DMESH_OUTPUT VS_DEFFERDANI(VTX3DMESH_INPUT _in)
 PS_DEFFERDOUTPUT PS_DEFFERDANI(VTX3DMESH_OUTPUT _in)
 {
     PS_DEFFERDOUTPUT outData = (PS_DEFFERDOUTPUT) 0.0f;
-    outData.vDiffuse = _in.vColor;
     float4 CalColor = float4(1.0f, 1.0f, 1.0f, 1.0f);
     
     for (int i = 0; i < TexCount; ++i)
     {
         if (-1 != ArrTex[i].Tex_Idx)
         {
+            // 세력 색깔이 텍스쳐 전체에 곱해지는 게 아니고 ...
             if (ArrTex[i].Type == TEX)
             {
-                CalColor *= GetTexToColor(ArrTex[i].Tex_Idx, ArrTex[i].Tex_Smp, _in.vUv) * _in.vColor;
+                CalColor *= GetTexToColor(ArrTex[i].Tex_Idx, ArrTex[i].Tex_Smp, _in.vUv)/* * _in.vColor*/;
             }
             else if (ArrTex[i].Type == BUMP)
             {
@@ -131,8 +140,18 @@ PS_DEFFERDOUTPUT PS_DEFFERDANI(VTX3DMESH_OUTPUT _in)
         }
     }
 
-    // 포워드 색깔을 아예 사용하지 않는 것은 아니다.
-    outData.vDiffuse.rgb = CalColor;
+    
+    // 스타 2 텍스쳐에 구멍이 뜰린 곳에 버텍스 색상으 ㄹ박아넣음 -> 세력 색깔
+    // 컨스트 버퍼로 받아서 넣음
+    if (.975f > CalColor.a)
+    {
+        outData.vDiffuse.rgb = CalColor * m_Color;
+    }
+    else
+    {
+        outData.vDiffuse.rgb = CalColor;
+    }
+    
     outData.vDiffuse.a = _in.vColor.a;
     outData.vNoraml = -_in.vNormal;
     outData.vNoraml.a = 1.0f;
@@ -140,6 +159,5 @@ PS_DEFFERDOUTPUT PS_DEFFERDANI(VTX3DMESH_OUTPUT _in)
     outData.vDepth.x = outData.vPosition.z;
     outData.vDepth.w = 1.0f;
 
-	// outData.vColor = _in.vColor;
     return outData;
 }

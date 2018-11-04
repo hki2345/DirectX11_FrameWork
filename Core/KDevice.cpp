@@ -287,7 +287,7 @@ bool KDevice::CreateCB(GCBUFFER* NewBuf)
 
 KPtr<KDevice::GCBUFFER> KDevice::FindCB(const wchar_t* _Name)
 {
-	return Map_Find<KPtr<KDevice::GCBUFFER>>(m_MapConstBuffer, _Name);
+	return Map_Find<KPtr<KDevice::GCBUFFER>>(m_GCBMap, _Name);
 }
 
 

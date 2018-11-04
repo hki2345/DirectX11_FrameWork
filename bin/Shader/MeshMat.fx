@@ -37,6 +37,7 @@ VTX3DMESH_OUTPUT VS_MESH3D(VTX3DMESH_INPUT _in)
 
     outData.vPos = mul(_in.vPos, g_WVP);
     outData.vUv = _in.vUv;
+    // 텍스쳐는 흰색으로 고정 - 버텍스 메쉬만 바뀌나?
     outData.vColor.rgba = _in.vColor.rgba;
     outData.vViewPos = mul(_in.vPos, g_WV);
     outData.vNormal = normalize(mul(_in.vNormal, g_WV));

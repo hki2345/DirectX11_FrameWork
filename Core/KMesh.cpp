@@ -2,6 +2,16 @@
 #include "Core_Class.h"
 
 
+void Buffer_Vertex::Set_VtxData(void* _VtxTemp, const KUINT& _VtxSize)
+{
+	D3D11_MAPPED_SUBRESOURCE tSub = {};
+	Core_Class::Context()->Map(m_VertBuf, 0, D3D11_MAP_WRITE_DISCARD, 0, &tSub);
+
+	memcpy(tSub.pData, &_VtxTemp, _VtxSize);
+	Core_Class::Context()->Unmap(m_VertBuf, 0);
+}
+
+
 KMesh::KMesh() : m_eDrawMode(D3D11_PRIMITIVE_TOPOLOGY::D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST)
 {
 }
@@ -138,4 +148,16 @@ void KMesh::Update_Pick(const KUINT& _Vtx, const KUINT& _Sub)
 	Core_Class::Context()->IASetPrimitiveTopology(m_eDrawMode);
 	Core_Class::Context()->IASetIndexBuffer(IndexBuffInfo_Vec[_Sub]->m_IdxBuf, IndexBuffInfo_Vec[_Sub]->m_IdxFm, 0);
 	Core_Class::Context()->DrawIndexed(IndexBuffInfo_Vec[_Sub]->m_IdxCnt, 0, 0);
+}
+
+
+
+void KMesh::Set_VtxData(const KUINT& _BufIdx, void* _VtxTemp, const KUINT& _VtxSize)
+{
+	if (VertBuffInfo_Vec.size() <= _BufIdx)
+	{
+		BBY;
+	}
+
+	VertBuffInfo_Vec[_BufIdx]->Set_VtxData(_VtxTemp, _VtxSize);
 }

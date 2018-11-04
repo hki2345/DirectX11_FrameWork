@@ -26,10 +26,13 @@ LIGHTCOLOR CalDirLight(float4 _vViewPos, float4 _vViewNormal, LIGHTDATA _LightIn
     float4 vLight = (float4) 0.0f;
     float fFactor = 1.0f;
 
+    // 디렉션
     if (_LightInfo.Type == 0)
     {
         vLight = _LightInfo.LightDirInv;
     }
+
+    // 포인트
     else if (_LightInfo.Type == 1)
     {
         vLight = normalize(_LightInfo.LightPos - _vViewPos);

@@ -12,6 +12,7 @@ public:
 
 	D3D11_BUFFER_DESC BufferDesc = D3D11_BUFFER_DESC();
 
+	void Set_VtxData(void* _VtxTemp, const KUINT& _VtxSize);
 	~Buffer_Vertex()
 	{
 		if (nullptr != m_VertBuf)
@@ -86,6 +87,8 @@ public:
 
 	// 해당 버텍스, 인덱스의 정보를 (버퍼) 그리는 것 - 보내주는 것
 	void Update_Pick(const KUINT& _Vtx, const KUINT& _Sub);
+
+	void Set_VtxData(const KUINT& _BufIdx, void* _VtxTemp, const KUINT& _VtxSize);
 
 public:
 	KMesh();

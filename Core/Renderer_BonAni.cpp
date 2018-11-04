@@ -5,14 +5,17 @@
 #include "ResourceManager.h"
 #include "DebugManager.h"
 
+#include "Core_Class.h"
 
 
 
-Renderer_BonAni::Renderer_BonAni() :
+
+Renderer_BonAni::Renderer_BonAni() : 
 m_ClipInx(1), 
 m_FrameCnt(30), 
 m_UpdateSpd(.0f), 
-m_UpdateTime(.0f)
+m_UpdateTime(.0f),
+m_MeshColor(KColor::White)
 {
 	ROpt.Render_DT = RENDER_DATATYPE::RDT_DATA;
 	ROpt.IsBoneAni = 1;
@@ -70,7 +73,7 @@ void Renderer_BonAni::Init_Mesh()
 
 
 		// 해당 메쉬를 쌩으로 넣는 과정 ㅇㅇ
-		Set_Mesh(NMesh, (int)MeshInx);
+		Renderer::Set_Mesh(NMesh, (int)MeshInx);
 
 
 
@@ -116,6 +119,13 @@ void Renderer_BonAni::Init_Mesh()
 			{
 				KPtr<Texture> Tex = ResourceManager<Texture>::Load(pData->Spec);
 				CMat->Insert_TexData(TEX_TYPE::TEX_SPEC, 2, Tex->FileForder());
+			}
+
+			// 이머 받아오기
+			if (pData->Emiv[0] != 0)
+			{
+				KPtr<Texture> Tex = ResourceManager<Texture>::Load(pData->Emiv);
+				CMat->Insert_TexData(TEX_TYPE::TEX_EMIS, 3, Tex->FileForder());
 			}
 
 			// 오프셋 개수가 메터리얼 개수다. -> 오프셋은 기본 메쉬라 봐도 무방
@@ -230,6 +240,11 @@ void Renderer_BonAni::EndUpdate()
 	}
 
 	m_pBoneTex->Set_Pixel(&m_MXData_CurAni[0], sizeof(KMatrix) * m_MXData_CurAni.size());
+
+
+	// 세력 설정하는 부분
+	m_MeshColor = KColor::Red;
+	Core_Class::MainDevice().SettingCB<KColor>(L"FORCE_COLOR", m_MeshColor, SHTYPE::ST_PS);
 }
 
 void Renderer_BonAni::Render(KPtr<Camera> _Cam)
