@@ -8,3 +8,7 @@ DirectX::BoundingBox
 DirectX::BoundingFrustum
 DirectX::BoundingSphere
 DirectX::BoundingOrientedBox
+
+
+상대 경로
+http://help.autodesk.com/view/3DSMAX/2016/KOR/?guid=GUID-1DAA53B9-4B58-49C6-A1BA-D6E533396A63
