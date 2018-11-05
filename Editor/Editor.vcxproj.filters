@@ -34,9 +34,6 @@
     <ClCompile Include="View_ComponentDE.cpp">
       <Filter>01 SubWindow</Filter>
     </ClCompile>
-    <ClCompile Include="ActorDlg.cpp">
-      <Filter>99 Dialog\Legacy</Filter>
-    </ClCompile>
     <ClCompile Include="AddCom.cpp">
       <Filter>99 Dialog\Legacy</Filter>
     </ClCompile>
@@ -62,9 +59,6 @@
       <Filter>99 Dialog\Legacy</Filter>
     </ClCompile>
     <ClCompile Include="SpRenderDlg.cpp">
-      <Filter>99 Dialog\Legacy</Filter>
-    </ClCompile>
-    <ClCompile Include="SpriteDlg.cpp">
       <Filter>99 Dialog\Legacy</Filter>
     </ClCompile>
     <ClCompile Include="SpriteSelectDlg.cpp">
@@ -120,9 +114,6 @@
     <ClInclude Include="View_Component.h">
       <Filter>01 SubWindow</Filter>
     </ClInclude>
-    <ClInclude Include="ActorDlg.h">
-      <Filter>99 Dialog\Legacy</Filter>
-    </ClInclude>
     <ClInclude Include="AddCom.h">
       <Filter>99 Dialog\Legacy</Filter>
     </ClInclude>
@@ -145,9 +136,6 @@
       <Filter>99 Dialog\Legacy</Filter>
     </ClInclude>
     <ClInclude Include="SpRenderDlg.h">
-      <Filter>99 Dialog\Legacy</Filter>
-    </ClInclude>
-    <ClInclude Include="SpriteDlg.h">
       <Filter>99 Dialog\Legacy</Filter>
     </ClInclude>
     <ClInclude Include="SpriteSelectDlg.h">

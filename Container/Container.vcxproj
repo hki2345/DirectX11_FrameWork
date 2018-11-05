@@ -151,27 +151,22 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="GameDataStruct.h" />
     <ClInclude Include="Camera_Free.h" />
-    <ClInclude Include="IsoEditor.h" />
-    <ClInclude Include="IsoMapRender.h" />
-    <ClInclude Include="PixelChecker.h" />
-    <ClInclude Include="TestPanzaLogic.h" />
-    <ClInclude Include="TestSceneBuilder.h" />
-    <ClInclude Include="TestSceneUpdater.h" />
+    <ClInclude Include="Cannon_Ball.h" />
+    <ClInclude Include="Force_Unit.h" />
+    <ClInclude Include="SC2Manager.h" />
+    <ClInclude Include="SC2_Force.h" />
+    <ClInclude Include="Unit_Cannon.h" />
+    <ClInclude Include="Unit_SkillObj.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Camera_Free.cpp" />
-    <ClCompile Include="IsoEditor.cpp" />
-    <ClCompile Include="IsoMapRender.cpp" />
-    <ClCompile Include="IsoMapRender_FindPath.cpp" />
-    <ClCompile Include="PixelChecker.cpp" />
-    <ClCompile Include="TestPanzaLogic.cpp" />
-    <ClCompile Include="TestSceneBuilder.cpp" />
-    <ClCompile Include="TestSceneUpdater.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="ReadMe.txt" />
+    <ClCompile Include="Cannon_Ball.cpp" />
+    <ClCompile Include="Force_Unit.cpp" />
+    <ClCompile Include="SC2Manager.cpp" />
+    <ClCompile Include="SC2_Force.cpp" />
+    <ClCompile Include="Unit_Cannon.cpp" />
+    <ClCompile Include="Unit_SkillObj.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

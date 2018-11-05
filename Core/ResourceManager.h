@@ -106,7 +106,7 @@ public:
 
 		Res* NewRes = new Res();
 		NewRes->Set_Type();
-		NewRes->Name(_Name);
+		NewRes->name(_Name);
 
 		// 여기서 오버로딩이 안되거나 오류가 나면 false를 받겠다.
 		if (false == NewRes->Create())
@@ -125,7 +125,7 @@ public:
 
 		Res* NewRes = new Res();
 		NewRes->Set_Type();
-		NewRes->Name(_Name);
+		NewRes->name(_Name);
 
 		if (false == NewRes->Create(_1))
 		{
@@ -144,7 +144,7 @@ public:
 	{
 		Res* NewRes = new Res();
 		NewRes->Set_Type();
-		NewRes->Name(_Name);
+		NewRes->name(_Name);
 
 		if (false == NewRes->Create(_1, _2))
 		{
@@ -162,7 +162,7 @@ public:
 	{
 		Res* NewRes = new Res();
 		NewRes->Set_Type();
-		NewRes->Name(_Name);
+		NewRes->name(_Name);
 
 		if (false == NewRes->Create(_1, _2, _3, _4))
 		{
@@ -180,7 +180,7 @@ public:
 	{
 		Res* NewRes = new Res();
 		NewRes->Set_Type();
-		NewRes->Name(_Name);
+		NewRes->name(_Name);
 
 		if (false == NewRes->Create(_1, _2, _3, _4, _5))
 		{
@@ -198,7 +198,7 @@ public:
 	{
 		Res* NewRes = new Res();
 		NewRes->Set_Type();
-		NewRes->Name(_Name);
+		NewRes->name(_Name);
 
 		if (false == NewRes->Create(_1, _2, _3, _4, _5, _6, _7, _8, _9))
 		{
@@ -218,7 +218,7 @@ public:
 	{
 		Res* NewRes = new Res();
 		NewRes->Set_Type();
-		NewRes->Name(_Name);
+		NewRes->name(_Name);
 
 		if (false == NewRes->Create(_1, _2, _3, _4, _5, _6, _7, _8, _9, _10))
 		{
@@ -236,7 +236,7 @@ public:
 	{
 		Res* NewRes = new Res();
 		NewRes->Split_Path(_Path);
-		NewRes->Name(NewRes->FileNameExt());
+		NewRes->name(NewRes->FileNameExt());
 
 
 		std::unordered_map<std::wstring, KPtr<Res>>::iterator FI = m_RSMap.find(NewRes->FileForder());
@@ -285,7 +285,7 @@ public:
 		TempPath += _Name;
 
 		Res* NewRes = new Res();
-		NewRes->Name(_Name);
+		NewRes->name(_Name);
 		NewRes->FileForder(_Path);
 		NewRes->Split_Path(TempPath.c_str());
 		if (false == NewRes->Load(_1, _2))
@@ -308,7 +308,7 @@ public:
 		TempPath += _FileName;
 
 		Res* NewRes = new Res();
-		NewRes->Name(_Key);
+		NewRes->name(_Key);
 		NewRes->FileForder(_PathKey);
 		NewRes->Split_Path(TempPath.c_str());
 		if (false == NewRes->Load())
@@ -327,7 +327,7 @@ public:
 		TempPath += _FileName;
 
 		Res* NewRes = new Res();
-		NewRes->Name(_Key);
+		NewRes->name(_Key);
 		NewRes->FileForder(_PathKey);
 		NewRes->Split_Path(TempPath.c_str());
 		if (false == NewRes->Load(_1))

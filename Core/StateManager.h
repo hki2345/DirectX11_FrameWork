@@ -49,7 +49,7 @@ public:
 
 		State* pNewScene = new State();
 		pNewScene->statemanager(this);
-		pNewScene->Name(_Name);
+		pNewScene->name(_Name);
 		pNewScene->kwindow(kwindow());
 		pNewScene->Set_Type();
 

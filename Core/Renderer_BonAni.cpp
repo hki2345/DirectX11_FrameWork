@@ -146,6 +146,8 @@ void Renderer_BonAni::Init_Mesh()
 		, D3D11_USAGE_DYNAMIC
 	);
 
+
+	m_BoneData_CurAni.resize(MCon->m_Data.BoneVec.size());
 	m_MXData_CurAni.resize(MCon->m_Data.BoneVec.size());
 
 }
@@ -157,7 +159,7 @@ void Renderer_BonAni::Load_FbxTest(const wchar_t* _Path)
 	Init_Mesh();
 }
 
-void Renderer_BonAni::EndUpdate()
+void Renderer_BonAni::PrevUpdate()
 {
 	if (0 >= MCon->m_Data.BoneVec.size())
 	{
@@ -236,7 +238,8 @@ void Renderer_BonAni::EndUpdate()
 		// 기본 오프셋에 구해진 보간 행렬을 구함 -동작 구현
 		// 단 그 곱하는 과정도 크자이 공부를 곱해주는 녀석이 다이렉트에 있다.
 		// KMatrix OffMat = FBXLoader::FMXtoKMX(pFbx->Bone_Vec[i]->Offset_FMX);
-		m_MXData_CurAni[i] = MCon->m_Data.BoneVec[i]->OffsetMX * DirectX::XMMatrixAffineTransformation(vS, vZero, vQ, vT);
+		m_BoneData_CurAni[i] = DirectX::XMMatrixAffineTransformation(vS, vZero, vQ, vT);
+		m_MXData_CurAni[i] = MCon->m_Data.BoneVec[i]->OffsetMX * m_BoneData_CurAni[i];
 	}
 
 	m_pBoneTex->Set_Pixel(&m_MXData_CurAni[0], sizeof(KMatrix) * m_MXData_CurAni.size());
@@ -254,4 +257,19 @@ void Renderer_BonAni::Render(KPtr<Camera> _Cam)
 		// 데이터 텍스쳐는 10번에 할당한다.
 		m_pBoneTex->Update(10);
 	}
+}
+
+
+
+KMatrix Renderer_BonAni::Get_BoneMX(const wchar_t* _Name)
+{
+	KM3Bone* pBone = MCon->Find_Bone(_Name);
+
+	return m_BoneData_CurAni[pBone->Index];
+}
+
+
+KMatrix Renderer_BonAni::Get_WBoneMX(const wchar_t* _Name)
+{
+	return Get_BoneMX(_Name) * Trans()->worldmat_const();
 }

@@ -1,26 +1,53 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClInclude Include="GameDataStruct.h" />
-    <ClInclude Include="IsoEditor.h" />
-    <ClInclude Include="IsoMapRender.h" />
-    <ClInclude Include="PixelChecker.h" />
-    <ClInclude Include="TestPanzaLogic.h" />
-    <ClInclude Include="TestSceneBuilder.h" />
-    <ClInclude Include="TestSceneUpdater.h" />
     <ClInclude Include="Camera_Free.h" />
+    <ClInclude Include="Force_Unit.h">
+      <Filter>SC2</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Cannon.h">
+      <Filter>SC2</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_SkillObj.h">
+      <Filter>SC2</Filter>
+    </ClInclude>
+    <ClInclude Include="Cannon_Ball.h">
+      <Filter>SC2</Filter>
+    </ClInclude>
+    <ClInclude Include="SC2_Force.h">
+      <Filter>SC2\SC2</Filter>
+    </ClInclude>
+    <ClInclude Include="SC2Manager.h">
+      <Filter>SC2\SC2</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="IsoEditor.cpp" />
-    <ClCompile Include="IsoMapRender.cpp" />
-    <ClCompile Include="IsoMapRender_FindPath.cpp" />
-    <ClCompile Include="PixelChecker.cpp" />
-    <ClCompile Include="TestPanzaLogic.cpp" />
-    <ClCompile Include="TestSceneBuilder.cpp" />
-    <ClCompile Include="TestSceneUpdater.cpp" />
     <ClCompile Include="Camera_Free.cpp" />
+    <ClCompile Include="Force_Unit.cpp">
+      <Filter>SC2</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Cannon.cpp">
+      <Filter>SC2</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_SkillObj.cpp">
+      <Filter>SC2</Filter>
+    </ClCompile>
+    <ClCompile Include="Cannon_Ball.cpp">
+      <Filter>SC2</Filter>
+    </ClCompile>
+    <ClCompile Include="SC2_Force.cpp">
+      <Filter>SC2\SC2</Filter>
+    </ClCompile>
+    <ClCompile Include="SC2Manager.cpp">
+      <Filter>SC2\SC2</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="ReadMe.txt" />
+    <Filter Include="SC2">
+      <UniqueIdentifier>{89e52f51-fdfe-4552-b6eb-ec363262421c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SC2\SC2">
+      <UniqueIdentifier>{2e479ec3-6390-4d74-acbe-3776fc5a8329}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

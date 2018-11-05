@@ -211,7 +211,6 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="ActorDlg.cpp" />
     <ClCompile Include="AddCom.cpp" />
     <ClCompile Include="AddCom_CreateCom.cpp" />
     <ClCompile Include="KEditor.cpp" />
@@ -230,7 +229,6 @@
     <ClCompile Include="View_Edit.cpp" />
     <ClCompile Include="SceneDlg.cpp" />
     <ClCompile Include="SpRenderDlg.cpp" />
-    <ClCompile Include="SpriteDlg.cpp" />
     <ClCompile Include="SpriteSelectDlg.cpp" />
     <ClCompile Include="stdafx.cpp" />
     <ClCompile Include="TabDlg.cpp" />
@@ -240,7 +238,6 @@
     <ClCompile Include="Edit_Class.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ActorDlg.h" />
     <ClInclude Include="AddCom.h" />
     <ClInclude Include="KEditor.h" />
     <ClInclude Include="ComDlg.h" />
@@ -258,7 +255,6 @@
     <ClInclude Include="View_Edit.h" />
     <ClInclude Include="SceneDlg.h" />
     <ClInclude Include="SpRenderDlg.h" />
-    <ClInclude Include="SpriteDlg.h" />
     <ClInclude Include="SpriteSelectDlg.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="TabDlg.h" />

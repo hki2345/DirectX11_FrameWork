@@ -97,6 +97,7 @@ public:
 public:
 	bool Load(MESH_LMODE _eMode = MESH_LMODE::LM_FBX);
 	void Save(const wchar_t* _Path);
+	KM3Bone* Find_Bone(const wchar_t* _Name);
 
 public:
 	MeshContainer();

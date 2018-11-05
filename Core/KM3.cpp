@@ -213,6 +213,7 @@ void KM3Data::LoadKM3(const wchar_t* _Path)
 		for (size_t i = 0; i < BoneSize; i++)
 		{
 			Stream.Read(BoneVec[i]->Name, sizeof(wchar_t) * 512);
+			BoneMap.insert(std::map<std::wstring, KM3Bone*>::value_type(BoneVec[i]->Name, BoneVec[i]));
 			Stream.Read(BoneVec[i]->BoneMX);
 			Stream.Read(BoneVec[i]->OffsetMX);
 			Stream.Read(BoneVec[i]->Depth);
@@ -254,12 +255,22 @@ bool MeshContainer::Load(MESH_LMODE _eMode)
 		m_Data.LoadKM3(AllPath());
 		return true;
 	}
-
-	return false;
 }
 
 
 void MeshContainer::Save(const wchar_t* _Path)
 {
 	m_Data.SaveKM3(_Path);
+}
+
+KM3Bone* MeshContainer::Find_Bone(const wchar_t* _Name)
+{
+	std::map<std::wstring, KM3Bone*>::iterator FI = m_Data.BoneMap.find(_Name);
+
+	if (FI != m_Data.BoneMap.end())
+	{
+		return FI->second;
+	}
+
+	return nullptr;
 }

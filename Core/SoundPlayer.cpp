@@ -74,7 +74,7 @@ void SoundPlayer::Update()
 	{
 		if (false == m_bPlay && nullptr != m_Channel)
 		{
-			Play(Name());
+			Play(name());
 		}
 	}
 }
@@ -85,7 +85,7 @@ bool SoundPlayer::Play(const wchar_t* _SoundName)
 
 	KASSERT(nullptr == m_Sound);
 
-	Name(_SoundName);
+	name(_SoundName);
 
 	FMOD_RESULT FR = SoundDevice::SoundSystem->playSound(m_Sound->m_pSound, nullptr, false, &m_Channel);
 

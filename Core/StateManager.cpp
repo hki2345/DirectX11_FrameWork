@@ -119,7 +119,7 @@ KPtr<State> StateManager::Create_State(const wchar_t* _Name)
 
 	State* pNewScene = new State();
 	pNewScene->statemanager(this);
-	pNewScene->Name(_Name);
+	pNewScene->name(_Name);
 	pNewScene->kwindow(kwindow());
 	pNewScene->Set_Type();
 

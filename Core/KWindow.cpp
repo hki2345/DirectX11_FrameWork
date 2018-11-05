@@ -106,7 +106,7 @@ void KWindow::Erase_KWindow(const wchar_t* _Name)
 		return;
 	}
 
-	std::wstring Name = Win->Name();
+	std::wstring Name = Win->name();
 	Map_Erase(g_WinMap, Name.c_str());
 }
 
@@ -220,7 +220,7 @@ ATOM KWindow::KRegisterClass()
 	wcex.hCursor = LoadCursor(nullptr, IDC_ARROW);
 	wcex.hbrBackground = (HBRUSH)(COLOR_WINDOW + 2);
 	wcex.lpszMenuName = nullptr;
-	wcex.lpszClassName = Name();
+	wcex.lpszClassName = name();
 	wcex.hIconSm = nullptr;
 
 	return RegisterClassExW(&wcex);
@@ -232,7 +232,7 @@ BOOL KWindow::Init_Instance()
 	// 테두리 없는 윈도우를 만들고 싶다면 WS_OVERLAPPEDWINDOW
 	// 다른 걸로 넣어줘야 한다.
 
-	m_HWnd = CreateWindowW(Name(), L"Title", WS_OVERLAPPEDWINDOW,
+	m_HWnd = CreateWindowW(name(), L"Title", WS_OVERLAPPEDWINDOW,
 		CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, g_HInst, nullptr);
 
 	if (!m_HWnd)

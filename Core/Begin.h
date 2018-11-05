@@ -68,17 +68,17 @@ private:
 	std::wstring m_Name;
 
 public:
-	unsigned int NameSize()
+	unsigned int size_name()
 	{
 		return (unsigned int)m_Name.size() + 1;
 	}
 
-	const wchar_t* Name() 
+	const wchar_t* name() 
 	{
 		return m_Name.c_str();
 	}
 
-	void Name(const wchar_t* _Name)
+	void name(const wchar_t* _Name)
 	{
 		m_Name = _Name;
 	}

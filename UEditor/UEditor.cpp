@@ -1,4 +1,3 @@
-#include "ActorDlg.cpp"
 #include "AddCom.cpp"
 #include "AddCom_CreateCom.cpp"
 #include "ComDlg.cpp"
@@ -17,7 +16,6 @@
 #include "SceneDlg.cpp"
 #include "Splitter_Edit.cpp"
 #include "SpRenderDlg.cpp"
-#include "SpriteDlg.cpp"
 #include "SpriteSelectDlg.cpp"
 #include "stdafx.cpp"
 #include "TabDlg.cpp"

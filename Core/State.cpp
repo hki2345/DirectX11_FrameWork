@@ -251,7 +251,7 @@ KPtr<TheOne> State::Create_One(const wchar_t* _pName /*= L"HObject"*/, int _Orde
 	}
 	ActorIter = m_ActorMap.find(_Order);
 	TheOne* pNewActor = new TheOne();
-	pNewActor->Name(_pName);
+	pNewActor->name(_pName);
 	pNewActor->order(_Order);
 	pNewActor->Set_Type();
 	pNewActor->kwindow(kwindow());
@@ -271,7 +271,7 @@ KPtr<TheOne> State::Create_OneNoneTrans(const wchar_t* _pName /*= L"HObject"*/, 
 	}
 	ActorIter = m_ActorMap.find(_Order);
 	TheOne* pNewActor = new TheOne();
-	pNewActor->Name(_pName);
+	pNewActor->name(_pName);
 	pNewActor->order(_Order);
 	pNewActor->Set_Type();
 	pNewActor->kwindow(kwindow());
@@ -432,7 +432,7 @@ KPtr<TheOne> State::Create_One(ReadStream& _Stream, void(*_ComLoadPtr)(KPtr<TheO
 	_Stream.Read(&ReadSize, sizeof(UINT));
 	_Stream.Read((void*)Name, sizeof(wchar_t) * ReadSize);
 
-	pNewActor->Name(Name);
+	pNewActor->name(Name);
 
 	if (true == _Root)
 	{
