@@ -13,6 +13,8 @@
 #include <Renderer_Grid.h>
 #include <Renderer_Mesh.h>
 #include <Renderer_BonAni.h>
+#include <Renderer_Terrain.h>
+
 
 #include <ResourceManager.h>
 #include <KImage.h>
@@ -145,7 +147,7 @@ BOOL Dlg_Editor::OnInitDialog()
 	SPHERERIGHT->Trans()->scale_local(KVector4(10.0f, 10.0f, 10.0f));
 	SPHERERIGHT->Trans()->pos_local(KVector4(15.0f, 0.0f, 0.0f));
 	KPtr<Renderer_Mesh> PTRMESH2 = SPHERERIGHT->Add_Component<Renderer_Mesh>();
-	//PTRMESH2->SetMat(L"PIXLIGHT3DMAT");
+	PTRMESH2->Set_Material(L"DEFFERD3DMAT");
 	PTRMESH2->Set_Mesh(L"SPHERE");
 
 
@@ -168,6 +170,13 @@ BOOL Dlg_Editor::OnInitDialog()
 	//TestRender->Load_FbxTest((PathManager::Find_ForderPathStr(L"Mesh") + L"Warehouse01.FBX").c_str());
 	//TestRender->Set_Static();
 
+
+	KPtr<TheOne> TERRAIN = TabScene->Create_One();
+	TERRAIN->Trans()->scale_local(KVector4(10.0f, 10.0f, 10.0f));
+	TERRAIN->Trans()->pos_local(KVector4(.0f, 0.0f, 0.0f));
+	KPtr<Renderer_Terrain> TerMESH1 = TERRAIN->Add_Component<Renderer_Terrain>();
+	TerMESH1->material()->Insert_TexData(TEX_TYPE::TEX_COLOR, 0, L"MoonDiff.jpg");
+	TerMESH1->Create_Terrain(64, 64);
 
 
 

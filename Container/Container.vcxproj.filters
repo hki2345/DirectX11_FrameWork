@@ -49,5 +49,8 @@
     <Filter Include="SC2\SC2">
       <UniqueIdentifier>{2e479ec3-6390-4d74-acbe-3776fc5a8329}</UniqueIdentifier>
     </Filter>
+    <Filter Include="SC2\Unit">
+      <UniqueIdentifier>{c635a210-8df5-4254-99f4-f2540187b243}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

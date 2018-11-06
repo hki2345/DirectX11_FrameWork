@@ -19,12 +19,15 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Bit_AID.h" />
     <ClInclude Include="KCollider3D_DE.h" />
     <ClInclude Include="KM3.h" />
     <ClInclude Include="KRay3D.h" />
     <ClInclude Include="KSphere_Col.h" />
     <ClInclude Include="ReadStream.h" />
     <ClInclude Include="Renderer_BonAni.h" />
+    <ClInclude Include="Renderer_Effect.h" />
+    <ClInclude Include="Renderer_Terrain.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="WriteStream.h" />
     <ClInclude Include="DXContainer.h" />
@@ -98,6 +101,8 @@
     <ClCompile Include="KSphere_Col.cpp" />
     <ClCompile Include="ReadStream.cpp" />
     <ClCompile Include="Renderer_BonAni.cpp" />
+    <ClCompile Include="Renderer_Effect.cpp" />
+    <ClCompile Include="Renderer_Terrain.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TheOne_Trans.cpp" />
     <ClCompile Include="WriteStream.cpp" />

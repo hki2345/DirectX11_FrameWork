@@ -18,7 +18,29 @@ Sampler::~Sampler()
 
 bool Sampler::Create() 
 {
-	if (false == Set_SamState())
+	if (false == Set_State())
+	{
+		return false;
+	}
+
+	return true;
+}
+
+bool Sampler::Create(D3D11_FILTER Filter /*= D3D11_FILTER::D3D11_FILTER_MIN_MAG_MIP_LINEAR*/,
+	D3D11_TEXTURE_ADDRESS_MODE AddressU /*= D3D11_TEXTURE_ADDRESS_CLAMP*/,
+	D3D11_TEXTURE_ADDRESS_MODE AddressV /*= D3D11_TEXTURE_ADDRESS_CLAMP*/,
+	D3D11_TEXTURE_ADDRESS_MODE AddressW /*= D3D11_TEXTURE_ADDRESS_CLAMP*/,
+	FLOAT MipLODBias /*= 1.0f*/,
+	KUINT MaxAnisotropy /*= 0*/,
+	D3D11_COMPARISON_FUNC ComparisonFunc /*= D3D11_COMPARISON_NEVER*/,
+	KColor BorderColor /*= KVector4::One*/,
+	FLOAT MinLOD /*= -FLT_MAX*/,
+	FLOAT MaxLOD /*= FLT_MAX*/
+)
+{
+	if (false == Set_State(
+		Filter, AddressU, AddressV, AddressW, MipLODBias,
+		MaxAnisotropy, ComparisonFunc, BorderColor, MinLOD,MaxLOD))
 	{
 		return false;
 	}
@@ -27,7 +49,7 @@ bool Sampler::Create()
 }
 
 
-bool Sampler::Set_SamState(D3D11_FILTER Filter,
+bool Sampler::Set_State(D3D11_FILTER Filter,
 	D3D11_TEXTURE_ADDRESS_MODE AddressU,
 	D3D11_TEXTURE_ADDRESS_MODE AddressV,
 	D3D11_TEXTURE_ADDRESS_MODE AddressW,

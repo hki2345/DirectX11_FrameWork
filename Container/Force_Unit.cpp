@@ -2,8 +2,9 @@
 
 
 
-Force_Unit::Force_Unit()
+Force_Unit::Force_Unit(const wchar_t* _Name)
 {
+	Begin::name(_Name);
 }
 
 

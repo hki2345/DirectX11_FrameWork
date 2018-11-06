@@ -211,6 +211,15 @@
     <ClInclude Include="KM3.h">
       <Filter>03 Manager\Resource\Child\MeshContainer</Filter>
     </ClInclude>
+    <ClInclude Include="Bit_AID.h">
+      <Filter>00 Core\Assistor</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer_Effect.h">
+      <Filter>03 Manager\Render\Child</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer_Terrain.h">
+      <Filter>03 Manager\Render\Child</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SmartPtr.cpp">
@@ -407,6 +416,12 @@
     </ClCompile>
     <ClCompile Include="KM3.cpp">
       <Filter>03 Manager\Resource\Child\MeshContainer</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer_Effect.cpp">
+      <Filter>03 Manager\Render\Child</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer_Terrain.cpp">
+      <Filter>03 Manager\Render\Child</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

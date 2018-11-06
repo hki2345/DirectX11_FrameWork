@@ -42,6 +42,17 @@ bool KDevice::DefRenderTaget()
 bool KDevice::Def3DCreate() 
 {
 	ResourceManager<Sampler>::Create(L"DefaultSmp");
+
+	// 지형 샘플러는 -> UV값이 정수그대로 적용된다. -> .0f ~ 1.0f 식의 비율 계산이 아님
+	// 그냥 int형 으로 정수가 때려 박히는 식이다.
+	ResourceManager<Sampler>::Create(L"TerrainSmp"
+	, D3D11_FILTER::D3D11_FILTER_COMPARISON_MIN_LINEAR_MAG_POINT_MIP_LINEAR
+	, D3D11_TEXTURE_ADDRESS_MODE::D3D11_TEXTURE_ADDRESS_WRAP
+	, D3D11_TEXTURE_ADDRESS_MODE::D3D11_TEXTURE_ADDRESS_WRAP);
+
+
+
+
 	ResourceManager<KBlend>::Create(L"ALPHA");
 
 	Core_Class::MainDevice().CreateCB<MatrixContainer>(L"MATCON", D3D11_USAGE_DYNAMIC, 10);
@@ -215,6 +226,16 @@ bool KDevice::Mesh3DCreate() {
 	ArrVTX3D[1].Normal = KVector4(0.0f, 0.0f, -1.0f, 1.0f);
 	ArrVTX3D[2].Normal = KVector4(0.0f, 0.0f, -1.0f, 1.0f);
 	ArrVTX3D[3].Normal = KVector4(0.0f, 0.0f, -1.0f, 1.0f);
+
+	ArrVTX3D[0].Tangent = KVector4(1.0f, 0.0f, 0.0f, 1.0f);
+	ArrVTX3D[1].Tangent = KVector4(1.0f, 0.0f, 0.0f, 1.0f);
+	ArrVTX3D[2].Tangent = KVector4(1.0f, 0.0f, 0.0f, 1.0f);
+	ArrVTX3D[3].Tangent = KVector4(1.0f, 0.0f, 0.0f, 1.0f);
+
+	ArrVTX3D[0].BNormal = KVector4(0.0f, -1.0f, 0.0f, 1.0f);
+	ArrVTX3D[1].BNormal = KVector4(0.0f, -1.0f, 0.0f, 1.0f);
+	ArrVTX3D[2].BNormal = KVector4(0.0f, -1.0f, 0.0f, 1.0f);
+	ArrVTX3D[3].BNormal = KVector4(0.0f, -1.0f, 0.0f, 1.0f);
 
 	IDX16 ArrColorIDX[2] = {};
 

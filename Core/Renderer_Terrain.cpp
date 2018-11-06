@@ -28,7 +28,7 @@ void Renderer_Terrain::Create_Terrain(const KUINT& _X, const KUINT& _Z)
 	KPtr<KMesh> NMesh = new KMesh();
 
 	std::vector<VTX3D> TV;
-	std::vector<WORD> TI;
+	std::vector<UINT> TI;
 
 	VTX3D TempV;
 
@@ -36,12 +36,12 @@ void Renderer_Terrain::Create_Terrain(const KUINT& _X, const KUINT& _Z)
 	{
 		for (KUINT x = 0; x < m_SizeX + 1; x++)
 		{
-			TempV.Pos = KVector(x, .0f, z, 1.0f);
-			TempV.Uv = KVector2((int)x, m_SizeZ - z);
+			TempV.Pos = KVector((float)x, .0f, (float)z, 1.0f);
+			TempV.Uv = KVector2((float)x, (float)(m_SizeZ - z));
 			TempV.Color = KVector(1.0f, 1.0f, 1.0f, 1.0f);
 			TempV.Normal = KVector(.0f, 1.0f, .0f, .0f);
 			TempV.Tangent = KVector(1.0f, .0f, .0f, .0f);
-			TempV.BNormal = KVector(.0f, .0f, 1.0f, .0f);
+			TempV.BNormal = KVector(.0f, .0f, -1.0f, .0f);
 
 			TV.push_back(TempV);
 		}
@@ -66,13 +66,23 @@ void Renderer_Terrain::Create_Terrain(const KUINT& _X, const KUINT& _Z)
 
 	NMesh->draw_mode(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	NMesh->Create_Vertex((KUINT)TV.size(), sizeof(VTX3D), D3D11_USAGE_DYNAMIC, &TV[0]);
-	NMesh->Create_Index((KUINT)TI.size(), IDX32::MemberSize(), D3D11_USAGE_DEFAULT,IDX32::FM(), &TI[0]);
+	NMesh->Create_Index((KUINT)TI.size(), IDX32::MemberSize(), D3D11_USAGE_DEFAULT, IDX32::FM(), &TI[0]);
 
 	Set_Mesh(NMesh);
 	Set_Material(L"DEFFERD3DMAT");
 }
 
 void Renderer_Terrain::Render(KPtr<Camera> _Cam)
+{
+
+}
+
+void Renderer_Terrain::base_texture(const wchar_t* _Diff, const wchar_t* _Bump)
+{
+}
+
+
+void Renderer_Terrain::cover_texture(const wchar_t* _Diff, const wchar_t* _Bump)
 {
 
 }
