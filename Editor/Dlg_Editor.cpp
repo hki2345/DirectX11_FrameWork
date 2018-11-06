@@ -165,8 +165,8 @@ BOOL Dlg_Editor::OnInitDialog()
 	KPtr<Renderer_BonAni> TestRender = TestAni->Add_Component<Renderer_BonAni>();
 
 	// TestRender->Load_FbxTest((PathManager::Find_ForderPathStr(L"Mesh") + L"Monster3.FBX").c_str());
-	KPtr<MeshContainer> MCon = ResourceManager<MeshContainer>::Load((PathManager::Find_ForderPathStr(L"Mesh") + L"BattleTest.FBX").c_str());
-	TestRender->Set_Fbx(L"BattleTest.FBX");
+	KPtr<MeshContainer> MCon = ResourceManager<MeshContainer>::Load((PathManager::Find_ForderPathStr(L"Mesh") + L"Terran\\Ghost.FBX").c_str());
+	TestRender->Set_Fbx(L"Ghost.FBX");
 	//TestRender->Load_FbxTest((PathManager::Find_ForderPathStr(L"Mesh") + L"Warehouse01.FBX").c_str());
 	//TestRender->Set_Static();
 
@@ -185,7 +185,7 @@ BOOL Dlg_Editor::OnInitDialog()
 	SPHERELEFT->Trans()->pos_local(KVector4(-15.0f, 0.0f, 0.0f));
 	KPtr<Renderer_Mesh> PTRMESH1 = SPHERELEFT->Add_Component<Renderer_Mesh>();
 	PTRMESH1->ROpt.IsLight = 1;
-	PTRMESH1->Set_Material(L"MESH3DMAT");
+	PTRMESH1->Set_Material(L"DEFFERD3DMAT");
 	PTRMESH1->Set_Mesh(L"SPHERE");
 
 	PTRMESH1->material()->Insert_TexData(TEX_TYPE::TEX_COLOR, 0, L"MoonDiff.jpg");

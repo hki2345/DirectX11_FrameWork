@@ -177,7 +177,9 @@ bool ResourceManager<KS>::All_LoadSub(const intptr_t& _Handle, _wfinddata_t& _FD
 			Name += Exi;
 
 			// »çÁø°ú À½¾Ç
-			if (Exi == L".png" || Exi == L".PNG" || Exi == L".Png" || Exi == L".jpg" || Exi == L".JPG" || Exi == L".Jpg" || Exi == L".bmp" ||
+			if (Exi == L".png" || Exi == L".PNG" || Exi == L".Png" ||
+				Exi == L".jpg" || Exi == L".JPG" || Exi == L".Jpg" || 
+				Exi == L".bmp" || Exi == L".dds" || Exi == L".DDS" ||
 				Exi == L".mp3")
 			{
 				if (nullptr == PathManager::Find_ForderPath(Folder.c_str()))

@@ -356,7 +356,6 @@ void KDevice::RState::Create(ID3D11Device* _pDevice, ID3D11DeviceContext* _pCont
 		return;
 	}
 
-	// 꼭말해달라고 해주세요.
 	m_Desc.FillMode = _FillMode;
 	m_Desc.CullMode = _CullMode;
 	m_pContext = _pContext;
