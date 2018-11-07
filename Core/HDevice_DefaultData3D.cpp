@@ -16,6 +16,8 @@
 #include "Texture.h"
 #include "Sampler.h"
 #include "RenderTarget_Multi.h"
+#include "Renderer_Terrain.h"
+
 
 
 
@@ -46,7 +48,8 @@ bool KDevice::Def3DCreate()
 	// 지형 샘플러는 -> UV값이 정수그대로 적용된다. -> .0f ~ 1.0f 식의 비율 계산이 아님
 	// 그냥 int형 으로 정수가 때려 박히는 식이다.
 	ResourceManager<Sampler>::Create(L"TerrainSmp"
-	, D3D11_FILTER::D3D11_FILTER_COMPARISON_MIN_LINEAR_MAG_POINT_MIP_LINEAR
+	, D3D11_FILTER::D3D11_FILTER_MIN_MAG_MIP_LINEAR
+	, D3D11_TEXTURE_ADDRESS_MODE::D3D11_TEXTURE_ADDRESS_WRAP
 	, D3D11_TEXTURE_ADDRESS_MODE::D3D11_TEXTURE_ADDRESS_WRAP
 	, D3D11_TEXTURE_ADDRESS_MODE::D3D11_TEXTURE_ADDRESS_WRAP);
 
@@ -55,6 +58,7 @@ bool KDevice::Def3DCreate()
 
 	ResourceManager<KBlend>::Create(L"ALPHA");
 
+	Core_Class::MainDevice().CreateCB<KColor>(L"FORCE_COLOR", D3D11_USAGE_DYNAMIC, 5);
 	Core_Class::MainDevice().CreateCB<MatrixContainer>(L"MATCON", D3D11_USAGE_DYNAMIC, 10);
 	Core_Class::MainDevice().CreateCB<RenderOption>(L"RENDEROPTION", D3D11_USAGE_DYNAMIC, 11);
 	Core_Class::MainDevice().CreateCB<Light::LightCBDATA>(L"LIGHTDATA", D3D11_USAGE_DYNAMIC, 12);
@@ -222,20 +226,20 @@ bool KDevice::Mesh3DCreate() {
 	ArrVTX3D[2].Uv = KVector2(0.0f, 1.0f);
 	ArrVTX3D[3].Uv = KVector2(1.0f, 1.0f);
 
-	ArrVTX3D[0].Normal = KVector4(0.0f, 0.0f, -1.0f, 1.0f);
-	ArrVTX3D[1].Normal = KVector4(0.0f, 0.0f, -1.0f, 1.0f);
-	ArrVTX3D[2].Normal = KVector4(0.0f, 0.0f, -1.0f, 1.0f);
-	ArrVTX3D[3].Normal = KVector4(0.0f, 0.0f, -1.0f, 1.0f);
+	ArrVTX3D[0].Normal = KVector4(0.0f, 0.0f, -1.0f, 0.0f);
+	ArrVTX3D[1].Normal = KVector4(0.0f, 0.0f, -1.0f, 0.0f);
+	ArrVTX3D[2].Normal = KVector4(0.0f, 0.0f, -1.0f, 0.0f);
+	ArrVTX3D[3].Normal = KVector4(0.0f, 0.0f, -1.0f, 0.0f);
 
-	ArrVTX3D[0].Tangent = KVector4(1.0f, 0.0f, 0.0f, 1.0f);
-	ArrVTX3D[1].Tangent = KVector4(1.0f, 0.0f, 0.0f, 1.0f);
-	ArrVTX3D[2].Tangent = KVector4(1.0f, 0.0f, 0.0f, 1.0f);
-	ArrVTX3D[3].Tangent = KVector4(1.0f, 0.0f, 0.0f, 1.0f);
+	ArrVTX3D[0].Tangent = KVector4(1.0f, 0.0f, 0.0f, 0.0f);
+	ArrVTX3D[1].Tangent = KVector4(1.0f, 0.0f, 0.0f, 0.0f);
+	ArrVTX3D[2].Tangent = KVector4(1.0f, 0.0f, 0.0f, 0.0f);
+	ArrVTX3D[3].Tangent = KVector4(1.0f, 0.0f, 0.0f, 0.0f);
 
-	ArrVTX3D[0].BNormal = KVector4(0.0f, -1.0f, 0.0f, 1.0f);
-	ArrVTX3D[1].BNormal = KVector4(0.0f, -1.0f, 0.0f, 1.0f);
-	ArrVTX3D[2].BNormal = KVector4(0.0f, -1.0f, 0.0f, 1.0f);
-	ArrVTX3D[3].BNormal = KVector4(0.0f, -1.0f, 0.0f, 1.0f);
+	ArrVTX3D[0].BNormal = KVector4(0.0f, -1.0f, 0.0f, 0.0f);
+	ArrVTX3D[1].BNormal = KVector4(0.0f, -1.0f, 0.0f, 0.0f);
+	ArrVTX3D[2].BNormal = KVector4(0.0f, -1.0f, 0.0f, 0.0f);
+	ArrVTX3D[3].BNormal = KVector4(0.0f, -1.0f, 0.0f, 0.0f);
 
 	IDX16 ArrColorIDX[2] = {};
 
@@ -601,7 +605,26 @@ bool KDevice::Mat3DCreate() {
 	VOLUMEMAT->Set_PXShader(L"VOLUMEPIX");
 
 
-	Core_Class::MainDevice().CreateCB<KColor>(L"FORCE_COLOR", D3D11_USAGE_DYNAMIC, 5);
+
+	KPtr<Shader_Vertex> DEFFERDTERRAINVTX = ResourceManager<Shader_Vertex>::Load_FromKey(L"DEFFERDTERRAINVTX", L"Shader", L"TerrainDefferd.fx", "VS_TERRAINDEFFERD");
+	DEFFERDTERRAINVTX->Add_Layout("POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
+	DEFFERDTERRAINVTX->Add_Layout("TEXCOORD", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32_FLOAT, 0);
+	DEFFERDTERRAINVTX->Add_Layout("COLOR", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
+	DEFFERDTERRAINVTX->Add_Layout("NORMAL", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
+	DEFFERDTERRAINVTX->Add_Layout("TANGENT", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
+	DEFFERDTERRAINVTX->Add_LayoutFin("BINORMAL", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
+	KPtr<Shader_Pixel> DEFFERDTERRAINPIX = ResourceManager<Shader_Pixel>::Load_FromKey(L"DEFFERDTERRAINPIX", L"Shader", L"TerrainDefferd.fx", "PS_TERRAINDEFFERD");
+	// DEFFERDTERRAINPIX->CreateCB<TERRAINFLOORDATA>(L"TERRAINFLOORDATA", D3D11_USAGE_DYNAMIC, 0);
+
+	KPtr<KMaterial> DEFFERDTERRAINMAT = ResourceManager<KMaterial>::Create(L"DEFFERDTERRAINMAT");
+	DEFFERDTERRAINMAT->Set_VTShader(L"DEFFERDTERRAINVTX");
+	DEFFERDTERRAINMAT->Set_PXShader(L"DEFFERDTERRAINPIX");
+	DEFFERDTERRAINMAT->Set_Blend(L"ALPHA");
+
+
+
+
+	
 
 	return true;
 }

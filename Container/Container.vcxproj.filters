@@ -52,5 +52,11 @@
     <Filter Include="SC2\Unit">
       <UniqueIdentifier>{c635a210-8df5-4254-99f4-f2540187b243}</UniqueIdentifier>
     </Filter>
+    <Filter Include="SC2\Unit\Terran">
+      <UniqueIdentifier>{07e89fa1-04b2-4dd5-8f31-c3d4d8bc314a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SC2\Unit\Protoss">
+      <UniqueIdentifier>{3463765e-27f2-49aa-84fa-526d800af3f1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>

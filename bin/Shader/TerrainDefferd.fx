@@ -6,6 +6,15 @@
 #include "DefferdLight.fx"
 #include "GTex.fx"
 
+//cbuffer TerrainBuffer : register(b0)
+//{
+//    int FloorCount;
+//    int VTXX;
+//    int VTXY;
+//    int temp3;
+//    int IsBump[4];
+//}
+
 struct VTX3DMESH_INPUT
 {
     float4 vPos : POSITION;
@@ -31,7 +40,7 @@ struct VTX3DMESH_OUTPUT
 };
 
 
-VTX3DMESH_OUTPUT VS_DEFFERD(VTX3DMESH_INPUT _in)
+VTX3DMESH_OUTPUT VS_TERRAINDEFFERD(VTX3DMESH_INPUT _in)
 {
     VTX3DMESH_OUTPUT outData = (VTX3DMESH_OUTPUT) 0.f;
 
@@ -51,26 +60,41 @@ VTX3DMESH_OUTPUT VS_DEFFERD(VTX3DMESH_INPUT _in)
     return outData;
 }
 
-PS_DEFFERDOUTPUT PS_DEFFERD(VTX3DMESH_OUTPUT _in)
+PS_DEFFERDOUTPUT PS_TERRAINDEFFERD(VTX3DMESH_OUTPUT _in)
 {
     PS_DEFFERDOUTPUT outData = (PS_DEFFERDOUTPUT) 0.0f;
     outData.vDiffuse = _in.vColor;
     float4 CalColor = float4(1.0f, 1.0f, 1.0f, 1.0f);
     
-    for (int i = 0; i < TexCount; ++i)
-    {
-        if (-1 != ArrTex[i].Tex_Idx)
-        {
-            if (ArrTex[i].Type == TEX)
-            {
-                CalColor *= GetTexToColor(ArrTex[i].Tex_Idx, ArrTex[i].Tex_Smp, _in.vUv) * _in.vColor;
-            }
-            else if (ArrTex[i].Type == BUMP)
-            {
-                _in.vNormal = CalBump(ArrTex[i].Tex_Idx, ArrTex[i].Tex_Smp, _in.vUv, _in.vTangent, _in.vBNormal, _in.vNormal);
-            }
-        }
-    }
+    CalColor *= GetTexToColor(0, 0, _in.vUv);
+    _in.vNormal = CalBump(1, 0, _in.vUv, _in.vTangent, _in.vBNormal, _in.vNormal);
+    // 상수버퍼 하나를 만들어야 한다.
+
+    //// 색깔을 2
+
+    //for (int i = 0; i < FloorCount; ++i)
+    //{
+
+    //}
+
+    //for (int i = 0; i < FloorCount; ++i)
+    //{
+    //    float SPRatio = 0.1;
+
+    //    float3 DestColor = CalColor * (1 - SPRatio);
+    //    float3 TexColor;
+    //    float3 SrcColor;
+    //    SrcColor *= TexColor * (SPRatio);
+    //    CalColor = DestColor + SrcColor;
+    //}
+
+    // BaseDiffTextureColor 
+
+    // 0.5 x
+    // 1, 1, 1,
+    // rgb
+
+    // 칼 컬러가 섞인것으로 나와야 한다.
 
     // 포워드 색깔을 아예 사용하지 않는 것은 아니다.
     outData.vDiffuse.rgb = CalColor;
@@ -81,86 +105,5 @@ PS_DEFFERDOUTPUT PS_DEFFERD(VTX3DMESH_OUTPUT _in)
     outData.vDepth.x = outData.vPosition.z;
     outData.vDepth.w = 1.0f;
 
-	// outData.vColor = _in.vColor;
     return outData;
-}
-
-static matrix DirMat =
-{
-    { 2.0f, 0.0f, 0.0f, 0.0f },
-    { 0.0f, 2.0f, 0.0f, 0.0f },
-    { 0.0f, 0.0f, 2.0f, 0.0f },
-    { 0.0f, 0.0f, 0.0f, 1.0f },
-};
-
-VS_DEFFERDLIGHTOUTPUT VS_DEFFERDLIGHT(VS_DEFFERDLIGHTINPUT _Input)
-{
-    VS_DEFFERDLIGHTOUTPUT OUTDATA = (VS_DEFFERDLIGHTOUTPUT) 0.0F;
-    OUTDATA.vPos = mul(_Input.vPos, DirMat);
-    OUTDATA.vUv = _Input.vUv;
-    return OUTDATA;
-}
-
-// 세팅될 텍스처들
-// 0. 포지션
-// 1. 노말
-// 2. 깊이
-
-PS_DEFFERDLIGHTOUTPUT PS_DEFFERDLIGHT(VS_DEFFERDLIGHTOUTPUT _Input)
-{
-    PS_DEFFERDLIGHTOUTPUT OUTDATA = (PS_DEFFERDLIGHTOUTPUT) 0.0F;
-
-    float fDepth = g_Tex_2.Sample(g_Sam_0, _Input.vUv).x;
-    if (fDepth <= 0.01f)
-    {
-        clip(-1);
-    }
-
-    float4 vViewPos = g_Tex_0.Sample(g_Sam_0, _Input.vUv);
-    float4 vNormal = g_Tex_1.Sample(g_Sam_0, _Input.vUv);
-
-    LIGHTCOLOR info = CalDirLight(vViewPos, vNormal, LightData);
-
-    OUTDATA.vDiffuse.rgb = info.Diff.rgb;
-    OUTDATA.vDiffuse.a = 1.0f;
-    OUTDATA.vSpaculer.rgb = info.Spec.rgb + float3(0.1f, 0.1f, 0.1f);
-    OUTDATA.vSpaculer.a = 1.0f;
-
-    return OUTDATA;
-}
-
-// 최종 병합 쉐이더
-VS_DEFFERDLIGHTOUTPUT VS_DEFFERDMERGE(VS_DEFFERDLIGHTINPUT _Input)
-{
-    VS_DEFFERDLIGHTOUTPUT OUTDATA = (VS_DEFFERDLIGHTOUTPUT) 0.0F;
-    OUTDATA.vPos = mul(_Input.vPos, DirMat);
-    OUTDATA.vUv = _Input.vUv;
-    return OUTDATA;
-}
-
-// 세팅될 텍스처들
-// 0. 디퓨즈 컬러
-// 1. 디퓨즈 라이트 컬러
-// 2. 스펙큘러 라이트 컬러
-// 아웃풋은 그냥 타겟에 출력
-PS_MERGEOUTPUT PS_DEFFERDMERGE(VS_DEFFERDLIGHTOUTPUT _Input)
-{
-    PS_MERGEOUTPUT OUTDATA = (PS_MERGEOUTPUT) 0.0F;
-    float4 vColor = g_Tex_0.Sample(g_Sam_0, _Input.vUv);
-    float4 vDiff = g_Tex_1.Sample(g_Sam_0, _Input.vUv);
-    float4 vSpec = g_Tex_2.Sample(g_Sam_0, _Input.vUv);
-
-    vColor.w = 1.0f;
-    vDiff.w = 1.0f;
-    vSpec.w = 0.0f;
-
-    if (OUTDATA.vMergeColor.a != 0.f)
-    {
-        OUTDATA.vMergeColor.rgb = float3(0.2f, 0.2f, 0.8f) * vColor.a;
-    }
-
-    OUTDATA.vMergeColor.rgb += vColor.rgb * vDiff.rgb + vSpec.rgb /*+ float3(0.1f, 0.1f, 0.1f)*/;
-    OUTDATA.vMergeColor.a = 1.0f;
-
-    return OUTDATA;
 }

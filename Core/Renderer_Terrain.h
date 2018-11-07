@@ -1,10 +1,20 @@
 #pragma once
 #include "Renderer.h"
+
+class TERRAIN_FD
+{
+public:
+	int FloorCnt;
+	int SizeX;
+	int SizeZ;
+	int temp;
+	int IsBump[4];
+};
+
 class Renderer_Terrain : public Renderer
 {
 private:
-	KUINT m_SizeX;
-	KUINT m_SizeZ;
+	TERRAIN_FD m_TFD;
 
 public:
 	void Create_Terrain(const KUINT& _X, const KUINT& _Z);

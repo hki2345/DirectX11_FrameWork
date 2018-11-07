@@ -161,12 +161,21 @@ BOOL Dlg_Editor::OnInitDialog()
 	// AniTest
 	KPtr<TheOne> TestAni = TabScene->Create_One(L"Test");
 	TestAni->Trans()->pos_local(KVector(.0f));
-	TestAni->Trans()->scale_local(KVector(10.f, 10.f, 10.f));
+	TestAni->Trans()->scale_local(KVector(1.f, 1.f, 1.f));
 	KPtr<Renderer_BonAni> TestRender = TestAni->Add_Component<Renderer_BonAni>();
 
+	KPtr<MeshContainer> MCon = ResourceManager<MeshContainer>::Load((PathManager::Find_ForderPathStr(L"Mesh") + L"Terran\\Tank_Body.FBX").c_str());
+	TestRender->Set_Fbx(L"Tank_Body.FBX");
+
+
+	KPtr<TheOne> TestAni2 = TabScene->Create_One(L"Test");
+	TestAni2->Trans()->pos_local(KVector(.0f));
+	TestAni2->Trans()->scale_local(KVector(1.f, 1.f, 1.f));
+	KPtr<Renderer_BonAni> TestRender2 = TestAni2->Add_Component<Renderer_BonAni>();
+
+	MCon = ResourceManager<MeshContainer>::Load((PathManager::Find_ForderPathStr(L"Mesh") + L"Terran\\Tank_Tread.FBX").c_str());
+	TestRender2->Set_Fbx(L"Tank_Tread.FBX");
 	// TestRender->Load_FbxTest((PathManager::Find_ForderPathStr(L"Mesh") + L"Monster3.FBX").c_str());
-	KPtr<MeshContainer> MCon = ResourceManager<MeshContainer>::Load((PathManager::Find_ForderPathStr(L"Mesh") + L"Terran\\Ghost.FBX").c_str());
-	TestRender->Set_Fbx(L"Ghost.FBX");
 	//TestRender->Load_FbxTest((PathManager::Find_ForderPathStr(L"Mesh") + L"Warehouse01.FBX").c_str());
 	//TestRender->Set_Static();
 
@@ -175,8 +184,11 @@ BOOL Dlg_Editor::OnInitDialog()
 	TERRAIN->Trans()->scale_local(KVector4(10.0f, 10.0f, 10.0f));
 	TERRAIN->Trans()->pos_local(KVector4(.0f, 0.0f, 0.0f));
 	KPtr<Renderer_Terrain> TerMESH1 = TERRAIN->Add_Component<Renderer_Terrain>();
-	TerMESH1->material()->Insert_TexData(TEX_TYPE::TEX_COLOR, 0, L"MoonDiff.jpg");
-	TerMESH1->Create_Terrain(64, 64);
+
+	// 순서를 지켜야 된다????? ㅇㅇ
+	TerMESH1->Create_Terrain(4, 4);
+	TerMESH1->material()->Insert_TexData(TEX_TYPE::TEX_COLOR, 0, L"MoonDiff.jpg", 0, L"TerrainSmp");
+	TerMESH1->material()->Insert_TexData(TEX_TYPE::TEX_BUMP, 1, L"MoonBump.jpg", 0, L"TerrainSmp");
 
 
 

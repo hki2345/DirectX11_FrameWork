@@ -184,7 +184,7 @@ void DebugManager::Targetting()
 	int WCount = 5;
 
 	float SizeX = Core_Class::MainWindow().width_f() / WCount;
-	float SizeY = Core_Class::MainWindow().height_f() / WCount;
+	float SizeZ = Core_Class::MainWindow().height_f() / WCount;
 
 	for (size_t i = 0; i < Vec.size(); i++)
 	{
@@ -196,11 +196,11 @@ void DebugManager::Targetting()
 			KMatrix m_Pos;
 
 			m_Scale.Identity();
-			m_Scale.Scale(KVector4(SizeX, SizeY, 1.0F));
+			m_Scale.Scale(KVector4(SizeX, SizeZ, 1.0F));
 			m_Pos.Identity();
 			m_Pos.Trans(
 				KVector4( (-Core_Class::MainWindow().width_f() * 0.5F) + (CountX * SizeX) + (SizeX * 0.5F)
-					, (Core_Class::MainWindow().height_f() * 0.5F) + (-CountY * SizeY) - (SizeY * 0.5F)
+					, (Core_Class::MainWindow().height_f() * 0.5F) + (-CountY * SizeZ) - (SizeZ * 0.5F)
 					, 1.1f));
 
 			KMatrix m_W = m_Scale * m_Pos;
@@ -253,11 +253,11 @@ void DebugManager::Targetting()
 			KMatrix m_Pos;
 
 			m_Scale.Identity();
-			m_Scale.Scale(KVector4(SizeX, SizeY, 1.0F));
+			m_Scale.Scale(KVector4(SizeX, SizeZ, 1.0F));
 			m_Pos.Identity();
 			m_Pos.Trans(
 				KVector4((-Core_Class::MainWindow().width_f() * 0.5F) + (CountX * SizeX) + (SizeX * 0.5F)
-					, (Core_Class::MainWindow().height_f() * 0.5F) + (-CountY * SizeY) - (SizeY * 0.5F)
+					, (Core_Class::MainWindow().height_f() * 0.5F) + (-CountY * SizeZ) - (SizeZ * 0.5F)
 					, 1.1f));
 
 			KMatrix m_W = m_Scale * m_Pos;
