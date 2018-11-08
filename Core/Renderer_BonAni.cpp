@@ -161,6 +161,14 @@ void Renderer_BonAni::Load_FbxTest(const wchar_t* _Path)
 
 void Renderer_BonAni::PrevUpdate()
 {
+	if (nullptr != m_CurAni)
+	{
+		PrevUpdate_Ani();
+	}
+}
+
+void Renderer_BonAni::PrevUpdate_Ani()
+{
 	if (0 >= MCon->m_Data.BoneVec.size())
 	{
 		return;
@@ -177,9 +185,11 @@ void Renderer_BonAni::PrevUpdate()
 	// 현재 시작 시간에 최신화 시간을 더한 시간이 현재 진행중인 시간 - 현재 프레임이 되겠다.
 	m_CurTime = (float)(MCon->m_Data.AniVec[m_ClipInx].Stime.GetSecondDouble() + m_UpdateTime);
 
-	int iFrameInx = (int)(m_CurTime* m_FrameCnt);
-	int iNextFrameInx = 0;
 
+
+	int iFrameInx = (int)(m_CurTime * m_FrameCnt);
+	int iNextFrameInx = 0;
+	
 	// 현재 프레임이 프레임의 끝보다 크면 0으로 초기화
 	if (iFrameInx >= MCon->m_Data.AniVec[m_ClipInx].Length_Time - 1)
 	{
@@ -250,6 +260,7 @@ void Renderer_BonAni::PrevUpdate()
 	Core_Class::MainDevice().SettingCB<KColor>(L"FORCE_COLOR", m_MeshColor, SHTYPE::ST_PS);
 }
 
+
 void Renderer_BonAni::Render(KPtr<Camera> _Cam)
 {
 	if (nullptr != m_pBoneTex)
@@ -272,4 +283,74 @@ KMatrix Renderer_BonAni::Get_BoneMX(const wchar_t* _Name)
 KMatrix Renderer_BonAni::Get_WBoneMX(const wchar_t* _Name)
 {
 	return Get_BoneMX(_Name) * Trans()->worldmat_const();
+}
+
+
+
+/********************************** 지정 애니메이션*********************************/
+bool Renderer_BonAni::Set_AniChanger(const wchar_t* _Name)
+{
+	if (0 == _Name[0])
+	{
+		BBY;
+		return false;
+	}
+
+	std::map<std::wstring, KPtr<Renderer_BonAni::Ani_Changer>>::iterator FI = m_ACMap.find(_Name);
+	if (m_ACMap.end() == FI)
+	{
+		BBY;
+		return false;
+	}
+
+	m_CurAni = FI->second;
+
+	return true;
+}
+
+bool Renderer_BonAni::Erase_AniChanger(const wchar_t* _Name)
+{
+	if (0 == _Name[0])
+	{
+		BBY;
+		return false;
+	}
+
+	std::map<std::wstring, KPtr<Renderer_BonAni::Ani_Changer>>::iterator FI = m_ACMap.find(_Name);
+	if (m_ACMap.end() == FI)
+	{
+		BBY;
+		return false;
+	}
+
+
+	m_ACMap.erase(FI);
+	return true;
+}
+
+KPtr<Renderer_BonAni::Ani_Changer> Renderer_BonAni::Create_AniChanger(const wchar_t* _Name, const int& _Start, const int& _End)
+{
+	if (0 == _Name[0])
+	{
+		BBY;
+		return nullptr;
+	}
+
+	Renderer_BonAni::Ani_Changer* NC = new Ani_Changer(_Name, _Start, _End);
+
+	m_ACMap.insert(std::map<std::wstring, KPtr<Renderer_BonAni::Ani_Changer>>::value_type(NC->ws_name(), NC));
+
+	return NC;
+}
+
+KPtr<Renderer_BonAni::Ani_Changer> Renderer_BonAni::Find_AniChamnger(const wchar_t* _Name)
+{
+	std::map<std::wstring, KPtr<Renderer_BonAni::Ani_Changer>>::iterator FI = m_ACMap.find(_Name);
+
+	if (m_ACMap.end() == FI)
+	{
+		return nullptr;
+	}
+
+	return FI->second;
 }

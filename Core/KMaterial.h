@@ -12,6 +12,7 @@ enum TEX_TYPE
 	TEX_SPEC,
 	TEX_EMIS,
 	TEX_TAGET,
+	TEX_MULTI,
 };
 
 class Tex_Data

@@ -5,9 +5,9 @@ class TERRAIN_FD
 {
 public:
 	int FloorCnt;
+	int TexCnt;
 	int SizeX;
 	int SizeZ;
-	int temp;
 	int IsBump[4];
 };
 
@@ -20,8 +20,8 @@ public:
 	void Create_Terrain(const KUINT& _X, const KUINT& _Z);
 	void Render(KPtr<Camera> _Cam) override;
 
-	void base_texture(const wchar_t* _Diff, const wchar_t* _Bump);
-	void cover_texture(const wchar_t* _Diff, const wchar_t* _Bump);
+	void base_texture(const wchar_t* _MTex);
+	void Insert_CoverTex(const wchar_t* _MTex, const wchar_t* _Cover);
 
 public:
 	Renderer_Terrain();

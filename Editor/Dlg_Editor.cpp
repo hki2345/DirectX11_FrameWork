@@ -173,8 +173,11 @@ BOOL Dlg_Editor::OnInitDialog()
 	TestAni2->Trans()->scale_local(KVector(1.f, 1.f, 1.f));
 	KPtr<Renderer_BonAni> TestRender2 = TestAni2->Add_Component<Renderer_BonAni>();
 
-	MCon = ResourceManager<MeshContainer>::Load((PathManager::Find_ForderPathStr(L"Mesh") + L"Terran\\Tank_Tread.FBX").c_str());
-	TestRender2->Set_Fbx(L"Tank_Tread.FBX");
+	MCon = ResourceManager<MeshContainer>::Load((PathManager::Find_ForderPathStr(L"Mesh") + L"Terran\\BattleCruiser.FBX").c_str());
+	TestRender2->Set_Fbx(L"BattleCruiser.FBX");
+	TestRender2->Create_AniChanger(L"TestAni", 2000, 5000);
+	TestRender2->Set_AniChanger(L"TestAni");
+
 	// TestRender->Load_FbxTest((PathManager::Find_ForderPathStr(L"Mesh") + L"Monster3.FBX").c_str());
 	//TestRender->Load_FbxTest((PathManager::Find_ForderPathStr(L"Mesh") + L"Warehouse01.FBX").c_str());
 	//TestRender->Set_Static();

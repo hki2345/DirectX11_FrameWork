@@ -17,6 +17,7 @@ Renderer_Terrain::~Renderer_Terrain()
 
 void Renderer_Terrain::Create_Terrain(const KUINT& _X, const KUINT& _Z)
 {
+	m_TFD.TexCnt = 0;
 	m_TFD.SizeX = _X;
 	m_TFD.SizeZ = _Z;
 
@@ -74,15 +75,29 @@ void Renderer_Terrain::Create_Terrain(const KUINT& _X, const KUINT& _Z)
 
 void Renderer_Terrain::Render(KPtr<Camera> _Cam)
 {
-
+	material()->PShader()->SettingCB<TERRAIN_FD>(L"TERRAIN_FD", m_TFD);
 }
 
-void Renderer_Terrain::base_texture(const wchar_t* _Diff, const wchar_t* _Bump)
+void Renderer_Terrain::base_texture(const wchar_t* _MTex)
 {
+	// 섞여질 텍스트 어레이 타입 -> 멀티텍스트, 텍스트 배열들은,,,
+	// 8번째 이후 부터 입력된다.
+	material()->Insert_TexData(TEX_TYPE::TEX_MULTI, m_TFD.TexCnt + 8, _MTex, m_TFD.TexCnt + 8, L"TerrainSmp");
+	++m_TFD.TexCnt;
 }
 
 
-void Renderer_Terrain::cover_texture(const wchar_t* _Diff, const wchar_t* _Bump)
+void Renderer_Terrain::Insert_CoverTex(const wchar_t* _MTex, const wchar_t* _Cover)
 {
+	if (m_TFD.TexCnt <= 0)
+	{
+		BBY;
+	}
 
+	// 기본형은 컬러로 맨처음 쫙 깔아주는 과정
+	material()->Insert_TexData(TEX_TYPE::TEX_COLOR, m_TFD.FloorCnt, _Cover, m_TFD.FloorCnt);
+	material()->Insert_TexData(TEX_TYPE::TEX_MULTI, m_TFD.TexCnt + 8, _MTex, m_TFD.TexCnt + 8, L"TerrainSmp");
+
+	++m_TFD.FloorCnt;
+	++m_TFD.TexCnt;
 }

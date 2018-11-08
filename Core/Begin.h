@@ -2,6 +2,7 @@
 #include "SmartPtr.h"
 #include <string>
 #include <typeinfo.h>
+#include "KMacro.h"
 
 class Begin_Type : public SmartPtr 
 {
@@ -68,9 +69,9 @@ private:
 	std::wstring m_Name;
 
 public:
-	unsigned int size_name()
+	KUINT size_name()
 	{
-		return (unsigned int)m_Name.size() + 1;
+		return (KUINT)m_Name.size() + 1;
 	}
 
 	const wchar_t* name() 

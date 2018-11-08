@@ -47,6 +47,16 @@ void RenderManager::Reset_SList()
 	Smp->Update(6);
 	Smp->Update(7);
 
+	// 텍스쳐 어레이
+	Smp->Update(8);
+	Smp->Update(9);
+	Smp->Update(10);
+	Smp->Update(11);
+	Smp->Update(12);
+	Smp->Update(13);
+	Smp->Update(14);
+	Smp->Update(15);
+
 }
 
 
@@ -227,8 +237,6 @@ void RenderManager::Check_Light(KPtr<Camera> _Camera, int _Group)
 
 	Core_Class::MainDevice().SettingCB<Light::LightCBDATA>(L"LIGHTDATA", Data, SHTYPE::ST_VS);
 	Core_Class::MainDevice().SettingCB<Light::LightCBDATA>(L"LIGHTDATA", Data, SHTYPE::ST_PS);
-
-	// KDevice::SettingCB()
 
 	// 이건 어느 쉐이더에도 속하지 않는 아주. 글로벌한 녀석이어야 한다.
 	// 상수버퍼에 세팅해줘야 하는데 전역 상수버퍼가 없다.
