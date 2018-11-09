@@ -2,6 +2,8 @@
 #include "KMesh.h"
 #include "DXContainer_DE.h"
 
+#include "ResourceManager.h"
+#include "Texture.h"
 
 
 Renderer_Terrain::Renderer_Terrain()
@@ -15,7 +17,7 @@ Renderer_Terrain::~Renderer_Terrain()
 
 
 
-void Renderer_Terrain::Create_Terrain(const KUINT& _X, const KUINT& _Z)
+void Renderer_Terrain::Create_Terrain(const KUINT& _X, const KUINT& _Z, const wchar_t* _NorMap /*= nullptr*/, const float& _HRatio /*= 1.0f*/)
 {
 	m_TFD.TexCnt = 0;
 	m_TFD.SizeX = _X;
@@ -32,11 +34,55 @@ void Renderer_Terrain::Create_Terrain(const KUINT& _X, const KUINT& _Z)
 	std::vector<UINT> TI;
 
 	VTX3D TempV;
+	
+
+	// 땅의 정보를 담은 노멀맵을 찾는다.
+	KPtr<Texture> NTex = nullptr;
+	if (nullptr != _NorMap)
+	{
+		NTex = ResourceManager<Texture>::Find(_NorMap);
+		if (nullptr == NTex)
+		{
+			BBY;
+		}
+	}
+
+
+
 
 	for (int z = 0; z < m_TFD.SizeZ + 1; z++)
 	{
 		for (int x = 0; x < m_TFD.SizeX + 1; x++)
 		{
+			// 지형을 실제로 높이는 단계
+			if (nullptr != NTex)
+			{
+				// 텍스쳐가 64 X 64 식으롤 반복 적으로 덮혀있을 떄를 대비해
+				// 텍스쳐의 전체 버텍스를 맞춰주기 위함이다.
+				int WX = (int)NTex->Width() / m_TFD.SizeX;
+				int WZ = (int)NTex->Height() / m_TFD.SizeZ;
+				
+
+				// Z를 전체 크기에서 빼주는 이유는
+				// 현재 반복해서 텍스쳐를 입히는 방식이 인덱스가 증가할 수록
+				// 텍스쳐를 입히기 때문
+				// 하지만 좌표로 치면 안으로 들어갈수록 - 이기 때문에
+				// 부호보정이 필요하다.ㄴ
+				KColor GCol = NTex->GetPixelF(x* WX, NTex->Height() - (z * WZ));
+				
+				// 버퍼에 넘길 버텍스 정보 자체를 수정한다.
+				TempV.Pos = KVector((float)x, GCol.x * _HRatio, (float)z, 1.0f);
+				m_PosVtx.push_back(TempV.Pos);
+			}
+			else
+			{
+				TempV.Pos = KVector((float)x, .0f, (float)z, 1.0f);
+				m_PosVtx.push_back(TempV.Pos);
+			}
+
+
+
+
 			TempV.Pos = KVector((float)x, .0f, (float)z, 1.0f);
 			TempV.Uv = KVector2((float)x, (float)(m_TFD.SizeZ - z));
 			TempV.Color = KVector(1.0f, 1.0f, 1.0f, 1.0f);
@@ -100,4 +146,14 @@ void Renderer_Terrain::Insert_CoverTex(const wchar_t* _MTex, const wchar_t* _Cov
 
 	++m_TFD.FloorCnt;
 	++m_TFD.TexCnt;
+}
+
+
+
+// 여기서 산출된 좌표로 캐릭ㅌ가 움직일 것이다.
+// 따라서 모든 유닛은 이 지형을 알아야하며
+// 매번 해당 좌표에 위치했을 시 그 높이를 산출해야한다.
+float Renderer_Terrain::Y_Terrain(const KVector& _Pos)
+{
+	return .0f;
 }

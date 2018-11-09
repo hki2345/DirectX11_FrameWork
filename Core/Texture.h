@@ -30,7 +30,8 @@ public:
 	float Width() { return (float)m_Image.GetMetadata().width; }
 	float Height() { return (float)m_Image.GetMetadata().height; }
 	KVector2 ImageSize() { return { Width(), Height() }; }
-	KVector4 GetPixel(int _X, int _Y);
+	KColor GetPixel(int _X, int _Y);
+	KColor GetPixelF(const int& _X, const int& _Y);
 
 
 	// Set_View

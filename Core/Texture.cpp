@@ -106,6 +106,11 @@ void Texture::Reset(const KUINT& _Slot)
 
 KVector4 Texture::GetPixel(int _X, int _Y) 
 {
+	if (Width() <= _X || Height() <= _Y)
+	{
+		return KVector::Zero;
+	}
+
 	size_t Size = VS_Format::Size_Format(m_Image.GetMetadata().format);
 
 	BaseColor Color;
@@ -121,6 +126,39 @@ KVector4 Texture::GetPixel(int _X, int _Y)
 
 	return ReturnColor;
 }
+
+KColor Texture::GetPixelF(const int& _X, const int& _Y)
+{
+	if (Width() <= _X || Height() <= _Y)
+	{
+		return KVector::Zero;
+	}
+
+	size_t Size = VS_Format::Size_Format(m_Image.GetMetadata().format);
+
+	BaseColor Color;
+	uint8_t* p = m_Image.GetPixels();
+
+	p += ((m_Image.GetMetadata().width * _Y) * Size) + (_X * Size);
+
+	memcpy_s(&Color, Size, p, Size);
+
+	KColor ReturnColor =
+	KColor(
+		Color.b / 255.0f, 
+		Color.g / 255.0f,
+		Color.r / 255.0f,
+		Color.a / 255.0f);
+
+	return ReturnColor;
+}
+
+
+
+
+
+
+
 
 bool Texture::Create(UINT _W, UINT _H, UINT _BindFlag, DXGI_FORMAT _eFormat,
 	D3D11_USAGE _eUsage /*= D3D11_USAGE::D3D11_USAGE_DEFAULT*/) 

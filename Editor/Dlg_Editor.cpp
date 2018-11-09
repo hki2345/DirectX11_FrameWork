@@ -169,13 +169,16 @@ BOOL Dlg_Editor::OnInitDialog()
 
 
 	// AniTest
-	KPtr<TheOne> TestAni = TabScene->Create_One(L"Test");
+	/*KPtr<TheOne> TestAni = TabScene->Create_One(L"Test");
 	TestAni->Trans()->pos_local(KVector(.0f));
 	TestAni->Trans()->scale_local(KVector(1.f, 1.f, 1.f));
 	KPtr<Renderer_BonAni> TestRender = TestAni->Add_Component<Renderer_BonAni>();
 
-	KPtr<MeshContainer> MCon = ResourceManager<MeshContainer>::Load((PathManager::Find_ForderPathStr(L"Mesh") + L"Terran\\Tank_Body.FBX").c_str());
-	TestRender->Set_Fbx(L"Tank_Body.FBX");
+	KPtr<MeshContainer> MCon = ResourceManager<MeshContainer>::Load((PathManager::Find_ForderPathStr(L"Mesh") + L"Protoss\\DarkTemplar_Body.FBX").c_str());
+	TestRender->Set_Fbx(L"DarkTemplar_Body.FBX");*/
+
+
+	// DestroyWindow();
 
 
 	KPtr<TheOne> TestAni2 = TabScene->Create_One(L"Test");
@@ -183,8 +186,8 @@ BOOL Dlg_Editor::OnInitDialog()
 	TestAni2->Trans()->scale_local(KVector(1.f, 1.f, 1.f));
 	KPtr<Renderer_BonAni> TestRender2 = TestAni2->Add_Component<Renderer_BonAni>();
 
-	MCon = ResourceManager<MeshContainer>::Load((PathManager::Find_ForderPathStr(L"Mesh") + L"Terran\\BattleCruiser.FBX").c_str());
-	TestRender2->Set_Fbx(L"BattleCruiser.FBX");
+	KPtr<MeshContainer> MCon2 = ResourceManager<MeshContainer>::Load((PathManager::Find_ForderPathStr(L"Mesh") + L"Protoss\\Assimilator_Body.FBX").c_str());
+	TestRender2->Set_Fbx(L"Assimilator_Body.FBX");
 	TestRender2->Create_AniChanger(L"TestAni", 2000, 5000);
 	TestRender2->Set_AniChanger(L"TestAni");
 
@@ -199,7 +202,7 @@ BOOL Dlg_Editor::OnInitDialog()
 	KPtr<Renderer_Terrain> TerMESH1 = TERRAIN->Add_Component<Renderer_Terrain>();
 
 	// 순서를 지켜야 된다????? ㅇㅇ
-	TerMESH1->Create_Terrain(4, 4);
+	TerMESH1->Create_Terrain(4, 4, L"Cover.jpg", 5.0f);
 	TerMESH1->base_texture(L"FB");
 	TerMESH1->Insert_CoverTex(L"FC", L"Cover.jpg");
 
