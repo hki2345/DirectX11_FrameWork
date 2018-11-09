@@ -89,14 +89,6 @@ BOOL Dlg_Editor::OnInitDialog()
 	TabScene->Camera()->one()->Trans()->pos_local(KVector4(0.0f, 10.0f, -20.0f));
 
 
-	// 멀티 텍스쳐
-	KPtr<Texture_Multi> MTex = ResourceManager<Texture_Multi>::Create(L"FB");
-	MTex->Create_MultiTex(D3D11_USAGE::D3D11_USAGE_DEFAULT, L"Lava.jpg", L"LavaBump.jpg");
-
-
-	KPtr<Texture_Multi> MTex2 = ResourceManager<Texture_Multi>::Create(L"FC");
-	MTex2->Create_MultiTex(D3D11_USAGE::D3D11_USAGE_DEFAULT, L"Stone.jpg", L"StoneBump.jpg");
-
 
 	// KPtr<TheOne> Light3 = TabScene->Create_One();
 	// // 스케일은 dir이 아닌 빛의 크기를 나타낸다.
@@ -196,13 +188,22 @@ BOOL Dlg_Editor::OnInitDialog()
 	//TestRender->Set_Static();
 
 
+	// 멀티 텍스쳐
+	KPtr<Texture_Multi> MTex = ResourceManager<Texture_Multi>::Create(L"FB");
+	MTex->Create_MultiTex(D3D11_USAGE::D3D11_USAGE_DEFAULT, L"Stone.jpg", L"StoneBump.jpg");
+
+
+	KPtr<Texture_Multi> MTex2 = ResourceManager<Texture_Multi>::Create(L"FC");
+	MTex2->Create_MultiTex(D3D11_USAGE::D3D11_USAGE_DEFAULT, L"Lava.jpg", L"LavaBump.jpg");
+
+
 	KPtr<TheOne> TERRAIN = TabScene->Create_One();
-	TERRAIN->Trans()->scale_local(KVector4(10.0f, 10.0f, 10.0f));
+	// TERRAIN->Trans()->scale_local(KVector4(10.0f, 10.0f, 10.0f));
 	TERRAIN->Trans()->pos_local(KVector4(.0f, 0.0f, 0.0f));
 	KPtr<Renderer_Terrain> TerMESH1 = TERRAIN->Add_Component<Renderer_Terrain>();
 
 	// 순서를 지켜야 된다????? ㅇㅇ
-	TerMESH1->Create_Terrain(4, 4, L"Cover.jpg", 5.0f);
+	TerMESH1->Create_Terrain(5, 5, L"Cover.jpg", 1.0f);
 	TerMESH1->base_texture(L"FB");
 	TerMESH1->Insert_CoverTex(L"FC", L"Cover.jpg");
 

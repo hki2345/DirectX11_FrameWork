@@ -81,9 +81,6 @@ void Renderer_Terrain::Create_Terrain(const KUINT& _X, const KUINT& _Z, const wc
 			}
 
 
-
-
-			TempV.Pos = KVector((float)x, .0f, (float)z, 1.0f);
 			TempV.Uv = KVector2((float)x, (float)(m_TFD.SizeZ - z));
 			TempV.Color = KVector(1.0f, 1.0f, 1.0f, 1.0f);
 			TempV.Normal = KVector(.0f, 1.0f, .0f, .0f);
@@ -111,9 +108,9 @@ void Renderer_Terrain::Create_Terrain(const KUINT& _X, const KUINT& _Z, const wc
 		}
 	}
 
-	NMesh->draw_mode(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	NMesh->Create_Vertex((KUINT)TV.size(), sizeof(VTX3D), D3D11_USAGE_DYNAMIC, &TV[0]);
 	NMesh->Create_Index((KUINT)TI.size(), IDX32::MemberSize(), D3D11_USAGE_DEFAULT, IDX32::FM(), &TI[0]);
+	NMesh->draw_mode(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 	Set_Mesh(NMesh);
 	Set_Material(L"DEFFERDTERRAINMAT");
