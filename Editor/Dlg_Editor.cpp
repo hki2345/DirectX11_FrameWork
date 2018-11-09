@@ -14,6 +14,7 @@
 #include <Renderer_Mesh.h>
 #include <Renderer_BonAni.h>
 #include <Renderer_Terrain.h>
+#include <Texture_Multi.h>
 
 
 #include <ResourceManager.h>
@@ -86,6 +87,15 @@ BOOL Dlg_Editor::OnInitDialog()
 	TabScene->Camera()->Add_Component<Camera_Free>();
 	TabScene->Camera()->Far(10000.0f);
 	TabScene->Camera()->one()->Trans()->pos_local(KVector4(0.0f, 10.0f, -20.0f));
+
+
+	// 멀티 텍스쳐
+	KPtr<Texture_Multi> MTex = ResourceManager<Texture_Multi>::Create(L"FB");
+	MTex->Create_MultiTex(D3D11_USAGE::D3D11_USAGE_DEFAULT, L"Lava.jpg", L"LavaBump.jpg");
+
+
+	KPtr<Texture_Multi> MTex2 = ResourceManager<Texture_Multi>::Create(L"FC");
+	MTex2->Create_MultiTex(D3D11_USAGE::D3D11_USAGE_DEFAULT, L"Stone.jpg", L"StoneBump.jpg");
 
 
 	// KPtr<TheOne> Light3 = TabScene->Create_One();
@@ -190,8 +200,8 @@ BOOL Dlg_Editor::OnInitDialog()
 
 	// 순서를 지켜야 된다????? ㅇㅇ
 	TerMESH1->Create_Terrain(4, 4);
-	TerMESH1->material()->Insert_TexData(TEX_TYPE::TEX_COLOR, 0, L"MoonDiff.jpg", 0, L"TerrainSmp");
-	TerMESH1->material()->Insert_TexData(TEX_TYPE::TEX_BUMP, 1, L"MoonBump.jpg", 0, L"TerrainSmp");
+	TerMESH1->base_texture(L"FB");
+	TerMESH1->Insert_CoverTex(L"FC", L"Cover.jpg");
 
 
 

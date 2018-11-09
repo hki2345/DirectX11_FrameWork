@@ -49,7 +49,6 @@ private:
 
 private:
 	static std::unordered_map<std::wstring, KPtr<Res>> m_RSMap;
-	static std::unordered_map<std::wstring, KPtr<Res>> m_MRSMap;
 
 public:
 	static std::vector<KPtr<Res>> All_SingleVec() 
@@ -91,11 +90,6 @@ public:
 	{
 		KPtr<Res> pTemp = Map_Find<KPtr<Res>>(m_RSMap, _Name);
 
-		// 단독에서 없으면 멀티에서 받는다.
-		if (nullptr == pTemp)
-		{
-			return Map_Find<KPtr<Res>>(m_MRSMap, _Name);
-		}
 		return pTemp;
 	}
 
@@ -376,6 +370,3 @@ private:
 
 template<typename Res>
 std::unordered_map<std::wstring, KPtr<Res>> ResourceManager<Res>::m_RSMap;
-
-template<typename Res>
-std::unordered_map<std::wstring, KPtr<Res>> ResourceManager<Res>::m_MRSMap;

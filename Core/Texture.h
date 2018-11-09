@@ -7,6 +7,9 @@
 class Texture : public Resource
 {
 public:
+	friend class Texture_Multi;
+
+public:
 	Texture();
 	~Texture();
 

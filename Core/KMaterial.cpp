@@ -5,6 +5,7 @@
 #include "KMacro.h"
 #include "Sampler.h"
 #include "Texture.h"
+#include "Texture_Multi.h"
 #include "RenderTarget.h"
 
 
@@ -84,6 +85,29 @@ bool KMaterial::Create()
 }
 
 
+
+
+
+void KMaterial::Set_MultiTex(const KUINT& _Slot, const wchar_t* _TexName)
+{
+	KPtr<Texture_Multi> FindTex = ResourceManager<Texture_Multi>::Find(_TexName);
+	if (nullptr == FindTex)
+	{
+		BBY;
+	}
+
+	std::unordered_map<KUINT, KPtr<Texture_Multi>>::iterator FindIter = m_MTexMap.find(_Slot);
+
+	if (FindIter == m_MTexMap.end())
+	{
+		m_MTexMap.insert(std::unordered_map<KUINT, KPtr<Texture_Multi>>::value_type(_Slot, FindTex));
+	}
+	else
+	{
+		FindIter->second = FindTex;
+	}
+}
+
 void KMaterial::Set_Tex(const KUINT& _Slot, const wchar_t* _TexName)
 {
 	KPtr<Texture> FindTex = ResourceManager<Texture>::Find(_TexName);
@@ -155,6 +179,14 @@ void KMaterial::Update_Tex() {
 	{
 		m_TSI->second->Update(m_TSI->first);
 	}
+
+
+	m_MTSI = m_MTexMap.begin();
+	m_MTEI = m_MTexMap.end();
+	for (; m_MTSI != m_MTEI; ++m_MTSI)
+	{
+		m_MTSI->second->Update(m_MTSI->first);
+	}
 }
 
 void KMaterial::Reset_Tex() 
@@ -164,6 +196,14 @@ void KMaterial::Reset_Tex()
 	for (; m_TSI != m_TEI; ++m_TSI)
 	{
 		m_TSI->second->Reset(m_TSI->first);
+	}
+
+
+	m_MTSI = m_MTexMap.begin();
+	m_MTEI = m_MTexMap.end();
+	for (; m_MTSI != m_MTEI; ++m_MTSI)
+	{
+		m_MTSI->second->Reset(m_MTSI->first);
 	}
 }
 
@@ -188,6 +228,10 @@ void KMaterial::Insert_TexData(TEX_TYPE _Type, const KUINT& _TexSlot, const wcha
 	if (_Type == TEX_TYPE::TEX_TAGET)
 	{
 		Set_TargetTex(_TexSlot, _TexName);
+	}
+	else if (_Type == TEX_TYPE::TEX_MULTI)
+	{
+		Set_MultiTex(_TexSlot, _TexName);
 	}
 	else {
 		Set_Tex(_TexSlot, _TexName);

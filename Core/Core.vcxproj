@@ -29,6 +29,7 @@
     <ClInclude Include="Renderer_Effect.h" />
     <ClInclude Include="Renderer_Terrain.h" />
     <ClInclude Include="Texture.h" />
+    <ClInclude Include="Texture_Multi.h" />
     <ClInclude Include="WriteStream.h" />
     <ClInclude Include="DXContainer.h" />
     <ClInclude Include="DirectXTex.h" />
@@ -104,6 +105,7 @@
     <ClCompile Include="Renderer_Effect.cpp" />
     <ClCompile Include="Renderer_Terrain.cpp" />
     <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="Texture_Multi.cpp" />
     <ClCompile Include="TheOne_Trans.cpp" />
     <ClCompile Include="WriteStream.cpp" />
     <ClCompile Include="DXContainer.cpp" />

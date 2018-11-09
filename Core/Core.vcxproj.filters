@@ -220,6 +220,7 @@
     <ClInclude Include="Renderer_Terrain.h">
       <Filter>03 Manager\Render\Child</Filter>
     </ClInclude>
+    <ClInclude Include="Texture_Multi.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SmartPtr.cpp">
@@ -423,6 +424,7 @@
     <ClCompile Include="Renderer_Terrain.cpp">
       <Filter>03 Manager\Render\Child</Filter>
     </ClCompile>
+    <ClCompile Include="Texture_Multi.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />

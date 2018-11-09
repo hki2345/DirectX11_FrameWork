@@ -60,6 +60,7 @@
 #include "State.cpp"
 #include "StateManager.cpp"
 #include "Texture.cpp"
+#include "Texture_Multi.cpp"
 #include "TheOne.cpp"
 #include "TheOne_Trans.cpp"
 #include "TimeManager.cpp"

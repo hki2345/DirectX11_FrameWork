@@ -6,14 +6,14 @@
 #include "DefferdLight.fx"
 #include "GTex.fx"
 
-//cbuffer TerrainBuffer : register(b0)
-//{
-//    int FloorCount;
-//    int VTXX;
-//    int VTXY;
-//    int temp3;
-//    int IsBump[4];
-//}
+cbuffer TerrainBuffer : register(b0)
+{
+    int FloorCount;
+    int VTXX;
+    int VTXY;
+    int temp3;
+    int IsBump[4];
+}
 
 struct VTX3DMESH_INPUT
 {
@@ -65,9 +65,33 @@ PS_DEFFERDOUTPUT PS_TERRAINDEFFERD(VTX3DMESH_OUTPUT _in)
     PS_DEFFERDOUTPUT outData = (PS_DEFFERDOUTPUT) 0.0f;
     outData.vDiffuse = _in.vColor;
     float4 CalColor = float4(1.0f, 1.0f, 1.0f, 1.0f);
+
+    CalColor *= GetMTexToColor(8, 8, _in.vUv, 0.0f);
+    _in.vNormal = CalMBump(8, 8, _in.vUv, 1.0f, _in.vTangent, _in.vBNormal, _in.vNormal);
     
-    CalColor *= GetTexToColor(0, 0, _in.vUv);
-    _in.vNormal = CalBump(1, 0, _in.vUv, _in.vTangent, _in.vBNormal, _in.vNormal);
+    float2 SpUv;
+
+    SpUv.x = _in.vUv.x / VTXX;
+    SpUv.y = _in.vUv.y / VTXY;
+
+    for (int i = 0; i < FloorCount; ++i)
+    {
+        // 색깔 섞기.
+        float4 Ratio = GetTexToColor(i, i, SpUv);
+        float RatioValuie = (Ratio.x + Ratio.y + Ratio.z) / 3.0f;
+        float4 FloorColor = GetMTexToColor(9 + i, 9 + i, _in.vUv, 0.0f);
+        float4 SrcColor = CalColor;
+        FloorColor.xyz *= RatioValuie;
+        SrcColor.xyz *= (1.0f - Ratio.x);
+        CalColor = FloorColor + SrcColor;
+        if (RatioValuie >= 0.9)
+        {
+            _in.vNormal = CalMBump(9 + i, 9 + i, _in.vUv, 1.0f, _in.vTangent, _in.vBNormal, _in.vNormal);
+        }
+    }
+
+    //CalColor *= GetTexToColor(0, 0, _in.vUv);
+    //_in.vNormal = CalBump(1, 0, _in.vUv, _in.vTangent, _in.vBNormal, _in.vNormal);
     // 상수버퍼 하나를 만들어야 한다.
 
     //// 색깔을 2

@@ -35,6 +35,7 @@ public:
 // 텍스처를 사용하면 어떤 텍스처를 사용하는가?
 class Texture;
 class Sampler;
+class Texture_Multi;
 class KMaterial : public Resource
 {
 	friend class Renderer;
@@ -90,12 +91,17 @@ private:
 	std::unordered_map<unsigned int, KPtr<Texture>>::iterator m_TEI;
 	std::unordered_map<unsigned int, KPtr<Texture>> m_TexMap;
 
+	std::unordered_map<unsigned int, KPtr<Texture_Multi>>::iterator m_MTSI;
+	std::unordered_map<unsigned int, KPtr<Texture_Multi>>::iterator m_MTEI;
+	std::unordered_map<unsigned int, KPtr<Texture_Multi>> m_MTexMap;
+
 	std::unordered_map<unsigned int, KPtr<Sampler>>::iterator m_SSI;
 	std::unordered_map<unsigned int, KPtr<Sampler>>::iterator m_SEI;
 	std::unordered_map<unsigned int, KPtr<Sampler>> m_SamMap;
 
 
 public:
+	void Set_MultiTex(const KUINT& _Slot, const wchar_t* _TexName);
 	void Set_Tex(const KUINT& _Slot, const wchar_t* _TexName);
 	void Set_Sampler(const KUINT& _Slot, const wchar_t* _SmpName);
 	void Set_TargetTex(const KUINT& _Slot, const wchar_t* _TexName);
