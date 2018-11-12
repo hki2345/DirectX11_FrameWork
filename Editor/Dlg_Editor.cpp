@@ -198,12 +198,12 @@ BOOL Dlg_Editor::OnInitDialog()
 
 
 	KPtr<TheOne> TERRAIN = TabScene->Create_One();
-	// TERRAIN->Trans()->scale_local(KVector4(10.0f, 10.0f, 10.0f));
+	TERRAIN->Trans()->scale_local(KVector4(10.0f, 10.0f, 10.0f));
 	TERRAIN->Trans()->pos_local(KVector4(.0f, 0.0f, 0.0f));
 	KPtr<Renderer_Terrain> TerMESH1 = TERRAIN->Add_Component<Renderer_Terrain>();
 
 	// 순서를 지켜야 된다????? ㅇㅇ
-	TerMESH1->Create_Terrain(5, 5, L"Cover.jpg", 1.0f);
+	TerMESH1->Create_Terrain(64, 64, L"Cover.jpg", 1.0f);
 	TerMESH1->base_texture(L"FB");
 	TerMESH1->Insert_CoverTex(L"FC", L"Cover.jpg");
 

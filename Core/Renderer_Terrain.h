@@ -5,9 +5,9 @@ class TERRAIN_FD
 {
 public:
 	int FloorCnt;
-	int TexCnt;
 	int SizeX;
 	int SizeZ;
+	int TexCnt;
 	int IsBump[4];
 };
 

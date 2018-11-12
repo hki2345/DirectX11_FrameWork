@@ -68,7 +68,7 @@ void Renderer_Terrain::Create_Terrain(const KUINT& _X, const KUINT& _Z, const wc
 				// 텍스쳐를 입히기 때문
 				// 하지만 좌표로 치면 안으로 들어갈수록 - 이기 때문에
 				// 부호보정이 필요하다.ㄴ
-				KColor GCol = NTex->GetPixelF(x* WX, NTex->Height() - (z * WZ));
+				KColor GCol = NTex->GetPixelF(x* WX, NTex->Height() - (float)(z * WZ));
 				
 				// 버퍼에 넘길 버텍스 정보 자체를 수정한다.
 				TempV.Pos = KVector((float)x, GCol.x * _HRatio, (float)z, 1.0f);
