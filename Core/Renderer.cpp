@@ -128,6 +128,7 @@ void Renderer::Update_Trans(KPtr<Camera> _Camera)
 	m_MD.m_V = _Camera->View().RVTranspose();
 	m_MD.m_P = _Camera->Proj().RVTranspose();
 	m_MD.m_WV = (m_Trans->worldmat_const() * _Camera->View()).RTranspose();
+	m_MD.m_VP = (m_Trans->worldmat_const() * _Camera->ViewProj()).RTranspose();
 	m_MD.m_WVP = (m_Trans->worldmat_const() * _Camera->ViewProj()).RTranspose();
 }
 

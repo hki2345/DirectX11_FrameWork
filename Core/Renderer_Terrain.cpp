@@ -102,9 +102,9 @@ void Renderer_Terrain::Create_Terrain(const KUINT& _X, const KUINT& _Z, const wc
 			TI.push_back((m_TFD.SizeX + 1) * (z) + (x));
 
 
-			TI.push_back((m_TFD.SizeX + 1) * (z) + (x + 1));
 			TI.push_back((m_TFD.SizeX + 1) * (z + 1) + (x));
 			TI.push_back((m_TFD.SizeX + 1) * (z + 1) + (x + 1));
+			TI.push_back((m_TFD.SizeX + 1) * (z) + (x + 1));
 		}
 	}
 
@@ -152,5 +152,53 @@ void Renderer_Terrain::Insert_CoverTex(const wchar_t* _MTex, const wchar_t* _Cov
 // 매번 해당 좌표에 위치했을 시 그 높이를 산출해야한다.
 float Renderer_Terrain::Y_Terrain(const KVector& _Pos)
 {
-	return .0f;
+	int X = (int)(_Pos.x / Trans()->scale_local().x);
+	int Z = (int)(_Pos.z / Trans()->scale_local().z);
+
+	/*if (0 > X)
+	{
+		return .0f;
+	}*/
+
+
+
+	// 좌상단
+	KVector V0 = m_PosVtx[((Z + 1) * (m_TFD.SizeX + 1)) + X];
+
+	// 우상단
+	KVector V1 = m_PosVtx[((Z + 1) * (m_TFD.SizeX + 1)) + (X + 1)];
+
+	// 좌하단
+	KVector V2 = m_PosVtx[((Z) * (m_TFD.SizeX + 1)) + (X)];
+
+	// 우하단
+	KVector V3 = m_PosVtx[((Z) * (m_TFD.SizeX + 1)) + (X + 1)];
+
+	// 검출될 y좌표
+	float F0 = .0f;
+	float F1 = .0f;
+
+	KVector ObjPos = KVector(
+		_Pos.x / Trans()->scale_local().x
+		, .0f
+		, _Pos.x / Trans()->scale_local().z);
+
+	DirectX::TriangleTests::Intersects(ObjPos, KVector::Up, V2, V1, V0, F0);
+	DirectX::TriangleTests::Intersects(ObjPos, KVector::Up, V2, V3, V1, F1);
+
+	float TempY = .0f;
+
+	if (0 != F0|| 0 !=F1)
+	{
+		if (0!= F0)
+		{
+			return TempY = F0;
+		}
+		else if (0 != F1)
+		{
+			return TempY = F1;
+		}
+	}
+
+	return TempY * Trans()->scale_local().y;
 }

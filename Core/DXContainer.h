@@ -1198,6 +1198,7 @@ public:
 	KMatrix m_V;
 	KMatrix m_P;
 	KMatrix m_WV;
+	KMatrix m_VP;
 	KMatrix m_WVP;
 
 public:
@@ -1206,6 +1207,7 @@ public:
 		m_V.RTranspose();
 		m_P.RTranspose();
 		m_WV.RTranspose();
+		m_VP.RTranspose();
 		m_WVP.RTranspose();
 	}
 };

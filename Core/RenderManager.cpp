@@ -275,7 +275,7 @@ void RenderManager::Render_Defferd(KPtr<Camera> _Camera, std::map<int, std::list
 						(*m_RSI)->Update_MtlCB(j);
 						(*m_RSI)->Update_Material(j);
 						(*m_RSI)->Update_Mesh(i);
-
+						Core_Class::MainDevice().ResetContext();
 					}
 				}
 				
@@ -299,6 +299,7 @@ void RenderManager::Render_Defferd(KPtr<Camera> _Camera, std::map<int, std::list
 			}
 
 			(*m_RSI)->RenderFinalUpdate();
+			Core_Class::MainDevice().ResetContext();
 		}
 	}
 }
@@ -329,7 +330,7 @@ void RenderManager::Render_Forward(KPtr<Camera> _Camera, std::map<int, std::list
 						(*m_RSI)->Update_MtlCB(j);
 						(*m_RSI)->Update_Material(j);
 						(*m_RSI)->Update_Mesh(i);
-
+						Core_Class::MainDevice().ResetContext();
 					}
 				}
 			}
@@ -352,7 +353,7 @@ void RenderManager::Render_Forward(KPtr<Camera> _Camera, std::map<int, std::list
 			}
 
 			(*m_RSI)->RenderFinalUpdate();
-
+			Core_Class::MainDevice().ResetContext();
 		}
 	}
 }
@@ -360,6 +361,9 @@ void RenderManager::Render_Forward(KPtr<Camera> _Camera, std::map<int, std::list
 
 void RenderManager::Render_DefLight(KPtr<Camera> _Camera, int _Group)
 {
+	// 지오메트리나 헐, 도메인이들어가면서 미리 초기화 한다.
+	Core_Class::MainDevice().ResetContext();
+
 	KPtr<RenderTarget_Multi> LIGHTTAGET = ResourceManager<RenderTarget_Multi>::Find(L"LIGHT");
 	LIGHTTAGET->Clear();
 	LIGHTTAGET->OMSet();

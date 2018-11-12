@@ -206,6 +206,7 @@ BOOL Dlg_Editor::OnInitDialog()
 	TerMESH1->Create_Terrain(64, 64, L"Cover.jpg", 1.0f);
 	TerMESH1->base_texture(L"FB");
 	TerMESH1->Insert_CoverTex(L"FC", L"Cover.jpg");
+	TerMESH1->Set_RSState(L"WNONE");
 
 
 
