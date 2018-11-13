@@ -132,26 +132,112 @@ TesselFactor HS_CONSTANTDATA(InputPatch<VTX3DMESH_OUTPUT,  3> _VtxData)
 struct HULL_OUT
 {
     float3 vPos : POSITION;
-    float3 vUV : TEXCOORD;
+    float3 vUv : TEXCOORD;
 };
 
 
+
+[domain("tri")] // 그리는 방식
+[partitioning("integer")] // 삼각형을 그릴때 다이 [partitioning("fractional_odd")]
+[outputcontrolpoints(3)] // outputcontrol
+[maxtessfactor(64.0f)] // 
+[patchconstantfunc("HS_CONSTANTDATA")]
+[outputtopology("triangle_cw")]
+HULL_OUT HS_TERRAINDEFFERD(InputPatch<VTX3DMESH_OUTPUT, 3> _PatchData
+, uint i : SV_OutputControlPointID
+, uint _patchID : SVSV_PrimitiveID)
+{
+    // InputPatch<VTX3DMESH_OUTPUT, 3> _PatchData 이런 삼각형을 그리고 있는데.
+    // 그중 uint i : SV_OutputControlPointID가 삼각형을 쪼개기 위해서 번째가 이번에 계산해야될 id입니다.
+
+    HULL_OUT outData = (HULL_OUT) 0.0f;
+
+    outData.vPos = _PatchData[i].vPos;
+    outData.vUv = _PatchData[i].vUv;
+
+    return outData;
+}
 /************************** 진짜 헐 세이더 ******************************/
 // 헐에서 파생되는(계산되는) 게 2가지 있는데 그 중하나를 위에서 다시 한번 계산하겠다는
-// 뜻이다. 그 과정이 위에 적혀있고, 
+// 뜻이다. 그 과정이 위에 적혀있고
+[domain("tri")] // 그리는 방식  // 어떤 도형으로 만들것인지
+[partitioning("integer")] // 삼각형을 그릴때 다이 [partitioning("fractional_odd")]// 삼각형 번호
+[outputcontrolpoints(3)] // 
+[maxtessfactor(64.0f)]
+[patchconstantfunc("HS_CONSTANTDATA")] // 헐셰이더 나갈때 콘스트쪽에서 실행되는 함수
+[outputtopology("triangle_cw")]
+HULL_OUT HS_TERRAINE_DEFFERED(InputPatch<VTX3DMESH_OUTPUT, 3> _PatchData
+, uint i : SV_OutputControlPointID
+, uint _patchID : SV_PrimitiveID)
+{
+    HULL_OUT outData = (HULL_OUT) .0f;
+
+    outData.vPos = _PatchData[i].vPos;
+    outData.vUv = _PatchData[i].vUv;
+
+    return outData;
+}
+
+
+// 계산 상 뭐 실 수 
+struct DOMAIN_OUT
+{
+    float4 vPos : SV_Position;
+    float2 vUv : TEXCOORD;
+    
+    float4 vWorldPos : POSITION0;
+    float4 vViewPos : POSITION1;
+    float4 vProjPos : POSITION2;
+};
+
+DOMAIN_OUT DS_Terrain(TesselFactor _pFactor
+, float3 _vTriRatio : SV_DomainLocation
+, const OutputPatch<HULL_OUT, 3> _ControlPoints)
+{
+    DOMAIN_OUT outPut = (DOMAIN_OUT) .0f;
+
+    outPut.vWorldPos.xyz =
+    (_vTriRatio.x * _ControlPoints[0].vPos.xyz)
+    + (_vTriRatio.y * _ControlPoints[1].vPos.xyz)
+    + (_vTriRatio.z * _ControlPoints[2].vPos.xyz);
+    outPut.vWorldPos.w = 1.0f;
+    
+
+    outPut.vViewPos = mul(outPut.vWorldPos, g_V);
+    outPut.vProjPos = mul(outPut.vViewPos, g_P);
+    outPut.vPos = outPut.vPos;
+    outPut.vUv =
+    (_vTriRatio.x * _ControlPoints[0].vUv)
+    + (_vTriRatio.y * _ControlPoints[1].vUv)
+    + (_vTriRatio.z * _ControlPoints[2].vPos);
+
+
+    return outPut;
+}
 
 
 
 
 /************************** 픽셀 ******************************/
-PS_DEFFERDOUTPUT PS_TERRAINDEFFERD(VTX3DMESH_OUTPUT _in)
+PS_DEFFERDOUTPUT PS_TERRAINDEFFERD(DOMAIN_OUT _in)
 {
     PS_DEFFERDOUTPUT outData = (PS_DEFFERDOUTPUT) 0.0f;
-    outData.vDiffuse = _in.vColor;
     float4 CalColor = float4(1.0f, 1.0f, 1.0f, 1.0f);
 
+
+    // 새로 정의된 정점들의 노멀값들을 재정의 해야한다.
+
+    // 근데 이거 맞는지좀 ㅋㅋㅋ
+    float3 Right = float3(_in.vWorldPos.x + 1.0f, _in.vWorldPos.y, _in.vWorldPos.z);
+    float3 Top = float3(_in.vWorldPos.x, _in.vWorldPos.y, _in.vWorldPos.z + 1.0f);
+
+    float3 Binormal = normalize(Right - _in.vWorldPos.xyz);
+    float3 Tangent = normalize(Top - _in.vWorldPos.xyz);
+    float3 Normal = normalize(cross(Binormal, Tangent));
+
+
     CalColor *= GetMTexToColor(8, 8, _in.vUv, 0.0f);
-    _in.vNormal = CalMBump(8, 8, _in.vUv, 1.0f, _in.vTangent, _in.vBNormal, _in.vNormal);
+    float4 BumpNormal = CalMBump(8, 8, _in.vUv, 1.0f, float4(Tangent, 1.0f), float4(Binormal, 1.0f), float4(Normal, 1.0f));
     
     float2 SpUv;
 
@@ -160,7 +246,7 @@ PS_DEFFERDOUTPUT PS_TERRAINDEFFERD(VTX3DMESH_OUTPUT _in)
 
     for (int i = 0; i < FloorCount; ++i)
     {
-        // 색깔 섞기.
+    // 색깔 섞기.
         float4 Ratio = GetTexToColor(i, i, SpUv);
         float RatioValuie = (Ratio.x + Ratio.y + Ratio.z) / 3.0f;
         float4 FloorColor = GetMTexToColor(9 + i, 9 + i, _in.vUv, 0.0f);
@@ -170,44 +256,44 @@ PS_DEFFERDOUTPUT PS_TERRAINDEFFERD(VTX3DMESH_OUTPUT _in)
         CalColor = FloorColor + SrcColor;
         if (RatioValuie >= 0.9)
         {
-            _in.vNormal = CalMBump(9 + i, 9 + i, _in.vUv, 1.0f, _in.vTangent, _in.vBNormal, _in.vNormal);
+            BumpNormal = CalMBump(9 + i, 9 + i, _in.vUv, 1.0f, float4(Tangent, 1.0f), float4(Binormal, 1.0f), float4(Normal, 1.0f));
         }
     }
 
-    //CalColor *= GetTexToColor(0, 0, _in.vUv);
-    //_in.vNormal = CalBump(1, 0, _in.vUv, _in.vTangent, _in.vBNormal, _in.vNormal);
-    // 상수버퍼 하나를 만들어야 한다.
+//CalColor *= GetTexToColor(0, 0, _in.vUv);
+//_in.vNormal = CalBump(1, 0, _in.vUv, _in.vTangent, _in.vBNormal, _in.vNormal);
+// 상수버퍼 하나를 만들어야 한다.
 
-    //// 색깔을 2
+//// 색깔을 2
 
-    //for (int i = 0; i < FloorCount; ++i)
-    //{
+//for (int i = 0; i < FloorCount; ++i)
+//{
 
-    //}
+//}
 
-    //for (int i = 0; i < FloorCount; ++i)
-    //{
-    //    float SPRatio = 0.1;
+//for (int i = 0; i < FloorCount; ++i)
+//{
+//    float SPRatio = 0.1;
 
-    //    float3 DestColor = CalColor * (1 - SPRatio);
-    //    float3 TexColor;
-    //    float3 SrcColor;
-    //    SrcColor *= TexColor * (SPRatio);
-    //    CalColor = DestColor + SrcColor;
-    //}
+//    float3 DestColor = CalColor * (1 - SPRatio);
+//    float3 TexColor;
+//    float3 SrcColor;
+//    SrcColor *= TexColor * (SPRatio);
+//    CalColor = DestColor + SrcColor;
+//}
 
-    // BaseDiffTextureColor 
+// BaseDiffTextureColor 
 
-    // 0.5 x
-    // 1, 1, 1,
-    // rgb
+// 0.5 x
+// 1, 1, 1,
+// rgb
 
-    // 칼 컬러가 섞인것으로 나와야 한다.
+// 칼 컬러가 섞인것으로 나와야 한다.
 
-    // 포워드 색깔을 아예 사용하지 않는 것은 아니다.
+// 포워드 색깔을 아예 사용하지 않는 것은 아니다.
     outData.vDiffuse.rgb = CalColor;
-    outData.vDiffuse.a = _in.vColor.a;
-    outData.vNoraml = _in.vNormal;
+    outData.vDiffuse.a = 1.0f;
+    outData.vNoraml = BumpNormal;
     outData.vNoraml.a = 1.0f;
     outData.vPosition = _in.vViewPos;
     outData.vDepth.x = outData.vPosition.z;
@@ -215,3 +301,4 @@ PS_DEFFERDOUTPUT PS_TERRAINDEFFERD(VTX3DMESH_OUTPUT _in)
 
     return outData;
 }
+

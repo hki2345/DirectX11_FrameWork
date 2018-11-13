@@ -100,15 +100,6 @@
     <ClInclude Include="KImage.h">
       <Filter>03 Manager\Resource\Child\Image</Filter>
     </ClInclude>
-    <ClInclude Include="KShader.h">
-      <Filter>03 Manager\Resource\Child\Material</Filter>
-    </ClInclude>
-    <ClInclude Include="Shader_Vertex.h">
-      <Filter>03 Manager\Resource\Child\Material</Filter>
-    </ClInclude>
-    <ClInclude Include="Shader_Pixel.h">
-      <Filter>03 Manager\Resource\Child\Material</Filter>
-    </ClInclude>
     <ClInclude Include="KMesh.h">
       <Filter>03 Manager\Resource\Child\Material</Filter>
     </ClInclude>
@@ -223,6 +214,24 @@
     <ClInclude Include="Texture_Multi.h">
       <Filter>03 Manager\Resource\Child\Image</Filter>
     </ClInclude>
+    <ClInclude Include="Shader_Pixel.h">
+      <Filter>03 Manager\Resource\Child\Material\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader_Vertex.h">
+      <Filter>03 Manager\Resource\Child\Material\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="KShader.h">
+      <Filter>03 Manager\Resource\Child\Material\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader_Hul.h">
+      <Filter>03 Manager\Resource\Child\Material\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader_Domain.h">
+      <Filter>03 Manager\Resource\Child\Material\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader_GeoMetry.h">
+      <Filter>03 Manager\Resource\Child\Material\Shader</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SmartPtr.cpp">
@@ -308,15 +317,6 @@
     </ClCompile>
     <ClCompile Include="KImage.cpp">
       <Filter>03 Manager\Resource\Child\Image</Filter>
-    </ClCompile>
-    <ClCompile Include="KShader.cpp">
-      <Filter>03 Manager\Resource\Child\Material</Filter>
-    </ClCompile>
-    <ClCompile Include="Shader_Vertex.cpp">
-      <Filter>03 Manager\Resource\Child\Material</Filter>
-    </ClCompile>
-    <ClCompile Include="Shader_Pixel.cpp">
-      <Filter>03 Manager\Resource\Child\Material</Filter>
     </ClCompile>
     <ClCompile Include="KMesh.cpp">
       <Filter>03 Manager\Resource\Child\Material</Filter>
@@ -429,6 +429,24 @@
     <ClCompile Include="Texture_Multi.cpp">
       <Filter>03 Manager\Resource\Child\Image</Filter>
     </ClCompile>
+    <ClCompile Include="Shader_Pixel.cpp">
+      <Filter>03 Manager\Resource\Child\Material\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader_Vertex.cpp">
+      <Filter>03 Manager\Resource\Child\Material\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="KShader.cpp">
+      <Filter>03 Manager\Resource\Child\Material\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader_Domain.cpp">
+      <Filter>03 Manager\Resource\Child\Material\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader_GeoMetry.cpp">
+      <Filter>03 Manager\Resource\Child\Material\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader_Hul.cpp">
+      <Filter>03 Manager\Resource\Child\Material\Shader</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
@@ -526,6 +544,9 @@
     </Filter>
     <Filter Include="03 Manager\Resource\Child\MeshContainer">
       <UniqueIdentifier>{df35e997-e966-4427-80da-39c09ab852f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03 Manager\Resource\Child\Material\Shader">
+      <UniqueIdentifier>{1ad12825-2543-4bf2-b88b-6708ec3cb2d9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -1217,6 +1217,9 @@ enum SHTYPE
 {
 	ST_NONE,
 	ST_VS,
+	ST_HUL,
+	ST_DOM,
+	ST_GEO,
 	ST_PS,
 };
 

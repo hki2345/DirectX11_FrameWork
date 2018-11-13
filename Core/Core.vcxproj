@@ -28,6 +28,9 @@
     <ClInclude Include="Renderer_BonAni.h" />
     <ClInclude Include="Renderer_Effect.h" />
     <ClInclude Include="Renderer_Terrain.h" />
+    <ClInclude Include="Shader_Domain.h" />
+    <ClInclude Include="Shader_GeoMetry.h" />
+    <ClInclude Include="Shader_Hul.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="Texture_Multi.h" />
     <ClInclude Include="WriteStream.h" />
@@ -104,6 +107,9 @@
     <ClCompile Include="Renderer_BonAni.cpp" />
     <ClCompile Include="Renderer_Effect.cpp" />
     <ClCompile Include="Renderer_Terrain.cpp" />
+    <ClCompile Include="Shader_Domain.cpp" />
+    <ClCompile Include="Shader_GeoMetry.cpp" />
+    <ClCompile Include="Shader_Hul.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="Texture_Multi.cpp" />
     <ClCompile Include="TheOne_Trans.cpp" />
