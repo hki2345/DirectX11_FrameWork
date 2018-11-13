@@ -5,6 +5,7 @@ cbuffer TransformBuffer : register(b10)
 	matrix g_V;
 	matrix g_P;
     matrix g_WV;
+    matrix g_VP;
 	matrix g_WVP;
 }
 
