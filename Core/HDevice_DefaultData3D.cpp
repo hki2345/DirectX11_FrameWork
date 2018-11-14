@@ -18,9 +18,9 @@
 
 #include "Shader_Vertex.h"
 #include "Shader_Pixel.h"
-// #include "Shader_Domain.h"
-// #include "Shader_Hull.h"
-// #include "Shader_Geo.h"
+#include "Shader_Domain.h"
+#include "Shader_Hul.h"
+#include "Shader_GeoMetry.h"
 
 
 
@@ -626,19 +626,24 @@ bool KDevice::Mat3DCreate() {
 
 
 
-	KPtr<Shader_Vertex> DTESSLEVTX = ResourceManager<Shader_Vertex>::Load_FromKey(L"DTESSLEVTX", L"Shader", L"TerrainDefferd.fx", "VS_TERRAINDEFFERD");
+	KPtr<Shader_Vertex> DTESSLEVTX = ResourceManager<Shader_Vertex>::Load_FromKey(L"DTESSLEVTX", L"Shader", L"TerrainDefferd_Tessel.fx", "VS_TERRAINDEFFERD");
 	DTESSLEVTX->Add_Layout("POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
 	DTESSLEVTX->Add_Layout("TEXCOORD", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32_FLOAT, 0);
 	DTESSLEVTX->Add_Layout("COLOR", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
 	DTESSLEVTX->Add_Layout("NORMAL", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
 	DTESSLEVTX->Add_Layout("TANGENT", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
 	DTESSLEVTX->Add_LayoutFin("BINORMAL", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
-	KPtr<Shader_Pixel> DTESSLEPIX = ResourceManager<Shader_Pixel>::Load_FromKey(L"DTESSLEPIX", L"Shader", L"TerrainDefferd.fx", "PS_TERRAINDEFFERD");
+	
+	KPtr<Shader_Hul>	DTESSLEHUL = ResourceManager<Shader_Hul>::Load_FromKey(L"DTESSLEHUL", L"Shader", L"TerrainDefferd_Tessel.fx", "HS_TERRAINEDEFFERED");
+	KPtr<Shader_Domain> DTESSLEDOM = ResourceManager<Shader_Domain>::Load_FromKey(L"DTESSLEDOM", L"Shader", L"TerrainDefferd_Tessel.fx", "DS_TERRAINEDEFFERED");
+	KPtr<Shader_Pixel> DTESSLEPIX = ResourceManager<Shader_Pixel>::Load_FromKey(L"DTESSLEPIX", L"Shader", L"TerrainDefferd_Tessel.fx", "PS_TERRAINDEFFERD");
 	DTESSLEPIX->CreateCB<TERRAIN_FD>(L"TERRAIN_FD", D3D11_USAGE_DYNAMIC, 0);
 
 	KPtr<KMaterial> DTESSLEMAT = ResourceManager<KMaterial>::Create(L"DTESSLEMAT");
-	DTESSLEMAT->Set_VTShader(L"DEFFERDTERRAINVTX");
-	DTESSLEMAT->Set_PXShader(L"DEFFERDTERRAINPIX");
+	DTESSLEMAT->Set_VTShader(L"DTESSLEVTX");
+	DTESSLEMAT->Set_HUShader(L"DTESSLEHUL");
+	DTESSLEMAT->Set_DMShader(L"DTESSLEDOM");
+	DTESSLEMAT->Set_PXShader(L"DTESSLEPIX");
 	DTESSLEMAT->Set_Blend(L"ALPHA");
 
 

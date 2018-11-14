@@ -3,9 +3,9 @@
 #include "Shader_Vertex.h"
 #include "Shader_Pixel.h"
 
-// #include "Shader_Geo.h"
-// #include "Shader_Domain.h"
-// #include "Shader_Hull.h"
+#include "Shader_GeoMetry.h"
+#include "Shader_Domain.h"
+#include "Shader_Hul.h"
 
 #include "KBlend.h"
 
@@ -59,9 +59,9 @@ private:
 	KPtr<Shader_Vertex> m_VTS;
 	KPtr<Shader_Pixel> m_PXS;
 
-	KPtr<Shader_Hull>	m_HUS;
+	KPtr<Shader_Hul>	m_HUS;
 	KPtr<Shader_Domain> m_DMS;
-	KPtr<Shader_Geo>	m_GMS;
+	KPtr<Shader_GeoMetry>	m_GMS;
 	KPtr<KBlend> m_Blend;
 
 public:

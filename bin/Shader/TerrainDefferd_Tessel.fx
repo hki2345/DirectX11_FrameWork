@@ -77,7 +77,7 @@ struct TesselFactor
 float Cal_TessLv(float _fMinDist, float _fMaxDist, float _fMinTess, float _fMaxTess, float3 _vWorldPos)
 {
     float3 vDis = _vWorldPos;
-    vDis.y = .0f;
+    // vDis.y = .0f;
     float fDist = length(vDis.xyz);
     float fRatio = (fDist - _fMinDist) / (_fMaxDist - _fMinDist);
 
@@ -131,32 +131,12 @@ TesselFactor HS_CONSTANTDATA(InputPatch<VTX3DMESH_OUTPUT,  3> _VtxData)
 
 struct HULL_OUT
 {
-    float3 vPos : POSITION;
-    float3 vUv : TEXCOORD;
+    float4 vPos : POSITION;
+    float2 vUv : TEXCOORD;
 };
 
 
 
-[domain("tri")] // 그리는 방식
-[partitioning("integer")] // 삼각형을 그릴때 다이 [partitioning("fractional_odd")]
-[outputcontrolpoints(3)] // outputcontrol
-[maxtessfactor(64.0f)] // 
-[patchconstantfunc("HS_CONSTANTDATA")]
-[outputtopology("triangle_cw")]
-HULL_OUT HS_TERRAINDEFFERD(InputPatch<VTX3DMESH_OUTPUT, 3> _PatchData
-, uint i : SV_OutputControlPointID
-, uint _patchID : SVSV_PrimitiveID)
-{
-    // InputPatch<VTX3DMESH_OUTPUT, 3> _PatchData 이런 삼각형을 그리고 있는데.
-    // 그중 uint i : SV_OutputControlPointID가 삼각형을 쪼개기 위해서 번째가 이번에 계산해야될 id입니다.
-
-    HULL_OUT outData = (HULL_OUT) 0.0f;
-
-    outData.vPos = _PatchData[i].vPos;
-    outData.vUv = _PatchData[i].vUv;
-
-    return outData;
-}
 /************************** 진짜 헐 세이더 ******************************/
 // 헐에서 파생되는(계산되는) 게 2가지 있는데 그 중하나를 위에서 다시 한번 계산하겠다는
 // 뜻이다. 그 과정이 위에 적혀있고
@@ -166,7 +146,7 @@ HULL_OUT HS_TERRAINDEFFERD(InputPatch<VTX3DMESH_OUTPUT, 3> _PatchData
 [maxtessfactor(64.0f)]
 [patchconstantfunc("HS_CONSTANTDATA")] // 헐셰이더 나갈때 콘스트쪽에서 실행되는 함수
 [outputtopology("triangle_cw")]
-HULL_OUT HS_TERRAINE_DEFFERED(InputPatch<VTX3DMESH_OUTPUT, 3> _PatchData
+HULL_OUT HS_TERRAINEDEFFERED(InputPatch<VTX3DMESH_OUTPUT, 3> _PatchData
 , uint i : SV_OutputControlPointID
 , uint _patchID : SV_PrimitiveID)
 {
@@ -190,7 +170,8 @@ struct DOMAIN_OUT
     float4 vProjPos : POSITION2;
 };
 
-DOMAIN_OUT DS_Terrain(TesselFactor _pFactor
+[domain("tri")]
+DOMAIN_OUT DS_TERRAINEDEFFERED(TesselFactor _pFactor
 , float3 _vTriRatio : SV_DomainLocation
 , const OutputPatch<HULL_OUT, 3> _ControlPoints)
 {
@@ -204,12 +185,12 @@ DOMAIN_OUT DS_Terrain(TesselFactor _pFactor
     
 
     outPut.vViewPos = mul(outPut.vWorldPos, g_V);
-    outPut.vProjPos = mul(outPut.vViewPos, g_P);
-    outPut.vPos = outPut.vPos;
-    outPut.vUv =
+    outPut.vPos = mul(outPut.vViewPos, g_P);
+    outPut.vProjPos = outPut.vPos;
+    outPut.vUv = 
     (_vTriRatio.x * _ControlPoints[0].vUv)
     + (_vTriRatio.y * _ControlPoints[1].vUv)
-    + (_vTriRatio.z * _ControlPoints[2].vPos);
+    + (_vTriRatio.z * _ControlPoints[2].vUv);
 
 
     return outPut;
@@ -231,34 +212,34 @@ PS_DEFFERDOUTPUT PS_TERRAINDEFFERD(DOMAIN_OUT _in)
     float3 Right = float3(_in.vWorldPos.x + 1.0f, _in.vWorldPos.y, _in.vWorldPos.z);
     float3 Top = float3(_in.vWorldPos.x, _in.vWorldPos.y, _in.vWorldPos.z + 1.0f);
 
-    float3 Binormal = normalize(Right - _in.vWorldPos.xyz);
-    float3 Tangent = normalize(Top - _in.vWorldPos.xyz);
+    float3 Binormal = normalize(Top - _in.vWorldPos.xyz);
+    float3 Tangent = normalize(Right - _in.vWorldPos.xyz);
     float3 Normal = normalize(cross(Binormal, Tangent));
 
 
     CalColor *= GetMTexToColor(8, 8, _in.vUv, 0.0f);
-    float4 BumpNormal = CalMBump(8, 8, _in.vUv, 1.0f, float4(Tangent, 1.0f), float4(Binormal, 1.0f), float4(Normal, 1.0f));
+    float4 BumpNormal = CalMBump(8, 8, _in.vUv, 1.0f, float4(Tangent, .0f), float4(Binormal, .0f), float4(Normal, .0f));
     
     float2 SpUv;
 
     SpUv.x = _in.vUv.x / VTXX;
     SpUv.y = _in.vUv.y / VTXY;
 
-    for (int i = 0; i < FloorCount; ++i)
-    {
-    // 색깔 섞기.
-        float4 Ratio = GetTexToColor(i, i, SpUv);
-        float RatioValuie = (Ratio.x + Ratio.y + Ratio.z) / 3.0f;
-        float4 FloorColor = GetMTexToColor(9 + i, 9 + i, _in.vUv, 0.0f);
-        float4 SrcColor = CalColor;
-        FloorColor.xyz *= RatioValuie;
-        SrcColor.xyz *= (1.0f - Ratio.x);
-        CalColor = FloorColor + SrcColor;
-        if (RatioValuie >= 0.9)
-        {
-            BumpNormal = CalMBump(9 + i, 9 + i, _in.vUv, 1.0f, float4(Tangent, 1.0f), float4(Binormal, 1.0f), float4(Normal, 1.0f));
-        }
-    }
+    //for (int i = 0; i < FloorCount; ++i)
+    //{
+    //// 색깔 섞기.
+    //    float4 Ratio = GetTexToColor(i, i, SpUv);
+    //    float RatioValuie = (Ratio.x + Ratio.y + Ratio.z) / 3.0f;
+    //    float4 FloorColor = GetMTexToColor(9 + i, 9 + i, _in.vUv, 0.0f);
+    //    float4 SrcColor = CalColor;
+    //    FloorColor.xyz *= RatioValuie;
+    //    SrcColor.xyz *= (1.0f - Ratio.x);
+    //    CalColor = FloorColor + SrcColor;
+    //    if (RatioValuie >= 0.9)
+    //    {
+    //        BumpNormal = CalMBump(9 + i, 9 + i, _in.vUv, 1.0f, float4(Tangent, 1.0f), float4(Binormal, 1.0f), float4(Normal, 1.0f));
+    //    }
+    //}
 
 //CalColor *= GetTexToColor(0, 0, _in.vUv);
 //_in.vNormal = CalBump(1, 0, _in.vUv, _in.vTangent, _in.vBNormal, _in.vNormal);
@@ -291,7 +272,7 @@ PS_DEFFERDOUTPUT PS_TERRAINDEFFERD(DOMAIN_OUT _in)
 // 칼 컬러가 섞인것으로 나와야 한다.
 
 // 포워드 색깔을 아예 사용하지 않는 것은 아니다.
-    outData.vDiffuse.rgb = CalColor;
+    outData.vDiffuse.rgb = CalColor.xyz;
     outData.vDiffuse.a = 1.0f;
     outData.vNoraml = BumpNormal;
     outData.vNoraml.a = 1.0f;

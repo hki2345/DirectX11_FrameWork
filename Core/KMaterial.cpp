@@ -59,7 +59,7 @@ bool KMaterial::Set_PXShader(const wchar_t* _PixName)
 
 bool KMaterial::Set_HUShader(const wchar_t * _Name)
 {
-	m_HUS = ResourceManager<Shader_Hull>::Find(_Name);
+	m_HUS = ResourceManager<Shader_Hul>::Find(_Name);
 	KASSERT(nullptr == m_HUS);
 
 	if (nullptr == m_HUS)
@@ -85,7 +85,7 @@ bool KMaterial::Set_DMShader(const wchar_t * _Name)
 
 bool KMaterial::Set_GMShader(const wchar_t * _Name)
 {
-	m_GMS = ResourceManager<Shader_Geom>::Find(_Name);
+	m_GMS = ResourceManager<Shader_GeoMetry>::Find(_Name);
 	KASSERT(nullptr == m_GMS);
 
 	if (nullptr == m_GMS)
