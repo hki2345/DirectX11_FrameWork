@@ -4,8 +4,6 @@
 #include "Stl_AID.h"
 #include "KMesh.h"
 #include "Core_Class.h"
-#include "Shader_Vertex.h"
-#include "Shader_Pixel.h"
 #include "ResourceManager.h"
 #include "KMaterial.h"
 #include "KBlend.h"
@@ -18,6 +16,11 @@
 #include "RenderTarget_Multi.h"
 #include "Renderer_Terrain.h"
 
+#include "Shader_Vertex.h"
+#include "Shader_Pixel.h"
+// #include "Shader_Domain.h"
+// #include "Shader_Hull.h"
+// #include "Shader_Geo.h"
 
 
 
@@ -621,6 +624,22 @@ bool KDevice::Mat3DCreate() {
 	DEFFERDTERRAINMAT->Set_PXShader(L"DEFFERDTERRAINPIX");
 	DEFFERDTERRAINMAT->Set_Blend(L"ALPHA");
 
+
+
+	KPtr<Shader_Vertex> DTESSLEVTX = ResourceManager<Shader_Vertex>::Load_FromKey(L"DTESSLEVTX", L"Shader", L"TerrainDefferd.fx", "VS_TERRAINDEFFERD");
+	DTESSLEVTX->Add_Layout("POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
+	DTESSLEVTX->Add_Layout("TEXCOORD", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32_FLOAT, 0);
+	DTESSLEVTX->Add_Layout("COLOR", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
+	DTESSLEVTX->Add_Layout("NORMAL", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
+	DTESSLEVTX->Add_Layout("TANGENT", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
+	DTESSLEVTX->Add_LayoutFin("BINORMAL", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
+	KPtr<Shader_Pixel> DTESSLEPIX = ResourceManager<Shader_Pixel>::Load_FromKey(L"DTESSLEPIX", L"Shader", L"TerrainDefferd.fx", "PS_TERRAINDEFFERD");
+	DTESSLEPIX->CreateCB<TERRAIN_FD>(L"TERRAIN_FD", D3D11_USAGE_DYNAMIC, 0);
+
+	KPtr<KMaterial> DTESSLEMAT = ResourceManager<KMaterial>::Create(L"DTESSLEMAT");
+	DTESSLEMAT->Set_VTShader(L"DEFFERDTERRAINVTX");
+	DTESSLEMAT->Set_PXShader(L"DEFFERDTERRAINPIX");
+	DTESSLEMAT->Set_Blend(L"ALPHA");
 
 
 

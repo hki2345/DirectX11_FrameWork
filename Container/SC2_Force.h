@@ -1,10 +1,16 @@
 #pragma once
 #include <Begin_Updater.h>
+
+
+// 유닛도 세력을 알아야하지만 유닛은 간접적으로 아는 식(포인터)
+// 요놈은 유닛을 직접 만들어야 하니까 값으로 알아야 겠다.
+#include "Force_Unit.h"
 #include <DXContainer.h>
 #include <map>
 
 
-class Force_Unit;
+
+// 이름과 그 세력의 고유 색을 가진다
 class SC2_Force : public Begin_Updater
 {
 public:
@@ -36,21 +42,18 @@ public:
 		return (KUINT)m_UMap.size();
 	}
 
-	KPtr<Force_Unit> Find_Unit(const wchar_t* _Name)
-	{
-		return m_UMap.find(_Name)->second;
-	}
+	KPtr<Force_Unit> Find_Unit(const wchar_t* _Name);
 
 
 	template<typename T>
-	KPtr<Force_Unit> Create_Unit(const wchar_t* _Name)
+	KPtr<T> Create_Unit(const wchar_t* _Name)
 	{
 		if (0 == _Name[0])
 		{
 			return nullptr;
 		}
 
-		KPtr<T> TU = new T(_Name);
+		KPtr<T> TU = new T(_Name, this);
 
 		TU->Init();
 		m_UMap.insert(std::map<std::wstring, KPtr<Force_Unit>>::value_type(_Name, TU));

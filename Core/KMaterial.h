@@ -2,6 +2,11 @@
 #include "Resource.h"
 #include "Shader_Vertex.h"
 #include "Shader_Pixel.h"
+
+// #include "Shader_Geo.h"
+// #include "Shader_Domain.h"
+// #include "Shader_Hull.h"
+
 #include "KBlend.h"
 
 // 재질이라고 하는 녀석을 만들것이다.
@@ -53,6 +58,10 @@ private:
 	bool m_bOrigin;
 	KPtr<Shader_Vertex> m_VTS;
 	KPtr<Shader_Pixel> m_PXS;
+
+	KPtr<Shader_Hull>	m_HUS;
+	KPtr<Shader_Domain> m_DMS;
+	KPtr<Shader_Geo>	m_GMS;
 	KPtr<KBlend> m_Blend;
 
 public:
@@ -67,6 +76,10 @@ public:
 public:
 	bool Set_VTShader(const wchar_t* _VtxName);
 	bool Set_PXShader(const wchar_t* _PixName);
+	bool Set_HUShader(const wchar_t* _VtxName);
+	bool Set_DMShader(const wchar_t* _PixName);
+	bool Set_GMShader(const wchar_t* _VtxName);
+
 	bool Set_Blend(const wchar_t* _PixName);
 
 public:

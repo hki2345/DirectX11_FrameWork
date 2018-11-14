@@ -57,6 +57,49 @@ bool KMaterial::Set_PXShader(const wchar_t* _PixName)
 	return true;
 }
 
+bool KMaterial::Set_HUShader(const wchar_t * _Name)
+{
+	m_HUS = ResourceManager<Shader_Hull>::Find(_Name);
+	KASSERT(nullptr == m_HUS);
+
+	if (nullptr == m_HUS)
+	{
+		return false;
+	}
+
+	return true;
+}
+
+bool KMaterial::Set_DMShader(const wchar_t * _Name)
+{
+	m_DMS = ResourceManager<Shader_Domain>::Find(_Name);
+	KASSERT(nullptr == m_DMS);
+
+	if (nullptr == m_DMS)
+	{
+		return false;
+	}
+
+	return true;
+}
+
+bool KMaterial::Set_GMShader(const wchar_t * _Name)
+{
+	m_GMS = ResourceManager<Shader_Geom>::Find(_Name);
+	KASSERT(nullptr == m_GMS);
+
+	if (nullptr == m_GMS)
+	{
+		return false;
+	}
+
+	return true;
+}
+
+
+
+
+
 
 bool KMaterial::Set_Blend(const wchar_t* _PixName) 
 {
@@ -74,6 +117,11 @@ bool KMaterial::Set_Blend(const wchar_t* _PixName)
 void KMaterial::Update() 
 {
 	if (nullptr != m_VTS)	{ m_VTS->Update(); m_VTS->Set_Layout(); }
+
+	if (nullptr != m_DMS) { m_DMS->Update(); }
+	if (nullptr != m_HUS) { m_HUS->Update(); }
+	if (nullptr != m_GMS) { m_GMS->Update(); }
+
 	if (nullptr != m_PXS) { m_PXS->Update(); }
 	if (nullptr != m_Blend) { m_Blend->Update(); }
 }

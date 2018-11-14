@@ -694,6 +694,8 @@ public:
 	static const KVector4 Majenta;
 	static const KVector4 Cyan;
 	static const KVector4 Gray;
+	static const KVector4 Brown;
+	static const KVector4 Orange;
 
 
 public:
@@ -949,7 +951,7 @@ public:
 		return *this;
 	}
 
-	bool operator == (const KVector4& _Value)
+	bool operator == (const KVector4& _Value) const
 	{
 		return (x == _Value.x && y == _Value.y && z == _Value.z && w == _Value.w);
 	}
@@ -957,7 +959,7 @@ public:
 	{
 		return (x != _Value.x || y != _Value.y || z != _Value.z || w != _Value.w);
 	}
-	bool operator >= (const KVector4& _Value)
+	bool operator >= (const KVector4& _Value) const
 	{
 		return (x == _Value.x && y == _Value.y && z == _Value.z && w == _Value.w);
 	}

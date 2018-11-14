@@ -294,12 +294,11 @@ void RenderManager::Render_Defferd(KPtr<Camera> _Camera, std::map<int, std::list
 					(*m_RSI)->Update_SelectMesh((*m_RSI)->m_RDVec[i].Mesh
 						, (*m_RSI)->m_RDVec[i].Vertex
 						, (*m_RSI)->m_RDVec[i].Sub_inx);
+					Core_Class::MainDevice().ResetContext();
 				}
-
 			}
 
 			(*m_RSI)->RenderFinalUpdate();
-			Core_Class::MainDevice().ResetContext();
 		}
 	}
 }

@@ -261,6 +261,7 @@ void KDevice::Present()
 void KDevice::ResetContext() {
 	m_pContext->VSSetShader(nullptr, nullptr, 0);
 	m_pContext->HSSetShader(nullptr, nullptr, 0);
+	m_pContext->DSSetShader(nullptr, nullptr, 0);
 	m_pContext->GSSetShader(nullptr, nullptr, 0);
 	m_pContext->CSSetShader(nullptr, nullptr, 0);
 	m_pContext->PSSetShader(nullptr, nullptr, 0);

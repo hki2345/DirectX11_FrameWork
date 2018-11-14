@@ -21,6 +21,8 @@ const KVector4 KColor::Yellow = KVector4(1.0f, 1.0f, 0.0f, 1.0f);
 const KVector4 KColor::Majenta = KVector4(1.0f, 0.0f, 1.0f, 1.0f);
 const KVector4 KColor::Cyan = KVector4(0.0f, 1.0f, 1.0f, 1.0f);
 const KVector4 KColor::Gray = KVector4(0.5f, 0.5f, 0.5f, 1.0f);
+const KVector4 KColor::Brown = KVector4(0.5f, .25f, .0f, 1.0f);
+const KVector4 KColor::Orange = KVector4(1.0f, 0.25f, 0.f, 1.0f);
 
 const KVector3 KVector3::Zero = KVector3(.0f);
 const KVector3 KVector3::Left = KVector3(-1.0f, .0f, .0f);

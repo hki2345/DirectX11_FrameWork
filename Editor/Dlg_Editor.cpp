@@ -178,8 +178,8 @@ BOOL Dlg_Editor::OnInitDialog()
 	TestAni2->Trans()->scale_local(KVector(1.f, 1.f, 1.f));
 	KPtr<Renderer_BonAni> TestRender2 = TestAni2->Add_Component<Renderer_BonAni>();
 
-	KPtr<MeshContainer> MCon2 = ResourceManager<MeshContainer>::Load((PathManager::Find_ForderPathStr(L"Mesh") + L"Protoss\\Assimilator_Body.FBX").c_str());
-	TestRender2->Set_Fbx(L"Assimilator_Body.FBX");
+	KPtr<MeshContainer> MCon2 = ResourceManager<MeshContainer>::Load((PathManager::Find_ForderPathStr(L"Mesh") + L"Terran\\BattleCruiser.FBX").c_str());
+	TestRender2->Set_Fbx(L"BattleCruiser.FBX");
 	TestRender2->Create_AniChanger(L"TestAni", 2000, 5000);
 	TestRender2->Set_AniChanger(L"TestAni");
 

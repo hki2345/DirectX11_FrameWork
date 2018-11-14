@@ -5,6 +5,7 @@
 
 
 
+// 세력들과 진행상황을 관리한다.
 class SC2_Force;
 class SC2Manager : public Begin_Updater
 {
@@ -28,6 +29,19 @@ private:
 
 
 public:
+	KPtr<SC2_Force> Create_Force(const wchar_t* _Name, const KColor& _Color);
+	KPtr<SC2_Force> Find_Force(const wchar_t* _Name);
+	KPtr<SC2_Force> Find_Force(const KColor& _Color);
+
+	void game_run(const GAMERUN_TYPE& _Value)
+	{
+		m_bGR = _Value;
+	}
+	GAMERUN_TYPE game_run()
+	{
+		return m_bGR;
+	}
+
 	bool Init() override;
 	void Update() override;
 

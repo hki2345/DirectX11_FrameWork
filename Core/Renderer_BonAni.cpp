@@ -256,7 +256,7 @@ void Renderer_BonAni::PrevUpdate_Ani()
 
 
 	// 세력 설정하는 부분
-	m_MeshColor = KColor::Red;
+	m_MeshColor = KColor::Brown;
 	Core_Class::MainDevice().SettingCB<KColor>(L"FORCE_COLOR", m_MeshColor, SHTYPE::ST_PS);
 }
 
