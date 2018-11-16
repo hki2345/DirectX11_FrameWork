@@ -113,7 +113,7 @@ void Renderer_Terrain::Create_Terrain(const KUINT& _X, const KUINT& _Z, const wc
 	NMesh->draw_mode(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 	Set_Mesh(NMesh);
-	Set_Material(L"DEFFERDTERRAINMAT");
+	Set_Material(L"DTESSLEMAT");
 }
 
 void Renderer_Terrain::Render(KPtr<Camera> _Cam)

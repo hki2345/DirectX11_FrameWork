@@ -1202,6 +1202,7 @@ public:
 	KMatrix m_WV;
 	KMatrix m_VP;
 	KMatrix m_WVP;
+	KVector m_CamPos;
 
 public:
 	void RTrans() {

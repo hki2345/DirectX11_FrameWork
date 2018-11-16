@@ -184,18 +184,11 @@ public:
 		memcpy(tSub.pData, &_Data, sizeof(BUFTYPE));
 		m_pContext->Unmap(Buf->pConstBuffer, 0);
 
-		switch (_eType)
-		{
-		case ST_VS:
-			m_pContext->VSSetConstantBuffers(Buf->iReg, 1, &Buf->pConstBuffer);
-			break;
-		case ST_PS:
-			m_pContext->PSSetConstantBuffers(Buf->iReg, 1, &Buf->pConstBuffer);
-			break;
-		default:
-			break;
-		}
-
+		m_pContext->VSSetConstantBuffers(Buf->iReg, 1, &Buf->pConstBuffer);
+		m_pContext->PSSetConstantBuffers(Buf->iReg, 1, &Buf->pConstBuffer);
+		m_pContext->DSSetConstantBuffers(Buf->iReg, 1, &Buf->pConstBuffer);
+		m_pContext->HSSetConstantBuffers(Buf->iReg, 1, &Buf->pConstBuffer);
+		m_pContext->GSSetConstantBuffers(Buf->iReg, 1, &Buf->pConstBuffer);
 	}
 
 	bool CreateCB(GCBUFFER* NewBuf);

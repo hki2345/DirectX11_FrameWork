@@ -7,6 +7,7 @@ cbuffer TransformBuffer : register(b10)
     matrix g_WV;
     matrix g_VP;
 	matrix g_WVP;
+    float4 g_CamPos;
 }
 
 class TexData

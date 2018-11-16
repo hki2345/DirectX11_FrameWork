@@ -130,12 +130,16 @@ void Renderer::Update_Trans(KPtr<Camera> _Camera)
 	m_MD.m_WV = (m_Trans->worldmat_const() * _Camera->View()).RTranspose();
 	m_MD.m_VP = (m_Trans->worldmat_const() * _Camera->ViewProj()).RTranspose();
 	m_MD.m_WVP = (m_Trans->worldmat_const() * _Camera->ViewProj()).RTranspose();
+	m_MD.m_CamPos = _Camera->Trans()->pos_world();
 }
 
 void Renderer::Update_TransCB() 
 {
 	Core_Class::MainDevice().SettingCB<MatrixContainer>(L"MATCON", m_MD, SHTYPE::ST_VS);
 	Core_Class::MainDevice().SettingCB<MatrixContainer>(L"MATCON", m_MD, SHTYPE::ST_PS);
+	Core_Class::MainDevice().SettingCB<MatrixContainer>(L"MATCON", m_MD, SHTYPE::ST_DOM);
+	Core_Class::MainDevice().SettingCB<MatrixContainer>(L"MATCON", m_MD, SHTYPE::ST_HUL);
+	Core_Class::MainDevice().SettingCB<MatrixContainer>(L"MATCON", m_MD, SHTYPE::ST_GEO);
 }
 
 

@@ -49,16 +49,7 @@ VTX3DMESH_OUTPUT VS_TERRAINDEFFERD(VTX3DMESH_INPUT _in)
     outData.vPos = mul(_in.vPos, g_WVP);
     outData.vUv = _in.vUv;
     outData.vColor.rgba = _in.vColor.rgba;
-    outData.vViewPos = mul(_in.vPos, g_WV);
-    outData.vNormal = normalize(mul(_in.vNormal, g_WV));
-    outData.vTangent = normalize(mul(_in.vTangent, g_WV));
-    outData.vBNormal = normalize(mul(_in.vBNormal, g_WV));
-
-    if (0 == IsLight)
-    {
-        return outData;
-    }
-
+    
     return outData;
 }
 
@@ -76,7 +67,8 @@ struct TesselFactor
 // 그리고 가까이 갈 때 무조건 나눠버릴 수 있으니 그 거리의 최소값, 최대값, 및 테셀의 최대 최소 까지 존재
 float Cal_TessLv(float _fMinDist, float _fMaxDist, float _fMinTess, float _fMaxTess, float3 _vWorldPos)
 {
-    float3 vDis = _vWorldPos;
+    // 카메라 기준으로 쪼개져야 하는부분
+    float3 vDis = g_CamPos.xyz - _vWorldPos;
     // vDis.y = .0f;
     float fDist = length(vDis.xyz);
     float fRatio = (fDist - _fMinDist) / (_fMaxDist - _fMinDist);
@@ -99,9 +91,9 @@ TesselFactor HS_CONSTANTDATA(InputPatch<VTX3DMESH_OUTPUT,  3> _VtxData)
     float3 XPos = float3(vStdPos.x + XRatio, vStdPos.y, vStdPos.z);
     float3 ZPos = float3(vStdPos.x, vStdPos.y, vStdPos.z + ZRatio);
 
-    float FTess = Cal_TessLv(500.0f, 5000.0f, .0f, .0f, vStdPos);
-    float FXTess = Cal_TessLv(500.0f, 5000.0f, .0f, .0f, XPos);
-    float FZTess = Cal_TessLv(500.0f, 5000.0f, .0f, .0f, ZPos);
+    float FTess = Cal_TessLv(50.0f, 500.0f, .0f, .0f, vStdPos);
+    float FXTess = Cal_TessLv(50.0f, 500.0f, .0f, .0f, XPos);
+    float FZTess = Cal_TessLv(50.0f, 500.0f, .0f, .0f, ZPos);
 
 
 
@@ -145,7 +137,7 @@ struct HULL_OUT
 [outputcontrolpoints(3)] // 
 [maxtessfactor(64.0f)]
 [patchconstantfunc("HS_CONSTANTDATA")] // 헐셰이더 나갈때 콘스트쪽에서 실행되는 함수
-[outputtopology("triangle_cw")]
+[outputtopology("triangle_ccw")]
 HULL_OUT HS_TERRAINEDEFFERED(InputPatch<VTX3DMESH_OUTPUT, 3> _PatchData
 , uint i : SV_OutputControlPointID
 , uint _patchID : SV_PrimitiveID)
@@ -211,7 +203,7 @@ PS_DEFFERDOUTPUT PS_TERRAINDEFFERD(DOMAIN_OUT _in)
     // 근데 이거 맞는지좀 ㅋㅋㅋ
     float3 Right = float3(_in.vWorldPos.x + 1.0f, _in.vWorldPos.y, _in.vWorldPos.z);
     float3 Top = float3(_in.vWorldPos.x, _in.vWorldPos.y, _in.vWorldPos.z + 1.0f);
-
+   
     float3 Binormal = normalize(Top - _in.vWorldPos.xyz);
     float3 Tangent = normalize(Right - _in.vWorldPos.xyz);
     float3 Normal = normalize(cross(Binormal, Tangent));
@@ -220,26 +212,28 @@ PS_DEFFERDOUTPUT PS_TERRAINDEFFERD(DOMAIN_OUT _in)
     CalColor *= GetMTexToColor(8, 8, _in.vUv, 0.0f);
     float4 BumpNormal = CalMBump(8, 8, _in.vUv, 1.0f, float4(Tangent, .0f), float4(Binormal, .0f), float4(Normal, .0f));
     
+    BumpNormal = mul(BumpNormal, g_V);
+
     float2 SpUv;
 
     SpUv.x = _in.vUv.x / VTXX;
     SpUv.y = _in.vUv.y / VTXY;
 
-    //for (int i = 0; i < FloorCount; ++i)
-    //{
-    //// 색깔 섞기.
-    //    float4 Ratio = GetTexToColor(i, i, SpUv);
-    //    float RatioValuie = (Ratio.x + Ratio.y + Ratio.z) / 3.0f;
-    //    float4 FloorColor = GetMTexToColor(9 + i, 9 + i, _in.vUv, 0.0f);
-    //    float4 SrcColor = CalColor;
-    //    FloorColor.xyz *= RatioValuie;
-    //    SrcColor.xyz *= (1.0f - Ratio.x);
-    //    CalColor = FloorColor + SrcColor;
-    //    if (RatioValuie >= 0.9)
-    //    {
-    //        BumpNormal = CalMBump(9 + i, 9 + i, _in.vUv, 1.0f, float4(Tangent, 1.0f), float4(Binormal, 1.0f), float4(Normal, 1.0f));
-    //    }
-    //}
+    for (int i = 0; i < FloorCount; ++i)
+    {
+        // 색깔 섞기.
+        float4 Ratio = GetTexToColor(i, i, SpUv);
+        float RatioValuie = (Ratio.x + Ratio.y + Ratio.z) / 3.0f;
+        float4 FloorColor = GetMTexToColor(9 + i, 9 + i, _in.vUv, 0.0f);
+        float4 SrcColor = CalColor;
+        FloorColor.xyz *= RatioValuie;
+        SrcColor.xyz *= (1.0f - Ratio.x);
+        CalColor = FloorColor + SrcColor;
+        // if (RatioValuie >= 0.9)
+        // {
+        //     BumpNormal = CalMBump(9 + i, 9 + i, _in.vUv, 1.0f, float4(Tangent, 1.0f), float4(Binormal, 1.0f), float4(Normal, 1.0f));
+        // }
+    }
 
 //CalColor *= GetTexToColor(0, 0, _in.vUv);
 //_in.vNormal = CalBump(1, 0, _in.vUv, _in.vTangent, _in.vBNormal, _in.vNormal);

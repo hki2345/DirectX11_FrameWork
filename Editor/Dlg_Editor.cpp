@@ -121,6 +121,26 @@ BOOL Dlg_Editor::OnInitDialog()
 	pLight2->PushLightLayer(0, 1, 2, 3, 4, 5);
 
 
+	KPtr<TheOne> Light3 = TabScene->Create_One();
+	// 스케일은 dir이 아닌 빛의 크기를 나타낸다.
+	// Light->Trans()->scale_local(KVector4(1000.0f, 1000.0f, 1000.0f));
+	// Foward로 비춘다고 생각한다.
+	KPtr<Light> pLight3 = Light3->Add_Component<Light>();
+	pLight3->Trans()->rotate_world(KVector4(-45.0F, 0.0F, 0.0f));
+	pLight3->Trans()->scale_world(KVector4(30.0f, 30.0f, 30.0f));
+	pLight3->PushLightLayer(0, 1, 2, 3, 4, 5);
+
+
+	KPtr<TheOne> Light4 = TabScene->Create_One();
+	// 스케일은 dir이 아닌 빛의 크기를 나타낸다.
+	// Light->Trans()->scale_local(KVector4(1000.0f, 1000.0f, 1000.0f));
+	// Foward로 비춘다고 생각한다.
+	KPtr<Light> pLight4 = Light4->Add_Component<Light>();
+	pLight4->Trans()->rotate_world(KVector4(.0F, 45.0F, 0.0f));
+	pLight4->Trans()->scale_world(KVector4(30.0f, 30.0f, 30.0f));
+	pLight4->PushLightLayer(0, 1, 2, 3, 4, 5);
+
+
 
 	CCreateContext         m_context;
 
@@ -178,8 +198,8 @@ BOOL Dlg_Editor::OnInitDialog()
 	TestAni2->Trans()->scale_local(KVector(1.f, 1.f, 1.f));
 	KPtr<Renderer_BonAni> TestRender2 = TestAni2->Add_Component<Renderer_BonAni>();
 
-	KPtr<MeshContainer> MCon2 = ResourceManager<MeshContainer>::Load((PathManager::Find_ForderPathStr(L"Mesh") + L"Terran\\BattleCruiser.FBX").c_str());
-	TestRender2->Set_Fbx(L"BattleCruiser.FBX");
+	KPtr<MeshContainer> MCon2 = ResourceManager<MeshContainer>::Load((PathManager::Find_ForderPathStr(L"Mesh") + L"Protoss\\VoidRay.FBX").c_str());
+	TestRender2->Set_Fbx(L"VoidRay.FBX");
 	TestRender2->Create_AniChanger(L"TestAni", 2000, 5000);
 	TestRender2->Set_AniChanger(L"TestAni");
 
