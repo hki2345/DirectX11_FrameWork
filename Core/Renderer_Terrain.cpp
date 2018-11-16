@@ -68,7 +68,7 @@ void Renderer_Terrain::Create_Terrain(const KUINT& _X, const KUINT& _Z, const wc
 				// 텍스쳐를 입히기 때문
 				// 하지만 좌표로 치면 안으로 들어갈수록 - 이기 때문에
 				// 부호보정이 필요하다.ㄴ
-				KColor GCol = NTex->GetPixelF(x* WX, NTex->Height() - (float)(z * WZ));
+				KColor GCol = NTex->GetPixelF(x* WX, (int)NTex->Height() - (z * WZ));
 				
 				// 버퍼에 넘길 버텍스 정보 자체를 수정한다.
 				TempV.Pos = KVector((float)x, GCol.x * _HRatio, (float)z, 1.0f);
@@ -80,7 +80,7 @@ void Renderer_Terrain::Create_Terrain(const KUINT& _X, const KUINT& _Z, const wc
 				m_PosVtx.push_back(TempV.Pos);
 			}
 
-
+			TempV.Pos.w = 1.0f;
 			TempV.Uv = KVector2((float)x, (float)(m_TFD.SizeZ - z));
 			TempV.Color = KVector(1.0f, 1.0f, 1.0f, 1.0f);
 			TempV.Normal = KVector(.0f, 1.0f, .0f, .0f);
@@ -110,9 +110,16 @@ void Renderer_Terrain::Create_Terrain(const KUINT& _X, const KUINT& _Z, const wc
 
 	NMesh->Create_Vertex((KUINT)TV.size(), sizeof(VTX3D), D3D11_USAGE_DYNAMIC, &TV[0]);
 	NMesh->Create_Index((KUINT)TI.size(), IDX32::MemberSize(), D3D11_USAGE_DEFAULT, IDX32::FM(), &TI[0]);
-	NMesh->draw_mode(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	
+	// 기본 세팅
+	// NMesh->draw_mode(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+	NMesh->draw_mode(D3D11_PRIMITIVE_TOPOLOGY_3_CONTROL_POINT_PATCHLIST);
+
 
 	Set_Mesh(NMesh);
+
+	// 기본 세팅
+	// Set_Material(L"DEFFERDTERRAINMAT");
 	Set_Material(L"DTESSLEMAT");
 }
 
@@ -158,8 +165,13 @@ float Renderer_Terrain::Y_Terrain(const KVector& _Pos)
 	/*if (0 > X)
 	{
 		return .0f;
-	}*/
+	}
 
+	if (0 > Z)
+	{
+		return .0f;
+	}
+*/
 
 
 	// 좌상단

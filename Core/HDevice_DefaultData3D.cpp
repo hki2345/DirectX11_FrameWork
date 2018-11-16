@@ -636,7 +636,7 @@ bool KDevice::Mat3DCreate() {
 	
 	KPtr<Shader_Hul>	DTESSLEHUL = ResourceManager<Shader_Hul>::Load_FromKey(L"DTESSLEHUL", L"Shader", L"TerrainDefferd_Tessel.fx", "HS_TERRAINEDEFFERED");
 	KPtr<Shader_Domain> DTESSLEDOM = ResourceManager<Shader_Domain>::Load_FromKey(L"DTESSLEDOM", L"Shader", L"TerrainDefferd_Tessel.fx", "DS_TERRAINEDEFFERED");
-	KPtr<Shader_Pixel> DTESSLEPIX = ResourceManager<Shader_Pixel>::Load_FromKey(L"DTESSLEPIX", L"Shader", L"TerrainDefferd_Tessel.fx", "PS_TERRAINDEFFERD");
+	KPtr<Shader_Pixel>	DTESSLEPIX = ResourceManager<Shader_Pixel>::Load_FromKey(L"DTESSLEPIX", L"Shader", L"TerrainDefferd_Tessel.fx", "PS_TERRAINDEFFERD");
 	DTESSLEPIX->CreateCB<TERRAIN_FD>(L"TERRAIN_FD", D3D11_USAGE_DYNAMIC, 0);
 
 	KPtr<KMaterial> DTESSLEMAT = ResourceManager<KMaterial>::Create(L"DTESSLEMAT");

@@ -46,7 +46,7 @@ VTX3DMESH_OUTPUT VS_TERRAINDEFFERD(VTX3DMESH_INPUT _in)
 {
     VTX3DMESH_OUTPUT outData = (VTX3DMESH_OUTPUT) 0.f;
 
-    outData.vPos = mul(_in.vPos, g_WVP);
+    outData.vPos = mul(_in.vPos, g_W);
     outData.vUv = _in.vUv;
     outData.vColor.rgba = _in.vColor.rgba;
     
