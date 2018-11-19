@@ -174,7 +174,11 @@ void Renderer_BonAni::PrevUpdate_Ani()
 		return;
 	}
 
-	m_CurTime = .0f;
+	// 시작 프레임
+	m_CurTime =
+		m_CurAni->Start / m_FrameCnt +
+		m_UpdateTime +
+		(float)(MCon->m_Data.AniVec[m_ClipInx].Stime.GetSecondDouble());
 	m_UpdateTime += DELTATIME;
 
 	if (m_UpdateTime >= MCon->m_Data.AniVec[m_ClipInx].Length_Time)
@@ -184,17 +188,16 @@ void Renderer_BonAni::PrevUpdate_Ani()
 
 	// 현재 시작 시간에 최신화 시간을 더한 시간이 현재 진행중인 시간 - 현재 프레임이 되겠다.
 	m_CurTime = (float)(MCon->m_Data.AniVec[m_ClipInx].Stime.GetSecondDouble() + m_UpdateTime);
-
-
+	
 
 	int iFrameInx = (int)(m_CurTime * m_FrameCnt);
 	int iNextFrameInx = 0;
 	
 	// 현재 프레임이 프레임의 끝보다 크면 0으로 초기화
-	if (iFrameInx >= MCon->m_Data.AniVec[m_ClipInx].Length_Time - 1)
+	if (iFrameInx >= m_CurAni->End - 1)
 	{
-		m_UpdateTime = .0f;
-		iFrameInx = 0;
+		m_UpdateTime = .0f; 		
+		iFrameInx = m_CurAni->Start;
 	}
 
 	// 당연하지만 다음 장면은 + 1 프레임이 되겠다.
@@ -330,13 +333,35 @@ bool Renderer_BonAni::Erase_AniChanger(const wchar_t* _Name)
 
 KPtr<Renderer_BonAni::Ani_Changer> Renderer_BonAni::Create_AniChanger(const wchar_t* _Name, const int& _Start, const int& _End)
 {
+	int TStart = _Start;
+	int TEnd = _End;
+
+	// 이거 -> 최대치 넘어가면 그냥 조절 - 터지는 거 막기
+	if(TEnd >= MCon->m_Data.AniVec[m_ClipInx].Length_Time)
+	{
+		TEnd = MCon->m_Data.AniVec[m_ClipInx].Length_Time;
+	}
+	if (TStart >= MCon->m_Data.AniVec[m_ClipInx].Length_Time - 1)
+	{
+		TEnd = MCon->m_Data.AniVec[m_ClipInx].Length_Time - 1;
+	}
+
+	if (TEnd < TStart)
+	{
+		int Temp = TStart;
+		TStart = TEnd;
+		TEnd = Temp;
+	}
+
+
+
 	if (0 == _Name[0])
 	{
 		BBY;
 		return nullptr;
 	}
 
-	Renderer_BonAni::Ani_Changer* NC = new Ani_Changer(_Name, _Start, _End);
+	Renderer_BonAni::Ani_Changer* NC = new Ani_Changer(_Name, TStart, TEnd);
 
 	m_ACMap.insert(std::map<std::wstring, KPtr<Renderer_BonAni::Ani_Changer>>::value_type(NC->ws_name(), NC));
 

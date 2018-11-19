@@ -1,22 +1,40 @@
-#include "Camera_Free.h"
+#include "SC2_Camera.h"
 #include <InputManager.h>
 #include <TimeManager.h>
 #include <DebugManager.h>
 #include <Core_Class.h>
 
-Camera_Free::Camera_Free() : m_Speed(10.0f)
+#include <KMesh.h>
+#include <KMaterial.h>
+#include <Sampler.h>
+
+
+SC2_Camera::SC2_Camera() : m_Speed(10.0f)
 {
 }
 
 
-Camera_Free::~Camera_Free()
+SC2_Camera::~SC2_Camera()
 {
 }
 
-bool Camera_Free::Init() 
+bool SC2_Camera::Init()
 {
+	m_CMode = SC2_CAMMODE::S2M_STATE;
 	m_Cam = Get_Component<Camera>();
+
+	if (nullptr == m_Cam)
+	{
+		KPtr<TheOne> CamOne2 = Core_Class::MainScene()->Create_One(L"Sc2");
+		KPtr<Camera> Cam2 = CamOne2->Add_Component<Camera>();
+	}
+
 	m_Cam->ProjectionMode(Camera::PROJ_MODE::PM_PERS);
+
+	m_Mesh = ResourceManager<KMesh>::Find(L"RECT");
+	m_Mtl = ResourceManager<KMaterial>::Find(L"IMGMAT");
+	m_Smp = ResourceManager<Sampler>::Find(L"DefaultSmp");
+
 
 #pragma region KEYCREATE
 
@@ -89,7 +107,66 @@ bool Camera_Free::Init()
 #pragma endregion
 	return true;
 }
-void Camera_Free::Update() 
+
+
+
+void SC2_Camera::Update()
+{
+	switch (m_CMode)
+	{
+	case SC2_Camera::S2M_STATE:
+		Update_State();
+		break;
+	case SC2_Camera::S2M_PART:
+		Update_Part();
+		break;
+	default:
+		break;
+	}
+	Update_Key();
+}
+
+
+
+void SC2_Camera::Update_State()
+{
+	return;
+}
+
+void SC2_Camera::Update_Part()
+{
+	MatrixContainer tMXData;
+	KMatrix m_Scale;
+	KMatrix m_Pos;
+
+	m_Scale.Identity();
+	m_Scale.Scale(KVector4(OutSize.x, OutSize.y, 1.0f));
+
+	m_Pos.Identity();
+	m_Pos.Translate(
+		KVector4((-Core_Class::MainWindow().width_f() * 0.5f) + OutPos.x + (OutSize.x * 0.5f)
+			, (Core_Class::MainWindow().height_f() * 0.5f) + OutPos.y - (OutSize.y * 0.5f)
+			, 1.1f));
+
+	KMatrix m_W = m_Scale * m_Pos;
+
+	tMXData.m_V = m_Cam->View();
+	tMXData.m_P = m_Cam->Proj();
+	tMXData.m_W = m_W;
+	tMXData.m_WV = m_W * tMXData.m_V;
+	tMXData.m_WVP = tMXData.m_WV * tMXData.m_P;
+	tMXData.RTrans();
+
+	
+	Core_Class::MainDevice().SettingCB<MatrixContainer>(L"MATCON", tMXData, SHTYPE::ST_VS);
+
+	m_Mtl->Update();
+	m_Mesh->Update();
+	m_Mesh->Render();
+}
+
+
+void SC2_Camera::Update_Key()
 {
 	Update_ScrCheck();
 
@@ -173,12 +250,12 @@ void Camera_Free::Update()
 
 
 	KLOG(L"CameraPos : %f, %f, %f", Trans()->pos_local().x, Trans()->pos_local().y, Trans()->pos_local().z);
+
 }
 
 
-bool Camera_Free::Update_ScrCheck()
+bool SC2_Camera::Update_ScrCheck()
 {
-
 	KVector2 MPos = InputManager::MousePos();
 	bool Check;
 

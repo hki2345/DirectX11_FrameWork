@@ -1107,7 +1107,7 @@ public:
 		return;
 	}
 
-	void Trans(const KVector4& _Pos)
+	void Translate(const KVector4& _Pos)
 	{
 		*this = DirectX::XMMatrixTranslation(_Pos.x, _Pos.y, _Pos.z);
 		return;

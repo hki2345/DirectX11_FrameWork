@@ -114,7 +114,7 @@ void TransPosition::FinalUpdate()
 
 	if (true == m_bLP)
 	{
-		m_PMat.Trans(m_LPos); // ÀÌ
+		m_PMat.Translate(m_LPos); // ÀÌ
 		m_bLP = false;
 	}
 

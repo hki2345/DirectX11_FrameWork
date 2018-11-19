@@ -7,6 +7,7 @@
 
 // 세력들과 진행상황을 관리한다.
 class SC2_Force;
+class SC2_Camera;
 class SC2Manager : public Begin_Updater
 {
 private:
@@ -26,9 +27,17 @@ private:
 	std::map<std::wstring, KPtr<SC2_Force>>::iterator m_SFI;
 	std::map<std::wstring, KPtr<SC2_Force>>::iterator m_EFI;
 
+	std::map<std::wstring, KPtr<SC2_Camera>> m_CMap;
+	std::map<std::wstring, KPtr<SC2_Camera>>::iterator m_SCI;
+	std::map<std::wstring, KPtr<SC2_Camera>>::iterator m_ECI;
+
 
 
 public:
+	KPtr<SC2_Force> Create_Camera(const wchar_t* _Name, const KVector2& _Size, const KVector2& _Pos);
+	KPtr<SC2_Force> Find_Camera(const wchar_t* _Name);
+
+
 	KPtr<SC2_Force> Create_Force(const wchar_t* _Name, const KColor& _Color);
 	KPtr<SC2_Force> Find_Force(const wchar_t* _Name);
 	KPtr<SC2_Force> Find_Force(const KColor& _Color);

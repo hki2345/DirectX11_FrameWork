@@ -9,7 +9,6 @@
 #include <State.h>
 #include <TheOne.h>
 #include <Renderer_Rect.h>
-#include <Camera_Free.h>
 #include <Renderer_Grid.h>
 #include <Renderer_Mesh.h>
 #include <Renderer_BonAni.h>
@@ -26,6 +25,7 @@
 #include <KSphere_Col.h>
 #include <KRay3D.h>
 
+#include <SC2_Camera.h>
 
 // Dlg_Editor 대화 상자입니다.
 
@@ -84,12 +84,21 @@ BOOL Dlg_Editor::OnInitDialog()
 		KASSERT(true);
 	}
 
-	TabScene->Camera()->Add_Component<Camera_Free>();
-	TabScene->Camera()->Far(10000.0f);
-	TabScene->Camera()->one()->Trans()->pos_local(KVector4(0.0f, 10.0f, -20.0f));
+	// TabScene->Camera()->Add_Component<SC2_Camera>();
+	// TabScene->Camera()->Far(10000.0f);
+	// TabScene->Camera()->one()->Trans()->pos_local(KVector4(0.0f, 10.0f, -20.0f));
+	
 
-
-
+	KPtr<TheOne> CamOne2 = TabScene->Create_One();
+	KPtr<Camera> Cam2 = CamOne2->Add_Component<Camera>(1);
+	Cam2->Insert_LayerData(0, 1, 2, 3, 4);
+	Cam2->Far(10000.0f);
+	Cam2->one()->Trans()->pos_local(KVector4(0.0f, 10.0f, -20.0f));
+	
+	KPtr<SC2_Camera> Sc2 = Cam2->Add_Component<SC2_Camera>();
+	Sc2->out_pos(KVector2(250.0f, 250.0f));
+	Sc2->out_size(KVector2(366.0f, 245.0f));
+	Sc2->Set_Part();
 	// KPtr<TheOne> Light3 = TabScene->Create_One();
 	// // 스케일은 dir이 아닌 빛의 크기를 나타낸다.
 	// // Light->Trans()->scale_local(KVector4(1000.0f, 1000.0f, 1000.0f));
@@ -200,7 +209,7 @@ BOOL Dlg_Editor::OnInitDialog()
 
 	KPtr<MeshContainer> MCon2 = ResourceManager<MeshContainer>::Load((PathManager::Find_ForderPathStr(L"Mesh") + L"Protoss\\VoidRay.FBX").c_str());
 	TestRender2->Set_Fbx(L"VoidRay.FBX");
-	TestRender2->Create_AniChanger(L"TestAni", 2000, 5000);
+	TestRender2->Create_AniChanger(L"TestAni", 120, 5000);
 	TestRender2->Set_AniChanger(L"TestAni");
 
 	// TestRender->Load_FbxTest((PathManager::Find_ForderPathStr(L"Mesh") + L"Monster3.FBX").c_str());
@@ -246,10 +255,10 @@ BOOL Dlg_Editor::OnInitDialog()
 	TabScene->This_Col3DManager.Link(100, 101);
 
 
-	KPtr<KRay3D> RayCol = TabScene->Camera()->Add_Component<KRay3D>(101);
-	RayCol->EnterFunc(this, &Dlg_Editor::Collision_Test);
-
-	KPtr<KSphere_Col> RightCol = SPHERERIGHT->Add_Component<KSphere_Col>(100);
+	// KPtr<KRay3D> RayCol = TabScene->Camera()->Add_Component<KRay3D>(101);
+	// RayCol->EnterFunc(this, &Dlg_Editor::Collision_Test);
+	// 
+	// KPtr<KSphere_Col> RightCol = SPHERERIGHT->Add_Component<KSphere_Col>(100);
 
 	return TRUE;  // return TRUE unless you set the focus to a control
 				  // 예외: OCX 속성 페이지는 FALSE를 반환해야 합니다.

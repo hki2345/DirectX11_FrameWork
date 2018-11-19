@@ -136,8 +136,8 @@ private:
 
 private: // CameraRender
 	KPtr<KMesh> m_CamMesh;
-	KPtr<KMaterial> m_CamMat; 
-	KPtr<KMaterial> m_CamScreenMat;
+	KPtr<KMaterial> m_CamLightMtl; 
+	KPtr<KMaterial> m_CamScreenMtl;
 
 private:
 	void Merge_Light(); 

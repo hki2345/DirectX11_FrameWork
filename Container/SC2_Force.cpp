@@ -40,9 +40,6 @@ void SC2_Force::Update()
 
 	for (; m_SUI != m_EUI; ++m_SUI)
 	{
-		if (true == m_SUI->second->Is_Active())
-		{
-			m_SUI->second->Update();
-		}
+		m_SUI->second->Update();
 	}
 }

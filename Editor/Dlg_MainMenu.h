@@ -59,10 +59,10 @@ private:
 			if (nullptr == m_Scene)
 			{
 				m_Scene = Core_Class::MainSceneMgr().Create_State(_ItemName.GetString());
-				KPtr<TheOne> Cam = m_Scene->Create_One();
-				Cam->Trans()->pos_local(KVector4(0.0f, 0.0f, -10.0f));
-				KPtr<Camera> CamCom = Cam->Add_Component<Camera>();
-				CamCom->Insert_LayerData(0, 1, 2, 3, 4);
+				// KPtr<TheOne> Cam = m_Scene->Create_One();
+				// Cam->Trans()->pos_local(KVector4(0.0f, 0.0f, -10.0f));
+				// KPtr<Camera> CamCom = Cam->Add_Component<Camera>();
+				// CamCom->Insert_LayerData(0, 1, 2, 3, 4);
 			}
 		}
 

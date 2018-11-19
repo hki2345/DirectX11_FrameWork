@@ -29,7 +29,7 @@ void HSubTransCom::SubTransUpdate()
 		m_RMatY.RotY(m_Rot.y); // Y
 		m_RMatZ.RotZ(m_Rot.z); // Z
 		m_RMat = m_RMatX * m_RMatY * m_RMatZ;
-		m_PMat.Trans(m_Pivot); // 이
+		m_PMat.Translate(m_Pivot); // 이
 		m_SubWMat = m_SMat * m_RMat * m_PMat * m_Trans->worldmat_const();
 		break;
 	case HSubTransCom::SELF:
@@ -38,7 +38,7 @@ void HSubTransCom::SubTransUpdate()
 		m_RMatY.RotY(m_Rot.y); // Y
 		m_RMatZ.RotZ(m_Rot.z); // Z
 		m_RMat = m_RMatX * m_RMatY * m_RMatZ;
-		m_PMat.Trans(m_Pivot + m_Trans->pos_world()); // 이
+		m_PMat.Translate(m_Pivot + m_Trans->pos_world()); // 이
 		m_SubWMat = m_SMat * m_RMat * m_PMat;
 		break;
 	default:

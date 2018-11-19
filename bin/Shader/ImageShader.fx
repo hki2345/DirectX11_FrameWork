@@ -1,11 +1,7 @@
 // 상수버퍼는 b
 // 텍스처는 t
 // 샘플러는 s
-
-cbuffer TransformBuffer : register(b0)
-{
-	matrix g_WVP;
-}
+#include "GValue.fx"
 
 Texture2D g_Tex_0 : register(t0);
 SamplerState g_Sam_0 : register(s0);

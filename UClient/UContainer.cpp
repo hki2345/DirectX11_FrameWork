@@ -1,7 +1,7 @@
-#include "Camera_Free.cpp"
 #include "Cannon_Ball.cpp"
 #include "Force_Unit.cpp"
 #include "SC2Manager.cpp"
+#include "SC2_Camera.cpp"
 #include "SC2_Force.cpp"
 #include "Unit_Cannon.cpp"
 #include "Unit_SkillObj.cpp"

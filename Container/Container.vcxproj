@@ -151,7 +151,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Camera_Free.h" />
+    <ClInclude Include="SC2_Camera.h" />
     <ClInclude Include="Cannon_Ball.h" />
     <ClInclude Include="Force_Unit.h" />
     <ClInclude Include="SC2Manager.h" />
@@ -160,7 +160,7 @@
     <ClInclude Include="Unit_SkillObj.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Camera_Free.cpp" />
+    <ClCompile Include="SC2_Camera.cpp" />
     <ClCompile Include="Cannon_Ball.cpp" />
     <ClCompile Include="Force_Unit.cpp" />
     <ClCompile Include="SC2Manager.cpp" />

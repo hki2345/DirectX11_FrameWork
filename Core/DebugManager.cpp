@@ -57,7 +57,7 @@ void DebugManager::Draw_Rect(const KRect& _Rect, float _Border)
 	KMatrix m_Scale;
 	m_Scale.Scale(KVector4(_Rect.m_Size.x, _Rect.m_Size.y, 1.0f));
 	KMatrix m_Pos;
-	m_Pos.Trans(KVector4(_Rect.m_Pos.x, _Rect.m_Pos.y, 1.1f));
+	m_Pos.Translate(KVector4(_Rect.m_Pos.x, _Rect.m_Pos.y, 1.1f));
 
 	KPtr<KMesh> Mesh = ResourceManager<KMesh>::Find(L"LINERECTMESH");
 	KPtr<KMaterial> Mat = ResourceManager<KMaterial>::Find(L"DEBUGRECTMAT");
@@ -177,7 +177,7 @@ void DebugManager::Targetting()
 	m_View.ViewToLH(KVector4::Zero, KVector4::Forword, KVector4::Up);
 	m_Proj.OrthLH(Core_Class::MainWindow().width_f(), Core_Class::MainWindow().height_f(), 0.1f, 1000.0f);
 
-	MatrixContainer tMatData;
+	MatrixContainer tMXData;
 
 	int CountX = 0;
 	int CountY = 0;
@@ -196,21 +196,21 @@ void DebugManager::Targetting()
 			KMatrix m_Pos;
 
 			m_Scale.Identity();
-			m_Scale.Scale(KVector4(SizeX, SizeZ, 1.0F));
+			m_Scale.Scale(KVector4(SizeX, SizeZ, 1.0f));
 			m_Pos.Identity();
-			m_Pos.Trans(
-				KVector4( (-Core_Class::MainWindow().width_f() * 0.5F) + (CountX * SizeX) + (SizeX * 0.5F)
-					, (Core_Class::MainWindow().height_f() * 0.5F) + (-CountY * SizeZ) - (SizeZ * 0.5F)
+			m_Pos.Translate(
+				KVector4( (-Core_Class::MainWindow().width_f() * 0.5f) + (CountX * SizeX) + (SizeX * 0.5f)
+					, (Core_Class::MainWindow().height_f() * 0.5f) + (-CountY * SizeZ) - (SizeZ * 0.5f)
 					, 1.1f));
 
 			KMatrix m_W = m_Scale * m_Pos;
 
-			tMatData.m_V = m_View;
-			tMatData.m_P = m_Proj;
-			tMatData.m_W = m_W;
-			tMatData.m_WV = m_W * m_View;
-			tMatData.m_WVP = tMatData.m_WV * m_Proj;
-			tMatData.RTrans();
+			tMXData.m_V = m_View;
+			tMXData.m_P = m_Proj;
+			tMXData.m_W = m_W;
+			tMXData.m_WV = m_W * m_View;
+			tMXData.m_WVP = tMXData.m_WV * m_Proj;
+			tMXData.RTrans();
 
 			Smp->Update(0);
 			if (nullptr == TagetVec[j]->target_tex()->SRV())
@@ -219,7 +219,7 @@ void DebugManager::Targetting()
 			}
 			TagetVec[j]->target_tex()->Update(0);
 
-			Core_Class::MainDevice().SettingCB<MatrixContainer>(L"MATCON", tMatData, SHTYPE::ST_VS);
+			Core_Class::MainDevice().SettingCB<MatrixContainer>(L"MATCON", tMXData, SHTYPE::ST_VS);
 
 			Mat->Update();
 			Mesh->Update();
@@ -255,19 +255,19 @@ void DebugManager::Targetting()
 			m_Scale.Identity();
 			m_Scale.Scale(KVector4(SizeX, SizeZ, 1.0F));
 			m_Pos.Identity();
-			m_Pos.Trans(
+			m_Pos.Translate(
 				KVector4((-Core_Class::MainWindow().width_f() * 0.5F) + (CountX * SizeX) + (SizeX * 0.5F)
 					, (Core_Class::MainWindow().height_f() * 0.5F) + (-CountY * SizeZ) - (SizeZ * 0.5F)
 					, 1.1f));
 
 			KMatrix m_W = m_Scale * m_Pos;
 
-			tMatData.m_V = m_View;
-			tMatData.m_P = m_Proj;
-			tMatData.m_W = m_W;
-			tMatData.m_WV = m_W * m_View;
-			tMatData.m_WVP = tMatData.m_WV * m_Proj;
-			tMatData.RTrans();
+			tMXData.m_V = m_View;
+			tMXData.m_P = m_Proj;
+			tMXData.m_W = m_W;
+			tMXData.m_WV = m_W * m_View;
+			tMXData.m_WVP = tMXData.m_WV * m_Proj;
+			tMXData.RTrans();
 
 			Smp->Update(0);
 			if (nullptr == TagetVec[j]->target_tex()->SRV())
@@ -276,7 +276,7 @@ void DebugManager::Targetting()
 			}
 			TagetVec[j]->target_tex()->Update(0);
 
-			Core_Class::MainDevice().SettingCB<MatrixContainer>(L"MATCON", tMatData, SHTYPE::ST_VS);
+			Core_Class::MainDevice().SettingCB<MatrixContainer>(L"MATCON", tMXData, SHTYPE::ST_VS);
 
 			Mat->Update();
 			Mesh->Update();

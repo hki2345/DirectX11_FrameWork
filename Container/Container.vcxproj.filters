@@ -1,7 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClInclude Include="Camera_Free.h" />
     <ClInclude Include="Force_Unit.h">
       <Filter>SC2</Filter>
     </ClInclude>
@@ -20,9 +19,11 @@
     <ClInclude Include="SC2Manager.h">
       <Filter>SC2\SC2</Filter>
     </ClInclude>
+    <ClInclude Include="SC2_Camera.h">
+      <Filter>SC2\SC2</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Camera_Free.cpp" />
     <ClCompile Include="Force_Unit.cpp">
       <Filter>SC2</Filter>
     </ClCompile>
@@ -39,6 +40,9 @@
       <Filter>SC2\SC2</Filter>
     </ClCompile>
     <ClCompile Include="SC2Manager.cpp">
+      <Filter>SC2\SC2</Filter>
+    </ClCompile>
+    <ClCompile Include="SC2_Camera.cpp">
       <Filter>SC2\SC2</Filter>
     </ClCompile>
   </ItemGroup>

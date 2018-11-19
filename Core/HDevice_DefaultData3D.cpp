@@ -448,7 +448,10 @@ bool KDevice::Mesh3DCreate() {
 #pragma endregion
 	return true;
 }
-bool KDevice::Mat3DCreate() {
+
+
+bool KDevice::Mat3DCreate() 
+{
 
 	// NONE
 	KPtr<Shader_Vertex> NONE3DVTX = ResourceManager<Shader_Vertex>::Load_FromKey(L"NONEVTX", L"Shader", L"NONE.fx", "VTXNONE3D");
@@ -498,6 +501,18 @@ bool KDevice::Mat3DCreate() {
 	RECT3DMAT->Set_PXShader(L"RECT3DPIX");
 	RECT3DMAT->Set_Blend(L"ALPHA");
 
+	// Image 
+	KPtr<Shader_Vertex> IMGVTX = ResourceManager<Shader_Vertex>::Load_FromKey(L"IMGVTX", L"Shader", L"ImageShader.fx", "VS_Img");
+	IMGVTX->Add_Layout("POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
+	IMGVTX->Add_Layout("TEXCOORD", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32_FLOAT, 0);
+	KPtr<Shader_Pixel> IMGPIX = ResourceManager<Shader_Pixel>::Load_FromKey(L"IMGPIX", L"Shader", L"ImageShader.fx", "PS_Img");
+
+	KPtr<KMaterial> IMGMAT = ResourceManager<KMaterial>::Create(L"IMGMAT");
+	IMGMAT->Set_VTShader(L"IMGVTX");
+	IMGMAT->Set_PXShader(L"IMGPIX");
+	IMGMAT->Set_Blend(L"ALPHA");
+
+
 	// SKY
 	KPtr<Shader_Vertex> SKY3DVTX = ResourceManager<Shader_Vertex>::Load_FromKey(L"SKY3DVTX", L"Shader", L"SkyBox.fx", "VS_SKY3D");
 	SKY3DVTX->Add_Layout("POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
@@ -526,6 +541,7 @@ bool KDevice::Mat3DCreate() {
 	MESH3DMAT->Set_PXShader(L"MESH3DPIX");
 	MESH3DMAT->Set_Blend(L"ALPHA");
 
+	// DEFFERD
 	KPtr<Shader_Vertex> DEFFERD3DVTX = ResourceManager<Shader_Vertex>::Load_FromKey(L"DEFFERD3DVTX", L"Shader", L"Defferd.fx", "VS_DEFFERD");
 	DEFFERD3DVTX->Add_Layout("POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
 	DEFFERD3DVTX->Add_Layout("TEXCOORD", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32_FLOAT, 0);
@@ -644,11 +660,7 @@ bool KDevice::Mat3DCreate() {
 	DTESSLEMAT->Set_HUShader(L"DTESSLEHUL");
 	DTESSLEMAT->Set_DMShader(L"DTESSLEDOM");
 	DTESSLEMAT->Set_PXShader(L"DTESSLEPIX");
-	DTESSLEMAT->Set_Blend(L"ALPHA");
-
-
-
-	
+	DTESSLEMAT->Set_Blend(L"ALPHA");	
 
 	return true;
 }
