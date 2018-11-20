@@ -38,9 +38,17 @@ bool Camera::Init(int _Order /*= 0*/)
 	{
 		state()->m_Camera = this;
 	}
+
+	m_DefferdTarget =
+		ResourceManager<RenderTarget_Multi>::Create(
+			PathManager::Chain_StringInt(L"DEFFERD_", order()).c_str(), L"COLOR_DIFFUSE", L"POSTION", L"NORMAL", L"DEPTH");
+
+	m_LightTarget = 
+		ResourceManager<RenderTarget_Multi>::Create(
+			PathManager::Chain_StringInt(L"LIGHT_", order()).c_str(), L"LIGHT_DIFFUSE", L"LIGHT_SPECULAR");
 	
 	m_CameraTaget = new RenderTarget_Multi();
-	m_CameraTaget->CreateTaget(Core_Class::MainWindow().width_u(), Core_Class::MainWindow().height_u(), D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE, DXGI_FORMAT_R32G32B32A32_FLOAT);
+	m_CameraTaget->CreateTarget(Core_Class::MainWindow().width_u(), Core_Class::MainWindow().height_u(), D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE, DXGI_FORMAT_R32G32B32A32_FLOAT);
 
 	return true;
 }

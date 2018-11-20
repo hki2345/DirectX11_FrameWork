@@ -88,7 +88,7 @@ void RenderTarget_Multi::Clear()
 	}
 }
 
-void RenderTarget_Multi::CreateTaget(UINT _W, UINT _H, UINT _BindFlag, DXGI_FORMAT _eFormat, D3D11_USAGE _eUsage )
+void RenderTarget_Multi::CreateTarget(UINT _W, UINT _H, UINT _BindFlag, DXGI_FORMAT _eFormat, D3D11_USAGE _eUsage )
 {
 	KPtr<RenderTarget> Taget = new RenderTarget();
 	if (false == Taget->Create(_W, _H, _BindFlag, _eFormat, _eUsage))

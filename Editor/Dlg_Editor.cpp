@@ -84,21 +84,33 @@ BOOL Dlg_Editor::OnInitDialog()
 		KASSERT(true);
 	}
 
-	// TabScene->Camera()->Add_Component<SC2_Camera>();
-	// TabScene->Camera()->Far(10000.0f);
-	// TabScene->Camera()->one()->Trans()->pos_local(KVector4(0.0f, 10.0f, -20.0f));
+	TabScene->Camera()->Add_Component<SC2_Camera>();
+	TabScene->Camera()->Far(10000.0f);
+	TabScene->Camera()->one()->Trans()->pos_local(KVector4(0.0f, 10.0f, -20.0f));
 	
 
 	KPtr<TheOne> CamOne2 = TabScene->Create_One();
 	KPtr<Camera> Cam2 = CamOne2->Add_Component<Camera>(1);
-	Cam2->Insert_LayerData(0, 1, 2, 3, 4);
+	Cam2->Insert_LayerData(0);
 	Cam2->Far(10000.0f);
-	Cam2->one()->Trans()->pos_local(KVector4(0.0f, 10.0f, -20.0f));
-	
+	// Cam2->one()->Trans()->pos_local(KVector4(30.0f, 20.0f, -20.0f));
+	// Cam2->one()->Trans()->rotate_local(KVector4(20.0f, 10.0f, -20.0f));
+
 	KPtr<SC2_Camera> Sc2 = Cam2->Add_Component<SC2_Camera>();
 	Sc2->out_pos(KVector2(250.0f, 250.0f));
 	Sc2->out_size(KVector2(366.0f, 245.0f));
-	Sc2->Set_Part();
+	
+
+	KPtr<TheOne> CamOne3 = TabScene->Create_One();
+	KPtr<Camera> Cam3 = CamOne3->Add_Component<Camera>(2);
+	Cam3->Insert_LayerData(0);
+	Cam3->Far(10000.0f);
+	Cam3->one()->Trans()->pos_local(KVector4(30.0f, 20.0f, -20.0f));
+	Cam3->one()->Trans()->rotate_local(KVector4(20.0f, 10.0f, -20.0f));
+
+	KPtr<SC2_Camera> Sc3 = Cam3->Add_Component<SC2_Camera>();
+	Sc3->out_pos(KVector2(250.0f, 250.0f));
+	Sc3->out_size(KVector2(366.0f, 245.0f));
 	// KPtr<TheOne> Light3 = TabScene->Create_One();
 	// // 스케일은 dir이 아닌 빛의 크기를 나타낸다.
 	// // Light->Trans()->scale_local(KVector4(1000.0f, 1000.0f, 1000.0f));
@@ -127,7 +139,7 @@ BOOL Dlg_Editor::OnInitDialog()
 	KPtr<Light> pLight2 = Light2->Add_Component<Light>();
 	pLight2->Trans()->rotate_world(KVector4(45.0F, 0.0F, 0.0f));
 	pLight2->Trans()->scale_world(KVector4(30.0f, 30.0f, 30.0f));
-	pLight2->PushLightLayer(0, 1, 2, 3, 4, 5);
+	pLight2->PushLightLayer(0);
 
 
 	KPtr<TheOne> Light3 = TabScene->Create_One();
@@ -137,7 +149,7 @@ BOOL Dlg_Editor::OnInitDialog()
 	KPtr<Light> pLight3 = Light3->Add_Component<Light>();
 	pLight3->Trans()->rotate_world(KVector4(-45.0F, 0.0F, 0.0f));
 	pLight3->Trans()->scale_world(KVector4(30.0f, 30.0f, 30.0f));
-	pLight3->PushLightLayer(0, 1, 2, 3, 4, 5);
+	pLight3->PushLightLayer(1);
 
 
 	KPtr<TheOne> Light4 = TabScene->Create_One();
@@ -147,7 +159,7 @@ BOOL Dlg_Editor::OnInitDialog()
 	KPtr<Light> pLight4 = Light4->Add_Component<Light>();
 	pLight4->Trans()->rotate_world(KVector4(.0F, 45.0F, 0.0f));
 	pLight4->Trans()->scale_world(KVector4(30.0f, 30.0f, 30.0f));
-	pLight4->PushLightLayer(0, 1, 2, 3, 4, 5);
+	pLight4->PushLightLayer(0);
 
 
 
@@ -186,6 +198,7 @@ BOOL Dlg_Editor::OnInitDialog()
 	CUBEMIDDLE->Trans()->scale_local(KVector4(10.0f, 10.0f, 10.0f));
 	CUBEMIDDLE->Trans()->pos_local(KVector4(.0f, 50.0f, 0.0f));
 	KPtr<Renderer_Mesh> PTRMESH3 = CUBEMIDDLE->Add_Component<Renderer_Mesh>();
+	PTRMESH3->Set_Material(L"DEFFERD3DMAT");
 	PTRMESH3->Set_Mesh(L"CUBE");
 
 
@@ -202,15 +215,15 @@ BOOL Dlg_Editor::OnInitDialog()
 	// DestroyWindow();
 
 
-	KPtr<TheOne> TestAni2 = TabScene->Create_One(L"Test");
-	TestAni2->Trans()->pos_local(KVector(.0f));
-	TestAni2->Trans()->scale_local(KVector(1.f, 1.f, 1.f));
-	KPtr<Renderer_BonAni> TestRender2 = TestAni2->Add_Component<Renderer_BonAni>();
-
-	KPtr<MeshContainer> MCon2 = ResourceManager<MeshContainer>::Load((PathManager::Find_ForderPathStr(L"Mesh") + L"Protoss\\VoidRay.FBX").c_str());
-	TestRender2->Set_Fbx(L"VoidRay.FBX");
-	TestRender2->Create_AniChanger(L"TestAni", 120, 5000);
-	TestRender2->Set_AniChanger(L"TestAni");
+	// KPtr<TheOne> TestAni2 = TabScene->Create_One(L"Test");
+	// TestAni2->Trans()->pos_local(KVector(.0f));
+	// TestAni2->Trans()->scale_local(KVector(1.f, 1.f, 1.f));
+	// KPtr<Renderer_BonAni> TestRender2 = TestAni2->Add_Component<Renderer_BonAni>();
+	// 
+	// KPtr<MeshContainer> MCon2 = ResourceManager<MeshContainer>::Load((PathManager::Find_ForderPathStr(L"Mesh") + L"Protoss\\VoidRay.FBX").c_str());
+	// TestRender2->Set_Fbx(L"VoidRay.FBX");
+	// TestRender2->Create_AniChanger(L"TestAni", 120, 5000);
+	// TestRender2->Set_AniChanger(L"TestAni");
 
 	// TestRender->Load_FbxTest((PathManager::Find_ForderPathStr(L"Mesh") + L"Monster3.FBX").c_str());
 	//TestRender->Load_FbxTest((PathManager::Find_ForderPathStr(L"Mesh") + L"Warehouse01.FBX").c_str());

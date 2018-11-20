@@ -89,6 +89,16 @@ const bool PathManager::IsFile(const wchar_t* _Path)
 }
 
 
+std::wstring PathManager::Chain_StringInt(const std::wstring& _Name, const int& _Value)
+{
+	wchar_t Temp[16];
+
+	_itow_s(_Value, Temp, 16, 10);
+
+	return _Name + Temp;
+}
+
+
 
 
 

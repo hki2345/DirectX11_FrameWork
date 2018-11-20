@@ -34,12 +34,13 @@ bool KDevice::DefRenderTaget()
 	ResourceManager<RenderTarget>::Create(L"NORMAL", Core_Class::MainWindow().width_u(), Core_Class::MainWindow().height_u(), D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE, DXGI_FORMAT_R32G32B32A32_FLOAT);
 	ResourceManager<RenderTarget>::Create(L"DEPTH", Core_Class::MainWindow().width_u(), Core_Class::MainWindow().height_u(), D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE, DXGI_FORMAT_R32G32B32A32_FLOAT);
 
-	KPtr<RenderTarget_Multi> DefMRT = ResourceManager<RenderTarget_Multi>::Create(L"DEFFERD", L"COLOR_DIFFUSE", L"POSTION", L"NORMAL", L"DEPTH");
+	// KPtr<RenderTarget_Multi> DefMRT = ResourceManager<RenderTarget_Multi>::Create(L"DEFFERD", L"COLOR_DIFFUSE", L"POSTION", L"NORMAL", L"DEPTH");
 
+	// Defferd Light 머지 용
 	ResourceManager<RenderTarget>::Create(L"LIGHT_DIFFUSE", Core_Class::MainWindow().width_u(), Core_Class::MainWindow().height_u(), KVector4::Black, D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE, DXGI_FORMAT_R32G32B32A32_FLOAT);
 	ResourceManager<RenderTarget>::Create(L"LIGHT_SPECULAR", Core_Class::MainWindow().width_u(), Core_Class::MainWindow().height_u(),KVector4::Black,  D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE, DXGI_FORMAT_R32G32B32A32_FLOAT);
 
-	KPtr<RenderTarget_Multi> LightMRT = ResourceManager<RenderTarget_Multi>::Create(L"LIGHT", L"LIGHT_DIFFUSE", L"LIGHT_SPECULAR");
+	// KPtr<RenderTarget_Multi> LightMRT = ResourceManager<RenderTarget_Multi>::Create(L"LIGHT", L"LIGHT_DIFFUSE", L"LIGHT_SPECULAR");
 
 	return true;
 }
@@ -102,6 +103,7 @@ bool KDevice::Def3DCreate()
 	DepthState.DepthFunc = D3D11_COMPARISON_ALWAYS;
 	Core_Class::MainDevice().Create_DSS(L"ALWAYS", DepthState);
 
+	// 깊이 스텐실 버퍼에 대한 쓰기를 끈다
 	DepthState.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;
 	DepthState.DepthFunc = D3D11_COMPARISON_ALWAYS;
 	Core_Class::MainDevice().Create_DSS(L"LIGHTDEPTH", DepthState);

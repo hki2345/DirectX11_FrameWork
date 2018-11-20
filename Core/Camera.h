@@ -143,7 +143,20 @@ private:
 	void Merge_Light(); 
 	void Merge_Screen();
 
+	KPtr<RenderTarget_Multi> defferd_target()
+	{
+		return m_DefferdTarget;
+	}
+	KPtr<RenderTarget_Multi> light_target()
+	{
+		return m_LightTarget;
+	}
+
 private:
+	KPtr<RenderTarget_Multi> m_DefferdTarget;
+	KPtr<RenderTarget_Multi> m_LightTarget;
+
+
 	KPtr<RenderTarget_Multi> m_CameraTaget;
 	// 카메라 필터.
 

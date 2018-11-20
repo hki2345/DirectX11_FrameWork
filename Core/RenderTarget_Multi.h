@@ -66,7 +66,7 @@ private:
 	void InsertTaget() {		}
 
 public:
-	void CreateTaget(UINT _W, UINT _H, UINT _BindFlag, DXGI_FORMAT _eFormat, D3D11_USAGE _eUsage = D3D11_USAGE::D3D11_USAGE_DEFAULT);
+	void CreateTarget(UINT _W, UINT _H, UINT _BindFlag, DXGI_FORMAT _eFormat, D3D11_USAGE _eUsage = D3D11_USAGE::D3D11_USAGE_DEFAULT);
 
 	std::vector<KPtr<RenderTarget>> TagetTexList() 
 	{

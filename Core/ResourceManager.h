@@ -33,6 +33,7 @@ public:
 	static const wchar_t*	Find_ForderPath(const wchar_t* _Key);
 	static std::wstring		Find_ForderPathStr(const wchar_t* _Key);
 	static std::wstring		Add_FolderFile(const wchar_t* _FolderKey, const wchar_t* _FileName);
+	static std::wstring		Chain_StringInt(const std::wstring& _Name, const int& _Value);
 
 private:
 	static void Init();

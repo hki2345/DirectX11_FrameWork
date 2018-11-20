@@ -167,7 +167,7 @@ void DebugManager::Targetting()
 	{
 		BBY;
 	}
-	std::vector<KPtr<RenderTarget_Multi>> Vec = ResourceManager<RenderTarget_Multi>::All_SingleVec();
+	
 
 	KPtr<KMesh> Mesh = ResourceManager<KMesh>::Find(L"RECT");
 	KPtr<KMaterial> Mat = ResourceManager<KMaterial>::Find(L"TAGETDEBUGMAT");
@@ -181,67 +181,78 @@ void DebugManager::Targetting()
 
 	int CountX = 0;
 	int CountY = 0;
-	int WCount = 5;
+	int WCount = 6;
 
-	float SizeX = Core_Class::MainWindow().width_f() / WCount;
-	float SizeZ = Core_Class::MainWindow().height_f() / WCount;
+	float SizeX = Core_Class::MainWindow().width_f() / WCount * .5f;
+	float SizeZ = Core_Class::MainWindow().height_f() / WCount * .5f;
 
-	for (size_t i = 0; i < Vec.size(); i++)
+
+	std::map<int, KPtr<Camera>>::iterator m_CSI = Core_Class::MainScene()->This_RenderManager.m_CamMap.begin();
+	std::map<int, KPtr<Camera>>::iterator m_CEI = Core_Class::MainScene()->This_RenderManager.m_CamMap.end();
+
+	for (; m_CSI != m_CEI; ++m_CSI)
 	{
-		std::vector<KPtr<RenderTarget>> TagetVec = Vec[i]->TagetTexList();
+		std::vector<KPtr<RenderTarget_Multi>> TempMulti;
+		TempMulti.push_back(m_CSI->second->defferd_target());
+		TempMulti.push_back(m_CSI->second->light_target());
 
-		for (size_t j = 0; j < TagetVec.size(); j++)
+		for (size_t i = 0; i < TempMulti.size(); ++i)
 		{
-			KMatrix m_Scale;
-			KMatrix m_Pos;
+			std::vector<KPtr<RenderTarget>> TempTarget = TempMulti[i]->TagetTexList();
 
-			m_Scale.Identity();
-			m_Scale.Scale(KVector4(SizeX, SizeZ, 1.0f));
-			m_Pos.Identity();
-			m_Pos.Translate(
-				KVector4( (-Core_Class::MainWindow().width_f() * 0.5f) + (CountX * SizeX) + (SizeX * 0.5f)
-					, (Core_Class::MainWindow().height_f() * 0.5f) + (-CountY * SizeZ) - (SizeZ * 0.5f)
-					, 1.1f));
-
-			KMatrix m_W = m_Scale * m_Pos;
-
-			tMXData.m_V = m_View;
-			tMXData.m_P = m_Proj;
-			tMXData.m_W = m_W;
-			tMXData.m_WV = m_W * m_View;
-			tMXData.m_WVP = tMXData.m_WV * m_Proj;
-			tMXData.RTrans();
-
-			Smp->Update(0);
-			if (nullptr == TagetVec[j]->target_tex()->SRV())
+			for (size_t j = 0; j < TempTarget.size(); j++)
 			{
-				BBY;
-			}
-			TagetVec[j]->target_tex()->Update(0);
+				KMatrix m_Scale;
+				KMatrix m_Pos;
 
-			Core_Class::MainDevice().SettingCB<MatrixContainer>(L"MATCON", tMXData, SHTYPE::ST_VS);
+				m_Scale.Identity();
+				m_Scale.Scale(KVector4(SizeX, SizeZ, 1.0f));
+				m_Pos.Identity();
+				m_Pos.Translate(
+					KVector4((-Core_Class::MainWindow().width_f() * 0.5f) + (CountX * SizeX) + (SizeX * 0.5f)
+						, (Core_Class::MainWindow().height_f() * 0.5f) + (-CountY * SizeZ) - (SizeZ * 0.5f)
+						, 1.1f));
 
-			Mat->Update();
-			Mesh->Update();
-			Mesh->Render();
+				KMatrix m_W = m_Scale * m_Pos;
 
-			TagetVec[j]->target_tex()->Reset(0);
+				tMXData.m_V = m_View;
+				tMXData.m_P = m_Proj;
+				tMXData.m_W = m_W;
+				tMXData.m_WV = m_W * m_View;
+				tMXData.m_WVP = tMXData.m_WV * m_Proj;
+				tMXData.RTrans();
 
-			++CountX;
+				Smp->Update(0);
+				if (nullptr == TempTarget[j]->target_tex()->SRV())
+				{
+					BBY;
+				}
+				TempTarget[j]->target_tex()->Update(0);
 
-			if (0 != CountX && 0 == (CountX % 5))
-			{
-				++CountY;
-				CountX = 0;
+				Core_Class::MainDevice().SettingCB<MatrixContainer>(L"MATCON", tMXData, SHTYPE::ST_VS);
+
+				Mat->Update();
+				Mesh->Update();
+				Mesh->Render();
+
+				TempTarget[j]->target_tex()->Reset(0);
+
+				++CountX;
+
+				if (0 != CountX && 0 == (CountX % WCount))
+				{
+					++CountY;
+					CountX = 0;
+				}
 			}
 		}
 	}
 
 	CountX = 0;
-	CountY += 1;
 
-	std::map<int, KPtr<Camera>>::iterator m_CSI = Core_Class::MainScene()->This_RenderManager.m_CamMap.begin();
-	std::map<int, KPtr<Camera>>::iterator m_CEI = Core_Class::MainScene()->This_RenderManager.m_CamMap.end();;
+	m_CSI = Core_Class::MainScene()->This_RenderManager.m_CamMap.begin();
+	m_CEI = Core_Class::MainScene()->This_RenderManager.m_CamMap.end();
+
 
 	for (; m_CSI != m_CEI; ++m_CSI)
 	{
@@ -286,7 +297,7 @@ void DebugManager::Targetting()
 
 			++CountX;
 
-			if (0 != CountX && 0 == (CountX % 5))
+			if (0 != CountX && 0 == (CountX % WCount))
 			{
 				++CountY;
 				CountX = 0;

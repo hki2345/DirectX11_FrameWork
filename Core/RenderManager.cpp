@@ -247,7 +247,7 @@ void RenderManager::Check_Light(KPtr<Camera> _Camera, int _Group)
 void RenderManager::Render_Defferd(KPtr<Camera> _Camera, std::map<int, std::list<KPtr<Renderer>>>::iterator _Iter, size_t _Index)
 {
 	// 디퍼드용 메테리얼로 
-	KPtr<RenderTarget_Multi> DEFFERDTAGET = ResourceManager<RenderTarget_Multi>::Find(L"DEFFERD");
+	KPtr<RenderTarget_Multi> DEFFERDTAGET = _Camera->defferd_target();
 	DEFFERDTAGET->Clear();
 	DEFFERDTAGET->OMSet();
 
@@ -363,7 +363,7 @@ void RenderManager::Render_DefLight(KPtr<Camera> _Camera, int _Group)
 	// 지오메트리나 헐, 도메인이들어가면서 미리 초기화 한다.
 	Core_Class::MainDevice().ResetContext();
 
-	KPtr<RenderTarget_Multi> LIGHTTAGET = ResourceManager<RenderTarget_Multi>::Find(L"LIGHT");
+	KPtr<RenderTarget_Multi> LIGHTTAGET = _Camera->light_target();
 	LIGHTTAGET->Clear();
 	LIGHTTAGET->OMSet();
 
