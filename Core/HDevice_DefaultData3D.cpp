@@ -162,6 +162,7 @@ bool KDevice::Def3DCreate()
 
 	///////////////////////////////////////////// BS
 	D3D11_BLEND_DESC m_Desc;
+
 	m_Desc.AlphaToCoverageEnable = false;
 
 	// 다른 랜더 타겟도 따로따로 쓰겠다 혹은 아니다.
@@ -175,7 +176,7 @@ bool KDevice::Def3DCreate()
 
 	m_Desc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
 	m_Desc.RenderTarget[0].SrcBlend = D3D11_BLEND_ONE;
-	m_Desc.RenderTarget[0].DestBlend = D3D11_BLEND_ONE;
+	m_Desc.RenderTarget[0].DestBlend = D3D11_BLEND_ZERO;
 
 	m_Desc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
 	m_Desc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
@@ -203,11 +204,14 @@ bool KDevice::Def3DCreate()
 
 	ResourceManager<KBlend>::Create(L"LIGHTONE", m_Desc);
 
+
+
+	// 볼륨메쉬는 블랜드를 끈다 -> 볼륨은 충돌 검사를 위해서 임
 	m_Desc.RenderTarget[0] = D3D11_RENDER_TARGET_BLEND_DESC{};
 	m_Desc.RenderTarget[0].RenderTargetWriteMask = 0;
-
-
+	
 	ResourceManager<KBlend>::Create(L"VOLUME", m_Desc);
+
 
 	return true;
 }
@@ -465,6 +469,8 @@ bool KDevice::Mat3DCreate()
 	NONEMAT->Set_PXShader(L"NONEPIX");
 	NONEMAT->Set_Blend(L"ALPHA");
 
+
+
 	KPtr<Shader_Vertex> TAGETDEBUGVTX = ResourceManager<Shader_Vertex>::Load_FromKey(L"TAGETDEBUGVTX", L"Shader", L"TagetDebug.fx", "VS_TagetTex");
 	TAGETDEBUGVTX->Add_Layout("POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
 	TAGETDEBUGVTX->Add_LayoutFin("TEXCOORD", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32_FLOAT, 0);
@@ -543,6 +549,8 @@ bool KDevice::Mat3DCreate()
 	MESH3DMAT->Set_PXShader(L"MESH3DPIX");
 	MESH3DMAT->Set_Blend(L"ALPHA");
 
+
+
 	// DEFFERD
 	KPtr<Shader_Vertex> DEFFERD3DVTX = ResourceManager<Shader_Vertex>::Load_FromKey(L"DEFFERD3DVTX", L"Shader", L"Defferd.fx", "VS_DEFFERD");
 	DEFFERD3DVTX->Add_Layout("POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
@@ -593,7 +601,10 @@ bool KDevice::Mat3DCreate()
 	DEFFERDMAT->Insert_TexData(TEX_TYPE::TEX_TAGET, 1, L"NORMAL");
 	DEFFERDMAT->Insert_TexData(TEX_TYPE::TEX_TAGET, 2, L"DEPTH");
 
-	// MERGE
+
+
+
+	// LIGHT MERGE
 	KPtr<Shader_Vertex> DEFFERDMERGEVTX = ResourceManager<Shader_Vertex>::Load_FromKey(L"DEFFERDMERGEVTX", L"Shader", L"Defferd.fx", "VS_DEFFERDMERGE");
 	DEFFERDMERGEVTX->Add_Layout("POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
 	DEFFERDMERGEVTX->Add_LayoutFin("TEXCOORD", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32_FLOAT, 0);
@@ -607,15 +618,23 @@ bool KDevice::Mat3DCreate()
 	DEFFERDMERGEMAT->Insert_TexData(TEX_TYPE::TEX_TAGET, 1, L"LIGHT_DIFFUSE");
 	DEFFERDMERGEMAT->Insert_TexData(TEX_TYPE::TEX_TAGET, 2, L"LIGHT_SPECULAR");
 
+
+
+
+	// SCREEN MERGE
 	KPtr<Shader_Vertex> SCREENMERGEVTX = ResourceManager<Shader_Vertex>::Load_FromKey(L"SCREENMERGEVTX", L"Shader", L"ScreenMerge.fx", "VS_SCREENMERGE");
 	SCREENMERGEVTX->Add_Layout("POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
 	SCREENMERGEVTX->Add_LayoutFin("TEXCOORD", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32_FLOAT, 0);
 	KPtr<Shader_Pixel> SCREENMERGEPIX = ResourceManager<Shader_Pixel>::Load_FromKey(L"SCREENMERGEPIX", L"Shader", L"ScreenMerge.fx", "PS_SCREENMERGE");
 
 	KPtr<KMaterial> SCREENMERGEMAT = ResourceManager<KMaterial>::Create(L"SCREENMERGEMAT");
+	SCREENMERGEMAT->Set_Blend(L"ALPHA");
 	SCREENMERGEMAT->Set_VTShader(L"SCREENMERGEVTX");
 	SCREENMERGEMAT->Set_PXShader(L"SCREENMERGEPIX");
 
+
+
+	// VOLUME - 충돌
 	KPtr<Shader_Vertex> VOLUMEVTX = ResourceManager<Shader_Vertex>::Load_FromKey(L"VOLUMEVTX", L"Shader", L"VolumeMesh.fx", "VS_VOLUME");
 	VOLUMEVTX->Add_LayoutFin("POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
 	KPtr<Shader_Pixel> VOLUMEPIX = ResourceManager<Shader_Pixel>::Load_FromKey(L"VOLUMEPIX", L"Shader", L"VolumeMesh.fx", "PS_VOLUME");

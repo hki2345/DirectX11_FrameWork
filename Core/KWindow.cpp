@@ -153,8 +153,17 @@ LRESULT CALLBACK KWindow::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM
 	}
 	break;
 	case WM_DESTROY:
+	{
 		Erase_KWindow(hWnd);
-		break;
+	}
+	break;
+
+	case WM_MOUSEWHEEL:
+	{
+		KLOG(L"TEST");
+	}	
+	break;
+
 	default:
 		return DefWindowProc(hWnd, message, wParam, lParam);
 	}

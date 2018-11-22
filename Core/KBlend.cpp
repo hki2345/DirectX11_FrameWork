@@ -31,7 +31,7 @@ bool KBlend::Create()
 
 	m_Desc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
 	m_Desc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
-	m_Desc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ZERO;
+	m_Desc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ONE;
 
 	if (S_OK != Core_Class::PDevice()->CreateBlendState(&m_Desc, &m_pBlendState))
 	{

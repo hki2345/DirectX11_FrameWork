@@ -4,6 +4,7 @@
 #include "stdafx.h"
 #include "KEditor.h"
 #include "View_Device.h"
+#include <DebugManager.h>
 
 
 // View_Device
@@ -20,6 +21,7 @@ View_Device::~View_Device()
 }
 
 BEGIN_MESSAGE_MAP(View_Device, CView)
+	ON_WM_MOUSEWHEEL()
 END_MESSAGE_MAP()
 
 
@@ -50,3 +52,12 @@ void View_Device::Dump(CDumpContext& dc) const
 
 
 // View_Device 메시지 처리기입니다.
+
+
+BOOL View_Device::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt)
+{
+	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
+	KLOG(L"TEST");
+
+	return CView::OnMouseWheel(nFlags, zDelta, pt);
+}

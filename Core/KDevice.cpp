@@ -13,7 +13,7 @@ m_pDepthStencilTex(nullptr),
 m_pDepthStencilView(nullptr),
 m_pSwapChain(nullptr),
 m_bInit(false),
-m_Color(0.0f, 0.0f, 0.0f, 1.0f)
+m_Color(0.0f, 1.0f, 1.0f, 1.0f)
 {
 }
 

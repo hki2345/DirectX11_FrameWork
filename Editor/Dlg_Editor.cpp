@@ -89,28 +89,28 @@ BOOL Dlg_Editor::OnInitDialog()
 	TabScene->Camera()->one()->Trans()->pos_local(KVector4(0.0f, 10.0f, -20.0f));
 	
 
-	KPtr<TheOne> CamOne2 = TabScene->Create_One();
-	KPtr<Camera> Cam2 = CamOne2->Add_Component<Camera>(1);
-	Cam2->Insert_LayerData(0);
-	Cam2->Far(10000.0f);
-	// Cam2->one()->Trans()->pos_local(KVector4(30.0f, 20.0f, -20.0f));
-	// Cam2->one()->Trans()->rotate_local(KVector4(20.0f, 10.0f, -20.0f));
+	//KPtr<TheOne> CamOne2 = TabScene->Create_One();
+	//KPtr<Camera> Cam2 = CamOne2->Add_Component<Camera>(1);
+	//Cam2->Insert_LayerData(0);/
+	//Cam2->Far(10000.0f);
+	//// Cam2->one()->Trans()->pos_local(KVector4(30.0f, 20.0f, -20.0f));
+	//// Cam2->one()->Trans()->rotate_local(KVector4(20.0f, 10.0f, -20.0f));
 
-	KPtr<SC2_Camera> Sc2 = Cam2->Add_Component<SC2_Camera>();
-	Sc2->out_pos(KVector2(250.0f, 250.0f));
-	Sc2->out_size(KVector2(366.0f, 245.0f));
-	
+	//KPtr<SC2_Camera> Sc2 = Cam2->Add_Component<SC2_Camera>();
+	//Sc2->out_pos(KVector2(250.0f, 250.0f));
+	//Sc2->out_size(KVector2(366.0f, 245.0f));
+	//
 
-	KPtr<TheOne> CamOne3 = TabScene->Create_One();
-	KPtr<Camera> Cam3 = CamOne3->Add_Component<Camera>(2);
-	Cam3->Insert_LayerData(0);
-	Cam3->Far(10000.0f);
-	Cam3->one()->Trans()->pos_local(KVector4(30.0f, 20.0f, -20.0f));
-	Cam3->one()->Trans()->rotate_local(KVector4(20.0f, 10.0f, -20.0f));
+	//KPtr<TheOne> CamOne3 = TabScene->Create_One();
+	//KPtr<Camera> Cam3 = CamOne3->Add_Component<Camera>(2);
+	//Cam3->Insert_LayerData(0);
+	//Cam3->Far(10000.0f);
+	//Cam3->one()->Trans()->pos_local(KVector4(30.0f, 20.0f, -20.0f));
+	//Cam3->one()->Trans()->rotate_local(KVector4(20.0f, 10.0f, -20.0f));n
 
-	KPtr<SC2_Camera> Sc3 = Cam3->Add_Component<SC2_Camera>();
-	Sc3->out_pos(KVector2(250.0f, 250.0f));
-	Sc3->out_size(KVector2(366.0f, 245.0f));
+	//KPtr<SC2_Camera> Sc3 = Cam3->Add_Component<SC2_Camera>();
+	//Sc3->out_pos(KVector2(250.0f, 250.0f));
+	//Sc3->out_size(KVector2(366.0f, 245.0f));
 	// KPtr<TheOne> Light3 = TabScene->Create_One();
 	// // 스케일은 dir이 아닌 빛의 크기를 나타낸다.
 	// // Light->Trans()->scale_local(KVector4(1000.0f, 1000.0f, 1000.0f));
@@ -248,7 +248,7 @@ BOOL Dlg_Editor::OnInitDialog()
 	TerMESH1->Create_Terrain(64, 64, L"Cover.jpg", 1.0f);
 	TerMESH1->base_texture(L"FB");
 	TerMESH1->Insert_CoverTex(L"FC", L"Cover.jpg");
-	TerMESH1->Set_RSState(L"WNONE");
+	TerMESH1->Set_RSState(L"SFRONT");
 
 
 

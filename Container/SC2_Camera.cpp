@@ -104,6 +104,13 @@ bool SC2_Camera::Init()
 		InputManager::Create_Command(L"F", 'F');
 	}
 
+
+	if (false == InputManager::IsKey(L"MOUSE_UP"))
+	{
+		InputManager::Create_Command(L"MOUSE_UP", MOUSEEVENTF_MIDDLEUP);
+	}
+
+
 #pragma endregion
 	return true;
 }
@@ -247,6 +254,12 @@ void SC2_Camera::Update_Key()
 	{
 		m_Trans->Rotating_Deg(KVector4(InputManager::MouseDir().y * m_RotSpeed * TimeManager::DeltaTime(), InputManager::MouseDir().x * m_RotSpeed * TimeManager::DeltaTime()));
 	}
+
+	if (true == InputManager::Press(L"MOUSE_UP"))
+	{
+		m_Trans->Rotating_Deg(KVector4(InputManager::MouseDir().y * m_RotSpeed * TimeManager::DeltaTime(), InputManager::MouseDir().x * m_RotSpeed * TimeManager::DeltaTime()));
+	}
+
 
 
 	KLOG(L"CameraPos : %f, %f, %f", Trans()->pos_local().x, Trans()->pos_local().y, Trans()->pos_local().z);

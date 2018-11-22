@@ -339,11 +339,11 @@ KPtr<Renderer_BonAni::Ani_Changer> Renderer_BonAni::Create_AniChanger(const wcha
 	// 이거 -> 최대치 넘어가면 그냥 조절 - 터지는 거 막기
 	if(TEnd >= MCon->m_Data.AniVec[m_ClipInx].Length_Time)
 	{
-		TEnd = MCon->m_Data.AniVec[m_ClipInx].Length_Time;
+		TEnd = (int)MCon->m_Data.AniVec[m_ClipInx].Length_Time;
 	}
 	if (TStart >= MCon->m_Data.AniVec[m_ClipInx].Length_Time - 1)
 	{
-		TEnd = MCon->m_Data.AniVec[m_ClipInx].Length_Time - 1;
+		TEnd = (int)MCon->m_Data.AniVec[m_ClipInx].Length_Time - 1;
 	}
 
 	if (TEnd < TStart)
