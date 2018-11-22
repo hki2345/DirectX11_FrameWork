@@ -109,9 +109,37 @@ void Renderer::RenderUpdate()
 	}
 }
 
-void Renderer::RenderFinalUpdate() 
+
+void Renderer::RenderBegin(KPtr<Camera> _Camera, const KUINT& _MeshIdx, const KUINT& _MtlIdx)
+{
+	return;
+}
+
+
+// 렌더러 통합 - 일반적인 렌더러들은 이 형태를 지닌다. -> 본 애니와의 구분만 지어놓은 상황
+// 엄격하게 따지면 본 애니도 구분이 되어야 되지만 편의상 하나로 묶되 nullptr로 판졀함
+void Renderer::Render(KPtr<Camera> _Camera, const KUINT& _MeshIdx, const KUINT& _MtlIdx, Render_Data* _Data)
+{
+
+	Update_TexSmp(_MtlIdx);
+	Update_MtlCB(_MtlIdx);
+	Update_Material(_MtlIdx);
+
+	if (nullptr == _Data)
+	{
+		Update_Mesh(_MeshIdx);
+	}
+	else
+	{
+		Update_SelectMesh(_Data->Mesh, _Data->Vertex, _Data->Sub_inx);
+	}
+	
+}
+
+void Renderer::RenderFin() 
 {
 	kwindow()->Device().Reset_RS();
+	Core_Class::MainDevice().ResetContext();
 }
 
 void Renderer::Update_Trans(KPtr<Camera> _Camera)
@@ -135,6 +163,8 @@ void Renderer::Update_Trans(KPtr<Camera> _Camera)
 
 void Renderer::Update_TransCB() 
 {
+	// 멧 데이터 모든 세이더에 다 넣는 구조 -> 그렇게 좋은 구조는 아님
+	// 약간 고생해서 다 구분지어 쉐이더 마다 다 세팅 따로 해주는 게 맞긴 함
 	Core_Class::MainDevice().SettingCB<MatrixContainer>(L"MATCON", m_MD, SHTYPE::ST_VS);
 	Core_Class::MainDevice().SettingCB<MatrixContainer>(L"MATCON", m_MD, SHTYPE::ST_PS);
 	Core_Class::MainDevice().SettingCB<MatrixContainer>(L"MATCON", m_MD, SHTYPE::ST_DOM);

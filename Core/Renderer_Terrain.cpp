@@ -123,7 +123,7 @@ void Renderer_Terrain::Create_Terrain(const KUINT& _X, const KUINT& _Z, const wc
 	Set_Material(L"DTESSLEMAT");
 }
 
-void Renderer_Terrain::Render(KPtr<Camera> _Cam)
+void Renderer_Terrain::RenderBegin(KPtr<Camera> _Camera, const KUINT& _MeshIdx, const KUINT& _MtlIdx)
 {
 	material()->PShader()->SettingCB<TERRAIN_FD>(L"TERRAIN_FD", m_TFD);
 }

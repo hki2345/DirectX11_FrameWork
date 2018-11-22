@@ -264,7 +264,7 @@ void Renderer_BonAni::PrevUpdate_Ani()
 }
 
 
-void Renderer_BonAni::Render(KPtr<Camera> _Cam)
+void Renderer_BonAni::RenderBegin(KPtr<Camera> _Cam, const KUINT& _MeshIdx, const KUINT& _MtlIdx)
 {
 	if (nullptr != m_pBoneTex)
 	{

@@ -62,6 +62,8 @@ void KCore::Progress()
 	InputManager::Update();
 	SoundDevice::Update();
 	KWindow::Progress();
+
+	InputManager::EndUpdate();
 	// 데드 타임을 이용할것이다.
 }
 

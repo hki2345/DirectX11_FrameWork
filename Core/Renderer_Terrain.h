@@ -19,7 +19,7 @@ private:
 
 public:
 	void Create_Terrain(const KUINT& _X, const KUINT& _Z, const wchar_t* _NorMap = nullptr, const float& _HRatio = 1.0f);
-	void Render(KPtr<Camera> _Cam) override;
+	void RenderBegin(KPtr<Camera> _Camera, const KUINT& _MeshIdx, const KUINT& _MtlIdx) override;
 
 	void base_texture(const wchar_t* _MTex);
 	void Insert_CoverTex(const wchar_t* _MTex, const wchar_t* _Cover);

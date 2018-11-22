@@ -103,7 +103,21 @@ private:
 	static KVector2 m_OriMousePos;
 	static KVector2 m_MouseDir;
 
+
+	// WHEEL
+	static int m_WheelMove;
+
 public:
+	// 메시지에서 받는 쪽 -> 아쉽게도 MFC 쪽에서 메시지 받는 걸 따로 설정할 수가 없다.
+	// 즉, 코어에서 에디터를 알아야 이 함수를 private로 만들 수 있다는 뜻
+	// 현재는 어디서나 가능하지만 MFC가 아닌 툴을 개발한다면
+	// 이 함수는 private가 되는 게 맞다. -> 메시지만 받아야 하니까
+	// 참고로 변수는 휠의 움직임 정도를 받는ㄴ다.
+	static void Receive_Wheel(const int& _Value)
+	{
+		m_WheelMove += _Value;
+	}
+
 	static KVector2 MousePos() {
 		return m_MousePos;
 	}
@@ -149,10 +163,12 @@ public:
 	static bool Press(const wchar_t* _Name);
 	static bool Over(const wchar_t* _Name, float _Time);
 	static bool Over_Reset(const wchar_t* _Name, float _Time);
+	
+	static int	MoveWheel();
 
 private:
 	static  void Update();
-
+	static	void EndUpdate();
 
 };
 

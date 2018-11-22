@@ -90,7 +90,7 @@ public:
 	void Load_FbxTest(const wchar_t* _Path);
 	void Set_Fbx(const wchar_t* _Name);
 	void PrevUpdate() override;
-	void Render(KPtr<Camera> _Cam);
+	void RenderBegin(KPtr<Camera> _Cam, const KUINT& _MeshIdx, const KUINT& _MtlIdx) override;
 
 };
 

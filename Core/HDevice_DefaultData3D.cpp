@@ -176,7 +176,7 @@ bool KDevice::Def3DCreate()
 
 	m_Desc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
 	m_Desc.RenderTarget[0].SrcBlend = D3D11_BLEND_ONE;
-	m_Desc.RenderTarget[0].DestBlend = D3D11_BLEND_ZERO;
+	m_Desc.RenderTarget[0].DestBlend = D3D11_BLEND_ONE;
 
 	m_Desc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
 	m_Desc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;

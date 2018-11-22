@@ -125,7 +125,12 @@ public:
 
 private:
 	void RenderUpdate();
-	void RenderFinalUpdate();
+	
+	// 렌더러 통합 및 정리 -> 이렇게 가상으로 만드렁 놓으면
+	// 직접 구현해야 하는 렌더러가 구현이 될수 있겠다.
+	virtual void RenderBegin(KPtr<Camera> _Camera, const KUINT& _MeshIdx, const KUINT& _MtlIdx);
+	virtual void Render(KPtr<Camera> _Camera, const KUINT& _MeshIdx, const KUINT& _MtlIdx, Render_Data* _Data);
+	void RenderFin();
 
 protected:
 	virtual void Update_Trans(KPtr<Camera> _Camera);
@@ -141,7 +146,7 @@ protected:
 
 public:
 	virtual bool Init(int _Order = 0);
-	virtual void Render(KPtr<Camera> _Camera) = 0;
+	
 
 };
 

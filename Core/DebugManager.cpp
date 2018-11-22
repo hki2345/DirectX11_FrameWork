@@ -183,16 +183,17 @@ void DebugManager::Targetting()
 	int CountY = 0;
 	int WCount = 6;
 
-	float SizeX = Core_Class::MainWindow().width_f() / WCount * .5f;
-	float SizeZ = Core_Class::MainWindow().height_f() / WCount * .5f;
+	float SizeX = Core_Class::MainWindow().width_f() / WCount;
+	float SizeZ = Core_Class::MainWindow().height_f() / WCount;
 
 
 	std::map<int, KPtr<Camera>>::iterator m_CSI = Core_Class::MainScene()->This_RenderManager.m_CamMap.begin();
 	std::map<int, KPtr<Camera>>::iterator m_CEI = Core_Class::MainScene()->This_RenderManager.m_CamMap.end();
+	std::vector<KPtr<RenderTarget_Multi>> TempMulti;
 
 	for (; m_CSI != m_CEI; ++m_CSI)
 	{
-		std::vector<KPtr<RenderTarget_Multi>> TempMulti;
+		TempMulti.clear();
 		TempMulti.push_back(m_CSI->second->defferd_target());
 		TempMulti.push_back(m_CSI->second->light_target());
 

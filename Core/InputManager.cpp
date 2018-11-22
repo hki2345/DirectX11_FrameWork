@@ -3,10 +3,11 @@
 #include "TimeManager.h"
 #include "Core_Class.h"
 
-KVector2 InputManager::m_MousePos;
-KVector2 InputManager::m_OriMousePos;
-KVector2 InputManager::m_MouseDir;
-POINT InputManager::m_iPoint;
+KVector2	InputManager::m_MousePos;
+KVector2	InputManager::m_OriMousePos;
+KVector2	InputManager::m_MouseDir;
+POINT		InputManager::m_iPoint;
+int			InputManager::m_WheelMove;
 std::unordered_map<std::wstring, KPtr<InputManager::Input_Command>>::iterator InputManager::m_KeyStartIter;
 std::unordered_map<std::wstring, KPtr<InputManager::Input_Command>>::iterator InputManager::m_KeyEndIter;
 std::unordered_map<std::wstring, KPtr<InputManager::Input_Command>> InputManager::m_KeyMap;
@@ -231,4 +232,16 @@ bool InputManager::Over_Reset(const wchar_t* _Name, float _Time) {
 		return false;
 	}
 	return pKEY->Over_Reset(_Time);
+}
+
+
+int	InputManager::MoveWheel()
+{
+	return m_WheelMove;
+}
+
+
+void InputManager::EndUpdate()
+{
+	m_WheelMove = 0;
 }

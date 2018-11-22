@@ -64,7 +64,7 @@ void RenderTarget_Multi::OMSet()
 			ID3D11DepthStencilView* OldDepth;
 			Core_Class::Context()->OMGetRenderTargets(0, nullptr, &OldDepth);
 			Core_Class::Context()->OMSetRenderTargets(TagetCount(), &m_RenderTagetView[0], OldDepth);
-			// Core_Class::Context()->OMSetDepthStencilState(m_pDepthStencilState, 1);
+			Core_Class::Context()->OMSetDepthStencilState(m_pDepthStencilState, 1);
 			OldDepth->Release();
 		}
 		else {

@@ -12,7 +12,7 @@ Renderer_Rect::Renderer_Rect()
 Renderer_Rect::~Renderer_Rect()
 {
 }
-void Renderer_Rect::Render(KPtr<Camera> _Camera)
+void Renderer_Rect::Render(KPtr<Camera> _Camera, const KUINT& _MeshIdx, const KUINT& _MtlIdx, Render_Data* _Data)
 {
 	KASSERT(nullptr == m_Trans);
 	if (nullptr == m_Trans)

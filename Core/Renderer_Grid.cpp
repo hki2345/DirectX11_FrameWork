@@ -75,7 +75,7 @@ void Renderer_Grid::Update_Trans(KPtr<Camera> _Camera)
 	Renderer::Update_TransCB();
 }
 
-void Renderer_Grid::Render(KPtr<Camera> _Camera)
+void Renderer_Grid::RenderBegin(KPtr<Camera> _Cam, const KUINT& _MeshIdx, const KUINT& _MtlIdx)
 {
 	m_MtlVec[0]->PShader()->SettingCB<KVector4>(L"GRIDDATA", m_GD);
 }

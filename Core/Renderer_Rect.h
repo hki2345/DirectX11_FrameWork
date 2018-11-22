@@ -7,7 +7,7 @@ public:
 	MatrixContainer m_MD;
 
 public:
-	void Render(KPtr<Camera> _Camera) override;
+	void Render(KPtr<Camera> _Camera, const KUINT& _MeshIdx, const KUINT& _MtlIdx, Render_Data* _Data) override;
 
 public:
 	bool Init(int _Order = 0) override;

@@ -38,24 +38,29 @@ void RenderManager::Reset_SList()
 		BBY;
 	}
 
-	Smp->Update(0);
-	Smp->Update(1);
-	Smp->Update(2);
-	Smp->Update(3);
-	Smp->Update(4);
-	Smp->Update(5);
-	Smp->Update(6);
-	Smp->Update(7);
+	for (KUINT i = 0; i < 16; i++)
+	{
+		Smp->Update(i);
+	}
 
-	// 텍스쳐 어레이
-	Smp->Update(8);
-	Smp->Update(9);
-	Smp->Update(10);
-	Smp->Update(11);
-	Smp->Update(12);
-	Smp->Update(13);
-	Smp->Update(14);
-	Smp->Update(15);
+	//Smp->Update(0);
+	//Smp->Update(1);
+	//Smp->Update(2);
+	//Smp->Update(3);
+	//Smp->Update(4);
+	//Smp->Update(5);
+	//Smp->Update(6);
+	//Smp->Update(7);
+
+	//// 텍스쳐 어레이
+	//Smp->Update(8);
+	//Smp->Update(9);
+	//Smp->Update(10);
+	//Smp->Update(11);
+	//Smp->Update(12);
+	//Smp->Update(13);
+	//Smp->Update(14);
+	//Smp->Update(15);
 
 }
 
@@ -270,12 +275,9 @@ void RenderManager::Render_Defferd(KPtr<Camera> _Camera, std::map<int, std::list
 				{
 					for (KUINT j = 0; j < (KUINT)(*m_RSI)->Count_Material(); j++)
 					{
-						(*m_RSI)->Render(_Camera);
-						(*m_RSI)->Update_TexSmp(j);
-						(*m_RSI)->Update_MtlCB(j);
-						(*m_RSI)->Update_Material(j);
-						(*m_RSI)->Update_Mesh(i);
-						Core_Class::MainDevice().ResetContext();
+						(*m_RSI)->RenderBegin(_Camera, i, j);
+						(*m_RSI)->Render(_Camera, i, j, nullptr);
+						(*m_RSI)->RenderFin();
 					}
 				}
 				
@@ -287,18 +289,13 @@ void RenderManager::Render_Defferd(KPtr<Camera> _Camera, std::map<int, std::list
 				{
 					Render_Data tData = (*m_RSI)->m_RDVec[i];
 
-					(*m_RSI)->Render(_Camera);
-					(*m_RSI)->Update_TexSmp((*m_RSI)->m_RDVec[i].Material);
-					(*m_RSI)->Update_MtlCB((*m_RSI)->m_RDVec[i].Material);
-					(*m_RSI)->Update_Material((*m_RSI)->m_RDVec[i].Material);
-					(*m_RSI)->Update_SelectMesh((*m_RSI)->m_RDVec[i].Mesh
-						, (*m_RSI)->m_RDVec[i].Vertex
-						, (*m_RSI)->m_RDVec[i].Sub_inx);
-					Core_Class::MainDevice().ResetContext();
+					(*m_RSI)->RenderBegin(_Camera, tData.Mesh, tData.Material);
+					(*m_RSI)->Render(_Camera, tData.Mesh, tData.Material, &tData);
+					(*m_RSI)->RenderFin();
 				}
 			}
 
-			(*m_RSI)->RenderFinalUpdate();
+			(*m_RSI)->RenderFin();
 		}
 	}
 }
@@ -324,12 +321,9 @@ void RenderManager::Render_Forward(KPtr<Camera> _Camera, std::map<int, std::list
 				{
 					for (KUINT j = 0; j < (KUINT)(*m_RSI)->Count_Material(); j++)
 					{
-						(*m_RSI)->Render(_Camera);
-						(*m_RSI)->Update_TexSmp(j);
-						(*m_RSI)->Update_MtlCB(j);
-						(*m_RSI)->Update_Material(j);
-						(*m_RSI)->Update_Mesh(i);
-						Core_Class::MainDevice().ResetContext();
+						(*m_RSI)->RenderBegin(_Camera, i, j);
+						(*m_RSI)->Render(_Camera, i, j, nullptr);
+						(*m_RSI)->RenderFin();
 					}
 				}
 			}
@@ -337,21 +331,14 @@ void RenderManager::Render_Forward(KPtr<Camera> _Camera, std::map<int, std::list
 			{
 				for (KUINT i = 0; i < (KUINT)(*m_RSI)->m_RDVec.size(); i++)
 				{
-					Render_Data tData = (*m_RSI)->m_RDVec[i];
 
-					(*m_RSI)->Render(_Camera);
-					(*m_RSI)->Update_TexSmp((*m_RSI)->m_RDVec[i].Material);
-					(*m_RSI)->Update_MtlCB((*m_RSI)->m_RDVec[i].Material);
-					(*m_RSI)->Update_Material((*m_RSI)->m_RDVec[i].Material);
-
-					(*m_RSI)->Update_SelectMesh((*m_RSI)->m_RDVec[i].Mesh
-						, (*m_RSI)->m_RDVec[i].Vertex
-						, (*m_RSI)->m_RDVec[i].Sub_inx);
+					(*m_RSI)->RenderBegin(_Camera, (*m_RSI)->m_RDVec[i].Mesh, (*m_RSI)->m_RDVec[i].Material);
+					(*m_RSI)->Render(_Camera, (*m_RSI)->m_RDVec[i].Mesh, (*m_RSI)->m_RDVec[i].Material, &((*m_RSI)->m_RDVec[i]));
+					(*m_RSI)->RenderFin();
 				}
 
 			}
 
-			(*m_RSI)->RenderFinalUpdate();
 			Core_Class::MainDevice().ResetContext();
 		}
 	}

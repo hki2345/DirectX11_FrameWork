@@ -215,15 +215,15 @@ BOOL Dlg_Editor::OnInitDialog()
 	// DestroyWindow();
 
 
-	// KPtr<TheOne> TestAni2 = TabScene->Create_One(L"Test");
-	// TestAni2->Trans()->pos_local(KVector(.0f));
-	// TestAni2->Trans()->scale_local(KVector(1.f, 1.f, 1.f));
-	// KPtr<Renderer_BonAni> TestRender2 = TestAni2->Add_Component<Renderer_BonAni>();
-	// 
-	// KPtr<MeshContainer> MCon2 = ResourceManager<MeshContainer>::Load((PathManager::Find_ForderPathStr(L"Mesh") + L"Protoss\\VoidRay.FBX").c_str());
-	// TestRender2->Set_Fbx(L"VoidRay.FBX");
-	// TestRender2->Create_AniChanger(L"TestAni", 120, 5000);
-	// TestRender2->Set_AniChanger(L"TestAni");
+	KPtr<TheOne> TestAni2 = TabScene->Create_One(L"Test");
+	TestAni2->Trans()->pos_local(KVector(.0f));
+	TestAni2->Trans()->scale_local(KVector(1.f, 1.f, 1.f));
+	KPtr<Renderer_BonAni> TestRender2 = TestAni2->Add_Component<Renderer_BonAni>();
+	
+	KPtr<MeshContainer> MCon2 = ResourceManager<MeshContainer>::Load((PathManager::Find_ForderPathStr(L"Mesh") + L"Protoss\\VoidRay.FBX").c_str());
+	TestRender2->Set_Fbx(L"VoidRay.FBX");
+	TestRender2->Create_AniChanger(L"TestAni", 120, 5000);
+	TestRender2->Set_AniChanger(L"TestAni");
 
 	// TestRender->Load_FbxTest((PathManager::Find_ForderPathStr(L"Mesh") + L"Monster3.FBX").c_str());
 	//TestRender->Load_FbxTest((PathManager::Find_ForderPathStr(L"Mesh") + L"Warehouse01.FBX").c_str());

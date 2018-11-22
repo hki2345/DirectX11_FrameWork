@@ -13,7 +13,7 @@ private:
 public:
 	void ImageScaleSetting();
 
-	void Render(KPtr<Camera> _Camera) override;
+	void Render(KPtr<Camera> _Camera, const KUINT& _MeshIdx, const KUINT& _MtlIdx, Render_Data* _Data) override;
 
 	void Color(const KColor& _Color)
 	{

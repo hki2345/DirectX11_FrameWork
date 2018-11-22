@@ -12,9 +12,6 @@ Renderer_Mesh::Renderer_Mesh()
 Renderer_Mesh::~Renderer_Mesh()
 {
 }
-void Renderer_Mesh::Render(KPtr<Camera> _Camera)
-{
-}
 
 bool Renderer_Mesh::Init(int _Order /*= 0*/)
 {
