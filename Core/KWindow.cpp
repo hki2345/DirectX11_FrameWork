@@ -4,6 +4,7 @@
 #include "KMacro.h"
 #include "ResourceManager.h"
 #include "DebugManager.h"
+#include "InputManager.h"
 
 
 
@@ -158,9 +159,10 @@ LRESULT CALLBACK KWindow::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM
 	}
 	break;
 
+	// 아오 마우스 휠은 메시지로 받는다 ㅋㅋㅋㅋㅋㅋ
 	case WM_MOUSEWHEEL:
 	{
-		KLOG(L"TEST");
+		InputManager::Receive_Wheel((int)HIWORD(wParam));
 	}	
 	break;
 

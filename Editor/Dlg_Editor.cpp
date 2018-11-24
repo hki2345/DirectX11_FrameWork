@@ -50,6 +50,7 @@ void Dlg_Editor::DoDataExchange(CDataExchange* pDX)
 BEGIN_MESSAGE_MAP(Dlg_Editor, TabDlg)
 	ON_BN_CLICKED(IDOK, &Dlg_Editor::OnBnClickedOk)
 	ON_BN_CLICKED(IDCANCEL, &Dlg_Editor::OnBnClickedCancel)
+	ON_BN_CLICKED(IDC_BUTTON1, &Dlg_Editor::OnBnClickedButton1)
 END_MESSAGE_MAP()
 
 
@@ -72,12 +73,7 @@ BOOL Dlg_Editor::OnInitDialog()
 {
 	TabDlg::OnInitDialog();
 
-	
-
-	// FBXLoader FLoad;
-	// FLoad.Load_FBX((PathManager::Find_ForderPathStr(L"Mesh") + L"Warehouse01.FBX").c_str());
-
-	KPtr<State> TabScene = Core_Class::MainSceneMgr().Find_State(SceneName.GetString());
+			KPtr<State> TabScene = Core_Class::MainSceneMgr().Find_State(SceneName.GetString());
 
 	if (nullptr == TabScene) 
 	{
@@ -88,49 +84,6 @@ BOOL Dlg_Editor::OnInitDialog()
 	TabScene->Camera()->Far(10000.0f);
 	TabScene->Camera()->one()->Trans()->pos_local(KVector4(0.0f, 10.0f, -20.0f));
 	
-
-	//KPtr<TheOne> CamOne2 = TabScene->Create_One();
-	//KPtr<Camera> Cam2 = CamOne2->Add_Component<Camera>(1);
-	//Cam2->Insert_LayerData(0);/
-	//Cam2->Far(10000.0f);
-	//// Cam2->one()->Trans()->pos_local(KVector4(30.0f, 20.0f, -20.0f));
-	//// Cam2->one()->Trans()->rotate_local(KVector4(20.0f, 10.0f, -20.0f));
-
-	//KPtr<SC2_Camera> Sc2 = Cam2->Add_Component<SC2_Camera>();
-	//Sc2->out_pos(KVector2(250.0f, 250.0f));
-	//Sc2->out_size(KVector2(366.0f, 245.0f));
-	//
-
-	//KPtr<TheOne> CamOne3 = TabScene->Create_One();
-	//KPtr<Camera> Cam3 = CamOne3->Add_Component<Camera>(2);
-	//Cam3->Insert_LayerData(0);
-	//Cam3->Far(10000.0f);
-	//Cam3->one()->Trans()->pos_local(KVector4(30.0f, 20.0f, -20.0f));
-	//Cam3->one()->Trans()->rotate_local(KVector4(20.0f, 10.0f, -20.0f));n
-
-	//KPtr<SC2_Camera> Sc3 = Cam3->Add_Component<SC2_Camera>();
-	//Sc3->out_pos(KVector2(250.0f, 250.0f));
-	//Sc3->out_size(KVector2(366.0f, 245.0f));
-	// KPtr<TheOne> Light3 = TabScene->Create_One();
-	// // 스케일은 dir이 아닌 빛의 크기를 나타낸다.
-	// // Light->Trans()->scale_local(KVector4(1000.0f, 1000.0f, 1000.0f));
-	// // Foward로 비춘다고 생각한다.
-	// KPtr<Light> pLight3 = Light3->Add_Component<Light>();
-	// pLight3->SetType(Light::LIGHTTYPE::POINT);
-	// pLight3->Trans()->pos_world(KVector4(25.0F, 0.0F, 0.0f));
-	// pLight3->Trans()->scale_world(KVector4(20.0f, 20.0f, 20.0f));
-	// pLight3->PushLightLayer(0, 1, 2, 3, 4, 5);
-	// 
-	// 
-	// KPtr<TheOne> Light1 = TabScene->Create_One();
-	// // 스케일은 dir이 아닌 빛의 크기를 나타낸다.
-	// // Light->Trans()->scale_local(KVector4(1000.0f, 1000.0f, 1000.0f));
-	// // Foward로 비춘다고 생각한다.
-	// KPtr<Light> pLight = Light1->Add_Component<Light>();
-	// pLight->SetType(Light::LIGHTTYPE::POINT);
-	// pLight->Trans()->scale_world(KVector4(30.0f, 30.0f, 30.0f));
-	// pLight->PushLightLayer(0, 1, 2, 3, 4, 5);
-
 
 	KPtr<TheOne> Light2 = TabScene->Create_One();
 	// 스케일은 dir이 아닌 빛의 크기를 나타낸다.
@@ -200,30 +153,30 @@ BOOL Dlg_Editor::OnInitDialog()
 	KPtr<Renderer_Mesh> PTRMESH3 = CUBEMIDDLE->Add_Component<Renderer_Mesh>();
 	PTRMESH3->Set_Material(L"DEFFERD3DMAT");
 	PTRMESH3->Set_Mesh(L"CUBE");
+	
 
 
-	// AniTest
-	/*KPtr<TheOne> TestAni = TabScene->Create_One(L"Test");
-	TestAni->Trans()->pos_local(KVector(.0f));
-	TestAni->Trans()->scale_local(KVector(1.f, 1.f, 1.f));
-	KPtr<Renderer_BonAni> TestRender = TestAni->Add_Component<Renderer_BonAni>();
-
-	KPtr<MeshContainer> MCon = ResourceManager<MeshContainer>::Load((PathManager::Find_ForderPathStr(L"Mesh") + L"Protoss\\DarkTemplar_Body.FBX").c_str());
-	TestRender->Set_Fbx(L"DarkTemplar_Body.FBX");*/
-
-
-	// DestroyWindow();
-
-
+	// 해처리와 히드라가 안입혀진다. 나머진 다됌
+	KPtr<TheOne> TestAni1 = TabScene->Create_One(L"Test");
+	TestAni1->Trans()->pos_local(KVector(.0f));
+	TestAni1->Trans()->scale_local(KVector(1.f, 1.f, 1.f));
+	KPtr<Renderer_BonAni> TestRender1 = TestAni1->Add_Component<Renderer_BonAni>();
+	
+	ResourceManager<MeshContainer>::Load((PathManager::Find_ForderPathStr(L"Mesh") + L"Zerg\\Hydralisk.FBX").c_str());
+	TestRender1->Set_Fbx(L"Hydralisk.FBX");
+	TestRender1->Create_AniChanger(L"TestAni", 0, 70000);
+	TestRender1->Set_AniChanger(L"TestAni");
+/*
 	KPtr<TheOne> TestAni2 = TabScene->Create_One(L"Test");
 	TestAni2->Trans()->pos_local(KVector(.0f));
 	TestAni2->Trans()->scale_local(KVector(1.f, 1.f, 1.f));
 	KPtr<Renderer_BonAni> TestRender2 = TestAni2->Add_Component<Renderer_BonAni>();
-	
-	KPtr<MeshContainer> MCon2 = ResourceManager<MeshContainer>::Load((PathManager::Find_ForderPathStr(L"Mesh") + L"Protoss\\VoidRay.FBX").c_str());
-	TestRender2->Set_Fbx(L"VoidRay.FBX");
-	TestRender2->Create_AniChanger(L"TestAni", 120, 5000);
-	TestRender2->Set_AniChanger(L"TestAni");
+
+	ResourceManager<MeshContainer>::Load((PathManager::Find_ForderPathStr(L"Mesh") + L"Zerg\\ColonistTransPortTread.FBX").c_str());
+	TestRender2->Set_Fbx(L"ColonistTransPortTread.FBX");
+	TestRender2->Create_AniChanger(L"TestAni", 0, 70000);
+	TestRender2->Set_AniChanger(L"TestAni");*/
+
 
 	// TestRender->Load_FbxTest((PathManager::Find_ForderPathStr(L"Mesh") + L"Monster3.FBX").c_str());
 	//TestRender->Load_FbxTest((PathManager::Find_ForderPathStr(L"Mesh") + L"Warehouse01.FBX").c_str());
@@ -281,4 +234,10 @@ BOOL Dlg_Editor::OnInitDialog()
 void Dlg_Editor::Collision_Test(KCollision*, KCollision*)
 {
 	int a = 0;
+}
+
+void Dlg_Editor::OnBnClickedButton1()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	int a = 9;
 }

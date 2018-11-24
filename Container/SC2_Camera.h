@@ -19,6 +19,12 @@ public:
 		S2M_PART,
 	};
 
+	enum SC2_SOFT
+	{
+		S2S_SOFT,
+		S2S_HARD,
+	};
+
 
 private:
 	KPtr<Camera> m_Cam;
@@ -30,6 +36,7 @@ private:
 
 
 	SC2_CAMMODE m_CMode;
+	SC2_SOFT	m_CSoft;
 
 	KVector2 OutSize;
 	KVector2 OutPos;
@@ -43,9 +50,10 @@ private:
 private:
 	void Update_State();
 	void Update_Part();
-	void Update_Key();
 
 	bool Update_ScrCheck();
+	void Update_Key();
+	void Update_Wheel();
 
 
 

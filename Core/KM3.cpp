@@ -125,7 +125,7 @@ void KM3Data::SaveKM3(const wchar_t* _Path)
 
 	int BoneSize = (int)BoneVec.size();
 	Stream.Write(BoneSize);
-	for (size_t i = 0; i < BoneSize; i++)
+	for (int i = 0; i < BoneSize; i++)
 	{
 		Stream.Write(BoneVec[i]->Name, sizeof(wchar_t) * 512);
 		Stream.Write(BoneVec[i]->BoneMX);
@@ -210,7 +210,7 @@ void KM3Data::LoadKM3(const wchar_t* _Path)
 	if (0 != BoneSize)
 	{
 		BoneVec.resize(BoneSize);
-		for (size_t i = 0; i < BoneSize; i++)
+		for (int i = 0; i < BoneSize; i++)
 		{
 			Stream.Read(BoneVec[i]->Name, sizeof(wchar_t) * 512);
 			BoneMap.insert(std::map<std::wstring, KM3Bone*>::value_type(BoneVec[i]->Name, BoneVec[i]));

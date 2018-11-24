@@ -1,57 +1,60 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClInclude Include="Force_Unit.h">
-      <Filter>SC2</Filter>
-    </ClInclude>
-    <ClInclude Include="Unit_Cannon.h">
-      <Filter>SC2</Filter>
-    </ClInclude>
-    <ClInclude Include="Unit_SkillObj.h">
-      <Filter>SC2</Filter>
-    </ClInclude>
-    <ClInclude Include="Cannon_Ball.h">
-      <Filter>SC2</Filter>
-    </ClInclude>
-    <ClInclude Include="SC2_Force.h">
-      <Filter>SC2\SC2</Filter>
-    </ClInclude>
     <ClInclude Include="SC2Manager.h">
-      <Filter>SC2\SC2</Filter>
+      <Filter>SC2\SC2_Core</Filter>
     </ClInclude>
     <ClInclude Include="SC2_Camera.h">
-      <Filter>SC2\SC2</Filter>
+      <Filter>SC2\SC2_Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Cannon_Ball.h">
+      <Filter>SC2\Force&amp;Unit</Filter>
+    </ClInclude>
+    <ClInclude Include="Force_Unit.h">
+      <Filter>SC2\Force&amp;Unit</Filter>
+    </ClInclude>
+    <ClInclude Include="SC2_Force.h">
+      <Filter>SC2\Force&amp;Unit</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Cannon.h">
+      <Filter>SC2\Force&amp;Unit</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_SkillObj.h">
+      <Filter>SC2\Force&amp;Unit</Filter>
+    </ClInclude>
+    <ClInclude Include="Unit_Marine.h">
+      <Filter>SC2\Unit\Terran</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Force_Unit.cpp">
-      <Filter>SC2</Filter>
-    </ClCompile>
-    <ClCompile Include="Unit_Cannon.cpp">
-      <Filter>SC2</Filter>
-    </ClCompile>
-    <ClCompile Include="Unit_SkillObj.cpp">
-      <Filter>SC2</Filter>
-    </ClCompile>
-    <ClCompile Include="Cannon_Ball.cpp">
-      <Filter>SC2</Filter>
-    </ClCompile>
-    <ClCompile Include="SC2_Force.cpp">
-      <Filter>SC2\SC2</Filter>
-    </ClCompile>
     <ClCompile Include="SC2Manager.cpp">
-      <Filter>SC2\SC2</Filter>
+      <Filter>SC2\SC2_Core</Filter>
     </ClCompile>
     <ClCompile Include="SC2_Camera.cpp">
-      <Filter>SC2\SC2</Filter>
+      <Filter>SC2\SC2_Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Cannon_Ball.cpp">
+      <Filter>SC2\Force&amp;Unit</Filter>
+    </ClCompile>
+    <ClCompile Include="Force_Unit.cpp">
+      <Filter>SC2\Force&amp;Unit</Filter>
+    </ClCompile>
+    <ClCompile Include="SC2_Force.cpp">
+      <Filter>SC2\Force&amp;Unit</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Cannon.cpp">
+      <Filter>SC2\Force&amp;Unit</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_SkillObj.cpp">
+      <Filter>SC2\Force&amp;Unit</Filter>
+    </ClCompile>
+    <ClCompile Include="Unit_Marine.cpp">
+      <Filter>SC2\Unit\Terran</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="SC2">
       <UniqueIdentifier>{89e52f51-fdfe-4552-b6eb-ec363262421c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="SC2\SC2">
-      <UniqueIdentifier>{2e479ec3-6390-4d74-acbe-3776fc5a8329}</UniqueIdentifier>
     </Filter>
     <Filter Include="SC2\Unit">
       <UniqueIdentifier>{c635a210-8df5-4254-99f4-f2540187b243}</UniqueIdentifier>
@@ -61,6 +64,21 @@
     </Filter>
     <Filter Include="SC2\Unit\Protoss">
       <UniqueIdentifier>{3463765e-27f2-49aa-84fa-526d800af3f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SC2\Building">
+      <UniqueIdentifier>{a6d02d37-26e1-4f14-bb05-66c83d44d72c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SC2\Building\Protoss">
+      <UniqueIdentifier>{e75b841a-c3e5-4438-9d0a-ca790b2e09da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SC2\Building\Terran">
+      <UniqueIdentifier>{788a8726-adc8-4e15-b070-9738db948dda}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SC2\SC2_Core">
+      <UniqueIdentifier>{2e479ec3-6390-4d74-acbe-3776fc5a8329}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SC2\Force&amp;Unit">
+      <UniqueIdentifier>{62e8d1f1-aa15-4a9c-b61a-6a88dc44cde3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -41,7 +41,7 @@ bool Renderer::Set_Mesh(KPtr<KMesh> _Mesh, const int& _Index)
 {
 	KASSERT(nullptr == _Mesh);
 
-	if (m_MeshVec.size() <= _Index)
+	if ((int)m_MeshVec.size() <= _Index)
 	{
 		m_MeshVec.resize(_Index + 1);
 	}
@@ -58,7 +58,7 @@ bool Renderer::Set_Mesh(KPtr<KMesh> _Mesh, const int& _Index)
 
 bool Renderer::Set_Mesh(const wchar_t* _Res, const int& _Index) 
 {
-	if (m_MeshVec.size() <= _Index)
+	if ((int)m_MeshVec.size() <= _Index)
 	{
 		m_MeshVec.resize(_Index + 1);
 	}
@@ -75,7 +75,7 @@ bool Renderer::Set_Mesh(const wchar_t* _Res, const int& _Index)
 
 bool Renderer::Set_Material(const wchar_t* _Res, const int& _Index)
 {
-	if (m_MtlVec.size() <= _Index)
+	if ((int)m_MtlVec.size() <= _Index)
 	{
 		m_MtlVec.resize(_Index + 1);
 	}

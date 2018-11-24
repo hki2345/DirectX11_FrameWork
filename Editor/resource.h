@@ -51,6 +51,7 @@
 #define IDC_UVSLIDER                    1022
 #define IDC_UVINDEX                     1023
 #define IDC_SAVESCENE                   1024
+#define IDC_BUTTON2                     1025
 #define IDC_POSX2                       1031
 #define IDC_POSY2                       1032
 #define IDC_POSZ2                       1033
@@ -67,7 +68,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        342
 #define _APS_NEXT_COMMAND_VALUE         32771
-#define _APS_NEXT_CONTROL_VALUE         1025
+#define _APS_NEXT_CONTROL_VALUE         1026
 #define _APS_NEXT_SYMED_VALUE           312
 #endif
 #endif

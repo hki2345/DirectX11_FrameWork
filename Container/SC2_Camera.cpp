@@ -21,6 +21,8 @@ SC2_Camera::~SC2_Camera()
 bool SC2_Camera::Init()
 {
 	m_CMode = SC2_CAMMODE::S2M_STATE;
+	m_CSoft = SC2_SOFT::S2S_HARD;
+
 	m_Cam = Get_Component<Camera>();
 
 	if (nullptr == m_Cam)
@@ -51,12 +53,12 @@ bool SC2_Camera::Init()
 
 	if (false == InputManager::IsKey(L"FREEUP"))
 	{
-		InputManager::Create_Command(L"FREEUP", 'Q');
+		InputManager::Create_Command(L"FREEUP", VK_SPACE);
 	}
 
 	if (false == InputManager::IsKey(L"FREEDOWN"))
 	{
-		InputManager::Create_Command(L"FREEDOWN", 'E');
+		InputManager::Create_Command(L"FREEDOWN", VK_LCONTROL);
 	}
 
 	if (false == InputManager::IsKey(L"FREEFORWARD"))
@@ -69,9 +71,9 @@ bool SC2_Camera::Init()
 		InputManager::Create_Command(L"FREEBACK", 'S');
 	}
 
-	if (false == InputManager::IsKey(L"ROTLOCK"))
+	if (false == InputManager::IsKey(L"FREEEYE"))
 	{
-		InputManager::Create_Command(L"ROTLOCK", VK_RBUTTON);
+		InputManager::Create_Command(L"FREEEYE", VK_RBUTTON);
 	}
 
 	if (false == InputManager::IsKey(L"Boost"))
@@ -81,7 +83,7 @@ bool SC2_Camera::Init()
 
 	if (false == InputManager::IsKey(L"MODECHANAGE"))
 	{
-		InputManager::Create_Command(L"MODECHANAGE", 'R');
+		InputManager::Create_Command(L"MODECHANAGE", 'G');
 	}
 
 	if (false == InputManager::IsKey(L"Z"))
@@ -105,17 +107,10 @@ bool SC2_Camera::Init()
 	}
 
 
-	if (false == InputManager::IsKey(L"MOUSE_UP"))
-	{
-		InputManager::Create_Command(L"MOUSE_UP", MOUSEEVENTF_MIDDLEUP);
-	}
-
 
 #pragma endregion
 	return true;
 }
-
-
 
 void SC2_Camera::Update()
 {
@@ -130,11 +125,13 @@ void SC2_Camera::Update()
 	default:
 		break;
 	}
+	Update_ScrCheck();
 	Update_Key();
+	Update_Wheel();
 }
 
 
-
+/************ 카메라 상태 ***************/
 void SC2_Camera::Update_State()
 {
 	return;
@@ -173,13 +170,33 @@ void SC2_Camera::Update_Part()
 }
 
 
+
+/**************** 구현 **************/
+
+bool SC2_Camera::Update_ScrCheck()
+{
+	KVector2 MPos = InputManager::MousePos();
+	bool Check;
+
+	if (kwindow()->size() > MPos && KVector2::Zero < MPos)
+	{
+		Check = true;
+	}
+	else
+	{
+		Check = false;
+	}
+
+	KLOG(L"Mouse InScreen : %b", Check);
+
+	return Check;
+}
+
 void SC2_Camera::Update_Key()
 {
-	Update_ScrCheck();
 
 	if (true == InputManager::Press(L"Boost"))
 	{
-		m_RotSpeed = 360.0f;
 		m_Speed = 100.0f;
 	}
 	else {
@@ -222,42 +239,37 @@ void SC2_Camera::Update_Key()
 
 	if (true == InputManager::Press(L"FREELEFT"))
 	{
-		m_Trans->Moving(m_Trans->left_local() * TimeManager::DeltaTime() * m_Speed);
+		m_Trans->Moving(m_Trans->left_local() * DELTATIME * m_Speed);
 	}
 
 	if (true == InputManager::Press(L"FREERIGHT"))
 	{
-		m_Trans->Moving(m_Trans->right_local() * TimeManager::DeltaTime() * m_Speed);
+		m_Trans->Moving(m_Trans->right_local() * DELTATIME * m_Speed);
 	}
 
 	if (true == InputManager::Press(L"FREEUP"))
 	{
-		m_Trans->Moving(m_Trans->up_local() * TimeManager::DeltaTime() * m_Speed);
+		m_Trans->Moving(m_Trans->up_local() * DELTATIME * m_Speed);
 	}
 
 	if (true == InputManager::Press(L"FREEDOWN"))
 	{
-		m_Trans->Moving(m_Trans->down_local() * TimeManager::DeltaTime() * m_Speed);
+		m_Trans->Moving(m_Trans->down_local() * DELTATIME * m_Speed);
 	}
 
 	if (true == InputManager::Press(L"FREEFORWARD"))
 	{
-		m_Trans->Moving(m_Trans->forward_local() * TimeManager::DeltaTime() * m_Speed);
+		m_Trans->Moving(m_Trans->forward_local() * DELTATIME * m_Speed);
 	}
 
 	if (true == InputManager::Press(L"FREEBACK"))
 	{
-		m_Trans->Moving(m_Trans->back_local() * TimeManager::DeltaTime() * m_Speed);
+		m_Trans->Moving(m_Trans->back_local() * DELTATIME * m_Speed);
 	}
 
-	if (true == InputManager::Press(L"ROTLOCK"))
+	if (true == InputManager::Press(L"FREEEYE"))
 	{
-		m_Trans->Rotating_Deg(KVector4(InputManager::MouseDir().y * m_RotSpeed * TimeManager::DeltaTime(), InputManager::MouseDir().x * m_RotSpeed * TimeManager::DeltaTime()));
-	}
-
-	if (true == InputManager::Press(L"MOUSE_UP"))
-	{
-		m_Trans->Rotating_Deg(KVector4(InputManager::MouseDir().y * m_RotSpeed * TimeManager::DeltaTime(), InputManager::MouseDir().x * m_RotSpeed * TimeManager::DeltaTime()));
+		m_Trans->Rotating_Deg(KVector4(InputManager::MouseDir().y * m_RotSpeed * DELTATIME, InputManager::MouseDir().x * m_RotSpeed *  DELTATIME));
 	}
 
 
@@ -266,22 +278,22 @@ void SC2_Camera::Update_Key()
 
 }
 
-
-bool SC2_Camera::Update_ScrCheck()
+void SC2_Camera::Update_Wheel()
 {
-	KVector2 MPos = InputManager::MousePos();
-	bool Check;
+	int Check = 0;
 
-	if (kwindow()->size() > MPos && KVector2::Zero < MPos)
+	// 휠을 움직였을 때 상황
+	if (0 != InputManager::WheelValue(&Check))
 	{
-		Check = true;
+		switch (m_CSoft)
+		{
+		case SC2_Camera::S2S_SOFT:
+			break;
+		case SC2_Camera::S2S_HARD:
+			m_Trans->Moving(m_Trans->forward_local() * (float)Check * .2f);
+			break;
+		default:
+			break;
+		}
 	}
-	else
-	{
-		Check = false;
-	}
-
-	KLOG(L"Mouse InScreen : %b", Check);
-
-	return Check;
 }

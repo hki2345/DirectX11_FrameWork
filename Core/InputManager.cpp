@@ -235,9 +235,13 @@ bool InputManager::Over_Reset(const wchar_t* _Name, float _Time) {
 }
 
 
-int	InputManager::MoveWheel()
+// 변수 넣어주시면 바꿔드립니다. - 휠 움직인 값으로 - 짜피 메모리 더써야되니까
+// 그 쓰는 현장에서 변수 선언 해서 가져가는 식으로 하세요
+int& InputManager::WheelValue(int* _Ref)
 {
-	return m_WheelMove;
+	*_Ref = m_WheelMove;
+
+	return *_Ref;
 }
 
 

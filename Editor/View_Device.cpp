@@ -5,6 +5,7 @@
 #include "KEditor.h"
 #include "View_Device.h"
 #include <DebugManager.h>
+#include <InputManager.h>
 
 
 // View_Device
@@ -57,7 +58,7 @@ void View_Device::Dump(CDumpContext& dc) const
 BOOL View_Device::OnMouseWheel(UINT nFlags, short zDelta, CPoint pt)
 {
 	// TODO: 여기에 메시지 처리기 코드를 추가 및/또는 기본값을 호출합니다.
-	KLOG(L"TEST");
+	InputManager::Receive_Wheel(zDelta);
 
 	return CView::OnMouseWheel(nFlags, zDelta, pt);
 }

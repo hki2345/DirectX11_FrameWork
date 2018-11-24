@@ -278,7 +278,7 @@ void FBXLoader::Set_Mesh(Mesh_FbxData* _pMD, FbxMesh* _pMesh)
 	// 정점 받아오기
 	FbxVector4* pFbxPos = _pMesh->GetControlPoints();
 
-	for (size_t i = 0; i < iVtxCnt; i++)
+	for (int i = 0; i < iVtxCnt; i++)
 	{
 		_pMD->VertVec[i].m_Pos.x = (float)pFbxPos[i].mData[0];
 		_pMD->VertVec[i].m_Pos.y = (float)pFbxPos[i].mData[2];
@@ -806,7 +806,7 @@ void FBXLoader::Check_WI(FbxMesh* _pMesh, Mesh_FbxData* _pMeshData)
 			}
 		} // if (_pMeshData->WIVec[i].size() > 1)
 
-		for (int i = 0; i < (*Iter).size(); i++)
+		for (int i = 0; i < (int)(*Iter).size(); i++)
 		{
 			_pMeshData->VertVec[iVtxInx].m_Weights.s[i] = (float)(*Iter)[i].dWeight;
 			_pMeshData->VertVec[iVtxInx].m_Indices.s[i] = (float)(*Iter)[i].BoneIdx;

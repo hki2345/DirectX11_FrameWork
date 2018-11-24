@@ -11,7 +11,7 @@
 #include <KCore.h>
 #include <SmartPtr.h>
 
-class KCoreLauncher : public KCore::CoreLauncher
+class KCoreLauncher : public KCore::Launcher
 {
 public:
 	void Build() override;
@@ -21,4 +21,4 @@ public:
 	~KCoreLauncher();
 };
 
-CORELAUNCHER(KCoreLauncher, L"Main_Window");
+CORESTART(KCoreLauncher, L"Main_Window");

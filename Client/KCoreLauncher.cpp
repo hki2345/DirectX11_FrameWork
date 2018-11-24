@@ -1,9 +1,10 @@
 #include "KCoreLauncher.h"
-#include <memory>
 #include <KWindow.h>
 #include <InputManager.h>
 #include <Core_Class.h>
 #include <ResourceManager.h>
+
+
 #include <KImage.h>
 #include <Sound.h>
 #include <KFont.h>
@@ -24,22 +25,22 @@ KCoreLauncher::~KCoreLauncher()
 
 void KCoreLauncher::Build()
 {
-	Core_Class::Main_Window().size(1280, 720);
-	Core_Class::Main_Window().Show();
-	Core_Class::Main_Window().Init_Device();
+	PathManager::Create_ForderPath(L"Shader");
+	PathManager::Create_ForderPath(L"Texture");
+	PathManager::Create_ForderPath(L"Sound");
+	PathManager::Create_ForderPath(L"Mesh");
+	PathManager::Create_ForderPath(L"Data");
 
-	PathManager::Create_ForderPath(L"Sprite_Data", L"Data\\Sprite");
-	PathManager::Create_ForderPath(L"Sprite_Back", L"Data\\Back\\Sprite");
-	PathManager::Create_ForderPath(L"KRigid2D_Data", L"Data\\KRigid2D");
-	PathManager::Create_ForderPath(L"KRigid2D_Back", L"Data\\Back\\KRigid2D");
-	PathManager::Create_ForderPath(L"Panza", L"Data\\Panza");
-	PathManager::Create_ForderPath(L"State", L"Data\\State");
-	PathManager::Create_ForderPath(L"User", L"Data\\User");
+	Core_Class::MainWindow().size(1280, 720);
+	Core_Class::MainWindow().Show();
+
+	// ÆÐ½º¸¦ ¸¸µå·Î°í ¿© ¾È¿¡¼­ ½¦ÀÌ´õ¸¦ ¸¸µé°ÚÁö
+	Core_Class::MainWindow().Init_Device();
+
 
 	ResourceManager<KImage>::All_Load(L"Texture");
-	ResourceManager<KSound>::All_Load(L"Sound");
-	
-	ResourceManager<KFont>().Create(L"µ¸¿ò", L"µ¸¿ò");
+	ResourceManager<Sound>::All_Load(L"Sound");	
+	ResourceManager<KFont>::Create(L"µ¸¿ò", L"µ¸¿ò");
 
 	InputManager::Create_Command(L"MOUSE_LB", VK_LBUTTON);
 	InputManager::Create_Command(L"MOUSE_RB", VK_RBUTTON);
@@ -49,12 +50,12 @@ void KCoreLauncher::Build()
 	InputManager::Create_Command(L"Down", 'S');
 	InputManager::Create_Command(L"Right", 'D');
 
-	Core_Class::Main_StateManager().create_state<TestBuilder, TestUpdater>(L"Test");
+	Core_Class::MainSceneMgr().Create_State<TestBuilder, TestUpdater>(L"Test");
 
 
 		
 	// Ã¹¾À ¤·¤·
-	Core_Class::Main_StateManager().change_state(L"Test");
+	Core_Class::MainSceneMgr().Change_State(L"Test");
 
 #if _DEBUG
 	DebugManager::Debug_On();

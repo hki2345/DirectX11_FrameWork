@@ -28,4 +28,5 @@ public:
 	virtual BOOL OnInitDialog();
 
 	void Collision_Test(KCollision*, KCollision*);
+	afx_msg void OnBnClickedButton1();
 };

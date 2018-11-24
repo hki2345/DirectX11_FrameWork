@@ -164,7 +164,7 @@ public:
 	static bool Over(const wchar_t* _Name, float _Time);
 	static bool Over_Reset(const wchar_t* _Name, float _Time);
 	
-	static int	MoveWheel();
+	static int& WheelValue(int* _Ref);
 
 private:
 	static  void Update();
