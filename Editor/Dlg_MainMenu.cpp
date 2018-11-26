@@ -9,6 +9,9 @@
 //#include "SpriteDlg.h"
 //#include "ActorDlg.h"
 #include "Dlg_Editor.h"
+#include "Dlg_MeshConv.h"
+
+
 #include "Edit_Class.h"
 
 
@@ -38,28 +41,11 @@ void Dlg_MainMenu::DoDataExchange(CDataExchange* pDX)
 
 
 BEGIN_MESSAGE_MAP(Dlg_MainMenu, CDialogEx)
-	ON_BN_CLICKED(IDOK, &Dlg_MainMenu::OnBnClickedOk)
-	ON_BN_CLICKED(IDCANCEL, &Dlg_MainMenu::OnBnClickedCancel)
 	ON_NOTIFY(TCN_SELCHANGE, IDC_MENUTAB, &Dlg_MainMenu::OnTcnSelchangeMenutab)
 END_MESSAGE_MAP()
 
 
 // Dlg_MainMenu 메시지 처리기입니다.
-
-
-void Dlg_MainMenu::OnBnClickedOk()
-{
-	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
-	// CDialogEx::OnOK();
-}
-
-
-void Dlg_MainMenu::OnBnClickedCancel()
-{
-	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
-	// CDialogEx::OnCancel();
-}
-
 
 BOOL Dlg_MainMenu::OnInitDialog()
 {
@@ -67,8 +53,9 @@ BOOL Dlg_MainMenu::OnInitDialog()
 
 	SetBackgroundColor(RGB(255, 255, 255), TRUE);
 
-	CreateDlg<Dlg_Editor>(IDD_TOOLDLG, L"ToolDlg");
-	//CreateDlg<ActorDlg>(IDD_ACTORDLG, L"ActorDlg", false);
+	CreateDlg<Dlg_MeshConv>(IDD_MESHDLG, L"Mesh...");
+	CreateDlg<Dlg_Editor>(IDD_TOOLDLG, L"Tool");
+	// CreateDlg<Dlg_Editor>(IDD_TOOLDLG, L"ActorDlg");
 	//CreateDlg<SpriteDlg>(IDD_SPRITEDLG, L"SpriteDlg");
 	Show_Dlg(0);
 	// TODO:  여기에 추가 초기화 작업을 추가합니다.

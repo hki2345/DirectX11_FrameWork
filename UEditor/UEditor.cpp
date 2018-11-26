@@ -3,6 +3,7 @@
 #include "ComDlg.cpp"
 #include "Dlg_Editor.cpp"
 #include "Dlg_MainMenu.cpp"
+#include "Dlg_MeshConv.cpp"
 #include "Dlg_TransPosition.cpp"
 #include "DropEditor.cpp"
 #include "Edit_Class.cpp"

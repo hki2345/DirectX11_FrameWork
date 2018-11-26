@@ -3,6 +3,8 @@
 #include "WriteStream.h"
 #include "ReadStream.h"
 
+#include "KThread.h"
+
 /******************** KM3 Data ********************/
 void KM3Data::ConvertToKM3(KFBX* _Data)
 {

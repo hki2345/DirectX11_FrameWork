@@ -9,6 +9,8 @@
 #include <Sampler.h>
 
 
+#include <KThread.h>
+
 SC2_Camera::SC2_Camera() : m_Speed(10.0f)
 {
 }
@@ -113,7 +115,7 @@ bool SC2_Camera::Init()
 }
 
 void SC2_Camera::Update()
-{
+{	
 	switch (m_CMode)
 	{
 	case SC2_Camera::S2M_STATE:

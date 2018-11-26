@@ -91,7 +91,7 @@ void View_Component::Set_One(TheOne* _pActor)
 {
 	m_pActor = _pActor;
 
-	Reset();
+	// Reset();
 }
 
 

@@ -4,6 +4,10 @@
 #include "DXContainer_DE.h"
 #include <algorithm>
 
+#include "ResourceManager.h"
+#include "KThread.h"
+
+
 
 FBXLoader::FBXLoader()
 {

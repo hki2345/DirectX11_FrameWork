@@ -76,6 +76,7 @@
     <ClCompile Include="Dlg_TransPosition.cpp">
       <Filter>99 Dialog</Filter>
     </ClCompile>
+    <ClCompile Include="Dlg_MeshConv.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -153,6 +154,7 @@
     <ClInclude Include="Dlg_TransPosition.h">
       <Filter>99 Dialog</Filter>
     </ClInclude>
+    <ClInclude Include="Dlg_MeshConv.h" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="00 MFC">

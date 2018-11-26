@@ -35,6 +35,8 @@ public:
 	static bool Recov_Thread(const wchar_t* _Name);
 
 	// 일반 전역 함수 시작 -> 바로 스레드에 적용 가능
+	// 스레드 이름, 실행할 함수, 구동되는 클래스
+	// 해당함수의 반환값은 unsigned int, 인수 값은 void* _args
 	static bool Start_Thread(const wchar_t* _Name, unsigned int(__stdcall *_StdFuncPtr)(void*), void* _Arg = nullptr);
 
 	// 어떤 객체 안 멤버함수를 실행 시켜주는 스레드 -> 형을 맞추어 실행

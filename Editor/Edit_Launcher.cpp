@@ -10,6 +10,9 @@
 #include <KImage.h>
 #include <Sound.h>
 
+#include <KThread.h>
+#include <Renderer_BonAni.h>
+
 Edit_Launcher::Edit_Launcher()
 {
 }
@@ -44,6 +47,4 @@ void Edit_Launcher::Build()
 	InputManager::Create_Command(L"Down", 'S');
 	InputManager::Create_Command(L"Right", 'D');
 	InputManager::Create_Command(L"Q", 'Q');
-
-
 }

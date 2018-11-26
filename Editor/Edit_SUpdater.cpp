@@ -38,16 +38,16 @@ void Edit_SUpdater::Update_State()
 	{
 		KThread::Start_Thread<Edit_SUpdater>(L"TestThread", &Edit_SUpdater::Func, this);
 
-		//if (true == m_bTestThread)
-		//{
-		//	KThread::Pause_Thread(L"TestThread");
-		//	CheckNumber = Number;
-		//	m_bTestThread = false;
-		//}
-		//else {
-		//	KThread::Recov_Thread(L"TestThread");
-		//	m_bTestThread = true;
-		//}
+		if (true == m_bTestThread)
+		{
+			KThread::Pause_Thread(L"TestThread");
+			CheckNumber = Number;
+			m_bTestThread = false;
+		}
+		else {
+			KThread::Recov_Thread(L"TestThread");
+			m_bTestThread = true;
+		}
 	}
 
 	if (InputManager::Press(L"Up"))
@@ -162,3 +162,5 @@ void Edit_SUpdater::DebugRender() {
 	_itow_s(CheckNumber, Arr, 10);
 	DebugManager::Draw_Font(Arr, { 320.0f, 80.0f }, 50.0f);
 }
+
+

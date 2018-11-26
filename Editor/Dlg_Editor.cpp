@@ -15,6 +15,9 @@
 #include <Renderer_Terrain.h>
 #include <Texture_Multi.h>
 
+#include <DebugManager.h>
+#include <TimeManager.h>
+#include <KThread.h>
 
 #include <ResourceManager.h>
 #include <KImage.h>
@@ -48,38 +51,26 @@ void Dlg_Editor::DoDataExchange(CDataExchange* pDX)
 
 
 BEGIN_MESSAGE_MAP(Dlg_Editor, TabDlg)
-	ON_BN_CLICKED(IDOK, &Dlg_Editor::OnBnClickedOk)
-	ON_BN_CLICKED(IDCANCEL, &Dlg_Editor::OnBnClickedCancel)
-	ON_BN_CLICKED(IDC_BUTTON1, &Dlg_Editor::OnBnClickedButton1)
 END_MESSAGE_MAP()
 
 
 // Dlg_Editor 메시지 처리기입니다.
 
 
-void Dlg_Editor::OnBnClickedOk()
-{
-	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
-}
-
-
-void Dlg_Editor::OnBnClickedCancel()
-{
-	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
-}
 
 
 BOOL Dlg_Editor::OnInitDialog()
 {
 	TabDlg::OnInitDialog();
 
-			KPtr<State> TabScene = Core_Class::MainSceneMgr().Find_State(SceneName.GetString());
+	KPtr<State> TabScene = Core_Class::MainSceneMgr().Find_State(SceneName.GetString());
 
 	if (nullptr == TabScene) 
 	{
 		KASSERT(true);
 	}
 
+	// TabScene->Camera()->Change_Mode();
 	TabScene->Camera()->Add_Component<SC2_Camera>();
 	TabScene->Camera()->Far(10000.0f);
 	TabScene->Camera()->one()->Trans()->pos_local(KVector4(0.0f, 10.0f, -20.0f));
@@ -121,7 +112,7 @@ BOOL Dlg_Editor::OnInitDialog()
 	m_context.m_pNewViewClass = RUNTIME_CLASS(View_Component);
 	View_Component* pView = (View_Component*)((CFrameWnd*)this)->CreateView(&m_context);
 
-	RECT ViewSize = { 200, 10, 700, 530 };
+	RECT ViewSize = { 10, 10, 700, 530 };
 	pView->ShowWindow(SW_SHOW);
 	pView->MoveWindow(&ViewSize);
 
@@ -156,17 +147,23 @@ BOOL Dlg_Editor::OnInitDialog()
 	
 
 
-	// 해처리와 히드라가 안입혀진다. 나머진 다됌
 	KPtr<TheOne> TestAni1 = TabScene->Create_One(L"Test");
 	TestAni1->Trans()->pos_local(KVector(.0f));
 	TestAni1->Trans()->scale_local(KVector(1.f, 1.f, 1.f));
 	KPtr<Renderer_BonAni> TestRender1 = TestAni1->Add_Component<Renderer_BonAni>();
-	
+
 	ResourceManager<MeshContainer>::Load((PathManager::Find_ForderPathStr(L"Mesh") + L"Zerg\\Hydralisk.FBX").c_str());
+	
 	TestRender1->Set_Fbx(L"Hydralisk.FBX");
 	TestRender1->Create_AniChanger(L"TestAni", 0, 70000);
 	TestRender1->Set_AniChanger(L"TestAni");
-/*
+
+
+
+
+
+	// 해처리와 히드라가 안입혀진다. 나머진 다됌
+	/*
 	KPtr<TheOne> TestAni2 = TabScene->Create_One(L"Test");
 	TestAni2->Trans()->pos_local(KVector(.0f));
 	TestAni2->Trans()->scale_local(KVector(1.f, 1.f, 1.f));
@@ -204,7 +201,6 @@ BOOL Dlg_Editor::OnInitDialog()
 	TerMESH1->Set_RSState(L"SFRONT");
 
 
-
 	KPtr<TheOne> SPHERELEFT = TabScene->Create_One();
 	SPHERELEFT->Trans()->scale_local(KVector4(10.0f, 10.0f, 10.0f));
 	SPHERELEFT->Trans()->pos_local(KVector4(-15.0f, 0.0f, 0.0f));
@@ -220,7 +216,6 @@ BOOL Dlg_Editor::OnInitDialog()
 	TabScene->This_Col3DManager.Link(101, 100);
 	TabScene->This_Col3DManager.Link(100, 101);
 
-
 	// KPtr<KRay3D> RayCol = TabScene->Camera()->Add_Component<KRay3D>(101);
 	// RayCol->EnterFunc(this, &Dlg_Editor::Collision_Test);
 	// 
@@ -233,11 +228,5 @@ BOOL Dlg_Editor::OnInitDialog()
 
 void Dlg_Editor::Collision_Test(KCollision*, KCollision*)
 {
-	int a = 0;
-}
 
-void Dlg_Editor::OnBnClickedButton1()
-{
-	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
-	int a = 9;
 }

@@ -23,8 +23,7 @@ protected:
 
 	DECLARE_MESSAGE_MAP()
 public:
-	afx_msg void OnBnClickedOk();
-	afx_msg void OnBnClickedCancel();
+	afx_msg void OnBnClickedButton1();
 	afx_msg void OnEnFocusTransValue(UINT _Id);
 	afx_msg void OnEnChangeTransValue(UINT _Id);
 

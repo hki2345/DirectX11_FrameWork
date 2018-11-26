@@ -18,6 +18,7 @@
 #define IDD_SPRITESELECT                334
 #define IDD_TOOLDLG                     336
 #define IDD_DIALOG1                     340
+#define IDD_MESHDLG                     342
 #define IDC_MENUTAB                     1000
 #define IDC_BUTTON1                     1001
 #define IDC_CRESCENE                    1001
@@ -25,6 +26,7 @@
 #define IDC_CREACTOR                    1001
 #define IDC_ADDCOM                      1001
 #define IDC_SPRITEBUTTON                1001
+#define IDC_TESTBTN                     1001
 #define IDC_SPRITETREE                  1002
 #define IDC_SCENELIST                   1003
 #define IDC_LOADDATA                    1003
@@ -52,6 +54,7 @@
 #define IDC_UVINDEX                     1023
 #define IDC_SAVESCENE                   1024
 #define IDC_BUTTON2                     1025
+#define IDC_FBX2KM3TAB                  1026
 #define IDC_POSX2                       1031
 #define IDC_POSY2                       1032
 #define IDC_POSZ2                       1033
@@ -66,9 +69,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        342
+#define _APS_NEXT_RESOURCE_VALUE        344
 #define _APS_NEXT_COMMAND_VALUE         32771
-#define _APS_NEXT_CONTROL_VALUE         1026
+#define _APS_NEXT_CONTROL_VALUE         1027
 #define _APS_NEXT_SYMED_VALUE           312
 #endif
 #endif

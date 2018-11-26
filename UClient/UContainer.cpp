@@ -4,4 +4,5 @@
 #include "SC2_Camera.cpp"
 #include "SC2_Force.cpp"
 #include "Unit_Cannon.cpp"
+#include "Unit_Marine.cpp"
 #include "Unit_SkillObj.cpp"

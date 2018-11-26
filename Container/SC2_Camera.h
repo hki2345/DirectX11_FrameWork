@@ -46,7 +46,6 @@ private:
 	KPtr<Sampler> m_Smp;
 
 
-
 private:
 	void Update_State();
 	void Update_Part();
@@ -54,8 +53,6 @@ private:
 	bool Update_ScrCheck();
 	void Update_Key();
 	void Update_Wheel();
-
-
 
 public:
 	KPtr<Camera> camera()
