@@ -15,7 +15,12 @@ public:
 
 private:
 	DirectX::ScratchImage			m_Image;
-	ID3D11Texture2D*				m_pTex2D;
+	
+	// 1, 2, 3차원의 텍스쳐를 모두 받을 수 있다.
+	// ID3D11Texture2D*				m_pTex2D;
+	ID3D11Resource*					m_pTex;
+	const type_info*				m_TexInfo;
+
 
 	// 쉐이더에 텍스처를 넣어줄때 이녀석으로 넣어준다.
 	// 텍스쳐에 넣어줄 세이더
@@ -40,10 +45,47 @@ public:
 	ID3D11DepthStencilView*			DSV() { return m_pDSV; }
 
 public:
-	void Set_View(UINT _BindFlag);
+	void Set_View(KUINT _BindFlag
+	, const D3D11_DEPTH_STENCIL_VIEW_DESC* _DSD = nullptr
+		, const D3D11_RENDER_TARGET_VIEW_DESC* _RTD = nullptr
+		, const D3D11_SHADER_RESOURCE_VIEW_DESC* _SRD = nullptr);
 
-	bool Create(UINT _W, UINT _H, UINT _BindFlag, DXGI_FORMAT _eFormat, D3D11_USAGE _eUsage = D3D11_USAGE::D3D11_USAGE_DEFAULT);
-	bool Create(ID3D11Texture2D* _pTex2D, UINT _BindFlag);
+	// 1차원 텍스쳐 띄우기
+	bool Create(KUINT _W, void* _pInitData, KUINT _Size, KUINT _BindFlag, DXGI_FORMAT _eFormat, D3D11_USAGE _eUsage = D3D11_USAGE::D3D11_USAGE_DEFAULT);
+	bool Create(KUINT _W, KUINT _H, KUINT _BindFlag, DXGI_FORMAT _eFormat, D3D11_USAGE _eUsage = D3D11_USAGE::D3D11_USAGE_DEFAULT);
+	bool Create(ID3D11Texture2D* _pTex2D, KUINT _BindFlag);
+
+
+	ID3D11Texture1D* texture1D()
+	{
+		if (m_TexInfo != &typeid(ID3D11Texture1D*))
+		{
+			return nullptr;
+		}
+
+		return (ID3D11Texture1D*)m_pTex;
+	}
+
+	ID3D11Texture2D* texture2D()
+	{
+		if (m_TexInfo != &typeid(ID3D11Texture2D*))
+		{
+			return nullptr;
+		}
+
+		return (ID3D11Texture2D*)m_pTex;
+	}
+
+	ID3D11Texture3D* texture3D()
+	{
+		if (m_TexInfo != &typeid(ID3D11Texture3D*))
+		{
+			return nullptr;
+		}
+
+		return (ID3D11Texture3D*)m_pTex;
+	}
+
 
 public:
 	void Set_Pixel(void* Src, size_t _Size);

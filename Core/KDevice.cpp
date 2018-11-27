@@ -402,7 +402,10 @@ void KDevice::Set_DSSDef(const wchar_t* _Name)
 
 void KDevice::Reset_DSS()
 {
-	m_DSStateDef->Update();
+	if (nullptr == m_DSStateDef)
+	{
+		m_DSStateDef->Update();
+	}
 }
 
 void KDevice::DSState::Update(unsigned int _Ref)
@@ -436,6 +439,7 @@ void KDevice::Set_DSS(const wchar_t* _Name, unsigned int _Ref)
 		return;
 	}
 	DSS->Update(_Ref);
+	m_DSStateCur = DSS;
 }
 
 void KDevice::Set_BS(const wchar_t* _Name) 

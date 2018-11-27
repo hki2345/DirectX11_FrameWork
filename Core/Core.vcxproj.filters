@@ -37,9 +37,6 @@
     <ClInclude Include="DXContainer_DE.h">
       <Filter>02 Device\DirectX</Filter>
     </ClInclude>
-    <ClInclude Include="KMath.h">
-      <Filter>02 Device\DirectX</Filter>
-    </ClInclude>
     <ClInclude Include="KDevice.h">
       <Filter>02 Device</Filter>
     </ClInclude>
@@ -232,6 +229,9 @@
     <ClInclude Include="Shader_GeoMetry.h">
       <Filter>03 Manager\Resource\Child\Material\Shader</Filter>
     </ClInclude>
+    <ClInclude Include="KMath.h">
+      <Filter>00 Core\Assistor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SmartPtr.cpp">
@@ -259,9 +259,6 @@
       <Filter>01 WIndow</Filter>
     </ClCompile>
     <ClCompile Include="DXContainer.cpp">
-      <Filter>02 Device\DirectX</Filter>
-    </ClCompile>
-    <ClCompile Include="KMath.cpp">
       <Filter>02 Device\DirectX</Filter>
     </ClCompile>
     <ClCompile Include="KDevice.cpp">
@@ -446,6 +443,9 @@
     </ClCompile>
     <ClCompile Include="Shader_Hul.cpp">
       <Filter>03 Manager\Resource\Child\Material\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="KMath.cpp">
+      <Filter>00 Core\Assistor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

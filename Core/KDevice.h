@@ -13,7 +13,7 @@
 // 여기서 이 구조는 어떻게 보면 Window, fmod에서 권한을 가져오는 것과 일맥상 통한다.
 // 권한을 가져올 포인터 마련 -> 가져옴 -> 다른 연결된 포인터 가져옴 -> 적용
 // 디바이스는 해당 권한을 불러오려는 윈도우를 알아야한다.
-class KDevice : public Mof_KWindow
+class KDevice : public Mof_KWindow, Begin
 {
 public:
 	KDevice(KWindow* _Win);
@@ -107,6 +107,7 @@ private:
 
 private:
 	KPtr<DSState> m_DSStateDef;
+	KPtr<DSState> m_DSStateCur;
 	std::unordered_map<std::wstring, KPtr<DSState>> m_DSSMap;
 
 private:

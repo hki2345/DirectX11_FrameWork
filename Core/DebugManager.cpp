@@ -187,6 +187,10 @@ void DebugManager::Targetting()
 	float SizeZ = Core_Class::MainWindow().height_f() / WCount;
 
 
+
+
+
+
 	std::map<int, KPtr<Camera>>::iterator m_CSI = Core_Class::MainScene()->This_RenderManager.m_CamMap.begin();
 	std::map<int, KPtr<Camera>>::iterator m_CEI = Core_Class::MainScene()->This_RenderManager.m_CamMap.end();
 	std::vector<KPtr<RenderTarget_Multi>> TempMulti;

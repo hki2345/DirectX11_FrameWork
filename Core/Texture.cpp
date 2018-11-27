@@ -22,7 +22,8 @@
 
 
 Texture::Texture() :
-	m_pTex2D(nullptr),
+	m_pTex(nullptr),
+	m_TexInfo(nullptr),
 	m_pSRV(nullptr), 
 	m_pRTV(nullptr),
 	m_pDSV(nullptr)
@@ -33,7 +34,7 @@ Texture::Texture() :
 
 Texture::~Texture()
 {
-	KRELESE(m_pTex2D);
+	KRELESE(m_pTex);
 	KRELESE(m_pSRV);
 	KRELESE(m_pRTV);
 	KRELESE(m_pDSV);
@@ -85,9 +86,11 @@ bool Texture::Load()
 
 	KASSERT(nullptr == m_pSRV);
 
-	m_pSRV->GetResource((ID3D11Resource**)(&m_pTex2D));
+	m_pSRV->GetResource((ID3D11Resource**)(&m_pTex));
 
-	KASSERT(nullptr == m_pTex2D);
+	KASSERT(nullptr == m_pTex);
+
+	m_TexInfo = &typeid(ID3D11Texture2D*);
 	return true;
 }
 
@@ -156,7 +159,61 @@ KColor Texture::GetPixelF(const int& _X, const int& _Y)
 
 
 
+bool Texture::Create(KUINT _W, void* _pInitData, KUINT _Size, KUINT _BindFlag, DXGI_FORMAT _eFormat, D3D11_USAGE _eUsage = D3D11_USAGE::D3D11_USAGE_DEFAULT)
+{
+	D3D11_TEXTURE1D_DESC tDecs = {};
 
+	// 1차원이라 높이 0
+	tDecs.Width = _W;
+	tDecs.ArraySize = 1;
+	tDecs.BindFlags = _BindFlag;
+	tDecs.Usage = _eUsage;
+	tDecs.MipLevels = 1;
+	tDecs.Format = _eFormat;
+	tDecs.MiscFlags = 0;
+	tDecs.CPUAccessFlags = 0;
+
+
+	// 리소스를 넣어주는 과정
+	D3D11_SUBRESOURCE_DATA Data;
+	Data.SysMemSlicePitch = 0;
+	Data.SysMemPitch = _Size;
+	Data.pSysMem = _pInitData;
+
+	if (nullptr == _pInitData)
+	{
+		Core_Class::PDevice()->CreateTexture1D(&tDecs, nullptr, (ID3D11Texture1D**)&m_pTex);
+	}
+	else
+	{
+		Core_Class::PDevice()->CreateTexture1D(&tDecs, &Data, (ID3D10Texture1D**)&m_pTex);
+	}
+
+	if (nullptr == m_pTex)
+	{
+		BBY;	
+		return false;
+	}
+
+
+	// MipMap설정
+	tDecs.Format = _eFormat;
+	tDecs.SampleDesc.Count = 1;
+	tDecs.SampleDesc.Quality = 0;
+	tDecs.MipLevels = 1;
+
+	if (S_OK != Core_Class::PDevice()->CreateTexture2D(&tDecs, nullptr, (ID3D11Texture2D**)m_pTex))
+	{
+		BBY;
+		return false;
+	}
+
+	Set_View(_BindFlag, nullptr, nullptr, nullptr);
+	m_TexInfo = &typeid(ID3D11Texture2D*);
+
+	return true;
+
+}
 
 
 
@@ -185,27 +242,32 @@ bool Texture::Create(UINT _W, UINT _H, UINT _BindFlag, DXGI_FORMAT _eFormat,
 	tDecs.SampleDesc.Quality = 0;
 	tDecs.MipLevels = 1;
 
-	if (S_OK != Core_Class::PDevice()->CreateTexture2D(&tDecs, nullptr, &m_pTex2D))
+	if (S_OK != Core_Class::PDevice()->CreateTexture2D(&tDecs, nullptr, (ID3D11Texture2D**)m_pTex))
 	{
 		BBY;
 		return false;
 	}
 
-	Set_View(_BindFlag);
+	Set_View(_BindFlag, nullptr, nullptr, nullptr);
+	m_TexInfo = &typeid(ID3D11Texture2D*);
 
 	return true;
 }
 
 bool Texture::Create(ID3D11Texture2D* _pTex2D, UINT _BindFlag) 
 {
+	m_TexInfo = &typeid(ID3D11Texture2D*);
 	return true;
 }
 
-void Texture::Set_View(UINT _BindFlag)
+void Texture::Set_View(KUINT _BindFlag
+	, const D3D11_DEPTH_STENCIL_VIEW_DESC* _DSD = nullptr
+	, const D3D11_RENDER_TARGET_VIEW_DESC* _RTD = nullptr
+	, const D3D11_SHADER_RESOURCE_VIEW_DESC* _SRD = nullptr)
 {
 	if (D3D11_BIND_FLAG::D3D11_BIND_DEPTH_STENCIL & _BindFlag)
 	{
-		if (S_OK != Core_Class::PDevice()->CreateDepthStencilView(m_pTex2D, 0, &m_pDSV))
+		if (S_OK != Core_Class::PDevice()->CreateDepthStencilView(m_pTex, _DSD, &m_pDSV))
 		{
 			BBY;
 			return;
@@ -215,7 +277,7 @@ void Texture::Set_View(UINT _BindFlag)
 	{
 		if (D3D11_BIND_FLAG::D3D11_BIND_RENDER_TARGET & _BindFlag)
 		{
-			if (S_OK != Core_Class::PDevice()->CreateRenderTargetView(m_pTex2D, 0, &m_pRTV))
+			if (S_OK != Core_Class::PDevice()->CreateRenderTargetView(m_pTex, _RTD, &m_pRTV))
 			{
 				BBY;
 				return;
@@ -223,7 +285,7 @@ void Texture::Set_View(UINT _BindFlag)
 		}
 		if (D3D11_BIND_FLAG::D3D11_BIND_SHADER_RESOURCE & _BindFlag)
 		{
-			if (S_OK != Core_Class::PDevice()->CreateShaderResourceView(m_pTex2D, 0, &m_pSRV))
+			if (S_OK != Core_Class::PDevice()->CreateShaderResourceView(m_pTex, _SRD, &m_pSRV))
 			{
 				BBY;
 				return;
@@ -231,7 +293,7 @@ void Texture::Set_View(UINT _BindFlag)
 		}
 	}
 
-	if (S_OK != DirectX::CaptureTexture(Core_Class::PDevice(), Core_Class::Context(), m_pTex2D, m_Image))
+	if (S_OK != DirectX::CaptureTexture(Core_Class::PDevice(), Core_Class::Context(), m_pTex, m_Image))
 	{
 		BBY;
 		return;
@@ -250,8 +312,8 @@ void Texture::Set_Pixel(void* _pSrc, size_t _Size)
 
 
 	// 텍스쳐를 그리는 녀석-> 이녀석이 저장되면 png가 되는 것이다.
-	Core_Class::Context()->Map(m_pTex2D, 0, D3D11_MAP_WRITE_DISCARD, 0, &SubData);
+	Core_Class::Context()->Map(m_pTex, 0, D3D11_MAP_WRITE_DISCARD, 0, &SubData);
 
 	memcpy_s(SubData.pData, TexSize, _pSrc, _Size);
-	Core_Class::Context()->Unmap(m_pTex2D, 0);
+	Core_Class::Context()->Unmap(m_pTex, 0);
 }
