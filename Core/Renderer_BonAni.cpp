@@ -385,3 +385,41 @@ KPtr<Renderer_BonAni::Ani_Changer> Renderer_BonAni::Find_AniChamnger(const wchar
 
 	return FI->second;
 }
+
+
+void Renderer_BonAni::Set_TexturePath(const TEX_TYPE& _Value, const wchar_t* _Path)
+{
+	for (size_t MeshInx = 0; MeshInx < MCon->m_Data.MeshVec.size(); MeshInx++)
+	{
+		KM3Mesh* pMD = MCon->m_Data.MeshVec[MeshInx];
+		
+
+		// 메터리얼 -> 메터리얼 개수만큼 또 씌워주어야 한다.
+		for (KUINT MtlIdx = 0; MtlIdx < (KUINT)pMD->MtlVec.size(); MtlIdx++)
+		{
+			Material_FbxData* pData = &pMD->MtlVec[MtlIdx];
+
+			switch (_Value)
+			{
+			case TEX_TYPE::TEX_COLOR:
+				memcpy_s(pData->Diff, sizeof(wchar_t) * 512, _Path, sizeof(wchar_t) * 512);
+				break;
+
+			case TEX_TYPE::TEX_BUMP:
+				memcpy_s(pData->Bump, sizeof(wchar_t) * 512, _Path, sizeof(wchar_t) * 512);
+				break;
+
+			case TEX_TYPE::TEX_SPEC:
+				memcpy_s(pData->Spec, sizeof(wchar_t) * 512, _Path, sizeof(wchar_t) * 512);
+				break;
+
+			case TEX_TYPE::TEX_EMIS:
+				memcpy_s(pData->Emiv, sizeof(wchar_t) * 512, _Path, sizeof(wchar_t) * 512);
+				break;
+
+			default:
+				break;
+			}
+		}
+	}
+}

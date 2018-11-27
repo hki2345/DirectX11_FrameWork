@@ -112,7 +112,7 @@ BOOL Dlg_MeshConv::OnInitDialog()
 	LDlg->SceneName = L"FBX Loader";
 	LDlg->Create(IDD_FBXDLG, this);
 	LDlg->SetBackgroundColor(RGB(255, 255, 255), TRUE);
-	LDlg->SetWindowPos(nullptr, 36, 46, Rc.right - 36, Rc.bottom - 46, SWP_NOZORDER);
+	LDlg->SetWindowPos(nullptr, 0, 46, Rc.right - 0, Rc.bottom - 46, SWP_NOZORDER);
 	LDlg->ShowWindow(SW_HIDE);
 	LDlg->m_SceneChange = false;
 	m_DlgVec.push_back(LDlg);
@@ -122,7 +122,7 @@ BOOL Dlg_MeshConv::OnInitDialog()
 	KDlg->SceneName = L"FBX Loader";
 	KDlg->Create(IDD_KM3DLG, this);
 	KDlg->SetBackgroundColor(RGB(255, 255, 255), TRUE);
-	KDlg->SetWindowPos(nullptr, 36, 46, Rc.right - 36, Rc.bottom - 46, SWP_NOZORDER);
+	KDlg->SetWindowPos(nullptr, 0, 46, Rc.right - 0, Rc.bottom - 46, SWP_NOZORDER);
 	KDlg->ShowWindow(SW_HIDE);
 	KDlg->m_SceneChange = false;
 	m_DlgVec.push_back(KDlg);

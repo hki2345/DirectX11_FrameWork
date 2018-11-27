@@ -305,3 +305,19 @@ KPtr<KMaterial> KMaterial::Clone()
 {
 	return new KMaterial(*this);
 }
+
+std::vector<KPtr<Texture >> KMaterial::texture_vec()
+{
+	std::vector<KPtr<Texture>> TmpVec;
+
+	m_TSI = m_TexMap.begin();
+	m_TEI = m_TexMap.end();
+
+
+	for (; m_TSI != m_TEI; ++m_TSI)
+	{
+		TmpVec.push_back(m_TSI->second);
+	}
+
+	return TmpVec;
+}

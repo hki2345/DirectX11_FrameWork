@@ -8,6 +8,7 @@
 #include "Shader_Hul.h"
 
 #include "KBlend.h"
+#include <vector>
 
 // 재질이라고 하는 녀석을 만들것이다.
 enum TEX_TYPE 
@@ -114,6 +115,7 @@ private:
 
 
 public:
+	std::vector<KPtr<Texture >> texture_vec();
 	void Set_MultiTex(const KUINT& _Slot, const wchar_t* _TexName);
 	void Set_Tex(const KUINT& _Slot, const wchar_t* _TexName);
 	void Set_Sampler(const KUINT& _Slot, const wchar_t* _SmpName);

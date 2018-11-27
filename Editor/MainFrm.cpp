@@ -56,19 +56,22 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	//}
 
 	m_MainWnd.Lock();
-
 	m_MainWnd.CreateStatic(this, 1, 2, WS_CHILD | WS_VISIBLE);
+
+	SIZE ASize = { 1200, 600}; 
+	SIZE TSize = { 800, 600};
+	SIZE MSize = { ASize.cx - TSize.cx, 600 };
 
 
 	// 여기서 핸들 넘겨서 디바이스를 초기화하는 모습
-	m_MainWnd.CreateView(0, 0, RUNTIME_CLASS(View_Device), SIZE{ 800, 600 }, nullptr);
+	m_MainWnd.CreateView(0, 0, RUNTIME_CLASS(View_Device), TSize, nullptr);
 		
 	CWnd* pWnd = m_MainWnd.GetPane(0, 0);
 	KCore::Start<Edit_Launcher>(AfxGetInstanceHandle(), L"MainWindow", pWnd->m_hWnd);
 
-	m_MainWnd.CreateView(0, 1, RUNTIME_CLASS(View_Edit), SIZE{ 500, 600 }, nullptr);
+	m_MainWnd.CreateView(0, 1, RUNTIME_CLASS(View_Edit), MSize, nullptr);
 
-	RECT Rc = { 0, 0, 1600, 600 };
+	RECT Rc = { 0, 0, ASize.cx, ASize.cy };
 
 	AdjustWindowRect(&Rc, WS_OVERLAPPEDWINDOW, false);
 	SetWindowPos(nullptr, 0, 0, Rc.right, Rc.bottom - Rc.top + m_MainWnd.GetBoderSizeY() * 2, SWP_NOMOVE | SWP_NOZORDER);

@@ -27,13 +27,25 @@ void Dlg_FbxLoad::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
 	DDX_Control(pDX, IDC_FBXLIST, m_RscList);
+
+	for (int i = 0; i < 4; i++)
+	{
+		DDX_Control(pDX, IDC_DIFFBTN + i, m_TexBtn[i]);
+		DDX_Control(pDX, IDC_DIFFPATH + i, m_TexPath[i]);
+	}
 }
 
 
 BEGIN_MESSAGE_MAP(Dlg_FbxLoad, TabDlg)
-	ON_BN_CLICKED(IDC_FBXLOADBTN, &Dlg_FbxLoad::OnBnClickedFbxloadbtn)
 	ON_LBN_SELCHANGE(IDC_FBXLIST, &Dlg_FbxLoad::OnLbnSelchangeFbxlist)
+	ON_BN_CLICKED(IDC_FBXLOADBTN, &Dlg_FbxLoad::OnBnClickedFbxloadbtn)
 	ON_BN_CLICKED(IDC_TOKM3, &Dlg_FbxLoad::OnBnClickedTokm2)
+	
+	
+	ON_BN_CLICKED(IDC_DIFFBTN, &Dlg_FbxLoad::OnBnClickedDiffbtn)
+	ON_BN_CLICKED(IDC_NORMBTN, &Dlg_FbxLoad::OnBnClickedNormbtn)
+	ON_BN_CLICKED(IDC_SPECBTN, &Dlg_FbxLoad::OnBnClickedSpecbtn)
+	ON_BN_CLICKED(IDC_EMISBTN, &Dlg_FbxLoad::OnBnClickedEmisbtn)
 END_MESSAGE_MAP()
 
 
@@ -87,7 +99,7 @@ void Dlg_FbxLoad::OnBnClickedFbxloadbtn()
 {
 	static TCHAR BASED_CODE szFilter[] = _T("FBX 파일(*.FBX) | *.FBX;*.fbx; |모든파일(*.*)|*.*||");
 
-	CFileDialog dlg(TRUE, _T("*.FBX"), _T("fbx"), OFN_HIDEREADONLY | OFN_ALLOWMULTISELECT, szFilter, this);
+	CFileDialog dlg(TRUE, _T("*.FBX"), _T("*.fbx"), OFN_HIDEREADONLY | OFN_ALLOWMULTISELECT, szFilter, this);
 
 	bool Check;
 
@@ -140,8 +152,7 @@ void Dlg_FbxLoad::OnBnClickedFbxloadbtn()
 
 void Dlg_FbxLoad::Update_RscTree()
 {
-	UpdateData(TRUE);
-	
+	UpdateData(TRUE);	
 	
 	// 리스트 초기화
 	m_RscList.ResetContent();
@@ -155,6 +166,52 @@ void Dlg_FbxLoad::Update_RscTree()
 
 	UpdateData(FALSE);
 }
+
+void Dlg_FbxLoad::Update_Path()
+{
+	if (nullptr == m_One)
+	{
+		return;
+	}
+
+	std::vector<KPtr<Texture>> TmpVec = m_One->Get_Component<Renderer_BonAni>()->material()->texture_vec();
+
+
+	UpdateData(TRUE);
+	for (size_t i = 0; i < 4; i++)
+	{
+		if (i < TmpVec.size())
+		{
+			m_TexPath[i].SetWindowTextW((PathManager::Split_Path(TmpVec[i]->AllPath(), PathManager::Find_ForderPath(L"Mesh")).c_str()));
+		}
+		else
+		{
+			m_TexPath[i].SetWindowTextW(L"Unknown");
+		}
+	}
+	UpdateData(FALSE);
+}
+
+
+void Dlg_FbxLoad::Update_Tex(const TEX_TYPE& _Value, const int& _Inx)
+{
+	if (nullptr == m_One)
+	{
+		return;
+	}
+
+	UpdateData(TRUE);
+	std::wstring Temp = PathManager::Split_Path(Show_DDSWindow(), PathManager::Find_ForderPath(L"Mesh"));
+	m_TexPath[_Inx].SetWindowTextW(Temp.c_str());
+	UpdateData(FALSE);
+
+	KPtr<Texture> TTex = ResourceManager<Texture>::Load(Temp.c_str());
+
+	KPtr<Renderer_BonAni> TAni = m_One->Get_Component<Renderer_BonAni>();
+	TAni->material()->Insert_TexData(_Value, _Inx, TTex->FileNameExt());
+	TAni->Set_TexturePath(_Value, Temp.c_str());
+}
+
 
 void Dlg_FbxLoad::OnLbnSelchangeFbxlist()
 {
@@ -181,6 +238,9 @@ void Dlg_FbxLoad::OnLbnSelchangeFbxlist()
 	TRender->Set_Fbx(TempStr);
 	TRender->Create_AniChanger(L"ALLAni", 0, 100000);
 	TRender->Set_AniChanger(L"ALLAni");
+
+
+	Update_Path();
 }
 
 
@@ -200,4 +260,52 @@ void Dlg_FbxLoad::OnBnClickedTokm2()
 
 
 	MessageBox(L"성공적으로 변환되었습니다.");
+}
+
+
+
+
+void Dlg_FbxLoad::OnBnClickedDiffbtn()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	Update_Tex(TEX_TYPE::TEX_COLOR, 0);
+}
+
+
+void Dlg_FbxLoad::OnBnClickedNormbtn()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	Update_Tex(TEX_TYPE::TEX_BUMP, 1);
+}
+
+
+void Dlg_FbxLoad::OnBnClickedSpecbtn()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	Update_Tex(TEX_TYPE::TEX_SPEC, 2);
+}
+
+
+void Dlg_FbxLoad::OnBnClickedEmisbtn()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	Update_Tex(TEX_TYPE::TEX_EMIS, 3);
+}
+
+
+
+std::wstring Dlg_FbxLoad::Show_DDSWindow()
+{
+	static TCHAR BASED_CODE szFilter[] = _T("DDS 파일(*.DDS) | *.DDS;*.dds; |모든파일(*.*)|*.*||");
+
+	CFileDialog dlg(TRUE, _T("*.DDS"), _T("*.dds"), OFN_HIDEREADONLY, szFilter, this);
+
+
+	if (IDOK == dlg.DoModal())
+	{
+		std::wstring Tmp = dlg.GetPathName();
+		return Tmp;
+	}
+
+	return L"";
 }

@@ -89,6 +89,7 @@ public:
 public:
 	void Load_FbxTest(const wchar_t* _Path);
 	void Set_Fbx(const wchar_t* _Name);
+	void Set_TexturePath(const TEX_TYPE& _Value, const wchar_t* _Path);
 	void PrevUpdate() override;
 	void RenderBegin(KPtr<Camera> _Cam, const KUINT& _MeshIdx, const KUINT& _MtlIdx) override;
 
