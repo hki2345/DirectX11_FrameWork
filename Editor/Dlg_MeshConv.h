@@ -26,7 +26,7 @@ private:
 
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV 지원입니다.
-	void Show_Dlg(size_t _Index);
+	void Show_Dlg(const int& _Index);
 	
 	DECLARE_MESSAGE_MAP()
 public:

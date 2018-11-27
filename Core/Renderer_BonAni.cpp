@@ -98,10 +98,13 @@ void Renderer_BonAni::Init_Mesh()
 
 			Material_FbxData* pData = &pMD->MtlVec[MtlIdx];
 
+			std::wstring TMesh = PathManager::Find_ForderPath(L"Mesh");
+			
 			// 디퓨즈 받아오기
 			if (pData->Diff[0] != 0)
 			{
-				KPtr<Texture> Tex = ResourceManager<Texture>::Load(pData->Diff);
+				std::wstring Tmp = pData->Diff;
+				KPtr<Texture> Tex = ResourceManager<Texture>::Load((TMesh + Tmp).c_str());
 				CMat->Insert_TexData(TEX_TYPE::TEX_COLOR, 0, Tex->FileForder());
 			}
 
@@ -109,7 +112,8 @@ void Renderer_BonAni::Init_Mesh()
 			// 범프 받아오기
 			if (pData->Bump[0] != 0)
 			{
-				KPtr<Texture> Tex = ResourceManager<Texture>::Load(pData->Bump);
+				std::wstring Tmp = pData->Bump;
+				KPtr<Texture> Tex = ResourceManager<Texture>::Load((TMesh + Tmp).c_str());
 				CMat->Insert_TexData(TEX_TYPE::TEX_BUMP, 1, Tex->FileForder());
 			}
 
@@ -117,14 +121,16 @@ void Renderer_BonAni::Init_Mesh()
 			// 스펙 받아오기
 			if (pData->Spec[0] != 0)
 			{
-				KPtr<Texture> Tex = ResourceManager<Texture>::Load(pData->Spec);
+				std::wstring Tmp = pData->Spec;
+				KPtr<Texture> Tex = ResourceManager<Texture>::Load((TMesh + Tmp).c_str());
 				CMat->Insert_TexData(TEX_TYPE::TEX_SPEC, 2, Tex->FileForder());
 			}
 
 			// 이머 받아오기
 			if (pData->Emiv[0] != 0)
 			{
-				KPtr<Texture> Tex = ResourceManager<Texture>::Load(pData->Emiv);
+				std::wstring Tmp = pData->Emiv;
+				KPtr<Texture> Tex = ResourceManager<Texture>::Load((TMesh + Tmp).c_str());
 				CMat->Insert_TexData(TEX_TYPE::TEX_EMIS, 3, Tex->FileForder());
 			}
 

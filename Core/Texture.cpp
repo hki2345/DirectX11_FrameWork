@@ -159,7 +159,7 @@ KColor Texture::GetPixelF(const int& _X, const int& _Y)
 
 
 
-bool Texture::Create(KUINT _W, void* _pInitData, KUINT _Size, KUINT _BindFlag, DXGI_FORMAT _eFormat, D3D11_USAGE _eUsage = D3D11_USAGE::D3D11_USAGE_DEFAULT)
+bool Texture::Create(KUINT _W, void* _pInitData, KUINT _Size, KUINT _BindFlag, DXGI_FORMAT _eFormat, D3D11_USAGE _eUsage /*= D3D11_USAGE::D3D11_USAGE_DEFAULT*/)
 {
 	D3D11_TEXTURE1D_DESC tDecs = {};
 
@@ -186,7 +186,7 @@ bool Texture::Create(KUINT _W, void* _pInitData, KUINT _Size, KUINT _BindFlag, D
 	}
 	else
 	{
-		Core_Class::PDevice()->CreateTexture1D(&tDecs, &Data, (ID3D10Texture1D**)&m_pTex);
+		Core_Class::PDevice()->CreateTexture1D(&tDecs, &Data, (ID3D11Texture1D**)&m_pTex);
 	}
 
 	if (nullptr == m_pTex)
@@ -196,20 +196,15 @@ bool Texture::Create(KUINT _W, void* _pInitData, KUINT _Size, KUINT _BindFlag, D
 	}
 
 
-	// MipMap¼³Á¤
-	tDecs.Format = _eFormat;
-	tDecs.SampleDesc.Count = 1;
-	tDecs.SampleDesc.Quality = 0;
-	tDecs.MipLevels = 1;
+	D3D11_SHADER_RESOURCE_VIEW_DESC tSR = {};
+	tSR.Format = tDecs.Format;
+	tSR.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE1D;
+	tSR.Texture1D.MipLevels = tDecs.MipLevels;
+	tSR.Texture1D.MostDetailedMip = 0;
 
-	if (S_OK != Core_Class::PDevice()->CreateTexture2D(&tDecs, nullptr, (ID3D11Texture2D**)m_pTex))
-	{
-		BBY;
-		return false;
-	}
 
 	Set_View(_BindFlag, nullptr, nullptr, nullptr);
-	m_TexInfo = &typeid(ID3D11Texture2D*);
+	m_TexInfo = &typeid(ID3D11Texture1D*);
 
 	return true;
 
@@ -217,7 +212,7 @@ bool Texture::Create(KUINT _W, void* _pInitData, KUINT _Size, KUINT _BindFlag, D
 
 
 
-bool Texture::Create(UINT _W, UINT _H, UINT _BindFlag, DXGI_FORMAT _eFormat,
+bool Texture::Create(KUINT _W, KUINT _H, KUINT _BindFlag, DXGI_FORMAT _eFormat,
 	D3D11_USAGE _eUsage /*= D3D11_USAGE::D3D11_USAGE_DEFAULT*/) 
 {
 	D3D11_TEXTURE2D_DESC tDecs = {};
@@ -242,7 +237,7 @@ bool Texture::Create(UINT _W, UINT _H, UINT _BindFlag, DXGI_FORMAT _eFormat,
 	tDecs.SampleDesc.Quality = 0;
 	tDecs.MipLevels = 1;
 
-	if (S_OK != Core_Class::PDevice()->CreateTexture2D(&tDecs, nullptr, (ID3D11Texture2D**)m_pTex))
+	if (S_OK != Core_Class::PDevice()->CreateTexture2D(&tDecs, nullptr, (ID3D11Texture2D**)&m_pTex))
 	{
 		BBY;
 		return false;
@@ -254,16 +249,16 @@ bool Texture::Create(UINT _W, UINT _H, UINT _BindFlag, DXGI_FORMAT _eFormat,
 	return true;
 }
 
-bool Texture::Create(ID3D11Texture2D* _pTex2D, UINT _BindFlag) 
+bool Texture::Create(ID3D11Texture2D* _pTex2D, KUINT _BindFlag)
 {
 	m_TexInfo = &typeid(ID3D11Texture2D*);
 	return true;
 }
 
 void Texture::Set_View(KUINT _BindFlag
-	, const D3D11_DEPTH_STENCIL_VIEW_DESC* _DSD = nullptr
-	, const D3D11_RENDER_TARGET_VIEW_DESC* _RTD = nullptr
-	, const D3D11_SHADER_RESOURCE_VIEW_DESC* _SRD = nullptr)
+	, const D3D11_DEPTH_STENCIL_VIEW_DESC* _DSD/* = nullptr*/
+	, const D3D11_RENDER_TARGET_VIEW_DESC* _RTD/* = nullptr*/
+	, const D3D11_SHADER_RESOURCE_VIEW_DESC* _SRD /*= nullptr*/)
 {
 	if (D3D11_BIND_FLAG::D3D11_BIND_DEPTH_STENCIL & _BindFlag)
 	{

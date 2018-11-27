@@ -651,13 +651,22 @@ void FBXLoader::Set_Material(Mesh_FbxData* _pMD, FbxSurfaceMaterial* _pSur)
 	NewMtl.Info.Spec = Get_MaterialColor(_pSur, FbxSurfaceMaterial::sSpecular, FbxSurfaceMaterial::sSpecularFactor);
 	NewMtl.Info.Emiv = Get_MaterialColor(_pSur, FbxSurfaceMaterial::sEmissive, FbxSurfaceMaterial::sEmissiveFactor);
 
+	std::wstring tMesh = PathManager::Find_ForderPath(L"Mesh");
+
 	std::wstring NName = Get_MaterialTexName(_pSur, FbxSurfaceMaterial::sDiffuse);
+	NName = PathManager::Split_Path(NName, tMesh);
 	memcpy_s(NewMtl.Diff, sizeof(wchar_t) * 512, NName.c_str(), NName.size() * 2);
-	NName = NName = Get_MaterialTexName(_pSur, FbxSurfaceMaterial::sNormalMap);
+
+	NName = Get_MaterialTexName(_pSur, FbxSurfaceMaterial::sNormalMap);
+	NName = PathManager::Split_Path(NName, tMesh);
 	memcpy_s(NewMtl.Bump, sizeof(wchar_t) * 512, NName.c_str(), NName.size() * 2);
-	NName = NName = Get_MaterialTexName(_pSur, FbxSurfaceMaterial::sSpecular);
+
+	NName = Get_MaterialTexName(_pSur, FbxSurfaceMaterial::sSpecular);
+	NName = PathManager::Split_Path(NName, tMesh);
 	memcpy_s(NewMtl.Spec, sizeof(wchar_t) * 512, NName.c_str(), NName.size() * 2);
-	NName = NName = Get_MaterialTexName(_pSur, FbxSurfaceMaterial::sEmissive);
+	
+	NName = Get_MaterialTexName(_pSur, FbxSurfaceMaterial::sEmissive);
+	NName = PathManager::Split_Path(NName, tMesh);
 	memcpy_s(NewMtl.Emiv, sizeof(wchar_t) * 512, NName.c_str(), NName.size() * 2);
 
 	_pMD->m_MtlVec.push_back(NewMtl);

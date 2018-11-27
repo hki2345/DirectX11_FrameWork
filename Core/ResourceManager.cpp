@@ -118,6 +118,18 @@ std::wstring PathManager::Split_FileName(const wchar_t* _Path)
 	return Name + Exi;
 }
 
+std::wstring PathManager::Split_Path(const std::wstring& _ALL, const std::wstring& _FPath)
+{
+	if (L"" == _ALL)
+	{
+		return L"";
+	}
+
+	wchar_t Tmp[128] = { 0, };
+	_ALL.copy(Tmp, _ALL.size() - _FPath.size(), _FPath.size());
+	return Tmp;
+}
+
 
 
 /********************* All Resource Load **********************/

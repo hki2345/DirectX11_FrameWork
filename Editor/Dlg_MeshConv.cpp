@@ -135,7 +135,7 @@ BOOL Dlg_MeshConv::OnInitDialog()
 	return TRUE;
 }
 
-void Dlg_MeshConv::Show_Dlg(size_t _Index)
+void Dlg_MeshConv::Show_Dlg(const int& _Index)
 {
 	m_DlgVec[m_CurIdx]->ShowWindow(SW_HIDE);
 	m_DlgVec[m_CurIdx]->Hide_Dlg();

@@ -35,6 +35,7 @@ public:
 	static std::wstring		Add_FolderFile(const wchar_t* _FolderKey, const wchar_t* _FileName);
 	static std::wstring		Chain_StringInt(const std::wstring& _Name, const int& _Value);
 	static std::wstring		Split_FileName(const wchar_t* _Path);
+	static std::wstring		Split_Path(const std::wstring& _ALL, const std::wstring& _FPath);
 
 private:
 	static void Init();

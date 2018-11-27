@@ -13,6 +13,8 @@ Renderer::Renderer() : m_RsState(nullptr)
 	{
 		BBY;
 	}
+
+	ROpt.Render_DT = RENDER_DATATYPE::RDT_BASE;
 }
 
 

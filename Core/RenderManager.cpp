@@ -294,6 +294,12 @@ void RenderManager::Render_Defferd(KPtr<Camera> _Camera, std::map<int, std::list
 					(*m_RSI)->RenderFin();
 				}
 			}
+			else if (RENDER_DATATYPE::RDT_ONE == (*m_RSI)->ROpt.Render_DT)
+			{
+				(*m_RSI)->RenderBegin(_Camera, 0, 0);
+				(*m_RSI)->Render(_Camera, 0, 0, nullptr);
+				(*m_RSI)->RenderFin();
+			}
 
 			(*m_RSI)->RenderFin();
 		}
@@ -337,6 +343,12 @@ void RenderManager::Render_Forward(KPtr<Camera> _Camera, std::map<int, std::list
 					(*m_RSI)->RenderFin();
 				}
 
+			}
+			else if (RENDER_DATATYPE::RDT_ONE == (*m_RSI)->ROpt.Render_DT)
+			{
+				(*m_RSI)->RenderBegin(_Camera, 0, 0);
+				(*m_RSI)->Render(_Camera, 0, 0, nullptr);
+				(*m_RSI)->RenderFin();
 			}
 
 			Core_Class::MainDevice().ResetContext();

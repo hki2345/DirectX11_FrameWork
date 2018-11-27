@@ -32,12 +32,12 @@ void Texture_Multi::Create_SubMTex(D3D11_USAGE _eUsage)
 	// 텍스쳐 배열 돌면서 얻은 픽셀로 새로운 텍스쳐 찍어냄
 	for (size_t i = 0; i < m_TexVec.size(); i++)
 	{
-		if (nullptr == m_TexVec[i]->m_pTex2D)
+		if (nullptr == m_TexVec[i]->texture2D())
 		{
 			BBY;
 		}
 
-		m_TexVec[i]->m_pTex2D->GetDesc(&tDecs);
+		m_TexVec[i]->texture2D()->GetDesc(&tDecs);
 
 		tDecs.BindFlags = 0;
 		tDecs.CPUAccessFlags = D3D11_CPU_ACCESS_READ;
@@ -58,7 +58,7 @@ void Texture_Multi::Create_SubMTex(D3D11_USAGE _eUsage)
 	}
 
 
-	m_TexVec[0]->m_pTex2D->GetDesc(&tDecs);
+	m_TexVec[0]->texture2D()->GetDesc(&tDecs);
 	D3D11_TEXTURE2D_DESC tVecDesc = {};
 	tVecDesc.Width = tDecs.Width;
 	tVecDesc.Height = tDecs.Height;

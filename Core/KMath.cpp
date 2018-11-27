@@ -1,5 +1,4 @@
 #include "KMath.h"
-#include "DXContainer.h"
 #include "TransPosition.h"
 
 
@@ -15,6 +14,11 @@ KMath::~KMath()
 KRect KMath::GKRect = KRect();
 KRect KMath::GWRECT = KRect();
 KCircle KMath::GCILCLE = KRect();
+
+
+std::random_device KMath::RD;
+std::mt19937 KMath::MT;
+
 
 //
 //// ≈ıøµ ∫§≈Õ , L∫§≈Õ , R∫§≈Õ

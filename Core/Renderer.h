@@ -32,6 +32,7 @@ enum RENDER_DATATYPE
 {
 	RDT_BASE,
 	RDT_DATA,
+	RDT_ONE,
 };
 
 class RenderOption
