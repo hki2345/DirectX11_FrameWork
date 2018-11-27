@@ -34,12 +34,6 @@
     <ClCompile Include="View_ComponentDE.cpp">
       <Filter>01 SubWindow</Filter>
     </ClCompile>
-    <ClCompile Include="AddCom.cpp">
-      <Filter>99 Dialog\Legacy</Filter>
-    </ClCompile>
-    <ClCompile Include="AddCom_CreateCom.cpp">
-      <Filter>99 Dialog\Legacy</Filter>
-    </ClCompile>
     <ClCompile Include="ComDlg.cpp">
       <Filter>99 Dialog\Legacy</Filter>
     </ClCompile>
@@ -50,9 +44,6 @@
       <Filter>99 Dialog\Legacy</Filter>
     </ClCompile>
     <ClCompile Include="ImageSelectButton.cpp">
-      <Filter>99 Dialog\Legacy</Filter>
-    </ClCompile>
-    <ClCompile Include="NoneComDlg.cpp">
       <Filter>99 Dialog\Legacy</Filter>
     </ClCompile>
     <ClCompile Include="SceneDlg.cpp">
@@ -76,7 +67,15 @@
     <ClCompile Include="Dlg_TransPosition.cpp">
       <Filter>99 Dialog</Filter>
     </ClCompile>
-    <ClCompile Include="Dlg_MeshConv.cpp" />
+    <ClCompile Include="Dlg_FbxLoad.cpp">
+      <Filter>99 Dialog\FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="Dlg_KM3Loader.cpp">
+      <Filter>99 Dialog\FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="Dlg_MeshConv.cpp">
+      <Filter>99 Dialog\FBX</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -115,9 +114,6 @@
     <ClInclude Include="View_Component.h">
       <Filter>01 SubWindow</Filter>
     </ClInclude>
-    <ClInclude Include="AddCom.h">
-      <Filter>99 Dialog\Legacy</Filter>
-    </ClInclude>
     <ClInclude Include="ComDlg.h">
       <Filter>99 Dialog\Legacy</Filter>
     </ClInclude>
@@ -128,9 +124,6 @@
       <Filter>99 Dialog\Legacy</Filter>
     </ClInclude>
     <ClInclude Include="ImageSelectButton.h">
-      <Filter>99 Dialog\Legacy</Filter>
-    </ClInclude>
-    <ClInclude Include="NoneComDlg.h">
       <Filter>99 Dialog\Legacy</Filter>
     </ClInclude>
     <ClInclude Include="SceneDlg.h">
@@ -154,7 +147,15 @@
     <ClInclude Include="Dlg_TransPosition.h">
       <Filter>99 Dialog</Filter>
     </ClInclude>
-    <ClInclude Include="Dlg_MeshConv.h" />
+    <ClInclude Include="Dlg_FbxLoad.h">
+      <Filter>99 Dialog\FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="Dlg_KM3Loader.h">
+      <Filter>99 Dialog\FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="Dlg_MeshConv.h">
+      <Filter>99 Dialog\FBX</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="00 MFC">
@@ -174,6 +175,9 @@
     </Filter>
     <Filter Include="99 Dialog\Legacy">
       <UniqueIdentifier>{db6045b9-117d-4912-b06f-47c2bbbf0e00}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="99 Dialog\FBX">
+      <UniqueIdentifier>{e6cabfa8-a982-42a4-869d-259584109944}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

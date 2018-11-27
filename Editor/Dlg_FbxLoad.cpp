@@ -1,0 +1,203 @@
+// Dlg_FbxLoad.cpp : 구현 파일입니다.
+//
+
+#include "stdafx.h"
+#include "Dlg_FbxLoad.h"
+#include "afxdialogex.h"
+
+
+#include <Core_Class.h>
+#include <Renderer_BonAni.h>
+
+// Dlg_FbxLoad 대화 상자입니다.
+
+IMPLEMENT_DYNAMIC(Dlg_FbxLoad, TabDlg)
+
+Dlg_FbxLoad::Dlg_FbxLoad(CWnd* pParent /*=NULL*/)
+	: TabDlg(IDD_FBXDLG, pParent)
+{
+
+}
+
+Dlg_FbxLoad::~Dlg_FbxLoad()
+{
+}
+
+void Dlg_FbxLoad::DoDataExchange(CDataExchange* pDX)
+{
+	CDialogEx::DoDataExchange(pDX);
+	DDX_Control(pDX, IDC_FBXLIST, m_RscList);
+}
+
+
+BEGIN_MESSAGE_MAP(Dlg_FbxLoad, TabDlg)
+	ON_BN_CLICKED(IDC_FBXLOADBTN, &Dlg_FbxLoad::OnBnClickedFbxloadbtn)
+	ON_LBN_SELCHANGE(IDC_FBXLIST, &Dlg_FbxLoad::OnLbnSelchangeFbxlist)
+	ON_BN_CLICKED(IDC_TOKM3, &Dlg_FbxLoad::OnBnClickedTokm2)
+END_MESSAGE_MAP()
+
+
+void Dlg_FbxLoad::Hide_Dlg()
+{
+	if (nullptr != m_One)
+	{
+		m_One->Set_Death();
+	}
+}
+
+
+// Dlg_FbxLoad 메시지 처리기입니다.
+
+
+//-CFileDialog 정의
+//CFileDialog(BOOL bOpenFileDialog, LPCTSTR lpszDefExt = NULL, LPCTSTR lpszFileName = NULL, 
+//	DWORD dwFlags = OFN_HIDEREADONLY | OFN_OVERWITEPROMPT, 
+//	OPCTSTR lpszFilter = NULL, CWnd *pParentWnd = NULL)
+
+//-생성자 파라미터
+//bOpenFileDialog : TRUE:열기, FALSE : 다른 이름으로저장
+//	lpszDefExt : 기본 확장자. (ex. "*.jpg")
+//	lpszFileName : 처음 대화상자가 출력 시 '파일 이름(N)'에 지정될 파일명
+//	dwFlags :
+//
+//OFN_EXPLOPER: 윈도우 탐색기 스타일로 출력
+//	OFN_ALLOWMULTISELECT : 다중 선택
+//	OFN_CREATEPROMPT : 존재하지 않는 파일명 입력 시, 새로운 파일을 생성할 것인지 물음
+//	OFN_FILEMUSTEXIST : 존재하지 않는 파일명 입력 불가
+//	OFN_HIDEREADONLY : 읽기전용 파일은 보이지 않음
+//	OFN_LONGNAMES : 긴 파일 이름 포맷 지원
+//	OFN_OVERWRITEPROMPT : 이미 존재하는 파일 명일 경우 덮어쓸 것인가를 물음
+//	OFN_PATHMUSTEXIST : 이미 존재하는 디렉터리명만을 입력
+//	lpszFilter : 보여질 파일들에 대한 필터
+//	pParentWnd : 대화상자의 부모 윈도우 지정
+//
+//
+//	-멤버 함수
+//	CString GetPathName() : 선택된 파일의 절대경로
+//	CString GetFileName() : 선택된 파일의 이름과 확장자
+//	CString GetFileExt() : 선택된 파일의 확장자
+//	String GetFileTitle() : 선택된 파일의 파일명
+//	BOOL GetReadOnlyPref() : 읽기전용 여부
+//	POSITION GetStartPosition() : 다중 선택시 첫번째 파일의 위치
+//	CString GetNextPathName() : 다중 선택시 다음 파일의 절대경로
+//  다중 사용 문제점 
+// https://m.blog.naver.com/PostView.nhn?blogId=jalaint&logNo=150073298476&proxyReferer=http%3A%2F%2Fwww.google.com%2Furl%3Fsa%3Dt%26rct%3Dj%26q%3D%26esrc%3Ds%26source%3Dweb%26cd%3D4%26ved%3D2ahUKEwij-v6otO_eAhVTQLwKHRBODwkQFjADegQIBhAB%26url%3Dhttp%253A%252F%252Fm.blog.naver.com%252Fjalaint%252F150073298476%26usg%3DAOvVaw2S-tLlWcpNhuAf2fJeXYXj
+
+void Dlg_FbxLoad::OnBnClickedFbxloadbtn()
+{
+	static TCHAR BASED_CODE szFilter[] = _T("FBX 파일(*.FBX) | *.FBX;*.fbx; |모든파일(*.*)|*.*||");
+
+	CFileDialog dlg(TRUE, _T("*.FBX"), _T("fbx"), OFN_HIDEREADONLY | OFN_ALLOWMULTISELECT, szFilter, this);
+
+	bool Check;
+
+	if (IDOK == dlg.DoModal())
+	{
+		POSITION pos = dlg.GetStartPosition();
+		CString m_FileList = L"";
+
+		while (pos)
+		{
+			CString pathName = dlg.GetNextPathName(pos);
+
+
+			KPtr<MeshContainer> Temp = ResourceManager<MeshContainer>::Find(PathManager::Split_FileName(pathName).c_str());
+			if (nullptr != Temp)
+			{
+				MessageBox(pathName + L"\n이미 불러온 파일입니다.\n불러오기를 계속 진행합니다.");
+				continue;
+			}
+
+
+			Temp = ResourceManager<MeshContainer>::Load(pathName, MESH_LMODE::LM_FBX);
+			if (nullptr == Temp)
+			{
+				Check = false;
+				MessageBox(pathName + L"\n파일을 불러오지 못했습니다.");
+				break;
+			}
+
+
+			pathName.Delete(0, pathName.ReverseFind('\\' + 1));
+			m_FileList += (pathName + _T("\r\n"));
+		}
+
+		Check = true;
+	}
+	else
+	{
+		return;
+	}
+
+	if (true == Check)
+	{
+		MessageBox(L"성공적으로 FBX를 불러왔습니다.");
+	}
+
+	Update_RscTree();
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+}
+
+void Dlg_FbxLoad::Update_RscTree()
+{
+	UpdateData(TRUE);
+	
+	
+	// 리스트 초기화
+	m_RscList.ResetContent();
+
+	std::vector<KPtr<MeshContainer>> TVec = ResourceManager<MeshContainer>::All_SingleVec();
+
+	for (size_t i = 0; i < TVec.size(); i++)
+	{
+		m_RscList.AddString(TVec[i]->FileNameExt());
+	}
+
+	UpdateData(FALSE);
+}
+
+void Dlg_FbxLoad::OnLbnSelchangeFbxlist()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	int Tint = m_RscList.GetCurSel();
+	if (-1 == Tint)
+	{
+		return;
+	}
+
+	if (nullptr != m_One)
+	{
+		m_One->Set_Death();
+	}
+
+	CString TempStr;
+	m_RscList.GetText(Tint, TempStr);
+
+	m_One = Core_Class::MainScene()->Create_One(L"FBX_LOAD");
+	m_One->Trans()->pos_local(KVector(.0f));
+	m_One->Trans()->scale_local(KVector(1.f, 1.f, 1.f));
+	KPtr<Renderer_BonAni> TRender = m_One->Add_Component<Renderer_BonAni>();
+
+	TRender->Set_Fbx(TempStr);
+	TRender->Create_AniChanger(L"ALLAni", 0, 100000);
+	TRender->Set_AniChanger(L"ALLAni");
+}
+
+
+void Dlg_FbxLoad::OnBnClickedTokm2()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	std::vector<KPtr<MeshContainer>> TVec = ResourceManager<MeshContainer>::All_SingleVec();
+
+	for (size_t i = 0; i < TVec.size(); i++)
+	{
+		std::wstring Temp = PathManager::Find_ForderPath(L"KM3");
+		std::wstring TN = TVec[i]->FileName();
+		std::wstring TE = L".KM3";
+
+		TVec[i]->Save((Temp + TN + TE).c_str());
+	}
+
+
+	MessageBox(L"성공적으로 변환되었습니다.");
+}

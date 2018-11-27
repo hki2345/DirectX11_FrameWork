@@ -5,7 +5,6 @@
 #include "KEditor.h"
 #include "View_Component.h"
 #include "Edit_Class.h"
-#include "AddCom.h"
 
 
 
@@ -115,26 +114,6 @@ void View_Component::Reset()
 
 	POINT Pos = { 0, 0 };
 	POINT Size = { 480, 0 };
-
-	// 일단 있는 컴퍼넌트 다하는 방식
-	AddCom* NewDlg = new AddCom();
-	NewDlg->m_pActor = m_pActor;
-	NewDlg->Create(IDD_ADDCOM, this);
-	NewDlg->ShowWindow(SW_SHOW);
-	NewDlg->SetWindowPos(this, Pos.x, Pos.y, Size.x, NewDlg->SIZEY, SWP_NOZORDER);
-	Pos.y += NewDlg->SIZEY;
-	m_ComDlgList.push_back(NewDlg);
-
-	for (; StartIter != EndIter; ++StartIter)
-	{
-		ComDlg* NewDlg = CreateDlg((*StartIter)->TypeInfo());
-		NewDlg->ShowWindow(SW_SHOW);
-		NewDlg->SetWindowPos(this, Pos.x, Pos.y, Size.x, NewDlg->SIZEY, SWP_NOZORDER);
-		NewDlg->SettingComponent(*StartIter);
-		Pos.y += NewDlg->SIZEY;
-
-		m_ComDlgList.push_back(NewDlg);
-	}
 
 	SIZE sizeTotal;
 

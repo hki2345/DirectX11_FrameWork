@@ -6,27 +6,25 @@
 #define IDR_MAINFRAME                   128
 #define IDR_AR14TOOLTYPE                130
 #define IDD_MENUDLG                     310
-#define IDD_COMDLG                      311
 #define IDD_SCENEDLG                    312
 #define IDD_SPRITEDLG                   314
-#define IDD_ACTORDLG                    318
 #define IDD_TRANSCOM                    322
 #define IDD_DLGTRANS                    322
-#define IDD_NONECOM                     324
-#define IDD_ADDCOM                      328
 #define IDD_SPRENDER                    331
 #define IDD_SPRITESELECT                334
 #define IDD_TOOLDLG                     336
 #define IDD_DIALOG1                     340
 #define IDD_MESHDLG                     342
+#define IDD_FBXDLG                      344
+#define IDD_KM3DLG                      346
 #define IDC_MENUTAB                     1000
 #define IDC_BUTTON1                     1001
 #define IDC_CRESCENE                    1001
 #define IDC_SAVEDATA                    1001
-#define IDC_CREACTOR                    1001
-#define IDC_ADDCOM                      1001
 #define IDC_SPRITEBUTTON                1001
 #define IDC_TESTBTN                     1001
+#define IDC_FBXLOADBTN                  1001
+#define IDC_KM3LOAD                     1001
 #define IDC_SPRITETREE                  1002
 #define IDC_SCENELIST                   1003
 #define IDC_LOADDATA                    1003
@@ -37,13 +35,10 @@
 #define IDC_CREATEOBJ                   1007
 #define IDC_CUTX                        1008
 #define IDC_SELECTSPRITE                1009
-#define IDC_ACTORTREE                   1011
-#define IDC_COMVIEWRANGE                1012
 #define IDC_POSX                        1013
 #define IDC_POSY                        1014
 #define IDC_POSZ                        1015
 #define IDC_ROTX                        1016
-#define IDC_COMBO1                      1016
 #define IDC_ROTY                        1017
 #define IDC_MFCCOLORBUTTON1             1017
 #define IDC_ROTZ                        1018
@@ -54,8 +49,11 @@
 #define IDC_UVINDEX                     1023
 #define IDC_SAVESCENE                   1024
 #define IDC_BUTTON2                     1025
+#define IDC_TOKM3                       1025
 #define IDC_FBX2KM3TAB                  1026
+#define IDC_FBXLIST                     1029
 #define IDC_POSX2                       1031
+#define IDC_KM3LIST                     1031
 #define IDC_POSY2                       1032
 #define IDC_POSZ2                       1033
 #define IDC_ROTX2                       1034
@@ -69,9 +67,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        344
+#define _APS_NEXT_RESOURCE_VALUE        348
 #define _APS_NEXT_COMMAND_VALUE         32771
-#define _APS_NEXT_CONTROL_VALUE         1027
+#define _APS_NEXT_CONTROL_VALUE         1032
 #define _APS_NEXT_SYMED_VALUE           312
 #endif
 #endif

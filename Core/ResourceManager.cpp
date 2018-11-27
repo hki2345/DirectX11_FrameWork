@@ -4,7 +4,7 @@
 #include "KMacro.h"
 #include "Sound.h"
 #include "KImage.h"
-
+#include "KM3.h"
 
 #include <io.h>
 #include <iostream>
@@ -100,6 +100,24 @@ std::wstring PathManager::Chain_StringInt(const std::wstring& _Name, const int& 
 
 
 
+std::wstring PathManager::Split_FileName(const wchar_t* _Path)
+{
+	std::wstring TempPath = _Path;
+
+	wchar_t ArrDrive[128] = { 0, };
+	wchar_t ArrFolder[128] = { 0, };
+	wchar_t ArrFile[128] = { 0, };
+	wchar_t ArrExist[128] = { 0, };
+
+	// 파일 경로를 뜯는다.
+	_wsplitpath_s(TempPath.c_str(), ArrDrive, ArrFolder, ArrFile, ArrExist);
+
+	std::wstring Exi = ArrExist;
+	std::wstring Name = ArrFile;
+
+	return Name + Exi;
+}
+
 
 
 /********************* All Resource Load **********************/
@@ -112,6 +130,10 @@ bool ResourceManager<KImage>::All_Load(const wchar_t* _Target)
 bool ResourceManager<Sound>::All_Load(const wchar_t* _Target)
 {
 	return ResourceManager<Sound>::All_LoadOrigin(_Target);
+}
+bool ResourceManager<MeshContainer>::All_Load(const wchar_t* _Target)
+{
+	return ResourceManager<MeshContainer>::All_LoadOrigin(_Target);
 }
 
 
@@ -190,7 +212,7 @@ bool ResourceManager<KS>::All_LoadSub(const intptr_t& _Handle, _wfinddata_t& _FD
 			if (Exi == L".png" || Exi == L".PNG" || Exi == L".Png" ||
 				Exi == L".jpg" || Exi == L".JPG" || Exi == L".Jpg" || 
 				Exi == L".bmp" || Exi == L".dds" || Exi == L".DDS" ||
-				Exi == L".mp3")
+				Exi == L".mp3" || Exi == L".KM3" || Exi == L".km3")
 			{
 				if (nullptr == PathManager::Find_ForderPath(Folder.c_str()))
 				{

@@ -1,5 +1,6 @@
 #pragma once
 #include "TabDlg.h"
+#include "afxcmn.h"
 
 
 
@@ -18,8 +19,18 @@ public:
 	enum { IDD = IDD_MESHDLG };
 #endif
 
+private:
+	std::vector<TabDlg*> m_DlgVec;
+	int m_CurIdx;
+
+
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV 지원입니다.
-
+	void Show_Dlg(size_t _Index);
+	
 	DECLARE_MESSAGE_MAP()
+public:
+	virtual BOOL OnInitDialog();
+	afx_msg void OnTcnSelchangeFbx2km3tab(NMHDR *pNMHDR, LRESULT *pResult);
+	CTabCtrl m_MeshTab;
 };

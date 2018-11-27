@@ -113,7 +113,7 @@ void KM3Data::SaveKM3(const wchar_t* _Path)
 
 		if (0 != MtlSize)
 		{
-			Stream.Write(&MeshVec[MtlSize]->MtlVec[0], sizeof(Material_FbxData) *  (KUINT)MeshVec[MeshCnt]->MtlVec.size());
+			Stream.Write(&MeshVec[MeshCnt]->MtlVec[0], sizeof(Material_FbxData) *  (KUINT)MeshVec[MeshCnt]->MtlVec.size());
 		}
 	}
 
@@ -191,7 +191,7 @@ void KM3Data::LoadKM3(const wchar_t* _Path)
 		if (0 != MtlSize)
 		{
 			MeshVec[MeshCnt]->MtlVec.resize(MtlSize);
-			Stream.Read(&MeshVec[MtlSize]->MtlVec[0], sizeof(Material_FbxData) *  (KUINT)MtlSize);
+			Stream.Read(&MeshVec[MeshCnt]->MtlVec[0], sizeof(Material_FbxData) *  (KUINT)MtlSize);
 		}
 	}
 
@@ -206,14 +206,13 @@ void KM3Data::LoadKM3(const wchar_t* _Path)
 
 
 	int BoneSize;
-	Stream.Read(BoneSize);
-	
-	
+	Stream.Read(BoneSize);	
 	if (0 != BoneSize)
 	{
 		BoneVec.resize(BoneSize);
 		for (int i = 0; i < BoneSize; i++)
 		{
+			BoneVec[i] = new KM3Bone();
 			Stream.Read(BoneVec[i]->Name, sizeof(wchar_t) * 512);
 			BoneMap.insert(std::map<std::wstring, KM3Bone*>::value_type(BoneVec[i]->Name, BoneVec[i]));
 			Stream.Read(BoneVec[i]->BoneMX);

@@ -11,7 +11,6 @@
 #include <Renderer_Rect.h>
 #include <Renderer_Grid.h>
 #include <Renderer_Mesh.h>
-#include <Renderer_BonAni.h>
 #include <Renderer_Terrain.h>
 #include <Texture_Multi.h>
 
@@ -145,22 +144,7 @@ BOOL Dlg_Editor::OnInitDialog()
 	PTRMESH3->Set_Material(L"DEFFERD3DMAT");
 	PTRMESH3->Set_Mesh(L"CUBE");
 	
-
-
-	KPtr<TheOne> TestAni1 = TabScene->Create_One(L"Test");
-	TestAni1->Trans()->pos_local(KVector(.0f));
-	TestAni1->Trans()->scale_local(KVector(1.f, 1.f, 1.f));
-	KPtr<Renderer_BonAni> TestRender1 = TestAni1->Add_Component<Renderer_BonAni>();
-
-	ResourceManager<MeshContainer>::Load((PathManager::Find_ForderPathStr(L"Mesh") + L"Zerg\\Hydralisk.FBX").c_str());
 	
-	TestRender1->Set_Fbx(L"Hydralisk.FBX");
-	TestRender1->Create_AniChanger(L"TestAni", 0, 70000);
-	TestRender1->Set_AniChanger(L"TestAni");
-
-
-
-
 
 	// 해처리와 히드라가 안입혀진다. 나머진 다됌
 	/*

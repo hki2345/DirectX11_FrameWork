@@ -10,3 +10,8 @@ TabDlg::TabDlg(int _id, CWnd* _pWnd) : CDialogEx(_id, _pWnd)
 TabDlg::~TabDlg()
 {
 }
+
+void TabDlg::Hide_Dlg()
+{
+
+}

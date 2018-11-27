@@ -5,7 +5,6 @@
 #include "View_Component.h"
 #include "Dlg_TransPosition.h"
 #include "SpRenderDlg.h"
-#include "NoneComDlg.h"
 
 ComDlg* View_Component::CreateDlg(const type_info* _Type)
 {
@@ -19,10 +18,6 @@ ComDlg* View_Component::CreateDlg(const type_info* _Type)
 	else if(_Type == &typeid(HSpRenderer)) {
 		NewDlg = new SpRenderDlg();
 		NewDlg->Create(IDD_SPRENDER, this);
-	}
-	else {
-		NewDlg = new NoneComDlg();
-		NewDlg->Create(IDD_NONECOM, this);
 	}
 
 	return NewDlg;

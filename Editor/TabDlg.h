@@ -9,6 +9,9 @@ public:
 	bool m_SceneChange;
 
 public:
+	virtual void Hide_Dlg();
+
+public:
 	TabDlg(int _id, CWnd* _pWnd);
 	~TabDlg();
 };

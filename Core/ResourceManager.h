@@ -22,11 +22,11 @@ private:
 	~PathManager() {}
 
 public:
-	static const void		Create_FilePath(const wchar_t* _Key, const wchar_t* _FullPath);
-	static const void		Create_ForderPath(const wchar_t* _Key, const wchar_t* _Folder);
-	static const void		Create_ForderPath(const wchar_t* _Key);
-	static const bool		IsFile(const wchar_t* _Path);
-	static const wchar_t*	PathForder() { return m_PathForder.c_str();	}
+	static const void			Create_FilePath(const wchar_t* _Key, const wchar_t* _FullPath);
+	static const void			Create_ForderPath(const wchar_t* _Key, const wchar_t* _Folder);
+	static const void			Create_ForderPath(const wchar_t* _Key);
+	static const bool			IsFile(const wchar_t* _Path);
+	static const wchar_t*		PathForder() { return m_PathForder.c_str();	}
 	// static std::vector<std::wstring> FolderAllFile(const wchar_t* _Path);
 
 	// string 반환이 필요함
@@ -34,6 +34,7 @@ public:
 	static std::wstring		Find_ForderPathStr(const wchar_t* _Key);
 	static std::wstring		Add_FolderFile(const wchar_t* _FolderKey, const wchar_t* _FileName);
 	static std::wstring		Chain_StringInt(const std::wstring& _Name, const int& _Value);
+	static std::wstring		Split_FileName(const wchar_t* _Path);
 
 private:
 	static void Init();
@@ -271,6 +272,34 @@ public:
 	}
 
 
+	template<typename V1>
+	static KPtr<Res> Load(const wchar_t* _Path, V1 _1, const bool& _Multi = false)
+	{
+		Res* NewRes = new Res();
+		NewRes->Split_Path(_Path);
+		NewRes->name(NewRes->FileNameExt());
+
+		std::unordered_map<std::wstring, KPtr<Res>>::iterator FI = m_RSMap.find(NewRes->FileForder());
+		if (FI != m_RSMap.end())
+		{
+			delete NewRes;
+			return FI->second;
+		}
+
+		if (false == NewRes->Load(_1))
+		{
+			delete NewRes;
+			return nullptr;
+		}
+
+		m_RSMap.insert(std::unordered_map<std::wstring, KPtr<Res>>::value_type(NewRes->FileForder(), NewRes));
+
+		return NewRes;
+	}
+
+
+
+
 
 	static KPtr<Res> Load(const wchar_t* _Path, const wchar_t* _Name, const bool& _Multi = false)
 	{
@@ -288,6 +317,28 @@ public:
 
 
 		m_RSMap.insert(std::unordered_map<std::wstring, KPtr<Res>>::value_type(_Name, NewRes));
+		return NewRes;
+	}
+
+	template<typename V1>
+	static KPtr<Res> Load(const wchar_t* _Path, const wchar_t* _Name, V1 _1, const bool& _Multi = false)
+	{
+		std::wstring TempPath = PathManager::Find_ForderPath(_Path);
+		TempPath += _Name;
+
+		Res* NewRes = new Res();
+		NewRes->name(_Name);
+		NewRes->FileForder(_Path);
+		NewRes->Split_Path(TempPath.c_str());
+		if (false == NewRes->Load(_1))
+		{
+			delete NewRes;
+			return nullptr;
+		}
+
+
+		m_RSMap.insert(std::unordered_map<std::wstring, KPtr<Res>>::value_type(_Name, NewRes));
+
 		return NewRes;
 	}
 
