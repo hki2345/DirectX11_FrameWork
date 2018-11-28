@@ -406,6 +406,27 @@ public:
 	}
 
 
+	// 지오메트리 쉐이더를 저격하는 것이다.
+	template<typename V1, typename V2, typename V3, typename V4, typename V5, typename V6>
+	static KPtr<Res> Load_FromKey(const wchar_t* _Key, const wchar_t* _PathKey, const wchar_t* _FileName, V1 _1, V2 _2, V3 _3, V4 _4, V5 _5, V6 _6)
+	{
+		std::wstring TempPath = PathManager::Find_ForderPath(_PathKey);
+		TempPath += _FileName;
+
+		Res* NewRes = new Res();
+		NewRes->name(_Key);
+		NewRes->FileForder(_PathKey);
+		NewRes->Split_Path(TempPath.c_str());
+		if (false == NewRes->Load(_1, _2, _3, _4, _5, _6))
+		{
+			delete NewRes;
+			return nullptr;
+		}
+
+		m_RSMap.insert(std::unordered_map<std::wstring, KPtr<Res>>::value_type(_Key, NewRes));
+		return NewRes;
+	}
+
 
 public:
 	// 모든 리소스를 다 가져온다

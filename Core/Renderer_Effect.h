@@ -1,23 +1,30 @@
 #pragma once
 #include "Renderer.h"
+#include "KStreamBuffer.h"
 #include <vector>
 
 
+class Texture;
 class Renderer_Effect : public Renderer
 {
 public:
 	class Effect_Begin
 	{
+	public:
 		KVector Pos;
-		KVector Dir;
-		KVector2 Size;
-		float LiveTime;
-		KVector Type;
+		KUINT Switch;
 	};
 
-public:
-	std::vector<Effect_Begin> m_EFVec;
+private:
 	// StreamBuffer
+	std::vector<Effect_Begin> m_EFVec;
+	std::vector<KVector> m_EFPVec;
+	KPtr<Texture> m_Tex;
+	KPtr<KStreamBuffer> m_InitBuf;
+	KPtr<KStreamBuffer> m_SOBuffer;
+
+	KPtr<KMaterial> m_SMtl;
+	KPtr<KMaterial> m_RMtl;
 
 private:
 	bool Init(const KUINT& _DotCnt, const int& _Order = 0);

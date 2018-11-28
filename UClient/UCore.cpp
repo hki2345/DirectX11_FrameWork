@@ -32,6 +32,7 @@
 #include "KRay3D.cpp"
 #include "KShader.cpp"
 #include "KSphere_Col.cpp"
+#include "KStreamBuffer.cpp"
 #include "KThread.cpp"
 #include "KWindow.cpp"
 #include "Light.cpp"

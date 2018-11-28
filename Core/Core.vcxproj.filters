@@ -232,6 +232,9 @@
     <ClInclude Include="KMath.h">
       <Filter>00 Core\Assistor</Filter>
     </ClInclude>
+    <ClInclude Include="KStreamBuffer.h">
+      <Filter>03 Manager\Resource\Child\Material\Shader</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SmartPtr.cpp">
@@ -446,6 +449,9 @@
     </ClCompile>
     <ClCompile Include="KMath.cpp">
       <Filter>00 Core\Assistor</Filter>
+    </ClCompile>
+    <ClCompile Include="KStreamBuffer.cpp">
+      <Filter>03 Manager\Resource\Child\Material\Shader</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

@@ -65,58 +65,62 @@ public:
 		return disF(MT);
 	}
 
-	//static int random_int()
-	//{
-	//	return MT();
-	//}
-
-	//static int random_int(const int& _Min, const int& _Max)
-	//{
-	//	/*if (_Min > _Max)
-	//	{
-	//		BBY;
-	//	}
-	//	std::random_device tRD;
-	//	std::mt19937 tMT(tRD());
-	//	std::uniform_real_distribution<int> disF(_Min, _Max);
-	//	return disF(tMT);*/
 
 
-	//	int Min = _Min;
-	//	int Max = _Max;
-	//	if (Min > Max)
-	//	{
-	//		int Tmp = Min;
-	//		Min = Max;
-	//		Max = Tmp;
-	//	}
-
-	//	std::uniform_real_distribution<int> disF = std::uniform_real_distribution<int>(Min, Max);
-	//	return disF(MT);
-	//}
-
-	//static int random_int(const int& _Max)
-	//{
-
-	//	/*if (0 > _Max)
-	//	{
-	//		BBY;
-	//	}
-	//	std::random_device tRD;
-	//	std::mt19937 tMT(tRD());
-	//	std::uniform_real_distribution<int> disF(0, _Max);
-	//	return disF(tMT);*/
 
 
-	//	int V = _Max;
-	//	if (0 > V)
-	//	{
-	//		V *= -1;
-	//	}
+	static int random_int()
+	{
+		return MT();
+	}
 
-	//	std::uniform_real_distribution<int> disF = std::uniform_real_distribution<int>(0, V);
-	//	return disF(MT);
-	//}
+	static int random_int(const int& _Min, const int& _Max)
+	{
+		/*if (_Min > _Max)
+		{
+			BBY;
+		}
+		std::random_device tRD;
+		std::mt19937 tMT(tRD());
+		std::uniform_real_distribution<int> disF(_Min, _Max);
+		return disF(tMT);*/
+
+
+		int Min = _Min;
+		int Max = _Max;
+		if (Min > Max)
+		{
+			int Tmp = Min;
+			Min = Max;
+			Max = Tmp;
+		}
+
+		std::uniform_int_distribution<int> disF = std::uniform_int_distribution<int>(Min, Max);
+		return disF(MT);
+	}
+
+	static int random_int(const int& _Max)
+	{
+
+		/*if (0 > _Max)
+		{
+			BBY;
+		}
+		std::random_device tRD;
+		std::mt19937 tMT(tRD());
+		std::uniform_real_distribution<int> disF(0, _Max);
+		return disF(tMT);*/
+
+
+		int V = _Max;
+		if (0 > V)
+		{
+			V *= -1;
+		}
+
+		std::uniform_int_distribution<int> disF = std::uniform_int_distribution<int>(0, V);
+		return disF(MT);
+	}
 
 	static const bool random_bool(const float& _Value)
 	{

@@ -13,7 +13,7 @@
 // 여기서 이 구조는 어떻게 보면 Window, fmod에서 권한을 가져오는 것과 일맥상 통한다.
 // 권한을 가져올 포인터 마련 -> 가져옴 -> 다른 연결된 포인터 가져옴 -> 적용
 // 디바이스는 해당 권한을 불러오려는 윈도우를 알아야한다.
-class KDevice : public Mof_KWindow, Begin
+class KDevice : public Mof_KWindow
 {
 public:
 	KDevice(KWindow* _Win);
@@ -91,6 +91,8 @@ private:
 		D3D11_DEPTH_STENCIL_DESC m_Desc;
 		ID3D11DepthStencilState* m_pDS;
 
+		std::wstring Name;
+
 	public:
 		void Update(unsigned int _Ref = 0);
 		void Create(ID3D11Device* _pDevice, ID3D11DeviceContext* _pContext, D3D11_DEPTH_STENCIL_DESC _Desc);
@@ -119,7 +121,7 @@ public:
 	void Reset_DSS();
 	void Set_DSS(const wchar_t* _Name, unsigned int _Ref = 0);
 	void Set_DSSDef(const wchar_t* _Name);
-
+	std::wstring ds_name();
 
 	
 private:

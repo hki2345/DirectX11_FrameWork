@@ -376,9 +376,10 @@ KPtr<KDevice::DSState> KDevice::Find_DSS(const wchar_t* _Name)
 
 void KDevice::Create_DSS(const wchar_t* _Name, D3D11_DEPTH_STENCIL_DESC _Desc)
 {
-	DSState* _Ptr = new DSState();
-	_Ptr->Create(m_pDevice, m_pContext, _Desc);
-	m_DSSMap.insert(std::unordered_map<std::wstring, KPtr<DSState>>::value_type(_Name, _Ptr));
+	DSState* TPtr = new DSState();
+	TPtr->Name = _Name;
+	TPtr->Create(m_pDevice, m_pContext, _Desc);
+	m_DSSMap.insert(std::unordered_map<std::wstring, KPtr<DSState>>::value_type(_Name, TPtr));
 }
 
 void KDevice::Set_DSSDef(const wchar_t* _Name)
@@ -399,6 +400,17 @@ void KDevice::Set_DSSDef(const wchar_t* _Name)
 	m_DSStateDef->Update();
 	return;
 }
+
+std::wstring KDevice::ds_name()
+{
+	if (nullptr != m_DSStateCur)
+	{
+		return m_DSStateCur->Name;
+	}
+
+	return L"";
+}
+
 
 void KDevice::Reset_DSS()
 {
