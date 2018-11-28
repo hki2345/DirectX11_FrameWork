@@ -63,7 +63,7 @@ void KM3Data::ConvertToKM3(KFBX* _Data)
 			BoneVec[i]->Depth = _Data->Bone_Vec[i]->Depth;
 			BoneVec[i]->Index = _Data->Bone_Vec[i]->Index;
 
-			memcpy_s(BoneVec[i]->Name, sizeof(wchar_t) * 512, _Data->Bone_Vec[i]->Name, sizeof(wchar_t) * 512);
+			memcpy_s(BoneVec[i]->Name, sizeof(wchar_t) * PATHNUM, _Data->Bone_Vec[i]->Name, sizeof(wchar_t) * PATHNUM);
 
 			// 키프레임이 없는 경우를 위한 대비책
 			if (0 == _Data->Bone_Vec[i]->KFVec.size())
@@ -129,7 +129,7 @@ void KM3Data::SaveKM3(const wchar_t* _Path)
 	Stream.Write(BoneSize);
 	for (int i = 0; i < BoneSize; i++)
 	{
-		Stream.Write(BoneVec[i]->Name, sizeof(wchar_t) * 512);
+		Stream.Write(BoneVec[i]->Name, sizeof(wchar_t) * PATHNUM);
 		Stream.Write(BoneVec[i]->BoneMX);
 		Stream.Write(BoneVec[i]->OffsetMX);
 		Stream.Write(BoneVec[i]->Depth);
@@ -213,7 +213,7 @@ void KM3Data::LoadKM3(const wchar_t* _Path)
 		for (int i = 0; i < BoneSize; i++)
 		{
 			BoneVec[i] = new KM3Bone();
-			Stream.Read(BoneVec[i]->Name, sizeof(wchar_t) * 512);
+			Stream.Read(BoneVec[i]->Name, sizeof(wchar_t) * PATHNUM);
 			BoneMap.insert(std::map<std::wstring, KM3Bone*>::value_type(BoneVec[i]->Name, BoneVec[i]));
 			Stream.Read(BoneVec[i]->BoneMX);
 			Stream.Read(BoneVec[i]->OffsetMX);

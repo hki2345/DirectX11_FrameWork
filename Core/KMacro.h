@@ -7,3 +7,4 @@
 #define KDESTROY(VALUE) if (VALUE != nullptr) { VALUE->Destroy();}
 #define BBY KASSERT(true);
 #define KUINT unsigned int
+#define PATHNUM 128

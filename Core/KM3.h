@@ -14,7 +14,7 @@ class KM3Bone
 {
 public:
 	// 저장 불러오기가 쉽게 하려고 이렇게 크기를 지정한다.
-	wchar_t Name[512] = { 0, }; // 리터럴 초기화
+	wchar_t Name[PATHNUM] = { 0, }; // 리터럴 초기화
 	KUINT Depth;
 	KUINT Index;
 	KMatrix OffsetMX;

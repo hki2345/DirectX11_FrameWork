@@ -37,7 +37,7 @@ public:
 class KBone
 {
 public:
-	wchar_t Name[512];
+	wchar_t Name[PATHNUM];
 	KUINT Depth;
 	KUINT Index;
 	KBone* m_pPBone;
@@ -68,11 +68,11 @@ class Material_FbxData
 {
 public:
 	Matrial_Info Info;
-	wchar_t Name[512];
-	wchar_t Diff[512];
-	wchar_t Bump[512];
-	wchar_t Spec[512];
-	wchar_t Emiv[512];
+	wchar_t Name[PATHNUM];
+	wchar_t Diff[PATHNUM];
+	wchar_t Bump[PATHNUM];
+	wchar_t Spec[PATHNUM];
+	wchar_t Emiv[PATHNUM];
 };
 
 // 본에 따른 가중치를 담는 클래스 
@@ -113,7 +113,7 @@ public:
 	}
 
 public:
-	wchar_t Name[512];
+	wchar_t Name[PATHNUM];
 	std::vector<Vertex_FbxData> VertVec;
 	std::vector<std::vector<KUINT>> IdxVec;
 	std::vector<Material_FbxData> m_MtlVec;
@@ -143,7 +143,7 @@ public:
 	// 밑에 애니메이션을 시간단위로 쪼개서 저장하게 되는데
 	// 그때 저장될 인덱스 - 구분짓기 위함
 	int Index;
-	wchar_t Name[512] = { 0, };
+	wchar_t Name[PATHNUM] = { 0, };
 	FbxTime Stime;
 	FbxTime Etime;
 	FbxLongLong Length_Time;

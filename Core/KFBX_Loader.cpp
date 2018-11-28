@@ -128,7 +128,7 @@ void FBXLoader::Load_Bone(FbxNode* _pNode, KUINT _Depth, KBone* _pParent)
 		NBone = new KBone();
 
 		std::wstring NName = CA2W(_pNode->GetName()).m_psz;
-		memcpy_s(NBone->Name, sizeof(wchar_t) * 512, NName.c_str(), NName.size() * 2);
+		memcpy_s(NBone->Name, sizeof(wchar_t) * PATHNUM, NName.c_str(), NName.size() * 2);
 		NBone->Depth = _Depth++; // 후위 증가인 이유는 -> Parent에서 1 늘려주고 들어오기 때문
 		NBone->Index = (int)m_pNewFbx->Bone_Vec.size();
 		NBone->m_pPBone = _pParent;
@@ -167,7 +167,7 @@ void FBXLoader::Check_Animation()
 		Animation_Info NewInfo ;
 
 		std::wstring NName = CA2W(TempStack->GetName()).m_psz;
-		memcpy_s(NewInfo.Name, sizeof(wchar_t) * 512, NName.c_str(), NName.size() * 2);
+		memcpy_s(NewInfo.Name, sizeof(wchar_t) * PATHNUM, NName.c_str(), NName.size() * 2);
 
 		// 애니메이션의 시작과 끝의 시간을 받아옴
 		FbxTakeInfo* TempInfo = m_pScene->GetTakeInfo(TempStack->GetName());
@@ -233,7 +233,7 @@ void FBXLoader::Set_MeshData(FbxNode* _pNode)
 
 
 			std::wstring NName = CA2W(pMesh->GetName()).m_psz;
-			memcpy_s(NewMD->Name, sizeof(wchar_t) * 512, NName.c_str(), NName.size() * 2);
+			memcpy_s(NewMD->Name, sizeof(wchar_t) * PATHNUM, NName.c_str(), NName.size() * 2);
 
 			int MtrlCount = _pNode->GetMaterialCount();
 			NewMD->IdxVec.resize(MtrlCount);
@@ -655,19 +655,19 @@ void FBXLoader::Set_Material(Mesh_FbxData* _pMD, FbxSurfaceMaterial* _pSur)
 
 	std::wstring NName = Get_MaterialTexName(_pSur, FbxSurfaceMaterial::sDiffuse);
 	NName = PathManager::Split_Path(NName, tMesh);
-	memcpy_s(NewMtl.Diff, sizeof(wchar_t) * 512, NName.c_str(), NName.size() * 2);
+	memcpy_s(NewMtl.Diff, sizeof(wchar_t) * PATHNUM, NName.c_str(), NName.size() * 2);
 
 	NName = Get_MaterialTexName(_pSur, FbxSurfaceMaterial::sNormalMap);
 	NName = PathManager::Split_Path(NName, tMesh);
-	memcpy_s(NewMtl.Bump, sizeof(wchar_t) * 512, NName.c_str(), NName.size() * 2);
+	memcpy_s(NewMtl.Bump, sizeof(wchar_t) * PATHNUM, NName.c_str(), NName.size() * 2);
 
 	NName = Get_MaterialTexName(_pSur, FbxSurfaceMaterial::sSpecular);
 	NName = PathManager::Split_Path(NName, tMesh);
-	memcpy_s(NewMtl.Spec, sizeof(wchar_t) * 512, NName.c_str(), NName.size() * 2);
+	memcpy_s(NewMtl.Spec, sizeof(wchar_t) * PATHNUM, NName.c_str(), NName.size() * 2);
 	
 	NName = Get_MaterialTexName(_pSur, FbxSurfaceMaterial::sEmissive);
 	NName = PathManager::Split_Path(NName, tMesh);
-	memcpy_s(NewMtl.Emiv, sizeof(wchar_t) * 512, NName.c_str(), NName.size() * 2);
+	memcpy_s(NewMtl.Emiv, sizeof(wchar_t) * PATHNUM, NName.c_str(), NName.size() * 2);
 
 	_pMD->m_MtlVec.push_back(NewMtl);
 }

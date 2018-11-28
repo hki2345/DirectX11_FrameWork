@@ -402,19 +402,19 @@ void Renderer_BonAni::Set_TexturePath(const TEX_TYPE& _Value, const wchar_t* _Pa
 			switch (_Value)
 			{
 			case TEX_TYPE::TEX_COLOR:
-				memcpy_s(pData->Diff, sizeof(wchar_t) * 512, _Path, sizeof(wchar_t) * 512);
+				memcpy_s(pData->Diff, sizeof(wchar_t) * PATHNUM, _Path, sizeof(wchar_t) * PATHNUM);
 				break;
 
 			case TEX_TYPE::TEX_BUMP:
-				memcpy_s(pData->Bump, sizeof(wchar_t) * 512, _Path, sizeof(wchar_t) * 512);
+				memcpy_s(pData->Bump, sizeof(wchar_t) * PATHNUM, _Path, sizeof(wchar_t) * PATHNUM);
 				break;
 
 			case TEX_TYPE::TEX_SPEC:
-				memcpy_s(pData->Spec, sizeof(wchar_t) * 512, _Path, sizeof(wchar_t) * 512);
+				memcpy_s(pData->Spec, sizeof(wchar_t) * PATHNUM, _Path, sizeof(wchar_t) * PATHNUM);
 				break;
 
 			case TEX_TYPE::TEX_EMIS:
-				memcpy_s(pData->Emiv, sizeof(wchar_t) * 512, _Path, sizeof(wchar_t) * 512);
+				memcpy_s(pData->Emiv, sizeof(wchar_t) * PATHNUM, _Path, sizeof(wchar_t) * PATHNUM);
 				break;
 
 			default:
