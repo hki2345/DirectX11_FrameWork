@@ -2,6 +2,7 @@
 #include "Begin.cpp"
 #include "Begin_Updater.cpp"
 #include "Camera.cpp"
+#include "Changer_Animation.cpp"
 #include "CollisionManager.cpp"
 #include "Component.cpp"
 #include "Component_DE.cpp"

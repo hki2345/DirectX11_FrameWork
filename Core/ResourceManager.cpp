@@ -125,8 +125,37 @@ std::wstring PathManager::Split_Path(const std::wstring& _ALL, const std::wstrin
 		return L"";
 	}
 
-	wchar_t Tmp[128] = { 0, };
-	_ALL._Copy_s(Tmp, _ALL.size() - _FPath.size(), _FPath.size());
+	wchar_t Tmp[PATHNUM] = { 0, };
+
+	size_t Start = 0;
+	
+	// 시작부분 찾는과정
+	for (size_t i = 0; i < _ALL.size(); i++)
+	{
+		if (_ALL[i] == _FPath[i])
+		{
+			++Start;
+			continue;
+		}
+		break;
+	}
+
+	// 대입 과정
+	for (size_t i = Start; i < _ALL.size(); i++)
+	{
+		for (size_t j = 0; j < _ALL.size() - Start; j++)
+		{
+			if (0 != Tmp[j])
+			{
+				continue;
+			}
+
+			Tmp[j] = _ALL[i];
+			break;
+		}
+	}
+
+	
 	return Tmp;
 }
 
