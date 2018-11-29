@@ -2,40 +2,18 @@
 #include "Renderer.h"
 #include "KFBX.h"
 #include "KM3.h"
-
+#include "Changer_Animation.h"
 
 class Renderer_BonAni : public Renderer
 {
-private:
-	class Ani_Changer : public Begin
-	{
-	public:
-		// 이름은 Begin -> string 함수 쓰기 귀찮음
-		// 짜피 걔가 다 가지고 있는뎅
-		int Start;
-		int End;
-		float Speed;
-
-
-	public:
-		Ani_Changer(const wchar_t* _Name, const int& _Start, const int& _End)
-			: Start (_Start), End(_End)
-		{
-			name(_Name);
-		}
-	};
-
 public:
 	Renderer_BonAni();
 	~Renderer_BonAni();
 
 private:
-	std::map<std::wstring, KPtr<Ani_Changer>> m_ACMap;
-	KPtr<Ani_Changer> m_CurAni;
-	KPtr<Ani_Changer> m_NextAni;
-
 	// 일단 본을 찍어내기 위해선 본을 다 알아야 하겠다.
 	KPtr<MeshContainer> MCon;
+	KPtr<Changer_Animation> CAni;
 
 	//FBXLoader* m_pLoader;
 
@@ -75,14 +53,13 @@ private:
 
 
 public:
+	KPtr<Changer_Animation> changer_animation()
+	{
+		return CAni;
+	}
 	KMatrix Get_BoneMX(const wchar_t* _Name);
 	KMatrix Get_WBoneMX(const wchar_t* _Name);
 
-
-	bool Erase_AniChanger(const wchar_t* _Name);
-	bool Set_AniChanger(const wchar_t* _Name);
-	KPtr<Ani_Changer> Create_AniChanger(const wchar_t* _Name, const int& _Start, const int& _End);
-	KPtr<Ani_Changer> Find_AniChamnger(const wchar_t* _Name);
 
 	void PrevUpdate_Ani();
 
@@ -93,5 +70,14 @@ public:
 	void PrevUpdate() override;
 	void RenderBegin(KPtr<Camera> _Cam, const KUINT& _MeshIdx, const KUINT& _MtlIdx) override;
 
+
+	// 랜더러에서 시키면 자동으로 여과되서 들어간다.
+	// 물론 직접 때려박을 수도 있다.
+	KPtr<Changer_Animation> Create_Animation();
+
+
+	KPtr<Changer_Animation::Ani_Clip> Create_Clip(const wchar_t* _Name, const int& _Start, const int& _End);
+	bool Erase_Clip(const wchar_t* _Name);
+	void Set_Clip(const wchar_t* _Name);
 };
 

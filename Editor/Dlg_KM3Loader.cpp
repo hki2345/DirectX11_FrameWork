@@ -78,8 +78,8 @@ void Dlg_KM3Loader::OnLbnSelchangeKm3list()
 	KPtr<Renderer_BonAni> TRender = m_One->Add_Component<Renderer_BonAni>();
 
 	TRender->Set_Fbx(TempStr);
-	TRender->Create_AniChanger(L"ALLAni", 0, 100000);
-	TRender->Set_AniChanger(L"ALLAni");
+	TRender->Create_Clip(L"ALLAni", 0, 100000);
+	TRender->Set_Clip(L"ALLAni");
 }
 
 

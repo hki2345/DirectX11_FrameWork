@@ -167,7 +167,7 @@ void Renderer_BonAni::Load_FbxTest(const wchar_t* _Path)
 
 void Renderer_BonAni::PrevUpdate()
 {
-	if (nullptr != m_CurAni)
+	if (nullptr != CAni->cur_clip())
 	{
 		PrevUpdate_Ani();
 	}
@@ -182,7 +182,7 @@ void Renderer_BonAni::PrevUpdate_Ani()
 
 	// 시작 프레임
 	m_CurTime =
-		m_CurAni->Start / m_FrameCnt +
+		CAni->cur_clip()->Start / m_FrameCnt +
 		m_UpdateTime +
 		(float)(MCon->m_Data.AniVec[m_ClipInx].Stime.GetSecondDouble());
 	m_UpdateTime += DELTATIME;
@@ -200,10 +200,10 @@ void Renderer_BonAni::PrevUpdate_Ani()
 	int iNextFrameInx = 0;
 	
 	// 현재 프레임이 프레임의 끝보다 크면 0으로 초기화
-	if (iFrameInx >= m_CurAni->End - 1)
+	if (iFrameInx >= CAni->cur_clip()->End - 1)
 	{
 		m_UpdateTime = .0f; 		
-		iFrameInx = m_CurAni->Start;
+		iFrameInx = CAni->cur_clip()->Start;
 	}
 
 	// 당연하지만 다음 장면은 + 1 프레임이 되겠다.
@@ -296,96 +296,6 @@ KMatrix Renderer_BonAni::Get_WBoneMX(const wchar_t* _Name)
 
 
 
-/********************************** 지정 애니메이션*********************************/
-bool Renderer_BonAni::Set_AniChanger(const wchar_t* _Name)
-{
-	if (0 == _Name[0])
-	{
-		BBY;
-		return false;
-	}
-
-	std::map<std::wstring, KPtr<Renderer_BonAni::Ani_Changer>>::iterator FI = m_ACMap.find(_Name);
-	if (m_ACMap.end() == FI)
-	{
-		BBY;
-		return false;
-	}
-
-	m_CurAni = FI->second;
-
-	return true;
-}
-
-bool Renderer_BonAni::Erase_AniChanger(const wchar_t* _Name)
-{
-	if (0 == _Name[0])
-	{
-		BBY;
-		return false;
-	}
-
-	std::map<std::wstring, KPtr<Renderer_BonAni::Ani_Changer>>::iterator FI = m_ACMap.find(_Name);
-	if (m_ACMap.end() == FI)
-	{
-		BBY;
-		return false;
-	}
-
-
-	m_ACMap.erase(FI);
-	return true;
-}
-
-KPtr<Renderer_BonAni::Ani_Changer> Renderer_BonAni::Create_AniChanger(const wchar_t* _Name, const int& _Start, const int& _End)
-{
-	int TStart = _Start;
-	int TEnd = _End;
-
-	// 이거 -> 최대치 넘어가면 그냥 조절 - 터지는 거 막기
-	if(TEnd >= MCon->m_Data.AniVec[m_ClipInx].Length_Time)
-	{
-		TEnd = (int)MCon->m_Data.AniVec[m_ClipInx].Length_Time;
-	}
-	if (TStart >= MCon->m_Data.AniVec[m_ClipInx].Length_Time - 1)
-	{
-		TEnd = (int)MCon->m_Data.AniVec[m_ClipInx].Length_Time - 1;
-	}
-
-	if (TEnd < TStart)
-	{
-		int Temp = TStart;
-		TStart = TEnd;
-		TEnd = Temp;
-	}
-
-
-
-	if (0 == _Name[0])
-	{
-		BBY;
-		return nullptr;
-	}
-
-	Renderer_BonAni::Ani_Changer* NC = new Ani_Changer(_Name, TStart, TEnd);
-
-	m_ACMap.insert(std::map<std::wstring, KPtr<Renderer_BonAni::Ani_Changer>>::value_type(NC->ws_name(), NC));
-
-	return NC;
-}
-
-KPtr<Renderer_BonAni::Ani_Changer> Renderer_BonAni::Find_AniChamnger(const wchar_t* _Name)
-{
-	std::map<std::wstring, KPtr<Renderer_BonAni::Ani_Changer>>::iterator FI = m_ACMap.find(_Name);
-
-	if (m_ACMap.end() == FI)
-	{
-		return nullptr;
-	}
-
-	return FI->second;
-}
-
 
 void Renderer_BonAni::Set_TexturePath(const TEX_TYPE& _Value, const wchar_t* _Path)
 {
@@ -422,4 +332,71 @@ void Renderer_BonAni::Set_TexturePath(const TEX_TYPE& _Value, const wchar_t* _Pa
 			}
 		}
 	}
+}
+
+
+
+/********************************** 지정 애니메이션*********************************/
+// 원래 리소스에서 하는게 맞는데 랜더러에서 하면 이렇게 좀 필터에서 바로 지정할 수 있다.
+// 그렇게 하자
+KPtr<Changer_Animation> Renderer_BonAni::Create_Animation()
+{
+	if (nullptr != CAni)
+	{
+		return CAni;
+	}
+
+	CAni = new Changer_Animation();
+	CAni->name(MCon->FileName());
+	return CAni;
+}
+
+
+KPtr<Changer_Animation::Ani_Clip> Renderer_BonAni::Create_Clip(const wchar_t* _Name, const int& _Start, const int& _End)
+{
+	if (nullptr == CAni)
+	{
+		CAni =Create_Animation();
+	}
+
+	int TStart = _Start;
+	int TEnd = _End;
+
+	// 이거 -> 최대치 넘어가면 그냥 조절 - 터지는 거 막기
+	if (TEnd < TStart)
+	{
+		int Temp = TStart;
+		TStart = TEnd;
+		TEnd = Temp;
+	}
+
+	if (TEnd >= MCon->m_Data.AniVec[m_ClipInx].Length_Time)
+	{
+		TEnd = (int)MCon->m_Data.AniVec[m_ClipInx].Length_Time;
+	}
+
+	CAni->Create_AniClip(_Name, TStart, TEnd);
+
+	return CAni;
+}
+
+bool Renderer_BonAni::Erase_Clip(const wchar_t* _Name)
+{
+	if (nullptr == CAni)
+	{
+		BBY;
+	}
+
+	CAni->Erase_AniClip(_Name);
+
+	return true;
+}
+void Renderer_BonAni::Set_Clip(const wchar_t* _Name)
+{
+	if (nullptr == CAni)
+	{
+		BBY;
+	}
+
+	CAni->Set_AniClip(_Name);
 }

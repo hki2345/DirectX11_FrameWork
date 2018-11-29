@@ -126,7 +126,7 @@ std::wstring PathManager::Split_Path(const std::wstring& _ALL, const std::wstrin
 	}
 
 	wchar_t Tmp[128] = { 0, };
-	_ALL.copy(Tmp, _ALL.size() - _FPath.size(), _FPath.size());
+	_ALL._Copy_s(Tmp, _ALL.size() - _FPath.size(), _FPath.size());
 	return Tmp;
 }
 
