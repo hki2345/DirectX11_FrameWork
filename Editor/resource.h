@@ -32,14 +32,20 @@
 #define IDC_EDIT2                       1005
 #define IDC_CURSCENE                    1005
 #define IDC_CUTY                        1005
-#define IDC_CREATEOBJ                   1007
+#define IDC_KM3ACEND                    1005
 #define IDC_DIFFPATH                    1006
+#define IDC_CREATEOBJ                   1007
 #define IDC_NORMPATH                    1007
+#define IDC_KM3ACASAVE                  1007
 #define IDC_SPECPATH                    1008
-#define IDC_EMISPATH                    1009
 #define IDC_CUTX                        1008
+#define IDC_NORMPATH2                   1008
+#define IDC_EMISPATH                    1009
 #define IDC_SELECTSPRITE                1009
 #define IDC_DIFFPATH4                   1009
+#define IDC_SPECPATH2                   1009
+#define IDC_EMISPATH2                   1010
+#define IDC_KM3ACSSAVE                  1011
 #define IDC_POSX                        1013
 #define IDC_POSY                        1014
 #define IDC_POSZ                        1015
@@ -55,6 +61,7 @@
 #define IDC_SAVESCENE                   1024
 #define IDC_BUTTON2                     1025
 #define IDC_TOKM3                       1025
+#define IDC_KM3ACADDBTN                 1025
 #define IDC_FBX2KM3TAB                  1026
 #define IDC_FBXLIST                     1029
 #define IDC_POSX2                       1031
@@ -64,13 +71,19 @@
 #define IDC_ROTX2                       1034
 #define IDC_ROTY2                       1035
 #define IDC_ROTZ2                       1036
+#define IDC_KM3ACCOMBO                  1036
 #define IDC_SCALX2                      1037
+#define IDC_KM3ACSTART                  1037
 #define IDC_SCALY2                      1038
+#define IDC_KM3ACNAME                   1038
 #define IDC_SCALZ2                      1039
+#define IDC_KM3ACDELBTN                 1039
 #define IDC_DIFFBTN                     1040
 #define IDC_NORMBTN                     1041
 #define IDC_SPECBTN                     1042
 #define IDC_EMISBTN                     1043
+#define IDC_ACFILENAME                  1043
+#define IDC_EMISBTN2                    1044
 
 // Next default values for new objects
 // 
@@ -78,7 +91,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        348
 #define _APS_NEXT_COMMAND_VALUE         32771
-#define _APS_NEXT_CONTROL_VALUE         1036
+#define _APS_NEXT_CONTROL_VALUE         1046
 #define _APS_NEXT_SYMED_VALUE           312
 #endif
 #endif
