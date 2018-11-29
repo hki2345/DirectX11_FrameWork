@@ -685,50 +685,50 @@ bool KDevice::Mat3DCreate()
 	DTESSLEMAT->Set_PXShader(L"DTESSLEPIX");
 	DTESSLEMAT->Set_Blend(L"ALPHA");	
 
-//{
-//	KPtr<Shader_Vertex> VTX = ResourceManager<Shader_Vertex>::Load_FromKey(L"EFFECTFILTERVTX", L"Shader", L"Effect.fx", "VS_EFFECTFILTER");
-//	VTX->Add_Layout("POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
-//	VTX->Add_LayoutFin("SWITCH", 0, DXGI_FORMAT::DXGI_FORMAT_R32_UINT, 0);
-//
-//	D3D11_SO_DECLARATION_ENTRY _Data[2];
-//	_Data[0].Stream = 0; // n번째 스트림 버퍼를 쓰는지
-//	_Data[0].OutputSlot = 0; // n번째 스트림 버퍼에 출력하겠다
-//	_Data[0].StartComponent = 0; // 어디서부터 시작할 건지
-//	_Data[0].ComponentCount = 4; // 어디까지 쓸건지
-//	_Data[0].SemanticIndex = 0; //  POSITION[0] POSITION[1] POSITION[2]
-//	_Data[0].SemanticName = "POSITION"; // 이름이 어떤가?
-//
-//
-//	_Data[1].Stream = 0;
-//	_Data[1].OutputSlot = 0;
-//	_Data[1].StartComponent = 0;
-//	_Data[1].ComponentCount = 1;
-//	_Data[1].SemanticIndex = 0;
-//	_Data[1].SemanticName = "SWITCH";
-//
-//	KUINT BufSize = 24 * 1024;
-//	KPtr<Shader_GeoMetry> GEO = ResourceManager<Shader_Vertex>::Load_FromKey(L"EFFECTFILTERGEO", L"Shader", L"Effect.fx", "GS_EFFECTFILTER");
-//
-//	KPtr<KMaterial> MTL = ResourceManager<KMaterial>::Create(L"EFFECTFILTERMTL");
-//	MTL->Set_VTShader(L"EFFECTFILTERVTX");
-//	MTL->Set_GMShader(L"EFFECTFILTERGEO");
-//	MTL->Set_Blend(L"ALPHA");
-//}
-//
-//{
-//	KPtr<Shader_Vertex> VTX = ResourceManager<Shader_Vertex>::Load_FromKey(L"EFFECTRENDERVTX", L"Shader", L"Effect.fx", "VS_EFFECTRENDER");
-//	VTX->Add_Layout("POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
-//	VTX->Add_LayoutFin("SWITCH", 0, DXGI_FORMAT::DXGI_FORMAT_R32_UINT, 0);
-//
-//	KPtr<Shader_GeoMetry> GEO = ResourceManager<Shader_Vertex>::Load_FromKey(L"EFFECTRENDERGEO", L"Shader", L"Effect.fx", "GS_EFFECTRENDER");
-//	KPtr<Shader_GeoMetry> PIX = ResourceManager<Shader_Vertex>::Load_FromKey(L"EFFECTRENDERPIX", L"Shader", L"Effect.fx", "PS_EFFECTRENDER");
-//
-//	KPtr<KMaterial> MTL = ResourceManager<KMaterial>::Create(L"EFFECTRENDERMTL");
-//	MTL->Set_VTShader(L"EFFECTRENDERVTX");
-//	MTL->Set_GMShader(L"EFFECTRENDERGEO");
-//	MTL->Set_PXShader(L"EFFECTRENDERPIX");
-//	MTL->Set_Blend(L"ALPHA");
-//}
+	{
+		KPtr<Shader_Vertex> VTX = ResourceManager<Shader_Vertex>::Load_FromKey(L"EFFECTFILTERVTX", L"Shader", L"Effect.fx", "VS_EFFECTFILTER");
+		VTX->Add_Layout("POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
+		VTX->Add_LayoutFin("SWITCH", 0, DXGI_FORMAT::DXGI_FORMAT_R32_UINT, 0);
+
+		D3D11_SO_DECLARATION_ENTRY _Data[2];
+		_Data[0].Stream = 0; // n번째 스트림 버퍼를 쓰는지
+		_Data[0].OutputSlot = 0; // n번째 스트림 버퍼에 출력하겠다
+		_Data[0].StartComponent = 0; // 어디서부터 시작할 건지
+		_Data[0].ComponentCount = 4; // 어디까지 쓸건지
+		_Data[0].SemanticIndex = 0; //  POSITION[0] POSITION[1] POSITION[2]
+		_Data[0].SemanticName = "POSITION"; // 이름이 어떤가?
+
+
+		_Data[1].Stream = 0;
+		_Data[1].OutputSlot = 0;
+		_Data[1].StartComponent = 0;
+		_Data[1].ComponentCount = 1;
+		_Data[1].SemanticIndex = 0;
+		_Data[1].SemanticName = "SWITCH";
+
+		KUINT BufSize = 24 * 1024;
+		KPtr<Shader_GeoMetry> GEO = ResourceManager<Shader_GeoMetry>::Load_FromKey(L"EFFECTFILTERGEO", L"Shader", L"Effect.fx", "GS_EFFECTFILTER");
+
+		KPtr<KMaterial> MTL = ResourceManager<KMaterial>::Create(L"EFFECTFILTERMTL");
+		MTL->Set_VTShader(L"EFFECTFILTERVTX");
+		MTL->Set_GMShader(L"EFFECTFILTERGEO");
+		MTL->Set_Blend(L"ALPHA");
+	}
+
+	{
+		KPtr<Shader_Vertex> VTX = ResourceManager<Shader_Vertex>::Load_FromKey(L"EFFECTRENDERVTX", L"Shader", L"Effect.fx", "VS_EFFECTRENDER");
+		VTX->Add_Layout("POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
+		VTX->Add_LayoutFin("SWITCH", 0, DXGI_FORMAT::DXGI_FORMAT_R32_UINT, 0);
+
+		KPtr<Shader_GeoMetry> GEO = ResourceManager<Shader_GeoMetry>::Load_FromKey(L"EFFECTRENDERGEO", L"Shader", L"Effect.fx", "GS_EFFECTRENDER");
+		KPtr<Shader_Pixel> PIX = ResourceManager<Shader_Pixel>::Load_FromKey(L"EFFECTRENDERPIX", L"Shader", L"Effect.fx", "PS_EFFECTRENDER");
+
+		KPtr<KMaterial> MTL = ResourceManager<KMaterial>::Create(L"EFFECTRENDERMTL");
+		MTL->Set_VTShader(L"EFFECTRENDERVTX");
+		MTL->Set_GMShader(L"EFFECTRENDERGEO");
+		MTL->Set_PXShader(L"EFFECTRENDERPIX");
+		MTL->Set_Blend(L"ALPHA");
+	}
 
 	return true;
 }
