@@ -235,7 +235,9 @@
     <ClInclude Include="KStreamBuffer.h">
       <Filter>03 Manager\Resource\Child\Material\Shader</Filter>
     </ClInclude>
-    <ClInclude Include="Changer_Animation.h" />
+    <ClInclude Include="Changer_Animation.h">
+      <Filter>03 Manager\Resource\Child\MeshContainer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SmartPtr.cpp">
@@ -452,9 +454,11 @@
       <Filter>03 Manager\Resource\Child\Material\Shader</Filter>
     </ClCompile>
     <ClCompile Include="Resource.cpp">
+      <Filter>03 Manager\Resource</Filter>
+    </ClCompile>
+    <ClCompile Include="Changer_Animation.cpp">
       <Filter>03 Manager\Resource\Child\MeshContainer</Filter>
     </ClCompile>
-    <ClCompile Include="Changer_Animation.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />

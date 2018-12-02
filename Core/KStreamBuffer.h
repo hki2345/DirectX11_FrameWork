@@ -20,7 +20,12 @@ public:
 	}
 
 public:
-	bool Create(const KUINT _BufSize, const KUINT& _Flag);
+	bool Create(const KUINT& _BufSize, void* _InitData, const KUINT& _Flag);
+	bool Create(const KUINT& _BufSize, void* _InitData, const KUINT& _Flag, D3D11_USAGE _Data);
+	void Update_Data(const KUINT& _BufSize, void* _InitData);
+
+
+
 	void Update();
 	void Reset();
 

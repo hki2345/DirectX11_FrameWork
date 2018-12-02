@@ -3,14 +3,13 @@
 
 #include "stdafx.h"
 #include "KEditor.h"
-#include "Dlg_MainMenu.h"
 #include "afxdialogex.h"
-//#include "SceneDlg.h"
-//#include "SpriteDlg.h"
-//#include "ActorDlg.h"
+
+#include "Dlg_MainMenu.h"
 #include "Dlg_Editor.h"
 #include "Dlg_MeshConv.h"
 
+#include "Dlg_Force.h"
 
 #include "Edit_Class.h"
 
@@ -53,10 +52,9 @@ BOOL Dlg_MainMenu::OnInitDialog()
 
 	SetBackgroundColor(RGB(255, 255, 255), TRUE);
 
-	CreateDlg<Dlg_MeshConv>(IDD_MESHDLG, L"Mesh...");
+	CreateDlg<Dlg_MeshConv>(IDD_MESHDLG, L"Mesh");
+	CreateDlg<Dlg_Force>(IDD_FORCEDLG, L"Force");
 	CreateDlg<Dlg_Editor>(IDD_TOOLDLG, L"Tool");
-	// CreateDlg<Dlg_Editor>(IDD_TOOLDLG, L"ActorDlg");
-	//CreateDlg<SpriteDlg>(IDD_SPRITEDLG, L"SpriteDlg");
 	Show_Dlg(0);
 	// TODO:  여기에 추가 초기화 작업을 추가합니다.
 
@@ -80,9 +78,9 @@ void Dlg_MainMenu::OnTcnSelchangeMenutab(NMHDR *pNMHDR, LRESULT *pResult)
 void Dlg_MainMenu::Show_Dlg(size_t _Index)
 {
 
-	if (true == m_VecDlg[_Index]->m_SceneChange)
+	if (true == m_VecDlg[_Index]->m_StateChange)
 	{
-		Core_Class::MainSceneMgr().Change_State(m_VecDlg[_Index]->SceneName.GetString());
+		Core_Class::MainSceneMgr().Change_State(m_VecDlg[_Index]->StateName.GetString());
 	}
 	else {
 		Core_Class::MainSceneMgr().Change_State(nullptr);

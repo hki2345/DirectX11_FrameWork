@@ -36,6 +36,8 @@ public:
 	static std::wstring		Chain_StringInt(const std::wstring& _Name, const int& _Value);
 	static std::wstring		Split_FileName(const wchar_t* _Path);
 	static std::wstring		Split_Path(const std::wstring& _ALL, const std::wstring& _FPath);
+	static int				Convert_Str2Int(const std::wstring& _Path);
+	static int				Convert_Str2Int(const wchar_t* _Path);
 
 private:
 	static void Init();
@@ -91,16 +93,64 @@ public:
 public:
 	static KPtr<Res> Find(const wchar_t* _Name)
 	{
+		if (0 >= m_RSMap.size())
+		{
+			return nullptr;
+		}
 		KPtr<Res> pTemp = Map_Find<KPtr<Res>>(m_RSMap, _Name);
 
 		return pTemp;
+	}
+
+	static KPtr<Res> Find_Name(const wchar_t* _Name)
+	{
+		if (0 >= m_RSMap.size())
+		{
+			return nullptr;
+		}
+
+
+		std::unordered_map<std::wstring, KPtr<Res>>::iterator S = m_RSMap.begin();
+		std::unordered_map<std::wstring, KPtr<Res>>::iterator E = m_RSMap.end();
+
+		std::string Tmp = _Name;
+
+		for (; S != E; ++S)
+		{
+			if (Tmp == S->second.ws_name())
+			{
+				return S->second;
+			}
+		}
+
+		return nullptr;
+	}
+
+
+	static void Erase(const wchar_t* _Name)
+	{
+		m_RSMap.erase(_Name);
+	}
+
+	static void Erase(KPtr<Res> _Ptr)
+	{
+		std::unordered_map<std::wstring, KPtr<Res>>::iterator S = m_RSMap.begin();
+		std::unordered_map<std::wstring, KPtr<Res>>::iterator E = m_RSMap.end();
+
+		for (; S != E; ++S)
+		{
+			if (_Ptr == S->second)
+			{
+				m_RSMap.erase(S->first);
+				break;
+			}
+		}
 	}
 
 
 #pragma region CREATE
 	static KPtr<Res> Create(const wchar_t* _Name)
 	{
-
 		Res* NewRes = new Res();
 		NewRes->Set_Type();
 		NewRes->name(_Name);
@@ -136,6 +186,7 @@ public:
 
 
 	// 인자 2개 -- 렌더 타겟의 멀티로 띄우는 걸 저격하는 것이다.
+	// 인자 2개 -- 애니 클립의 시작과 끝을 저격하는 것이다.
 	template<typename V1, typename V2>
 	static KPtr<Res> Create(const wchar_t* _Name, V1 _1, V2 _2)
 	{
@@ -247,12 +298,11 @@ public:
 #pragma endregion
 
 #pragma region LOAD
-	static KPtr<Res> Load(const wchar_t* _Path, const bool& _Multi = false)
+	static KPtr<Res> Load(const wchar_t* _Path)
 	{
 		Res* NewRes = new Res();
 		NewRes->Split_Path(_Path);
-		NewRes->name(NewRes->FileNameExt());
-
+		NewRes->name(NewRes->FileNameExt());		
 
 		std::unordered_map<std::wstring, KPtr<Res>>::iterator FI = m_RSMap.find(NewRes->FileForder());
 		if (FI != m_RSMap.end())
@@ -274,7 +324,7 @@ public:
 
 
 	template<typename V1>
-	static KPtr<Res> Load(const wchar_t* _Path, V1 _1, const bool& _Multi = false)
+	static KPtr<Res> Load(const wchar_t* _Path, V1 _1)
 	{
 		Res* NewRes = new Res();
 		NewRes->Split_Path(_Path);
@@ -287,6 +337,7 @@ public:
 			return FI->second;
 		}
 
+		
 		if (false == NewRes->Load(_1))
 		{
 			delete NewRes;
@@ -302,12 +353,13 @@ public:
 
 
 
-	static KPtr<Res> Load(const wchar_t* _Path, const wchar_t* _Name, const bool& _Multi = false)
+	static KPtr<Res> Load(const wchar_t* _Path, const wchar_t* _Name)
 	{
 		std::wstring TempPath = PathManager::Find_ForderPath(_Path);
 		TempPath += _Name;
 
 		Res* NewRes = new Res();
+		NewRes->name(_Name);
 		NewRes->Split_Path(TempPath.c_str());
 		NewRes->FileForder(_Path);
 		if (false == NewRes->Load())
@@ -322,7 +374,7 @@ public:
 	}
 
 	template<typename V1>
-	static KPtr<Res> Load(const wchar_t* _Path, const wchar_t* _Name, V1 _1, const bool& _Multi = false)
+	static KPtr<Res> Load(const wchar_t* _Path, const wchar_t* _Name, V1 _1)
 	{
 		std::wstring TempPath = PathManager::Find_ForderPath(_Path);
 		TempPath += _Name;
@@ -344,7 +396,7 @@ public:
 	}
 
 	template<typename V1, typename V2>
-	static KPtr<Res> Load(const wchar_t* _Path, const wchar_t* _Name, V1 _1, V2 _2, const bool& _Multi = false)
+	static KPtr<Res> Load(const wchar_t* _Path, const wchar_t* _Name, V1 _1, V2 _2)
 	{
 		std::wstring TempPath = PathManager::Find_ForderPath(_Path);
 		TempPath += _Name;
@@ -367,6 +419,35 @@ public:
 
 #pragma endregion
 
+#pragma region SAVE
+
+	static bool Save(const wchar_t* _Path)
+	{
+		std::unordered_map<std::wstring, KPtr<Res>>::iterator FI = m_RSMap.find(_Path);
+		if (FI == m_RSMap.end())
+		{
+			return false;
+		}
+
+		if (false == FI->second->Save())
+		{
+			return false;
+		}
+
+		return true;
+	}
+
+
+
+#pragma endregion
+
+	static bool Clear()
+	{
+		m_RSMap.clear();
+		return true;
+	}
+
+#pragma region Load_FromKey
 	static KPtr<Res> Load_FromKey(const wchar_t* _Key, const wchar_t* _PathKey, const wchar_t* _FileName)
 	{
 		std::wstring TempPath = PathManager::Find_ForderPath(_PathKey);
@@ -426,11 +507,24 @@ public:
 		m_RSMap.insert(std::unordered_map<std::wstring, KPtr<Res>>::value_type(_Key, NewRes));
 		return NewRes;
 	}
-
+#pragma endregion
 
 public:
 	// 모든 리소스를 다 가져온다
-	static bool All_Load(const wchar_t* _Target);
+
+	static bool All_Load();
+	static bool All_Save()
+	{
+		std::unordered_map<std::wstring, KPtr<Res>>::iterator S = m_RSMap.begin();
+		std::unordered_map<std::wstring, KPtr<Res>>::iterator E = m_RSMap.end();
+
+		for (; S != E; ++S)
+		{
+			S->second->Save();
+		}
+
+		return true;
+	}
 
 private:
 	// 실제 인제 파일을 불러오려는 함수

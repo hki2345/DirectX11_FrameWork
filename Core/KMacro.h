@@ -8,3 +8,4 @@
 #define BBY KASSERT(true);
 #define KUINT unsigned int
 #define PATHNUM 128
+#define NAMENUM 32

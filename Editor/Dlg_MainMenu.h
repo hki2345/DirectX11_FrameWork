@@ -65,12 +65,12 @@ private:
 
 		T* m_pDlg = new T();
 
-		m_pDlg->SceneName = _ItemName;
+		m_pDlg->StateName = _ItemName;
 		m_pDlg->Create(_DlgId, this);
 		m_pDlg->SetBackgroundColor(RGB(255, 255, 255), TRUE);
 		m_pDlg->SetWindowPos(nullptr, 36, 18, Rc.right - 36, Rc.bottom - 18, SWP_NOZORDER);
 		m_pDlg->ShowWindow(SW_HIDE);
-		m_pDlg->m_SceneChange = _IsSceneCreate;
+		m_pDlg->m_StateChange = _IsSceneCreate;
 
 		m_VecDlg.push_back(m_pDlg);
 

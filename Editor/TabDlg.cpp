@@ -2,16 +2,12 @@
 #include "TabDlg.h"
 
 
-TabDlg::TabDlg(int _id, CWnd* _pWnd) : CDialogEx(_id, _pWnd)
+TabDlg::TabDlg(const int& _id, CWnd* _Wnd) : 
+	CDialogEx(_id, _Wnd)
 {
 }
 
 
 TabDlg::~TabDlg()
 {
-}
-
-void TabDlg::Hide_Dlg()
-{
-
 }

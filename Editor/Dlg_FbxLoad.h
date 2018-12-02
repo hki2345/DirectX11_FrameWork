@@ -31,7 +31,7 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	CListBox m_RscList;
-	KPtr<TheOne> m_One;
+	KPtr<TheOne> m_CurOne;
 	CButton m_TexBtn[4];
 	CEdit	m_TexPath[4];
 

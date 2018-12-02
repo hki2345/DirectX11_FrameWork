@@ -12,9 +12,9 @@
 IMPLEMENT_DYNAMIC(Dlg_TransPosition, ComDlg)
 
 Dlg_TransPosition::Dlg_TransPosition(CWnd* pParent /*=NULL*/)
-	: ComDlg(IDD_TRANSCOM, pParent), m_pTrans(nullptr)
+	: ComDlg(IDD_DLGTRANS, pParent), m_pTrans(nullptr)
 {
-	SIZEY = 180;
+	Y_SIZE = 180;
 }
 
 Dlg_TransPosition::~Dlg_TransPosition()

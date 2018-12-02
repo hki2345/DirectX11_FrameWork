@@ -49,7 +49,7 @@ BOOL Dlg_MeshConv::OnInitDialog()
 {
 	TabDlg::OnInitDialog();
 
-	KPtr<State> TabScene = Core_Class::MainSceneMgr().Find_State(SceneName.GetString());
+	KPtr<State> TabScene = Core_Class::MainSceneMgr().Find_State(StateName.GetString());
 
 	if (nullptr == TabScene)
 	{
@@ -109,22 +109,22 @@ BOOL Dlg_MeshConv::OnInitDialog()
 	m_MeshTab.GetClientRect(&Rc);
 
 	Dlg_FbxLoad* LDlg = new Dlg_FbxLoad();
-	LDlg->SceneName = L"FBX Loader";
+	LDlg->StateName = L"FBX Loader";
 	LDlg->Create(IDD_FBXDLG, this);
 	LDlg->SetBackgroundColor(RGB(255, 255, 255), TRUE);
 	LDlg->SetWindowPos(nullptr, 0, 46, Rc.right - 0, Rc.bottom - 46, SWP_NOZORDER);
 	LDlg->ShowWindow(SW_HIDE);
-	LDlg->m_SceneChange = false;
+	LDlg->m_StateChange = false;
 	m_DlgVec.push_back(LDlg);
 
 
 	Dlg_KM3Loader* KDlg = new Dlg_KM3Loader();
-	KDlg->SceneName = L"FBX Loader";
+	KDlg->StateName = L"FBX Loader";
 	KDlg->Create(IDD_KM3DLG, this);
 	KDlg->SetBackgroundColor(RGB(255, 255, 255), TRUE);
 	KDlg->SetWindowPos(nullptr, 0, 46, Rc.right - 0, Rc.bottom - 46, SWP_NOZORDER);
 	KDlg->ShowWindow(SW_HIDE);
-	KDlg->m_SceneChange = false;
+	KDlg->m_StateChange = false;
 	m_DlgVec.push_back(KDlg);
 
 	Show_Dlg(0);

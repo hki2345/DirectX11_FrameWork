@@ -79,5 +79,6 @@ public:
 	KPtr<Changer_Animation::Ani_Clip> Create_Clip(const wchar_t* _Name, const int& _Start, const int& _End);
 	bool Erase_Clip(const wchar_t* _Name);
 	void Set_Clip(const wchar_t* _Name);
+	void Set_Clip(const int& _Num);
 };
 

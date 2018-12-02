@@ -122,7 +122,7 @@ public:
 	void Set_TargetTex(const KUINT& _Slot, const wchar_t* _TexName);
 	KUINT Set_TexData(Tex_Data* _Data);
 
-private:
+public:
 	void Update_Tex();
 	void Update_Sam();
 

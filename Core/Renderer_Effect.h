@@ -12,19 +12,24 @@ public:
 	{
 	public:
 		KVector Pos;
-		KUINT Switch;
 	};
 
 private:
 	// StreamBuffer
 	std::vector<Effect_Begin> m_EFVec;
-	std::vector<KVector> m_EFPVec;
 	KPtr<Texture> m_Tex;
-	KPtr<KStreamBuffer> m_InitBuf;
+	KPtr<KStreamBuffer> m_DataBuf;
 	KPtr<KStreamBuffer> m_SOBuffer;
 
 	KPtr<KMaterial> m_SMtl;
 	KPtr<KMaterial> m_RMtl;
+
+	KUINT m_MaxEFCnt;
+	float m_UpdateTime;
+
+
+public:
+	KPtr<KMaterial> render_material();
 
 private:
 	bool Init(const KUINT& _DotCnt, const int& _Order = 0);

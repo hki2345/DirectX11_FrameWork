@@ -40,6 +40,28 @@ public:
 		return m_FileForder.c_str();
 	}
 
+
+	std::wstring& ws_allpath()
+	{
+		return m_AllPath;
+	}
+	std::wstring& ws_filename()
+	{
+		return m_FileName;
+	}
+	std::wstring& ws_filenameext()
+	{
+		return m_FileNameExi;
+	}
+	std::wstring& ws_fileext()
+	{
+		return m_FileExt;
+	}
+	std::wstring& ws_filefolder()
+	{
+		return m_FileForder;
+	}
+
 	void FileForder(const wchar_t* _pPathKey) { m_FileForder = _pPathKey; }
 	bool Compare_Ext(const wchar_t* _pExt) { return m_FileExt == _pExt; }
 
@@ -48,6 +70,7 @@ public:
 private:
 	virtual bool Create();
 	virtual bool Load();
+	virtual bool Save(KPtr<Resource> _Res);
 
 };
 

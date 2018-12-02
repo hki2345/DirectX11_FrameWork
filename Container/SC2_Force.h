@@ -1,13 +1,24 @@
 #pragma once
-#include <Begin_Updater.h>
-
-
 // 유닛도 세력을 알아야하지만 유닛은 간접적으로 아는 식(포인터)
 // 요놈은 유닛을 직접 만들어야 하니까 값으로 알아야 겠다.
 #include "Force_Unit.h"
 #include <DXContainer.h>
+#include <Resource.h>
+
 #include <map>
 
+
+
+class Force_Container : public SmartPtr
+{
+public:
+	wchar_t Name[NAMENUM];
+	KColor Color;
+
+public:
+	Force_Container() {};
+	~Force_Container() {};
+};
 
 
 // 이름과 그 세력의 고유 색을 가진다
@@ -24,19 +35,29 @@ private:
 		PRT_PERSON,
 	};
 
-private:
-	KColor m_Color;
-	
+private:	
 	std::map<std::wstring, KPtr<Force_Unit>> m_UMap;
 	std::map<std::wstring, KPtr<Force_Unit>>::iterator m_SUI;
 	std::map<std::wstring, KPtr<Force_Unit>>::iterator m_EUI;
 
+	Force_Container m_Force;
 
 private:
 	bool Init();
 	void Update();
 
 public:
+	KPtr<Force_Container> force_container()
+	{
+		return &m_Force;
+	}
+
+	bool Set_Force(const Force_Container& _Value)
+	{
+		memcpy_s(m_Force.Name, sizeof(wchar_t) * NAMENUM, _Value.Name, sizeof(wchar_t) * NAMENUM);
+		m_Force.Color = _Value.Color;
+	}
+
 	KUINT units_size()
 	{
 		return (KUINT)m_UMap.size();

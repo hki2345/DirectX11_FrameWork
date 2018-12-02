@@ -5,14 +5,14 @@
 class TabDlg : public CDialogEx
 {
 public:
-	CString SceneName;
-	bool m_SceneChange;
+	CString StateName;
+	bool m_StateChange;
 
 public:
-	virtual void Hide_Dlg();
+	virtual void Hide_Dlg() {};
 
 public:
-	TabDlg(int _id, CWnd* _pWnd);
+	TabDlg(const int& _id, CWnd* _Wnd);
 	~TabDlg();
 };
 

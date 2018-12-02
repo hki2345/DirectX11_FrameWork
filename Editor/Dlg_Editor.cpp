@@ -62,7 +62,7 @@ BOOL Dlg_Editor::OnInitDialog()
 {
 	TabDlg::OnInitDialog();
 
-	KPtr<State> TabScene = Core_Class::MainSceneMgr().Find_State(SceneName.GetString());
+	KPtr<State> TabScene = Core_Class::MainSceneMgr().Find_State(StateName.GetString());
 
 	if (nullptr == TabScene) 
 	{

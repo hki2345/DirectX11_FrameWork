@@ -30,14 +30,15 @@ void Edit_Launcher::Build()
 	PathManager::Create_ForderPath(L"Mesh");
 	PathManager::Create_ForderPath(L"Data");
 	PathManager::Create_ForderPath(L"KM3", L"Data\\KM3");
+	PathManager::Create_ForderPath(L"KCA", L"Data\\KCA");
 	PathManager::Create_ForderPath(L"SpriteBack", L"Data\\Back\\Sprite");
 
 	// 이렇게 경로를 잡은 뒤 해야함
 	Core_Class::MainWindow().Init_Device();
 
 	// 디바이스 초기화를 하고 해야함
-	ResourceManager<KImage>::All_Load(L"Texture");
-	ResourceManager<Sound>::All_Load(L"Sound");
+	ResourceManager<KImage>::All_Load();
+	ResourceManager<Sound>::All_Load();
 	ResourceManager<KFont>::Create(L"태나무", L"태나무");
 	
 

@@ -67,7 +67,7 @@ KPtr<SC2_Force> SC2Manager::Find_Force(const KColor& _Color)
 
 	for (; m_SFI != m_EFI; ++m_SFI)
 	{
-		if (_Color == m_SFI->second->m_Color)
+		if (_Color == m_SFI->second->force_container()->Color)
 		{
 			return m_SFI->second;
 		}

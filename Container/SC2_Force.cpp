@@ -5,7 +5,7 @@
 SC2_Force::SC2_Force(const wchar_t* _Name, const KColor& _Color)
 {
 	Begin::name(_Name);
-	this->m_Color = _Color;
+	this->m_Force.Color = _Color;
 }
 
 

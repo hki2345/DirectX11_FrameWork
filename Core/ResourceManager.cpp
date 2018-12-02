@@ -5,6 +5,7 @@
 #include "Sound.h"
 #include "KImage.h"
 #include "KM3.h"
+#include "Changer_Animation.h"
 
 #include <io.h>
 #include <iostream>
@@ -160,21 +161,35 @@ std::wstring PathManager::Split_Path(const std::wstring& _ALL, const std::wstrin
 }
 
 
+int	PathManager::Convert_Str2Int(const std::wstring& _Path)
+{
+	// char - atoi()
+	return _wtoi(_Path.c_str());
+}
+
+int	PathManager::Convert_Str2Int(const wchar_t* _Path)
+{
+	return _wtoi(_Path);
+}
 
 /********************* All Resource Load **********************/
 // 일종의 껍대기 함수 - 템플릿을 헤더에 묶으면 되는데 그러기엔 헤더가 지금 너무 많이 쓰여져있어서
 // 이렇게 껍질 함수 만들어서 구현함 ㅇㅇ
-bool ResourceManager<KImage>::All_Load(const wchar_t* _Target)
+bool ResourceManager<KImage>::All_Load()
 {
-	return ResourceManager<KImage>::All_LoadOrigin(_Target);
+	return ResourceManager<KImage>::All_LoadOrigin(L"Texture");
 }
-bool ResourceManager<Sound>::All_Load(const wchar_t* _Target)
+bool ResourceManager<Sound>::All_Load()
 {
-	return ResourceManager<Sound>::All_LoadOrigin(_Target);
+	return ResourceManager<Sound>::All_LoadOrigin(L"Sound");
 }
-bool ResourceManager<MeshContainer>::All_Load(const wchar_t* _Target)
+bool ResourceManager<MeshContainer>::All_Load()
 {
-	return ResourceManager<MeshContainer>::All_LoadOrigin(_Target);
+	return ResourceManager<MeshContainer>::All_LoadOrigin(L"KM3");
+}
+bool ResourceManager<Changer_Animation>::All_Load()
+{
+	return ResourceManager<Changer_Animation>::All_LoadOrigin(L"KCA");
 }
 
 
@@ -186,9 +201,17 @@ bool ResourceManager<KS>::All_LoadOrigin(const wchar_t* _Target)
 	struct _wfinddata_t FD;
 	intptr_t Handle;
 
-	std::wstring Path = PathManager::PathForder();;
-	Path += _Target;
-	Path += L"\\*.*";
+
+	if (nullptr == PathManager::Find_ForderPath(_Target))
+	{
+		PathManager::Create_ForderPath(_Target);
+	}
+
+
+	std::wstring Path = PathManager::Find_ForderPath(_Target);
+
+
+	Path += L"*.*";
 
 	Handle = _wfindfirst(Path.c_str(), &FD);
 
@@ -228,10 +251,8 @@ bool ResourceManager<KS>::All_LoadSub(const intptr_t& _Handle, _wfinddata_t& _FD
 		// 파일이다.
 		if (true == ResourceManager<KS>::IsDot(_FD.name))
 		{
-			std::wstring TempPath = PathManager::PathForder();
-			TempPath += _Target;
+			std::wstring TempPath = PathManager::Find_ForderPath(_Target);
 
-			TempPath += L"\\";
 			TempPath += _FD.name;
 
 			wchar_t ArrDrive[128] = { 0, };
@@ -253,13 +274,15 @@ bool ResourceManager<KS>::All_LoadSub(const intptr_t& _Handle, _wfinddata_t& _FD
 			if (Exi == L".png" || Exi == L".PNG" || Exi == L".Png" ||
 				Exi == L".jpg" || Exi == L".JPG" || Exi == L".Jpg" || 
 				Exi == L".bmp" || Exi == L".dds" || Exi == L".DDS" ||
-				Exi == L".mp3" || Exi == L".KM3" || Exi == L".km3")
+				Exi == L".mp3" || Exi == L".KM3" || Exi == L".km3" ||
+				Exi == L".KCA")
 			{
-				if (nullptr == PathManager::Find_ForderPath(Folder.c_str()))
+				// 이걸해야 연속으로 막 불러올 수 있지 않곗냐;
+				if (nullptr == ResourceManager<KS>::Find(Folder.c_str()))
 				{
-					PathManager::Create_ForderPath(_Target);
+					ResourceManager<KS>::Load(Folder.c_str(), (Name).c_str());
 				}
-				ResourceManager<KS>::Load(_Target, Name.c_str(), true);
+
 			}
 		}
 

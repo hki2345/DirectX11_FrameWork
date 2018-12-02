@@ -51,9 +51,9 @@ END_MESSAGE_MAP()
 
 void Dlg_FbxLoad::Hide_Dlg()
 {
-	if (nullptr != m_One)
+	if (nullptr != m_CurOne)
 	{
-		m_One->Set_Death();
+		m_CurOne->Set_Death();
 	}
 }
 
@@ -161,7 +161,10 @@ void Dlg_FbxLoad::Update_RscTree()
 
 	for (size_t i = 0; i < TVec.size(); i++)
 	{
-		m_RscList.AddString(TVec[i]->FileNameExt());
+		if (L".FBX" == TVec[i]->ws_fileext() || L".fbx" == TVec[i]->ws_fileext())
+		{
+			m_RscList.AddString(TVec[i]->FileNameExt());
+		}
 	}
 
 	UpdateData(FALSE);
@@ -169,12 +172,12 @@ void Dlg_FbxLoad::Update_RscTree()
 
 void Dlg_FbxLoad::Update_Path()
 {
-	if (nullptr == m_One)
+	if (nullptr == m_CurOne)
 	{
 		return;
 	}
 
-	std::vector<KPtr<Texture>> TmpVec = m_One->Get_Component<Renderer_BonAni>()->material()->texture_vec();
+	std::vector<KPtr<Texture>> TmpVec = m_CurOne->Get_Component<Renderer_BonAni>()->material()->texture_vec();
 
 
 	UpdateData(TRUE);
@@ -195,7 +198,7 @@ void Dlg_FbxLoad::Update_Path()
 
 void Dlg_FbxLoad::Update_Tex(const TEX_TYPE& _Value, const int& _Inx)
 {
-	if (nullptr == m_One)
+	if (nullptr == m_CurOne)
 	{
 		return;
 	}
@@ -207,7 +210,7 @@ void Dlg_FbxLoad::Update_Tex(const TEX_TYPE& _Value, const int& _Inx)
 
 	KPtr<Texture> TTex = ResourceManager<Texture>::Load(Temp.c_str());
 
-	KPtr<Renderer_BonAni> TAni = m_One->Get_Component<Renderer_BonAni>();
+	KPtr<Renderer_BonAni> TAni = m_CurOne->Get_Component<Renderer_BonAni>();
 	TAni->material()->Insert_TexData(_Value, _Inx, TTex->FileNameExt());
 	TAni->Set_TexturePath(_Value, Temp.c_str());
 }
@@ -222,18 +225,18 @@ void Dlg_FbxLoad::OnLbnSelchangeFbxlist()
 		return;
 	}
 
-	if (nullptr != m_One)
+	if (nullptr != m_CurOne)
 	{
-		m_One->Set_Death();
+		m_CurOne->Set_Death();
 	}
 
 	CString TempStr;
 	m_RscList.GetText(Tint, TempStr);
 
-	m_One = Core_Class::MainScene()->Create_One(L"FBX_LOAD");
-	m_One->Trans()->pos_local(KVector(.0f));
-	m_One->Trans()->scale_local(KVector(1.f, 1.f, 1.f));
-	KPtr<Renderer_BonAni> TRender = m_One->Add_Component<Renderer_BonAni>();
+	m_CurOne = Core_Class::MainScene()->Create_One(L"FBX_LOAD");
+	m_CurOne->Trans()->pos_local(KVector(.0f));
+	m_CurOne->Trans()->scale_local(KVector(1.f, 1.f, 1.f));
+	KPtr<Renderer_BonAni> TRender = m_CurOne->Add_Component<Renderer_BonAni>();
 
 	TRender->Set_Fbx(TempStr);
 	TRender->Create_Clip(L"ALLAni", 0, 100000);
@@ -248,6 +251,12 @@ void Dlg_FbxLoad::OnBnClickedTokm2()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 	std::vector<KPtr<MeshContainer>> TVec = ResourceManager<MeshContainer>::All_SingleVec();
+
+	if (0 == TVec.size())
+	{
+		MessageBox(L"변환할 파일이 없습니다.");
+		return;
+	}
 
 	for (size_t i = 0; i < TVec.size(); i++)
 	{

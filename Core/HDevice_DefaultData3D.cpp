@@ -698,15 +698,15 @@ bool KDevice::Mat3DCreate()
 		_Data[0].SemanticIndex = 0; //  POSITION[0] POSITION[1] POSITION[2]
 		_Data[0].SemanticName = "POSITION"; // 이름이 어떤가?
 
-
+/*
 		_Data[1].Stream = 0;
 		_Data[1].OutputSlot = 0;
 		_Data[1].StartComponent = 0;
 		_Data[1].ComponentCount = 1;
 		_Data[1].SemanticIndex = 0;
 		_Data[1].SemanticName = "SWITCH";
-
-		KUINT BufSize = 24 * 1024;
+*/
+		KUINT BufSize = 16;
 		KPtr<Shader_GeoMetry> GEO = ResourceManager<Shader_GeoMetry>::Load_FromKey(L"EFFECTFILTERGEO", L"Shader", L"Effect.fx", "GS_EFFECTFILTER");
 
 		KPtr<KMaterial> MTL = ResourceManager<KMaterial>::Create(L"EFFECTFILTERMTL");
@@ -718,7 +718,7 @@ bool KDevice::Mat3DCreate()
 	{
 		KPtr<Shader_Vertex> VTX = ResourceManager<Shader_Vertex>::Load_FromKey(L"EFFECTRENDERVTX", L"Shader", L"Effect.fx", "VS_EFFECTRENDER");
 		VTX->Add_Layout("POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
-		VTX->Add_LayoutFin("SWITCH", 0, DXGI_FORMAT::DXGI_FORMAT_R32_UINT, 0);
+		// VTX->Add_LayoutFin("SWITCH", 0, DXGI_FORMAT::DXGI_FORMAT_R32_UINT, 0);
 
 		KPtr<Shader_GeoMetry> GEO = ResourceManager<Shader_GeoMetry>::Load_FromKey(L"EFFECTRENDERGEO", L"Shader", L"Effect.fx", "GS_EFFECTRENDER");
 		KPtr<Shader_Pixel> PIX = ResourceManager<Shader_Pixel>::Load_FromKey(L"EFFECTRENDERPIX", L"Shader", L"Effect.fx", "PS_EFFECTRENDER");

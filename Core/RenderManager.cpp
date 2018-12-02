@@ -261,6 +261,12 @@ void RenderManager::Render_Defferd(KPtr<Camera> _Camera, std::map<int, std::list
 	m_REI = m_ALLFI->second.end();
 	for (; m_RSI != m_REI; m_RSI++)
 	{
+		if (false == (*m_RSI)->one()->Is_Active())
+		{
+			continue;
+		}
+
+
 		if (1 == (*m_RSI)->ROpt.Defferd_orForward)
 		{
 			(*m_RSI)->Update_Trans(_Camera);
@@ -313,6 +319,11 @@ void RenderManager::Render_Forward(KPtr<Camera> _Camera, std::map<int, std::list
 	Check_Light(_Camera, _Camera->m_Layer[_Index]);
 	for (; m_RSI != m_REI; m_RSI++)
 	{
+		if (false == (*m_RSI)->one()->Is_Active())
+		{
+			continue;
+		}
+
 		if (0 == (*m_RSI)->ROpt.Defferd_orForward)
 		{
 			(*m_RSI)->Update_Trans(_Camera);

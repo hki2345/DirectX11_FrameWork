@@ -24,6 +24,10 @@ m_MeshColor(KColor::White)
 
 Renderer_BonAni::~Renderer_BonAni()
 {
+	if (nullptr != ResourceManager<Changer_Animation>::Find(CAni->name()))
+	{
+		ResourceManager<Changer_Animation>::Erase(CAni);
+	}
 }
 
 
@@ -162,6 +166,7 @@ void Renderer_BonAni::Init_Mesh()
 void Renderer_BonAni::Load_FbxTest(const wchar_t* _Path)
 {
 	MCon = ResourceManager<MeshContainer>::Load(_Path);
+	Create_Animation();
 	Init_Mesh();
 }
 
@@ -193,7 +198,7 @@ void Renderer_BonAni::PrevUpdate_Ani()
 	}
 
 	// 현재 시작 시간에 최신화 시간을 더한 시간이 현재 진행중인 시간 - 현재 프레임이 되겠다.
-	m_CurTime = (float)(MCon->m_Data.AniVec[m_ClipInx].Stime.GetSecondDouble() + m_UpdateTime);
+	// m_CurTime = (float)(MCon->m_Data.AniVec[m_ClipInx].Stime.GetSecondDouble() + m_UpdateTime);
 	
 
 	int iFrameInx = (int)(m_CurTime * m_FrameCnt);
@@ -346,8 +351,21 @@ KPtr<Changer_Animation> Renderer_BonAni::Create_Animation()
 		return CAni;
 	}
 
-	CAni = new Changer_Animation();
-	CAni->name(MCon->FileName());
+	std::wstring TStr = MCon->FileName();
+	TStr += L".KCA";
+
+	CAni = ResourceManager<Changer_Animation>::Find(TStr.c_str());
+
+	if (nullptr != CAni)
+	{
+		Set_Clip(0);
+		return CAni;
+	}
+
+	CAni = ResourceManager<Changer_Animation>::Create(TStr.c_str());
+
+	Create_Clip(L"ALLAni", 0, 100000);
+	Set_Clip(L"ALLAni");
 	return CAni;
 }
 
@@ -356,7 +374,7 @@ KPtr<Changer_Animation::Ani_Clip> Renderer_BonAni::Create_Clip(const wchar_t* _N
 {
 	if (nullptr == CAni)
 	{
-		CAni =Create_Animation();
+		CAni = Create_Animation();
 	}
 
 	int TStart = _Start;
@@ -377,7 +395,7 @@ KPtr<Changer_Animation::Ani_Clip> Renderer_BonAni::Create_Clip(const wchar_t* _N
 
 	CAni->Create_AniClip(_Name, TStart, TEnd);
 
-	return CAni;
+	return CAni->cur_clip();
 }
 
 bool Renderer_BonAni::Erase_Clip(const wchar_t* _Name)
@@ -399,4 +417,13 @@ void Renderer_BonAni::Set_Clip(const wchar_t* _Name)
 	}
 
 	CAni->Set_AniClip(_Name);
+}
+void Renderer_BonAni::Set_Clip(const int& _Num)
+{
+	if (nullptr == CAni)
+	{
+		BBY;
+	}
+
+	CAni->Set_AniClip(_Num);
 }

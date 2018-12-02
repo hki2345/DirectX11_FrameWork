@@ -211,54 +211,46 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ComDlg.cpp" />
     <ClCompile Include="Dlg_FbxLoad.cpp" />
+    <ClCompile Include="Dlg_Force.cpp" />
     <ClCompile Include="Dlg_KM3Loader.cpp" />
     <ClCompile Include="Dlg_MeshConv.cpp" />
     <ClCompile Include="KEditor.cpp" />
-    <ClCompile Include="ComDlg.cpp" />
+    <ClCompile Include="TabDlg.cpp" />
     <ClCompile Include="View_Component.cpp" />
     <ClCompile Include="View_ComponentDE.cpp" />
     <ClCompile Include="DropEditor.cpp" />
-    <ClCompile Include="HSpriteCut.cpp" />
     <ClCompile Include="Splitter_Edit.cpp" />
     <ClCompile Include="Dlg_Editor.cpp" />
-    <ClCompile Include="ImageSelectButton.cpp" />
     <ClCompile Include="View_Device.cpp" />
     <ClCompile Include="MainFrm.cpp" />
     <ClCompile Include="Dlg_MainMenu.cpp" />
     <ClCompile Include="View_Edit.cpp" />
-    <ClCompile Include="SceneDlg.cpp" />
-    <ClCompile Include="SpRenderDlg.cpp" />
-    <ClCompile Include="SpriteSelectDlg.cpp" />
     <ClCompile Include="stdafx.cpp" />
-    <ClCompile Include="TabDlg.cpp" />
     <ClCompile Include="Edit_Launcher.cpp" />
     <ClCompile Include="Edit_SUpdater.cpp" />
     <ClCompile Include="Dlg_TransPosition.cpp" />
     <ClCompile Include="Edit_Class.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ComDlg.h" />
     <ClInclude Include="Dlg_FbxLoad.h" />
+    <ClInclude Include="Dlg_Force.h" />
     <ClInclude Include="Dlg_KM3Loader.h" />
     <ClInclude Include="Dlg_MeshConv.h" />
     <ClInclude Include="KEditor.h" />
-    <ClInclude Include="ComDlg.h" />
+    <ClInclude Include="TabDlg.h" />
     <ClInclude Include="View_Component.h" />
     <ClInclude Include="DropEditor.h" />
-    <ClInclude Include="HSpriteCut.h" />
     <ClInclude Include="Splitter_Edit.h" />
     <ClInclude Include="Dlg_Editor.h" />
-    <ClInclude Include="ImageSelectButton.h" />
     <ClInclude Include="View_Device.h" />
     <ClInclude Include="MainFrm.h" />
     <ClInclude Include="Dlg_MainMenu.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="View_Edit.h" />
-    <ClInclude Include="SceneDlg.h" />
-    <ClInclude Include="SpRenderDlg.h" />
-    <ClInclude Include="SpriteSelectDlg.h" />
     <ClInclude Include="stdafx.h" />
-    <ClInclude Include="TabDlg.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Edit_Launcher.h" />
     <ClInclude Include="Edit_SUpdater.h" />

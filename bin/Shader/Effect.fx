@@ -9,7 +9,6 @@
 struct EFFECT_INPUT
 {
     float4 vPos : POSITION;
-    uint vSwitch : SWITCH;
 };
 
 

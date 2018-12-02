@@ -177,10 +177,10 @@ private:
 
 public:
 	// Æ®·£½ºÆû ±âº» Ãß°¡
-	KPtr<TheOne> Create_One(const wchar_t* _pName = L"HObject", int _Order = 0);
+	KPtr<TheOne> Create_One(const wchar_t* _pName = L"TheOne", int _Order = 0);
 
 	// Æ®·»½ºÆû ¾øÀ½
-	KPtr<TheOne> Create_OneNoneTrans(const wchar_t* _pName = L"HObject", int _Order = 0);
+	KPtr<TheOne> Create_OneNoneTrans(const wchar_t* _pName = L"TheOne", int _Order = 0);
 
 private:
 	void MoveActor(KPtr<TheOne> _Actor);

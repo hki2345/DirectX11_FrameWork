@@ -31,6 +31,11 @@ bool Resource::Load()
 {
 	return false;
 }
+bool Resource::Save(KPtr<Resource> _Res)
+{
+	return false;
+}
+
 
 void Resource::Split_Path(const wchar_t* _Path) 
 {

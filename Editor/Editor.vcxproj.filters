@@ -34,39 +34,6 @@
     <ClCompile Include="View_ComponentDE.cpp">
       <Filter>01 SubWindow</Filter>
     </ClCompile>
-    <ClCompile Include="ComDlg.cpp">
-      <Filter>99 Dialog\Legacy</Filter>
-    </ClCompile>
-    <ClCompile Include="DropEditor.cpp">
-      <Filter>99 Dialog\Legacy</Filter>
-    </ClCompile>
-    <ClCompile Include="HSpriteCut.cpp">
-      <Filter>99 Dialog\Legacy</Filter>
-    </ClCompile>
-    <ClCompile Include="ImageSelectButton.cpp">
-      <Filter>99 Dialog\Legacy</Filter>
-    </ClCompile>
-    <ClCompile Include="SceneDlg.cpp">
-      <Filter>99 Dialog\Legacy</Filter>
-    </ClCompile>
-    <ClCompile Include="SpRenderDlg.cpp">
-      <Filter>99 Dialog\Legacy</Filter>
-    </ClCompile>
-    <ClCompile Include="SpriteSelectDlg.cpp">
-      <Filter>99 Dialog\Legacy</Filter>
-    </ClCompile>
-    <ClCompile Include="TabDlg.cpp">
-      <Filter>99 Dialog\Legacy</Filter>
-    </ClCompile>
-    <ClCompile Include="Dlg_Editor.cpp">
-      <Filter>99 Dialog</Filter>
-    </ClCompile>
-    <ClCompile Include="Dlg_MainMenu.cpp">
-      <Filter>99 Dialog</Filter>
-    </ClCompile>
-    <ClCompile Include="Dlg_TransPosition.cpp">
-      <Filter>99 Dialog</Filter>
-    </ClCompile>
     <ClCompile Include="Dlg_FbxLoad.cpp">
       <Filter>99 Dialog\FBX</Filter>
     </ClCompile>
@@ -75,6 +42,27 @@
     </ClCompile>
     <ClCompile Include="Dlg_MeshConv.cpp">
       <Filter>99 Dialog\FBX</Filter>
+    </ClCompile>
+    <ClCompile Include="Dlg_Editor.cpp">
+      <Filter>99 Dialog\Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="Dlg_MainMenu.cpp">
+      <Filter>99 Dialog\Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="Dlg_TransPosition.cpp">
+      <Filter>99 Dialog\TransForm</Filter>
+    </ClCompile>
+    <ClCompile Include="DropEditor.cpp">
+      <Filter>99 Dialog\TransForm</Filter>
+    </ClCompile>
+    <ClCompile Include="TabDlg.cpp">
+      <Filter>99 Dialog</Filter>
+    </ClCompile>
+    <ClCompile Include="ComDlg.cpp">
+      <Filter>99 Dialog</Filter>
+    </ClCompile>
+    <ClCompile Include="Dlg_Force.cpp">
+      <Filter>99 Dialog\SC2</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -114,39 +102,6 @@
     <ClInclude Include="View_Component.h">
       <Filter>01 SubWindow</Filter>
     </ClInclude>
-    <ClInclude Include="ComDlg.h">
-      <Filter>99 Dialog\Legacy</Filter>
-    </ClInclude>
-    <ClInclude Include="DropEditor.h">
-      <Filter>99 Dialog\Legacy</Filter>
-    </ClInclude>
-    <ClInclude Include="HSpriteCut.h">
-      <Filter>99 Dialog\Legacy</Filter>
-    </ClInclude>
-    <ClInclude Include="ImageSelectButton.h">
-      <Filter>99 Dialog\Legacy</Filter>
-    </ClInclude>
-    <ClInclude Include="SceneDlg.h">
-      <Filter>99 Dialog\Legacy</Filter>
-    </ClInclude>
-    <ClInclude Include="SpRenderDlg.h">
-      <Filter>99 Dialog\Legacy</Filter>
-    </ClInclude>
-    <ClInclude Include="SpriteSelectDlg.h">
-      <Filter>99 Dialog\Legacy</Filter>
-    </ClInclude>
-    <ClInclude Include="TabDlg.h">
-      <Filter>99 Dialog\Legacy</Filter>
-    </ClInclude>
-    <ClInclude Include="Dlg_Editor.h">
-      <Filter>99 Dialog</Filter>
-    </ClInclude>
-    <ClInclude Include="Dlg_MainMenu.h">
-      <Filter>99 Dialog</Filter>
-    </ClInclude>
-    <ClInclude Include="Dlg_TransPosition.h">
-      <Filter>99 Dialog</Filter>
-    </ClInclude>
     <ClInclude Include="Dlg_FbxLoad.h">
       <Filter>99 Dialog\FBX</Filter>
     </ClInclude>
@@ -155,6 +110,27 @@
     </ClInclude>
     <ClInclude Include="Dlg_MeshConv.h">
       <Filter>99 Dialog\FBX</Filter>
+    </ClInclude>
+    <ClInclude Include="Dlg_Editor.h">
+      <Filter>99 Dialog\Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="Dlg_MainMenu.h">
+      <Filter>99 Dialog\Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="Dlg_TransPosition.h">
+      <Filter>99 Dialog\TransForm</Filter>
+    </ClInclude>
+    <ClInclude Include="DropEditor.h">
+      <Filter>99 Dialog\TransForm</Filter>
+    </ClInclude>
+    <ClInclude Include="TabDlg.h">
+      <Filter>99 Dialog</Filter>
+    </ClInclude>
+    <ClInclude Include="ComDlg.h">
+      <Filter>99 Dialog</Filter>
+    </ClInclude>
+    <ClInclude Include="Dlg_Force.h">
+      <Filter>99 Dialog\SC2</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -173,11 +149,17 @@
     <Filter Include="99 Dialog">
       <UniqueIdentifier>{e978ff1d-f1f5-47e6-b2e2-51b294bcc52c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="99 Dialog\Legacy">
-      <UniqueIdentifier>{db6045b9-117d-4912-b06f-47c2bbbf0e00}</UniqueIdentifier>
-    </Filter>
     <Filter Include="99 Dialog\FBX">
       <UniqueIdentifier>{e6cabfa8-a982-42a4-869d-259584109944}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="99 Dialog\Editor">
+      <UniqueIdentifier>{c0355155-ff05-480a-bc23-850ed75a3827}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="99 Dialog\TransForm">
+      <UniqueIdentifier>{b0812132-5a39-40a9-ab10-47c9b38294f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="99 Dialog\SC2">
+      <UniqueIdentifier>{e7078657-f126-4fd1-b676-a2332176df9f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>

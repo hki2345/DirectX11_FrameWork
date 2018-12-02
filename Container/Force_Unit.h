@@ -1,6 +1,13 @@
 #pragma once
 #include <SomeOne.h>
 
+class Unit_Container
+{
+
+};
+
+
+
 class SC2_Force;
 class Force_Unit : public SomeOne
 {

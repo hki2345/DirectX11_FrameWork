@@ -4,7 +4,8 @@
 
 #include "View_Component.h"
 #include "Dlg_TransPosition.h"
-#include "SpRenderDlg.h"
+
+
 
 ComDlg* View_Component::CreateDlg(const type_info* _Type)
 {
@@ -13,11 +14,7 @@ ComDlg* View_Component::CreateDlg(const type_info* _Type)
 	if (_Type == &typeid(TransPosition))
 	{
 		NewDlg = new Dlg_TransPosition();
-		NewDlg->Create(IDD_TRANSCOM, this);
-	}
-	else if(_Type == &typeid(HSpRenderer)) {
-		NewDlg = new SpRenderDlg();
-		NewDlg->Create(IDD_SPRENDER, this);
+		NewDlg->Create(IDD_DLGTRANS, this);
 	}
 
 	return NewDlg;
