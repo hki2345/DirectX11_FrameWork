@@ -143,7 +143,7 @@ PS_DEFFERDOUTPUT PS_DEFFERDANI(VTX3DMESH_OUTPUT _in)
     
     // 스타 2 텍스쳐에 구멍이 뜰린 곳에 버텍스 색상으 ㄹ박아넣음 -> 세력 색깔
     // 컨스트 버퍼로 받아서 넣음
-    if (.975f > CalColor.a)
+    if (.95f > CalColor.a)
     {
         outData.vDiffuse.rgb = CalColor * m_Color;
     }

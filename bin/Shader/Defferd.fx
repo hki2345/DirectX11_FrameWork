@@ -42,12 +42,7 @@ VTX3DMESH_OUTPUT VS_DEFFERD(VTX3DMESH_INPUT _in)
     outData.vNormal = normalize(mul(_in.vNormal, g_WV));
     outData.vTangent = normalize(mul(_in.vTangent, g_WV));
     outData.vBNormal = normalize(mul(_in.vBNormal, g_WV));
-
-    if (0 == IsLight)
-    {
-        return outData;
-    }
-
+    
     return outData;
 }
 
@@ -55,8 +50,17 @@ PS_DEFFERDOUTPUT PS_DEFFERD(VTX3DMESH_OUTPUT _in)
 {
     PS_DEFFERDOUTPUT outData = (PS_DEFFERDOUTPUT) 0.0f;
     outData.vDiffuse = _in.vColor;
+    
+    outData.vNoraml = _in.vNormal;
+    outData.vNoraml.a = 1.0f;
+    outData.vPosition = _in.vViewPos;
+    outData.vDepth.x = outData.vPosition.z;
+    outData.vDepth.w = 1.0f;
+
     float4 CalColor = float4(1.0f, 1.0f, 1.0f, 1.0f);
     
+
+
     for (int i = 0; i < TexCount; ++i)
     {
         if (-1 != ArrTex[i].Tex_Idx)
@@ -73,15 +77,10 @@ PS_DEFFERDOUTPUT PS_DEFFERD(VTX3DMESH_OUTPUT _in)
     }
 
     // 포워드 색깔을 아예 사용하지 않는 것은 아니다.
-    outData.vDiffuse.rgb = CalColor;
-    outData.vDiffuse.a = _in.vColor.a;
-    outData.vNoraml = _in.vNormal;
-    outData.vNoraml.a = 1.0f;
-    outData.vPosition = _in.vViewPos;
-    outData.vDepth.x = outData.vPosition.z;
-    outData.vDepth.w = 1.0f;
-
-	// outData.vColor = _in.vColor;
+    // 빛계산 노말로 들어가는 중
+    outData.vDiffuse.rgba = CalColor;
+    outData.vNoraml.a = CalColor.a;
+    
     return outData;
 }
 
@@ -110,6 +109,7 @@ PS_DEFFERDLIGHTOUTPUT PS_DEFFERDLIGHT(VS_DEFFERDLIGHTOUTPUT _Input)
 {
     PS_DEFFERDLIGHTOUTPUT OUTDATA = (PS_DEFFERDLIGHTOUTPUT) 0.0F;
 
+   
     float fDepth = g_Tex_2.Sample(g_Sam_0, _Input.vUv).x;
     if (fDepth <= 0.01f)
     {
@@ -126,6 +126,7 @@ PS_DEFFERDLIGHTOUTPUT PS_DEFFERDLIGHT(VS_DEFFERDLIGHTOUTPUT _Input)
     OUTDATA.vSpaculer.rgb = info.Spec.rgb + float3(0.1f, 0.1f, 0.1f);
     OUTDATA.vSpaculer.a = 1.0f;
 
+    
     return OUTDATA;
 }
 
@@ -156,7 +157,7 @@ PS_MERGEOUTPUT PS_DEFFERDMERGE(VS_DEFFERDLIGHTOUTPUT _Input)
 
     if (OUTDATA.vMergeColor.a != 0.f)
     {
-        OUTDATA.vMergeColor.rgb = float3(0.2f, 0.2f, 0.8f) * vColor.a;
+        OUTDATA.vMergeColor.rgb = float3(1.f, 1.f, 0.8f) * vColor.a;
     }
 
     OUTDATA.vMergeColor.rgb += vColor.rgb * vDiff.rgb + vSpec.rgb /*+ float3(0.1f, 0.1f, 0.1f)*/;

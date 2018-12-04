@@ -161,6 +161,38 @@ bool KDevice::Def3DCreate()
 	Core_Class::MainDevice().Set_DSSDef(L"BASIC");
 
 
+	//{
+	//	D3D11_BLEND_DESC m_Desc;
+
+	//	m_Desc.AlphaToCoverageEnable = false;
+
+	//	// 다른 랜더 타겟도 따로따로 쓰겠다 혹은 아니다.
+	//	// 블랜드 설정이 false로 하면 0번으로 초기화 된다.
+	//	m_Desc.IndependentBlendEnable = false;
+
+
+	//	// 디퓨즈 -> 디퓨즈는 기존 꺼에 덮어 씌우는 개념 ㅇㅇ
+	//	m_Desc.RenderTarget[0].BlendEnable = true;
+	//	m_Desc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+
+	//	m_Desc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
+	//	m_Desc.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA;
+	//	m_Desc.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
+
+	//	m_Desc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
+	//	m_Desc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
+	//	m_Desc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ONE;
+
+
+
+	//	for (size_t i = 1; i < 8; i++)
+	//	{
+	//		m_Desc.RenderTarget[i] = D3D11_RENDER_TARGET_BLEND_DESC{};
+	//	}
+
+
+	//	ResourceManager<KBlend>::Create(L"DEFFERD", m_Desc);
+	//}
 
 	///////////////////////////////////////////// BS
 	D3D11_BLEND_DESC m_Desc;
@@ -178,11 +210,11 @@ bool KDevice::Def3DCreate()
 
 	m_Desc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
 	m_Desc.RenderTarget[0].SrcBlend = D3D11_BLEND_ONE;
-	m_Desc.RenderTarget[0].DestBlend = D3D11_BLEND_ONE;
+	m_Desc.RenderTarget[0].DestBlend = D3D11_BLEND_ZERO;
 
 	m_Desc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
 	m_Desc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
-	m_Desc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ZERO;
+	m_Desc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ONE;
 
 
 	// 스펙 큘러 - 색이 있으면 알파 랜더러 적요 -> 기존 알파렌더와 같은 방식으로 적용된다.
@@ -450,6 +482,20 @@ bool KDevice::Mesh3DCreate() {
 
 	ResourceManager<KMesh>::Create(L"SPHERE"
 		, (UINT)SphereVtx.size(), (UINT)VTX3D::TypeSize(), D3D11_USAGE_DYNAMIC, &SphereVtx[0]
+		, (UINT)SphereIdx.size(), (UINT)IDX32::MemberSize(), D3D11_USAGE_DEFAULT, &SphereIdx[0]
+		, IDX32::FM());
+
+
+	std::vector<VTX3D> SkyVtx = SphereVtx;
+
+	for (size_t i = 0; i < SkyVtx.size(); i++)
+	{
+		SkyVtx[i].Normal = -1.0f;
+		V.Normal.w = 0.0f;
+	}
+
+	ResourceManager<KMesh>::Create(L"SKYSPHERE"
+		, (UINT)SkyVtx.size(), (UINT)VTX3D::TypeSize(), D3D11_USAGE_DYNAMIC, &SkyVtx[0]
 		, (UINT)SphereIdx.size(), (UINT)IDX32::MemberSize(), D3D11_USAGE_DEFAULT, &SphereIdx[0]
 		, IDX32::FM());
 

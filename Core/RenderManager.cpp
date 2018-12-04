@@ -113,7 +113,7 @@ void RenderManager::Render()
 			// 타겟 머지
 			// 다시 켜야되.
 			// 기본 뎁스 - 덮어그리는 식
-			Core_Class::MainDevice().Set_DSS(L"BASIC");
+			Core_Class::MainDevice().Set_DSS(L"ALWAYS");
 			Render_Forward(m_CSI->second, m_ALLFI, i);
 
 			// 최종 나온 결과물을 
@@ -261,6 +261,8 @@ void RenderManager::Render_Defferd(KPtr<Camera> _Camera, std::map<int, std::list
 	m_REI = m_ALLFI->second.end();
 	for (; m_RSI != m_REI; m_RSI++)
 	{
+
+		// 엑티브 활성화 체크
 		if (false == (*m_RSI)->one()->Is_Active())
 		{
 			continue;
@@ -275,6 +277,8 @@ void RenderManager::Render_Defferd(KPtr<Camera> _Camera, std::map<int, std::list
 
 			// 기본 베잇6ㅡ - 그냥 그리면 된다. -> 데이터가 곧 넘어가서 계산될 값이기 때문
 			// 무엇이 계산되냐... 그 있잖아 값들
+			// 하지만 알파가 앞에서 적용된다면 어떨까??
+			// 뎁스가 적용되지만 알파가 있으면 뒤에것도 그려야 하지 않는가.
 			if (RENDER_DATATYPE::RDT_BASE == (*m_RSI)->ROpt.Render_DT)
 			{
 				for (KUINT i = 0; i < (KUINT)(*m_RSI)->Count_Mesh(); i++)

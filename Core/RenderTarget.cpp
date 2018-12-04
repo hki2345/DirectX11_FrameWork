@@ -26,7 +26,7 @@ bool RenderTarget::Create(const KUINT& _W, const KUINT& _H, KVector4 _Color, con
 
 bool RenderTarget::Create(const KUINT& _W, const KUINT& _H, const KUINT& _BindFlag, DXGI_FORMAT _eFormat, D3D11_USAGE _eUsage)
 {
-	return Create(_W, _H, KVector4::Blue, _BindFlag, _eFormat, _eUsage);
+	return Create(_W, _H, m_Color, _BindFlag, _eFormat, _eUsage);
 }
 
 // 타겟에 새 택스쳐 박아넣는 방식 -> 새 텍스쳐 만들고 거기에 온 텍스쳐 그림

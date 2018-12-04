@@ -51,12 +51,16 @@ LIGHTCOLOR CalDirLight(float4 _vViewPos, float4 _vViewNormal, LIGHTDATA _LightIn
 
     vLight = normalize(vLight);
     CALCOLOR.Diff = _LightInfo.Lc.Diff * saturate(dot(_vViewNormal, vLight)) * fFactor;
+    CALCOLOR.Diff.a = _vViewPos.a;
 
     float3 vReflect = normalize(2.f * dot(vLight, _vViewNormal) * _vViewNormal - vLight);
     float3 vEye = normalize(-_vViewPos);
 
     CALCOLOR.Spec = _LightInfo.Lc.Spec * pow(saturate(dot(vEye, vReflect)), 1) * fFactor;
     CALCOLOR.Ambi = _LightInfo.Lc.Ambi;
+
+    CALCOLOR.Spec.a = _vViewPos.a;
+    CALCOLOR.Ambi.a = _vViewPos.a;
 
     return CALCOLOR;
 }

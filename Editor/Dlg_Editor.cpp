@@ -69,6 +69,29 @@ BOOL Dlg_Editor::OnInitDialog()
 		KASSERT(true);
 	}
 
+
+	// 멀티 텍스쳐
+	KPtr<Texture_Multi> MTex = ResourceManager<Texture_Multi>::Create(L"FB");
+	MTex->Create_MultiTex(D3D11_USAGE::D3D11_USAGE_DEFAULT, L"Stone.jpg", L"StoneBump.jpg");
+
+
+	KPtr<Texture_Multi> MTex2 = ResourceManager<Texture_Multi>::Create(L"FC");
+	MTex2->Create_MultiTex(D3D11_USAGE::D3D11_USAGE_DEFAULT, L"Lava.jpg", L"LavaBump.jpg");
+
+
+
+	KPtr<TheOne> SKYMESH = TabScene->Create_One();
+	SKYMESH->Trans()->scale_local(KVector4(1000.0f, 1000.0f, 1000.0f));
+	SKYMESH->Trans()->pos_local(KVector4(.0f, 0.0f, 0.0f));
+	KPtr<Renderer_Mesh> SKYMESH1 = SKYMESH->Add_Component<Renderer_Mesh>();
+	// SKYMESH1->ROpt.IsSky = 1;
+	SKYMESH1->Set_Material(L"DEFFERD3DMAT");
+	SKYMESH1->Set_RSState(L"SNONE");
+	SKYMESH1->Set_Mesh(L"SKYSPHERE"); 
+	SKYMESH1->material()->Insert_TexData(TEX_TYPE::TEX_COLOR, 0, L"Sky01.png");
+
+
+
 	// TabScene->Camera()->Change_Mode();
 	TabScene->Camera()->Add_Component<SC2_Camera>();
 	TabScene->Camera()->Far(10000.0f);
@@ -121,6 +144,18 @@ BOOL Dlg_Editor::OnInitDialog()
 
 
 
+	KPtr<TheOne> SPHERELEFT = TabScene->Create_One();
+	SPHERELEFT->Trans()->scale_local(KVector4(10.0f, 10.0f, 10.0f));
+	SPHERELEFT->Trans()->pos_local(KVector4(-15.0f, 0.0f, 0.0f));
+	KPtr<Renderer_Mesh> PTRMESH1 = SPHERELEFT->Add_Component<Renderer_Mesh>();
+	PTRMESH1->ROpt.IsLight = 1;
+	PTRMESH1->Set_Material(L"DEFFERD3DMAT");
+	PTRMESH1->Set_Mesh(L"SPHERE");
+
+	PTRMESH1->material()->Insert_TexData(TEX_TYPE::TEX_COLOR, 0, L"MoonDiff.jpg");
+	PTRMESH1->material()->Insert_TexData(TEX_TYPE::TEX_BUMP, 1, L"MoonBump.jpg");
+
+
 
 	KPtr<TheOne> GRIDACTOR = TabScene->Create_One();
 	GRIDACTOR->Trans()->rotate_world(KVector4(90.0f, 0.0f, 0.0f));
@@ -136,15 +171,18 @@ BOOL Dlg_Editor::OnInitDialog()
 	PTRMESH2->Set_Material(L"DEFFERD3DMAT");
 	PTRMESH2->Set_Mesh(L"SPHERE");
 
+	
 
-	KPtr<TheOne> CUBEMIDDLE = TabScene->Create_One();
-	CUBEMIDDLE->Trans()->scale_local(KVector4(10.0f, 10.0f, 10.0f));
-	CUBEMIDDLE->Trans()->pos_local(KVector4(.0f, 50.0f, 0.0f));
-	KPtr<Renderer_Mesh> PTRMESH3 = CUBEMIDDLE->Add_Component<Renderer_Mesh>();
-	PTRMESH3->Set_Material(L"DEFFERD3DMAT");
-	PTRMESH3->Set_Mesh(L"CUBE");
-	
-	
+	KPtr<TheOne> TERRAIN = TabScene->Create_One();
+	TERRAIN->Trans()->scale_local(KVector4(10.0f, 10.0f, 10.0f));
+	TERRAIN->Trans()->pos_local(KVector4(.0f, 0.0f, 0.0f));
+	KPtr<Renderer_Terrain> TerMESH1 = TERRAIN->Add_Component<Renderer_Terrain>();
+
+	// 순서를 지켜야 된다????? ㅇㅇ
+	TerMESH1->Create_Terrain(64, 64, L"Cover.jpg", 1.0f);
+	TerMESH1->base_texture(L"FB");
+	TerMESH1->Insert_CoverTex(L"FC", L"Cover.jpg");
+	TerMESH1->Set_RSState(L"SFRONT");
 
 	// 해처리와 히드라가 안입혀진다. 나머진 다됌
 	/*
@@ -164,37 +202,20 @@ BOOL Dlg_Editor::OnInitDialog()
 	//TestRender->Set_Static();
 
 
-	// 멀티 텍스쳐
-	KPtr<Texture_Multi> MTex = ResourceManager<Texture_Multi>::Create(L"FB");
-	MTex->Create_MultiTex(D3D11_USAGE::D3D11_USAGE_DEFAULT, L"Stone.jpg", L"StoneBump.jpg");
 
 
-	KPtr<Texture_Multi> MTex2 = ResourceManager<Texture_Multi>::Create(L"FC");
-	MTex2->Create_MultiTex(D3D11_USAGE::D3D11_USAGE_DEFAULT, L"Lava.jpg", L"LavaBump.jpg");
+
+	KPtr<TheOne> CUBEMIDDLE = TabScene->Create_One();
+	CUBEMIDDLE->Trans()->scale_local(KVector4(10.0f, 10.0f, 10.0f));
+	CUBEMIDDLE->Trans()->pos_local(KVector4(.0f, 50.0f, 0.0f));
+	KPtr<Renderer_Mesh> PTRMESH3 = CUBEMIDDLE->Add_Component<Renderer_Mesh>();
+	PTRMESH3->Set_Material(L"DEFFERD3DMAT");
+	PTRMESH3->Set_Mesh(L"CUBE");
+
+	PTRMESH3->material()->Insert_TexData(TEX_TYPE::TEX_COLOR, 0, L"TILE_01.png");
 
 
-	KPtr<TheOne> TERRAIN = TabScene->Create_One();
-	TERRAIN->Trans()->scale_local(KVector4(10.0f, 10.0f, 10.0f));
-	TERRAIN->Trans()->pos_local(KVector4(.0f, 0.0f, 0.0f));
-	KPtr<Renderer_Terrain> TerMESH1 = TERRAIN->Add_Component<Renderer_Terrain>();
 
-	// 순서를 지켜야 된다????? ㅇㅇ
-	TerMESH1->Create_Terrain(64, 64, L"Cover.jpg", 1.0f);
-	TerMESH1->base_texture(L"FB");
-	TerMESH1->Insert_CoverTex(L"FC", L"Cover.jpg");
-	TerMESH1->Set_RSState(L"SFRONT");
-
-
-	KPtr<TheOne> SPHERELEFT = TabScene->Create_One();
-	SPHERELEFT->Trans()->scale_local(KVector4(10.0f, 10.0f, 10.0f));
-	SPHERELEFT->Trans()->pos_local(KVector4(-15.0f, 0.0f, 0.0f));
-	KPtr<Renderer_Mesh> PTRMESH1 = SPHERELEFT->Add_Component<Renderer_Mesh>();
-	PTRMESH1->ROpt.IsLight = 1;
-	PTRMESH1->Set_Material(L"DEFFERD3DMAT");
-	PTRMESH1->Set_Mesh(L"SPHERE");
-
-	PTRMESH1->material()->Insert_TexData(TEX_TYPE::TEX_COLOR, 0, L"MoonDiff.jpg");
-	PTRMESH1->material()->Insert_TexData(TEX_TYPE::TEX_BUMP, 1, L"MoonBump.jpg");
 
 
 	TabScene->This_Col3DManager.Link(101, 100);

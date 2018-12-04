@@ -43,7 +43,8 @@ public:
 		TexCnt(0),
 		VTz_PXo(1),
 		Defferd_orForward(1), // 0 - 디퍼드 1 - 포워드
-		IsBoneAni(0) // 0 - 본 애니 아님
+		IsBoneAni(0), // 0 - 본 애니 아님
+		IsSky(0)
 	{	}
 	// ~RenderOption();
 
@@ -60,7 +61,7 @@ public:
 	RENDER_DATATYPE Render_DT;
 
 	// 이게 바로 인트 하나 추가하므로서 생긴 짜투리
-	int temp2;
+	int IsSky;
 	int temp3;
 
 
