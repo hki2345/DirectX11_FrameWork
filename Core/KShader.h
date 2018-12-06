@@ -3,7 +3,7 @@
 #include "DXContainer.h"
 #include <unordered_map>
 
-class KShader : public Resource
+class KShader : public KResource
 {
 public:
 

@@ -271,7 +271,7 @@ PS_DEFFERDOUTPUT PS_TERRAINDEFFERD(DOMAIN_OUT _in)
     outData.vNoraml = BumpNormal;
     outData.vNoraml.a = 1.0f;
     outData.vPosition = _in.vViewPos;
-    outData.vDepth.x = outData.vPosition.z;
+    outData.vDepth.x = _in.vPos.z;
     outData.vDepth.w = 1.0f;
 
     return outData;

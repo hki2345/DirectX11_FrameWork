@@ -25,8 +25,8 @@ cbuffer RenderOption : register(b11)
 	int LightVtxToPix; // 버텍스냐 픽셀이냐? // 0 이면 버텍스 1이면 픽셀
     int TexCount; // 버텍스냐 픽셀이냐? // 8
     int IsAni; // 버텍스냐 픽셀이냐? // 8
-    int IsSky; // 버텍스냐 픽셀이냐? // 8
-    int Temp2; // 버텍스냐 픽셀이냐? // 8
+    int RendrDataType; // 렌더가 어떤것이냐 // 8 - 커ㅗ어에서 씀 고로 필요가 없다.
+    float Light_Opa; // 빛 연산 
     int Temp3; // 버텍스냐 픽셀이냐? // 8
     TexData ArrTex[8]; // 20 216
 }

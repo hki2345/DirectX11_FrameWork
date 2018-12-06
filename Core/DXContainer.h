@@ -578,12 +578,12 @@ public:
 };
 typedef KVector3 KCircle;
 
+
+
+
+
+
 #define KRGBA(r, g, b, a) ( (COLORREF)(((BYTE)(r) | ((COLORREF)((BYTE)(g))<<8)) | ((COLORREF)(BYTE)(b))<<16 | ((COLORREF)(BYTE)(a))<<24 )
-
-
-
-
-
 class KVector4
 {
 public:
@@ -711,6 +711,15 @@ public:
 	KVector4(const KVector2& _Other) : m_XMVec4(_Other.x, _Other.y, .0f, .0f) {}
 	KVector4(const KVector2& _Other, const float& _V1) : m_XMVec4(_Other.x, _Other.y, _V1, .0f) {}
 	KVector4(const KVector2& _Other, const float& _V1, const float& _V2) : m_XMVec4(_Other.x, _Other.y, _V1, _V2) {}
+	KVector4(COLORREF& _Other)
+	{
+		BYTE* TT = (BYTE*)&_Other;
+
+		r = ((float)*(TT + 0)) / 255.0f;
+		g = ((float)*(TT + 1)) / 255.0f;
+		b = ((float)*(TT + 2)) / 255.0f;
+		a = ((float)*(TT + 3)) / 255.0f;
+	}
 
 	// 벡터에서 그때배운 플롯 4개를 리틀에디안 해 가장 빠르게 연산 할 수 있게 저장 아예 저장단계에서 부터 ㅇㅇ
 	KVector4(const DirectX::XMVECTOR& _Other) { DirectX::XMStoreFloat4(&m_XMVec4, _Other); }

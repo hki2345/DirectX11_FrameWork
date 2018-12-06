@@ -44,7 +44,7 @@ public:
 };
 
 
-class KMesh : public Resource
+class KMesh : public KResource
 {
 private:
 	// 이렇게 메쉬를 나타나내는 버퍼도 자료형을 통일 시켜버렸다. (KDevice 상수 버퍼 참고)

@@ -8,7 +8,7 @@
 
 class Texture;
 class Sampler;
-class KImage : public Resource
+class KImage : public KResource
 {
 private:
 	KPtr<Texture> m_Tex;

@@ -172,7 +172,7 @@ int	PathManager::Convert_Str2Int(const wchar_t* _Path)
 	return _wtoi(_Path);
 }
 
-/********************* All Resource Load **********************/
+/********************* All KResource Load **********************/
 // 일종의 껍대기 함수 - 템플릿을 헤더에 묶으면 되는데 그러기엔 헤더가 지금 너무 많이 쓰여져있어서
 // 이렇게 껍질 함수 만들어서 구현함 ㅇㅇ
 bool ResourceManager<KImage>::All_Load()

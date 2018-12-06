@@ -5,7 +5,7 @@
 
 
 // 파티클 쉐이더를 스트림 형식으로 보내기 위해ㅔ 만들어짐
-class KStreamBuffer : public Resource
+class KStreamBuffer : public KResource
 {
 private:
 	D3D11_BUFFER_DESC	tDesc;

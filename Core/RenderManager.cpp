@@ -116,6 +116,8 @@ void RenderManager::Render()
 			Core_Class::MainDevice().Set_DSS(L"ALWAYS");
 			Render_Forward(m_CSI->second, m_ALLFI, i);
 
+			// Core_Class::MainDevice().Set_DSS(L"GREATER");
+			// Render_Forward(m_CSI->second, m_ALLFI, i);
 			// 최종 나온 결과물을 
 
 
@@ -310,10 +312,14 @@ void RenderManager::Render_Defferd(KPtr<Camera> _Camera, std::map<int, std::list
 				(*m_RSI)->Render(_Camera, 0, 0, nullptr);
 				(*m_RSI)->RenderFin();
 			}
+			else
+			{
+				(*m_RSI)->RenderFin();
+			}
 
-			(*m_RSI)->RenderFin();
 		}
 	}
+
 }
 
 void RenderManager::Render_Forward(KPtr<Camera> _Camera, std::map<int, std::list<KPtr<Renderer>>>::iterator _Iter, size_t _Index)
@@ -321,6 +327,9 @@ void RenderManager::Render_Forward(KPtr<Camera> _Camera, std::map<int, std::list
 	m_RSI = m_ALLFI->second.begin();
 	m_REI = m_ALLFI->second.end();
 	Check_Light(_Camera, _Camera->m_Layer[_Index]);
+
+
+
 	for (; m_RSI != m_REI; m_RSI++)
 	{
 		if (false == (*m_RSI)->one()->Is_Active())
@@ -342,9 +351,13 @@ void RenderManager::Render_Forward(KPtr<Camera> _Camera, std::map<int, std::list
 				{
 					for (KUINT j = 0; j < (KUINT)(*m_RSI)->Count_Material(); j++)
 					{
+						// 뎁스 비교를 위해 한번 넣어보는 거다
+						// 해당 텍스쳐의 3번쨰 요소는 바로 뎁스다.
+						// (*m_RSI)->material()->Insert_TexData(TEX_TYPE::TEX_TAGET, 7, _Camera->material_camlight()->texture_vec()[2]);
 						(*m_RSI)->RenderBegin(_Camera, i, j);
 						(*m_RSI)->Render(_Camera, i, j, nullptr);
 						(*m_RSI)->RenderFin();
+						//(*m_RSI)->material()->Erase_TexData(7);
 					}
 				}
 			}
@@ -365,10 +378,15 @@ void RenderManager::Render_Forward(KPtr<Camera> _Camera, std::map<int, std::list
 				(*m_RSI)->Render(_Camera, 0, 0, nullptr);
 				(*m_RSI)->RenderFin();
 			}
-
-			Core_Class::MainDevice().ResetContext();
+			else
+			{
+				(*m_RSI)->RenderFin();
+			}
 		}
 	}
+
+	//  넣은 후에 리셋을 하는 거다
+	//_Camera->material_camlight()->Reset_Tex();
 }
 
 

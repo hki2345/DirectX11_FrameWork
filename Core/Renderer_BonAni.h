@@ -24,7 +24,7 @@ private:
 	float m_CurTime;
 	float m_UpdateTime;
 
-	KColor m_MeshColor;
+	KColor m_ForceColor;
 
 	// 행렬과 본을 따로 저장해 둔다.
 	std::vector<KMatrix> m_MXData_CurAni;
@@ -44,6 +44,15 @@ public:
 	void Set_Dynamic()
 	{
 		ROpt.IsBoneAni = 1;
+	}
+
+	KColor& force_color()
+	{
+		return m_ForceColor;
+	}
+	void force_color(const KColor& _Value)
+	{
+		m_ForceColor = _Value;
 	}
 
 	// 일단, 듸우는 거에 초점을 맞춘다.

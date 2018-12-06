@@ -5,8 +5,11 @@
 
 
 
-SC2Manager::SC2Manager() : m_bGR(GRT_PLAY)
+SC2Manager::SC2Manager() :
+	m_bGR(GRT_PLAY),
+	m_bInit(false)
 {
+	Init();
 }
 
 
@@ -79,14 +82,19 @@ KPtr<SC2_Force> SC2Manager::Find_Force(const KColor& _Color)
 
 bool SC2Manager::Init()
 {
-	Create_Force(L"RED", KColor::Red);
-	Create_Force(L"BLUE", KColor::Blue);
-	Create_Force(L"GREEN", KColor::Green);
-	Create_Force(L"YELLOW", KColor::Yellow);
-	Create_Force(L"WHITE", KColor::White);
-	Create_Force(L"CYAN", KColor::Cyan);
-	Create_Force(L"BROWN", KColor::Red);
-	Create_Force(L"ORANGE", KColor::Red);
+	if (true == m_bInit)
+	{
+		return true;
+	}
+
+	Create_Force(L"BOOMBAYAH", KColor::Red);
+	Create_Force(L"TT", KColor::Blue);
+	Create_Force(L"AHYEAH", KColor::Green);
+	Create_Force(L"GLASSBEAD", KColor::Yellow);
+	Create_Force(L"LUV", KColor::White);
+	Create_Force(L"BAAM", KColor::Cyan);
+	Create_Force(L"REDFLAVER", KColor(1.0f, .5f, .5f, 1.0f));
+	Create_Force(L"POP/STARS", KColor(.5f, .0f, .8f, 1.0f));
 
 
 	return true;

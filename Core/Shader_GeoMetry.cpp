@@ -50,6 +50,7 @@ bool Shader_GeoMetry::Load(const char* _FuncName, const KUINT& _VH, const KUINT&
 		m_pBlob->GetBufferSize(),
 		nullptr, &m_pShader))
 	{
+		BBY;
 		return false;
 	}
 

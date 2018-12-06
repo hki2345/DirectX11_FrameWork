@@ -1,10 +1,11 @@
 #pragma once
 #include <SomeOne.h>
 
-class Unit_Container
-{
-
-};
+//
+//class Unit_Container : public KResource
+//{
+//
+//};
 
 
 
@@ -14,7 +15,7 @@ class Force_Unit : public SomeOne
 	// 유닛의 속성은 누적되는 방식이기 때문에 이 방식으로 하는 게 맞다.
 	// 이 방식 - 비트단위 연산
 private:
-	KPtr<SC2_Force> m_Force;
+	KPtr<SC2_Force> m_Con;
 	int m_UnitType;
 
 

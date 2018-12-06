@@ -149,7 +149,6 @@ void Camera::Merge_Light()
 	m_CamMesh->Update();
 	m_CamMesh->Render();
 	m_CamLightMtl->Reset_Tex();
-
 }
 
 void Camera::Merge_Screen()

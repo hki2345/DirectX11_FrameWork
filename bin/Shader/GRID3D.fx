@@ -2,16 +2,17 @@
 // 텍스처는 t
 // 샘플러는 s
 #include "GValue.fx"
+#include "GTex.fx"
 // 버텍스 버퍼에 대한 정보를 정의하는 
 // POSITION을 시맨틱이라고 하는데.
 // 버텍스 쉐이더에서 이용할 것.
-//struct VTX3DMESH_INPUT
-//{
-//	float4 vPos : POSITION;
-//	float2 vUv : TEXCOORD;
-//	float4 vColor : COLOR;
-//	float4 vNormal : NORMAL;
-//};
+struct VTX3DMESH_INPUT
+{
+	float4 vPos : POSITION;
+	float2 vUv : TEXCOORD;
+	float4 vColor : COLOR;
+	float4 vNormal : NORMAL;
+};
 
 // 버텍스 쉐이더에서 리턴할 구조체를 만든다.
 // SV_가 붙게되면 cosnt를 붙여서 그래픽 적으로 이데이터에 대해서 더이상의
@@ -19,6 +20,8 @@
 struct VTX_OUTPUT
 {
     float4 vPos : SV_POSITION;
+    float2 vUv : TEXCOORD;
+    float4 vViewPos : POSITION;
     float4 vWorldPos : POSTION;
 };
 
@@ -27,12 +30,14 @@ struct PS_OUTPUT
     float4 vColor : SV_Target;
 };
 
-VTX_OUTPUT VS_GRID3D(float4 _Pos : POSITION)
+VTX_OUTPUT VS_GRID3D(VTX3DMESH_INPUT _Data)
 {
     VTX_OUTPUT outData = (VTX_OUTPUT) 0.f;
 
-    outData.vPos = mul(_Pos, g_WVP);
-    outData.vWorldPos = mul(_Pos, g_W);
+    outData.vUv = _Data.vUv;
+    outData.vPos = mul(_Data.vPos, g_WVP);
+    outData.vViewPos = mul(_Data.vPos, g_WV);
+    outData.vWorldPos = mul(_Data.vPos, g_W);
 
     return outData;
 }
@@ -53,6 +58,10 @@ PS_OUTPUT PS_GRID3D(VTX_OUTPUT _in)
 	// 칸 나누는 단위. 100.0f
 	// 블록 나누는 단위
 	// 100.0f 단위로
+    
+    // float fDepth = g_Tex_7.Sample(g_Sam_0, _in.vUv).x;
+
+
 
     float BlockSize = g_GridData.x;
     float Alpha = g_GridData.z;
@@ -75,8 +84,16 @@ PS_OUTPUT PS_GRID3D(VTX_OUTPUT _in)
     fZ = abs(_in.vWorldPos.z % (BlockSize));
 
     if (fZ <= Boader || fX <= Boader)
-    {
-        outData.vColor = float4(1.0f, 1.0f, 1.0f, Alpha);
+    {      
+        // 아무래도 ..... 사진이라 뎁스가 적용되지 않는가...:?????????
+        // if (fDepth < _in.vViewPos.z)
+        // {
+        //     outData.vColor = float4(1.0f, 1.0f, 1.0f, Alpha);
+        // }
+        // else
+        {
+            outData.vColor = float4(1.0f, 1.0f, 1.0f, Alpha /** .0f*/);
+        }
         return outData;
     }
 

@@ -9,7 +9,7 @@
 // 달라진다.
 // https://docs.microsoft.com/en-us/windows/desktop/direct3d11/overviews-direct3d-11-resources-limits
 // 해당 주소는 쉐이더로 한 번에 보낼 수 있는 슬롯 수 -> 물론 영어로 ㅋㅋㅋㅋ
-class RenderTarget_Multi : public Resource
+class RenderTarget_Multi : public KResource
 {
 public:
 	friend RenderManager;

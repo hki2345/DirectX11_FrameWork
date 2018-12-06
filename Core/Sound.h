@@ -2,7 +2,7 @@
 #include "Resource.h"
 #include "SoundDevice.h"
 
-class Sound final : public Resource
+class Sound final : public KResource
 {
 private:
 	friend class SoundPlayer;

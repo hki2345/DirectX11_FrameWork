@@ -2,7 +2,7 @@
 #include "Resource.h"
 #include "DXContainer.h"
 
-class Sampler : public Resource
+class Sampler : public KResource
 {
 private:
 	D3D11_SAMPLER_DESC m_Desc;

@@ -9,6 +9,7 @@
 
 #include "KBlend.h"
 #include <vector>
+#include <map>
 
 // 재질이라고 하는 녀석을 만들것이다.
 enum TEX_TYPE 
@@ -42,7 +43,7 @@ public:
 class Texture;
 class Sampler;
 class Texture_Multi;
-class KMaterial : public Resource
+class KMaterial : public KResource
 {
 	friend class Renderer;
 	friend class Light;
@@ -99,19 +100,18 @@ private:
 
 public:
 	void Insert_TexData(TEX_TYPE _Type, const KUINT& _TexSlot, const wchar_t* _TexName, UINT _SmpSlot = 0, const wchar_t* _SmpName = L"DefaultSmp");
-
 private:
-	std::unordered_map<unsigned int, KPtr<Texture>>::iterator m_TSI;
-	std::unordered_map<unsigned int, KPtr<Texture>>::iterator m_TEI;
-	std::unordered_map<unsigned int, KPtr<Texture>> m_TexMap;
+	std::map<unsigned int, KPtr<Texture>>::iterator m_TSI;
+	std::map<unsigned int, KPtr<Texture>>::iterator m_TEI;
+	std::map<unsigned int, KPtr<Texture>> m_TexMap;
 
-	std::unordered_map<unsigned int, KPtr<Texture_Multi>>::iterator m_MTSI;
-	std::unordered_map<unsigned int, KPtr<Texture_Multi>>::iterator m_MTEI;
-	std::unordered_map<unsigned int, KPtr<Texture_Multi>> m_MTexMap;
+	std::map<unsigned int, KPtr<Texture_Multi>>::iterator m_MTSI;
+	std::map<unsigned int, KPtr<Texture_Multi>>::iterator m_MTEI;
+	std::map<unsigned int, KPtr<Texture_Multi>> m_MTexMap;
 
-	std::unordered_map<unsigned int, KPtr<Sampler>>::iterator m_SSI;
-	std::unordered_map<unsigned int, KPtr<Sampler>>::iterator m_SEI;
-	std::unordered_map<unsigned int, KPtr<Sampler>> m_SamMap;
+	std::map<unsigned int, KPtr<Sampler>>::iterator m_SSI;
+	std::map<unsigned int, KPtr<Sampler>>::iterator m_SEI;
+	std::map<unsigned int, KPtr<Sampler>> m_SamMap;
 
 
 public:

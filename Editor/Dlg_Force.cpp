@@ -12,6 +12,11 @@
 
 #include <Renderer_BonAni.h>
 #include <ResourceManager.h>
+#include <Renderer_Mesh.h>
+
+#include <Con_Class.h>
+#include <SC2_Force.h>
+
 // Dlg_Force 대화 상자입니다.
 
 IMPLEMENT_DYNAMIC(Dlg_Force, TabDlg)
@@ -38,6 +43,27 @@ BOOL Dlg_Force::OnInitDialog()
 	{
 		KASSERT(true);
 	}
+
+
+	// 투명한 걸 그린다면 만약에 -> 스카이랑 섞이기 위해선 당연히 ... 스카이가 디퍼드로 그려져야 한다.
+	KPtr<TheOne> SKYMESH = TabScene->Create_One();
+	SKYMESH->Trans()->scale_local(KVector4(10000.0f, 10000.0f, 10000.0f));
+	SKYMESH->Trans()->pos_local(KVector4(.0f, 0.0f, 0.0f));
+	KPtr<Renderer_Mesh> SKYMESH1 = SKYMESH->Add_Component<Renderer_Mesh>();
+	SKYMESH1->Set_Material(L"SKY3DMAT");
+	SKYMESH1->Set_RSState(L"SNONE");
+	SKYMESH1->ROpt.Defferd_orForward = 1;
+	SKYMESH1->ROpt.LightOpacity = 1.0f;
+	SKYMESH1->Set_Mesh(L"SPHERE");
+	SKYMESH1->material()->Insert_TexData(TEX_TYPE::TEX_COLOR, 0, L"Space.jpg");
+
+	KPtr<TheOne> GRIDACTOR = TabScene->Create_One();
+	GRIDACTOR->Trans()->rotate_world(KVector4(90.0f, 0.0f, 0.0f));
+	GRIDACTOR->Trans()->scale_world(KVector4(10000.0f, 10000.0f, 10000.0f));
+	KPtr<Renderer_Grid> GRIDRENDER = GRIDACTOR->Add_Component<Renderer_Grid>();
+	GRIDRENDER->ROpt.Defferd_orForward = 1;
+
+
 
 	TabScene->Camera()->Add_Component<SC2_Camera>();
 	TabScene->Camera()->Far(10000.0f);
@@ -75,10 +101,8 @@ BOOL Dlg_Force::OnInitDialog()
 
 
 
-	KPtr<TheOne> GRIDACTOR = TabScene->Create_One();
-	GRIDACTOR->Trans()->rotate_world(KVector4(90.0f, 0.0f, 0.0f));
-	GRIDACTOR->Trans()->scale_world(KVector4(10000.0f, 10000.0f, 10000.0f));
-	GRIDACTOR->Add_Component<Renderer_Grid>();
+
+	Init_ForceList();
 
 	return TRUE;
 }
@@ -168,11 +192,74 @@ void Dlg_Force::Init_KM3List()
 }
 
 
-// Dlg_Force 메시지 처리기입니다.
+void Dlg_Force::Init_ForceList()
+{
+	if (nullptr == Con_Class::s2_manager())
+	{
+		BBY;
+	}
 
+	std::map<std::wstring, KPtr<SC2_Force>>* Map = Con_Class::s2_manager()->force_map();
+	std::map<std::wstring, KPtr<SC2_Force>>::iterator m_SFI = Map->begin();
+	std::map<std::wstring, KPtr<SC2_Force>>::iterator m_EFI = Map->end();
+
+
+
+	UpdateData(TRUE);	
+
+	for (; m_SFI != m_EFI; ++m_SFI)
+	{
+		m_ForceList.AddString(m_SFI->first.c_str());
+	}
+
+	UpdateData(FALSE);
+}
+
+void Dlg_Force::Update_Force()
+{
+	if (nullptr == m_CurForce)
+	{
+		return;
+	}
+
+	UpdateData(TRUE);
+
+	m_ForceName.SetWindowTextW(m_CurForce->force_name());
+
+
+	KColor TC = m_CurForce->force_color();
+	TC.a = 0;
+	COLORREF T = TC.color_to_reverse255();
+	m_ForceColor.SetColor(T);
+
+
+	if (nullptr != m_CurOne)
+	{
+		KPtr<Renderer_BonAni> TRender = m_CurOne->Get_Component<Renderer_BonAni>();
+		TRender->force_color(m_CurForce->force_color());
+	}
+
+	
+	UpdateData(FALSE);
+}
+
+
+
+// Dlg_Force 메시지 처리기입니다.
 void Dlg_Force::OnLbnSelchangeForcelist()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	int Tint = m_ForceList.GetCurSel();
+	if (-1 == Tint)
+	{
+		return;
+	}
+
+	CString TempStr;
+	m_ForceList.GetText(Tint, TempStr);
+
+	m_CurForce = Con_Class::s2_manager()->Find_Force(TempStr.GetBuffer());
+	Update_Force();
 }
 
 void Dlg_Force::OnEnChangeForcename()
@@ -183,11 +270,28 @@ void Dlg_Force::OnEnChangeForcename()
 	// 이 알림 메시지를 보내지 않습니다.
 
 	// TODO:  여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	if (nullptr == m_CurForce)
+	{
+		return;
+	}
 }
 
 void Dlg_Force::OnBnClickedForcecolor()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	if (nullptr == m_CurForce)
+	{
+		return;
+	}
+
+
+	DWORD T = m_ForceColor.GetColor();
+
+	m_CurForce->force_color(T);
+	KColor* EXID = &m_CurForce->force_color();
+	EXID->a = 1.0f;
+
+	Update_Force();
 }
 
 
@@ -195,6 +299,28 @@ void Dlg_Force::OnBnClickedForcecolor()
 void Dlg_Force::OnLbnSelchangeForkm3list()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	int Tint = m_KM3List.GetCurSel();
+	if (-1 == Tint)
+	{
+		return;
+	}
+
+	if (nullptr != m_CurOne)
+	{
+		m_CurOne->Set_Death();
+	}
+
+	CString TempStr;
+	m_KM3List.GetText(Tint, TempStr);
+
+	m_CurOne = Core_Class::MainScene()->Create_One(L"FBX_LOAD");
+	m_CurOne->Trans()->pos_local(KVector(.0f));
+	m_CurOne->Trans()->scale_local(KVector(1.f, 1.f, 1.f));
+	KPtr<Renderer_BonAni> TRender = m_CurOne->Add_Component<Renderer_BonAni>();
+
+	TRender->Set_Fbx(TempStr);
+	TRender->Create_Clip(L"ALLAni", 0, 100000);
+	TRender->Set_Clip(L"ALLAni");
 }
 
 

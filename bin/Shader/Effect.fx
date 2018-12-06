@@ -9,6 +9,7 @@
 struct EFFECT_INPUT
 {
     float4 vPos : POSITION;
+    float4 vValue : NORMAL;
 };
 
 
@@ -25,12 +26,13 @@ void GS_EFFECTFILTER(point EFFECT_INPUT _Data[1], inout PointStream<EFFECT_INPUT
 {
    // 입자에다가 붙여서 넣는다.
     // 즉 이번에 몇개의 입자가 들어올지를 결정한다.
-    //if (_Data[0].vOnOff == 0)
-    //{
-    EFFECT_INPUT NEF = (EFFECT_INPUT) 0.0f;
-    NEF.vPos = float4(0.0f, 0.0f, 0.0f, 0.0f);
-    _EStream.Append(NEF);
-    //}
+    if (_Data[0].vPos.x > 0.0f)
+    {
+        EFFECT_INPUT NEF = (EFFECT_INPUT) 0.0f;
+        NEF.vPos = mul(_Data[0].vPos, g_W);
+        NEF.vValue = _Data[0].vValue;
+        _EStream.Append(NEF);
+    }
 
     // 스트림에 넘기고 그걸 다시 쉐이더 나가서 필터링된 버텍스들을
     // 그리기위해 다시 넣는다.
@@ -39,19 +41,32 @@ void GS_EFFECTFILTER(point EFFECT_INPUT _Data[1], inout PointStream<EFFECT_INPUT
 /************************** 재 업로드 - 이제 그리는 과정 ******************************/
 struct EFFECT_VSOUT
 {
-    float4 vPos : POSITION;
+    float4 Pos : POSITION;
+    float4 Value : NORMAL;
 };
 
 struct EFFECT_GSOUT
 {
-    float4 vPos : SV_POSITION;
+    float4 Pos : SV_POSITION;
+    float4 ViewPos : POSITION;
+    float4 Value : NORMAL;
+    float2 UV : TEXCOORD;
+};
+
+static float2 UVMX[4] =
+{
+    float2(.0f, 1.0f),
+    float2(1.0f, 1.0f),
+    float2(.0f, .0f),
+    float2(1.0f, .0f),
 };
 
 
 EFFECT_VSOUT VS_EFFECTRENDER(EFFECT_INPUT _Data)
 {
     EFFECT_VSOUT Tmp = (EFFECT_VSOUT) .0f;
-    Tmp.vPos = _Data.vPos;
+    Tmp.Pos = _Data.vPos;
+    Tmp.Value = _Data.vValue;
     return Tmp;
 }
 
@@ -77,7 +92,10 @@ void GS_EFFECTRENDER(point EFFECT_INPUT _Data[1], inout TriangleStream<EFFECT_GS
     [unroll]
     for (int i = 0; i < 4; ++i)
     {
-        NVtx.vPos = mul(vTri[i], g_WVP);
+        NVtx.Pos = mul(vTri[i], g_WVP);
+        NVtx.ViewPos = mul(vTri[i], g_WV);
+        NVtx.Value.w = _Data[0].vValue.w;
+        NVtx.UV = UVMX[i];
         _TStream.Append(NVtx);
     }
 
@@ -89,5 +107,27 @@ void GS_EFFECTRENDER(point EFFECT_INPUT _Data[1], inout TriangleStream<EFFECT_GS
 // 지오메트리에서 나온 걸 픽셀에 그린다.
 float4 PS_EFFECTRENDER(EFFECT_GSOUT _Data) : SV_Target
 {
-    return float4(1.0f, .0f, .0f, 1.0f);
+    float4 Tmp = g_Tex_0.Sample(g_Sam_0, _Data.UV);
+    float4 ZPos = g_Tex_1.Load(int3((int) _Data.Pos.x, (int) _Data.Pos.y, .0f));
+
+    float X = ZPos.x - _Data.Pos.z;
+
+    if(ZPos.x == .0f)
+    {
+        Tmp.a = 1.0f * _Data.Value.a * Tmp.a;
+    }
+    else if(_Data.Pos.z < ZPos.x)
+    {
+        Tmp.a = 1.0f * _Data.Value.a * Tmp.a;
+    }
+    else
+    {
+        Tmp.a = .5f * _Data.Value.a * Tmp.a;
+    }
+    
+    //float X = ZPos.x - _Data.Pos.z;
+    
+    //Tmp.a *= X * _Data.Value.a;
+
+    return Tmp;
 }

@@ -3,7 +3,7 @@
 #include <vector>
 #include "Resource.h"
 
-class Changer_Animation : public Resource
+class Changer_Animation : public KResource
 {
 public:
 	// 이게 맞다 이게 리소스가 되면 이름 중복 될 가능성 농후

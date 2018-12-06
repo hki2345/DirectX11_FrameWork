@@ -19,7 +19,7 @@ KMaterial::~KMaterial()
 }
 
 KMaterial::KMaterial(const KMaterial& _Other)
-	: Resource(_Other),
+	: KResource(_Other),
 	m_VTS(_Other.m_VTS),
 	m_PXS(_Other.m_PXS),
 	m_DMS(_Other.m_DMS),
@@ -147,11 +147,11 @@ void KMaterial::Set_MultiTex(const KUINT& _Slot, const wchar_t* _TexName)
 		BBY;
 	}
 
-	std::unordered_map<KUINT, KPtr<Texture_Multi>>::iterator FindIter = m_MTexMap.find(_Slot);
+	std::map<KUINT, KPtr<Texture_Multi>>::iterator FindIter = m_MTexMap.find(_Slot);
 
 	if (FindIter == m_MTexMap.end())
 	{
-		m_MTexMap.insert(std::unordered_map<KUINT, KPtr<Texture_Multi>>::value_type(_Slot, FindTex));
+		m_MTexMap.insert(std::map<KUINT, KPtr<Texture_Multi>>::value_type(_Slot, FindTex));
 	}
 	else
 	{
@@ -167,11 +167,11 @@ void KMaterial::Set_Tex(const KUINT& _Slot, const wchar_t* _TexName)
 		BBY;
 	}
 
-	std::unordered_map<KUINT, KPtr<Texture>>::iterator FindIter =  m_TexMap.find(_Slot);
+	std::map<KUINT, KPtr<Texture>>::iterator FindIter =  m_TexMap.find(_Slot);
 
 	if (FindIter == m_TexMap.end())
 	{
-		m_TexMap.insert( std::unordered_map<KUINT, KPtr<Texture>>::value_type(_Slot, FindTex));
+		m_TexMap.insert( std::map<KUINT, KPtr<Texture>>::value_type(_Slot, FindTex));
 	}
 	else 
 	{
@@ -188,11 +188,11 @@ void KMaterial::Set_TargetTex(const KUINT& _Slot, const wchar_t* _TexName)
 		BBY;
 	}
 
-	std::unordered_map<KUINT, KPtr<Texture>>::iterator FindIter = m_TexMap.find(_Slot);
+	std::map<KUINT, KPtr<Texture>>::iterator FindIter = m_TexMap.find(_Slot);
 
 	if (FindIter == m_TexMap.end())
 	{
-		m_TexMap.insert(std::unordered_map<KUINT, KPtr<Texture>>::value_type(_Slot, FindTaget->target_tex()));
+		m_TexMap.insert(std::map<KUINT, KPtr<Texture>>::value_type(_Slot, FindTaget->target_tex()));
 	}
 	else
 	{
@@ -208,11 +208,11 @@ void KMaterial::Set_Sampler(const KUINT& _Slot, const wchar_t* _SmpName)
 		BBY;
 	}
 
-	std::unordered_map<KUINT, KPtr<Sampler>>::iterator FindIter = m_SamMap.find(_Slot);
+	std::map<KUINT, KPtr<Sampler>>::iterator FindIter = m_SamMap.find(_Slot);
 
 	if (FindIter == m_SamMap.end())
 	{
-		m_SamMap.insert(std::unordered_map<KUINT, KPtr<Sampler>>::value_type(_Slot, FindSmp));
+		m_SamMap.insert(std::map<KUINT, KPtr<Sampler>>::value_type(_Slot, FindSmp));
 	}
 	else
 	{
@@ -290,6 +290,7 @@ void KMaterial::Insert_TexData(TEX_TYPE _Type, const KUINT& _TexSlot, const wcha
 
 	Set_Sampler(_SmpSlot, _SmpName);
 }
+
 
 KUINT KMaterial::Set_TexData(Tex_Data* _Data) 
 {

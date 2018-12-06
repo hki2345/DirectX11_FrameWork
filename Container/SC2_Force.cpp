@@ -2,10 +2,15 @@
 
 
 
+
+
+
+
 SC2_Force::SC2_Force(const wchar_t* _Name, const KColor& _Color)
 {
-	Begin::name(_Name);
-	this->m_Force.Color = _Color;
+	name(_Name);
+	memcpy_s(m_Con.Name, NAMENUM, _Name, NAMENUM);
+	this->m_Con.Color = _Color;
 }
 
 

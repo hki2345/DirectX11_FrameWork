@@ -3,23 +3,9 @@
 // 요놈은 유닛을 직접 만들어야 하니까 값으로 알아야 겠다.
 #include "Force_Unit.h"
 #include <DXContainer.h>
-#include <Resource.h>
+#include "Container.h"
 
 #include <map>
-
-
-
-class Force_Container : public SmartPtr
-{
-public:
-	wchar_t Name[NAMENUM];
-	KColor Color;
-
-public:
-	Force_Container() {};
-	~Force_Container() {};
-};
-
 
 // 이름과 그 세력의 고유 색을 가진다
 class SC2_Force : public Begin_Updater
@@ -40,23 +26,49 @@ private:
 	std::map<std::wstring, KPtr<Force_Unit>>::iterator m_SUI;
 	std::map<std::wstring, KPtr<Force_Unit>>::iterator m_EUI;
 
-	Force_Container m_Force;
+	Force_Container m_Con;
 
 private:
 	bool Init();
 	void Update();
 
 public:
-	KPtr<Force_Container> force_container()
+
+	KColor& force_color()
 	{
-		return &m_Force;
+		return m_Con.Color;
+	}
+
+	wchar_t*  force_name()
+	{
+		return m_Con.Name;
+	}
+
+	void force_color(const KColor& _Value)
+	{
+		m_Con.Color = _Value;
+	}
+
+	void  force_name(const wchar_t* _Value)
+	{
+		memcpy_s(m_Con.Name, sizeof(wchar_t) * NAMENUM, _Value, sizeof(wchar_t) * NAMENUM);
+	}
+
+
+
+	Force_Container* force_container()
+	{
+		return &m_Con;
 	}
 
 	bool Set_Force(const Force_Container& _Value)
 	{
-		memcpy_s(m_Force.Name, sizeof(wchar_t) * NAMENUM, _Value.Name, sizeof(wchar_t) * NAMENUM);
-		m_Force.Color = _Value.Color;
+		name(_Value.Name);
+		memcpy_s(m_Con.Name, sizeof(wchar_t) * NAMENUM, _Value.Name, sizeof(wchar_t) * NAMENUM);
+		m_Con.Color = _Value.Color;
 	}
+
+
 
 	KUINT units_size()
 	{

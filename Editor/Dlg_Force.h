@@ -5,7 +5,7 @@
 
 
 // Dlg_Force 대화 상자입니다.
-
+class SC2_Force;
 class Dlg_Force : public TabDlg
 {
 	DECLARE_DYNAMIC(Dlg_Force)
@@ -27,6 +27,8 @@ private:
 	CMFCColorButton m_ForceColor;
 
 	KPtr<TheOne> m_CurOne;
+	KPtr<SC2_Force> m_CurForce;
+
 
 	std::list<KPtr<TheOne>> m_OList;
 	std::list<KPtr<TheOne>>::iterator m_SO;
@@ -34,6 +36,9 @@ private:
 
 private:
 	void Init_KM3List();
+	void Init_ForceList();
+
+	void Update_Force();
 	
 
 protected:

@@ -2,11 +2,11 @@
 
 
 
-Resource::Resource()
+KResource::KResource()
 {
 }
 
-Resource::Resource(const Resource& _Other) : Begin(_Other),
+KResource::KResource(const KResource& _Other) : Begin(_Other),
 	m_FileForder(_Other.m_FileForder),
 	m_AllPath(_Other.m_AllPath),
 	m_FileNameExi(_Other.m_FileNameExi),
@@ -17,27 +17,27 @@ Resource::Resource(const Resource& _Other) : Begin(_Other),
 
 }
 
-Resource::~Resource()
+KResource::~KResource()
 {
 }
 
 
 // 이것을 상속받지 않고 실행하면 거짓을 반환하게 함 -> 상속 받을 수 있게
-bool Resource::Create()
+bool KResource::Create()
 {
 	return false;
 }
-bool Resource::Load() 
+bool KResource::Load() 
 {
 	return false;
 }
-bool Resource::Save(KPtr<Resource> _Res)
+bool KResource::Save(KPtr<KResource> _Res)
 {
 	return false;
 }
 
 
-void Resource::Split_Path(const wchar_t* _Path) 
+void KResource::Split_Path(const wchar_t* _Path) 
 {
 	m_AllPath = _Path;
 

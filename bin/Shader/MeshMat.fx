@@ -140,8 +140,8 @@ PS_DEFFERDOUTPUT PS_MESH3D(VTX3DMESH_OUTPUT _in)
         CalLColor.Ambi += LColor.Ambi;
     }
 
-    outData.vDiffuse.rgb = CalColor.rgb * CalLColor.Diff.rgb + CalLColor.Spec.rgb + CalLColor.Ambi.rgb;
-    outData.vDiffuse.a = _in.vColor.a;
+    outData.vDiffuse.rgb = CalColor.rgb * CalLColor.Diff.rgb + CalLColor.Spec.rgb /*+ CalLColor.Ambi.rgb*/;
+    outData.vDiffuse.a = CalColor.a /*+ CalLColor.Ambi.a*/;
 
 	// outData.vColor = _in.vColor;
     return outData;

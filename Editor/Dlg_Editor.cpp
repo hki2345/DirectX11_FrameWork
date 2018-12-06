@@ -12,6 +12,8 @@
 #include <Renderer_Grid.h>
 #include <Renderer_Mesh.h>
 #include <Renderer_Terrain.h>
+#include <Renderer_Effect.h>
+
 #include <Texture_Multi.h>
 
 #include <DebugManager.h>
@@ -70,6 +72,26 @@ BOOL Dlg_Editor::OnInitDialog()
 	}
 
 
+	// 투명한 걸 그린다면 만약에 -> 스카이랑 섞이기 위해선 당연히 ... 스카이가 디퍼드로 그려져야 한다.
+	KPtr<TheOne> SKYMESH = TabScene->Create_One();
+	SKYMESH->Trans()->scale_local(KVector4(10000.0f, 10000.0f, 10000.0f));
+	SKYMESH->Trans()->pos_local(KVector4(.0f, 0.0f, 0.0f));
+	KPtr<Renderer_Mesh> SKYMESH1 = SKYMESH->Add_Component<Renderer_Mesh>();
+	SKYMESH1->Set_Material(L"SKY3DMAT");
+	SKYMESH1->Set_RSState(L"SNONE");
+	SKYMESH1->ROpt.Defferd_orForward = 1;
+	SKYMESH1->ROpt.LightOpacity = 1.0f;
+	SKYMESH1->Set_Mesh(L"SPHERE");
+	SKYMESH1->material()->Insert_TexData(TEX_TYPE::TEX_COLOR, 0, L"Space.jpg");
+
+	KPtr<TheOne> GRIDACTOR = TabScene->Create_One();
+	GRIDACTOR->Trans()->rotate_world(KVector4(90.0f, 0.0f, 0.0f));
+	GRIDACTOR->Trans()->scale_world(KVector4(10000.0f, 10000.0f, 10000.0f));
+	KPtr<Renderer_Grid> GRIDRENDER = GRIDACTOR->Add_Component<Renderer_Grid>();
+	GRIDRENDER->ROpt.Defferd_orForward = 1;
+
+
+
 	// 멀티 텍스쳐
 	KPtr<Texture_Multi> MTex = ResourceManager<Texture_Multi>::Create(L"FB");
 	MTex->Create_MultiTex(D3D11_USAGE::D3D11_USAGE_DEFAULT, L"Stone.jpg", L"StoneBump.jpg");
@@ -80,23 +102,13 @@ BOOL Dlg_Editor::OnInitDialog()
 
 
 
-	KPtr<TheOne> SKYMESH = TabScene->Create_One();
-	SKYMESH->Trans()->scale_local(KVector4(1000.0f, 1000.0f, 1000.0f));
-	SKYMESH->Trans()->pos_local(KVector4(.0f, 0.0f, 0.0f));
-	KPtr<Renderer_Mesh> SKYMESH1 = SKYMESH->Add_Component<Renderer_Mesh>();
-	// SKYMESH1->ROpt.IsSky = 1;
-	SKYMESH1->Set_Material(L"DEFFERD3DMAT");
-	SKYMESH1->Set_RSState(L"SNONE");
-	SKYMESH1->Set_Mesh(L"SKYSPHERE"); 
-	SKYMESH1->material()->Insert_TexData(TEX_TYPE::TEX_COLOR, 0, L"Sky01.png");
 
-
-
-	// TabScene->Camera()->Change_Mode();
 	TabScene->Camera()->Add_Component<SC2_Camera>();
 	TabScene->Camera()->Far(10000.0f);
 	TabScene->Camera()->one()->Trans()->pos_local(KVector4(0.0f, 10.0f, -20.0f));
-	
+
+
+
 
 	KPtr<TheOne> Light2 = TabScene->Create_One();
 	// 스케일은 dir이 아닌 빛의 크기를 나타낸다.
@@ -141,7 +153,30 @@ BOOL Dlg_Editor::OnInitDialog()
 	Edit_Class::m_gVIewCom->Release_AllDlg();
 	Edit_Class::m_gVIewCom->Set_One(Light2);
 
+	// TabScene->Camera()->Change_Mode();
 
+
+
+	KPtr<TheOne> CUBEMIDDLE = TabScene->Create_One();
+	CUBEMIDDLE->Trans()->scale_local(KVector4(10.0f, 10.0f, 10.0f));
+	CUBEMIDDLE->Trans()->pos_local(KVector4(.0f, 50.0f, 0.0f));
+	KPtr<Renderer_Mesh> PTRMESH3 = CUBEMIDDLE->Add_Component<Renderer_Mesh>();
+	PTRMESH3->Set_Material(L"MESH3DMAT");
+	PTRMESH3->Set_Mesh(L"CUBE");
+	PTRMESH3->ROpt.Defferd_orForward = 0;
+
+	PTRMESH3->material()->Insert_TexData(TEX_TYPE::TEX_COLOR, 0, L"TILE_01.png");
+
+
+	KPtr<TheOne> CUBEMIDDLE2 = TabScene->Create_One();
+	CUBEMIDDLE2->Trans()->scale_local(KVector4(10.0f, 10.0f, 10.0f));
+	CUBEMIDDLE2->Trans()->pos_local(KVector4(5.0f, 50.0f, 5.0f));
+	KPtr<Renderer_Mesh> PTRMESH4 = CUBEMIDDLE2->Add_Component<Renderer_Mesh>();
+	PTRMESH4->Set_Material(L"MESH3DMAT");
+	PTRMESH4->Set_Mesh(L"CUBE");
+	PTRMESH4->ROpt.Defferd_orForward = 0;
+
+	PTRMESH4->material()->Insert_TexData(TEX_TYPE::TEX_COLOR, 0, L"TILE_01.png");
 
 
 	KPtr<TheOne> SPHERELEFT = TabScene->Create_One();
@@ -154,13 +189,6 @@ BOOL Dlg_Editor::OnInitDialog()
 
 	PTRMESH1->material()->Insert_TexData(TEX_TYPE::TEX_COLOR, 0, L"MoonDiff.jpg");
 	PTRMESH1->material()->Insert_TexData(TEX_TYPE::TEX_BUMP, 1, L"MoonBump.jpg");
-
-
-
-	KPtr<TheOne> GRIDACTOR = TabScene->Create_One();
-	GRIDACTOR->Trans()->rotate_world(KVector4(90.0f, 0.0f, 0.0f));
-	GRIDACTOR->Trans()->scale_world(KVector4(10000.0f, 10000.0f, 10000.0f));
-	GRIDACTOR->Add_Component<Renderer_Grid>();
 
 
 	
@@ -184,35 +212,16 @@ BOOL Dlg_Editor::OnInitDialog()
 	TerMESH1->Insert_CoverTex(L"FC", L"Cover.jpg");
 	TerMESH1->Set_RSState(L"SFRONT");
 
-	// 해처리와 히드라가 안입혀진다. 나머진 다됌
-	/*
-	KPtr<TheOne> TestAni2 = TabScene->Create_One(L"Test");
-	TestAni2->Trans()->pos_local(KVector(.0f));
-	TestAni2->Trans()->scale_local(KVector(1.f, 1.f, 1.f));
-	KPtr<Renderer_BonAni> TestRender2 = TestAni2->Add_Component<Renderer_BonAni>();
-
-	ResourceManager<MeshContainer>::Load((PathManager::Find_ForderPathStr(L"Mesh") + L"Zerg\\ColonistTransPortTread.FBX").c_str());
-	TestRender2->Set_Fbx(L"ColonistTransPortTread.FBX");
-	TestRender2->Create_AniChanger(L"TestAni", 0, 70000);
-	TestRender2->Set_AniChanger(L"TestAni");*/
-
-
-	// TestRender->Load_FbxTest((PathManager::Find_ForderPathStr(L"Mesh") + L"Monster3.FBX").c_str());
-	//TestRender->Load_FbxTest((PathManager::Find_ForderPathStr(L"Mesh") + L"Warehouse01.FBX").c_str());
-	//TestRender->Set_Static();
 
 
 
 
+	KPtr<TheOne> OPARTI = TabScene->Create_One();
+	KPtr<Renderer_Effect> RPARTI = OPARTI->Add_Component<Renderer_Effect>(2000);
+	RPARTI->material()->Insert_TexData(TEX_TYPE::TEX_COLOR, 0, L"TILE_01.png");
+	RPARTI->ROpt.Defferd_orForward = 0;
 
-	KPtr<TheOne> CUBEMIDDLE = TabScene->Create_One();
-	CUBEMIDDLE->Trans()->scale_local(KVector4(10.0f, 10.0f, 10.0f));
-	CUBEMIDDLE->Trans()->pos_local(KVector4(.0f, 50.0f, 0.0f));
-	KPtr<Renderer_Mesh> PTRMESH3 = CUBEMIDDLE->Add_Component<Renderer_Mesh>();
-	PTRMESH3->Set_Material(L"DEFFERD3DMAT");
-	PTRMESH3->Set_Mesh(L"CUBE");
 
-	PTRMESH3->material()->Insert_TexData(TEX_TYPE::TEX_COLOR, 0, L"TILE_01.png");
 
 
 

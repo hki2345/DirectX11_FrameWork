@@ -3,7 +3,7 @@
 
 
 
-Force_Unit::Force_Unit(const wchar_t* _Name, KPtr<SC2_Force> _Force) : m_Force(_Force)
+Force_Unit::Force_Unit(const wchar_t* _Name, KPtr<SC2_Force> _Force) : m_Con(_Force)
 {
 	Begin::name(_Name);
 }

@@ -25,6 +25,10 @@
     <ClInclude Include="Unit_Marine.h">
       <Filter>SC2\Unit\Terran</Filter>
     </ClInclude>
+    <ClInclude Include="Con_Class.h">
+      <Filter>SC2\SC2_Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Container.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SC2Manager.cpp">
@@ -51,6 +55,10 @@
     <ClCompile Include="Unit_Marine.cpp">
       <Filter>SC2\Unit\Terran</Filter>
     </ClCompile>
+    <ClCompile Include="Con_Class.cpp">
+      <Filter>SC2\SC2_Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Container.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="SC2">
@@ -79,6 +87,9 @@
     </Filter>
     <Filter Include="SC2\Force&amp;Unit">
       <UniqueIdentifier>{62e8d1f1-aa15-4a9c-b61a-6a88dc44cde3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SC2\Container">
+      <UniqueIdentifier>{6a7b9693-c9d3-4f30-9426-f8b275d65e4d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

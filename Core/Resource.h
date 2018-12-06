@@ -2,13 +2,13 @@
 #include <string>
 #include "Begin.h"
 
-class Resource : public Begin
+class KResource : public Begin
 {
 
 public:
-	Resource();
-	Resource(const Resource& _Other);
-	~Resource();
+	KResource();
+	KResource(const KResource& _Other);
+	~KResource();
 
 private:
 	std::wstring m_AllPath;
@@ -70,7 +70,7 @@ public:
 private:
 	virtual bool Create();
 	virtual bool Load();
-	virtual bool Save(KPtr<Resource> _Res);
+	virtual bool Save(KPtr<KResource> _Res);
 
 };
 

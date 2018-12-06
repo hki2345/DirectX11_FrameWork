@@ -89,7 +89,7 @@ public:
 	}
 };
 
-class MeshContainer : public Resource
+class MeshContainer : public KResource
 {
 public:
 	KM3Data m_Data;

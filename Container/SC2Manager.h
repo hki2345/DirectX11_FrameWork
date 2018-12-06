@@ -1,4 +1,7 @@
 #pragma once
+#include <DXContainer.h>
+
+
 #include <Begin_Updater.h>
 #include <map>
 #include <stireg.h>
@@ -20,6 +23,7 @@ private:
 
 
 private:
+	bool m_bInit;
 	GAMERUN_TYPE m_bGR;
 
 
@@ -34,6 +38,11 @@ private:
 
 
 public:
+	std::map<std::wstring, KPtr<SC2_Force>>* force_map()
+	{
+		return &m_FMap;
+	}
+
 	KPtr<SC2_Force> Create_Camera(const wchar_t* _Name, const KVector2& _Size, const KVector2& _Pos);
 	KPtr<SC2_Force> Find_Camera(const wchar_t* _Name);
 

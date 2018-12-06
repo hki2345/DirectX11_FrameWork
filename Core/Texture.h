@@ -4,7 +4,7 @@
 #include "DirectXTex.h"
 
 
-class Texture : public Resource
+class Texture : public KResource
 {
 public:
 	friend class Texture_Multi;

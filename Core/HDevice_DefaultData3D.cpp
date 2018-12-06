@@ -15,6 +15,7 @@
 #include "Sampler.h"
 #include "RenderTarget_Multi.h"
 #include "Renderer_Terrain.h"
+#include "Renderer_Effect.h"
 
 #include "Shader_Vertex.h"
 #include "Shader_Pixel.h"
@@ -47,17 +48,17 @@ bool KDevice::DefRenderTaget()
 	return true;
 }
 
-bool KDevice::Def3DCreate() 
+bool KDevice::Def3DCreate()
 {
 	ResourceManager<Sampler>::Create(L"DefaultSmp");
 
 	// 지형 샘플러는 -> UV값이 정수그대로 적용된다. -> .0f ~ 1.0f 식의 비율 계산이 아님
 	// 그냥 int형 으로 정수가 때려 박히는 식이다.
 	ResourceManager<Sampler>::Create(L"TerrainSmp"
-	, D3D11_FILTER::D3D11_FILTER_MIN_MAG_MIP_LINEAR
-	, D3D11_TEXTURE_ADDRESS_MODE::D3D11_TEXTURE_ADDRESS_WRAP
-	, D3D11_TEXTURE_ADDRESS_MODE::D3D11_TEXTURE_ADDRESS_WRAP
-	, D3D11_TEXTURE_ADDRESS_MODE::D3D11_TEXTURE_ADDRESS_WRAP);
+		, D3D11_FILTER::D3D11_FILTER_MIN_MAG_MIP_LINEAR
+		, D3D11_TEXTURE_ADDRESS_MODE::D3D11_TEXTURE_ADDRESS_WRAP
+		, D3D11_TEXTURE_ADDRESS_MODE::D3D11_TEXTURE_ADDRESS_WRAP
+		, D3D11_TEXTURE_ADDRESS_MODE::D3D11_TEXTURE_ADDRESS_WRAP);
 
 
 
@@ -79,120 +80,144 @@ bool KDevice::Def3DCreate()
 	Core_Class::MainDevice().Create_RS(L"WFRONT", D3D11_FILL_MODE::D3D11_FILL_WIREFRAME, D3D11_CULL_MODE::D3D11_CULL_FRONT);
 	Core_Class::MainDevice().Set_RSDef(L"SBACK");
 
-	// 뎊스를 켜놓고
-	D3D11_DEPTH_STENCIL_DESC DepthState;
+	{
+		D3D11_DEPTH_STENCIL_DESC DepthState;
 
-	DepthState.DepthEnable = TRUE;
-	// D3D11_DEPTH_WRITE_MASK_ALL 뎊스비교를 하겠다는 것이다.
-	// D3D11_DEPTH_WRITE_MASK_ZERO 쓰지 않겠다.
-	DepthState.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
-	DepthState.DepthFunc = D3D11_COMPARISON_ALWAYS;
-	// 스텐실에 관련된 것.
-	// 0x000000ff 가장 뒤에 사용하겠다.
-	DepthState.StencilEnable = FALSE;
-	DepthState.StencilReadMask = D3D11_DEFAULT_STENCIL_READ_MASK;
-	DepthState.StencilWriteMask = D3D11_DEFAULT_STENCIL_WRITE_MASK;
-	D3D11_DEPTH_STENCILOP_DESC defaultStencil =
-	{ D3D11_STENCIL_OP_KEEP, D3D11_STENCIL_OP_KEEP, D3D11_STENCIL_OP_KEEP, D3D11_COMPARISON_ALWAYS };
-	DepthState.FrontFace = defaultStencil;
-	DepthState.BackFace = defaultStencil;
-	Core_Class::MainDevice().Create_DSS(L"DEBUG", DepthState);
+		DepthState.DepthEnable = FALSE;
+		// D3D11_DEPTH_WRITE_MASK_ALL 뎊스비교를 하겠다는 것이다.
+		// D3D11_DEPTH_WRITE_MASK_ZERO 쓰지 않겠다.
+		DepthState.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;
+		DepthState.DepthFunc = D3D11_COMPARISON_NEVER;
+		// 스텐실에 관련된 것.
+		// 0x000000ff 가장 뒤에 사용하겠다.
+		DepthState.StencilEnable = FALSE;
+		DepthState.StencilReadMask = D3D11_DEFAULT_STENCIL_READ_MASK;
+		DepthState.StencilWriteMask = D3D11_DEFAULT_STENCIL_WRITE_MASK;
+		D3D11_DEPTH_STENCILOP_DESC defaultStencil =
+		{ D3D11_STENCIL_OP_ZERO, D3D11_STENCIL_OP_ZERO, D3D11_STENCIL_OP_ZERO, D3D11_COMPARISON_NEVER };
+		DepthState.FrontFace = defaultStencil;
+		DepthState.BackFace = defaultStencil;
+		Core_Class::MainDevice().Create_DSS(L"EFFECT", DepthState);
+	}
 
-	// 정상적인것.
-	DepthState.DepthFunc = D3D11_COMPARISON_LESS;
-	Core_Class::MainDevice().Create_DSS(L"BASIC", DepthState);
+	{	// 기본 뎁스
+		// 뎊스를 켜놓고
+		D3D11_DEPTH_STENCIL_DESC DepthState;
 
-	DepthState.DepthFunc = D3D11_COMPARISON_ALWAYS;
-	Core_Class::MainDevice().Create_DSS(L"ALWAYS", DepthState);
+		DepthState.DepthEnable = TRUE;
+		// D3D11_DEPTH_WRITE_MASK_ALL 뎊스비교를 하겠다는 것이다.
+		// D3D11_DEPTH_WRITE_MASK_ZERO 쓰지 않겠다.
+		DepthState.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
+		DepthState.DepthFunc = D3D11_COMPARISON_ALWAYS;
+		// 스텐실에 관련된 것.
+		// 0x000000ff 가장 뒤에 사용하겠다.
+		DepthState.StencilEnable = FALSE;
+		DepthState.StencilReadMask = D3D11_DEFAULT_STENCIL_READ_MASK;
+		DepthState.StencilWriteMask = D3D11_DEFAULT_STENCIL_WRITE_MASK;
+		D3D11_DEPTH_STENCILOP_DESC defaultStencil =
+		{ D3D11_STENCIL_OP_KEEP, D3D11_STENCIL_OP_KEEP, D3D11_STENCIL_OP_KEEP, D3D11_COMPARISON_ALWAYS };
+		DepthState.FrontFace = defaultStencil;
+		DepthState.BackFace = defaultStencil;
+		Core_Class::MainDevice().Create_DSS(L"DEBUG", DepthState);
 
-	// 깊이 스텐실 버퍼에 대한 쓰기를 끈다
-	DepthState.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;
-	DepthState.DepthFunc = D3D11_COMPARISON_ALWAYS;
-	Core_Class::MainDevice().Create_DSS(L"LIGHTDEPTH", DepthState);
+		// 정상적인것.
+		DepthState.DepthFunc = D3D11_COMPARISON_LESS;
+		Core_Class::MainDevice().Create_DSS(L"BASIC", DepthState);
 
+		DepthState.DepthFunc = D3D11_COMPARISON_GREATER;
+		Core_Class::MainDevice().Create_DSS(L"GREATER", DepthState);
 
-	//////////////// VOLUMBACK
-	DepthState.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;
-	DepthState.DepthFunc = D3D11_COMPARISON_GREATER;
-	DepthState.StencilEnable = TRUE;
+		DepthState.DepthFunc = D3D11_COMPARISON_ALWAYS;
+		Core_Class::MainDevice().Create_DSS(L"ALWAYS", DepthState);
 
-	D3D11_DEPTH_STENCILOP_DESC LightStencil;
-	LightStencil.StencilFunc = D3D11_COMPARISON_ALWAYS;
-	LightStencil.StencilFailOp = D3D11_STENCIL_OP_KEEP;
-	LightStencil.StencilDepthFailOp = D3D11_STENCIL_OP_KEEP;
-	LightStencil.StencilPassOp = D3D11_STENCIL_OP_REPLACE;
-
-	DepthState.FrontFace = LightStencil;
-	DepthState.BackFace = LightStencil;
-	Core_Class::MainDevice().Create_DSS(L"BACK_ST", DepthState);
-
-	//////////////// VOLUMFORONT
-	DepthState.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;
-	DepthState.DepthFunc = D3D11_COMPARISON_LESS;
-	DepthState.StencilEnable = TRUE;
-
-	LightStencil.StencilFunc = D3D11_COMPARISON_EQUAL;
-	LightStencil.StencilDepthFailOp = D3D11_STENCIL_OP_ZERO;
-	LightStencil.StencilFailOp = D3D11_STENCIL_OP_ZERO;
-	LightStencil.StencilPassOp = D3D11_STENCIL_OP_KEEP;
-
-	DepthState.FrontFace = LightStencil;
-	DepthState.BackFace = LightStencil;
-	Core_Class::MainDevice().Create_DSS(L"FRONT_ST", DepthState);
-
-	//////////////// PASS
-
-	DepthState.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;
-	DepthState.DepthFunc = D3D11_COMPARISON_ALWAYS;
-	DepthState.StencilEnable = TRUE;
-
-	LightStencil.StencilFunc = D3D11_COMPARISON_EQUAL;
-	LightStencil.StencilDepthFailOp = D3D11_STENCIL_OP_ZERO;
-	LightStencil.StencilFailOp = D3D11_STENCIL_OP_KEEP;
-	LightStencil.StencilPassOp = D3D11_STENCIL_OP_ZERO;
-
-	DepthState.FrontFace = LightStencil;
-	DepthState.BackFace = LightStencil;
-
-	Core_Class::MainDevice().Create_DSS(L"PASS_ST", DepthState);
-
-	// 하나를 더 만들어야 한다.
-
-	Core_Class::MainDevice().Set_DSSDef(L"BASIC");
+		// 깊이 스텐실 버퍼에 대한 쓰기를 끈다
+		DepthState.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;
+		DepthState.DepthFunc = D3D11_COMPARISON_ALWAYS;
+		Core_Class::MainDevice().Create_DSS(L"LIGHTDEPTH", DepthState);
 
 
-	//{
-	//	D3D11_BLEND_DESC m_Desc;
+		//////////////// VOLUMBACK
+		DepthState.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;
+		DepthState.DepthFunc = D3D11_COMPARISON_GREATER;
+		DepthState.StencilEnable = TRUE;
 
-	//	m_Desc.AlphaToCoverageEnable = false;
+		D3D11_DEPTH_STENCILOP_DESC LightStencil;
+		LightStencil.StencilFunc = D3D11_COMPARISON_ALWAYS;
+		LightStencil.StencilFailOp = D3D11_STENCIL_OP_KEEP;
+		LightStencil.StencilDepthFailOp = D3D11_STENCIL_OP_KEEP;
+		LightStencil.StencilPassOp = D3D11_STENCIL_OP_REPLACE;
 
-	//	// 다른 랜더 타겟도 따로따로 쓰겠다 혹은 아니다.
-	//	// 블랜드 설정이 false로 하면 0번으로 초기화 된다.
-	//	m_Desc.IndependentBlendEnable = false;
+		DepthState.FrontFace = LightStencil;
+		DepthState.BackFace = LightStencil;
+		Core_Class::MainDevice().Create_DSS(L"BACK_ST", DepthState);
+
+		//////////////// VOLUMFORONT
+		DepthState.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;
+		DepthState.DepthFunc = D3D11_COMPARISON_LESS;
+		DepthState.StencilEnable = TRUE;
+
+		LightStencil.StencilFunc = D3D11_COMPARISON_EQUAL;
+		LightStencil.StencilDepthFailOp = D3D11_STENCIL_OP_ZERO;
+		LightStencil.StencilFailOp = D3D11_STENCIL_OP_ZERO;
+		LightStencil.StencilPassOp = D3D11_STENCIL_OP_KEEP;
+
+		DepthState.FrontFace = LightStencil;
+		DepthState.BackFace = LightStencil;
+		Core_Class::MainDevice().Create_DSS(L"FRONT_ST", DepthState);
+
+		//////////////// PASS
+
+		DepthState.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ZERO;
+		DepthState.DepthFunc = D3D11_COMPARISON_ALWAYS;
+		DepthState.StencilEnable = TRUE;
+
+		LightStencil.StencilFunc = D3D11_COMPARISON_EQUAL;
+		LightStencil.StencilDepthFailOp = D3D11_STENCIL_OP_ZERO;
+		LightStencil.StencilFailOp = D3D11_STENCIL_OP_KEEP;
+		LightStencil.StencilPassOp = D3D11_STENCIL_OP_ZERO;
+
+		DepthState.FrontFace = LightStencil;
+		DepthState.BackFace = LightStencil;
+
+		Core_Class::MainDevice().Create_DSS(L"PASS_ST", DepthState);
+
+		// 하나를 더 만들어야 한다.
+
+		Core_Class::MainDevice().Set_DSSDef(L"BASIC");
+	}
+
+	{
+		D3D11_BLEND_DESC m_Desc;
+
+		m_Desc.AlphaToCoverageEnable = false;
+
+		// 다른 랜더 타겟도 따로따로 쓰겠다 혹은 아니다.
+		// 블랜드 설정이 false로 하면 0번으로 초기화 된다.
+		m_Desc.IndependentBlendEnable = false;
 
 
-	//	// 디퓨즈 -> 디퓨즈는 기존 꺼에 덮어 씌우는 개념 ㅇㅇ
-	//	m_Desc.RenderTarget[0].BlendEnable = true;
-	//	m_Desc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+		// 디퓨즈 -> 디퓨즈는 기존 꺼에 덮어 씌우는 개념 ㅇㅇ
+		m_Desc.RenderTarget[0].BlendEnable = true;
+		m_Desc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
 
-	//	m_Desc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
-	//	m_Desc.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA;
-	//	m_Desc.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
+		m_Desc.RenderTarget[0].BlendOp = D3D11_BLEND_OP_ADD;
+		m_Desc.RenderTarget[0].SrcBlend = D3D11_BLEND_SRC_ALPHA;
+		m_Desc.RenderTarget[0].DestBlend = D3D11_BLEND_INV_SRC_ALPHA;
 
-	//	m_Desc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
-	//	m_Desc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
-	//	m_Desc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ONE;
-
-
-
-	//	for (size_t i = 1; i < 8; i++)
-	//	{
-	//		m_Desc.RenderTarget[i] = D3D11_RENDER_TARGET_BLEND_DESC{};
-	//	}
+		m_Desc.RenderTarget[0].BlendOpAlpha = D3D11_BLEND_OP_ADD;
+		m_Desc.RenderTarget[0].SrcBlendAlpha = D3D11_BLEND_ONE;
+		m_Desc.RenderTarget[0].DestBlendAlpha = D3D11_BLEND_ONE;
 
 
-	//	ResourceManager<KBlend>::Create(L"DEFFERD", m_Desc);
-	//}
+
+		for (size_t i = 1; i < 8; i++)
+		{
+			m_Desc.RenderTarget[i] = D3D11_RENDER_TARGET_BLEND_DESC{};
+		}
+
+
+		ResourceManager<KBlend>::Create(L"FORWARD_COVER", m_Desc);
+	}
 
 	///////////////////////////////////////////// BS
 	D3D11_BLEND_DESC m_Desc;
@@ -488,16 +513,17 @@ bool KDevice::Mesh3DCreate() {
 
 	std::vector<VTX3D> SkyVtx = SphereVtx;
 
-	for (size_t i = 0; i < SkyVtx.size(); i++)
-	{
-		SkyVtx[i].Normal = -1.0f;
-		V.Normal.w = 0.0f;
-	}
+	//for (size_t i = 0; i < SkyVtx.size(); i++)
+	//{
+	//	SkyVtx[i].Normal = .0f;
+	//	SkyVtx[i].Normal.w = -5.0f;
+	//	//V.Normal.w = 0.0f;
+	//}
 
-	ResourceManager<KMesh>::Create(L"SKYSPHERE"
-		, (UINT)SkyVtx.size(), (UINT)VTX3D::TypeSize(), D3D11_USAGE_DYNAMIC, &SkyVtx[0]
-		, (UINT)SphereIdx.size(), (UINT)IDX32::MemberSize(), D3D11_USAGE_DEFAULT, &SphereIdx[0]
-		, IDX32::FM());
+	//ResourceManager<KMesh>::Create(L"SKYSPHERE"
+	//	, (UINT)SkyVtx.size(), (UINT)VTX3D::TypeSize(), D3D11_USAGE_DYNAMIC, &SkyVtx[0]
+	//	, (UINT)SphereIdx.size(), (UINT)IDX32::MemberSize(), D3D11_USAGE_DEFAULT, &SphereIdx[0]
+	//	, IDX32::FM());
 
 #pragma endregion
 	return true;
@@ -542,7 +568,7 @@ bool KDevice::Mat3DCreate()
 	KPtr<KMaterial> GRID3DMAT = ResourceManager<KMaterial>::Create(L"GRID3DMAT");
 	GRID3DMAT->Set_VTShader(L"GRID3DVTX");
 	GRID3DMAT->Set_PXShader(L"GRID3DPIX");
-	GRID3DMAT->Set_Blend(L"ALPHA");
+	GRID3DMAT->Set_Blend(L"FORWARD_COVER");
 
 	// RECT
 	KPtr<Shader_Vertex> RECT3DVTX = ResourceManager<Shader_Vertex>::Load_FromKey(L"RECT3DVTX", L"Shader", L"RECT3D.fx", "VS_RECT3D");
@@ -574,14 +600,15 @@ bool KDevice::Mat3DCreate()
 	SKY3DVTX->Add_Layout("POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
 	SKY3DVTX->Add_Layout("TEXCOORD", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32_FLOAT, 0);
 	SKY3DVTX->Add_Layout("COLOR", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
-	SKY3DVTX->Add_LayoutFin("NORMAL", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
+	SKY3DVTX->Add_Layout("NORMAL", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
+	SKY3DVTX->Add_Layout("TANGENT", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
+	SKY3DVTX->Add_LayoutFin("BINORMAL", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
 	KPtr<Shader_Pixel> SKY3DPIX = ResourceManager<Shader_Pixel>::Load_FromKey(L"SKY3DPIX", L"Shader", L"SkyBox.fx", "PS_SKY3D");
 
 	KPtr<KMaterial> SKY3DMAT = ResourceManager<KMaterial>::Create(L"SKY3DMAT");
 	SKY3DMAT->Set_VTShader(L"SKY3DVTX");
 	SKY3DMAT->Set_PXShader(L"SKY3DPIX");
 	SKY3DMAT->Set_Blend(L"ALPHA");
-	// SKY3DMAT->Insert_TexData(TEX_TYPE::TEX_COLOR, 0, L"Sky01.png");
 
 	KPtr<Shader_Vertex> MESH3DVTX = ResourceManager<Shader_Vertex>::Load_FromKey(L"MESH3DVTX", L"Shader", L"MeshMat.fx", "VS_MESH3D");
 	MESH3DVTX->Add_Layout("POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
@@ -734,7 +761,7 @@ bool KDevice::Mat3DCreate()
 	{
 		KPtr<Shader_Vertex> VTX = ResourceManager<Shader_Vertex>::Load_FromKey(L"EFFECTFILTERVTX", L"Shader", L"Effect.fx", "VS_EFFECTFILTER");
 		VTX->Add_Layout("POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
-		VTX->Add_LayoutFin("SWITCH", 0, DXGI_FORMAT::DXGI_FORMAT_R32_UINT, 0);
+		VTX->Add_LayoutFin("NORMAL", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
 
 		D3D11_SO_DECLARATION_ENTRY _Data[2];
 		_Data[0].Stream = 0; // n번째 스트림 버퍼를 쓰는지
@@ -744,16 +771,17 @@ bool KDevice::Mat3DCreate()
 		_Data[0].SemanticIndex = 0; //  POSITION[0] POSITION[1] POSITION[2]
 		_Data[0].SemanticName = "POSITION"; // 이름이 어떤가?
 
-/*
+
 		_Data[1].Stream = 0;
 		_Data[1].OutputSlot = 0;
 		_Data[1].StartComponent = 0;
-		_Data[1].ComponentCount = 1;
+		_Data[1].ComponentCount = 4;
 		_Data[1].SemanticIndex = 0;
-		_Data[1].SemanticName = "SWITCH";
-*/
-		KUINT BufSize = 16;
-		KPtr<Shader_GeoMetry> GEO = ResourceManager<Shader_GeoMetry>::Load_FromKey(L"EFFECTFILTERGEO", L"Shader", L"Effect.fx", "GS_EFFECTFILTER");
+		_Data[1].SemanticName = "NORMAL";
+
+		KUINT BufSize = sizeof(Renderer_Effect::Effect_Data);
+		KPtr<Shader_GeoMetry> GEO = ResourceManager<Shader_GeoMetry>::Load_FromKey(
+			L"EFFECTFILTERGEO", L"Shader", L"Effect.fx", "GS_EFFECTFILTER", _Data, 2, &BufSize, 1, D3D11_SO_NO_RASTERIZED_STREAM);
 
 		KPtr<KMaterial> MTL = ResourceManager<KMaterial>::Create(L"EFFECTFILTERMTL");
 		MTL->Set_VTShader(L"EFFECTFILTERVTX");
@@ -774,6 +802,7 @@ bool KDevice::Mat3DCreate()
 		MTL->Set_GMShader(L"EFFECTRENDERGEO");
 		MTL->Set_PXShader(L"EFFECTRENDERPIX");
 		MTL->Set_Blend(L"ALPHA");
+		MTL->Insert_TexData(TEX_TYPE::TEX_TAGET, 1, L"DEPTH");
 	}
 
 	return true;

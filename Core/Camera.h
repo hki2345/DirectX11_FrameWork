@@ -152,6 +152,11 @@ private:
 		return m_LightTarget;
 	}
 
+	KPtr<KMaterial> material_camlight()
+	{
+		return m_CamLightMtl;
+	}
+
 private:
 	KPtr<RenderTarget_Multi> m_DefferdTarget;
 	KPtr<RenderTarget_Multi> m_LightTarget;

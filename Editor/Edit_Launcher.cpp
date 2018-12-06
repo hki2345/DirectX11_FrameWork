@@ -12,6 +12,7 @@
 
 #include <KThread.h>
 #include <Renderer_BonAni.h>
+#include <Con_Class.h>
 
 Edit_Launcher::Edit_Launcher()
 {

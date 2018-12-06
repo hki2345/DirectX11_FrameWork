@@ -18,7 +18,7 @@
 // 내부연산을 극적으로 줄이는것.
 
 // 멀티랜더 타겟이.
-class RenderTarget : public Resource
+class RenderTarget : public KResource
 {
 public:
 	RenderTarget();

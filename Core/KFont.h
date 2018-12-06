@@ -18,7 +18,7 @@
 #endif
 #endif // DEBUG
 
-class KFont : public Resource
+class KFont : public KResource
 {
 public:
 	KFont();

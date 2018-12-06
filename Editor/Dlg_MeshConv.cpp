@@ -11,6 +11,7 @@
 
 #include "Dlg_FbxLoad.h"
 #include "Dlg_KM3Loader.h"
+#include <Renderer_Mesh.h>
 
 // Dlg_MeshConv 대화 상자입니다.
 
@@ -56,9 +57,30 @@ BOOL Dlg_MeshConv::OnInitDialog()
 		KASSERT(true);
 	}
 
+
+	// 투명한 걸 그린다면 만약에 -> 스카이랑 섞이기 위해선 당연히 ... 스카이가 디퍼드로 그려져야 한다.
+	KPtr<TheOne> SKYMESH = TabScene->Create_One();
+	SKYMESH->Trans()->scale_local(KVector4(10000.0f, 10000.0f, 10000.0f));
+	SKYMESH->Trans()->pos_local(KVector4(.0f, 0.0f, 0.0f));
+	KPtr<Renderer_Mesh> SKYMESH1 = SKYMESH->Add_Component<Renderer_Mesh>();
+	SKYMESH1->Set_Material(L"SKY3DMAT");
+	SKYMESH1->Set_RSState(L"SNONE");
+	SKYMESH1->ROpt.Defferd_orForward = 1;
+	SKYMESH1->ROpt.LightOpacity = 1.0f;
+	SKYMESH1->Set_Mesh(L"SPHERE");
+	SKYMESH1->material()->Insert_TexData(TEX_TYPE::TEX_COLOR, 0, L"Space.jpg");
+
+	KPtr<TheOne> GRIDACTOR = TabScene->Create_One();
+	GRIDACTOR->Trans()->rotate_world(KVector4(90.0f, 0.0f, 0.0f));
+	GRIDACTOR->Trans()->scale_world(KVector4(10000.0f, 10000.0f, 10000.0f));
+	KPtr<Renderer_Grid> GRIDRENDER = GRIDACTOR->Add_Component<Renderer_Grid>();
+	GRIDRENDER->ROpt.Defferd_orForward = 1;
+
+
 	TabScene->Camera()->Add_Component<SC2_Camera>();
 	TabScene->Camera()->Far(10000.0f);
 	TabScene->Camera()->one()->Trans()->pos_local(KVector4(0.0f, 10.0f, -20.0f));
+
 
 
 	KPtr<TheOne> Light2 = TabScene->Create_One();
@@ -89,14 +111,6 @@ BOOL Dlg_MeshConv::OnInitDialog()
 	pLight4->Trans()->rotate_world(KVector4(.0F, 45.0F, 0.0f));
 	pLight4->Trans()->scale_world(KVector4(30.0f, 30.0f, 30.0f));
 	pLight4->PushLightLayer(0);
-
-
-
-	KPtr<TheOne> GRIDACTOR = TabScene->Create_One();
-	GRIDACTOR->Trans()->rotate_world(KVector4(90.0f, 0.0f, 0.0f));
-	GRIDACTOR->Trans()->scale_world(KVector4(10000.0f, 10000.0f, 10000.0f));
-	GRIDACTOR->Add_Component<Renderer_Grid>();
-
 
 
 

@@ -2,7 +2,7 @@
 #include "DXContainer.h"
 #include "Resource.h"
 
-class KBlend : public Resource
+class KBlend : public KResource
 {
 private:
 	ID3D11BlendState* m_pBlendState;
