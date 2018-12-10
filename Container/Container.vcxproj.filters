@@ -28,7 +28,9 @@
     <ClInclude Include="Con_Class.h">
       <Filter>SC2\SC2_Core</Filter>
     </ClInclude>
-    <ClInclude Include="Container.h" />
+    <ClInclude Include="Container.h">
+      <Filter>SC2</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SC2Manager.cpp">
@@ -58,7 +60,9 @@
     <ClCompile Include="Con_Class.cpp">
       <Filter>SC2\SC2_Core</Filter>
     </ClCompile>
-    <ClCompile Include="Container.cpp" />
+    <ClCompile Include="Container.cpp">
+      <Filter>SC2</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="SC2">
@@ -69,9 +73,6 @@
     </Filter>
     <Filter Include="SC2\Unit\Terran">
       <UniqueIdentifier>{07e89fa1-04b2-4dd5-8f31-c3d4d8bc314a}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="SC2\Unit\Protoss">
-      <UniqueIdentifier>{3463765e-27f2-49aa-84fa-526d800af3f1}</UniqueIdentifier>
     </Filter>
     <Filter Include="SC2\Building">
       <UniqueIdentifier>{a6d02d37-26e1-4f14-bb05-66c83d44d72c}</UniqueIdentifier>
@@ -90,6 +91,15 @@
     </Filter>
     <Filter Include="SC2\Container">
       <UniqueIdentifier>{6a7b9693-c9d3-4f30-9426-f8b275d65e4d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SC2\Unit\Zerg">
+      <UniqueIdentifier>{a467ad83-aeed-4832-9fe0-f4699e5bd27f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SC2\Unit\Zerg\Unit">
+      <UniqueIdentifier>{c73120a1-3a52-41af-a448-e0e372acfdfc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SC2\Unit\Terran\Unit">
+      <UniqueIdentifier>{36eecd2a-868d-4972-88fe-2fc8ed68e26d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

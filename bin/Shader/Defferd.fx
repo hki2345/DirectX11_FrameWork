@@ -68,6 +68,11 @@ PS_DEFFERDOUTPUT PS_DEFFERD(VTX3DMESH_OUTPUT _in)
             if (ArrTex[i].Type == TEX)
             {
                 CalColor *= GetTexToColor(ArrTex[i].Tex_Idx, ArrTex[i].Tex_Smp, _in.vUv) * _in.vColor;
+
+                //if (IsAlpha == 0)
+                //{
+                //    CalColor.a = 1.0f;
+                //}
             }
             else if (ArrTex[i].Type == BUMP)
             {

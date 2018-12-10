@@ -26,7 +26,7 @@ private:
 	std::map<std::wstring, KPtr<Force_Unit>>::iterator m_SUI;
 	std::map<std::wstring, KPtr<Force_Unit>>::iterator m_EUI;
 
-	Force_Container m_Con;
+	Force_Container m_Force;
 
 private:
 	bool Init();
@@ -36,36 +36,36 @@ public:
 
 	KColor& force_color()
 	{
-		return m_Con.Color;
+		return m_Force.Color;
 	}
 
 	wchar_t*  force_name()
 	{
-		return m_Con.Name;
+		return m_Force.Name;
 	}
 
 	void force_color(const KColor& _Value)
 	{
-		m_Con.Color = _Value;
+		m_Force.Color = _Value;
 	}
 
 	void  force_name(const wchar_t* _Value)
 	{
-		memcpy_s(m_Con.Name, sizeof(wchar_t) * NAMENUM, _Value, sizeof(wchar_t) * NAMENUM);
+		memcpy_s(m_Force.Name, sizeof(wchar_t) * NAMENUM, _Value, sizeof(wchar_t) * NAMENUM);
 	}
 
 
 
 	Force_Container* force_container()
 	{
-		return &m_Con;
+		return &m_Force;
 	}
 
 	bool Set_Force(const Force_Container& _Value)
 	{
 		name(_Value.Name);
-		memcpy_s(m_Con.Name, sizeof(wchar_t) * NAMENUM, _Value.Name, sizeof(wchar_t) * NAMENUM);
-		m_Con.Color = _Value.Color;
+		memcpy_s(m_Force.Name, sizeof(wchar_t) * NAMENUM, _Value.Name, sizeof(wchar_t) * NAMENUM);
+		m_Force.Color = _Value.Color;
 	}
 
 

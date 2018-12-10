@@ -54,7 +54,7 @@ KWindow::~KWindow()
 }
 
 
-/*************** Func ************/
+/*************** Load_ByThread ************/
 
 
 void KWindow::Init(HINSTANCE _HInst) 

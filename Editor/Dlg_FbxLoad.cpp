@@ -9,6 +9,9 @@
 #include <Core_Class.h>
 #include <Renderer_BonAni.h>
 
+
+#include <KThread.h>
+
 // Dlg_FbxLoad 대화 상자입니다.
 
 IMPLEMENT_DYNAMIC(Dlg_FbxLoad, TabDlg)
@@ -46,6 +49,7 @@ BEGIN_MESSAGE_MAP(Dlg_FbxLoad, TabDlg)
 	ON_BN_CLICKED(IDC_NORMBTN, &Dlg_FbxLoad::OnBnClickedNormbtn)
 	ON_BN_CLICKED(IDC_SPECBTN, &Dlg_FbxLoad::OnBnClickedSpecbtn)
 	ON_BN_CLICKED(IDC_EMISBTN, &Dlg_FbxLoad::OnBnClickedEmisbtn)
+	ON_BN_CLICKED(IDC_LISTUPBTN, &Dlg_FbxLoad::OnBnClickedListupbtn)
 END_MESSAGE_MAP()
 
 
@@ -97,6 +101,8 @@ void Dlg_FbxLoad::Hide_Dlg()
 
 void Dlg_FbxLoad::OnBnClickedFbxloadbtn()
 {
+	// 이상하게 단일 그걸로는잘되는데 이게 창띄우고  mfc랑 엮이니까 안된다. ㅠㅠ;;
+	// KThread::Start_Thread<Dlg_FbxLoad>(L"TestThread", &Dlg_FbxLoad::Load_ByThread, this);
 	static TCHAR BASED_CODE szFilter[] = _T("FBX 파일(*.FBX) | *.FBX;*.fbx; |모든파일(*.*)|*.*||");
 
 	CFileDialog dlg(TRUE, _T("*.FBX"), _T("*.fbx"), OFN_HIDEREADONLY | OFN_ALLOWMULTISELECT, szFilter, this);
@@ -105,28 +111,31 @@ void Dlg_FbxLoad::OnBnClickedFbxloadbtn()
 
 	if (IDOK == dlg.DoModal())
 	{
+		// 한번에 불러오려는 포스 ->
+		// 이 좌표 다음이 바로 다음 선택한 파일의 패스를 나타냄
 		POSITION pos = dlg.GetStartPosition();
 		CString m_FileList = L"";
 
 		while (pos)
 		{
-			CString pathName = dlg.GetNextPathName(pos);
+			pathName = dlg.GetNextPathName(pos);
 
 
-			KPtr<MeshContainer> Temp = ResourceManager<MeshContainer>::Find(PathManager::Split_FileName(pathName).c_str());
-			if (nullptr != Temp)
+			KPtr<MeshContainer> m_CurMesh = ResourceManager<MeshContainer>::Find(PathManager::Split_FileName(pathName).c_str());
+			if (nullptr != m_CurMesh)
 			{
 				MessageBox(pathName + L"\n이미 불러온 파일입니다.\n불러오기를 계속 진행합니다.");
 				continue;
 			}
 
 
-			Temp = ResourceManager<MeshContainer>::Load(pathName, MESH_LMODE::LM_FBX);
-			if (nullptr == Temp)
+			//KThread::Start_Thread<Dlg_FbxLoad>(L"Load_FBX", &Dlg_FbxLoad::Load_ByThread, this);
+			m_CurMesh = ResourceManager<MeshContainer>::Load(pathName.GetBuffer(), MESH_LMODE::LM_FBX);
+			if (nullptr == m_CurMesh)
 			{
 				Check = false;
 				MessageBox(pathName + L"\n파일을 불러오지 못했습니다.");
-				break;
+				return;
 			}
 
 
@@ -149,6 +158,16 @@ void Dlg_FbxLoad::OnBnClickedFbxloadbtn()
 	Update_RscTree();
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 }
+
+// 되는데 이게 메시지창 띄우고 결정적으로 mfc 리스트 업데이트 하려니까 터진다. ㅠㅡㅠ;;
+// 정확히는 터지는 건 아닌데 최신화를 못함 - 리소스 메니저엔 들어이쓴ㄴ데 말이지...
+// UpdateData하면 터진다 ㅅㅂ
+unsigned int Dlg_FbxLoad::Load_ByThread(void* _Test)
+{
+	ResourceManager<MeshContainer>::Load(pathName.GetBuffer(), MESH_LMODE::LM_FBX);
+	return 0;
+}
+
 
 void Dlg_FbxLoad::Update_RscTree()
 {
@@ -317,4 +336,10 @@ std::wstring Dlg_FbxLoad::Show_DDSWindow()
 	}
 
 	return L"";
+}
+
+void Dlg_FbxLoad::OnBnClickedListupbtn()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	Update_RscTree();
 }

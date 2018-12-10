@@ -45,7 +45,8 @@ public:
 		// 0 - 포워드 1 - 디퍼드
 		Defferd_orForward(1),
 		IsBoneAni(0), // 0 - 본 애니 아님
-		LightOpacity(-1.0f)
+		LightOpacity(-1.0f),
+		Alpha(0)
 	{	}
 	// ~RenderOption();
 
@@ -63,7 +64,9 @@ public:
 
 	// 이게 바로 인트 하나 추가하므로서 생긴 짜투리
 	float LightOpacity;
-	int temp3;
+
+	// 알파냐 아니냐 기본 0 - 알파 1
+	int Alpha;
 
 
 private:

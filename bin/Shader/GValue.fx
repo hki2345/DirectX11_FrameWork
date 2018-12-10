@@ -27,6 +27,6 @@ cbuffer RenderOption : register(b11)
     int IsAni; // 버텍스냐 픽셀이냐? // 8
     int RendrDataType; // 렌더가 어떤것이냐 // 8 - 커ㅗ어에서 씀 고로 필요가 없다.
     float Light_Opa; // 빛 연산 
-    int Temp3; // 버텍스냐 픽셀이냐? // 8
+    int IsAlpha; // 불투명이냐 투명이냐? // 8
     TexData ArrTex[8]; // 20 216
 }

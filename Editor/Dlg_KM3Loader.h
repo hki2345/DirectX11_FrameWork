@@ -24,6 +24,8 @@ protected:
 	void Hide_Dlg() override;
 	void Update_RscTree();
 
+	unsigned int Load_KM3T(void* _args);
+
 
 	// Animation
 	void Init_AniName();
@@ -75,4 +77,5 @@ public:
 	afx_msg void OnCbnSelchangeKm3accombo();
 	afx_msg void OnBnClickedKm3acssave();
 	afx_msg void OnBnClickedKm3acasave();
+	afx_msg void OnBnClickedKm3resetbtn();
 };

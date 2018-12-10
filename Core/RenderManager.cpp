@@ -265,7 +265,7 @@ void RenderManager::Render_Defferd(KPtr<Camera> _Camera, std::map<int, std::list
 	{
 
 		// 엑티브 활성화 체크
-		if (false == (*m_RSI)->one()->Is_Active())
+		if (false == (*m_RSI)->one()->Is_Active() || 1 == (*m_RSI)->ROpt.Alpha)
 		{
 			continue;
 		}
@@ -321,6 +321,8 @@ void RenderManager::Render_Defferd(KPtr<Camera> _Camera, std::map<int, std::list
 	}
 
 }
+
+
 
 void RenderManager::Render_Forward(KPtr<Camera> _Camera, std::map<int, std::list<KPtr<Renderer>>>::iterator _Iter, size_t _Index)
 {

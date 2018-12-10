@@ -48,12 +48,12 @@ public:
 		{
 			Ptr = CreateThread(_Name);
 		}
-
+	
 		if (true == Ptr->Is_Run())
 		{
 			Ptr->Destroy();
 		}
-
+	
 		Ptr->Start<TYPE>(pMember, _pObj, _Arg);
 		return true;
 	}

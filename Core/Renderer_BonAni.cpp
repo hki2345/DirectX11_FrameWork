@@ -184,13 +184,13 @@ void Renderer_BonAni::PrevUpdate_Ani()
 	{
 		return;
 	}
+	m_UpdateTime += DELTATIME;
 
 	// 시작 프레임
 	m_CurTime =
 		CAni->cur_clip()->Start / m_FrameCnt +
 		m_UpdateTime +
 		(float)(MCon->m_Data.AniVec[m_ClipInx].Stime.GetSecondDouble());
-	m_UpdateTime += DELTATIME;
 
 	if (m_UpdateTime >= MCon->m_Data.AniVec[m_ClipInx].Length_Time)
 	{
@@ -202,6 +202,13 @@ void Renderer_BonAni::PrevUpdate_Ani()
 	
 
 	int iFrameInx = (int)(m_CurTime * m_FrameCnt);
+
+	// 이거 하면 프리셋으로 가드라 ㅠㅡㅠ 그래서 아예 없앰
+	if (0 == iFrameInx)
+	{
+		return;
+	}
+	KLOG(L"%d", iFrameInx);
 	int iNextFrameInx = 0;
 	
 	// 현재 프레임이 프레임의 끝보다 크면 0으로 초기화
@@ -209,10 +216,12 @@ void Renderer_BonAni::PrevUpdate_Ani()
 	{
 		m_UpdateTime = .0f; 		
 		iFrameInx = CAni->cur_clip()->Start;
+		return;
 	}
 
 	// 당연하지만 다음 장면은 + 1 프레임이 되겠다.
 	iNextFrameInx = iFrameInx + 1;
+
 
 	for (size_t i = 0; i < MCon->m_Data.BoneVec.size(); i++)
 	{
@@ -271,6 +280,8 @@ void Renderer_BonAni::PrevUpdate_Ani()
 
 	// 세력 설정하는 부분
 	Core_Class::MainDevice().SettingCB<KColor>(L"FORCE_COLOR", m_ForceColor, SHTYPE::ST_PS);
+
+	
 }
 
 
@@ -363,7 +374,19 @@ KPtr<Changer_Animation> Renderer_BonAni::Create_Animation()
 
 	CAni = ResourceManager<Changer_Animation>::Create(TStr.c_str());
 
+
+	// 기본 유닛 애니메이션7
 	Create_Clip(L"ALLAni", 0, 100000);
+	Create_Clip(L"STAND01", 0, 100000);
+	Create_Clip(L"STAND02", 0, 100000);
+	Create_Clip(L"STAND03", 0, 100000);
+	Create_Clip(L"WALK01", 0, 100000);
+	Create_Clip(L"WALK02", 0, 100000);
+	Create_Clip(L"ATTACK01", 0, 100000);
+	Create_Clip(L"ATTACK02", 0, 100000);
+	Create_Clip(L"ATTACK03", 0, 100000);
+	Create_Clip(L"FIDGET01", 0, 100000);
+	Create_Clip(L"FIDGET02", 0, 100000);
 	Set_Clip(L"ALLAni");
 	return CAni;
 }

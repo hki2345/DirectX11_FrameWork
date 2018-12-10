@@ -25,7 +25,7 @@ public:
 
 	virtual void DebugRender() override;
 
-	unsigned int Func(void* _Test);
+	unsigned int Load_ByThread(void* _Test);
 
 public:
 	Edit_SUpdater();

@@ -36,7 +36,7 @@ void Edit_SUpdater::Update_State()
 
 	if (InputManager::Down(L"Q"))
 	{
-		KThread::Start_Thread<Edit_SUpdater>(L"TestThread", &Edit_SUpdater::Func, this);
+		KThread::Start_Thread<Edit_SUpdater>(L"TestThread", &Edit_SUpdater::Load_ByThread, this);
 
 		if (true == m_bTestThread)
 		{
@@ -91,7 +91,7 @@ void Edit_SUpdater::Update_State()
 	}
 }
 
-unsigned int Edit_SUpdater::Func(void* _Test)
+unsigned int Edit_SUpdater::Load_ByThread(void* _Test)
 {
 	Number = 0;
 	float Time = 0.0f;
@@ -119,7 +119,7 @@ unsigned int Edit_SUpdater::Func(void* _Test)
 
 void Edit_SUpdater::Start_State()
 {
-	KThread::Start_Thread<Edit_SUpdater>(L"TestThread", &Edit_SUpdater::Func, this);
+	KThread::Start_Thread<Edit_SUpdater>(L"TestThread", &Edit_SUpdater::Load_ByThread, this);
 }
 
 void Edit_SUpdater::DebugRender() {
