@@ -4,6 +4,55 @@
 #include "Component_DE.h"
 #include "RenderTarget_Multi.h"
 
+class KMaterial;
+class RenderTarget_Multi;
+class Effect_Post : public SmartPtr
+{
+private:
+	bool m_OnOff;
+	KPtr<RenderTarget_Multi> m_RTarget;
+	KPtr<RenderTarget_Multi> m_OTarget;
+
+public:
+	bool effect_on_off() { return m_OnOff; }
+
+	void SWITCH(const bool& _Value)
+	{
+		m_OnOff = _Value;
+	}
+	void Set_On()
+	{
+		m_OnOff = true;	
+	}
+	void Set_Off()
+	{
+		m_OnOff = false;
+	}
+
+
+	virtual void Create();
+	virtual void Update();
+
+public:
+	void Set_ResourceTarget(RenderTarget_Multi* _Value)
+	{
+		m_RTarget = _Value;
+	}
+
+	void Set_OutTarget(RenderTarget_Multi* _Value)
+	{
+		m_OTarget = _Value;
+	}
+
+protected:
+	Effect_Post() : m_OnOff(true), m_RTarget(nullptr), m_OTarget(nullptr)
+	{
+
+	}
+};
+
+
+
 class KMesh;
 class KMaterial;
 class TransPosition;
@@ -140,8 +189,35 @@ private: // CameraRender
 	KPtr<KMaterial> m_CamScreenMtl;
 
 private:
+	std::list<KPtr<Effect_Post>> m_EPList;
+	std::list<KPtr<Effect_Post>>::iterator m_SFLI;
+	std::list<KPtr<Effect_Post>>::iterator m_EFLI;
+
+	std::map<std::wstring, KPtr<Effect_Post>> m_EPMap;
+	std::map<std::wstring, KPtr<Effect_Post>>::iterator m_SFMI;
+	std::map<std::wstring, KPtr<Effect_Post>>::iterator m_EFMI;
+
+public:
+	template<typename T>
+	void Create_EffectPost(const wchar_t* _Name)
+	{
+		T* NPost = new T();
+		if (false == NPost->Create())
+		{
+			BBY;
+		}
+
+		m_EPMap.insert(std::map<std::wstring, KPtr<Effect_Post>>::value_type(_Name, NPost));
+	}
+
+
+private:
 	void Merge_Light(); 
 	void Merge_Screen();
+	void Progress_Post();
+
+	void Set_Target();
+
 
 	KPtr<RenderTarget_Multi> defferd_target()
 	{
@@ -160,9 +236,11 @@ private:
 private:
 	KPtr<RenderTarget_Multi> m_DefferdTarget;
 	KPtr<RenderTarget_Multi> m_LightTarget;
-
-
 	KPtr<RenderTarget_Multi> m_CameraTaget;
+
+	KPtr<RenderTarget_Multi> m_PostEffectTarget;
+	KPtr<RenderTarget_Multi> m_PrevTarget;
+	KPtr<RenderTarget_Multi> m_NextTarget;
 	// 카메라 필터.
 
 public:

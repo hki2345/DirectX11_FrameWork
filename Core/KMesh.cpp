@@ -144,8 +144,8 @@ void KMesh::Update_Pick(const KUINT& _Vtx, const KUINT& _Sub)
 {
 	KUINT tIdx = 0;
 
-	Core_Class::Context()->IASetVertexBuffers(_Vtx, 1, &VertBuff_Vec[0], &VertSize_Vec[0], &tIdx);
 	Core_Class::Context()->IASetPrimitiveTopology(m_eDrawMode);
+	Core_Class::Context()->IASetVertexBuffers(_Vtx, 1, &VertBuff_Vec[0], &VertSize_Vec[0], &tIdx);
 	Core_Class::Context()->IASetIndexBuffer(IndexBuffInfo_Vec[_Sub]->m_IdxBuf, IndexBuffInfo_Vec[_Sub]->m_IdxFm, 0);
 	Core_Class::Context()->DrawIndexed(IndexBuffInfo_Vec[_Sub]->m_IdxCnt, 0, 0);
 }

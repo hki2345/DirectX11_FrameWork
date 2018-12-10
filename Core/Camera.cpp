@@ -9,6 +9,23 @@
 #include "KMesh.h"
 #include "KMaterial.h"
 
+
+
+
+
+
+
+void Effect_Post::Create()
+{
+	return;
+}
+void Effect_Post::Update()
+{
+
+}
+
+
+
 Camera::Camera() : m_eSMode(SM_WINDOW), m_ePMode(PM_ORTH), m_fFov(3.14f * 0.5f), m_fNear(1.0f), m_fFar(1000.0f), m_Order(0)
 {
 	m_CamMesh = ResourceManager<KMesh>::Find(L"RECT");
@@ -54,11 +71,21 @@ bool Camera::Init(int _Order /*= 0*/)
 	m_CameraTaget = new RenderTarget_Multi();
 	m_CameraTaget->CreateTarget(Core_Class::MainWindow().width_u(), Core_Class::MainWindow().height_u(), D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE, DXGI_FORMAT_R32G32B32A32_FLOAT);
 
+	m_PostEffectTarget = new RenderTarget_Multi();
+	m_PostEffectTarget->CreateTarget(Core_Class::MainWindow().width_u(), Core_Class::MainWindow().height_u(), D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE, DXGI_FORMAT_R32G32B32A32_FLOAT);
+
+
 	return true;
 }
 
 void Camera::Update() 
 {
+}
+
+void Camera::Set_Target()
+{
+	m_CameraTaget->Clear();
+	m_CameraTaget->OMSet();
 }
 
 KVector4 Camera::ScreenTo_World(KVector2 _ScreenPos)
@@ -132,6 +159,53 @@ void Camera::FinalUpdate()
 
 }
 
+
+
+void Camera::Progress_Post()
+{
+	m_SFMI = m_EPMap.begin();
+	m_EFMI = m_EPMap.end();
+
+	m_EPList.clear();
+
+	for (; m_SFMI != m_EFMI; ++m_SFMI)
+	{
+		if (true == m_SFMI->second->effect_on_off())
+		{
+			m_EPList.push_back(m_SFMI->second);
+		}
+	}
+
+
+	if (0 == m_EPList.size())
+	{
+		return;
+	}
+
+	m_SFLI = m_EPList.begin();
+	m_EFLI = m_EPList.end();
+
+	KPtr<RenderTarget_Multi> Tmp = nullptr;
+
+	m_PrevTarget = m_PostEffectTarget;
+	m_NextTarget = m_CameraTaget;
+
+
+	// ÀÌÀüÅ¸°Ù¿¡ ¹Ì¸® Âï°í ¤·¤·
+	for (; m_SFLI != m_EFLI; ++m_SFLI)
+	{
+		Tmp = m_PrevTarget;
+		m_PrevTarget = m_NextTarget;
+		m_NextTarget = Tmp;
+
+		(*m_SFLI)->Set_ResourceTarget(m_PrevTarget);
+		(*m_SFLI)->Set_OutTarget(m_NextTarget);
+		(*m_SFLI)->Update();
+	}
+}
+
+
+
 void Camera::EndUpdate() 
 {
 	
@@ -158,9 +232,32 @@ void Camera::Merge_Screen()
 		BBY;
 	}
 
-	m_CameraTaget->target_tex(0)->Update(0);
-	m_CamScreenMtl->Update();
-	m_CamMesh->Update();
-	m_CamMesh->Render();
-	m_CameraTaget->target_tex(0)->Reset(0);
+	if (0 == m_EPList.size())
+	{
+		m_CameraTaget->target_tex(0)->Update(0);
+		m_CamScreenMtl->Update();
+		m_CamMesh->Update();
+		m_CamMesh->Render();
+		m_CameraTaget->target_tex(0)->Reset(0);
+	}
+
+	else
+	{
+		if (nullptr == m_NextTarget)
+		{
+			m_CameraTaget->target_tex(0)->Update(0);
+			m_CamScreenMtl->Update();
+			m_CamMesh->Update();
+			m_CamMesh->Render();
+			m_CameraTaget->target_tex(0)->Reset(0);
+		}
+
+
+		// ´ÙÀ½ Å¸°Ù¿¡ Âï³× ¤·¤·
+		m_NextTarget->target_tex(0)->Update(0);
+		m_CamScreenMtl->Update();
+		m_CamMesh->Update();
+		m_CamMesh->Render();
+		m_NextTarget->target_tex(0)->Reset(0);
+	}
 }

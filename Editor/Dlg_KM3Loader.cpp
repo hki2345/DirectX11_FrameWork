@@ -16,7 +16,7 @@
 IMPLEMENT_DYNAMIC(Dlg_KM3Loader, TabDlg)
 
 Dlg_KM3Loader::Dlg_KM3Loader(CWnd* pParent /*=NULL*/)
-	: TabDlg(IDD_KM3DLG, pParent), m_PrevSel(-1)
+	: TabDlg(IDD_KM3DLG, pParent), m_PrevSel(-1), m_AniInx(0)
 {
 }
 
@@ -62,6 +62,10 @@ BEGIN_MESSAGE_MAP(Dlg_KM3Loader, TabDlg)
 	ON_BN_CLICKED(IDC_KM3ACSSAVE, &Dlg_KM3Loader::OnBnClickedKm3acssave)
 	ON_BN_CLICKED(IDC_KM3ACASAVE, &Dlg_KM3Loader::OnBnClickedKm3acasave)
 	ON_BN_CLICKED(IDC_KM3RESETBTN, &Dlg_KM3Loader::OnBnClickedKm3resetbtn)
+	ON_BN_CLICKED(IDC_KM3PLAYBTN, &Dlg_KM3Loader::OnBnClickedKm3playbtn)
+	ON_BN_CLICKED(IDC_KM3PAUBTN, &Dlg_KM3Loader::OnBnClickedKm3paubtn)
+	ON_BN_CLICKED(IDC_KM3PREVBTN, &Dlg_KM3Loader::OnBnClickedKm3prevbtn)
+	ON_BN_CLICKED(IDC_KM3NEXTBTN, &Dlg_KM3Loader::OnBnClickedKm3nextbtn)
 END_MESSAGE_MAP()
 
 
@@ -566,4 +570,73 @@ void Dlg_KM3Loader::OnBnClickedKm3resetbtn()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 	Update_RscTree();
+}
+
+
+
+/******************* 단발애니메이션 *****************/
+void Dlg_KM3Loader::OnBnClickedKm3playbtn()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	if (nullptr == m_CurOne)
+	{
+		return;
+	}
+
+	KPtr<Renderer_BonAni> TAni = m_CurOne->Get_Component<Renderer_BonAni>();
+
+	TAni->pause_inx(-1);
+}
+
+
+void Dlg_KM3Loader::OnBnClickedKm3paubtn()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	if (nullptr == m_CurOne)
+	{
+		return;
+	}
+
+
+	KPtr<Renderer_BonAni> TAni = m_CurOne->Get_Component<Renderer_BonAni>();
+	m_AniInx = TAni->cur_frame();
+
+	TAni->pause_inx(m_AniInx);
+}
+
+
+void Dlg_KM3Loader::OnBnClickedKm3prevbtn()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	if (nullptr == m_CurOne)
+	{
+		return;
+	}
+	
+	KPtr<Changer_Animation> TmpCA = m_CurOne->Get_Component<Renderer_BonAni>()->changer_animation();
+	KPtr<Renderer_BonAni> TAni = m_CurOne->Get_Component<Renderer_BonAni>();
+	if (TmpCA->cur_clip()->Start > --m_AniInx)
+	{
+		m_AniInx = TmpCA->cur_clip()->Start;
+	}
+
+	TAni->pause_inx(m_AniInx);
+}
+
+
+void Dlg_KM3Loader::OnBnClickedKm3nextbtn()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	if (nullptr == m_CurOne)
+	{
+		return;
+	}
+	KPtr<Changer_Animation> TmpCA = m_CurOne->Get_Component<Renderer_BonAni>()->changer_animation();
+	KPtr<Renderer_BonAni> TAni = m_CurOne->Get_Component<Renderer_BonAni>();
+	if (TmpCA->cur_clip()->End < ++m_AniInx)
+	{
+		m_AniInx = TmpCA->cur_clip()->End;
+	}
+
+	TAni->pause_inx(m_AniInx);
 }

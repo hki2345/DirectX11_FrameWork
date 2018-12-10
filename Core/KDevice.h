@@ -262,7 +262,7 @@ public:
 	bool Def3DCreate();
 	bool Mesh3DCreate();
 	bool Mat3DCreate();
-
+	bool Create_DefFilter();
 
 public:
 	void Release();

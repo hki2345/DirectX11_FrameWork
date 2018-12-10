@@ -464,3 +464,8 @@ void KDevice::Set_BS(const wchar_t* _Name)
 	}
 	Ptr->Update();
 }
+
+bool KDevice::Create_DefFilter()
+{
+	return true;
+}

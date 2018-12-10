@@ -20,6 +20,9 @@ private:
 	// 애니메이션 0번쨰 프레임 ~ X 프레임 보는 그 시간
 	int m_ClipInx;
 	int m_FrameCnt;
+	int iFrameInx;
+	int PauseInx;
+
 	float m_UpdateSpd;
 	float m_CurTime;
 	float m_UpdateTime;
@@ -53,6 +56,21 @@ public:
 	void force_color(const KColor& _Value)
 	{
 		m_ForceColor = _Value;
+	}
+
+	int& cur_frame()
+	{
+		return iFrameInx;
+	}
+
+	int& pause_inx()
+	{
+		return PauseInx;
+	}
+
+	void pause_inx(const int& _Value)
+	{
+		PauseInx = _Value;
 	}
 
 	// 일단, 듸우는 거에 초점을 맞춘다.

@@ -15,6 +15,7 @@ m_ClipInx(1),
 m_FrameCnt(30), 
 m_UpdateSpd(.0f), 
 m_UpdateTime(.0f),
+PauseInx(-1),
 m_ForceColor(KColor::White)
 {
 	ROpt.Render_DT = RENDER_DATATYPE::RDT_DATA;
@@ -188,7 +189,7 @@ void Renderer_BonAni::PrevUpdate_Ani()
 
 	// 시작 프레임
 	m_CurTime =
-		CAni->cur_clip()->Start / m_FrameCnt +
+		(float)CAni->cur_clip()->Start / (float)m_FrameCnt +
 		m_UpdateTime +
 		(float)(MCon->m_Data.AniVec[m_ClipInx].Stime.GetSecondDouble());
 
@@ -201,14 +202,15 @@ void Renderer_BonAni::PrevUpdate_Ani()
 	// m_CurTime = (float)(MCon->m_Data.AniVec[m_ClipInx].Stime.GetSecondDouble() + m_UpdateTime);
 	
 
-	int iFrameInx = (int)(m_CurTime * m_FrameCnt);
+	iFrameInx = (int)(m_CurTime * m_FrameCnt);
 
 	// 이거 하면 프리셋으로 가드라 ㅠㅡㅠ 그래서 아예 없앰
 	if (0 == iFrameInx)
 	{
 		return;
 	}
-	KLOG(L"%d", iFrameInx);
+
+
 	int iNextFrameInx = 0;
 	
 	// 현재 프레임이 프레임의 끝보다 크면 0으로 초기화
@@ -218,6 +220,17 @@ void Renderer_BonAni::PrevUpdate_Ani()
 		iFrameInx = CAni->cur_clip()->Start;
 		return;
 	}
+
+	if (0 <= PauseInx)
+	{
+		iFrameInx = PauseInx;
+		m_CurTime =
+			PauseInx / (float)m_FrameCnt +
+			(float)(MCon->m_Data.AniVec[m_ClipInx].Stime.GetSecondDouble());
+	}
+	KLOG(L"%d", iFrameInx);
+
+
 
 	// 당연하지만 다음 장면은 + 1 프레임이 되겠다.
 	iNextFrameInx = iFrameInx + 1;
@@ -387,6 +400,7 @@ KPtr<Changer_Animation> Renderer_BonAni::Create_Animation()
 	Create_Clip(L"ATTACK03", 0, 100000);
 	Create_Clip(L"FIDGET01", 0, 100000);
 	Create_Clip(L"FIDGET02", 0, 100000);
+	Create_Clip(L"DEATH", 0, 100000);
 	Set_Clip(L"ALLAni");
 	return CAni;
 }

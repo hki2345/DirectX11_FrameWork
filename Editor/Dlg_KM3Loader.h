@@ -44,6 +44,9 @@ public:
 	afx_msg void OnBnClickedKm3load();
 	afx_msg void OnLbnSelchangeKm3list();
 
+	// 단발 애니
+	int m_AniInx;
+
 	// List
 	int m_PrevSel;
 	CListBox m_KM3List;
@@ -78,4 +81,8 @@ public:
 	afx_msg void OnBnClickedKm3acssave();
 	afx_msg void OnBnClickedKm3acasave();
 	afx_msg void OnBnClickedKm3resetbtn();
+	afx_msg void OnBnClickedKm3playbtn();
+	afx_msg void OnBnClickedKm3paubtn();
+	afx_msg void OnBnClickedKm3prevbtn();
+	afx_msg void OnBnClickedKm3nextbtn();
 };

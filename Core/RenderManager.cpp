@@ -106,8 +106,7 @@ void RenderManager::Render()
 
 
 			// 머지 전 한 번 비운다.
-			m_CSI->second->m_CameraTaget->Clear();
-			m_CSI->second->m_CameraTaget->OMSet();
+			m_CSI->second->Set_Target();
 			m_CSI->second->Merge_Light();
 
 			// 타겟 머지
@@ -116,15 +115,14 @@ void RenderManager::Render()
 			Core_Class::MainDevice().Set_DSS(L"ALWAYS");
 			Render_Forward(m_CSI->second, m_ALLFI, i);
 
+
 			// Core_Class::MainDevice().Set_DSS(L"GREATER");
 			// Render_Forward(m_CSI->second, m_ALLFI, i);
 			// 최종 나온 결과물을 
 
-
 		} // for (; m_GroupStartIter != m_GroupEndIter; ++m_GroupStartIter)
 	} // for (; m_CSI != m_CEI; ++m_CSI)
 
-	Core_Class::MainDevice().OMSet();
 	Merge_Screen();
 	
 
@@ -418,6 +416,16 @@ void RenderManager::Render_DefLight(KPtr<Camera> _Camera, int _Group)
 
 void RenderManager::Merge_Screen()
 {
+	m_CSI = m_CamMap.begin();
+	m_CEI = m_CamMap.end();
+
+	for (; m_CSI != m_CEI; ++m_CSI)
+	{
+		m_CSI->second->Progress_Post();
+	}
+
+	Core_Class::MainDevice().OMSet();
+
 	m_CSI = m_CamMap.begin();
 	m_CEI = m_CamMap.end();
 

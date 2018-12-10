@@ -816,6 +816,7 @@ bool KDevice::Init_BasicFigure3D()
 	Def3DCreate();
 	Mesh3DCreate();
 	Mat3DCreate();
+	Create_DefFilter();
 
 	return true;
 }
