@@ -226,9 +226,9 @@
     <None Include="..\Editor\res\Editor.rc2" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="01_UContainer.cpp" />
-    <ClCompile Include="00_UCore.cpp" />
-    <ClCompile Include="02_UEditor.cpp" />
+    <ClCompile Include="UContainer.cpp" />
+    <ClCompile Include="UCore.cpp" />
+    <ClCompile Include="UEditor.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

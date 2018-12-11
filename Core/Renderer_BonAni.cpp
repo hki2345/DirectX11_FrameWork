@@ -35,6 +35,12 @@ Renderer_BonAni::~Renderer_BonAni()
 void Renderer_BonAni::Set_Fbx(const wchar_t* _Name)
 {
 	MCon = ResourceManager<MeshContainer>::Find(_Name);
+
+	if (nullptr == MCon)
+	{
+		BBY;
+	}
+
 	Init_Mesh();
 }
 

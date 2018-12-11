@@ -15,7 +15,7 @@ private:
 
 private:
 	SUBMODE m_eMode;
-	KVector4 m_Scale;
+	KVector4 UScale;
 	KVector4 m_Rot; // 자전만 영향 준다.
 	KVector4 m_Pivot;
 
@@ -33,7 +33,7 @@ public:
 	void ParentMode() { m_eMode = SUBMODE::PARENT; }
 
 	void SubScale(const KVector4& _Scale) {
-		m_Scale = _Scale;
+		UScale = _Scale;
 		SelfMode();
 	}
 

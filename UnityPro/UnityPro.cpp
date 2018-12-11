@@ -98,14 +98,14 @@ BOOL UnityPro::InitInstance()
 
 
 
-	Product_Cpp((PathPro::RPath + L"Core\\").c_str(), L"00_UCore.cpp", PROD_TYPE::PT_EDITOR);
-	Product_Cpp((PathPro::RPath + L"Container\\").c_str(), L"01_UContainer.cpp", PROD_TYPE::PT_EDITOR);
-	Product_Cpp((PathPro::RPath + L"Editor\\").c_str(), L"02_UEditor.cpp", PROD_TYPE::PT_EDITOR);
+	Product_Cpp((PathPro::RPath + L"Core\\").c_str(), L"UCore.cpp", PROD_TYPE::PT_EDITOR);
+	Product_Cpp((PathPro::RPath + L"Container\\").c_str(), L"UContainer.cpp", PROD_TYPE::PT_EDITOR);
+	Product_Cpp((PathPro::RPath + L"Editor\\").c_str(), L"UEditor.cpp", PROD_TYPE::PT_EDITOR);
 
 
-	Product_Cpp((PathPro::RPath + L"Core\\").c_str(), L"00_UCore.cpp", PROD_TYPE::PT_CLIENT);
-	Product_Cpp((PathPro::RPath + L"Container\\").c_str(), L"01_UContainer.cpp", PROD_TYPE::PT_CLIENT);
-	Product_Cpp((PathPro::RPath + L"Client\\").c_str(), L"02_UClient.cpp", PROD_TYPE::PT_CLIENT);
+	Product_Cpp((PathPro::RPath + L"Core\\").c_str(), L"UCore.cpp", PROD_TYPE::PT_CLIENT);
+	Product_Cpp((PathPro::RPath + L"Container\\").c_str(), L"UContainer.cpp", PROD_TYPE::PT_CLIENT);
+	Product_Cpp((PathPro::RPath + L"Client\\").c_str(), L"UClient.cpp", PROD_TYPE::PT_CLIENT);
 	
 	return TRUE;
 }

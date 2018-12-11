@@ -73,6 +73,11 @@ public:
 		PauseInx = _Value;
 	}
 
+
+	void Reset_Frame()
+	{
+		m_UpdateTime = .0f;
+	}
 	// 일단, 듸우는 거에 초점을 맞춘다.
 
 private:
@@ -84,6 +89,11 @@ public:
 	{
 		return CAni;
 	}
+	KPtr<MeshContainer> mesh_container()
+	{
+		return MCon;
+	}
+
 	KMatrix Get_BoneMX(const wchar_t* _Name);
 	KMatrix Get_WBoneMX(const wchar_t* _Name);
 

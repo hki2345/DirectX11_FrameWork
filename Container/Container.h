@@ -1,4 +1,5 @@
 #pragma once
+#include <SmartPtr.h>
 #include <DXContainer.h>
 #include <list>
 
@@ -14,6 +15,7 @@ public:
 	Force_Container(const Force_Container& _Other);
 	~Force_Container() {};
 };
+
 
 enum ZERGUNIT_FORM
 {

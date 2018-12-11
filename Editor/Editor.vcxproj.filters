@@ -64,6 +64,9 @@
     <ClCompile Include="Dlg_Force.cpp">
       <Filter>99 Dialog\SC2</Filter>
     </ClCompile>
+    <ClCompile Include="Dlg_Unit.cpp">
+      <Filter>99 Dialog\SC2</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -130,6 +133,9 @@
       <Filter>99 Dialog</Filter>
     </ClInclude>
     <ClInclude Include="Dlg_Force.h">
+      <Filter>99 Dialog\SC2</Filter>
+    </ClInclude>
+    <ClInclude Include="Dlg_Unit.h">
       <Filter>99 Dialog\SC2</Filter>
     </ClInclude>
   </ItemGroup>

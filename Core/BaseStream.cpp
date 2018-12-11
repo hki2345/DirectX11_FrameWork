@@ -31,6 +31,14 @@ void BaseStream::Write(void* _WBuf, int _ByteSize) {
 	}
 }
 
+void BaseStream::Write(const void* _WBuf, int _ByteSize)
+{
+	if (nullptr != m_pFile)
+	{
+		fwrite(_WBuf, _ByteSize, 1, m_pFile);
+	}
+}
+
 void BaseStream::Read(void* _RBuf, int _BufByteSize, int _ReadByteSize)
 {
 	if (nullptr != m_pFile)

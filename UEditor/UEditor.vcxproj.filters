@@ -33,13 +33,13 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="00_UCore.cpp">
+    <ClCompile Include="UEditor.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="01_UContainer.cpp">
+    <ClCompile Include="UContainer.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
-    <ClCompile Include="02_UEditor.cpp">
+    <ClCompile Include="UCore.cpp">
       <Filter>소스 파일</Filter>
     </ClCompile>
   </ItemGroup>

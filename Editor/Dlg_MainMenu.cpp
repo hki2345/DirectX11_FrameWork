@@ -10,6 +10,7 @@
 #include "Dlg_MeshConv.h"
 
 #include "Dlg_Force.h"
+#include "Dlg_Unit.h"
 
 #include "Edit_Class.h"
 
@@ -54,7 +55,8 @@ BOOL Dlg_MainMenu::OnInitDialog()
 
 	CreateDlg<Dlg_MeshConv>(IDD_MESHDLG, L"Mesh");
 	CreateDlg<Dlg_Force>(IDD_FORCEDLG, L"Force");
-	CreateDlg<Dlg_Editor>(IDD_TOOLDLG, L"Tool");
+	CreateDlg<Dlg_Unit>(IDD_UNITDLG, L"Unit");
+	CreateDlg<Dlg_Editor>(IDD_TOOLDLG, L"Study");
 	Show_Dlg(0);
 	// TODO:  여기에 추가 초기화 작업을 추가합니다.
 
@@ -88,6 +90,7 @@ void Dlg_MainMenu::Show_Dlg(size_t _Index)
 
 	m_VecDlg[m_CurIndex]->ShowWindow(SW_HIDE);
 	m_VecDlg[_Index]->ShowWindow(SW_SHOW);
+	m_VecDlg[_Index]->Init_Dlg();
 	TabMenu.SetCurSel((int)_Index);
 
 	m_CurIndex = _Index;

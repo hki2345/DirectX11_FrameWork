@@ -142,11 +142,11 @@ void SC2_Camera::Update_State()
 void SC2_Camera::Update_Part()
 {
 	MatrixContainer tMXData;
-	KMatrix m_Scale;
+	KMatrix UScale;
 	KMatrix m_Pos;
 
-	m_Scale.Identity();
-	m_Scale.Scale(KVector4(OutSize.x, OutSize.y, 1.0f));
+	UScale.Identity();
+	UScale.Scale(KVector4(OutSize.x, OutSize.y, 1.0f));
 
 	m_Pos.Identity();
 	m_Pos.Translate(
@@ -154,7 +154,7 @@ void SC2_Camera::Update_Part()
 			, (Core_Class::MainWindow().height_f() * 0.5f) + OutPos.y - (OutSize.y * 0.5f)
 			, 1.1f));
 
-	KMatrix m_W = m_Scale * m_Pos;
+	KMatrix m_W = UScale * m_Pos;
 
 	tMXData.m_V = m_Cam->View();
 	tMXData.m_P = m_Cam->Proj();

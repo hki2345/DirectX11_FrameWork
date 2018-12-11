@@ -172,6 +172,26 @@ int	PathManager::Convert_Str2Int(const wchar_t* _Path)
 	return _wtoi(_Path);
 }
 
+
+bool PathManager::Is_StrVSStr(const wchar_t* _Path1, const wchar_t* _Path2)
+{
+	if ((_Path1[0] == 0 && _Path2[0] != 0 )||
+		(_Path1[0] != 0 && _Path2[0] == 0))
+	{
+		return false;
+	}
+
+	for (size_t i = 0; 0 != _Path1[i] && 0 != _Path2[i]; i++)
+	{
+		if (_Path1[i] != _Path2[i])
+		{
+			return false;
+		}
+	}
+
+	return true;
+}
+
 /********************* All KResource Load **********************/
 // 일종의 껍대기 함수 - 템플릿을 헤더에 묶으면 되는데 그러기엔 헤더가 지금 너무 많이 쓰여져있어서
 // 이렇게 껍질 함수 만들어서 구현함 ㅇㅇ

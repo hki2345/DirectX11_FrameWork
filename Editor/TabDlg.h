@@ -10,6 +10,7 @@ public:
 
 public:
 	virtual void Hide_Dlg() {};
+	virtual void Init_Dlg() {};
 
 public:
 	TabDlg(const int& _id, CWnd* _Wnd);

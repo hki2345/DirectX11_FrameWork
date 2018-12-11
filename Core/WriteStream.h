@@ -10,6 +10,7 @@ public:
 	}
 
 	void Write(void* _WBuf, int _ByteSize);
+	void Write(const void* _WBuf, int _ByteSize);
 
 public:
 	WriteStream(const wchar_t* _Path);

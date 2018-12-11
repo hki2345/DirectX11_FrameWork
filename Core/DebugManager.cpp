@@ -54,14 +54,14 @@ void DebugManager::Draw_Rect(const KRect& _Rect, float _Border)
 	KMatrix m1 = Core_Class::MainWindow().statemanager.cur_state()->Camera()->ViewProj();
 	KMatrix m2 = m_View * m_Proj;
 
-	KMatrix m_Scale;
-	m_Scale.Scale(KVector4(_Rect.m_Size.x, _Rect.m_Size.y, 1.0f));
+	KMatrix UScale;
+	UScale.Scale(KVector4(_Rect.m_Size.x, _Rect.m_Size.y, 1.0f));
 	KMatrix m_Pos;
 	m_Pos.Translate(KVector4(_Rect.m_Pos.x, _Rect.m_Pos.y, 1.1f));
 
 	KPtr<KMesh> Mesh = ResourceManager<KMesh>::Find(L"LINERECTMESH");
 	KPtr<KMaterial> Mat = ResourceManager<KMaterial>::Find(L"DEBUGRECTMAT");
-	Mat->VShader()->SettingCB<KMatrix>(L"TRANS", (m_Scale * m_Pos * m1).RTranspose());
+	Mat->VShader()->SettingCB<KMatrix>(L"TRANS", (UScale * m_Pos * m1).RTranspose());
 
 	Mat->Update();
 	Mesh->Update();
@@ -207,18 +207,18 @@ void DebugManager::Targetting()
 
 			for (size_t j = 0; j < TempTarget.size(); j++)
 			{
-				KMatrix m_Scale;
+				KMatrix UScale;
 				KMatrix m_Pos;
 
-				m_Scale.Identity();
-				m_Scale.Scale(KVector4(SizeX, SizeZ, 1.0f));
+				UScale.Identity();
+				UScale.Scale(KVector4(SizeX, SizeZ, 1.0f));
 				m_Pos.Identity();
 				m_Pos.Translate(
 					KVector4((-Core_Class::MainWindow().width_f() * 0.5f) + (CountX * SizeX) + (SizeX * 0.5f)
 						, (Core_Class::MainWindow().height_f() * 0.5f) + (-CountY * SizeZ) - (SizeZ * 0.5f)
 						, 1.1f));
 
-				KMatrix m_W = m_Scale * m_Pos;
+				KMatrix m_W = UScale * m_Pos;
 
 				tMXData.m_V = m_View;
 				tMXData.m_P = m_Proj;
@@ -265,18 +265,18 @@ void DebugManager::Targetting()
 
 		for (size_t j = 0; j < TagetVec.size(); j++)
 		{
-			KMatrix m_Scale;
+			KMatrix UScale;
 			KMatrix m_Pos;
 
-			m_Scale.Identity();
-			m_Scale.Scale(KVector4(SizeX, SizeZ, 1.0F));
+			UScale.Identity();
+			UScale.Scale(KVector4(SizeX, SizeZ, 1.0F));
 			m_Pos.Identity();
 			m_Pos.Translate(
 				KVector4((-Core_Class::MainWindow().width_f() * 0.5F) + (CountX * SizeX) + (SizeX * 0.5F)
 					, (Core_Class::MainWindow().height_f() * 0.5F) + (-CountY * SizeZ) - (SizeZ * 0.5F)
 					, 1.1f));
 
-			KMatrix m_W = m_Scale * m_Pos;
+			KMatrix m_W = UScale * m_Pos;
 
 			tMXData.m_V = m_View;
 			tMXData.m_P = m_Proj;

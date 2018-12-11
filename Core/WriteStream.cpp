@@ -14,3 +14,8 @@ void WriteStream::Write(void* _WBuf, int _ByteSize)
 {
 	BaseStream::Write(_WBuf, _ByteSize);
 }
+
+void WriteStream::Write(const void* _WBuf, int _ByteSize)
+{
+	BaseStream::Write(_WBuf, _ByteSize);
+}

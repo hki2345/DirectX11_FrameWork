@@ -72,8 +72,27 @@
 #define IDC_LISTUPBTN                   1063
 #define IDC_KM3PLAYBTN                  1065
 #define IDC_KM3PAUBTN                   1066
+#define IDC_UNITKM3LIST                 1066
+#define IDC_UNITSELECTLIST              1067
+#define IDC_RENDELETEBTN                1068
+#define IDC_RENINSERTBTN                1069
 #define IDC_KM3NEXTBTN                  1073
-#define IDC_KM3PREVBTN                  1074
+#define IDC_KM3PREVBTN                  1071
+#define IDC_UNITLOADBTN                 1073
+#define IDC_UNITSAVEBTN                 1074
+#define IDC_RENRESTARTBTN               1075
+
+#define IDC_ULEDIT                      1076
+#define IDC_UREDIT                      1077
+#define IDC_UNITNAMEINFO                1078
+#define IDC_KUNITXINFO                  1079
+#define IDC_KUNITYINFO                  1080
+#define IDC_KUNITZINFO                  1081
+
+#define IDC_WNONEBTN                    1082
+#define IDC_WINSTBTN                    1083
+#define IDC_WSHOTBTN                    1084
+
 
 // Next default values for new objects
 // 
@@ -81,7 +100,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        353
 #define _APS_NEXT_COMMAND_VALUE         32771
-#define _APS_NEXT_CONTROL_VALUE         1066
+#define _APS_NEXT_CONTROL_VALUE         1080
 #define _APS_NEXT_SYMED_VALUE           312
 #endif
 #endif

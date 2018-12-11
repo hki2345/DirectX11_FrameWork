@@ -38,6 +38,7 @@ public:
 	static std::wstring		Split_Path(const std::wstring& _ALL, const std::wstring& _FPath);
 	static int				Convert_Str2Int(const std::wstring& _Path);
 	static int				Convert_Str2Int(const wchar_t* _Path);
+	static bool				Is_StrVSStr(const wchar_t* _Path1, const wchar_t* _Path2);
 
 private:
 	static void Init();

@@ -5,7 +5,7 @@
 
 HSubTransCom::HSubTransCom()
 	: m_eMode(HSubTransCom::NONE)
-	, m_Scale(1.0f), m_Rot(0.0f), m_Pivot(0.0f)
+	, UScale(1.0f), m_Rot(0.0f), m_Pivot(0.0f)
 {
 	m_SubWMat.Identity();
 }
@@ -24,7 +24,7 @@ void HSubTransCom::SubTransUpdate()
 		m_SubWMat = m_Trans->worldmat_const();
 		break;
 	case HSubTransCom::PARENT:
-		m_SMat.Scale(m_Scale); // ũ
+		m_SMat.Scale(UScale); // ũ
 		m_RMatX.RotX(m_Rot.x); // X
 		m_RMatY.RotY(m_Rot.y); // Y
 		m_RMatZ.RotZ(m_Rot.z); // Z
@@ -33,7 +33,7 @@ void HSubTransCom::SubTransUpdate()
 		m_SubWMat = m_SMat * m_RMat * m_PMat * m_Trans->worldmat_const();
 		break;
 	case HSubTransCom::SELF:
-		m_SMat.Scale(m_Scale); // ũ
+		m_SMat.Scale(UScale); // ũ
 		m_RMatX.RotX(m_Rot.x); // X
 		m_RMatY.RotY(m_Rot.y); // Y
 		m_RMatZ.RotZ(m_Rot.z); // Z

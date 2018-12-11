@@ -31,6 +31,8 @@
 
 #include <SC2_Camera.h>
 
+#include <Renderer_BonAni.h>
+
 // Dlg_Editor 대화 상자입니다.
 
 IMPLEMENT_DYNAMIC(Dlg_Editor, TabDlg)
@@ -226,7 +228,6 @@ BOOL Dlg_Editor::OnInitDialog()
 
 
 
-
 	TabScene->This_Col3DManager.Link(101, 100);
 	TabScene->This_Col3DManager.Link(100, 101);
 
@@ -242,5 +243,48 @@ BOOL Dlg_Editor::OnInitDialog()
 
 void Dlg_Editor::Collision_Test(KCollision*, KCollision*)
 {
+
+}
+
+void Dlg_Editor::Init_Dlg()
+{
+
+	ResourceManager<MeshContainer>::Clear();
+	ResourceManager<Changer_Animation>::Clear();
+
+
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	// 만약 자체 메쉬에 애니메이션을 바로 적용시키려면
+	// 애니메이션이 먼저 불러온 후 배급받는 식이다.
+	ResourceManager<Changer_Animation>::All_Load();
+	ResourceManager<MeshContainer>::All_Load();
+
+	KPtr<State> TabScene = Core_Class::MainSceneMgr().Find_State(StateName.GetString());
+
+	KPtr<TheOne> m_CurOne = TabScene->Create_One(L"");
+	m_CurOne->Trans()->pos_local(KVector(5.0f));
+	m_CurOne->Trans()->scale_local(KVector(1.f, 1.f, 1.f));
+
+	KPtr<Renderer_BonAni> TRender = m_CurOne->Add_Component<Renderer_BonAni>();
+	TRender->Set_Fbx(L"BattleCruiser.KM3");
+
+	if (nullptr == TRender->changer_animation())
+	{
+		TRender->Create_Animation();
+	}
+
+
+	KPtr<TheOne> m_CurOne2 = TabScene->Create_One(L"");
+	m_CurOne2->Trans()->pos_local(KVector(.0f));
+	m_CurOne2->Trans()->scale_local(KVector(1.f, 1.f, 1.f));
+
+	KPtr<Renderer_BonAni> TRender2 = m_CurOne2->Add_Component<Renderer_BonAni>();
+	TRender2->Set_Fbx(L"BattleCruiser.KM3");
+
+
+	if (nullptr == TRender2->changer_animation())
+	{
+		TRender2->Create_Animation();
+	}
 
 }

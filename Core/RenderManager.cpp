@@ -257,8 +257,8 @@ void RenderManager::Render_Defferd(KPtr<Camera> _Camera, std::map<int, std::list
 	DEFFERDTAGET->OMSet();
 
 
-	m_RSI = m_ALLFI->second.begin();
-	m_REI = m_ALLFI->second.end();
+	m_RSI = _Iter->second.begin();
+	m_REI = _Iter->second.end();
 	for (; m_RSI != m_REI; m_RSI++)
 	{
 
@@ -324,8 +324,8 @@ void RenderManager::Render_Defferd(KPtr<Camera> _Camera, std::map<int, std::list
 
 void RenderManager::Render_Forward(KPtr<Camera> _Camera, std::map<int, std::list<KPtr<Renderer>>>::iterator _Iter, size_t _Index)
 {
-	m_RSI = m_ALLFI->second.begin();
-	m_REI = m_ALLFI->second.end();
+	m_RSI = _Iter->second.begin();
+	m_REI = _Iter->second.end();
 	Check_Light(_Camera, _Camera->m_Layer[_Index]);
 
 
