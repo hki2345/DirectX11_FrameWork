@@ -69,7 +69,6 @@ void RenderTarget_Multi::OMSet()
 		}
 		else 
 		{
-			KUINT T = TagetCount();
 			Core_Class::Context()->OMSetRenderTargets(TagetCount(), &m_RenderTagetView[0], Core_Class::MainDevice().Depth());
 		}
 

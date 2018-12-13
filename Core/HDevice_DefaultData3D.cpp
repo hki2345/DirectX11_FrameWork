@@ -809,7 +809,7 @@ bool KDevice::Mat3DCreate()
 	{
 		KPtr<Shader_Vertex> VTX = ResourceManager<Shader_Vertex>::Load_FromKey(L"EFFECTRENDERVTX", L"Shader", L"Effect.fx", "VS_EFFECTRENDER");
 		VTX->Add_Layout("POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
-		// VTX->Add_LayoutFin("SWITCH", 0, DXGI_FORMAT::DXGI_FORMAT_R32_UINT, 0);
+		VTX->Add_LayoutFin("NORMAL", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
 
 		KPtr<Shader_GeoMetry> GEO = ResourceManager<Shader_GeoMetry>::Load_FromKey(L"EFFECTRENDERGEO", L"Shader", L"Effect.fx", "GS_EFFECTRENDER");
 		KPtr<Shader_Pixel> PIX = ResourceManager<Shader_Pixel>::Load_FromKey(L"EFFECTRENDERPIX", L"Shader", L"Effect.fx", "PS_EFFECTRENDER");

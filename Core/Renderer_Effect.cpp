@@ -141,7 +141,6 @@ void Renderer_Effect::Render(KPtr<Camera> _Camera, const KUINT& _MeshIdx, const 
 
 	
 	Core_Class::MainDevice().Set_RS(L"SNONE");
-	//Core_Class::Context()->GSSetShader(nullptr, nullptr, 0);
 	// Core_Class::MainDevice().ResetContext();
 
 	// 이건 이제 다시 그리는 과정
@@ -159,6 +158,8 @@ void Renderer_Effect::Render(KPtr<Camera> _Camera, const KUINT& _MeshIdx, const 
 
 	Core_Class::MainDevice().Set_RS(L"SBACK");
 	Core_Class::MainDevice().Set_DSS(PrevDs.c_str());
+
+	m_RMtl->Reset_Tex();
 }
 
 

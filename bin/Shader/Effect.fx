@@ -1,5 +1,4 @@
 #include "GValue.fx"
-#include "PSOUT.fx"
 #include "DefferdLight.fx"
 #include "GTex.fx"
 

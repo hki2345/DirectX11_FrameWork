@@ -216,10 +216,10 @@ BOOL Dlg_Editor::OnInitDialog()
 
 
 
-	// KPtr<TheOne> OPARTI = TabScene->Create_One();
-	// KPtr<Renderer_Effect> RPARTI = OPARTI->Add_Component<Renderer_Effect>(2000);
-	// RPARTI->material()->Insert_TexData(TEX_TYPE::TEX_COLOR, 0, L"TILE_01.png");
-	// RPARTI->ROpt.Defferd_orForward = 0;
+	KPtr<TheOne> OPARTI = TabScene->Create_One();
+	KPtr<Renderer_Effect> RPARTI = OPARTI->Add_Component<Renderer_Effect>(2000);
+	RPARTI->material()->Insert_TexData(TEX_TYPE::TEX_COLOR, 0, L"TILE_01.png");
+	RPARTI->ROpt.Defferd_orForward = 0;
 
 
 
