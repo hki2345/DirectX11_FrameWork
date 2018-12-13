@@ -46,10 +46,12 @@ VTX3DMESH_OUTPUT VS_DEFFERD(VTX3DMESH_INPUT _in)
     return outData;
 }
 
+
 PS_DEFFERDOUTPUT PS_DEFFERD(VTX3DMESH_OUTPUT _in)
 {
     PS_DEFFERDOUTPUT outData = (PS_DEFFERDOUTPUT) 0.0f;
-    
+
+
     outData.vDiffuse = _in.vColor;
     outData.vNoraml = _in.vNormal;
     outData.vNoraml.a = 1.0f;

@@ -66,10 +66,11 @@ bool Camera::Init(int _Order /*= 0*/)
 	
 
 	m_DefferdTarget = ResourceManager<RenderTarget_Multi>::Find(L"DEFFERD");
+	m_ForwardTarget = ResourceManager<RenderTarget_Multi>::Find(L"FORWARD");
 	m_LightTarget = ResourceManager<RenderTarget_Multi>::Find(L"LIGHT");
 
-	m_CameraTaget = new RenderTarget_Multi();
-	m_CameraTaget->CreateTarget(Core_Class::MainWindow().width_u(), Core_Class::MainWindow().height_u(), D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE, DXGI_FORMAT_R32G32B32A32_FLOAT);
+	m_CamTarget = new RenderTarget_Multi();
+	m_CamTarget->CreateTarget(Core_Class::MainWindow().width_u(), Core_Class::MainWindow().height_u(), D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE, DXGI_FORMAT_R32G32B32A32_FLOAT);
 
 	m_PostEffectTarget = new RenderTarget_Multi();
 	m_PostEffectTarget->CreateTarget(Core_Class::MainWindow().width_u(), Core_Class::MainWindow().height_u(), D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE, DXGI_FORMAT_R32G32B32A32_FLOAT);
@@ -84,8 +85,8 @@ void Camera::Update()
 
 void Camera::Set_Target()
 {
-	m_CameraTaget->Clear();
-	m_CameraTaget->OMSet();
+	m_CamTarget->Clear();
+	m_CamTarget->OMSet();
 }
 
 KVector4 Camera::ScreenTo_World(KVector2 _ScreenPos)
@@ -188,7 +189,7 @@ void Camera::Progress_Post()
 	KPtr<RenderTarget_Multi> Tmp = nullptr;
 
 	m_PrevTarget = m_PostEffectTarget;
-	m_NextTarget = m_CameraTaget;
+	m_NextTarget = m_CamTarget;
 
 
 	// ÀÌÀüÅ¸°Ù¿¡ ¹Ì¸® Âï°í ¤·¤·
@@ -234,22 +235,22 @@ void Camera::Merge_Screen()
 
 	if (0 == m_EPList.size())
 	{
-		m_CameraTaget->target_tex(0)->Update(0);
+		m_CamTarget->target_tex(0)->Update(0);
 		m_CamScreenMtl->Update();
 		m_CamMesh->Update();
 		m_CamMesh->Render();
-		m_CameraTaget->target_tex(0)->Reset(0);
+		m_CamTarget->target_tex(0)->Reset(0);
 	}
 
 	else
 	{
 		if (nullptr == m_NextTarget)
 		{
-			m_CameraTaget->target_tex(0)->Update(0);
+			m_CamTarget->target_tex(0)->Update(0);
 			m_CamScreenMtl->Update();
 			m_CamMesh->Update();
 			m_CamMesh->Render();
-			m_CameraTaget->target_tex(0)->Reset(0);
+			m_CamTarget->target_tex(0)->Reset(0);
 		}
 
 

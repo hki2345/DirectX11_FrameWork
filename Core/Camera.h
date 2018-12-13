@@ -64,6 +64,10 @@ public:
 	friend class DebugManager;
 
 public:
+	Camera();
+	~Camera();
+
+public:
 	enum PROJ_MODE
 	{
 		PM_PERS,
@@ -223,6 +227,10 @@ private:
 	{
 		return m_DefferdTarget;
 	}
+	KPtr<RenderTarget_Multi> forward_target()
+	{
+		return m_ForwardTarget;
+	}
 	KPtr<RenderTarget_Multi> light_target()
 	{
 		return m_LightTarget;
@@ -235,16 +243,14 @@ private:
 
 private:
 	KPtr<RenderTarget_Multi> m_DefferdTarget;
+	KPtr<RenderTarget_Multi> m_ForwardTarget;
 	KPtr<RenderTarget_Multi> m_LightTarget;
-	KPtr<RenderTarget_Multi> m_CameraTaget;
+	KPtr<RenderTarget_Multi> m_CamTarget;
 
 	KPtr<RenderTarget_Multi> m_PostEffectTarget;
 	KPtr<RenderTarget_Multi> m_PrevTarget;
 	KPtr<RenderTarget_Multi> m_NextTarget;
 	// 카메라 필터.
 
-public:
-	Camera();
-	~Camera();
 };
 

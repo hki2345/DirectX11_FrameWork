@@ -115,9 +115,6 @@ void RenderManager::Render()
 			Core_Class::MainDevice().Set_DSS(L"ALWAYS");
 			Render_Forward(m_CSI->second, m_ALLFI, i);
 
-
-			// Core_Class::MainDevice().Set_DSS(L"GREATER");
-			// Render_Forward(m_CSI->second, m_ALLFI, i);
 			// 최종 나온 결과물을 
 
 		} // for (; m_GroupStartIter != m_GroupEndIter; ++m_GroupStartIter)
@@ -263,7 +260,7 @@ void RenderManager::Render_Defferd(KPtr<Camera> _Camera, std::map<int, std::list
 	{
 
 		// 엑티브 활성화 체크
-		if (false == (*m_RSI)->one()->Is_Active() || 1 == (*m_RSI)->ROpt.Alpha)
+		if (false == (*m_RSI)->one()->Is_Active())
 		{
 			continue;
 		}
@@ -327,8 +324,6 @@ void RenderManager::Render_Forward(KPtr<Camera> _Camera, std::map<int, std::list
 	m_RSI = _Iter->second.begin();
 	m_REI = _Iter->second.end();
 	Check_Light(_Camera, _Camera->m_Layer[_Index]);
-
-
 
 	for (; m_RSI != m_REI; m_RSI++)
 	{

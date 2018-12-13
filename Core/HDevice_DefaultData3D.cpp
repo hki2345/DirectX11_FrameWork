@@ -42,7 +42,6 @@ bool KDevice::DefRenderTaget()
 	ResourceManager<RenderTarget>::Create(L"LIGHT_SPECULAR", Core_Class::MainWindow().width_u(), Core_Class::MainWindow().height_u(),KVector4::Black,  D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE, DXGI_FORMAT_R32G32B32A32_FLOAT);
 
 	ResourceManager<RenderTarget_Multi>::Create(L"DEFFERD", L"COLOR_DIFFUSE", L"POSTION", L"NORMAL", L"DEPTH");
-	ResourceManager<RenderTarget_Multi>::Create(L"DEFFERD_ALPHA", L"COLOR_DIFFUSE", L"POSTION", L"NORMAL", L"DEPTH");
 	ResourceManager<RenderTarget_Multi>::Create(L"LIGHT", L"LIGHT_DIFFUSE", L"LIGHT_SPECULAR");
 	// KPtr<RenderTarget_Multi> LightMRT = ResourceManager<RenderTarget_Multi>::Create(L"LIGHT", L"LIGHT_DIFFUSE", L"LIGHT_SPECULAR");
 
@@ -626,6 +625,23 @@ bool KDevice::Mat3DCreate()
 	MESH3DMAT->Set_Blend(L"ALPHA");
 
 
+
+	// FORWARD
+	KPtr<Shader_Vertex> FORWARD3DVTX = ResourceManager<Shader_Vertex>::Load_FromKey(L"FORWARD3DVTX", L"Shader", L"Forward.fx", "VS_FORWARD");
+	FORWARD3DVTX->Add_Layout("POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
+	FORWARD3DVTX->Add_Layout("TEXCOORD", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32_FLOAT, 0);
+	FORWARD3DVTX->Add_Layout("COLOR", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
+	FORWARD3DVTX->Add_Layout("NORMAL", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
+	FORWARD3DVTX->Add_Layout("TANGENT", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
+	FORWARD3DVTX->Add_LayoutFin("BINORMAL", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
+	KPtr<Shader_Pixel> FORWARD3DPIX = ResourceManager<Shader_Pixel>::Load_FromKey(L"FORWARD3DPIX", L"Shader", L"Forward.fx", "PS_FORWARD");
+
+	KPtr<KMaterial> FORWARD3DMAT = ResourceManager<KMaterial>::Create(L"FORWARD3DMAT");
+	FORWARD3DMAT->Set_VTShader(L"FORWARD3DVTX");
+	FORWARD3DMAT->Set_PXShader(L"FORWARD3DPIX");
+	FORWARD3DMAT->Set_Blend(L"ALPHA");
+
+	
 
 	// DEFFERD
 	KPtr<Shader_Vertex> DEFFERD3DVTX = ResourceManager<Shader_Vertex>::Load_FromKey(L"DEFFERD3DVTX", L"Shader", L"Defferd.fx", "VS_DEFFERD");

@@ -163,21 +163,19 @@ BOOL Dlg_Editor::OnInitDialog()
 	CUBEMIDDLE->Trans()->scale_local(KVector4(10.0f, 10.0f, 10.0f));
 	CUBEMIDDLE->Trans()->pos_local(KVector4(.0f, 50.0f, 0.0f));
 	KPtr<Renderer_Mesh> PTRMESH3 = CUBEMIDDLE->Add_Component<Renderer_Mesh>();
-	PTRMESH3->Set_Material(L"MESH3DMAT");
+	PTRMESH3->Set_Material(L"FORWARD3DMAT");
 	PTRMESH3->Set_Mesh(L"CUBE");
-	PTRMESH3->ROpt.Defferd_orForward = 0;
-
+	
 	PTRMESH3->material()->Insert_TexData(TEX_TYPE::TEX_COLOR, 0, L"TILE_01.png");
-
-
+	
+	
 	KPtr<TheOne> CUBEMIDDLE2 = TabScene->Create_One();
 	CUBEMIDDLE2->Trans()->scale_local(KVector4(10.0f, 10.0f, 10.0f));
 	CUBEMIDDLE2->Trans()->pos_local(KVector4(5.0f, 50.0f, 5.0f));
 	KPtr<Renderer_Mesh> PTRMESH4 = CUBEMIDDLE2->Add_Component<Renderer_Mesh>();
-	PTRMESH4->Set_Material(L"MESH3DMAT");
+	PTRMESH4->Set_Material(L"FORWARD3DMAT");
 	PTRMESH4->Set_Mesh(L"CUBE");
-	PTRMESH4->ROpt.Defferd_orForward = 0;
-
+	
 	PTRMESH4->material()->Insert_TexData(TEX_TYPE::TEX_COLOR, 0, L"TILE_01.png");
 
 
@@ -218,10 +216,10 @@ BOOL Dlg_Editor::OnInitDialog()
 
 
 
-	KPtr<TheOne> OPARTI = TabScene->Create_One();
-	KPtr<Renderer_Effect> RPARTI = OPARTI->Add_Component<Renderer_Effect>(2000);
-	RPARTI->material()->Insert_TexData(TEX_TYPE::TEX_COLOR, 0, L"TILE_01.png");
-	RPARTI->ROpt.Defferd_orForward = 0;
+	// KPtr<TheOne> OPARTI = TabScene->Create_One();
+	// KPtr<Renderer_Effect> RPARTI = OPARTI->Add_Component<Renderer_Effect>(2000);
+	// RPARTI->material()->Insert_TexData(TEX_TYPE::TEX_COLOR, 0, L"TILE_01.png");
+	// RPARTI->ROpt.Defferd_orForward = 0;
 
 
 
@@ -231,10 +229,10 @@ BOOL Dlg_Editor::OnInitDialog()
 	TabScene->This_Col3DManager.Link(101, 100);
 	TabScene->This_Col3DManager.Link(100, 101);
 
-	// KPtr<KRay3D> RayCol = TabScene->Camera()->Add_Component<KRay3D>(101);
-	// RayCol->EnterFunc(this, &Dlg_Editor::Collision_Test);
-	// 
-	// KPtr<KSphere_Col> RightCol = SPHERERIGHT->Add_Component<KSphere_Col>(100);
+	KPtr<KRay3D> RayCol = TabScene->Camera()->Add_Component<KRay3D>(101);
+	RayCol->EnterFunc(this, &Dlg_Editor::Collision_Test);
+	
+	KPtr<KSphere_Col> RightCol = SPHERERIGHT->Add_Component<KSphere_Col>(100);
 
 	return TRUE;  // return TRUE unless you set the focus to a control
 				  // 예외: OCX 속성 페이지는 FALSE를 반환해야 합니다.

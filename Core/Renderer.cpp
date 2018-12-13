@@ -90,6 +90,11 @@ bool Renderer::Set_Material(const wchar_t* _Res, const int& _Index)
 		return false;
 	}
 
+	if (L"FORWARD3DMAT" == _Res)
+	{
+		ROpt.Defferd_orForward = 0;
+	}
+
 	return true;
 }
 
@@ -122,7 +127,6 @@ void Renderer::RenderBegin(KPtr<Camera> _Camera, const KUINT& _MeshIdx, const KU
 // 엄격하게 따지면 본 애니도 구분이 되어야 되지만 편의상 하나로 묶되 nullptr로 판졀함
 void Renderer::Render(KPtr<Camera> _Camera, const KUINT& _MeshIdx, const KUINT& _MtlIdx, Render_Data* _Data)
 {
-
 	Update_TexSmp(_MtlIdx);
 	Update_MtlCB(_MtlIdx);
 	Update_Material(_MtlIdx);

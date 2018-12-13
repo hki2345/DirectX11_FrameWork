@@ -67,7 +67,9 @@ void RenderTarget_Multi::OMSet()
 			Core_Class::Context()->OMSetDepthStencilState(m_pDepthStencilState, 1);
 			OldDepth->Release();
 		}
-		else {
+		else 
+		{
+			KUINT T = TagetCount();
 			Core_Class::Context()->OMSetRenderTargets(TagetCount(), &m_RenderTagetView[0], Core_Class::MainDevice().Depth());
 		}
 

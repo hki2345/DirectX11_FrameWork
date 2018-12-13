@@ -109,7 +109,6 @@ bool Renderer_Effect::Init(const KUINT& _DotCnt, const int& _Order/* = 0*/)
 // 해당 효과 랜더는 일일이 직접 구현이 들어가는 부분이다.
 void Renderer_Effect::Render(KPtr<Camera> _Camera, const KUINT& _MeshIdx, const KUINT& _MtlIdx, Render_Data* _Data)
 {
-	Core_Class::MainDevice().ResetContext();
 	std::wstring PrevDs = Core_Class::MainDevice().ds_name();
 
 	Core_Class::MainDevice().Set_DSS(L"EFFECT");
@@ -142,10 +141,10 @@ void Renderer_Effect::Render(KPtr<Camera> _Camera, const KUINT& _MeshIdx, const 
 
 	
 	Core_Class::MainDevice().Set_RS(L"SNONE");
-	Core_Class::MainDevice().ResetContext();
+	//Core_Class::Context()->GSSetShader(nullptr, nullptr, 0);
+	// Core_Class::MainDevice().ResetContext();
 
 	// 이건 이제 다시 그리는 과정
-	m_SOBuffer->Reset();
 
 	ID3D11Buffer* pOutBuf = m_SOBuffer->buffer();
 	Core_Class::Context()->IASetVertexBuffers(0, 1, &pOutBuf, &TSize, &TOffset);

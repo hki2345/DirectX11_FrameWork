@@ -261,7 +261,7 @@ void DebugManager::Targetting()
 
 	for (; m_CSI != m_CEI; ++m_CSI)
 	{
-		std::vector<KPtr<RenderTarget>> TagetVec = m_CSI->second->m_CameraTaget->TagetTexList();
+		std::vector<KPtr<RenderTarget>> TagetVec = m_CSI->second->m_CamTarget->TagetTexList();
 
 		for (size_t j = 0; j < TagetVec.size(); j++)
 		{
