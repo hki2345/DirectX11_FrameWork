@@ -15,9 +15,9 @@
 
 
 
-void Effect_Post::Create()
+bool Effect_Post::Create()
 {
-	return;
+	return true;
 }
 void Effect_Post::Update()
 {
@@ -66,15 +66,10 @@ bool Camera::Init(int _Order /*= 0*/)
 	
 
 	m_DefferdTarget = ResourceManager<RenderTarget_Multi>::Find(L"DEFFERD");
-	m_ForwardTarget = ResourceManager<RenderTarget_Multi>::Find(L"FORWARD");
 	m_LightTarget = ResourceManager<RenderTarget_Multi>::Find(L"LIGHT");
 
 	m_CamTarget = new RenderTarget_Multi();
 	m_CamTarget->CreateTarget(Core_Class::MainWindow().width_u(), Core_Class::MainWindow().height_u(), D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE, DXGI_FORMAT_R32G32B32A32_FLOAT);
-
-	m_PostEffectTarget = new RenderTarget_Multi();
-	m_PostEffectTarget->CreateTarget(Core_Class::MainWindow().width_u(), Core_Class::MainWindow().height_u(), D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE, DXGI_FORMAT_R32G32B32A32_FLOAT);
-
 
 	return true;
 }
@@ -164,45 +159,34 @@ void Camera::FinalUpdate()
 
 void Camera::Progress_Post()
 {
+	if (0 == m_EPMap.size())
+	{
+		return;
+	}
+
 	m_SFMI = m_EPMap.begin();
 	m_EFMI = m_EPMap.end();
 
-	m_EPList.clear();
+	KPtr<RenderTarget_Multi> TmpTarget = m_CamTarget;
 
 	for (; m_SFMI != m_EFMI; ++m_SFMI)
 	{
 		if (true == m_SFMI->second->effect_on_off())
 		{
-			m_EPList.push_back(m_SFMI->second);
+			m_SFMI->second->m_RTarget = TmpTarget;
+			m_SFMI->second->Update();
+			TmpTarget = m_SFMI->second->m_OTarget;
 		}
 	}
 
 
-	if (0 == m_EPList.size())
-	{
-		return;
-	}
-
-	m_SFLI = m_EPList.begin();
-	m_EFLI = m_EPList.end();
-
-	KPtr<RenderTarget_Multi> Tmp = nullptr;
-
-	m_PrevTarget = m_PostEffectTarget;
-	m_NextTarget = m_CamTarget;
-
-
-	// ÀÌÀüÅ¸°Ù¿¡ ¹Ì¸® Âï°í ¤·¤·
-	for (; m_SFLI != m_EFLI; ++m_SFLI)
-	{
-		Tmp = m_PrevTarget;
-		m_PrevTarget = m_NextTarget;
-		m_NextTarget = Tmp;
-
-		(*m_SFLI)->Set_ResourceTarget(m_PrevTarget);
-		(*m_SFLI)->Set_OutTarget(m_NextTarget);
-		(*m_SFLI)->Update();
-	}
+	// ´©Àû½ÃÄÑ¼­ Âï´Â ¹æ½Ä
+	m_CamTarget->OMSet();
+	TmpTarget->target_tex(0)->Update(0);
+	m_CamScreenMtl->Update();
+	m_CamMesh->Update();
+	m_CamMesh->Render();
+	TmpTarget->target_tex(0)->Reset(0);
 }
 
 
@@ -233,32 +217,9 @@ void Camera::Merge_Screen()
 		BBY;
 	}
 
-	if (0 == m_EPList.size())
-	{
-		m_CamTarget->target_tex(0)->Update(0);
-		m_CamScreenMtl->Update();
-		m_CamMesh->Update();
-		m_CamMesh->Render();
-		m_CamTarget->target_tex(0)->Reset(0);
-	}
-
-	else
-	{
-		if (nullptr == m_NextTarget)
-		{
-			m_CamTarget->target_tex(0)->Update(0);
-			m_CamScreenMtl->Update();
-			m_CamMesh->Update();
-			m_CamMesh->Render();
-			m_CamTarget->target_tex(0)->Reset(0);
-		}
-
-
-		// ´ÙÀ½ Å¸°Ù¿¡ Âï³× ¤·¤·
-		m_NextTarget->target_tex(0)->Update(0);
-		m_CamScreenMtl->Update();
-		m_CamMesh->Update();
-		m_CamMesh->Render();
-		m_NextTarget->target_tex(0)->Reset(0);
-	}
+	m_CamTarget->target_tex(0)->Update(0);
+	m_CamScreenMtl->Update();
+	m_CamMesh->Update();
+	m_CamMesh->Render();
+	m_CamTarget->target_tex(0)->Reset(0);
 }

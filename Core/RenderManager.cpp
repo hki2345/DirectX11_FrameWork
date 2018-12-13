@@ -68,7 +68,7 @@ void RenderManager::Reset_SList()
 void RenderManager::Render() 
 {
 	// 렌더 메니저에서 다함
-	Core_Class::MainDevice().ClearTaget();
+	Core_Class::MainDevice().Clear_Target();
 
 
 	// 첫 초기화
@@ -419,6 +419,7 @@ void RenderManager::Merge_Screen()
 		m_CSI->second->Progress_Post();
 	}
 
+	Core_Class::MainDevice().Clear_Target();
 	Core_Class::MainDevice().OMSet();
 
 	m_CSI = m_CamMap.begin();

@@ -205,7 +205,7 @@ void KWindow::Update()
 
 	if (true == m_Device.IsInit())
 	{
-		// m_Device.ClearTaget();
+		// m_Device.Clear_Target();
 		statemanager.Render();
 		// m_Device.Present();
 	}

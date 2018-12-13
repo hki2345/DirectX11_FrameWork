@@ -238,6 +238,7 @@
     <ClInclude Include="Changer_Animation.h">
       <Filter>03 Manager\Resource\Child\MeshContainer</Filter>
     </ClInclude>
+    <ClInclude Include="Effect_Gaussian.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SmartPtr.cpp">
@@ -459,6 +460,7 @@
     <ClCompile Include="Changer_Animation.cpp">
       <Filter>03 Manager\Resource\Child\MeshContainer</Filter>
     </ClCompile>
+    <ClCompile Include="Effect_Gaussian.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
@@ -559,6 +561,9 @@
     </Filter>
     <Filter Include="03 Manager\Resource\Child\Material\Shader">
       <UniqueIdentifier>{1ad12825-2543-4bf2-b88b-6708ec3cb2d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03 Manager\Render\Effect">
+      <UniqueIdentifier>{1452c542-4006-4751-a1d5-d994f9605c28}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

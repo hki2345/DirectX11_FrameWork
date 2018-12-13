@@ -5,11 +5,15 @@
 #include "RenderTarget_Multi.h"
 
 class KMaterial;
-class RenderTarget_Multi;
 class Effect_Post : public SmartPtr
 {
-private:
+public:
+	friend class Camera;
+
+
+protected:
 	bool m_OnOff;
+	int Index;
 	KPtr<RenderTarget_Multi> m_RTarget;
 	KPtr<RenderTarget_Multi> m_OTarget;
 
@@ -30,18 +34,13 @@ public:
 	}
 
 
-	virtual void Create();
+	virtual bool Create();
 	virtual void Update();
 
 public:
 	void Set_ResourceTarget(RenderTarget_Multi* _Value)
 	{
 		m_RTarget = _Value;
-	}
-
-	void Set_OutTarget(RenderTarget_Multi* _Value)
-	{
-		m_OTarget = _Value;
 	}
 
 protected:
@@ -193,17 +192,13 @@ private: // CameraRender
 	KPtr<KMaterial> m_CamScreenMtl;
 
 private:
-	std::list<KPtr<Effect_Post>> m_EPList;
-	std::list<KPtr<Effect_Post>>::iterator m_SFLI;
-	std::list<KPtr<Effect_Post>>::iterator m_EFLI;
-
-	std::map<std::wstring, KPtr<Effect_Post>> m_EPMap;
-	std::map<std::wstring, KPtr<Effect_Post>>::iterator m_SFMI;
-	std::map<std::wstring, KPtr<Effect_Post>>::iterator m_EFMI;
+	std::map<int, KPtr<Effect_Post>> m_EPMap;
+	std::map<int, KPtr<Effect_Post>>::iterator m_SFMI;
+	std::map<int, KPtr<Effect_Post>>::iterator m_EFMI;
 
 public:
 	template<typename T>
-	void Create_EffectPost(const wchar_t* _Name)
+	void Create_EffectPost(const int& _Index)
 	{
 		T* NPost = new T();
 		if (false == NPost->Create())
@@ -211,7 +206,9 @@ public:
 			BBY;
 		}
 
-		m_EPMap.insert(std::map<std::wstring, KPtr<Effect_Post>>::value_type(_Name, NPost));
+
+		NPost->Index = _Index;
+		m_EPMap.insert(std::map<int, KPtr<Effect_Post>>::value_type(_Index, NPost));
 	}
 
 
@@ -227,10 +224,6 @@ private:
 	{
 		return m_DefferdTarget;
 	}
-	KPtr<RenderTarget_Multi> forward_target()
-	{
-		return m_ForwardTarget;
-	}
 	KPtr<RenderTarget_Multi> light_target()
 	{
 		return m_LightTarget;
@@ -243,7 +236,6 @@ private:
 
 private:
 	KPtr<RenderTarget_Multi> m_DefferdTarget;
-	KPtr<RenderTarget_Multi> m_ForwardTarget;
 	KPtr<RenderTarget_Multi> m_LightTarget;
 	KPtr<RenderTarget_Multi> m_CamTarget;
 

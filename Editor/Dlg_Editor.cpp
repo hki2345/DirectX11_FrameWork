@@ -32,6 +32,7 @@
 #include <SC2_Camera.h>
 
 #include <Renderer_BonAni.h>
+#include <Effect_Gaussian.h>
 
 // Dlg_Editor 대화 상자입니다.
 
@@ -104,7 +105,7 @@ BOOL Dlg_Editor::OnInitDialog()
 
 
 
-
+	TabScene->Camera()->Create_EffectPost<Effect_Gaussian>(0);
 	TabScene->Camera()->Add_Component<SC2_Camera>();
 	TabScene->Camera()->Far(10000.0f);
 	TabScene->Camera()->one()->Trans()->pos_local(KVector4(0.0f, 10.0f, -20.0f));

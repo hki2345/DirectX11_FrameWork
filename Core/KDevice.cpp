@@ -246,7 +246,7 @@ bool KDevice::Create_ViewPort()
 
 
 // 새로 그리기 전에 깨끗이 만들어라.
-void KDevice::ClearTaget()
+void KDevice::Clear_Target()
 {
 	m_pContext->ClearRenderTargetView(m_pTagetView, m_Color.s);
 	m_pContext->ClearDepthStencilView(m_pDepthStencilView, D3D11_CLEAR_DEPTH | D3D11_CLEAR_STENCIL, 1, 0);

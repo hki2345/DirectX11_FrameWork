@@ -83,6 +83,26 @@ bool KDevice::Def3DCreate()
 	{
 		D3D11_DEPTH_STENCIL_DESC DepthState;
 
+		DepthState.DepthEnable = TRUE;
+		// D3D11_DEPTH_WRITE_MASK_ALL 뎊스비교를 하겠다는 것이다.
+		// D3D11_DEPTH_WRITE_MASK_ZERO 쓰지 않겠다.
+		DepthState.DepthWriteMask = D3D11_DEPTH_WRITE_MASK_ALL;
+		DepthState.DepthFunc = D3D11_COMPARISON_ALWAYS;
+		// 스텐실에 관련된 것.
+		// 0x000000ff 가장 뒤에 사용하겠다.
+		DepthState.StencilEnable = FALSE;
+		DepthState.StencilReadMask = D3D11_DEFAULT_STENCIL_READ_MASK;
+		DepthState.StencilWriteMask = D3D11_DEFAULT_STENCIL_WRITE_MASK;
+		D3D11_DEPTH_STENCILOP_DESC defaultStencil =
+		{ D3D11_STENCIL_OP_KEEP, D3D11_STENCIL_OP_KEEP, D3D11_STENCIL_OP_KEEP, D3D11_COMPARISON_ALWAYS };
+		DepthState.FrontFace = defaultStencil;
+		DepthState.BackFace = defaultStencil;
+		Core_Class::MainDevice().Create_DSS(L"EFFECT_POST", DepthState);
+	}
+
+	{
+		D3D11_DEPTH_STENCIL_DESC DepthState;
+
 		DepthState.DepthEnable = FALSE;
 		// D3D11_DEPTH_WRITE_MASK_ALL 뎊스비교를 하겠다는 것이다.
 		// D3D11_DEPTH_WRITE_MASK_ZERO 쓰지 않겠다.
@@ -821,6 +841,20 @@ bool KDevice::Mat3DCreate()
 		MTL->Set_Blend(L"ALPHA");
 		MTL->Insert_TexData(TEX_TYPE::TEX_TAGET, 1, L"DEPTH");
 	}
+
+	{
+		KPtr<Shader_Vertex> VTX = ResourceManager<Shader_Vertex>::Load_FromKey(L"POSTGAUVTX", L"Shader", L"Effect_Gaussian.fx", "VS_GN");
+		VTX->Add_Layout("POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
+		VTX->Add_LayoutFin("TEXCOORD", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32_FLOAT, 0);
+		KPtr<Shader_Pixel> PIX = ResourceManager<Shader_Pixel>::Load_FromKey(L"POSTGAUPIX", L"Shader", L"Effect_Gaussian.fx", "PS_GN");
+		PIX->CreateCB<KVector>(L"SCREENSIZE", D3D11_USAGE_DYNAMIC, 0);
+
+		KPtr<KMaterial> MAT = ResourceManager<KMaterial>::Create(L"POSTGAU");
+		MAT->Set_VTShader(L"POSTGAUVTX");
+		MAT->Set_PXShader(L"POSTGAUPIX");
+		MAT->Set_Blend(L"ALPHA");
+	}
+
 
 	return true;
 }

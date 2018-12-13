@@ -270,7 +270,7 @@ public:
 	void OMSet();
 
 private:
-	void ClearTaget();
+	void Clear_Target();
 	void Present();
 };
 

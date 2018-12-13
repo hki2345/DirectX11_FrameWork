@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClInclude Include="Bit_AID.h" />
     <ClInclude Include="Changer_Animation.h" />
+    <ClInclude Include="Effect_Gaussian.h" />
     <ClInclude Include="KCollider3D_DE.h" />
     <ClInclude Include="KM3.h" />
     <ClInclude Include="KRay3D.h" />
@@ -101,6 +102,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Changer_Animation.cpp" />
+    <ClCompile Include="Effect_Gaussian.cpp" />
     <ClCompile Include="KCollider3D_DE.cpp" />
     <ClCompile Include="KFBX.cpp" />
     <ClCompile Include="KM3.cpp" />
