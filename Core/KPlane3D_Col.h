@@ -9,9 +9,11 @@ public:
 	~KPlane3D_Col();
 
 private:
-	KPlaneCon* pPlane;
+	KPlaneCon*	pPlane;
+	KVector		m_ColPoint;
 
 public:
+	void Update() override;
 	void Update_Figure() override;
 	void DebugRender() override;
 };

@@ -24,5 +24,6 @@ void KSphere_Col::Update_Figure()
 
 void KSphere_Col::DebugRender()
 {
-	// Update_Figure();
+	KVector TT = pSphere->m_ColPoint;
+	KLOG(L"%f %f %f", TT.x, TT.y, TT.z);
 }

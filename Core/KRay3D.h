@@ -18,6 +18,7 @@ public:
 	{
 		m_Dist = _Value;
 	}
+	void Update() override;
 
 	void Update_Figure() override;
 	void DebugRender() override;

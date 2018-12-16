@@ -65,6 +65,7 @@ class KPlaneCon : public Figure_Col
 {
 public:
 	KMatrix m_Mat;
+	KVector m_ColPoint;
 
 public:
 	KPlaneCon() {}
@@ -76,6 +77,8 @@ class KSphereCon : public Figure_Col
 {
 public:
 	DirectX::BoundingSphere m_Sphere;
+	KVector m_ColPoint;
+
 public:
 	KSphereCon() {}
 	virtual ~KSphereCon() {}
@@ -87,7 +90,8 @@ public:
 	KVector Ori;
 	KVector Dir;
 	float Dist;
-
+	KVector m_ColPoint;
+	
 public:
 	KRayCon() {}
 	virtual ~KRayCon() {}
@@ -214,8 +218,18 @@ public:
 			return false;
 		}
 #endif
-		return KMath::SphereToRay(((KSphereCon*)_Left)->m_Sphere, ((KRayCon*)_Right)->Ori, ((KRayCon*)_Right)->Dir, ((KRayCon*)_Right)->Dist);
 
+		bool TT = KMath::SphereToRay(((KSphereCon*)_Left)->m_Sphere, ((KRayCon*)_Right)->Ori, ((KRayCon*)_Right)->Dir, ((KRayCon*)_Right)->Dist);
+
+		if (0 == ((KRayCon*)_Right)->Dist)
+		{
+			((KSphereCon*)_Left)->m_ColPoint = KVector::Zero;
+			((KRayCon*)_Right)->m_ColPoint = KVector::Zero;
+			return TT;
+		}
+		((KSphereCon*)_Left)->m_ColPoint = KMath::Calc_ColPoint(((KRayCon*)_Right)->Ori, ((KRayCon*)_Right)->Dir, ((KRayCon*)_Right)->Dist);
+		((KRayCon*)_Right)->m_ColPoint = ((KSphereCon*)_Left)->m_ColPoint;
+		return TT;
 	}
 
 	static bool RayToSphereFunc(const Figure_Col* _Left, const Figure_Col* _Right)
@@ -237,8 +251,19 @@ public:
 			return false;
 		}
 #endif
-		return KMath::PlaneToRay(((KPlaneCon*)_Left)->m_Mat, ((KRayCon*)_Right)->Ori, ((KRayCon*)_Right)->Dir, ((KRayCon*)_Right)->Dist);
 
+		bool TT = KMath::PlaneToRay(((KPlaneCon*)_Left)->m_Mat, ((KRayCon*)_Right)->Ori, ((KRayCon*)_Right)->Dir, ((KRayCon*)_Right)->Dist);
+
+		if (0 == ((KRayCon*)_Right)->Dist)
+		{
+			((KSphereCon*)_Left)->m_ColPoint = KVector::Zero;
+			((KRayCon*)_Right)->m_ColPoint = KVector::Zero;
+			return TT;
+		}
+
+		((KPlaneCon*)_Left)->m_ColPoint = KMath::Calc_ColPoint(((KRayCon*)_Right)->Ori, ((KRayCon*)_Right)->Dir, ((KRayCon*)_Right)->Dist);
+		((KRayCon*)_Right)->m_ColPoint = ((KPlaneCon*)_Left)->m_ColPoint;
+		return TT;
 	}
 
 	static bool RayToPlaneFunc(const Figure_Col* _Left, const Figure_Col* _Right)

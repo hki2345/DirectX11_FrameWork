@@ -36,6 +36,23 @@ void KRay3D::Set_Camera(Camera* _pCamera)
 	pCam = _pCamera;
 }
 
+
+
+// 충돌구조
+// PrevUpdate();
+// Update();
+// NextUpdate();
+// FinalUpdate();
+// DebugUpdate();
+// This_Col2DManager.Progress();
+// This_Col3DManager.Progress();
+
+void KRay3D::Update()
+{
+
+}
+
+
 void KRay3D::Update_Figure()
 {
 	if (nullptr == pCam)

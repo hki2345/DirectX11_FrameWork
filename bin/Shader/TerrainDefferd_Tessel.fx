@@ -199,8 +199,6 @@ PS_DEFFERDOUTPUT PS_TERRAINDEFFERD(DOMAIN_OUT _in)
 
 
     // 새로 정의된 정점들의 노멀값들을 재정의 해야한다.
-
-    // 근데 이거 맞는지좀 ㅋㅋㅋ
     float3 Right = float3(_in.vWorldPos.x + 1.0f, _in.vWorldPos.y, _in.vWorldPos.z);
     float3 Top = float3(_in.vWorldPos.x, _in.vWorldPos.y, _in.vWorldPos.z + 1.0f);
    
@@ -234,34 +232,7 @@ PS_DEFFERDOUTPUT PS_TERRAINDEFFERD(DOMAIN_OUT _in)
         //     BumpNormal = CalMBump(9 + i, 9 + i, _in.vUv, 1.0f, float4(Tangent, 1.0f), float4(Binormal, 1.0f), float4(Normal, 1.0f));
         // }
     }
-
-//CalColor *= GetTexToColor(0, 0, _in.vUv);
-//_in.vNormal = CalBump(1, 0, _in.vUv, _in.vTangent, _in.vBNormal, _in.vNormal);
-// 상수버퍼 하나를 만들어야 한다.
-
-//// 색깔을 2
-
-//for (int i = 0; i < FloorCount; ++i)
-//{
-
-//}
-
-//for (int i = 0; i < FloorCount; ++i)
-//{
-//    float SPRatio = 0.1;
-
-//    float3 DestColor = CalColor * (1 - SPRatio);
-//    float3 TexColor;
-//    float3 SrcColor;
-//    SrcColor *= TexColor * (SPRatio);
-//    CalColor = DestColor + SrcColor;
-//}
-
-// BaseDiffTextureColor 
-
-// 0.5 x
-// 1, 1, 1,
-// rgb
+    
 
 // 칼 컬러가 섞인것으로 나와야 한다.
 
