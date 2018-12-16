@@ -276,7 +276,7 @@ void KMaterial::Insert_TexData(TEX_TYPE _Type, const KUINT& _TexSlot, const wcha
 	NewTexData.Tex_Smp = _SmpSlot;
 	m_TDVec.push_back(NewTexData);
 
-	if (_Type == TEX_TYPE::TEX_TAGET)
+	if (_Type == TEX_TYPE::TEX_TARGET)
 	{
 		Set_TargetTex(_TexSlot, _TexName);
 	}

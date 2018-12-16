@@ -216,6 +216,7 @@
     <ClCompile Include="Dlg_Force.cpp" />
     <ClCompile Include="Dlg_KM3Loader.cpp" />
     <ClCompile Include="Dlg_MeshConv.cpp" />
+    <ClCompile Include="Dlg_Terrain.cpp" />
     <ClCompile Include="Dlg_Unit.cpp" />
     <ClCompile Include="KEditor.cpp" />
     <ClCompile Include="TabDlg.cpp" />
@@ -240,6 +241,7 @@
     <ClInclude Include="Dlg_Force.h" />
     <ClInclude Include="Dlg_KM3Loader.h" />
     <ClInclude Include="Dlg_MeshConv.h" />
+    <ClInclude Include="Dlg_Terrain.h" />
     <ClInclude Include="Dlg_Unit.h" />
     <ClInclude Include="KEditor.h" />
     <ClInclude Include="TabDlg.h" />

@@ -9,8 +9,8 @@ public:
 	bool m_StateChange;
 
 public:
-	virtual void Hide_Dlg() {};
 	virtual void Init_Dlg() {};
+	virtual void Hide_Dlg() {};
 
 public:
 	TabDlg(const int& _id, CWnd* _Wnd);

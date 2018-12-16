@@ -26,6 +26,7 @@
     <FxCompile Include="..\bin\Shader\Defferd.fx" />
     <FxCompile Include="..\bin\Shader\DefferdAni.fx" />
     <FxCompile Include="..\bin\Shader\DefferdLight.fx" />
+    <FxCompile Include="..\bin\Shader\Draw.fx" />
     <FxCompile Include="..\bin\Shader\Effect.fx" />
     <FxCompile Include="..\bin\Shader\Forward.fx" />
     <FxCompile Include="..\bin\Shader\ForwardLight.fx" />

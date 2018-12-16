@@ -8,6 +8,7 @@
 
 
 #include <KImage.h>
+#include <Texture_Multi.h>
 #include <Sound.h>
 
 #include <KThread.h>
@@ -51,4 +52,14 @@ void Edit_Launcher::Build()
 	InputManager::Create_Command(L"Down", 'S');
 	InputManager::Create_Command(L"Right", 'D');
 	InputManager::Create_Command(L"Q", 'Q');
+
+
+
+	// 멀티 텍스쳐
+	KPtr<Texture_Multi> MTex = ResourceManager<Texture_Multi>::Create(L"FB");
+	MTex->Create_MultiTex(D3D11_USAGE::D3D11_USAGE_DEFAULT, L"Stone.jpg", L"StoneBump.jpg");
+
+
+	KPtr<Texture_Multi> MTex2 = ResourceManager<Texture_Multi>::Create(L"FC");
+	MTex2->Create_MultiTex(D3D11_USAGE::D3D11_USAGE_DEFAULT, L"Lava.jpg", L"LavaBump.jpg");
 }

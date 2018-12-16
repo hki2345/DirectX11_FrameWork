@@ -13,7 +13,10 @@
 #include <Renderer_Mesh.h>
 #include <Renderer_Terrain.h>
 #include <Renderer_Effect.h>
+#include <Renderer_BonAni.h>
+#include <Renderer_Draw.h>
 
+#include <Effect_Gaussian.h>
 #include <Texture_Multi.h>
 
 #include <DebugManager.h>
@@ -27,12 +30,11 @@
 #include "Edit_Class.h"
 
 #include <KSphere_Col.h>
+#include <KPlane3D_Col.h>
 #include <KRay3D.h>
 
 #include <SC2_Camera.h>
 
-#include <Renderer_BonAni.h>
-#include <Effect_Gaussian.h>
 
 // Dlg_Editor 대화 상자입니다.
 
@@ -95,17 +97,10 @@ BOOL Dlg_Editor::OnInitDialog()
 
 
 
-	// 멀티 텍스쳐
-	KPtr<Texture_Multi> MTex = ResourceManager<Texture_Multi>::Create(L"FB");
-	MTex->Create_MultiTex(D3D11_USAGE::D3D11_USAGE_DEFAULT, L"Stone.jpg", L"StoneBump.jpg");
-
-
-	KPtr<Texture_Multi> MTex2 = ResourceManager<Texture_Multi>::Create(L"FC");
-	MTex2->Create_MultiTex(D3D11_USAGE::D3D11_USAGE_DEFAULT, L"Lava.jpg", L"LavaBump.jpg");
 
 
 
-	TabScene->Camera()->Create_EffectPost<Effect_Gaussian>(0);
+	// TabScene->Camera()->Create_EffectPost<Effect_Gaussian>(0);
 	TabScene->Camera()->Add_Component<SC2_Camera>();
 	TabScene->Camera()->Far(10000.0f);
 	TabScene->Camera()->one()->Trans()->pos_local(KVector4(0.0f, 10.0f, -20.0f));
@@ -159,15 +154,6 @@ BOOL Dlg_Editor::OnInitDialog()
 	// TabScene->Camera()->Change_Mode();
 
 
-
-	KPtr<TheOne> CUBEMIDDLE = TabScene->Create_One();
-	CUBEMIDDLE->Trans()->scale_local(KVector4(10.0f, 10.0f, 10.0f));
-	CUBEMIDDLE->Trans()->pos_local(KVector4(.0f, 50.0f, 0.0f));
-	KPtr<Renderer_Mesh> PTRMESH3 = CUBEMIDDLE->Add_Component<Renderer_Mesh>();
-	PTRMESH3->Set_Material(L"FORWARD3DMAT");
-	PTRMESH3->Set_Mesh(L"CUBE");
-	
-	PTRMESH3->material()->Insert_TexData(TEX_TYPE::TEX_COLOR, 0, L"TILE_01.png");
 	
 	
 	KPtr<TheOne> CUBEMIDDLE2 = TabScene->Create_One();
@@ -223,6 +209,16 @@ BOOL Dlg_Editor::OnInitDialog()
 	RPARTI->ROpt.Defferd_orForward = 0;
 
 
+	KPtr<TheOne> DrawOne = TabScene->Create_One();
+	DrawOne->Trans()->scale_local(KVector4(100.0f, 100.0f, 100.0f));
+	DrawOne->Trans()->pos_local(KVector4(0.0f, 0.0f, 0.0f));
+	DrawOne->Trans()->rotate_world(KVector4(45.0F, .0F, 0.0f));
+
+	KPtr<Renderer_Draw> DREN = DrawOne->Add_Component<Renderer_Draw>();
+	DREN->Set_Mesh(L"RECT");
+	DREN->material()->Insert_TexData(TEX_TYPE::TEX_COLOR, 0, L"TILE_01.png");
+	DREN->brush_size(10.0f);
+
 
 
 
@@ -233,6 +229,7 @@ BOOL Dlg_Editor::OnInitDialog()
 	KPtr<KRay3D> RayCol = TabScene->Camera()->Add_Component<KRay3D>(101);
 	RayCol->EnterFunc(this, &Dlg_Editor::Collision_Test);
 	
+	KPtr<KPlane3D_Col> RendCol = DrawOne->Add_Component<KPlane3D_Col>(100);
 	KPtr<KSphere_Col> RightCol = SPHERERIGHT->Add_Component<KSphere_Col>(100);
 
 	return TRUE;  // return TRUE unless you set the focus to a control
@@ -242,48 +239,48 @@ BOOL Dlg_Editor::OnInitDialog()
 
 void Dlg_Editor::Collision_Test(KCollision*, KCollision*)
 {
-
+	int a = 9;
 }
 
 void Dlg_Editor::Init_Dlg()
 {
 
-	ResourceManager<MeshContainer>::Clear();
-	ResourceManager<Changer_Animation>::Clear();
-
-
-	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
-	// 만약 자체 메쉬에 애니메이션을 바로 적용시키려면
-	// 애니메이션이 먼저 불러온 후 배급받는 식이다.
-	ResourceManager<Changer_Animation>::All_Load();
-	ResourceManager<MeshContainer>::All_Load();
-
-	KPtr<State> TabScene = Core_Class::MainSceneMgr().Find_State(StateName.GetString());
-
-	KPtr<TheOne> m_CurOne = TabScene->Create_One(L"");
-	m_CurOne->Trans()->pos_local(KVector(5.0f));
-	m_CurOne->Trans()->scale_local(KVector(1.f, 1.f, 1.f));
-
-	KPtr<Renderer_BonAni> TRender = m_CurOne->Add_Component<Renderer_BonAni>();
-	TRender->Set_Fbx(L"BattleCruiser.KM3");
-
-	if (nullptr == TRender->changer_animation())
-	{
-		TRender->Create_Animation();
-	}
-
-
-	KPtr<TheOne> m_CurOne2 = TabScene->Create_One(L"");
-	m_CurOne2->Trans()->pos_local(KVector(.0f));
-	m_CurOne2->Trans()->scale_local(KVector(1.f, 1.f, 1.f));
-
-	KPtr<Renderer_BonAni> TRender2 = m_CurOne2->Add_Component<Renderer_BonAni>();
-	TRender2->Set_Fbx(L"BattleCruiser.KM3");
-
-
-	if (nullptr == TRender2->changer_animation())
-	{
-		TRender2->Create_Animation();
-	}
+	// ResourceManager<MeshContainer>::Clear();
+	// ResourceManager<Changer_Animation>::Clear();
+	// 
+	// 
+	// // TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	// // 만약 자체 메쉬에 애니메이션을 바로 적용시키려면
+	// // 애니메이션이 먼저 불러온 후 배급받는 식이다.
+	// ResourceManager<Changer_Animation>::All_Load();
+	// ResourceManager<MeshContainer>::All_Load();
+	// 
+	// KPtr<State> TabScene = Core_Class::MainSceneMgr().Find_State(StateName.GetString());
+	// 
+	// KPtr<TheOne> m_CurOne = TabScene->Create_One(L"");
+	// m_CurOne->Trans()->pos_local(KVector(5.0f));
+	// m_CurOne->Trans()->scale_local(KVector(1.f, 1.f, 1.f));
+	// 
+	// KPtr<Renderer_BonAni> TRender = m_CurOne->Add_Component<Renderer_BonAni>();
+	// TRender->Set_Fbx(L"BattleCruiser.KM3");
+	// 
+	// if (nullptr == TRender->changer_animation())
+	// {
+	// 	TRender->Create_Animation();
+	// }
+	// 
+	// 
+	// KPtr<TheOne> m_CurOne2 = TabScene->Create_One(L"");
+	// m_CurOne2->Trans()->pos_local(KVector(.0f));
+	// m_CurOne2->Trans()->scale_local(KVector(1.f, 1.f, 1.f));
+	// 
+	// KPtr<Renderer_BonAni> TRender2 = m_CurOne2->Add_Component<Renderer_BonAni>();
+	// TRender2->Set_Fbx(L"BattleCruiser.KM3");
+	// 
+	// 
+	// if (nullptr == TRender2->changer_animation())
+	// {
+	// 	TRender2->Create_Animation();
+	// }
 
 }

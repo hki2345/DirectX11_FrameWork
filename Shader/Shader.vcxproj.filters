@@ -38,5 +38,6 @@
     <FxCompile Include="..\bin\Shader\TerrainDefferd_Tessel.fx" />
     <FxCompile Include="..\bin\Shader\Effect.fx" />
     <FxCompile Include="..\bin\Shader\Forward.fx" />
+    <FxCompile Include="..\bin\Shader\Draw.fx" />
   </ItemGroup>
 </Project>

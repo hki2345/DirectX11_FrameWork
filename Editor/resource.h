@@ -12,6 +12,7 @@
 #define IDD_KM3DLG                      346
 #define IDD_UNITDLG                     348
 #define IDD_FORCEDLG                    350
+#define IDD_TERRAINDLG                  353
 #define IDC_MENUTAB                     1000
 #define IDC_FBXLOADBTN                  1001
 #define IDC_KM3LOAD                     1001
@@ -76,29 +77,26 @@
 #define IDC_UNITSELECTLIST              1067
 #define IDC_RENDELETEBTN                1068
 #define IDC_RENINSERTBTN                1069
-#define IDC_KM3NEXTBTN                  1073
 #define IDC_KM3PREVBTN                  1071
+#define IDC_KM3NEXTBTN                  1073
 #define IDC_UNITLOADBTN                 1073
 #define IDC_UNITSAVEBTN                 1074
 #define IDC_RENRESTARTBTN               1075
-
 #define IDC_ULEDIT                      1076
 #define IDC_UREDIT                      1077
 #define IDC_UNITNAMEINFO                1078
 #define IDC_KUNITXINFO                  1079
 #define IDC_KUNITYINFO                  1080
 #define IDC_KUNITZINFO                  1081
-
 #define IDC_WNONEBTN                    1082
 #define IDC_WINSTBTN                    1083
 #define IDC_WSHOTBTN                    1084
-
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        353
+#define _APS_NEXT_RESOURCE_VALUE        355
 #define _APS_NEXT_COMMAND_VALUE         32771
 #define _APS_NEXT_CONTROL_VALUE         1080
 #define _APS_NEXT_SYMED_VALUE           312

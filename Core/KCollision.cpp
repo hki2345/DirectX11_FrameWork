@@ -25,6 +25,8 @@ void KCollision::ColInit() {
 	ColFunc[CT_SPHERE3D][CT_SPHERE3D] = &Funtion_Col::SphereToSphereFunc;
 	ColFunc[CT_SPHERE3D][CT_RAY3D] = &Funtion_Col::SphereToRayFunc;
 	ColFunc[CT_RAY3D][CT_SPHERE3D] = &Funtion_Col::RayToSphereFunc;
+	ColFunc[CT_PLANE3D][CT_RAY3D] = &Funtion_Col::PlaneToRayFunc;
+	ColFunc[CT_RAY3D][CT_PLANE3D] = &Funtion_Col::RayToPlaneFunc;
 }
 
 KCollision::KCollision()

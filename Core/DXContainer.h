@@ -1051,6 +1051,16 @@ public:
 	{
 	}
 
+	
+	KMatrix(const KVector& _V1, const KVector& _V2, const KVector& _V3, const KVector& _V4)
+	{
+		v1 = _V1;
+		v2 = _V2;
+		v3 = _V3;
+		v4 = _V4;
+	}
+
+
 	KMatrix(const KMatrix& _Other)
 	{
 		memcpy_s(this, sizeof(KMatrix),  &_Other, sizeof(KMatrix));

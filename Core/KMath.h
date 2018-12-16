@@ -5,6 +5,8 @@
 // 이젠 std에서 난수를 직접 제공한다.
 #include <random>
 
+#include "DebugManager.h"
+
 
 class KMath
 {
@@ -241,8 +243,43 @@ public:
 
 	static bool SphereToRay(const DirectX::BoundingSphere& _Left, KVector _Ori, KVector _Dir, float _dist)
 	{
-		return _Left.Intersects(_Ori, _Dir, _dist);
+		float Tmp = _dist;
+		bool TT = _Left.Intersects(_Ori, _Dir, _dist);
+
+		if (0.0f != _dist)
+		{
+			KLOG(L"Col Pos:: %f %f %f", (_Dir * _dist).x + _Ori.x, (_Dir * _dist).y + _Ori.y, (_Dir * _dist).z + _Ori.z);
+		}
+		return TT;
 	}
+
+
+	static bool PlaneToRay(const KMatrix& _Left, KVector _Ori, KVector _Dir, float _dist)
+	{
+		bool TT = false;
+
+		// KVector RU = _Left.v1;
+		// KVector RD = _Left.v2;
+		// KVector LU = _Left.v3;
+		// KVector LD = _Left.v4;
+		TT = DirectX::TriangleTests::Intersects(_Ori, _Dir, _Left.v1, _Left.v2, _Left.v3, _dist);
+		if (false != TT)
+		{
+			KLOG(L"Col Pos:: %f %f %f", (_Dir * _dist).x + _Ori.x, (_Dir * _dist).y + _Ori.y, (_Dir * _dist).z + _Ori.z);
+			return TT;
+		}
+	
+		TT = DirectX::TriangleTests::Intersects(_Ori, _Dir, _Left.v3, _Left.v4, _Left.v2, _dist);
+		if (false != TT)
+		{
+			KLOG(L"Col Pos:: %f %f %f", (_Dir * _dist).x + _Ori.x, (_Dir * _dist).y + _Ori.y, (_Dir * _dist).z + _Ori.z);
+			return TT;
+		}
+
+
+		return TT;
+	}
+
 
 	float DegToRad(const float& _Value)
 	{

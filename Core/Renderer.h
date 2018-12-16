@@ -97,8 +97,8 @@ protected:
 	bool				m_Bill;
 
 	std::vector<KPtr<KMesh>>		m_MeshVec;
-	std::vector<KPtr<KMaterial>> m_MtlVec;
-	std::vector<Render_Data> m_RDVec;
+	std::vector<KPtr<KMaterial>>	m_MtlVec;
+	std::vector<Render_Data>		m_RDVec;
 
 
 	KPtr<KDevice::RState>	m_RsState;

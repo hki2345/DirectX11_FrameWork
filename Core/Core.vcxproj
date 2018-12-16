@@ -25,10 +25,12 @@
     <ClInclude Include="KCollider3D_DE.h" />
     <ClInclude Include="KM3.h" />
     <ClInclude Include="KRay3D.h" />
+    <ClInclude Include="KPlane3D_Col.h" />
     <ClInclude Include="KSphere_Col.h" />
     <ClInclude Include="KStreamBuffer.h" />
     <ClInclude Include="ReadStream.h" />
     <ClInclude Include="Renderer_BonAni.h" />
+    <ClInclude Include="Renderer_Draw.h" />
     <ClInclude Include="Renderer_Effect.h" />
     <ClInclude Include="Renderer_Terrain.h" />
     <ClInclude Include="Shader_Domain.h" />
@@ -107,10 +109,12 @@
     <ClCompile Include="KFBX.cpp" />
     <ClCompile Include="KM3.cpp" />
     <ClCompile Include="KRay3D.cpp" />
+    <ClCompile Include="KPlane3D_Col.cpp" />
     <ClCompile Include="KSphere_Col.cpp" />
     <ClCompile Include="KStreamBuffer.cpp" />
     <ClCompile Include="ReadStream.cpp" />
     <ClCompile Include="Renderer_BonAni.cpp" />
+    <ClCompile Include="Renderer_Draw.cpp" />
     <ClCompile Include="Renderer_Effect.cpp" />
     <ClCompile Include="Renderer_Terrain.cpp" />
     <ClCompile Include="Shader_Domain.cpp" />

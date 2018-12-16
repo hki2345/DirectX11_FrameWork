@@ -5,6 +5,7 @@
 #include "Dlg_KM3Loader.cpp"
 #include "Dlg_MainMenu.cpp"
 #include "Dlg_MeshConv.cpp"
+#include "Dlg_Terrain.cpp"
 #include "Dlg_TransPosition.cpp"
 #include "Dlg_Unit.cpp"
 #include "DropEditor.cpp"

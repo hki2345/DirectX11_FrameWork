@@ -286,6 +286,12 @@ BEGIN
     PUSHBUTTON      "All Force Save",IDC_AFSBTN,104,81,98,14
 END
 
+IDD_TERRAINDLG DIALOGEX 0, 0, 210, 306
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_CHILD | WS_SYSMENU
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+END
+
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -410,6 +416,14 @@ BEGIN
         TOPMARGIN, 3
         BOTTOMMARGIN, 308
     END
+
+    IDD_TERRAINDLG, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 203
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 299
+    END
 END
 #endif    // APSTUDIO_INVOKED
 
@@ -455,6 +469,11 @@ BEGIN
 END
 
 IDD_FORCEDLG AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_TERRAINDLG AFX_DIALOG_LAYOUT
 BEGIN
     0
 END

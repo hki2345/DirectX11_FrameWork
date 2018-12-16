@@ -23,6 +23,8 @@ enum COLTYPE
 	CT_RECT2D, // 7
 	CT_CIRCLE2D, // 6
 	CT_POLY2D, // 4
+
+
 	CT_PLANE3D,
 	CT_POINT3D,
 	CT_SPHERE3D, // 3
@@ -58,6 +60,16 @@ public:
 	virtual ~Figure2D_DE() {}
 };
 
+
+class KPlaneCon : public Figure_Col
+{
+public:
+	KMatrix m_Mat;
+
+public:
+	KPlaneCon() {}
+	virtual ~KPlaneCon() {}
+};
 
 
 class KSphereCon : public Figure_Col
@@ -209,6 +221,29 @@ public:
 	static bool RayToSphereFunc(const Figure_Col* _Left, const Figure_Col* _Right)
 	{
 		return SphereToRayFunc(_Right, _Left);
+	}
+
+
+
+	static bool PlaneToRayFunc(const Figure_Col* _Left, const Figure_Col* _Right)
+	{
+#ifdef _DEBUG
+		if (nullptr == _Left || nullptr == _Right)
+		{
+			return false;
+		}
+		if (_Left->m_ColType != COLTYPE::CT_PLANE3D || _Right->m_ColType != COLTYPE::CT_RAY3D)
+		{
+			return false;
+		}
+#endif
+		return KMath::PlaneToRay(((KPlaneCon*)_Left)->m_Mat, ((KRayCon*)_Right)->Ori, ((KRayCon*)_Right)->Dir, ((KRayCon*)_Right)->Dist);
+
+	}
+
+	static bool RayToPlaneFunc(const Figure_Col* _Left, const Figure_Col* _Right)
+	{
+		return PlaneToRayFunc(_Right, _Left);
 	}
 
 };

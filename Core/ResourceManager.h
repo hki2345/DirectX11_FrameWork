@@ -152,6 +152,12 @@ public:
 #pragma region CREATE
 	static KPtr<Res> Create(const wchar_t* _Name)
 	{
+		std::unordered_map<std::wstring, KPtr<Res>>::iterator FI = m_RSMap.find(_Name);
+		if (m_RSMap.end() != FI)
+		{
+			return FI->second;
+		}
+
 		Res* NewRes = new Res();
 		NewRes->Set_Type();
 		NewRes->name(_Name);

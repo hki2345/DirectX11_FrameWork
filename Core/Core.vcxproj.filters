@@ -238,7 +238,13 @@
     <ClInclude Include="Changer_Animation.h">
       <Filter>03 Manager\Resource\Child\MeshContainer</Filter>
     </ClInclude>
-    <ClInclude Include="Effect_Gaussian.h" />
+    <ClInclude Include="Effect_Gaussian.h">
+      <Filter>03 Manager\Render\Effect</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer_Draw.h" />
+    <ClInclude Include="KPlane3D_Col.h">
+      <Filter>03 Manager\Collision\3D</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SmartPtr.cpp">
@@ -460,7 +466,13 @@
     <ClCompile Include="Changer_Animation.cpp">
       <Filter>03 Manager\Resource\Child\MeshContainer</Filter>
     </ClCompile>
-    <ClCompile Include="Effect_Gaussian.cpp" />
+    <ClCompile Include="Effect_Gaussian.cpp">
+      <Filter>03 Manager\Render\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer_Draw.cpp" />
+    <ClCompile Include="KPlane3D_Col.cpp">
+      <Filter>03 Manager\Collision\3D</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />

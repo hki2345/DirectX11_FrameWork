@@ -348,7 +348,7 @@ void RenderManager::Render_Forward(KPtr<Camera> _Camera, std::map<int, std::list
 					{
 						// 뎁스 비교를 위해 한번 넣어보는 거다
 						// 해당 텍스쳐의 3번쨰 요소는 바로 뎁스다.
-						// (*m_RSI)->material()->Insert_TexData(TEX_TYPE::TEX_TAGET, 7, _Camera->material_camlight()->texture_vec()[2]);
+						// (*m_RSI)->material()->Insert_TexData(TEX_TYPE::TEX_TARGET, 7, _Camera->material_camlight()->texture_vec()[2]);
 						(*m_RSI)->RenderBegin(_Camera, i, j);
 						(*m_RSI)->Render(_Camera, i, j, nullptr);
 						(*m_RSI)->RenderFin();

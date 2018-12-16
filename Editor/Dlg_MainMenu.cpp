@@ -6,11 +6,12 @@
 #include "afxdialogex.h"
 
 #include "Dlg_MainMenu.h"
-#include "Dlg_Editor.h"
 #include "Dlg_MeshConv.h"
 
 #include "Dlg_Force.h"
 #include "Dlg_Unit.h"
+#include "Dlg_Terrain.h"
+#include "Dlg_Editor.h"
 
 #include "Edit_Class.h"
 
@@ -56,6 +57,7 @@ BOOL Dlg_MainMenu::OnInitDialog()
 	CreateDlg<Dlg_MeshConv>(IDD_MESHDLG, L"Mesh");
 	CreateDlg<Dlg_Force>(IDD_FORCEDLG, L"Force");
 	CreateDlg<Dlg_Unit>(IDD_UNITDLG, L"Unit");
+	CreateDlg<Dlg_Terrain>(IDD_TERRAINDLG, L"Terrain");
 	CreateDlg<Dlg_Editor>(IDD_TOOLDLG, L"Study");
 	Show_Dlg(0);
 	// TODO:  여기에 추가 초기화 작업을 추가합니다.

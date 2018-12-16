@@ -52,6 +52,10 @@ bool KDevice::Def3DCreate()
 {
 	ResourceManager<Sampler>::Create(L"DefaultSmp");
 
+	// WRAP 바둑판 배열을 하여라 -> 예 - 0과 3사이의 텍스쳐는 세번 반복된다.
+	// MIRROR 텍스쳐를 뒤집는다. -> 0과 1은 정상 1과 2는 미러 2와 3은 다시 정상 식으로
+	// CLAMP .0 ~ 1.0 범위의 칼라로 설정 -> 지금 쓰고 있는 것
+	// MIRROR_ONCE MIRROR와 CLAMP의 짬뽕 -> 텍스쳐 좌표의 절대값을 취하고 최대값으로 클림핑 한다.
 	// 지형 샘플러는 -> UV값이 정수그대로 적용된다. -> .0f ~ 1.0f 식의 비율 계산이 아님
 	// 그냥 int형 으로 정수가 때려 박히는 식이다.
 	ResourceManager<Sampler>::Create(L"TerrainSmp"
@@ -709,9 +713,9 @@ bool KDevice::Mat3DCreate()
 	DEFFERDMAT->Set_VTShader(L"DEFFERDLIGHTVTX");
 	DEFFERDMAT->Set_PXShader(L"DEFFERDLIGHTPIX");
 	DEFFERDMAT->Set_Blend(L"LIGHTONE");
-	DEFFERDMAT->Insert_TexData(TEX_TYPE::TEX_TAGET, 0, L"POSTION");
-	DEFFERDMAT->Insert_TexData(TEX_TYPE::TEX_TAGET, 1, L"NORMAL");
-	DEFFERDMAT->Insert_TexData(TEX_TYPE::TEX_TAGET, 2, L"DEPTH");
+	DEFFERDMAT->Insert_TexData(TEX_TYPE::TEX_TARGET, 0, L"POSTION");
+	DEFFERDMAT->Insert_TexData(TEX_TYPE::TEX_TARGET, 1, L"NORMAL");
+	DEFFERDMAT->Insert_TexData(TEX_TYPE::TEX_TARGET, 2, L"DEPTH");
 
 
 
@@ -726,9 +730,9 @@ bool KDevice::Mat3DCreate()
 	DEFFERDMERGEMAT->Set_VTShader(L"DEFFERDMERGEVTX");
 	DEFFERDMERGEMAT->Set_PXShader(L"DEFFERDMERGEPIX");
 	DEFFERDMERGEMAT->Set_Blend(L"ALPHA");
-	DEFFERDMERGEMAT->Insert_TexData(TEX_TYPE::TEX_TAGET, 0, L"COLOR_DIFFUSE");
-	DEFFERDMERGEMAT->Insert_TexData(TEX_TYPE::TEX_TAGET, 1, L"LIGHT_DIFFUSE");
-	DEFFERDMERGEMAT->Insert_TexData(TEX_TYPE::TEX_TAGET, 2, L"LIGHT_SPECULAR");
+	DEFFERDMERGEMAT->Insert_TexData(TEX_TYPE::TEX_TARGET, 0, L"COLOR_DIFFUSE");
+	DEFFERDMERGEMAT->Insert_TexData(TEX_TYPE::TEX_TARGET, 1, L"LIGHT_DIFFUSE");
+	DEFFERDMERGEMAT->Insert_TexData(TEX_TYPE::TEX_TARGET, 2, L"LIGHT_SPECULAR");
 
 
 
@@ -839,7 +843,7 @@ bool KDevice::Mat3DCreate()
 		MTL->Set_GMShader(L"EFFECTRENDERGEO");
 		MTL->Set_PXShader(L"EFFECTRENDERPIX");
 		MTL->Set_Blend(L"ALPHA");
-		MTL->Insert_TexData(TEX_TYPE::TEX_TAGET, 1, L"DEPTH");
+		MTL->Insert_TexData(TEX_TYPE::TEX_TARGET, 1, L"DEPTH");
 	}
 
 	{
@@ -849,10 +853,23 @@ bool KDevice::Mat3DCreate()
 		KPtr<Shader_Pixel> PIX = ResourceManager<Shader_Pixel>::Load_FromKey(L"POSTGAUPIX", L"Shader", L"Effect_Gaussian.fx", "PS_GN");
 		PIX->CreateCB<KVector>(L"SCREENSIZE", D3D11_USAGE_DYNAMIC, 0);
 
-		KPtr<KMaterial> MAT = ResourceManager<KMaterial>::Create(L"POSTGAU");
-		MAT->Set_VTShader(L"POSTGAUVTX");
-		MAT->Set_PXShader(L"POSTGAUPIX");
-		MAT->Set_Blend(L"ALPHA");
+		KPtr<KMaterial> MTL = ResourceManager<KMaterial>::Create(L"POSTGAU");
+		MTL->Set_VTShader(L"POSTGAUVTX");
+		MTL->Set_PXShader(L"POSTGAUPIX");
+		MTL->Set_Blend(L"ALPHA");
+	}
+
+
+	{
+		KPtr<Shader_Vertex> VTX = ResourceManager<Shader_Vertex>::Load_FromKey(L"DRAWVTX", L"Shader", L"Draw.fx", "VS_DRAW3D");
+		VTX->Add_Layout("POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
+		VTX->Add_LayoutFin("TEXCOORD", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32_FLOAT, 0);
+		KPtr<Shader_Pixel> PIX = ResourceManager<Shader_Pixel>::Load_FromKey(L"DRAWPIX", L"Shader", L"Draw.fx", "PS_DRAW3D");
+
+		KPtr<KMaterial> MTL = ResourceManager<KMaterial>::Create(L"DRAWMTL");
+		MTL->Set_VTShader(L"DRAWVTX");
+		MTL->Set_PXShader(L"DRAWPIX");
+		MTL->Set_Blend(L"ALPHA");
 	}
 
 

@@ -115,7 +115,9 @@ bool SC2_Camera::Init()
 }
 
 void SC2_Camera::Update()
-{	
+{
+	KLOG(L"%f", 1 / DELTATIME);
+
 	switch (m_CMode)
 	{
 	case SC2_Camera::S2M_STATE:
