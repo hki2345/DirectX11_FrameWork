@@ -44,6 +44,7 @@ public:
 
 public:
 	COLTYPE m_ColType;
+	KVector m_ColPoint;
 
 public:
 	Figure_Col() : m_ColType(CT_MAX) {}
@@ -65,7 +66,6 @@ class KPlaneCon : public Figure_Col
 {
 public:
 	KMatrix m_Mat;
-	KVector m_ColPoint;
 
 public:
 	KPlaneCon() {}
@@ -77,7 +77,6 @@ class KSphereCon : public Figure_Col
 {
 public:
 	DirectX::BoundingSphere m_Sphere;
-	KVector m_ColPoint;
 
 public:
 	KSphereCon() {}
@@ -90,7 +89,6 @@ public:
 	KVector Ori;
 	KVector Dir;
 	float Dist;
-	KVector m_ColPoint;
 	
 public:
 	KRayCon() {}
@@ -256,7 +254,7 @@ public:
 
 		if (0 == ((KRayCon*)_Right)->Dist)
 		{
-			((KSphereCon*)_Left)->m_ColPoint = KVector::Zero;
+			((KPlaneCon*)_Left)->m_ColPoint = KVector::Zero;
 			((KRayCon*)_Right)->m_ColPoint = KVector::Zero;
 			return TT;
 		}
@@ -297,6 +295,10 @@ private:
 	std::set<KCollision*> m_ColSet;
 
 public:
+	Figure_Col* figure()
+	{
+		return m_Fi;
+	}
 	void DeathRelease();
 
 public:

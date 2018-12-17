@@ -210,9 +210,9 @@ BOOL Dlg_Editor::OnInitDialog()
 
 
 	KPtr<TheOne> DrawOne = TabScene->Create_One();
-	DrawOne->Trans()->scale_local(KVector4(100.0f, 100.0f, 100.0f));
-	DrawOne->Trans()->pos_local(KVector4(0.0f, 0.0f, 0.0f));
-	DrawOne->Trans()->rotate_world(KVector4(45.0F, .0F, 0.0f));
+	DrawOne->Trans()->scale_local(KVector4(100.0f, 100.0f, .1f));
+	DrawOne->Trans()->pos_local(KVector4(10.0f, 10.0f, 0.0f));
+	DrawOne->Trans()->rotate_world(KVector4(.0F, .0F, 0.0f));
 
 	KPtr<Renderer_Draw> DREN = DrawOne->Add_Component<Renderer_Draw>();
 	DREN->Set_Mesh(L"RECT");

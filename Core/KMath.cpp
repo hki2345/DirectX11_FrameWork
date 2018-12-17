@@ -20,6 +20,67 @@ std::random_device KMath::RD;
 std::mt19937 KMath::MT;
 
 
+// Plane
+KVector2 KMath::PostoUV2(const KVector& _Src, KPtr<TransPosition> _Target)
+{
+	// 기본적으로 자신의 크기 - 로 세계에서 돌려본후 충돌했는지 안했는지 판별
+	KMatrix m_Mat = EdgeOfPlane(_Target);
+
+	KVector W = m_Mat.v1 - m_Mat.v3;
+	KVector H = m_Mat.v1 - m_Mat.v2;
+
+	float fW = .0f;
+	float fH = .0f;
+
+	if (.0f != W.x)
+	{
+		fW += (_Src.x - _Target->pos_local().x + _Target->scale_local().x * .5f) / W.x;
+	}
+
+	if (.0f != W.y)
+	{
+		fW += (_Src.y - _Target->pos_local().y+ _Target->scale_local().y * .5f) / W.y;
+	}
+
+	if (.0f != W.z)
+	{
+		fW += (_Src.z - _Target->pos_local().z + _Target->scale_local().z * .5f) / W.z;
+	}
+
+
+	if (.0f != H.x)
+	{
+		fH += (_Src.x - _Target->pos_local().x + _Target->scale_local().x * .5f) / H.x;
+	}
+
+	if (.0f != H.y)
+	{
+		fH += (_Src.y - _Target->pos_local().y + _Target->scale_local().y * .5f) / H.y;
+	}
+
+	if (.0f != H.z)
+	{
+		fH += (_Src.z - _Target->pos_local().z + _Target->scale_local().z * .5f) / H.z;
+	}
+
+	return KVector2(fW, 1.0f - fH);
+}
+
+
+// KVector RU = _Left.v1;
+// KVector RD = _Left.v2;
+// KVector LU = _Left.v3;
+// KVector LD = _Left.v4;
+KMatrix KMath::EdgeOfPlane(KPtr<TransPosition> _Target)
+{
+	return KMatrix(
+		KVector(_Target->pos_world() + (_Target->right_local() * _Target->scale_local().x + _Target->up_local() * _Target->scale_local().y) * .5f),
+		KVector(_Target->pos_world() + (_Target->right_local() * _Target->scale_local().x + _Target->down_local() * _Target->scale_local().y) * .5f),
+		KVector(_Target->pos_world() + (_Target->left_local() * _Target->scale_local().x + _Target->up_local() * _Target->scale_local().y) * .5f),
+		KVector(_Target->pos_world() + (_Target->left_local() * _Target->scale_local().x + _Target->down_local() * _Target->scale_local().y) * .5f)
+	);
+}
+
 //
 //// 투영 벡터 , L벡터 , R벡터
 //bool KMath::CheckOBB(KVector _T, TransPosition* _LTrans, TransPosition* _RTrans)

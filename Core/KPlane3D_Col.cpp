@@ -27,12 +27,7 @@ void KPlane3D_Col::Update_Figure()
 	// KVector LD = _Left.v4;
 
 	// 기본적으로 자신의 크기 - 로 세계에서 돌려본후 충돌했는지 안했는지 판별
-	pPlane->m_Mat = KMatrix(
-		KVector(m_Trans->pos_world() + (m_Trans->right_local() * m_Trans->scale_local().x + m_Trans->up_local() * m_Trans->scale_local().y) * .5f),
-		KVector(m_Trans->pos_world() + (m_Trans->right_local() * m_Trans->scale_local().x + m_Trans->down_local() * m_Trans->scale_local().y) * .5f),
-		KVector(m_Trans->pos_world() + (m_Trans->left_local() * m_Trans->scale_local().x + m_Trans->up_local() * m_Trans->scale_local().y) * .5f),
-		KVector(m_Trans->pos_world() + (m_Trans->left_local() * m_Trans->scale_local().x + m_Trans->down_local() * m_Trans->scale_local().y) * .5f)
-			);
+	pPlane->m_Mat = KMath::EdgeOfPlane(m_Trans);
 
 	pPlane->m_Mat.v1.w = .0f;
 	pPlane->m_Mat.v2.w = .0f;

@@ -8,6 +8,7 @@
 #include "DebugManager.h"
 
 
+class TransPosition;
 class KMath
 {
 
@@ -258,10 +259,6 @@ public:
 	{
 		bool TT = false;
 
-		// KVector RU = _Left.v1;
-		// KVector RD = _Left.v2;
-		// KVector LU = _Left.v3;
-		// KVector LD = _Left.v4;
 		TT = DirectX::TriangleTests::Intersects(_Ori, _Dir, _Left.v1, _Left.v2, _Left.v3, _dist);
 		if (false != TT)
 		{
@@ -271,11 +268,8 @@ public:
 		TT = DirectX::TriangleTests::Intersects(_Ori, _Dir, _Left.v3, _Left.v4, _Left.v2, _dist);
 		if (false != TT)
 		{
-			// KLOG(L"Col Pos:: %f %f %f", (_Dir * _dist).x + _Ori.x, (_Dir * _dist).y + _Ori.y, (_Dir * _dist).z + _Ori.z);
 			return TT;
 		}
-
-
 		return TT;
 	}
 
@@ -284,6 +278,12 @@ public:
 	{
 		return KVector(_Dir * _dist + _Ori);
 	}
+
+	// Plane
+	static KVector2 PostoUV2(const KVector& _Src, KPtr<TransPosition> _Target);
+	
+	static KMatrix EdgeOfPlane(KPtr<TransPosition> _Target);
+
 
 
 	float DegToRad(const float& _Value)
