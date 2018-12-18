@@ -9,6 +9,16 @@
 #include "KDevice.h"
 
 
+class DRAW_INFO
+{
+public:
+	KVector2 MousePos;
+	KVector2 PPUV;
+	float BSize;
+	float OnClick;
+	float Tmp1;
+	float Tmp2;
+};
 class Render_Data
 {
 public:
@@ -136,7 +146,7 @@ private:
 	// 직접 구현해야 하는 렌더러가 구현이 될수 있겠다.
 	virtual void RenderBegin(KPtr<Camera> _Camera, const KUINT& _MeshIdx, const KUINT& _MtlIdx);
 	virtual void Render(KPtr<Camera> _Camera, const KUINT& _MeshIdx, const KUINT& _MtlIdx, Render_Data* _Data);
-	void RenderFin();
+	virtual void RenderFin();
 
 protected:
 	virtual void Update_Trans(KPtr<Camera> _Camera);

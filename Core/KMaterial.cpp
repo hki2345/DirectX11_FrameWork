@@ -322,3 +322,26 @@ std::vector<KPtr<Texture >> KMaterial::texture_vec()
 
 	return TmpVec;
 }
+
+KPtr<Texture> KMaterial::Find_Texture(const KUINT& _Index /* = 0*/)
+{
+	m_TSI = m_TexMap.begin();
+	m_TEI = m_TexMap.end();
+	
+	for (; m_TSI != m_TEI; ++m_TSI)
+	{
+		if (_Index == m_TSI->first)
+		{
+			return m_TSI->second;
+		}
+	}
+
+	return nullptr;
+}
+
+KPtr<Texture> KMaterial::Create_FindTexture(const KUINT& _Index/* = 0*/)
+{
+	KPtr<Texture> Tmp = Find_Texture(_Index);
+
+	return Tmp;
+}

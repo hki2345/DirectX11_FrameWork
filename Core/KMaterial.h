@@ -129,6 +129,8 @@ public:
 
 	// 타겟으로 하면 리셋이 필요
 	void Reset_Tex();
+	KPtr<Texture> Find_Texture(const KUINT& _Index = 0);
+	KPtr<Texture> Create_FindTexture(const KUINT& _Index = 0);
 
 public:
 	KPtr<KMaterial> Clone();

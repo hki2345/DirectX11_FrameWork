@@ -23,8 +23,20 @@ private:
 	KPtr<Texture> m_DepthTex;
 	D3D11_DEPTH_STENCIL_DESC	m_DepthState;
 	ID3D11DepthStencilState*	m_pDepthStencilState;
+	bool						m_bClear;
 
 public:
+	void Set_Clear()
+	{
+		m_bClear = true;
+	}
+
+	void Set_UnClear()
+	{
+		m_bClear = false;
+	}
+
+
 	// UINT 윈도우에 정의도어 있어서 WINDOW
 	unsigned int TagetCount() 
 	{

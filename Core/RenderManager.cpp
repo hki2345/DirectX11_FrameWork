@@ -249,9 +249,9 @@ void RenderManager::Check_Light(KPtr<Camera> _Camera, int _Group)
 void RenderManager::Render_Defferd(KPtr<Camera> _Camera, std::map<int, std::list<KPtr<Renderer>>>::iterator _Iter, size_t _Index)
 {
 	// 디퍼드용 메테리얼로 
-	KPtr<RenderTarget_Multi> DEFFERDTAGET = _Camera->defferd_target();
-	DEFFERDTAGET->Clear();
-	DEFFERDTAGET->OMSet();
+	KPtr<RenderTarget_Multi> DEFFERDTARGET = _Camera->defferd_target();
+	DEFFERDTARGET->Clear();
+	DEFFERDTARGET->OMSet();
 
 
 	m_RSI = _Iter->second.begin();
@@ -316,7 +316,6 @@ void RenderManager::Render_Defferd(KPtr<Camera> _Camera, std::map<int, std::list
 	}
 
 }
-
 
 
 void RenderManager::Render_Forward(KPtr<Camera> _Camera, std::map<int, std::list<KPtr<Renderer>>>::iterator _Iter, size_t _Index)

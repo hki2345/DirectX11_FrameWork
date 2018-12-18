@@ -5,10 +5,16 @@
 
 class KRay3D : public KCollider3D_DE
 {
-public:
+private:
 	KRayCon* pRayCon;
 	Camera* pCam;
 	float m_Dist;
+
+public:
+	KRayCon* ray_container()
+	{
+		return pRayCon;
+	}
 
 public:
 	virtual bool Init(int _Order = 0);

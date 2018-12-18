@@ -15,6 +15,16 @@ cbuffer TerrainBuffer : register(b0)
     int IsBump[4];
 }
 
+cbuffer Draw_Info : register(b1)
+{
+    float2 MPos;
+    float2 PPUV;
+    float BSize;
+    float Click;
+    float Tmp1;
+    float Tmp2;
+};
+
 
 /************************** 버텍스 ******************************/
 struct VTX3DMESH_INPUT
@@ -227,12 +237,27 @@ PS_DEFFERDOUTPUT PS_TERRAINDEFFERD(DOMAIN_OUT _in)
         FloorColor.xyz *= RatioValuie;
         SrcColor.xyz *= (1.0f - Ratio.x);
         CalColor = FloorColor + SrcColor;
-        // if (RatioValuie >= 0.9)
-        // {
-        //     BumpNormal = CalMBump(9 + i, 9 + i, _in.vUv, 1.0f, float4(Tangent, 1.0f), float4(Binormal, 1.0f), float4(Normal, 1.0f));
-        // }
     }
-    
+
+    if (1.0f == Click)
+    {
+        CalColor = float4(.1f, .1f, .0f, .0f);
+    }
+
+
+
+    if (MPos.x - PPUV.x * BSize /* * BSize * .5f*/< _in.vUv.x / VTXX&&
+        MPos.x + PPUV.x * BSize /* * BSize * .5f*/> _in.vUv.x / VTXX &&
+        MPos.y - PPUV.y * BSize /* * BSize * .5f*/< _in.vUv.y / VTXY &&
+        MPos.y + PPUV.y * BSize /* * BSize * .5f*/ > _in.vUv.y / VTXY)
+    {
+        // 이미지 UV의 시작
+        float2 Tmp = float2(
+        _in.vUv.x / VTXX  - (MPos.x - PPUV.x * BSize)/*- PPUV.x * BSize)*/,
+        _in.vUv.y / VTXY - (MPos.y - PPUV.y * BSize) /*+ PPUV.y * BSize)*/);
+        // CalColor += float4(1.0f, 1.0f, .0f, .0f);
+        CalColor += GetTexToColor(ArrTex[3].Tex_Idx, ArrTex[3].Tex_Smp, Tmp * BSize * .5f * VTXX / BSize);
+    }
 
 // 칼 컬러가 섞인것으로 나와야 한다.
 

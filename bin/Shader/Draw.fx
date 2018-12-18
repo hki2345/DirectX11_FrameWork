@@ -49,7 +49,7 @@ PS_FORWARDOUTPUT PS_DRAW3D(VTX3DMESH_OUTPUT _in)
 
 
     // float4 Tmp = mul(MPos, g_WVP);
-    float4 CalColor = float4(.0f, .0f, .0f, 1.0f);
+    float4 CalColor = float4(.0f, .0f, .0f, 0.0f);
     
     if (MPos.x - PPUV.x * BSize < _in.vUv.x &&
         MPos.x + PPUV.x * BSize > _in.vUv.x && 

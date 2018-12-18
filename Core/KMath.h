@@ -280,9 +280,12 @@ public:
 	}
 
 	// Plane
-	static KVector2 PostoUV2(const KVector& _Src, KPtr<TransPosition> _Target);
+	static KVector2 PostoUV2_XY(const KVector& _Src, KPtr<TransPosition> _Target, const KVector& _Expand = 1.0f);
+	static KVector2 PostoUV2_XZ(const KVector& _Src, KPtr<TransPosition> _Target, const KVector& _Expand = 1.0f);
 	
-	static KMatrix EdgeOfPlane(KPtr<TransPosition> _Target);
+	// XY
+	static KMatrix EdgeOfPlane_XY(KPtr<TransPosition> _Target);
+	static KMatrix EdgeOfPlane_XZ(KPtr<TransPosition> _Target);
 
 
 

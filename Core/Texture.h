@@ -44,6 +44,9 @@ public:
 	ID3D11RenderTargetView*			RTV() { return m_pRTV; }
 	ID3D11DepthStencilView*			DSV() { return m_pDSV; }
 
+
+	const ID3D11RenderTargetView*	RTV_Const()  { return m_pRTV; }
+
 public:
 	void Set_View(KUINT _BindFlag
 	, const D3D11_DEPTH_STENCIL_VIEW_DESC* _DSD = nullptr

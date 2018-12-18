@@ -2,11 +2,16 @@
 #include "KMesh.h"
 #include "DXContainer_DE.h"
 
+#include "KRay3D.h"
 #include "ResourceManager.h"
 #include "Texture.h"
 
+#include "Core_Class.h"
+#include "InputManager.h"
 
-Renderer_Terrain::Renderer_Terrain()
+
+Renderer_Terrain::Renderer_Terrain() :
+	m_BSize(.0f)
 {
 }
 
@@ -15,6 +20,85 @@ Renderer_Terrain::~Renderer_Terrain()
 {
 }
 
+
+KVector Renderer_Terrain::TerrainTo_MPos()
+{
+	KPtr<KRay3D> CRay =  state()->Camera()->Get_Component<KRay3D>();
+	if (nullptr == CRay)
+	{
+		return KVector::Zero;
+	}
+
+	bool TBol = false;
+
+	for (size_t Z = 0; Z < m_TFD.SizeZ; Z++)
+	{
+		for (size_t X = 0; X < m_TFD.SizeX; X++)
+		{
+			// LU
+			KVector V0 = m_PosVtx[((Z + 1) * (m_TFD.SizeX + 1)) + X] * m_Trans->scale_world();
+
+			// RU
+			KVector V1 = m_PosVtx[((Z + 1) * (m_TFD.SizeX + 1)) + (X + 1)] * m_Trans->scale_world();
+
+			// LD
+			KVector V2 = m_PosVtx[((Z) * (m_TFD.SizeX + 1)) + (X)] * m_Trans->scale_world();
+
+			// RD
+			KVector V3 = m_PosVtx[((Z) * (m_TFD.SizeX + 1)) + (X + 1)] * m_Trans->scale_world();
+
+			TBol = DirectX::TriangleTests::Intersects(CRay->ray_container()->Ori, CRay->ray_container()->Dir, V2, V1, V0, CRay->ray_container()->Dist);
+			if (true == TBol)
+			{
+				KVector TT = KMath::Calc_ColPoint(CRay->ray_container()->Ori, CRay->ray_container()->Dir, CRay->ray_container()->Dist);
+				m_DI.MousePos = KMath::PostoUV2_XZ(TT, m_Trans, KVector((float)m_TFD.SizeX, .0f, (float)m_TFD.SizeZ, .0f));
+
+				m_DI.MousePos.y = 1.0f - m_DI.MousePos.y;
+				KLOG(L"Terrain To MPos: %f, %f, %f", TT.x, TT.y, TT.z);
+				KLOG(L"Terrain To MPos UV: %f, %f", m_DI.MousePos.x, m_DI.MousePos.y);
+				KLOG(L"%b", TBol);
+
+				return TT;
+			}
+
+			TBol = DirectX::TriangleTests::Intersects(CRay->ray_container()->Ori, CRay->ray_container()->Dir, V2, V3, V1, CRay->ray_container()->Dist);
+			if (true == TBol)
+			{
+				KVector TT = KMath::Calc_ColPoint(CRay->ray_container()->Ori, CRay->ray_container()->Dir, CRay->ray_container()->Dist);
+				m_DI.MousePos = KMath::PostoUV2_XZ(TT, m_Trans, KVector((float)m_TFD.SizeX, .0f, (float)m_TFD.SizeZ, .0f));
+
+				m_DI.MousePos.y = 1.0f - m_DI.MousePos.y;
+
+				KLOG(L"Terrain To MPos: %f, %f, %f", TT.x, TT.y, TT.z);
+				KLOG(L"Terrain To MPos UV: %f, %f", m_DI.MousePos.x, m_DI.MousePos.y);
+				KLOG(L"%b", TBol);
+
+				return TT;
+			}
+		}
+	}
+
+
+	return KVector::Zero;
+}
+
+void Renderer_Terrain::Set_DI()
+{
+	m_DI.BSize = m_BSize;
+	m_DI.PPUV = KVector2(
+		1.0f / (m_Trans->scale_local().x * m_TFD.SizeX),
+		1.0f / (m_Trans->scale_local().z * m_TFD.SizeZ)
+	);
+
+	if (true == KEY_PRESS("MouseButton"))
+	{
+		m_DI.OnClick = 1.0f;
+	}
+	else
+	{
+		m_DI.OnClick = .0f;
+	}
+}
 
 
 void Renderer_Terrain::Create_Terrain(const KUINT& _X, const KUINT& _Z, const wchar_t* _NorMap /*= nullptr*/, const float& _HRatio /*= 1.0f*/)
@@ -95,7 +179,7 @@ void Renderer_Terrain::Create_Terrain(const KUINT& _X, const KUINT& _Z, const wc
 
 	for (int z = 0; z < m_TFD.SizeZ; z++)
 	{
-		for (int x = 0; x < m_TFD.SizeZ; x++)
+		for (int x = 0; x < m_TFD.SizeX; x++)
 		{
 			TI.push_back((m_TFD.SizeX + 1) * (z + 1) + (x));
 			TI.push_back((m_TFD.SizeX + 1) * (z) + (x + 1));
@@ -125,7 +209,12 @@ void Renderer_Terrain::Create_Terrain(const KUINT& _X, const KUINT& _Z, const wc
 
 void Renderer_Terrain::RenderBegin(KPtr<Camera> _Camera, const KUINT& _MeshIdx, const KUINT& _MtlIdx)
 {
+	TerrainTo_MPos();
+	Set_DI();
+
 	material()->PShader()->SettingCB<TERRAIN_FD>(L"TERRAIN_FD", m_TFD);
+ 	material()->PShader()->SettingCB<DRAW_INFO>(L"DRAW_INFO", m_DI);
+
 }
 
 void Renderer_Terrain::base_texture(const wchar_t* _MTex)

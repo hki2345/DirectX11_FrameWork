@@ -3,23 +3,15 @@
 
 
 
-class Draw_Info
-{
-public:
-	KVector2 MousePos;
-	KVector2 PPUV;
-	float BSize;
-	float OnClick;
-	float Tmp1;
-	float Tmp2;
-};
 
 class KPlane3D_Col;
+class RenderTarget_Multi;
 class Renderer_Draw : public Renderer
 {
 private:
-	Draw_Info	m_DI;
+	DRAW_INFO	m_DI;
 	KPtr<KPlane3D_Col> m_Col;
+	KPtr<RenderTarget_Multi> m_DrawTarget;
 
 public:
 	bool Init(const int& _Order = 0);

@@ -2,7 +2,9 @@
 #include "KMacro.h"
 #include "Core_Class.h"
 
-RenderTarget::RenderTarget() : m_Color(KVector4::Blue)
+RenderTarget::RenderTarget() : 
+	m_Color(KVector4::Blue),
+	m_bClear(true)
 {
 }
 
@@ -50,5 +52,12 @@ void RenderTarget::Clear()
 	}
 
 	// Color s -> 포인터 형으로 넘김 -> 컬러를 ㅇㅇ
-	Core_Class::Context()->ClearRenderTargetView(m_Tex->RTV(), m_Color.s);	
+	if (true == m_bClear)
+	{
+		Core_Class::Context()->ClearRenderTargetView(m_Tex->RTV(), m_Color.s);	
+	}
+	else
+	{
+		int  a = 0;
+	}
 }

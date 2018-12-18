@@ -726,7 +726,7 @@ public:
 
 
 public:
-	float distance(const KVector4& _Value) const
+	float distance() const
 	{
 		return sqrtf((x) * (x)+(y) * (y)+(z) * (z)+(w) * (w));
 	}

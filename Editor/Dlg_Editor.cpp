@@ -198,6 +198,8 @@ BOOL Dlg_Editor::OnInitDialog()
 	TerMESH1->base_texture(L"FB");
 	TerMESH1->Insert_CoverTex(L"FC", L"Cover.jpg");
 	TerMESH1->Set_RSState(L"SFRONT");
+	TerMESH1->brush_size(10.0f);
+	TerMESH1->material()->Insert_TexData(TEX_TYPE::TEX_COLOR, 7, L"TILE_01.png");
 
 
 
@@ -209,15 +211,15 @@ BOOL Dlg_Editor::OnInitDialog()
 	RPARTI->ROpt.Defferd_orForward = 0;
 
 
-	KPtr<TheOne> DrawOne = TabScene->Create_One();
-	DrawOne->Trans()->scale_local(KVector4(100.0f, 100.0f, .1f));
-	DrawOne->Trans()->pos_local(KVector4(10.0f, 10.0f, 0.0f));
-	DrawOne->Trans()->rotate_world(KVector4(.0F, .0F, 0.0f));
-
-	KPtr<Renderer_Draw> DREN = DrawOne->Add_Component<Renderer_Draw>();
-	DREN->Set_Mesh(L"RECT");
-	DREN->material()->Insert_TexData(TEX_TYPE::TEX_COLOR, 0, L"TILE_01.png");
-	DREN->brush_size(10.0f);
+	// KPtr<TheOne> DrawOne = TabScene->Create_One();
+	// DrawOne->Trans()->scale_local(KVector4(100.0f, 100.0f, .1f));
+	// DrawOne->Trans()->pos_local(KVector4(10.0f, 10.0f, 0.0f));
+	// DrawOne->Trans()->rotate_world(KVector4(90.0F, .0F, 0.0f));
+	// 
+	// KPtr<Renderer_Draw> DREN = DrawOne->Add_Component<Renderer_Draw>();
+	// DREN->Set_Mesh(L"RECT");
+	// DREN->material()->Insert_TexData(TEX_TYPE::TEX_COLOR, 0, L"TILE_01.png");
+	// DREN->brush_size(10.0f);
 
 
 
@@ -228,8 +230,9 @@ BOOL Dlg_Editor::OnInitDialog()
 
 	KPtr<KRay3D> RayCol = TabScene->Camera()->Add_Component<KRay3D>(101);
 	RayCol->EnterFunc(this, &Dlg_Editor::Collision_Test);
-	
-	KPtr<KPlane3D_Col> RendCol = DrawOne->Add_Component<KPlane3D_Col>(100);
+
+	// KPtr<KPlane3D_Col> Tescol = TERRAIN->Add_Component<KPlane3D_Col>(100);
+	// KPtr<KPlane3D_Col> RendCol = DrawOne->Add_Component<KPlane3D_Col>(100);
 	KPtr<KSphere_Col> RightCol = SPHERERIGHT->Add_Component<KSphere_Col>(100);
 
 	return TRUE;  // return TRUE unless you set the focus to a control

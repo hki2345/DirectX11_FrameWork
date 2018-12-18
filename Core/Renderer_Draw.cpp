@@ -1,10 +1,14 @@
 #include "Renderer_Draw.h"
 
+#include "Core_Class.h"
+
+#include "Camera.h"
 #include "KWindow.h"
 #include "InputManager.h"
 
 #include "KPlane3D_Col.h"
-
+#include "RenderTarget_Multi.h"
+#include "ResourceManager.h"
 
 
 Renderer_Draw::Renderer_Draw()
@@ -23,13 +27,15 @@ bool Renderer_Draw::Init(const int& _Order /*= 0*/)
 	if (false == Set_Material(L"DRAWMTL"))
 	{
 		return false;
-	}
+	} 
 
-	material()->PShader()->CreateCB<Draw_Info>(L"DRAW_IF", D3D11_USAGE_DYNAMIC, 0);
+	material()->PShader()->CreateCB<DRAW_INFO>(L"DRAW_IF", D3D11_USAGE_DYNAMIC, 0);
+	m_DrawTarget = ResourceManager<RenderTarget_Multi>::Find(L"DRAW");
 	Set_RSState(L"SBACK");
 
 
 	m_Col = one()->Get_Component<KCollider3D_DE>();
+	m_DrawTarget->Set_UnClear();
 	return true;
 }
 
@@ -57,13 +63,13 @@ void Renderer_Draw::Update()
 	}
 
 
-	m_DI.MousePos = KMath::PostoUV2(m_Col->figure()->m_ColPoint, m_Trans);
+	m_DI.MousePos = KMath::PostoUV2_XY(m_Col->figure()->m_ColPoint, m_Trans);
 	m_DI.PPUV = KVector2(1 / m_Trans->scale_local().x, 1 / m_Trans->scale_local().y);
 
-	KLOG(L"Mouse UV: %f, %f", m_DI.MousePos.x, m_DI.MousePos.y);
+
 }
 
 void Renderer_Draw::RenderBegin(KPtr<Camera> _Cam, const KUINT& _MeshIdx, const KUINT& _MtlIdx)
 {
-	material()->PShader()->SettingCB<Draw_Info>(L"DRAW_IF", m_DI);
+	material()->PShader()->SettingCB<DRAW_INFO>(L"DRAW_IF", m_DI);
 }

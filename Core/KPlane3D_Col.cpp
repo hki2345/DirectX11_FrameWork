@@ -1,4 +1,5 @@
 #include "KPlane3D_Col.h"
+#include "Renderer_Terrain.h"
 
 
 
@@ -27,7 +28,7 @@ void KPlane3D_Col::Update_Figure()
 	// KVector LD = _Left.v4;
 
 	// 기본적으로 자신의 크기 - 로 세계에서 돌려본후 충돌했는지 안했는지 판별
-	pPlane->m_Mat = KMath::EdgeOfPlane(m_Trans);
+	pPlane->m_Mat = KMath::EdgeOfPlane_XY(m_Trans);
 
 	pPlane->m_Mat.v1.w = .0f;
 	pPlane->m_Mat.v2.w = .0f;

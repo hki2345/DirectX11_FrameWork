@@ -2,7 +2,7 @@
 #include "Core_Class.h"
 
 
-RenderTarget_Multi::RenderTarget_Multi() : m_DepthTex(nullptr), m_bDefaultDepth(true)
+RenderTarget_Multi::RenderTarget_Multi() : m_DepthTex(nullptr), m_bDefaultDepth(true), m_bClear(true)
 {
 }
 
@@ -77,6 +77,11 @@ void RenderTarget_Multi::OMSet()
 
 void RenderTarget_Multi::Clear() 
 {
+	if (false == m_bClear)
+	{
+		return;
+	}
+
 	for (size_t i = 0; i < m_RenderTaget.size(); i++)
 	{
 		m_RenderTaget[i]->Clear();

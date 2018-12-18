@@ -25,13 +25,23 @@ public:
 	~RenderTarget();
 
 private:
-	KPtr<Texture> m_Tex;
-	KVector4		   m_Color;
+	KPtr<Texture>	m_Tex;
+	KVector4		m_Color;
+	bool			m_bClear;
 
 public:
 	KPtr<Texture> target_tex() 
 	{
 		return m_Tex;
+	}
+
+	void Set_Clear()
+	{
+		m_bClear = true;
+	}
+	void Set_UnClear()
+	{
+		m_bClear = false;
 	}
 
 	// UINT 보단 unsigned int를 손에 익히자 -> UINT는 windows.h를 필요로하는데

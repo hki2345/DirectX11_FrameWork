@@ -45,6 +45,10 @@ bool KDevice::DefRenderTaget()
 	ResourceManager<RenderTarget_Multi>::Create(L"LIGHT", L"LIGHT_DIFFUSE", L"LIGHT_SPECULAR");
 	// KPtr<RenderTarget_Multi> LightMRT = ResourceManager<RenderTarget_Multi>::Create(L"LIGHT", L"LIGHT_DIFFUSE", L"LIGHT_SPECULAR");
 
+	// µå·Î¿ì ·»´õ Å¸°Ù
+	ResourceManager<RenderTarget_Multi>::Create(L"DRAW", L"COLOR_DIFFUSE", L"POSTION", L"NORMAL", L"DEPTH");
+
+
 	return true;
 }
 
@@ -771,6 +775,7 @@ bool KDevice::Mat3DCreate()
 	DEFFERDTERRAINVTX->Add_LayoutFin("BINORMAL", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
 	KPtr<Shader_Pixel> DEFFERDTERRAINPIX = ResourceManager<Shader_Pixel>::Load_FromKey(L"DEFFERDTERRAINPIX", L"Shader", L"TerrainDefferd.fx", "PS_TERRAINDEFFERD");
 	DEFFERDTERRAINPIX->CreateCB<TERRAIN_FD>(L"TERRAIN_FD", D3D11_USAGE_DYNAMIC, 0);
+	DEFFERDTERRAINPIX->CreateCB<DRAW_INFO>(L"DRAW_INFO", D3D11_USAGE_DYNAMIC, 1);
 
 	KPtr<KMaterial> DEFFERDTERRAINMAT = ResourceManager<KMaterial>::Create(L"DEFFERDTERRAINMAT");
 	DEFFERDTERRAINMAT->Set_VTShader(L"DEFFERDTERRAINVTX");
@@ -791,6 +796,7 @@ bool KDevice::Mat3DCreate()
 	KPtr<Shader_Domain> DTESSLEDOM = ResourceManager<Shader_Domain>::Load_FromKey(L"DTESSLEDOM", L"Shader", L"TerrainDefferd_Tessel.fx", "DS_TERRAINEDEFFERED");
 	KPtr<Shader_Pixel>	DTESSLEPIX = ResourceManager<Shader_Pixel>::Load_FromKey(L"DTESSLEPIX", L"Shader", L"TerrainDefferd_Tessel.fx", "PS_TERRAINDEFFERD");
 	DTESSLEPIX->CreateCB<TERRAIN_FD>(L"TERRAIN_FD", D3D11_USAGE_DYNAMIC, 0);
+	DTESSLEPIX->CreateCB<DRAW_INFO>(L"DRAW_INFO", D3D11_USAGE_DYNAMIC, 1);
 
 	KPtr<KMaterial> DTESSLEMAT = ResourceManager<KMaterial>::Create(L"DTESSLEMAT");
 	DTESSLEMAT->Set_VTShader(L"DTESSLEVTX");
