@@ -100,12 +100,28 @@ bool Renderer::Set_Material(const wchar_t* _Res, const int& _Index)
 
 KPtr<KMaterial> Renderer::material(const int& _Index) 
 {
+	if (0 == m_MtlVec.size())
+	{
+		return nullptr;
+	}
+
 	if (m_MtlVec[_Index]->m_bOrigin)
 	{
 		m_MtlVec[_Index] = m_MtlVec[_Index]->Clone();
 	}
 
 	return m_MtlVec[_Index];
+}
+
+
+
+KPtr<KMesh> Renderer::mesh(const int& _Index /*= 0*/)
+{
+	if (0 == m_MeshVec.size())
+	{
+		return nullptr;
+	}
+	return m_MeshVec[_Index];
 }
 
 void Renderer::RenderUpdate()

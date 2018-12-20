@@ -56,7 +56,13 @@ KVector2 KMath::PostoUV2_XZ(const KVector& _Src, KPtr<TransPosition> _Target, co
 
 	W.Normalize();
 	H.Normalize();
-	KVector tmp = _Src/* - m_Mat.v3*/;
+
+	KVector tmp = _Src - _Target->pos_local();
+
+	KVector TT =  _Target->scale_local();
+	tmp.x += sqrtf(_Expand.x) / _Target->scale_local().x * .5f;
+	tmp.z -= sqrtf(_Expand.z) / _Target->scale_local().z * .5f;
+
 
 	float fW = tmp.Dot(W) / _Target->scale_local().x / _Expand.x;
 	float fH = tmp.Dot(H) / _Target->scale_local().z / _Expand.z;

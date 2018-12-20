@@ -194,12 +194,12 @@ BOOL Dlg_Editor::OnInitDialog()
 	KPtr<Renderer_Terrain> TerMESH1 = TERRAIN->Add_Component<Renderer_Terrain>();
 
 	// 순서를 지켜야 된다????? ㅇㅇ
-	TerMESH1->Create_Terrain(64, 64, L"Cover.jpg", 1.0f);
+	TerMESH1->Create_Terrain(100, 100, L"Cover.jpg", 1.0f);
 	TerMESH1->base_texture(L"FB");
 	TerMESH1->Insert_CoverTex(L"FC", L"Cover.jpg");
 	TerMESH1->Set_RSState(L"SFRONT");
 	TerMESH1->brush_size(10.0f);
-	TerMESH1->material()->Insert_TexData(TEX_TYPE::TEX_COLOR, 7, L"TILE_01.png");
+	TerMESH1->material()->Insert_TexData(TEX_TYPE::TEX_COLOR, 7, L"cursor-target-allied.dds");
 
 
 

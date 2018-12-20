@@ -16,6 +16,10 @@
 #include <Renderer_Grid.h>
 #include <Renderer_Terrain.h>
 
+#include <Renderer_BonAni.h>
+#include <ResourceManager.h>
+
+#include <KRay3D.h>
 
 // Dlg_Terrain 대화 상자입니다.
 
@@ -99,17 +103,38 @@ BOOL Dlg_Terrain::OnInitDialog()
 	pLight4->PushLightLayer(0);
 
 	KPtr<TheOne> TERRAIN = TabScene->Create_One();
-	TERRAIN->Trans()->scale_local(KVector4(10.0f, 10.0f, 10.0f));
-	TERRAIN->Trans()->pos_world(KVector4(-5.0f, -5.0f, .0f, .0f));
-	KPtr<Renderer_Terrain> TerMESH1 = TERRAIN->Add_Component<Renderer_Terrain>();
+	TERRAIN->Trans()->scale_local(KVector4(1.0f, 2.0f, 1.0f));
+	TERRAIN->Trans()->pos_world(KVector4(5.0f, .0f, .0f, .0f));
+	m_pTer = TERRAIN->Add_Component<Renderer_Terrain>();
 
 	 // 순서를 지켜야 된다????? ㅇㅇ
-	 TerMESH1->Create_Terrain(20, 20, L"Cover.jpg", 1.0f);
-	 TerMESH1->base_texture(L"FB");
-	 TerMESH1->Insert_CoverTex(L"FC", L"Cover.jpg");
-	 TerMESH1->Set_RSState(L"SFRONT");
+	m_pTer->Create_Terrain(64, 64, L"Cover.jpg", 1.0f);
+	m_pTer->base_texture(L"FB");
+	m_pTer->Insert_CoverTex(L"FC", L"Cover.jpg");
+	m_pTer->Set_RSState(L"SFRONT");
+	m_pTer->material()->Insert_TexData(TEX_TYPE::TEX_COLOR, 7, L"cursor-target-allied.dds");
+	m_pTer->brush_size(10.0f);
 
 
+
+	TabScene->This_Col3DManager.Link(101, 100);
+	TabScene->This_Col3DManager.Link(100, 101);
+
+	KPtr<KRay3D> RayCol = TabScene->Camera()->Add_Component<KRay3D>(101);
+
+	// PathManager::Is_StrVSStr
+	UpdateData(TRUE);
+	TerSSEdit[0] = (float)m_pTer->split_X();
+	TerSSEdit[1] = (float)m_pTer->split_Z();
+
+	TerSSEdit[2] = m_pTer->one()->Trans()->scale_local().x;
+	TerSSEdit[3] = m_pTer->one()->Trans()->scale_local().x;
+
+	for (size_t i = 0; i < 3; i++)
+	{
+		UnitPosEdit[i] = .0f;
+	}
+	UpdateData(FALSE);
 
 	return TRUE;
 }
@@ -117,6 +142,39 @@ BOOL Dlg_Terrain::OnInitDialog()
 void Dlg_Terrain::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
+
+	DDX_Control(pDX, IDC_TERTEXPATH, TexName);
+
+
+	int StartId = IDC_TERNAME;
+
+	// 스피드 * 2, 이름, 스케일
+	for (size_t X = 0; X < 3; ++X)
+	{
+		DDX_Control(pDX, StartId, NameEdit[X]);
+		++StartId;
+	}
+
+
+
+	StartId = IDC_TERSPLITX;
+	// 조각 X Z, 스케일 X Z
+	for (size_t X = 0; X < 4; ++X)
+	{
+		DDX_Text(pDX, StartId, TerSSEdit[X]);
+		++StartId;
+	}
+
+
+	StartId = IDC_UNITPOSXEDIT;
+	// 조각 X Z, 스케일 X Z
+	for (size_t X = 0; X < 3; ++X)
+	{
+		DDX_Text(pDX, StartId, UnitPosEdit[X]);
+		++StartId;
+	}
+
+	DDX_Control(pDX, IDC_TERUNITLIST, UList);
 }
 
 
@@ -126,7 +184,172 @@ void Dlg_Terrain::Init_Dlg()
 
 
 BEGIN_MESSAGE_MAP(Dlg_Terrain, TabDlg)
+	ON_BN_CLICKED(IDC_TERCLEAR, &Dlg_Terrain::OnBnClickedTerclear)
+	ON_BN_CLICKED(IDC_TERLOAD, &Dlg_Terrain::OnBnClickedTerload)
+	ON_BN_CLICKED(IDC_TERSAVE, &Dlg_Terrain::OnBnClickedTersave)
+	ON_BN_CLICKED(IDC_TERCOVERTEX, &Dlg_Terrain::OnBnClickedTercovertex)
+	ON_BN_CLICKED(IDC_STATECLEAR, &Dlg_Terrain::OnBnClickedStateclear)
+	ON_BN_CLICKED(IDC_STATELOAD, &Dlg_Terrain::OnBnClickedStateload)
+	ON_BN_CLICKED(IDC_STATESAVE, &Dlg_Terrain::OnBnClickedStatesave)
+
+
+	ON_CONTROL_RANGE(EN_CHANGE, IDC_TERNAME, IDC_STATETERNAME, &Dlg_Terrain::OnEditSelChanged)
+	ON_CONTROL_RANGE(EN_CHANGE, IDC_TERSPLITX, IDC_TERSCALEZ, &Dlg_Terrain::OnTerInfoSelChanged)
+	ON_CONTROL_RANGE(EN_CHANGE, IDC_UNITPOSXEDIT, IDC_UNITPOSZEDIT, &Dlg_Terrain::OnUnitPosSelChanged)
+	ON_BN_CLICKED(IDC_TEREDITBTN, &Dlg_Terrain::OnBnClickedTereditbtn)
+	ON_BN_CLICKED(IDC_STATERESLIST, &Dlg_Terrain::OnBnClickedStatereslist)
 END_MESSAGE_MAP()
 
 
 // Dlg_Terrain 메시지 처리기입니다.
+
+
+void Dlg_Terrain::OnBnClickedTerclear()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	m_pTer->Clear();
+}
+
+
+void Dlg_Terrain::OnBnClickedTerload()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	CString TT;
+	NameEdit[0].GetWindowTextW(TT);
+
+	m_pTer->Load(TT.GetString());
+}
+
+
+void Dlg_Terrain::OnBnClickedTersave()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	m_pTer->Save();
+}
+
+
+void Dlg_Terrain::OnBnClickedTercovertex()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+}
+
+
+void Dlg_Terrain::OnBnClickedStateclear()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+}
+
+
+void Dlg_Terrain::OnBnClickedStateload()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+}
+
+
+void Dlg_Terrain::OnBnClickedStatesave()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+}
+
+
+
+void Dlg_Terrain::OnEditSelChanged(UINT _Id)
+{
+	UINT TempId = _Id - IDC_TERNAME;
+
+	switch (TempId)
+	{
+	case 0:
+	{
+		CString TT;
+		NameEdit[0].GetWindowTextW(TT);
+		m_pTer->name(TT.GetString());
+	}
+		break;
+	case 1:
+	{
+	}
+		break;
+	case 2:
+	{
+	}
+		break;
+	default:
+		break;
+	}
+}
+
+void Dlg_Terrain::OnTerInfoSelChanged(UINT _Id)
+{
+	UINT TempId = _Id - IDC_TERSPLITX;
+
+	UpdateData(TRUE);
+	UpdateData(FALSE);
+
+
+	switch (TempId)
+	{
+	case 0:
+	{
+		m_pTer->split_X((int)TerSSEdit[0]);
+	}
+	break;
+	case 1:
+	{
+		m_pTer->split_Z((int)TerSSEdit[1]);
+	}
+	break;
+	case 2:
+	{
+		KVector TmpS = m_pTer->one()->Trans()->scale_local();
+		TmpS.x = TerSSEdit[2];
+		m_pTer->one()->Trans()->scale_local(TmpS);
+	}
+	break;
+	case 3:
+	{
+		KVector TmpS = m_pTer->one()->Trans()->scale_local();
+		TmpS.z = TerSSEdit[3];
+		m_pTer->one()->Trans()->scale_local(TmpS);
+	}
+	break;
+	default:
+		break;
+	}
+}
+
+
+void Dlg_Terrain::OnUnitPosSelChanged(UINT _Id)
+{
+	UINT TempId = _Id - IDC_UNITPOSXEDIT;
+
+	switch (TempId)
+	{
+	case 0:
+	{
+	}
+	break;
+	case 1:
+	{
+	}
+	break;
+	case 2:
+	{
+	}
+	break;
+	default:
+		break;
+	}
+}
+
+void Dlg_Terrain::OnBnClickedTereditbtn()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+}
+
+
+void Dlg_Terrain::OnBnClickedStatereslist()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+
+}

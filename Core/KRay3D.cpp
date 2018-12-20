@@ -50,11 +50,6 @@ void KRay3D::Set_Camera(Camera* _pCamera)
 void KRay3D::Update()
 {
 
-}
-
-
-void KRay3D::Update_Figure()
-{
 	if (nullptr == pCam)
 	{
 		return;
@@ -87,6 +82,11 @@ void KRay3D::Update_Figure()
 	pRayCon->Dir = RVMX.MulVecZero(pRayCon->Dir);
 	pRayCon->Dir.NormalizeVec3();
 	pRayCon->Dist = m_Dist;
+}
+
+
+void KRay3D::Update_Figure()
+{
 }
 
 void KRay3D::DebugRender()

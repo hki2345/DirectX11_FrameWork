@@ -121,11 +121,6 @@ bool InputManager::Input_Command::Press()
 }
 bool InputManager::Input_Command::Over(float _Time)
 {
-	if (m_PressTime >= 5.0f)
-	{
-		int a = 0;
-	}
-
 	return m_PressTime >= _Time;
 }
 bool InputManager::Input_Command::Over_Reset(float _Time)

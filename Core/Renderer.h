@@ -12,7 +12,7 @@
 class DRAW_INFO
 {
 public:
-	KVector2 MousePos;
+	KVector2 MUv;
 	KVector2 PPUV;
 	float BSize;
 	float OnClick;
@@ -125,6 +125,7 @@ public:
 
 	// 이미지 설정을 이제 렌더러의 재질이 해준다.
 	KPtr<KMaterial> material(const int& _Index = 0);
+	KPtr<KMesh> mesh(const int& _Index = 0);
 
 	void Set_RSState(const wchar_t* _Name);
 	int order() { return m_Order; }
@@ -139,7 +140,7 @@ public:
 
 	void Insert_RenderData(const KUINT& _Mesh, const KUINT& _Vtx, const KUINT& _Sub, const KUINT _Mat);
 
-private:
+protected:
 	void RenderUpdate();
 	
 	// 렌더러 통합 및 정리 -> 이렇게 가상으로 만드렁 놓으면

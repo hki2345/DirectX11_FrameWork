@@ -75,7 +75,7 @@ bool SC2_Camera::Init()
 
 	if (false == InputManager::IsKey(L"FREEEYE"))
 	{
-		InputManager::Create_Command(L"FREEEYE", VK_RBUTTON);
+		InputManager::Create_Command(L"FREEEYE", VK_MBUTTON);
 	}
 
 	if (false == InputManager::IsKey(L"Boost"))

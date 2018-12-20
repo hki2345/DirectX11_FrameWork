@@ -36,6 +36,12 @@ public:
 	static std::wstring		Chain_StringInt(const std::wstring& _Name, const int& _Value);
 	static std::wstring		Split_FileName(const wchar_t* _Path);
 	static std::wstring		Split_Path(const std::wstring& _ALL, const std::wstring& _FPath);
+
+
+	static std::wstring		Convert_Int2Str(const int& _Value);
+	static std::wstring		Convert_Float2Str(const float& _Value);
+
+
 	static int				Convert_Str2Int(const std::wstring& _Path);
 	static int				Convert_Str2Int(const wchar_t* _Path);
 	static bool				Is_StrVSStr(const wchar_t* _Path1, const wchar_t* _Path2);

@@ -47,7 +47,7 @@ void Renderer_Draw::Update_Trans(KPtr<Camera> _Camera)
 
 void Renderer_Draw::Update()
 {
-	if (true == KEY_PRESS("MouseButton"))
+	if (true == KEY_PRESS("LB"))
 	{
 		m_DI.OnClick = 1;
 	}
@@ -63,7 +63,7 @@ void Renderer_Draw::Update()
 	}
 
 
-	m_DI.MousePos = KMath::PostoUV2_XY(m_Col->figure()->m_ColPoint, m_Trans);
+	m_DI.MUv = KMath::PostoUV2_XY(m_Col->figure()->m_ColPoint, m_Trans);
 	m_DI.PPUV = KVector2(1 / m_Trans->scale_local().x, 1 / m_Trans->scale_local().y);
 
 

@@ -219,7 +219,7 @@ private:
 
 	void Set_Target();
 
-
+public:
 	KPtr<RenderTarget_Multi> defferd_target()
 	{
 		return m_DefferdTarget;

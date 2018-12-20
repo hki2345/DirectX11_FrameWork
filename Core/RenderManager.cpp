@@ -123,7 +123,8 @@ void RenderManager::Render()
 	Merge_Screen();
 	
 
-	if (DebugManager::Is_Debug())
+	DebugManager::Update();
+	if (true == DebugManager::Is_Debug())
 	{
 		// 기본 뎁스 - 완전 무조건 덮어그리는 식
 		Core_Class::MainDevice().Set_DSS(L"ALWAYS");

@@ -13,6 +13,8 @@
 #define IDD_UNITDLG                     348
 #define IDD_FORCEDLG                    350
 #define IDD_TERRAINDLG                  353
+#define IDD_DIALOG1                     355
+#define IDD_UNITLISTDLG                 355
 #define IDC_MENUTAB                     1000
 #define IDC_FBXLOADBTN                  1001
 #define IDC_KM3LOAD                     1001
@@ -87,18 +89,41 @@
 #define IDC_UNITNAMEINFO                1078
 #define IDC_KUNITXINFO                  1079
 #define IDC_KUNITYINFO                  1080
+#define IDC_TERCLEAR                    1080
 #define IDC_KUNITZINFO                  1081
+#define IDC_TERSAVE                     1081
 #define IDC_WNONEBTN                    1082
+#define IDC_TERUNITLIST                 1082
 #define IDC_WINSTBTN                    1083
 #define IDC_WSHOTBTN                    1084
+#define IDC_TERLOAD                     1084
+#define IDC_STATELOAD                   1085
+#define IDC_STATESAVE                   1086
+#define IDC_STATECLEAR                  1087
+#define IDC_UNITPOSXEDIT                1092
+#define IDC_UNITPOSYEDIT                1093
+#define IDC_UNITPOSZEDIT                1094
+#define IDC_TERSPLITX                   1095
+#define IDC_TERSPLITZ                   1096
+#define IDC_TERSCALEX                   1097
+#define IDC_TERSCALEZ                   1098
+#define IDC_TERTEXPATH                  1099
+#define IDC_TERCOVERTEX                 1100
+#define IDC_TERNAME                     1101
+#define IDC_STATENAME                   1102
+#define IDC_STATETERNAME                1103
+#define IDC_TEREDITBTN                  1104
+#define IDC_STATETERBTN                 1105
+#define IDC_STATERESLIST                1106
+#define IDC_LIST1                       1107
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        355
+#define _APS_NEXT_RESOURCE_VALUE        356
 #define _APS_NEXT_COMMAND_VALUE         32771
-#define _APS_NEXT_CONTROL_VALUE         1080
+#define _APS_NEXT_CONTROL_VALUE         1108
 #define _APS_NEXT_SYMED_VALUE           312
 #endif
 #endif

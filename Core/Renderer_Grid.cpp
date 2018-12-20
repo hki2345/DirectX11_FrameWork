@@ -80,6 +80,17 @@ void Renderer_Grid::RenderBegin(KPtr<Camera> _Cam, const KUINT& _MeshIdx, const 
 	m_MtlVec[0]->PShader()->SettingCB<KVector4>(L"GRIDDATA", m_GD);
 }
 
+
+void Renderer_Grid::Render(KPtr<Camera> _Camera, const KUINT& _MeshIdx, const KUINT& _MtlIdx, Render_Data* _Data)
+{
+	if (false == DebugManager::Is_Debug())
+	{
+		return;
+	}
+
+	Renderer::Render(_Camera, _MeshIdx, _MtlIdx, _Data);
+}
+
 bool Renderer_Grid::Init(int _Order /*= 0*/)
 {
 	Renderer::Init(_Order);

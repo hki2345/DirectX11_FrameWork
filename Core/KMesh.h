@@ -81,6 +81,9 @@ public:
 	bool Create_Vertex(UINT _iVtxCount, UINT _iVtxSize, D3D11_USAGE _eVtxUsage, void* _VtxMem);
 	bool Create_Index(UINT _iTriCount, UINT _iIdxSize, D3D11_USAGE _eIdxUsage, DXGI_FORMAT _IdxFm, void* _IdxMem);
 
+	void Update_Vertex(UINT _iVtxCount, UINT _iVtxSize, D3D11_USAGE _eVtxUsage, void* _VtxMem);
+	void Update_Index(UINT _iTriCount, UINT _iIdxSize, D3D11_USAGE _eIdxUsage, DXGI_FORMAT _IdxFm, void* _IdxMem);
+
 public:
 	void Update(const KUINT& _Start = 0, const KUINT& _VtxCnt = 1, KUINT* _pOff = nullptr);
 	void Render(const KUINT& _Start = 0, const KUINT& _EndIdx = 1, KUINT* _pOff = nullptr);

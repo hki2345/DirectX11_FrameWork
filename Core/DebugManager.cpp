@@ -8,6 +8,7 @@
 #include "KFont.h"
 #include "RenderTarget_Multi.h"
 
+#include "InputManager.h"
 
 bool DebugManager::m_bDebug = true;
 KColor DebugManager::m_LogColor = KColor::White;
@@ -158,6 +159,18 @@ void DebugManager::Draw_Log(const wchar_t* const _Str, ...)
 
 	va_end(Ap);
 }
+
+
+
+
+void DebugManager::Update()
+{
+	if (KEY_DOWN("DEBUG"))
+	{
+		Switch_Debug();
+	}
+}
+
 
 void DebugManager::Targetting()
 {

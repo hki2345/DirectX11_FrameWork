@@ -37,15 +37,19 @@ Dlg_Unit::~Dlg_Unit()
 
 void Dlg_Unit::Init_Dlg()
 {
-	ResourceManager<MeshContainer>::Clear();
-	ResourceManager<Changer_Animation>::Clear();
+	//ResourceManager<MeshContainer>::Clear();
+	//ResourceManager<Changer_Animation>::Clear();
 
 
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 	// 만약 자체 메쉬에 애니메이션을 바로 적용시키려면
 	// 애니메이션이 먼저 불러온 후 배급받는 식이다.
-	ResourceManager<Changer_Animation>::All_Load();
-	ResourceManager<MeshContainer>::All_Load();
+	
+	if (0 == ResourceManager<Changer_Animation>::All_Count())
+	{
+		ResourceManager<Changer_Animation>::All_Load();
+		ResourceManager<MeshContainer>::All_Load();
+	}
 
 	KPtr<State> TabScene = Core_Class::MainSceneMgr().Find_State(StateName.GetString());
 	m_CurOne = TabScene->Create_One(L"Unit_Model");

@@ -173,6 +173,22 @@ int	PathManager::Convert_Str2Int(const wchar_t* _Path)
 }
 
 
+std::wstring PathManager::Convert_Int2Str(const int& _Value)
+{
+	wchar_t NUM[NAMENUM];
+	_itow_s(_Value, NUM, 10);
+	return NUM;
+}
+
+std::wstring PathManager::Convert_Float2Str(const float& _Value)
+{
+	wchar_t NUM[NAMENUM];
+
+	return NUM;
+}
+
+
+// 패스간 같은지 검사
 bool PathManager::Is_StrVSStr(const wchar_t* _Path1, const wchar_t* _Path2)
 {
 	if ((_Path1[0] == 0 && _Path2[0] != 0 )||

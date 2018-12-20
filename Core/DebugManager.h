@@ -39,6 +39,17 @@ private:
 
 	
 public:
+	static void Switch_Debug()
+	{
+		if (true == m_bDebug)
+		{
+			m_bDebug = false;
+		}
+		else
+		{
+			m_bDebug = true;
+		}
+	}
 
 	static void Debug_On()
 	{
@@ -59,6 +70,7 @@ public:
 	static void Draw_Log(const wchar_t* const _Str, ...);
 
 public:
+	static void Update();
 	static void Logging();
 	static void Targetting();
 

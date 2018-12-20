@@ -70,7 +70,7 @@ void Edit_SUpdater::Update_State()
 		state()->Camera()->one()->Trans()->Moving(KVector4::Right * CameraSpeed * TimeManager::DeltaTime());
 	}
 
-	if (InputManager::Down(L"MouseButton"))
+	if (InputManager::Down(L"LB"))
 	{
 		KPtr<KCollision> m_Col = state()->This_Col2DManager.UpdateColCheck(0, pColFi);
 		if (nullptr != m_Col)
@@ -79,7 +79,7 @@ void Edit_SUpdater::Update_State()
 		}
 	}
 
-	if (InputManager::Up(L"MouseButton"))
+	if (InputManager::Up(L"LB"))
 	{
 		m_SelectActor = nullptr;
 	}

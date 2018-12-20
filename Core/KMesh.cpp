@@ -40,6 +40,24 @@ bool KMesh::Create(UINT _iVtxCount, UINT _iVtxSize, D3D11_USAGE _eVtxUsage, void
 	return true;
 }
 
+
+void KMesh::Update_Vertex(UINT _iVtxCount, UINT _iVtxSize, D3D11_USAGE _eVtxUsage, void* _VtxMem)
+{
+	VertSize_Vec.clear();
+	VertBuff_Vec.clear();
+	VertBuffInfo_Vec.clear();
+
+	Create_Vertex(_iVtxCount, _iVtxSize, _eVtxUsage, _VtxMem);
+}
+
+void KMesh::Update_Index(UINT _iTriCount, UINT _iIdxSize, D3D11_USAGE _eIdxUsage, DXGI_FORMAT _IdxFm, void* _IdxMem)
+{
+	IndexBuffInfo_Vec.clear();
+
+	Create_Index(_iTriCount, _iIdxSize, _eIdxUsage, _IdxFm, _IdxMem);
+}
+
+
 bool KMesh::Create_Vertex(UINT _iVtxCount, UINT _iVtxSize, D3D11_USAGE _eVtxUsage, void* _VtxMem) 
 {
 	Buffer_Vertex* NewInfo = new Buffer_Vertex();
@@ -74,6 +92,8 @@ bool KMesh::Create_Vertex(UINT _iVtxCount, UINT _iVtxSize, D3D11_USAGE _eVtxUsag
 
 	return true;
 }
+
+
 
 bool KMesh::Create_Index(UINT _iIdxCnt, UINT _iIdxSize, D3D11_USAGE _eIdxUsage, DXGI_FORMAT _IdxFm, void* _IdxMem)
 {
