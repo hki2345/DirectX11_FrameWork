@@ -19,11 +19,11 @@
     <ClInclude Include="Con_Class.h">
       <Filter>SC2\SC2_Core</Filter>
     </ClInclude>
-    <ClInclude Include="Container.h">
-      <Filter>SC2</Filter>
-    </ClInclude>
     <ClInclude Include="Force_Unit.h">
       <Filter>SC2\Unit</Filter>
+    </ClInclude>
+    <ClInclude Include="Container.h">
+      <Filter>SC2\Container</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -45,11 +45,11 @@
     <ClCompile Include="Con_Class.cpp">
       <Filter>SC2\SC2_Core</Filter>
     </ClCompile>
-    <ClCompile Include="Container.cpp">
-      <Filter>SC2</Filter>
-    </ClCompile>
     <ClCompile Include="Force_Unit.cpp">
       <Filter>SC2\Unit</Filter>
+    </ClCompile>
+    <ClCompile Include="Container.cpp">
+      <Filter>SC2\Container</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

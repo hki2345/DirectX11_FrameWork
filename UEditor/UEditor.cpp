@@ -8,6 +8,7 @@
 #include "Dlg_Terrain.cpp"
 #include "Dlg_TransPosition.cpp"
 #include "Dlg_Unit.cpp"
+#include "Dlg_UnitList.cpp"
 #include "DropEditor.cpp"
 #include "Edit_Class.cpp"
 #include "Edit_Launcher.cpp"

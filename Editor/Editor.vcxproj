@@ -218,6 +218,7 @@
     <ClCompile Include="Dlg_MeshConv.cpp" />
     <ClCompile Include="Dlg_Terrain.cpp" />
     <ClCompile Include="Dlg_Unit.cpp" />
+    <ClCompile Include="Dlg_UnitList.cpp" />
     <ClCompile Include="KEditor.cpp" />
     <ClCompile Include="TabDlg.cpp" />
     <ClCompile Include="View_Component.cpp" />
@@ -243,6 +244,7 @@
     <ClInclude Include="Dlg_MeshConv.h" />
     <ClInclude Include="Dlg_Terrain.h" />
     <ClInclude Include="Dlg_Unit.h" />
+    <ClInclude Include="Dlg_UnitList.h" />
     <ClInclude Include="KEditor.h" />
     <ClInclude Include="TabDlg.h" />
     <ClInclude Include="View_Component.h" />

@@ -51,4 +51,5 @@ public:
 	afx_msg void OnTerInfoSelChanged(UINT _Id);
 	afx_msg void OnUnitPosSelChanged(UINT _Id);
 	afx_msg void OnBnClickedTereditbtn();
+	afx_msg void OnBnClickedStatereslist();
 };
