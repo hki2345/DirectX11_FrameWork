@@ -99,14 +99,15 @@ bool SC2_ConManager<KS>::All_LoadSub(const intptr_t& _Handle, _wfinddata_t& _FD,
 			std::wstring Name = ArrFile;
 			std::wstring Folder = _Target;
 
-			Name += Exi;
+			// 안함 - 확장자 추가
+			// Name += Exi;
 
 			// 사진과 음악
 			if (Exi == L".png" || Exi == L".PNG" || Exi == L".Png" ||
 				Exi == L".jpg" || Exi == L".JPG" || Exi == L".Jpg" ||
 				Exi == L".bmp" || Exi == L".dds" || Exi == L".DDS" ||
 				Exi == L".mp3" || Exi == L".KM3" || Exi == L".km3" ||
-				Exi == L".KCA")
+				Exi == L".KCA" || Exi == L".KUD")
 			{
 				// 이걸해야 연속으로 막 불러올 수 있지 않곗냐;
 				if (nullptr == SC2_ConManager<KS>::Find(Folder.c_str()))

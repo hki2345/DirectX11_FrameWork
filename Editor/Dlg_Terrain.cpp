@@ -5,9 +5,17 @@
 #include "Dlg_Terrain.h"
 #include "afxdialogex.h"
 
+#include "Dlg_UnitList.h"
+#include "Edit_Class.h"
+#include <Con_Class.h>
+
 
 #include <Core_Class.h>
 #include <SC2_Camera.h>
+#include <SC2_Force.h>
+
+#include <Force_Unit.h>
+
 #include <Light.h>
 #include <Texture_Multi.h>
 
@@ -18,6 +26,7 @@
 
 #include <Renderer_BonAni.h>
 #include <ResourceManager.h>
+#include <InputManager.h>
 
 #include <KRay3D.h>
 
@@ -25,8 +34,9 @@
 
 IMPLEMENT_DYNAMIC(Dlg_Terrain, TabDlg)
 
-Dlg_Terrain::Dlg_Terrain(CWnd* pParent /*=NULL*/)
-	: TabDlg(IDD_TERRAINDLG, pParent)
+Dlg_Terrain::Dlg_Terrain(CWnd* pParent /*=NULL*/) :
+	TabDlg(IDD_TERRAINDLG, pParent),
+	m_Force(nullptr)
 {
 
 }
@@ -103,7 +113,7 @@ BOOL Dlg_Terrain::OnInitDialog()
 	pLight4->PushLightLayer(0);
 
 	KPtr<TheOne> TERRAIN = TabScene->Create_One();
-	TERRAIN->Trans()->scale_local(KVector4(1.0f, 2.0f, 1.0f));
+	TERRAIN->Trans()->scale_local(KVector4(5.0f, 2.0f, 5.0f));
 	TERRAIN->Trans()->pos_world(KVector4(5.0f, .0f, .0f, .0f));
 	m_pTer = TERRAIN->Add_Component<Renderer_Terrain>();
 
@@ -121,6 +131,17 @@ BOOL Dlg_Terrain::OnInitDialog()
 	TabScene->This_Col3DManager.Link(100, 101);
 
 	KPtr<KRay3D> RayCol = TabScene->Camera()->Add_Component<KRay3D>(101);
+
+	if (nullptr != Con_Class::s2_manager())
+	{
+		m_Force = Con_Class::s2_manager()->Find_Force(L"TT");
+	}
+	else
+	{
+		KPtr<SC2Manager> MManager = new SC2Manager();
+		Con_Class::s2_manager(MManager);
+	}
+
 
 	// PathManager::Is_StrVSStr
 	UpdateData(TRUE);
@@ -175,12 +196,174 @@ void Dlg_Terrain::DoDataExchange(CDataExchange* pDX)
 	}
 
 	DDX_Control(pDX, IDC_TERUNITLIST, UList);
+	DDX_Control(pDX, IDC_TEREDITBTN, m_TerBtn);
 }
 
 
 void Dlg_Terrain::Init_Dlg()
 {
 }
+
+void Dlg_Terrain::Update_SSPos()
+{
+	int A = UList.GetCurSel();
+	if (0 > A)
+	{
+		return;
+	}
+
+	if (nullptr != m_UnitVec[A])
+	{
+		KVector TVec = m_UnitVec[A]->one()->Trans()->pos_local();
+
+		UpdateData(TRUE);
+		UnitPosEdit[0] = TVec.m1;
+		UnitPosEdit[1] = TVec.m2;
+		UnitPosEdit[2] = TVec.m3;
+		UpdateData(FALSE);
+	}
+}
+
+
+
+void Dlg_Terrain::Update_Force()
+{
+	m_UnitVec.clear();
+
+	if (nullptr == m_Force)
+	{
+		return;
+	}
+	
+	std::list<KPtr<Force_Unit>>* TT = m_Force->unit_list();
+	std::list<KPtr<Force_Unit>>::iterator S = TT->begin();
+	std::list<KPtr<Force_Unit>>::iterator E = TT->end();
+
+	for (; S != E; ++S)
+	{
+		m_UnitVec.push_back((*S));
+	}
+}
+
+void Dlg_Terrain::Update_UnitList()
+{
+	UList.ResetContent();
+
+	for (size_t i = 0; i < m_UnitVec.size(); i++)
+	{
+		if (true == m_UnitVec[i]->one()->Is_Active())
+		{
+			UList.AddString(m_UnitVec[i]->name());
+		}
+	}
+}
+
+void Dlg_Terrain::Update_Dlg()
+{
+	Update_Terrain();
+	Update_Grab();
+	Udpate_Delete();
+	Update_SSPos();
+}
+
+void Dlg_Terrain::Update_Terrain()
+{
+	if (true == KEY_DOWN("ESC"))
+	{
+		m_pTer->Edit_Off();
+		m_TerBtn.EnableWindow(TRUE);
+	}
+}
+
+void Dlg_Terrain::Update_Grab()
+{
+	if (true == m_bGrab)
+	{
+		if (true == KEY_DOWN("RB"))
+		{
+			m_pTer->Mouse_CalOff();
+			m_bGrab = false;
+			m_CurUnit->one()->Set_Death();
+			m_CurUnit = nullptr;
+		}
+
+		else if (true == KEY_DOWN("LB"))
+		{
+			if (true == m_pTer->Is_OnTer())
+			{
+				m_UnitVec.push_back(Create_Unit());
+			}
+
+			Update_UnitList();
+		}
+
+		if (nullptr != m_CurUnit)
+		{
+			m_pTer->Mouse_CalOn();
+			m_CurUnit->one()->Trans()->pos_local(m_pTer->pos_mouse());
+
+			if (true == m_pTer->Is_Edit())
+			{
+				m_pTer->Edit_Off();
+			}
+		}
+	}
+}
+
+void Dlg_Terrain::Udpate_Delete()
+{
+	if (true == KEY_DOWN("DEL"))
+	{
+		int A = UList.GetCurSel();
+		if (0 > A)
+		{
+			return;
+		}
+
+		if (nullptr != m_UnitVec[A])
+		{
+			std::vector<KPtr<Force_Unit>>::iterator Iter = m_UnitVec.begin();
+
+			for (size_t i = 0; i < m_UnitVec.size(); ++i, ++Iter)
+			{
+				if (m_UnitVec[A] == m_UnitVec[i])
+				{
+					break;
+				}
+			}
+
+			m_Force->Delete_Unit((*Iter));
+			m_UnitVec.erase(Iter);
+		}
+		Update_UnitList();
+	}
+}
+
+KPtr<Force_Unit> Dlg_Terrain::Create_Unit()
+{
+	if (nullptr == m_CurUnit)
+	{
+		return nullptr;
+	}
+
+	KPtr<Force_Unit> TOne = m_Force->Create_Unit(m_CurUnit->name());
+	TOne->one()->Trans()->pos_local(m_CurUnit->one()->Trans()->pos_local());
+
+	return TOne;
+}
+
+void Dlg_Terrain::Create_Grab(const wchar_t* _Name)
+{
+	KPtr<State> TabScene = Core_Class::MainScene();
+	KPtr<TheOne> TOne = TabScene->Create_One();
+
+	TOne->Trans()->pos_local(KVector(.0f));
+	TOne->Trans()->scale_local(KVector(1.f, 1.f, 1.f));
+	m_CurUnit = TOne->Add_Component<Force_Unit>(_Name);
+
+	m_bGrab = true;
+}
+
 
 
 BEGIN_MESSAGE_MAP(Dlg_Terrain, TabDlg)
@@ -196,8 +379,8 @@ BEGIN_MESSAGE_MAP(Dlg_Terrain, TabDlg)
 	ON_CONTROL_RANGE(EN_CHANGE, IDC_TERNAME, IDC_STATETERNAME, &Dlg_Terrain::OnEditSelChanged)
 	ON_CONTROL_RANGE(EN_CHANGE, IDC_TERSPLITX, IDC_TERSCALEZ, &Dlg_Terrain::OnTerInfoSelChanged)
 	ON_CONTROL_RANGE(EN_CHANGE, IDC_UNITPOSXEDIT, IDC_UNITPOSZEDIT, &Dlg_Terrain::OnUnitPosSelChanged)
-	ON_BN_CLICKED(IDC_TEREDITBTN, &Dlg_Terrain::OnBnClickedTereditbtn)
 	ON_BN_CLICKED(IDC_STATERESLIST, &Dlg_Terrain::OnBnClickedStatereslist)
+	ON_BN_CLICKED(IDC_TEREDITBTN, &Dlg_Terrain::OnBnClickedTereditbtn)
 END_MESSAGE_MAP()
 
 
@@ -237,18 +420,28 @@ void Dlg_Terrain::OnBnClickedTercovertex()
 void Dlg_Terrain::OnBnClickedStateclear()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	m_Force->Clear_Unit();
+	m_UnitVec.clear();
+	Update_UnitList();
 }
 
 
 void Dlg_Terrain::OnBnClickedStateload()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	CString Tem;
+	NameEdit[1].GetWindowTextW(Tem);
+	m_Force->Load(Tem.GetString());
+
+	Update_Force();
+	Update_UnitList();
 }
 
 
 void Dlg_Terrain::OnBnClickedStatesave()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	m_Force->Save();
 }
 
 
@@ -322,34 +515,42 @@ void Dlg_Terrain::OnTerInfoSelChanged(UINT _Id)
 void Dlg_Terrain::OnUnitPosSelChanged(UINT _Id)
 {
 	UINT TempId = _Id - IDC_UNITPOSXEDIT;
+	UpdateData(TRUE);
+	UpdateData(FALSE);
 
-	switch (TempId)
+
+	int A = UList.GetCurSel();
+	if (0 > A)
 	{
-	case 0:
-	{
+		return;
 	}
-	break;
-	case 1:
+
+
+	if (nullptr != m_UnitVec[A])
 	{
-	}
-	break;
-	case 2:
-	{
-	}
-	break;
-	default:
-		break;
+		KVector TVec = KVector(UnitPosEdit[0], UnitPosEdit[1], UnitPosEdit[2]);
+
+		float TMP = m_pTer->Y_Terrain(TVec);
+		TVec.y = TMP;
+		m_UnitVec[A]->one()->Trans()->pos_local(TVec);
 	}
 }
-
-void Dlg_Terrain::OnBnClickedTereditbtn()
-{
-	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
-}
-
 
 void Dlg_Terrain::OnBnClickedStatereslist()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	Dlg_UnitList* TT = (Dlg_UnitList*)Edit_Class::MDlg->Find_Dlg(L"Unit List");
+	if (nullptr != TT)
+	{
+		TT->Init_Dlg(this);
+		TT->ShowWindow(SW_SHOW);
+	}
+}
 
+
+void Dlg_Terrain::OnBnClickedTereditbtn()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	m_pTer->Edit_On();
+	m_TerBtn.EnableWindow(FALSE);
 }

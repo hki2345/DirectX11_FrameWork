@@ -26,6 +26,9 @@ private:
 
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV 지원입니다.
+
+
+	void Init_Dlg() override;
 	void Hide_Dlg() override;
 	void Update_RscTree();
 	void Update_Path();

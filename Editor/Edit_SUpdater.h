@@ -3,18 +3,6 @@
 
 class Edit_SUpdater : public State::State_Updater
 {
-public:
-	Figure2D_DE* pColFi;
-	bool Check;
-
-	float CameraSpeed;
-
-	KPtr<TheOne> m_SelectActor;
-
-	int Number;
-	int CheckNumber;
-
-	bool m_bTestThread;
 
 public:
 	// State_Updater을(를) 통해 상속됨
@@ -22,10 +10,6 @@ public:
 
 	// State_Updater을(를) 통해 상속됨
 	virtual void Start_State() override;
-
-	virtual void DebugRender() override;
-
-	unsigned int Load_ByThread(void* _Test);
 
 public:
 	Edit_SUpdater();

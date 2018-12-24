@@ -37,6 +37,7 @@ void Edit_Launcher::Build()
 	PathManager::Create_ForderPath(L"KCA", L"Data\\KCA");
 	PathManager::Create_ForderPath(L"KUD", L"Data\\KUD");
 	PathManager::Create_ForderPath(L"KTD", L"Data\\KTD");
+	PathManager::Create_ForderPath(L"FORCE", L"Data\\Force");
 	PathManager::Create_ForderPath(L"SpriteBack", L"Data\\Back\\Sprite");
 
 	// 이렇게 경로를 잡은 뒤 해야함
@@ -48,6 +49,8 @@ void Edit_Launcher::Build()
 	ResourceManager<KFont>::Create(L"태나무", L"태나무");
 	
 
+	InputManager::Create_Command(L"DEL", VK_DELETE);
+	InputManager::Create_Command(L"ESC", VK_ESCAPE);
 	InputManager::Create_Command(L"RB", VK_RBUTTON);
 	InputManager::Create_Command(L"LB", VK_LBUTTON);
 	InputManager::Create_Command(L"Up", 'W');

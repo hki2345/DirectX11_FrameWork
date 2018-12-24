@@ -180,8 +180,10 @@ void Dlg_Unit::DoDataExchange(CDataExchange* pDX)
 
 void Dlg_Unit::Update_RscTree()
 {
+
 	UpdateData(TRUE);
 
+	m_KM3List.ResetContent();
 	std::vector<KPtr<MeshContainer>> TVec = ResourceManager<MeshContainer>::All_SingleVec();
 
 	for (size_t i = 0; i < TVec.size(); i++)

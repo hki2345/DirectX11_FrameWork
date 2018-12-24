@@ -1,4 +1,6 @@
 #include "Renderer_Terrain.h"
+
+
 #include "KMesh.h"
 
 #include "KRay3D.h"
@@ -13,7 +15,9 @@
 
 
 Renderer_Terrain::Renderer_Terrain() :
-	m_BSize(.0f)
+	m_BSize(.0f),
+	m_Edit(false),
+	m_CalMPos(false)
 {
 }
 
@@ -25,13 +29,48 @@ Renderer_Terrain::~Renderer_Terrain()
 
 void Renderer_Terrain::TerrainTo_MPos(KPtr<Camera> _Camera)
 {
+	if (false == InputManager::Check_InScr() || false == m_CalMPos)
+	{
+		Reset_DI();
+		return;
+	}
+
+
 	KPtr<KRay3D> CRay = _Camera->Get_Component<KRay3D>();
 	if (nullptr == CRay)
 	{
 		return;
 	}
 
-	bool TBol = false;
+
+	
+	m_OnTer = false;
+
+
+	// 1차 플레인 검열
+	// LU
+	KVector V0 = m_TempVtx[(m_TFD.SizeZ + 1) * (m_TFD.SizeX) - 1].Pos * m_Trans->scale_world() + m_Trans->pos_world();
+
+	// RU
+	KVector V1 = m_TempVtx[(m_TFD.SizeZ) * (m_TFD.SizeX) + m_TFD.SizeX].Pos * m_Trans->scale_world() + m_Trans->pos_world();
+
+	// LD
+	KVector V2 = m_TempVtx[0].Pos * m_Trans->scale_world() + m_Trans->pos_world();
+
+	// RD
+	KVector V3 = m_TempVtx[m_TFD.SizeX].Pos * m_Trans->scale_world() + m_Trans->pos_world();
+	m_OnTer = DirectX::TriangleTests::Intersects(CRay->ray_container()->Ori, CRay->ray_container()->Dir, V3, V1, V0, CRay->ray_container()->Dist);
+	if (false == m_OnTer)
+	{
+		m_OnTer = DirectX::TriangleTests::Intersects(CRay->ray_container()->Ori, CRay->ray_container()->Dir, V2, V3, V1, CRay->ray_container()->Dist);
+	}
+
+	if (false == m_OnTer)
+	{
+		Reset_DI();
+		return;
+	}
+
 
 	for (size_t Z = 0; Z < m_TFD.SizeZ; Z++)
 	{
@@ -44,35 +83,28 @@ void Renderer_Terrain::TerrainTo_MPos(KPtr<Camera> _Camera)
 			// 지금은 아니지만 나중에 열어보면 아마 다시 써야하는게 맞겟다. 아니면 디버그하든가.
 			// 아므ㅜ래도 디버그보단 그때 새마음 새뜻으로 다시 시작하는게 더 빠르겠다.
 			// LU
-			KVector V0 = m_TempVtx[((Z + 1) * (m_TFD.SizeX + 1)) + X].Pos * m_Trans->scale_world() + m_Trans->pos_world();
+			V0 = m_TempVtx[((Z + 1) * (m_TFD.SizeX + 1)) + X].Pos * m_Trans->scale_world() + m_Trans->pos_world();
 
 			// RU
-			KVector V1 = m_TempVtx[((Z + 1) * (m_TFD.SizeX + 1)) + (X + 1)].Pos * m_Trans->scale_world() + m_Trans->pos_world();
+			V1 = m_TempVtx[((Z + 1) * (m_TFD.SizeX + 1)) + (X + 1)].Pos * m_Trans->scale_world() + m_Trans->pos_world();
 
 			// LD
-			KVector V2 = m_TempVtx[((Z) * (m_TFD.SizeX + 1)) + (X)].Pos * m_Trans->scale_world() + m_Trans->pos_world();
+			V2 = m_TempVtx[((Z) * (m_TFD.SizeX + 1)) + (X)].Pos * m_Trans->scale_world() + m_Trans->pos_world();
 
 			// RD
-			KVector V3 = m_TempVtx[((Z) * (m_TFD.SizeX + 1)) + (X + 1)].Pos * m_Trans->scale_world() + m_Trans->pos_world();
+			V3 = m_TempVtx[((Z) * (m_TFD.SizeX + 1)) + (X + 1)].Pos * m_Trans->scale_world() + m_Trans->pos_world();
 
-			TBol = DirectX::TriangleTests::Intersects(CRay->ray_container()->Ori, CRay->ray_container()->Dir, V2, V1, V0, CRay->ray_container()->Dist);
-			if (false == TBol)
+			m_OnTer = DirectX::TriangleTests::Intersects(CRay->ray_container()->Ori, CRay->ray_container()->Dir, V3, V1, V0, CRay->ray_container()->Dist);
+			if (false == m_OnTer)
 			{
-				TBol = DirectX::TriangleTests::Intersects(CRay->ray_container()->Ori, CRay->ray_container()->Dir, V2, V3, V1, CRay->ray_container()->Dist);
+				m_OnTer = DirectX::TriangleTests::Intersects(CRay->ray_container()->Ori, CRay->ray_container()->Dir, V2, V3, V1, CRay->ray_container()->Dist);
 			}
 
-			if (true == TBol)
+			if (true == m_OnTer)
 			{
 				m_MPos = KMath::Calc_ColPoint(CRay->ray_container()->Ori, CRay->ray_container()->Dir, CRay->ray_container()->Dist);
 				m_DI.MUv = KMath::PostoUV2_XZ(m_MPos, m_Trans, KVector((float)m_TFD.SizeX, .0f, (float)m_TFD.SizeZ, .0f));
 				m_DI.MUv.y = 1.0f - m_DI.MUv.y;
-
-				KLOG(L"Terrain To MPos: %f, %f, %f", m_MPos.x, m_MPos.y, m_MPos.z);
-				KLOG(L"Terrain To MPos UV: %f, %f", m_DI.MUv.x, m_DI.MUv.y);
-
-				KLOG(L"Terrain IDX: %d, %d", X, Z);
-				KLOG(L"Terrain IDX: %d", (int)((Z)) * (m_TFD.SizeZ + 1) + (X + 1));
-				KLOG(L"%b", TBol);
 
 				return;
 			}
@@ -81,6 +113,12 @@ void Renderer_Terrain::TerrainTo_MPos(KPtr<Camera> _Camera)
 
 
 	return;
+}
+
+void Renderer_Terrain::Reset_DI()
+{
+	m_MPos = .0f;
+	m_DI.MUv = KVector2(-1.0f, -1.0f);
 }
 
 void Renderer_Terrain::Set_DI()
@@ -95,6 +133,11 @@ void Renderer_Terrain::Set_DI()
 
 void Renderer_Terrain::Ascent_Normal(const float& _Value)
 {
+	if (false == m_Edit)
+	{
+		return;
+	}
+
 	int X = (int)(((m_MPos.x - m_Trans->scale_local().x * .5f - m_Trans->pos_local().x) / Trans()->scale_local().x));
 	int Z = (int)(((m_MPos.z + m_Trans->scale_local().z * .5f - m_Trans->pos_local().z) / Trans()->scale_local().z));
 
@@ -303,20 +346,24 @@ void Renderer_Terrain::RenderBegin(KPtr<Camera> _Camera, const KUINT& _MeshIdx, 
 	Set_DI();
 
 	m_DI.OnClick = .0f;
-	if (true == KEY_PRESS("LB"))
+
+	if (true == InputManager::Check_InScr())
 	{
-		Ascent_Normal(1.0f);
-		m_DI.OnClick = 1.0f;
+		if (true == KEY_PRESS("LB"))
+		{
+			Ascent_Normal(1.0f);
+			m_DI.OnClick = 1.0f;
+		}
+
+		if (true == KEY_PRESS("RB"))
+		{
+			Ascent_Normal(-1.0f);
+			m_DI.OnClick = -1.0f;
+		}
 	}
 
-	if (true == KEY_PRESS("RB"))
-	{
-		Ascent_Normal(-1.0f);
-		m_DI.OnClick = -1.0f;
-	}
 	material()->PShader()->SettingCB<TERRAIN_FD>(L"TERRAIN_FD", m_TFD);
- 	material()->PShader()->SettingCB<DRAW_INFO>(L"DRAW_INFO", m_DI);
-
+	material()->PShader()->SettingCB<DRAW_INFO>(L"DRAW_INFO", m_DI);
 }
 
 void Renderer_Terrain::base_texture(const wchar_t* _MTex)

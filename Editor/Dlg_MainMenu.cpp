@@ -12,6 +12,7 @@
 #include "Dlg_Unit.h"
 #include "Dlg_Terrain.h"
 #include "Dlg_Editor.h"
+#include "Dlg_UnitList.h"
 
 #include "Edit_Class.h"
 
@@ -59,6 +60,21 @@ BOOL Dlg_MainMenu::OnInitDialog()
 	CreateDlg<Dlg_Unit>(IDD_UNITDLG, L"Unit");
 	CreateDlg<Dlg_Terrain>(IDD_TERRAINDLG, L"Terrain");
 	CreateDlg<Dlg_Editor>(IDD_TOOLDLG, L"Study");
+
+
+	// 따로 뜨는 창 - 하나라서 그냥 이렇게 꾸밈
+	{
+		Dlg_UnitList* m_pDlg = new Dlg_UnitList();
+
+		m_pDlg->StateName = L"Unit List";
+		m_pDlg->Create(IDD_UNITLISTDLG, this);
+		m_pDlg->SetBackgroundColor(RGB(255, 255, 255), TRUE);
+		m_pDlg->ShowWindow(SW_HIDE);
+		m_pDlg->m_StateChange = false;
+		m_VecDlg.push_back(m_pDlg);
+	}
+
+
 	Show_Dlg(0);
 	// TODO:  여기에 추가 초기화 작업을 추가합니다.
 
@@ -96,4 +112,28 @@ void Dlg_MainMenu::Show_Dlg(size_t _Index)
 	TabMenu.SetCurSel((int)_Index);
 
 	m_CurIndex = _Index;
+}
+
+
+TabDlg* Dlg_MainMenu::Find_Dlg(const wchar_t* _Name)
+{
+	if (nullptr == _Name)
+	{
+		return nullptr;
+	}
+
+	for (size_t i = 0; i < m_VecDlg.size(); i++)
+	{
+		if (m_VecDlg[i]->StateName == _Name)
+		{
+			return m_VecDlg[i];
+		}
+	}
+
+	return nullptr;
+}
+
+void Dlg_MainMenu::Update_Dlg()
+{
+	m_VecDlg[m_CurIndex]->Update_Dlg();
 }

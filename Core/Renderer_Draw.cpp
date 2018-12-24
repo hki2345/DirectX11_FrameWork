@@ -65,8 +65,6 @@ void Renderer_Draw::Update()
 
 	m_DI.MUv = KMath::PostoUV2_XY(m_Col->figure()->m_ColPoint, m_Trans);
 	m_DI.PPUV = KVector2(1 / m_Trans->scale_local().x, 1 / m_Trans->scale_local().y);
-
-
 }
 
 void Renderer_Draw::RenderBegin(KPtr<Camera> _Cam, const KUINT& _MeshIdx, const KUINT& _MtlIdx)

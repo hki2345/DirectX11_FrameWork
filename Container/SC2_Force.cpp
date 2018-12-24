@@ -1,8 +1,8 @@
 #include "SC2_Force.h"
 
-
-
-
+#include <WriteStream.h>
+#include <ReadStream.h>
+#include <Core_Class.h>
 
 
 
@@ -16,19 +16,78 @@ SC2_Force::SC2_Force(const wchar_t* _Name, const KColor& _Color)
 
 SC2_Force::~SC2_Force()
 {
-}
+} 
 
+
+KPtr<Force_Unit> SC2_Force::Create_Unit(const wchar_t* _Name)
+{
+	/*m_SUI = m_UList.begin();
+	m_EUI = m_UList.end();
+
+	for (; m_SUI != m_EUI; ++m_SUI)
+	{
+		if (false == PathManager::Is_StrVSStr((*m_SUI)->name(), _Name))
+		{
+			return nullptr;
+		}
+	}*/
+
+
+	KPtr<State> TabScene = Core_Class::MainScene();
+	KPtr<TheOne> TOne = TabScene->Create_One();
+
+	TOne->Trans()->pos_local(KVector::Zero);
+	TOne->Trans()->scale_local(KVector(1.f, 1.f, 1.f));
+	KPtr<Force_Unit> TT = TOne->Add_Component<Force_Unit>(_Name);
+	TT->force(this);
+
+	m_UList.push_back(TT);
+
+	return TT;
+}
 
 KPtr<Force_Unit> SC2_Force::Find_Unit(const wchar_t* _Name)
 {
-	m_SUI = m_UMap.find(_Name);
+	m_SUI = m_UList.begin();
+	m_EUI = m_UList.end();
 
-	if (m_UMap.end() == m_SUI)
+	for (; m_SUI != m_EUI; ++m_SUI)
 	{
-		return nullptr;
+		if (true == PathManager::Is_StrVSStr((*m_SUI)->name(), _Name))
+		{
+			return (*m_SUI);
+		}
+	}
+	return nullptr;
+}
+
+void SC2_Force::Clear_Unit()
+{
+	m_SUI = m_UList.begin();
+	m_EUI = m_UList.end();
+
+	for (; m_SUI != m_EUI; ++m_SUI)
+	{
+		(*m_SUI)->one()->Set_Death();
 	}
 
-	return m_SUI->second;
+	m_UList.clear();
+}
+
+void SC2_Force::Delete_Unit(KPtr<Force_Unit> _Unit)
+{
+	m_SUI = m_UList.begin();
+	m_EUI = m_UList.end();
+
+	for (; m_SUI != m_EUI; ++m_SUI)
+	{
+		if ((*m_SUI) == _Unit)
+		{
+			(*m_SUI)->one()->Set_Death();
+			m_UList.erase(m_SUI);
+			return;
+		}
+	}
 }
 
 
@@ -40,11 +99,83 @@ bool SC2_Force::Init()
 
 void SC2_Force::Update()
 {
-	m_SUI = m_UMap.begin();
-	m_EUI = m_UMap.begin();
+	m_SUI = m_UList.begin();
+	m_EUI = m_UList.end();
+
+	for (; m_SUI != m_EUI;)
+	{
+		if (false == (*m_SUI)->Is_Death())
+		{
+			(*m_SUI)->Update();
+			++m_SUI;
+		}
+		else
+		{
+			m_SUI = m_UList.erase(m_SUI);
+		}
+	}
+}
+
+
+
+// 해당 세력의 유닛 배치
+void SC2_Force::Save()
+{
+	std::wstring Tmp = ws_name();
+	Tmp += L".force";
+
+	Tmp = PathManager::Find_ForderPath(L"FORCE") + Tmp;
+
+
+	// 개수
+	// 유닛 이름 - 위치
+	WriteStream WS = WriteStream(Tmp.c_str());
+
+
+	int Size = (int)m_UList.size();
+	WS.Write(Size);
+
+
+	m_SUI = m_UList.begin();
+	m_EUI = m_UList.end();
 
 	for (; m_SUI != m_EUI; ++m_SUI)
 	{
-		m_SUI->second->Update();
+		KVector TT = (*m_SUI)->one()->Trans()->pos_world();
+		WS.Write((*m_SUI)->name(), sizeof(wchar_t) * NAMENUM);
+		WS.Write(&TT, sizeof(KVector));
+	}
+}
+
+
+void SC2_Force::Load(const wchar_t* _Name)
+{
+	Clear_Unit();
+
+
+	name(_Name);
+	std::wstring Tmp = _Name;
+	Tmp += L".force";
+	Tmp = PathManager::Find_ForderPath(L"FORCE") + Tmp;
+
+	ReadStream RS = ReadStream(Tmp.c_str());
+
+
+	// 개수
+	// 유닛 이름 - 위치
+
+	int Size = 0;
+	RS.Read(Size);
+
+
+	for (int i = 0; i < Size; i++)
+	{
+		wchar_t Tmp[NAMENUM];
+		KVector TT;
+		RS.Read(Tmp, sizeof(wchar_t) * NAMENUM);
+		RS.Read(&TT, sizeof(KVector));
+
+		KPtr<Force_Unit> TU = Create_Unit(Tmp);
+		TU->one()->Trans()->pos_local(TT);
 	}
 }

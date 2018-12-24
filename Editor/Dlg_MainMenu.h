@@ -2,7 +2,11 @@
 #include "afxcmn.h"
 #include <vector>
 #include <State.h>
+
 #include <Core_Class.h>
+
+
+#include "Edit_SUpdater.h"
 #include "TabDlg.h"
 
 
@@ -57,6 +61,7 @@ private:
 			if (nullptr == m_Scene)
 			{
 				m_Scene = Core_Class::MainSceneMgr().Create_State(_ItemName.GetString());
+				m_Scene->CreateUpdater<Edit_SUpdater>();
 				KPtr<TheOne> Cam = m_Scene->Create_One();
 				KPtr<Camera> CamCom = Cam->Add_Component<Camera>();
 				CamCom->Insert_LayerData(0);
@@ -78,6 +83,11 @@ private:
 	}
 
 	void Show_Dlg(size_t _Index);
+
+public:
+	TabDlg* Find_Dlg(const wchar_t* _Name);
+
+	void Update_Dlg();
 
 public:
 	afx_msg void OnTcnSelchangeMenutab(NMHDR *pNMHDR, LRESULT *pResult);

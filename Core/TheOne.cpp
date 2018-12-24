@@ -15,6 +15,21 @@ TheOne::~TheOne()
 {
 }
 
+KPtr<Component> TheOne::Set_Component(KPtr<Component> _TCom)
+{
+
+	_TCom->Set_Type();
+	_TCom->one(this);
+	_TCom->kwindow(kwindow());
+	_TCom->state(state());
+	_TCom->ComInit();
+
+	
+	m_ComList.push_back(_TCom);
+	return _TCom;
+}
+
+
 void TheOne::Set_Abs() 
 {
 	m_AbsType = AT_ALLOVER;

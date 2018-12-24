@@ -69,6 +69,20 @@ BEGIN_MESSAGE_MAP(Dlg_KM3Loader, TabDlg)
 END_MESSAGE_MAP()
 
 
+void Dlg_KM3Loader::Init_Dlg()
+{
+	if (0 == ResourceManager<Changer_Animation>::All_Count())
+	{
+		// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+		// 만약 자체 메쉬에 애니메이션을 바로 적용시키려면
+		// 애니메이션이 먼저 불러온 후 배급받는 식이다.
+		ResourceManager<Changer_Animation>::All_Load();
+		ResourceManager<MeshContainer>::All_Load();
+	}
+
+	Update_RscTree();
+}
+
 void Dlg_KM3Loader::Hide_Dlg()
 {
 	if (nullptr != m_CurOne)
@@ -82,18 +96,11 @@ void Dlg_KM3Loader::Hide_Dlg()
 
 void Dlg_KM3Loader::OnBnClickedKm3load()
 {
-
-	//KThread::Start_Thread<Dlg_KM3Loader>(L"Load_KM3", &Dlg_KM3Loader::Load_KM3T, this);
 	ResourceManager<MeshContainer>::Clear();
 	ResourceManager<Changer_Animation>::Clear();
 
-
-	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
-	// 만약 자체 메쉬에 애니메이션을 바로 적용시키려면
-	// 애니메이션이 먼저 불러온 후 배급받는 식이다.
 	ResourceManager<Changer_Animation>::All_Load();
 	ResourceManager<MeshContainer>::All_Load();
-
 	// 스래드 실행시 mfc 최신화가 안됀다.
 	Update_RscTree();
 }
@@ -103,12 +110,10 @@ unsigned int Dlg_KM3Loader::Load_KM3T(void* _args)
 	ResourceManager<MeshContainer>::Clear();
 	ResourceManager<Changer_Animation>::Clear();
 
-
-	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
-	// 만약 자체 메쉬에 애니메이션을 바로 적용시키려면
-	// 애니메이션이 먼저 불러온 후 배급받는 식이다.
 	ResourceManager<Changer_Animation>::All_Load();
 	ResourceManager<MeshContainer>::All_Load();
+	// 스래드 실행시 mfc 최신화가 안됀다.
+	Update_RscTree();
 
 	return 0;
 }

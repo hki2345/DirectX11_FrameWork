@@ -1,7 +1,8 @@
 #include "InputManager.h"
-#include <Windows.h>
+
 #include "TimeManager.h"
 #include "Core_Class.h"
+
 
 KVector2	InputManager::m_MousePos;
 KVector2	InputManager::m_OriMousePos;
@@ -228,6 +229,27 @@ bool InputManager::Over_Reset(const wchar_t* _Name, float _Time) {
 	}
 	return pKEY->Over_Reset(_Time);
 }
+
+
+bool InputManager::Check_InScr()
+{
+	KVector2 MPos = MousePos();
+	bool Check;
+
+	if (Core_Class::MainWindow().size() > MPos && KVector2::Zero < MPos)
+	{
+		Check = true;
+	}
+	else
+	{
+		Check = false;
+	}
+
+	KLOG(L"Mouse InScreen : %b", Check);
+
+	return Check;
+}
+
 
 
 // 변수 넣어주시면 바꿔드립니다. - 휠 움직인 값으로 - 짜피 메모리 더써야되니까

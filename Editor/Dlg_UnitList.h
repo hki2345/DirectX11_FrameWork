@@ -1,9 +1,11 @@
 #pragma once
+#include "afxwin.h"
+#include "TabDlg.h"
 
 
 // Dlg_UnitList 대화 상자입니다.
-
-class Dlg_UnitList : public CDialogEx
+class Dlg_Terrain;
+class Dlg_UnitList : public TabDlg
 {
 	DECLARE_DYNAMIC(Dlg_UnitList)
 
@@ -16,12 +18,15 @@ public:
 	enum { IDD = IDD_UNITLISTDLG };
 #endif
 
+private:
+	Dlg_Terrain* m_MofUList;
+	CListBox m_Ulist;
+
 protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV 지원입니다.
 
-
 	DECLARE_MESSAGE_MAP()
 public:
-	afx_msg void OnBnClickedOk();
-	afx_msg void OnLbnDblclkList1();
+	void Init_Dlg(TabDlg* _Other);
+	afx_msg void OnLbnDblclkUnitlist();
 };

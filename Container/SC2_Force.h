@@ -22,9 +22,9 @@ private:
 	};
 
 private:	
-	std::map<std::wstring, KPtr<Force_Unit>> m_UMap;
-	std::map<std::wstring, KPtr<Force_Unit>>::iterator m_SUI;
-	std::map<std::wstring, KPtr<Force_Unit>>::iterator m_EUI;
+	std::list<KPtr<Force_Unit>> m_UList;
+	std::list<KPtr<Force_Unit>>::iterator m_SUI;
+	std::list<KPtr<Force_Unit>>::iterator m_EUI;
 
 	Force_Container m_Force;
 
@@ -72,27 +72,23 @@ public:
 
 	KUINT units_size()
 	{
-		return (KUINT)m_UMap.size();
+		return (KUINT)m_UList.size();
 	}
 
-	KPtr<Force_Unit> Find_Unit(const wchar_t* _Name);
-
-
-	template<typename T>
-	KPtr<T> Create_Unit(const wchar_t* _Name)
+	std::list<KPtr<Force_Unit>>* unit_list()
 	{
-		if (0 == _Name[0])
-		{
-			return nullptr;
-		}
-
-		KPtr<T> TU = new T(_Name, this);
-
-		TU->Init();
-		m_UMap.insert(std::map<std::wstring, KPtr<Force_Unit>>::value_type(_Name, TU));
-
-		return TU;
+		return &m_UList;
 	}
+
+
+	KPtr<Force_Unit> Create_Unit(const wchar_t* _Name);
+	KPtr<Force_Unit> Find_Unit(const wchar_t* _Name);
+	void Delete_Unit(KPtr<Force_Unit> _Unit);
+	void Clear_Unit();
+
+	void Save();
+	void Load(const wchar_t* _Name);
+	
 
 public:
 	SC2_Force(const wchar_t* _Name, const KColor& _Color);

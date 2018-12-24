@@ -1,6 +1,9 @@
 #include "Force_Unit.h"
 #include "SC2_Force.h"
 
+
+#include <Core_Class.h>
+
 #include <ReadStream.h>
 #include <WriteStream.h>
 
@@ -31,7 +34,16 @@ bool Force_Unit::Init(const wchar_t* _Name)
 
 void Force_Unit::Update()
 {
+	m_SRI = m_RList.begin();
+	m_ERI = m_RList.end();
 
+	for (; m_SRI != m_ERI; ++m_SRI)
+	{
+		if (nullptr != m_Force)
+		{
+			(*m_SRI)->force_color(m_Force->force_color());
+		}
+	}
 }
 
 
@@ -72,11 +84,16 @@ bool Force_Unit::Load(const wchar_t* _Name)
 		Tmp.clear();
 		Tmp += (*m_SCI) + L".KM3";
 
+		if (nullptr == one())
+		{
+			KPtr<TheOne> TOne = Core_Class::MainScene()->Create_One(L"TKM3");
+			TOne->Set_Component(this);
+		}
+
 		
 		KPtr<Renderer_BonAni> TRen = one()->Add_Component<Renderer_BonAni>();
 		TRen->Set_Fbx(Tmp.c_str());
 		TRen->Create_Animation();
-
 		m_RList.push_back(TRen);
 	}
 

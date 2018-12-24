@@ -16,7 +16,11 @@ public:
 class Renderer_Terrain : public Renderer
 {
 private:
-	float m_BSize;
+	bool	m_Edit;
+	bool	m_CalMPos;
+	bool	m_OnTer;
+
+	float	m_BSize;
 
 	TERRAIN_FD m_TFD;
 	DRAW_INFO	m_DI;
@@ -24,11 +28,12 @@ private:
 
 	std::vector<VTX3D>	m_TempVtx;
 	std::vector<UINT>	m_TempIdx;
+	
 	KPtr<Texture>		m_NormalTex;
-
 
 private:
 	void TerrainTo_MPos(KPtr<Camera> _Camera);
+	void Reset_DI();
 	void Set_DI();
 	void Ascent_Normal(const float& _Value);
 
@@ -41,10 +46,16 @@ public:
 	void Insert_CoverTex(const wchar_t* _MTex, const wchar_t* _Cover);
 
 	// 해당 좌ㅏ표에 위치한 Y축 좌표를 반환해 준다.
+
 	float Y_Terrain(const KVector& _Pos);
 	void brush_size(const float& _size)
 	{
 		m_BSize = _size;
+	}
+
+	KVector& pos_mouse()
+	{
+		return m_MPos;
 	}
 
 	TERRAIN_FD floor_date()
@@ -69,6 +80,35 @@ public:
 	{
 		m_TFD.SizeZ = _Value;
 		Reset_Terrain(m_TFD.SizeX, m_TFD.SizeZ);
+	}
+
+	bool& Is_OnTer()
+	{
+		return m_OnTer;
+	}
+
+	void Mouse_CalOn()
+	{
+		m_CalMPos = true;
+	}
+	void Mouse_CalOff()
+	{
+		m_CalMPos = false;
+	}
+
+	void Edit_On()
+	{
+		m_CalMPos = true;
+		m_Edit = true;
+	}
+	void Edit_Off()
+	{
+		m_CalMPos = false;
+		m_Edit = false;
+	}
+	bool& Is_Edit()
+	{
+		return m_Edit;
 	}
 
 	void Clear();

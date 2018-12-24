@@ -64,7 +64,10 @@ public:
 
 
 
-
+	void force(KPtr<SC2_Force> _Force)
+	{
+		m_Force = _Force;
+	}
 
 	Unit_Info& unit_info()
 	{

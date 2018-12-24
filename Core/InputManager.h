@@ -126,6 +126,8 @@ public:
 		return m_MouseDir;
 	}
 
+	static bool Check_InScr();
+
 public:
 	static const char* ErrorMsg(INPMGR_ERR _Msg);
 

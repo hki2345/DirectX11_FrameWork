@@ -114,6 +114,9 @@ public:
 		return NewCom;
 	}
 
+
+	KPtr<Component> Set_Component(KPtr<Component> _TCom);
+
 	template<typename Com, typename T1>
 	KPtr<Com> Add_Component(T1 _1)
 	{

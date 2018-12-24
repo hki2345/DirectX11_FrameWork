@@ -9,6 +9,11 @@ private:
 
 
 public:
+	static void s2_manager(KPtr<SC2Manager> _Manager)
+	{
+		m_S2Manager = _Manager;
+	}
+
 	static KPtr<SC2Manager> s2_manager();
 
 

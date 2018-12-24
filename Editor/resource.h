@@ -35,8 +35,8 @@
 #define IDC_SCALZ                       1021
 #define IDC_TOKM3                       1025
 #define IDC_KM3ACADDBTN                 1025
-#define IDC_FBX2KM3TAB                  1026
 #define IDC_KM3ACDELBTN                 1026
+#define IDC_FBX2KM3TAB                  1026
 #define IDC_FBXLIST                     1029
 #define IDC_POSX2                       1031
 #define IDC_KM3LIST                     1031
@@ -116,12 +116,13 @@
 #define IDC_STATETERBTN                 1105
 #define IDC_STATERESLIST                1106
 #define IDC_LIST1                       1107
+#define IDC_UNITLIST                    1107
 
 // Next default values for new objects
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        356
+#define _APS_NEXT_RESOURCE_VALUE        358
 #define _APS_NEXT_COMMAND_VALUE         32771
 #define _APS_NEXT_CONTROL_VALUE         1108
 #define _APS_NEXT_SYMED_VALUE           312

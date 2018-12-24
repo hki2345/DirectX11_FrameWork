@@ -241,9 +241,11 @@
     <ClInclude Include="Effect_Gaussian.h">
       <Filter>03 Manager\Render\Effect</Filter>
     </ClInclude>
-    <ClInclude Include="Renderer_Draw.h" />
     <ClInclude Include="KPlane3D_Col.h">
       <Filter>03 Manager\Collision\3D</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderer_Draw.h">
+      <Filter>03 Manager\Render\Child</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -469,9 +471,11 @@
     <ClCompile Include="Effect_Gaussian.cpp">
       <Filter>03 Manager\Render\Effect</Filter>
     </ClCompile>
-    <ClCompile Include="Renderer_Draw.cpp" />
     <ClCompile Include="KPlane3D_Col.cpp">
       <Filter>03 Manager\Collision\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer_Draw.cpp">
+      <Filter>03 Manager\Render\Child</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

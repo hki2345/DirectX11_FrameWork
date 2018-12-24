@@ -155,6 +155,7 @@ void Dlg_MeshConv::Show_Dlg(const int& _Index)
 	m_DlgVec[m_CurIdx]->Hide_Dlg();
 
 	m_DlgVec[_Index]->ShowWindow(SW_SHOW);
+	m_DlgVec[_Index]->Init_Dlg();
 	m_MeshTab.SetCurSel((int)_Index);
 
 	m_CurIdx = _Index;

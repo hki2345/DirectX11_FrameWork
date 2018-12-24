@@ -53,6 +53,12 @@ BEGIN_MESSAGE_MAP(Dlg_FbxLoad, TabDlg)
 END_MESSAGE_MAP()
 
 
+void Dlg_FbxLoad::Init_Dlg()
+{
+	Update_RscTree();
+}
+
+
 void Dlg_FbxLoad::Hide_Dlg()
 {
 	if (nullptr != m_CurOne)
@@ -60,8 +66,6 @@ void Dlg_FbxLoad::Hide_Dlg()
 		m_CurOne->Set_Death();
 	}
 }
-
-
 // Dlg_FbxLoad 메시지 처리기입니다.
 
 
