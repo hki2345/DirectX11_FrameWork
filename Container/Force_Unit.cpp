@@ -14,6 +14,7 @@
 
 Force_Unit::Force_Unit()
 {
+	m_AType = ANI_TYPE::ALL;
 	m_Info.WTpye = WEAPON_TYPE::NONE;
 	m_Info.LSpeed = .0f;
 	m_Info.RSpeed = .0f;
@@ -44,6 +45,8 @@ void Force_Unit::Update()
 			(*m_SRI)->force_color(m_Force->force_color());
 		}
 	}
+
+	Update_RenderAni();
 }
 
 
@@ -199,5 +202,19 @@ void Force_Unit::Update_StrList()
 	for (; m_SRI != m_ERI; ++m_SRI)
 	{
 		m_StrList.push_back((*m_SRI)->mesh_container()->FileName());
+	}
+}
+
+
+
+void Force_Unit::Update_RenderAni()
+{
+	m_SRI = m_RList.begin();
+	m_ERI = m_RList.end();
+
+	for (; m_SRI != m_ERI; ++m_SRI)
+	{
+		// 0 번째는 그거 임 전체 애니
+		(*m_SRI)->Set_Clip((int)m_AType + 1);
 	}
 }

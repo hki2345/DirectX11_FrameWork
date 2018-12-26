@@ -34,6 +34,7 @@ public:
 	CListBox m_KM3List;
 	CListBox m_SelectList;
 
+	KPtr<Renderer_Terrain>				m_pTer;
 	KPtr<TheOne>						m_CurOne;
 	KPtr<Force_Unit>					m_CurUnit;
 	std::wstring						m_CurStr;

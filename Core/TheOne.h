@@ -167,6 +167,31 @@ public:
 		return NewCom;
 	}
 
+	template<typename Com, typename T1, typename T2, typename T3>
+	KPtr<Com> Add_Component(T1 _1, T2 _2, T3 _3)
+	{
+		if (false == Com::IsMulti(this))
+		{
+			return nullptr;
+		}
+
+		Com* NewCom = new Com();
+		NewCom->Set_Type();
+		NewCom->one(this);
+		NewCom->kwindow(kwindow());
+		NewCom->state(state());
+		NewCom->ComInit();
+
+		if (false == NewCom->Init(_1, _2, _3))
+		{
+			delete NewCom;
+			return nullptr;
+		}
+
+		m_ComList.push_back(NewCom);
+		return NewCom;
+	}
+
 	template<typename Com>
 	KPtr<Com> Get_Component()
 	{

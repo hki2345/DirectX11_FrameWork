@@ -1,4 +1,6 @@
 #include "Container.cpp"
+#include "Controll_AI.cpp"
+#include "Controll_User.cpp"
 #include "Con_Class.cpp"
 #include "Force_Unit.cpp"
 #include "SC2Manager.cpp"
@@ -6,3 +8,4 @@
 #include "SC2_Force.cpp"
 #include "Unit_Marine.cpp"
 #include "Unit_SkillObj.cpp"
+#include "User_Act.cpp"

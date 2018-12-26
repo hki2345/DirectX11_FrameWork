@@ -8,13 +8,14 @@
 #include "SmartPtr.h"
 
 
+#define IS_KEY(ACTION) InputManager::IsKey(ACTION)
 
-#define KEY_PRESS(ACTION) InputManager::Press(L##ACTION)
-#define KEY_UP(ACTION) InputManager::Up(L##ACTION)
-#define KEY_DOWN(ACTION) InputManager::Down(L##ACTION)
-#define KEY_UNPRESS(ACTION) InputManager::UnPress(L##ACTION)
-#define KEY_OVER(ACTION) InputManager::Over(L##ACTION)
-#define KEY_OVER_RESET(ACTION) InputManager::Over_Reset(L##ACTION)
+#define KEY_PRESS(ACTION) InputManager::Press(ACTION)
+#define KEY_UP(ACTION) InputManager::Up(ACTION)
+#define KEY_DOWN(ACTION) InputManager::Down(ACTION)
+#define KEY_UNPRESS(ACTION) InputManager::UnPress(ACTION)
+#define KEY_OVER(ACTION) InputManager::Over(ACTION)
+#define KEY_OVER_RESET(ACTION) InputManager::Over_Reset(ACTION)
 
 
 // 많은 라이브러리에서 쓰듯이 이렇게 에러를 미리 지정해놓고 불러오는 식이다.
@@ -84,7 +85,7 @@ private:
 		void Update();
 		
 		inline bool Up();
-		inline bool UpPress();
+		inline bool UnPress();
 		inline bool Down();
 		inline bool Press();
 		inline bool Over(float _Time);
@@ -160,7 +161,7 @@ public:
 	static bool IsKey(const wchar_t* _Name);
 
 	static bool Up(const wchar_t* _Name);
-	static bool UpPress(const wchar_t* _Name);
+	static bool UnPress(const wchar_t* _Name);
 	static bool Down(const wchar_t* _Name);
 	static bool Press(const wchar_t* _Name);
 	static bool Over(const wchar_t* _Name, float _Time);

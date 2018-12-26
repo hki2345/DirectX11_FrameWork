@@ -268,7 +268,7 @@ void Dlg_Terrain::Update_Dlg()
 
 void Dlg_Terrain::Update_Terrain()
 {
-	if (true == KEY_DOWN("ESC"))
+	if (true == KEY_DOWN(L"ESC"))
 	{
 		m_pTer->Edit_Off();
 		m_TerBtn.EnableWindow(TRUE);
@@ -279,7 +279,7 @@ void Dlg_Terrain::Update_Grab()
 {
 	if (true == m_bGrab)
 	{
-		if (true == KEY_DOWN("RB"))
+		if (true == KEY_DOWN(L"RB"))
 		{
 			m_pTer->Mouse_CalOff();
 			m_bGrab = false;
@@ -287,7 +287,7 @@ void Dlg_Terrain::Update_Grab()
 			m_CurUnit = nullptr;
 		}
 
-		else if (true == KEY_DOWN("LB"))
+		else if (true == KEY_DOWN(L"LB"))
 		{
 			if (true == m_pTer->Is_OnTer())
 			{
@@ -312,7 +312,7 @@ void Dlg_Terrain::Update_Grab()
 
 void Dlg_Terrain::Udpate_Delete()
 {
-	if (true == KEY_DOWN("DEL"))
+	if (true == KEY_DOWN(L"DEL"))
 	{
 		int A = UList.GetCurSel();
 		if (0 > A)

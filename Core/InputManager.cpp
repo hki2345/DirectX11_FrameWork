@@ -107,7 +107,7 @@ bool InputManager::Input_Command::Up()
 {
 	return 0 != (m_Data & g_bUp);
 }
-bool InputManager::Input_Command::UpPress() 
+bool InputManager::Input_Command::UnPress() 
 {
 	return 0 != (m_Data & g_bUpStay);
 }
@@ -186,13 +186,13 @@ bool InputManager::Up(const wchar_t* _Name) {
 	}
 	return pKEY->Up();
 }
-bool InputManager::UpPress(const wchar_t* _Name) {
+bool InputManager::UnPress(const wchar_t* _Name) {
 	KPtr<Input_Command> pKEY = Map_Find<KPtr<Input_Command>>(m_KeyMap, _Name);
 	if (nullptr == pKEY)
 	{
 		return false;
 	}
-	return pKEY->UpPress();
+	return pKEY->UnPress();
 }
 bool InputManager::Down(const wchar_t* _Name) {
 	KPtr<Input_Command> pKEY = Map_Find<KPtr<Input_Command>>(m_KeyMap, _Name);

@@ -349,13 +349,13 @@ void Renderer_Terrain::RenderBegin(KPtr<Camera> _Camera, const KUINT& _MeshIdx, 
 
 	if (true == InputManager::Check_InScr())
 	{
-		if (true == KEY_PRESS("LB"))
+		if (true == KEY_PRESS(L"LB"))
 		{
 			Ascent_Normal(1.0f);
 			m_DI.OnClick = 1.0f;
 		}
 
-		if (true == KEY_PRESS("RB"))
+		if (true == KEY_PRESS(L"RB"))
 		{
 			Ascent_Normal(-1.0f);
 			m_DI.OnClick = -1.0f;
@@ -397,48 +397,56 @@ void Renderer_Terrain::Insert_CoverTex(const wchar_t* _MTex, const wchar_t* _Cov
 // 매번 해당 좌표에 위치했을 시 그 높이를 산출해야한다.
 float Renderer_Terrain::Y_Terrain(const KVector& _Pos)
 {
-	int X = (int)(_Pos.x / Trans()->scale_local().x);
-	int Z = (int)(_Pos.z / Trans()->scale_local().z);
+	int X = (int)((_Pos.x - m_Trans->pos_local().x) / Trans()->scale_local().x);
+	int Z = (int)((_Pos.z - m_Trans->pos_local().z) / Trans()->scale_local().z);
+	
+	if (X < 0 || Z < 0 || m_TFD.SizeX < X || m_TFD.SizeZ < Z)
+	{
+		return .0f;
+	}
 
 	// 좌상단
-	KVector V0 = m_TempVtx[((Z + 1) * (m_TFD.SizeX + 1)) + X].Pos;
+	KVector V0 = m_TempVtx[((Z + 1) * (m_TFD.SizeX + 1)) + X].Pos  * m_Trans->scale_world() + m_Trans->pos_world();
 
 	// 우상단
-	KVector V1 = m_TempVtx[((Z + 1) * (m_TFD.SizeX + 1)) + (X + 1)].Pos;
+	KVector V1 = m_TempVtx[((Z + 1) * (m_TFD.SizeX + 1)) + (X + 1)].Pos * m_Trans->scale_world() + m_Trans->pos_world();
 
 	// 좌하단
-	KVector V2 = m_TempVtx[((Z) * (m_TFD.SizeX + 1)) + (X)].Pos;
+	KVector V2 = m_TempVtx[((Z) * (m_TFD.SizeX + 1)) + (X)].Pos * m_Trans->scale_world() + m_Trans->pos_world();
 
 	// 우하단
-	KVector V3 = m_TempVtx[((Z) * (m_TFD.SizeX + 1)) + (X + 1)].Pos;
+	KVector V3 = m_TempVtx[((Z) * (m_TFD.SizeX + 1)) + (X + 1)].Pos * m_Trans->scale_world() + m_Trans->pos_world();
+
 
 	// 검출될 y좌표
 	float F0 = .0f;
 	float F1 = .0f;
 
 	KVector ObjPos = KVector(
-		_Pos.x / Trans()->scale_local().x
+		_Pos.x 
 		, .0f
-		, _Pos.x / Trans()->scale_local().z);
+		, _Pos.z );
 
 	DirectX::TriangleTests::Intersects(ObjPos, KVector::Up, V2, V1, V0, F0);
 	DirectX::TriangleTests::Intersects(ObjPos, KVector::Up, V2, V3, V1, F1);
 
-	float TempY = .0f;
-
-	if (0 != F0|| 0 !=F1)
+	KLOG(L"Y Terrain: %d, %d", X, Z);
+	if (0 != F0|| 0 != F1)
 	{
-		if (0!= F0)
+		if (0 != F0)
 		{
-			return TempY = F0;
+			KLOG(L"Y Terrain Pos: %f", F0 * Trans()->scale_local().y);
+			return F0 * Trans()->scale_local().y * .5f;
 		}
 		else if (0 != F1)
 		{
-			return TempY = F1;
+			KLOG(L"Y Terrain Pos: %f", F1 * Trans()->scale_local().y);
+			return F1 * Trans()->scale_local().y * .5f;
 		}
 	}
 
-	return TempY * Trans()->scale_local().y;
+	KLOG(L"Y Terrain Pos: %f", .0f);
+	return 0.0f;
 }
 
 void Renderer_Terrain::Clear()
@@ -526,4 +534,26 @@ void Renderer_Terrain::Load(const wchar_t* _Name)
 
 	mesh()->Update_Vertex((KUINT)m_TempVtx.size(), sizeof(VTX3D), D3D11_USAGE_DYNAMIC, &m_TempVtx[0]);
 	mesh()->Update_Index((KUINT)m_TempIdx.size(), IDX32::MemberSize(), D3D11_USAGE_DEFAULT, IDX32::FM(), &m_TempIdx[0]);
+}
+
+
+
+float Renderer_Terrain::TER_Left()
+{
+	return one()->Trans()->pos_world().x;
+}
+
+float Renderer_Terrain::TER_Right()
+{
+	return one()->Trans()->pos_world().x + m_TFD.SizeX * one()->Trans()->scale_world().x;
+}
+
+float Renderer_Terrain::TER_Up()
+{
+	return one()->Trans()->pos_world().z + m_TFD.SizeZ * one()->Trans()->scale_world().z;
+}
+
+float Renderer_Terrain::TER_Down()
+{
+	return one()->Trans()->pos_world().z;
 }

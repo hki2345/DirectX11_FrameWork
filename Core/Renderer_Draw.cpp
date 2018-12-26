@@ -47,7 +47,7 @@ void Renderer_Draw::Update_Trans(KPtr<Camera> _Camera)
 
 void Renderer_Draw::Update()
 {
-	if (true == KEY_PRESS("LB"))
+	if (true == KEY_PRESS(L"LB"))
 	{
 		m_DI.OnClick = 1;
 	}

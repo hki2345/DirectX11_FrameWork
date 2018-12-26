@@ -25,6 +25,10 @@
     <ClInclude Include="Container.h">
       <Filter>SC2\Container</Filter>
     </ClInclude>
+    <ClInclude Include="Controll_User.h">
+      <Filter>SC2\Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="Controll_AI.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SC2Manager.cpp">
@@ -50,6 +54,13 @@
     </ClCompile>
     <ClCompile Include="Container.cpp">
       <Filter>SC2\Container</Filter>
+    </ClCompile>
+    <ClCompile Include="Controll_User.cpp">
+      <Filter>SC2\Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="Controll_AI.cpp" />
+    <ClCompile Include="User_Act.cpp">
+      <Filter>SC2\Controller</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -80,14 +91,11 @@
     <Filter Include="SC2\Unit\Zerg">
       <UniqueIdentifier>{a467ad83-aeed-4832-9fe0-f4699e5bd27f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="SC2\Unit\Zerg\Unit">
-      <UniqueIdentifier>{c73120a1-3a52-41af-a448-e0e372acfdfc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="SC2\Unit\Terran\Unit">
-      <UniqueIdentifier>{36eecd2a-868d-4972-88fe-2fc8ed68e26d}</UniqueIdentifier>
-    </Filter>
     <Filter Include="SC2\Force">
       <UniqueIdentifier>{62e8d1f1-aa15-4a9c-b61a-6a88dc44cde3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SC2\Controller">
+      <UniqueIdentifier>{096e9e08-515a-421e-8317-8cc1236d31d4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

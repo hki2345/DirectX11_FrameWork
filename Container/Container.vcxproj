@@ -152,6 +152,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Container.h" />
+    <ClInclude Include="Controll_AI.h" />
+    <ClInclude Include="Controll_User.h" />
     <ClInclude Include="Con_Class.h" />
     <ClInclude Include="SC2_Camera.h" />
     <ClInclude Include="Force_Unit.h" />
@@ -162,6 +164,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Container.cpp" />
+    <ClCompile Include="Controll_AI.cpp" />
+    <ClCompile Include="Controll_User.cpp" />
     <ClCompile Include="Con_Class.cpp" />
     <ClCompile Include="SC2_Camera.cpp" />
     <ClCompile Include="Force_Unit.cpp" />
@@ -169,6 +173,7 @@
     <ClCompile Include="SC2_Force.cpp" />
     <ClCompile Include="Unit_Marine.cpp" />
     <ClCompile Include="Unit_SkillObj.cpp" />
+    <ClCompile Include="User_Act.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

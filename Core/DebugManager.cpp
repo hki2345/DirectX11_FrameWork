@@ -165,7 +165,7 @@ void DebugManager::Draw_Log(const wchar_t* const _Str, ...)
 
 void DebugManager::Update()
 {
-	if (KEY_DOWN("DEBUG"))
+	if (KEY_DOWN(L"DEBUG"))
 	{
 		Switch_Debug();
 	}

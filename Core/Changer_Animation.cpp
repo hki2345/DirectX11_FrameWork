@@ -120,7 +120,7 @@ bool Changer_Animation::Set_AniClip(const wchar_t* _Name)
 
 bool Changer_Animation::Set_AniClip(const int& _Num)
 {
-	if (0 < _Num)
+	if (0 > _Num)
 	{
 		BBY;
 		return false;

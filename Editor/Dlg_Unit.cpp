@@ -9,12 +9,16 @@
 #include <Renderer_BonAni.h>
 #include <Renderer_Grid.h>
 #include <Renderer_Mesh.h>
+#include <Renderer_Terrain.h>
+
 #include <ResourceManager.h>
+
 #include <Light.h>
 
 #include "Edit_Class.h"
 
 #include <Force_Unit.h>
+#include <Controll_User.h>
 #include <SC2_Camera.h>
 
 // Dlg_Unit 대화 상자입니다.
@@ -57,6 +61,7 @@ void Dlg_Unit::Init_Dlg()
 	m_CurOne->Trans()->scale_local(KVector(1.f, 1.f, 1.f));
 
 	m_CurUnit = m_CurOne->Add_Component<Force_Unit>(L"Marine");
+	m_CurOne->Add_Component<Controll_User>(m_pTer, m_CurUnit, TabScene->Camera());
 
 
 	CString TmpStr;
@@ -114,6 +119,19 @@ BOOL Dlg_Unit::OnInitDialog()
 	TabScene->Camera()->one()->Trans()->pos_local(KVector4(0.0f, 10.0f, -20.0f));
 
 
+	KPtr<TheOne> TERRAIN = TabScene->Create_One();
+	TERRAIN->Trans()->scale_local(KVector4(5.0f, 2.0f, 5.0f));
+	TERRAIN->Trans()->pos_world(KVector4(5.0f, .0f, .0f, .0f));
+	m_pTer = TERRAIN->Add_Component<Renderer_Terrain>();
+
+	// 순서를 지켜야 된다????? ㅇㅇ
+	m_pTer->Create_Terrain(64, 64, L"Cover.jpg", 1.0f);
+	m_pTer->base_texture(L"FB");
+	m_pTer->Insert_CoverTex(L"FC", L"Cover.jpg");
+	m_pTer->Set_RSState(L"SFRONT");
+	m_pTer->material()->Insert_TexData(TEX_TYPE::TEX_COLOR, 7, L"cursor-target-allied.dds");
+	m_pTer->brush_size(10.0f);
+	m_pTer->Edit_Off();
 
 
 	KPtr<TheOne> Light2 = TabScene->Create_One();

@@ -46,7 +46,6 @@ public:
 	void Insert_CoverTex(const wchar_t* _MTex, const wchar_t* _Cover);
 
 	// 해당 좌ㅏ표에 위치한 Y축 좌표를 반환해 준다.
-
 	float Y_Terrain(const KVector& _Pos);
 	void brush_size(const float& _size)
 	{
@@ -110,6 +109,11 @@ public:
 	{
 		return m_Edit;
 	}
+
+	float TER_Left();
+	float TER_Right();
+	float TER_Up();
+	float TER_Down();
 
 	void Clear();
 	void Save();

@@ -20,6 +20,23 @@ class KSphere_Col;
 class Force_Unit : public Component
 {
 public:
+	enum ANI_TYPE
+	{
+		ALL = -1,
+		STAND01 = 0,
+		STAND02,
+		STAND03,
+		WALK01,
+		WALK02,
+		ATTACK01,
+		ATTACK02,
+		ATTACK03,
+		FIDGET01,
+		FIDGET02,
+		DEATH
+	};
+
+
 	class Unit_Info
 	{
 	public:
@@ -37,7 +54,7 @@ private:
 	KPtr<KSphere_Col>					m_Col;
 	KPtr<SC2_Force> 					m_Force;
 	Unit_Info							m_Info;
-
+	ANI_TYPE							m_AType;
 
 	std::list<std::wstring>				m_StrList;
 	std::list<std::wstring>::iterator	m_SCI;
@@ -49,6 +66,8 @@ private:
 
 private:
 	void Update_StrList();
+	void Update_RenderAni();
+
 
 public:
 	virtual bool Init(const wchar_t* _Name);
@@ -124,6 +143,10 @@ public:
 		m_Info.UScale = _Value;
 	}
 
+	void Set_Animation(const ANI_TYPE& _Value)
+	{
+		m_AType = _Value;
+	}
 
 public:
 	Force_Unit();
