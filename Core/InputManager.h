@@ -107,6 +107,8 @@ private:
 
 	// WHEEL
 	static int m_WheelMove;
+	static bool m_bLock;
+	
 
 public:
 	// 메시지에서 받는 쪽 -> 아쉽게도 MFC 쪽에서 메시지 받는 걸 따로 설정할 수가 없다.
@@ -168,8 +170,13 @@ public:
 	static bool Over_Reset(const wchar_t* _Name, float _Time);
 	
 	static int& WheelValue(int* _Ref);
+	static void Set_MLock();
+	static void Set_MUnLock();
 
 private:
+	static	void Update_Mouse();
+	static	void Update_Key();
+
 	static  void Update();
 	static	void EndUpdate();
 

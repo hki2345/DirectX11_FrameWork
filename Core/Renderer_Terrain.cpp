@@ -429,23 +429,19 @@ float Renderer_Terrain::Y_Terrain(const KVector& _Pos)
 
 	DirectX::TriangleTests::Intersects(ObjPos, KVector::Up, V2, V1, V0, F0);
 	DirectX::TriangleTests::Intersects(ObjPos, KVector::Up, V2, V3, V1, F1);
-
-	KLOG(L"Y Terrain: %d, %d", X, Z);
+	
 	if (0 != F0|| 0 != F1)
 	{
 		if (0 != F0)
 		{
-			KLOG(L"Y Terrain Pos: %f", F0 * Trans()->scale_local().y);
 			return F0 * Trans()->scale_local().y * .5f;
 		}
 		else if (0 != F1)
 		{
-			KLOG(L"Y Terrain Pos: %f", F1 * Trans()->scale_local().y);
 			return F1 * Trans()->scale_local().y * .5f;
 		}
 	}
 
-	KLOG(L"Y Terrain Pos: %f", .0f);
 	return 0.0f;
 }
 

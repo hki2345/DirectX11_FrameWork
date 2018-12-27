@@ -16,7 +16,7 @@ void TestUpdater::Start_State()
 {
 
 }
-void TestUpdater::Update_State()
+void TestUpdater::Update_Edit()
 {
 
 }

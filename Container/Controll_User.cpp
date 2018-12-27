@@ -4,6 +4,9 @@
 #include <Renderer_Terrain.h>
 #include <Renderer_BonAni.h>
 #include <InputManager.h>
+#include <KWindow.h>
+
+#include "SC2_Camera.h"
 
 
 Controll_User::Controll_User()
@@ -17,7 +20,7 @@ Controll_User::~Controll_User()
 
 
 
-bool Controll_User::Init(KPtr<Renderer_Terrain> _Terrain, KPtr<Force_Unit> _Unit, KPtr<Camera> _Cam)
+bool Controll_User::Init(KPtr<Renderer_Terrain> _Terrain, KPtr<Force_Unit> _Unit, KPtr<SC2_Camera> _Cam)
 {
 	if (false == IS_KEY(L"MFOR"))
 	{
@@ -69,6 +72,7 @@ bool Controll_User::Init(KPtr<Renderer_Terrain> _Terrain, KPtr<Force_Unit> _Unit
 	m_pTer = _Terrain;
 	m_pUnit = _Unit;
 	m_pCam = _Cam;
+	m_pCam->Set_User(this);
 
 	m_MType = MOVE_TYPE::MT_IDLE;
 	m_AType = ACT_TYPE::AT_IDLE;
@@ -79,9 +83,19 @@ bool Controll_User::Init(KPtr<Renderer_Terrain> _Terrain, KPtr<Force_Unit> _Unit
 
 void Controll_User::Update()
 {
+	if (SC2_Camera::SC2_CAMMODE::S2M_EDIT == m_pCam->cam_mode())
+	{
+		InputManager::Set_MUnLock();
+		return;
+	}
+
 	Update_Move();
 	Update_Act();
 	Update_Terrain();
+
+
+	one()->Trans()->Rotating_Deg(KVector4(.0f, InputManager::MouseDir().x * 30.0f *  DELTATIME));
+	InputManager::Set_MLock();
 }
 
 

@@ -17,7 +17,6 @@ KPlane3D_Col::~KPlane3D_Col()
 void KPlane3D_Col::Update()
 {
 	KVector TT = pPlane->m_ColPoint;
-	KLOG(L"%f %f %f", TT.x, TT.y, TT.z);
 }
 
 void KPlane3D_Col::Update_Figure()

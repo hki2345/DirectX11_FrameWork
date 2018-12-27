@@ -59,6 +59,7 @@ void Edit_Launcher::Build()
 	InputManager::Create_Command(L"Right", 'D');
 	InputManager::Create_Command(L"Q", 'Q');
 	InputManager::Create_Command(L"DEBUG", VK_LSHIFT, 'B');
+	InputManager::Create_Command(L"INGAME", VK_LSHIFT, 'P');
 
 
 

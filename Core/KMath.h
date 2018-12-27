@@ -246,11 +246,6 @@ public:
 	{
 		float Tmp = _dist;
 		bool TT = _Left.Intersects(_Ori, _Dir, _dist);
-
-		if (0.0f != _dist)
-		{
-			// KLOG(L"Col Pos:: %f %f %f", (_Dir * _dist).x + _Ori.x, (_Dir * _dist).y + _Ori.y, (_Dir * _dist).z + _Ori.z);
-		}
 		return TT;
 	}
 

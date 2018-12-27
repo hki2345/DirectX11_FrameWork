@@ -11,6 +11,7 @@
 #include <Renderer_Mesh.h>
 #include <Renderer_Terrain.h>
 
+#include <InputManager.h>
 #include <ResourceManager.h>
 
 #include <Light.h>
@@ -61,7 +62,7 @@ void Dlg_Unit::Init_Dlg()
 	m_CurOne->Trans()->scale_local(KVector(1.f, 1.f, 1.f));
 
 	m_CurUnit = m_CurOne->Add_Component<Force_Unit>(L"Marine");
-	m_CurOne->Add_Component<Controll_User>(m_pTer, m_CurUnit, TabScene->Camera());
+	m_CurOne->Add_Component<Controll_User>(m_pTer, m_CurUnit, TabScene->Camera()->Get_Component<SC2_Camera>());
 
 
 	CString TmpStr;
@@ -80,6 +81,22 @@ void Dlg_Unit::Init_Dlg()
 
 
 	Update_RscTree();
+}
+
+
+void Dlg_Unit::Update_Dlg()
+{
+	if (true == KEY_DOWN(L"INGAME"))
+	{
+		if (SC2_Camera::SC2_CAMMODE::S2M_EDIT == m_pCam->cam_mode())
+		{
+			m_pCam->Set_InGame();
+		}
+		else if (SC2_Camera::SC2_CAMMODE::S2M_INGAME == m_pCam->cam_mode())
+		{
+			m_pCam->Set_Edit();
+		}
+	}
 }
 
 
@@ -114,7 +131,7 @@ BOOL Dlg_Unit::OnInitDialog()
 	GRIDRENDER->ROpt.Defferd_orForward = 1;
 
 	
-	TabScene->Camera()->Add_Component<SC2_Camera>();
+	m_pCam = TabScene->Camera()->Add_Component<SC2_Camera>();
 	TabScene->Camera()->Far(10000.0f);
 	TabScene->Camera()->one()->Trans()->pos_local(KVector4(0.0f, 10.0f, -20.0f));
 

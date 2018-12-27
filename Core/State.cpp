@@ -34,7 +34,7 @@ void State::Progress()
 
 		for (; StartUpdaterIter != EndUpdaterIter; ++StartUpdaterIter)
 		{
-			(*StartUpdaterIter)->Update_State();
+			(*StartUpdaterIter)->Update_Edit();
 		}
 	}
 

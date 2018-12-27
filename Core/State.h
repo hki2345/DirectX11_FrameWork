@@ -49,7 +49,7 @@ public:
 
 	public:
 		virtual void Start_State() {}
-		virtual void Update_State() {}
+		virtual void Update_Edit() {}
 		virtual void DebugRender() {}
 
 	protected:

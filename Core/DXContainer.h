@@ -1000,9 +1000,10 @@ public:
 		return Value.x;
 	}
 
-	void Normalize()
+	KVector4 Normalize()
 	{
 		*this = DirectX::XMVector4Normalize(*this);
+		return *this;
 	}
 
 	void NormalizeVec3()

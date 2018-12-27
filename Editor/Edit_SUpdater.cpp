@@ -11,7 +11,7 @@ Edit_SUpdater::~Edit_SUpdater()
 {
 }
 
-void Edit_SUpdater::Update_State()
+void Edit_SUpdater::Update_Edit()
 {
 	Edit_Class::MDlg->Update_Dlg();
 }

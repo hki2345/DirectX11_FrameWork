@@ -35,8 +35,11 @@ public:
 	CListBox m_SelectList;
 
 	KPtr<Renderer_Terrain>				m_pTer;
+	KPtr<SC2_Camera>					m_pCam;
 	KPtr<TheOne>						m_CurOne;
 	KPtr<Force_Unit>					m_CurUnit;
+
+
 	std::wstring						m_CurStr;
 
 	std::list<KPtr<Renderer_BonAni>>	m_RenderList;
@@ -49,7 +52,9 @@ public:
 
 
 	virtual BOOL OnInitDialog();
-	void Init_Dlg();
+	
+	void Init_Dlg() override;
+	void Update_Dlg() override;
 
 	afx_msg void OnBnClickedReninsertbtn();
 	afx_msg void OnBnClickedRendeletebtn();

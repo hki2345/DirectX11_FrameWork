@@ -9,6 +9,7 @@ KVector2	InputManager::m_OriMousePos;
 KVector2	InputManager::m_MouseDir;
 POINT		InputManager::m_iPoint;
 int			InputManager::m_WheelMove;
+bool		InputManager::m_bLock = false;
 std::unordered_map<std::wstring, KPtr<InputManager::Input_Command>>::iterator InputManager::m_KeyStartIter;
 std::unordered_map<std::wstring, KPtr<InputManager::Input_Command>>::iterator InputManager::m_KeyEndIter;
 std::unordered_map<std::wstring, KPtr<InputManager::Input_Command>> InputManager::m_KeyMap;
@@ -144,15 +145,39 @@ InputManager::~InputManager()
 
 void InputManager::Update() 
 {
+	Update_Mouse();
+	Update_Key();
+}
+
+void InputManager::Update_Mouse()
+{
 	GetCursorPos(&m_iPoint);
 	ScreenToClient(Core_Class::MainWindow().KHwnd(), &m_iPoint);
-
 	m_OriMousePos = m_MousePos;
+
 	m_MousePos.m_XMVec2.x = (float)m_iPoint.x;
 	m_MousePos.m_XMVec2.y = (float)m_iPoint.y;
 
 	m_MouseDir = m_MousePos - m_OriMousePos;
+	
 
+	if (true == m_bLock)
+	{
+		m_MousePos = Core_Class::MainWindow().size() * .5f;
+		m_iPoint = { (long)m_MousePos.x, (long)m_MousePos.y };
+		ScreenToClient(Core_Class::MainWindow().KHwnd(), &m_iPoint);
+		SetCursorPos(m_iPoint.x, m_iPoint.y);
+		KLOG(L"Mouse Pos: %d %d", m_iPoint.x, m_iPoint.y);
+		ShowCursor(false);
+	}
+	else
+	{
+		ShowCursor(true);
+	}
+}
+
+void InputManager::Update_Key()
+{
 
 	m_KeyStartIter = m_KeyMap.begin();
 	m_KeyEndIter = m_KeyMap.end();
@@ -245,11 +270,17 @@ bool InputManager::Check_InScr()
 		Check = false;
 	}
 
-	KLOG(L"Mouse InScreen : %b", Check);
-
 	return Check;
 }
 
+void InputManager::Set_MLock()
+{
+	m_bLock = true;
+}
+void InputManager::Set_MUnLock()
+{
+	m_bLock = false;
+}
 
 
 // 변수 넣어주시면 바꿔드립니다. - 휠 움직인 값으로 - 짜피 메모리 더써야되니까

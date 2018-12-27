@@ -80,8 +80,19 @@ public:
 	size_t height_st() { return m_Height; }
 	float width_f() { return (float)m_Width; }
 	float height_f() { return (float)m_Height; }
+
 	KVector2 size() { return{ width_f(), height_f() }; }
 	void size(const size_t&_X, const size_t& _Y);
+	RECT size_rect() 
+	{
+		RECT RC;
+		if (nullptr != m_HWnd)
+		{
+			GetClientRect(m_HWnd, &RC);
+		}
+
+		return RC;
+	}
 
 public:
 	void Show(int _ShowOption = SW_SHOWDEFAULT);

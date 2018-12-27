@@ -9,7 +9,7 @@ public:
 
 public:
 	virtual void  Start_State() override;
-	virtual void  Update_State() override;
+	virtual void  Update_Edit() override;
 
 };
 

@@ -1,4 +1,7 @@
 #include "SC2_Camera.h"
+#include "Controll_User.h"
+
+
 #include <InputManager.h>
 #include <TimeManager.h>
 #include <DebugManager.h>
@@ -22,7 +25,7 @@ SC2_Camera::~SC2_Camera()
 
 bool SC2_Camera::Init()
 {
-	m_CMode = SC2_CAMMODE::S2M_STATE;
+	m_CMode = SC2_CAMMODE::S2M_EDIT;
 	m_CSoft = SC2_SOFT::S2S_HARD;
 
 	m_Cam = Get_Component<Camera>();
@@ -120,25 +123,43 @@ void SC2_Camera::Update()
 
 	switch (m_CMode)
 	{
-	case SC2_Camera::S2M_STATE:
-		Update_State();
+	case SC2_Camera::S2M_EDIT:
+		Update_Edit();
 		break;
+
+	case SC2_Camera::S2M_INGAME:
+		Update_InGame();
+		break;
+
 	case SC2_Camera::S2M_PART:
 		Update_Part();
 		break;
 	default:
 		break;
 	}
+}
+
+
+/************ 카메라 상태 ***************/
+void SC2_Camera::Update_Edit()
+{
 	Update_ScrCheck();
 	Update_Key();
 	Update_Wheel();
 }
 
-
-/************ 카메라 상태 ***************/
-void SC2_Camera::Update_State()
+void SC2_Camera::Update_InGame()
 {
-	return;
+	if (nullptr == m_pUser)
+	{
+		return;
+	}
+
+	KPtr<TransPosition> UTrans = m_pUser->one()->Trans();
+	m_Trans->pos_local(UTrans->pos_local() + UTrans->back_local() * 10.0f + KVector(.0f, 2.5f, .0f));
+	
+	
+	m_Trans->rotate_localrad(UTrans->rotate_local()/* * -1.0f*/);
 }
 
 void SC2_Camera::Update_Part()
@@ -191,95 +212,88 @@ bool SC2_Camera::Update_ScrCheck()
 		Check = false;
 	}
 
-	KLOG(L"Mouse InScreen : %b", Check);
-
 	return Check;
 }
 
 void SC2_Camera::Update_Key()
 {
 
-	if (true == InputManager::Press(L"Boost"))
+	if (true == KEY_PRESS(L"Boost"))
 	{
 		m_Speed = 100.0f;
 	}
 	else {
-		m_RotSpeed = 90.0f;
+		m_RotSpeed = 30.0f;
 		m_Speed = 10.0f;
 	}
 
-	if (true == InputManager::Down(L"MODECHANAGE"))
+	if (true == KEY_DOWN(L"MODECHANAGE"))
 	{
 		m_Cam->Change_Mode();
 	}
 
 
-	if (true == InputManager::Down(L"Z"))
+	if (true == KEY_DOWN(L"Z"))
 	{
 		KVector4 Rot = m_Trans->rotate_local();
 		Rot.z = 0.0f;
 		m_Trans->rotate_local(Rot);
 	}
 
-	if (true == InputManager::Down(L"Z"))
+	if (true == KEY_DOWN(L"Z"))
 	{
 		KVector4 Rot = m_Trans->rotate_local();
 		Rot.z = 0.0f;
 		m_Trans->rotate_local(Rot);
 	}
 
-	if (true == InputManager::Down(L"X"))
+	if (true == KEY_DOWN(L"X"))
 	{
 		KVector4 Rot = m_Trans->rotate_local();
 		Rot.x = 0.0f;
 		m_Trans->rotate_local(Rot);
 	}
 
-	if (true == InputManager::Down(L"F"))
+	if (true == KEY_DOWN(L"F"))
 	{
 		m_Trans->Reset();
 		m_Trans->Moving(KVector4(0.0f, 0.0f, -10.0f));
 	}
 
-	if (true == InputManager::Press(L"FREELEFT"))
+	if (true == KEY_PRESS(L"FREELEFT"))
 	{
 		m_Trans->Moving(m_Trans->left_local() * DELTATIME * m_Speed);
 	}
 
-	if (true == InputManager::Press(L"FREERIGHT"))
+	if (true == KEY_PRESS(L"FREERIGHT"))
 	{
 		m_Trans->Moving(m_Trans->right_local() * DELTATIME * m_Speed);
 	}
 
-	if (true == InputManager::Press(L"FREEUP"))
+	if (true == KEY_PRESS(L"FREEUP"))
 	{
 		m_Trans->Moving(m_Trans->up_local() * DELTATIME * m_Speed);
 	}
 
-	if (true == InputManager::Press(L"FREEDOWN"))
+	if (true == KEY_PRESS(L"FREEDOWN"))
 	{
 		m_Trans->Moving(m_Trans->down_local() * DELTATIME * m_Speed);
 	}
 
-	if (true == InputManager::Press(L"FREEFORWARD"))
+	if (true == KEY_PRESS(L"FREEFORWARD"))
 	{
 		m_Trans->Moving(m_Trans->forward_local() * DELTATIME * m_Speed);
 	}
 
-	if (true == InputManager::Press(L"FREEBACK"))
+	if (true == KEY_PRESS(L"FREEBACK"))
 	{
 		m_Trans->Moving(m_Trans->back_local() * DELTATIME * m_Speed);
 	}
 
-	if (true == InputManager::Press(L"FREEEYE"))
+	if (true == KEY_PRESS(L"FREEEYE"))
 	{
 		m_Trans->Rotating_Deg(KVector4(InputManager::MouseDir().y * m_RotSpeed * DELTATIME, InputManager::MouseDir().x * m_RotSpeed *  DELTATIME));
 	}
-
-
-
-	KLOG(L"CameraPos : %f, %f, %f", Trans()->pos_local().x, Trans()->pos_local().y, Trans()->pos_local().z);
-
 }
 
 void SC2_Camera::Update_Wheel()
@@ -294,7 +308,7 @@ void SC2_Camera::Update_Wheel()
 		case SC2_Camera::S2S_SOFT:
 			break;
 		case SC2_Camera::S2S_HARD:
-			m_Trans->Moving(m_Trans->forward_local() * (float)Check * .2f);
+			m_Trans->Moving(m_Trans->forward_local() * (float)Check * .02f);
 			break;
 		default:
 			break;

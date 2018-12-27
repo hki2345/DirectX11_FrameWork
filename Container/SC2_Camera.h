@@ -6,6 +6,7 @@
 class KMesh;
 class KMaterial;
 class Sampler;
+class Controll_User;
 class SC2_Camera : public SomeOne
 {
 public:
@@ -15,7 +16,8 @@ public:
 public:
 	enum SC2_CAMMODE
 	{
-		S2M_STATE,
+		S2M_EDIT,
+		S2M_INGAME,
 		S2M_PART,
 	};
 
@@ -27,7 +29,10 @@ public:
 
 
 private:
-	KPtr<Camera> m_Cam;
+	KPtr<Camera>		m_Cam;
+	Controll_User*		m_pUser;
+
+
 	KVector2 PrevMouse;
 	KVector2 RotPos;
 	float m_RotSpeed;
@@ -47,7 +52,8 @@ private:
 
 
 private:
-	void Update_State();
+	void Update_Edit();
+	void Update_InGame();
 	void Update_Part();
 
 	bool Update_ScrCheck();
@@ -62,13 +68,26 @@ public:
 	bool Init();
 	void Update();
 
+	void Set_Edit()
+	{
+		m_CMode = SC2_CAMMODE::S2M_EDIT;
+	}
 	void Set_Part()
 	{
 		m_CMode = SC2_CAMMODE::S2M_PART;
 	}
-	void Set_State()
+	void Set_InGame()
 	{
-		m_CMode = SC2_CAMMODE::S2M_STATE;
+		m_CMode = SC2_CAMMODE::S2M_INGAME;
+	}
+	void Set_User(Controll_User* _Other)
+	{
+		m_pUser = _Other;
+	}
+
+	SC2_CAMMODE& cam_mode()
+	{
+		return m_CMode;
 	}
 
 

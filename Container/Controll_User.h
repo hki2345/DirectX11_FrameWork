@@ -3,7 +3,7 @@
 
 
 class Force_Unit;
-class Camera;
+class SC2_Camera;
 class Renderer_Terrain;
 class Controll_User : public Component
 {
@@ -31,7 +31,7 @@ public:
 
 private:
 	KPtr<Force_Unit>		m_pUnit;
-	KPtr<Camera>			m_pCam;
+	KPtr<SC2_Camera>			m_pCam;
 	KPtr<Renderer_Terrain>	m_pTer;
 
 	MOVE_TYPE	m_MType;
@@ -56,7 +56,7 @@ private:
 	void Update_Terrain();
 
 public:
-	bool Init(KPtr<Renderer_Terrain> _Terrain, KPtr<Force_Unit>	_Unit, KPtr<Camera> _Cam);
+	bool Init(KPtr<Renderer_Terrain> _Terrain, KPtr<Force_Unit>	_Unit, KPtr<SC2_Camera> _Cam);
 	void Update();
 };
 

@@ -234,7 +234,7 @@ void Renderer_BonAni::PrevUpdate_Ani()
 			PauseInx / (float)m_FrameCnt +
 			(float)(MCon->m_Data.AniVec[m_ClipInx].Stime.GetSecondDouble());
 	}
-	KLOG(L"%d", iFrameInx);
+	KLOG(L"Animation Frame: %d", iFrameInx);
 
 
 
