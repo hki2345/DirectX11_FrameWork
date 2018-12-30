@@ -165,7 +165,7 @@ LRESULT CALLBACK KWindow::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM
 		InputManager::Receive_Wheel((int)HIWORD(wParam));
 	}	
 	break;
-
+	
 	default:
 		return DefWindowProc(hWnd, message, wParam, lParam);
 	}

@@ -483,6 +483,7 @@
     <None Include="DirectXTex.inl">
       <Filter>02 Device\DirectX</Filter>
     </None>
+    <None Include="ClassDiagram1.cd" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="00 Core">

@@ -28,6 +28,7 @@ enum INPMGR_ERR
 };
 
 class KCore;
+class KWindow;
 class InputManager
 {
 private:
@@ -36,6 +37,7 @@ private:
 	
 public:
 	friend KCore;
+	friend KWindow;
 
 public:
 	static const char KM_ERRORMSG[IERR_MAX][256];
@@ -100,15 +102,17 @@ private:
 
 private:
 	static POINT m_iPoint;
-	static KVector2 m_MousePos;
-	static KVector2 m_OriMousePos;
-	static KVector2 m_MouseDir;
+	static KVector2 m_MPos;
+	static KVector2 m_PMPos;
+	static KVector2 m_MDir;
 
+	static bool m_bMove;
 
 	// WHEEL
 	static int m_WheelMove;
 	static bool m_bLock;
-	
+
+
 
 public:
 	// 메시지에서 받는 쪽 -> 아쉽게도 MFC 쪽에서 메시지 받는 걸 따로 설정할 수가 없다.
@@ -122,11 +126,11 @@ public:
 	}
 
 	static KVector2 MousePos() {
-		return m_MousePos;
+		return m_MPos;
 	}
 
 	static KVector2 MouseDir() {
-		return m_MouseDir;
+		return m_MDir;
 	}
 
 	static bool Check_InScr();
@@ -174,6 +178,7 @@ public:
 	static void Set_MUnLock();
 
 private:
+	static	void Update_CheckMove();
 	static	void Update_Mouse();
 	static	void Update_Key();
 

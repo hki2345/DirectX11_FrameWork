@@ -4,12 +4,15 @@
 #include "Core_Class.h"
 
 
-KVector2	InputManager::m_MousePos;
-KVector2	InputManager::m_OriMousePos;
-KVector2	InputManager::m_MouseDir;
+KVector2	InputManager::m_MPos;
+KVector2	InputManager::m_PMPos;
+KVector2	InputManager::m_MDir;
 POINT		InputManager::m_iPoint;
 int			InputManager::m_WheelMove;
 bool		InputManager::m_bLock = false;
+bool		InputManager::m_bMove = false;
+
+
 std::unordered_map<std::wstring, KPtr<InputManager::Input_Command>>::iterator InputManager::m_KeyStartIter;
 std::unordered_map<std::wstring, KPtr<InputManager::Input_Command>>::iterator InputManager::m_KeyEndIter;
 std::unordered_map<std::wstring, KPtr<InputManager::Input_Command>> InputManager::m_KeyMap;
@@ -149,25 +152,40 @@ void InputManager::Update()
 	Update_Key();
 }
 
+void InputManager::Update_CheckMove()
+{
+
+}
+
 void InputManager::Update_Mouse()
 {
 	GetCursorPos(&m_iPoint);
+	POINT pdist = m_iPoint;
+
 	ScreenToClient(Core_Class::MainWindow().KHwnd(), &m_iPoint);
-	m_OriMousePos = m_MousePos;
+	pdist.x -= m_iPoint.x;
+	pdist.y -= m_iPoint.y;
 
-	m_MousePos.m_XMVec2.x = (float)m_iPoint.x;
-	m_MousePos.m_XMVec2.y = (float)m_iPoint.y;
+	m_PMPos = m_MPos;
+	m_MPos.m_XMVec2.x = (float)m_iPoint.x;
+	m_MPos.m_XMVec2.y = (float)m_iPoint.y;
 
-	m_MouseDir = m_MousePos - m_OriMousePos;
+
+	if (m_MPos == m_PMPos)
+	{
+		m_MDir = .0f;
+		return;
+	}
+
+	m_MDir = m_MPos - m_PMPos;
 	
 
 	if (true == m_bLock)
 	{
-		m_MousePos = Core_Class::MainWindow().size() * .5f;
-		m_iPoint = { (long)m_MousePos.x, (long)m_MousePos.y };
-		ScreenToClient(Core_Class::MainWindow().KHwnd(), &m_iPoint);
-		SetCursorPos(m_iPoint.x, m_iPoint.y);
-		KLOG(L"Mouse Pos: %d %d", m_iPoint.x, m_iPoint.y);
+		m_MPos = Core_Class::MainWindow().size() * .5f;
+		KVector2 CPos = m_MPos + KVector2((float)pdist.x, (float)pdist.y);
+		POINT TPoint = { (long)CPos.x, (long)CPos.y };
+		SetCursorPos(TPoint.x, TPoint.y);
 		ShowCursor(false);
 	}
 	else
