@@ -1,8 +1,8 @@
 #include "Controll_User.h"
 #include "Force_Unit.h"
 
-#include <Renderer_Terrain.h>
 #include <Renderer_BonAni.h>
+#include <Renderer_Terrain.h>
 #include <InputManager.h>
 #include <KWindow.h>
 
@@ -18,7 +18,25 @@ Controll_User::~Controll_User()
 {
 }
 
+void Controll_User::Add_Render(KPtr<Renderer_BonAni> _Other)
+{
+	m_RList.push_back(_Other);
+}
 
+void Controll_User::Del_Render(KPtr<Renderer_BonAni> _Other)
+{
+	m_SRI = m_RList.begin();
+	m_ERI = m_RList.end();
+
+	for (; m_SRI != m_ERI; ++m_SRI)
+	{
+		if ((*m_SRI) == _Other)
+		{
+			m_RList.erase(m_SRI);
+			return;
+		}
+	}
+}
 
 bool Controll_User::Init(KPtr<Renderer_Terrain> _Terrain, KPtr<Force_Unit> _Unit, KPtr<SC2_Camera> _Cam)
 {
@@ -77,6 +95,8 @@ bool Controll_User::Init(KPtr<Renderer_Terrain> _Terrain, KPtr<Force_Unit> _Unit
 	m_MType = MOVE_TYPE::MT_IDLE;
 	m_AType = ACT_TYPE::AT_IDLE;
 
+	m_MirrorY = false;
+
 	return true;
 }
 
@@ -89,15 +109,23 @@ void Controll_User::Update()
 		return;
 	}
 
+	Update_Renderer();
 	Update_Move();
 	Update_Act();
 	Update_Terrain();
-
-
-	one()->Trans()->Rotating_Deg(KVector4(.0f, InputManager::MouseDir().x * 30.0f *  DELTATIME));
-	InputManager::Set_MLock();
+	Update_Mouse();
 }
 
+void Controll_User::Update_Renderer()
+{
+	m_SRI = m_RList.begin();
+	m_ERI = m_RList.end();
+
+	for (; m_SRI != m_ERI; ++m_SRI)
+	{
+		KVector Tmp = (*m_SRI)->Trans()->rotate_local();
+	}
+}
 
 
 void Controll_User::Update_Move()
@@ -148,6 +176,40 @@ void Controll_User::Update_Act()
 		break;
 	default:
 		break;
+	}
+}
+
+void Controll_User::Update_Mouse()
+{
+	if (true == InputManager::Is_MouseMove())
+	{
+		if (true == KEY_PRESS(L"MUNLOCK"))
+		{
+			InputManager::Set_MUnLock();
+		}
+		else
+		{
+			m_PlayRot.x += InputManager::MouseDir().y * .5f *  DELTATIME;
+			m_PlayRot.y += InputManager::MouseDir().x * .5f *  DELTATIME;
+
+			KMatrix RMatX;
+			KMatrix RMatY;
+			KMatrix RMatZ;
+
+			RMatX.RotX(m_PlayRot.x); // X
+			RMatY.RotY(m_PlayRot.y); // Y
+			RMatZ.RotZ(m_PlayRot.z); // Z
+								
+			KMatrix RMat = RMatX * RMatY * RMatZ;
+
+			
+			// 원리상 back이 맞지만 원소스에서 back 좌표가 검출된다는 식으로 해 이렇게 구현
+			m_PlayPos = KVector4::Forword;
+			m_PlayPos = RMat.MulVecZero(m_PlayPos);
+			m_PlayPos.NormalizeVec3();
+
+			InputManager::Set_MLock();
+		}
 	}
 }
 
