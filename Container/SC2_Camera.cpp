@@ -14,7 +14,9 @@
 
 #include <KThread.h>
 
-SC2_Camera::SC2_Camera() : m_Speed(10.0f)
+SC2_Camera::SC2_Camera() : 
+	m_Speed(10.0f)
+	, m_PlayCamInfo(.0f, -5.5f, -1.5f, .0f)
 {
 }
 
@@ -26,8 +28,6 @@ SC2_Camera::~SC2_Camera()
 bool SC2_Camera::Init()
 {
 	m_CMode = SC2_CAMMODE::S2M_EDIT;
-	m_CSoft = SC2_SOFT::S2S_HARD;
-
 	m_Cam = Get_Component<Camera>();
 
 	if (nullptr == m_Cam)
@@ -155,11 +155,33 @@ void SC2_Camera::Update_InGame()
 		return;
 	}
 
+	// 한정거리
+	int A = 0;
+	InputManager::WheelValue(&A);
+
+	// 마우스 휠에 따라 캐릭터 줌인
+	if (0 != A)
+	{
+		m_PlayCamInfo.x += (float)A * .005f;
+	}
+
+	// 최소 거리
+	if (m_PlayCamInfo.y > m_PlayCamInfo.x)
+	{
+		m_PlayCamInfo.x = m_PlayCamInfo.y;
+	}
+	// 최대 거리
+	if (m_PlayCamInfo.z < m_PlayCamInfo.x)
+	{
+		m_PlayCamInfo.x = m_PlayCamInfo.z;
+	}
+
+
 	KPtr<TransPosition> UTrans = m_pUser->one()->Trans();
-	m_Trans->pos_local(UTrans->pos_local() + UTrans->back_local() * 10.0f + KVector(.0f, 2.5f, .0f));
-	
-	
-	m_Trans->rotate_localrad(UTrans->rotate_local()/* * -1.0f*/);
+	m_Trans->pos_local(UTrans->pos_local() + m_pUser->pos_player() * m_PlayCamInfo.x + KVector(.0f, 1.5f, .0f));
+	m_Trans->rotate_localrad(m_pUser->rot_player() /*+ KVector(.0f, KPI)*/);
+
+	UTrans->rotate_localrad(m_pUser->rot_render());
 }
 
 void SC2_Camera::Update_Part()
@@ -232,14 +254,7 @@ void SC2_Camera::Update_Key()
 		m_Cam->Change_Mode();
 	}
 
-
-	if (true == KEY_DOWN(L"Z"))
-	{
-		KVector4 Rot = m_Trans->rotate_local();
-		Rot.z = 0.0f;
-		m_Trans->rotate_local(Rot);
-	}
-
+	
 	if (true == KEY_DOWN(L"Z"))
 	{
 		KVector4 Rot = m_Trans->rotate_local();
@@ -303,15 +318,6 @@ void SC2_Camera::Update_Wheel()
 	// 휠을 움직였을 때 상황
 	if (0 != InputManager::WheelValue(&Check))
 	{
-		switch (m_CSoft)
-		{
-		case SC2_Camera::S2S_SOFT:
-			break;
-		case SC2_Camera::S2S_HARD:
-			m_Trans->Moving(m_Trans->forward_local() * (float)Check * .02f);
-			break;
-		default:
-			break;
-		}
+		m_Trans->Moving(m_Trans->forward_local() * (float)Check * .02f);
 	}
 }

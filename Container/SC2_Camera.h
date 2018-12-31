@@ -21,12 +21,6 @@ public:
 		S2M_PART,
 	};
 
-	enum SC2_SOFT
-	{
-		S2S_SOFT,
-		S2S_HARD,
-	};
-
 
 private:
 	KPtr<Camera>		m_Cam;
@@ -41,8 +35,6 @@ private:
 
 
 	SC2_CAMMODE m_CMode;
-	SC2_SOFT	m_CSoft;
-
 	KVector2 OutSize;
 	KVector2 OutPos;
 
@@ -50,6 +42,12 @@ private:
 	KPtr<KMaterial> m_Mtl;
 	KPtr<Sampler> m_Smp;
 
+
+	// x - 현재 거리
+	// y - 최소 거리
+	// z - 최대 거리
+	// w - 관심 거리 - target
+	KVector m_PlayCamInfo;
 
 private:
 	void Update_Edit();

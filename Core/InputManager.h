@@ -164,26 +164,27 @@ public:
 	}
 
 public:
-	static bool IsKey(const wchar_t* _Name);
+	static bool		IsKey(const wchar_t* _Name);
+	static bool&	Is_MouseMove();
 
-	static bool Up(const wchar_t* _Name);
-	static bool UnPress(const wchar_t* _Name);
-	static bool Down(const wchar_t* _Name);
-	static bool Press(const wchar_t* _Name);
-	static bool Over(const wchar_t* _Name, float _Time);
-	static bool Over_Reset(const wchar_t* _Name, float _Time);
+	static bool		Up(const wchar_t* _Name);
+	static bool		UnPress(const wchar_t* _Name);
+	static bool		Down(const wchar_t* _Name);
+	static bool		Press(const wchar_t* _Name);
+	static bool		Over(const wchar_t* _Name, float _Time);
+	static bool		Over_Reset(const wchar_t* _Name, float _Time);
 	
-	static int& WheelValue(int* _Ref);
-	static void Set_MLock();
-	static void Set_MUnLock();
+	static int&		WheelValue(int* _Ref);
+	static void		Set_MLock();
+	static void		Set_MUnLock();
 
 private:
-	static	void Update_CheckMove();
-	static	void Update_Mouse();
-	static	void Update_Key();
+	static	void	Update_CheckMove();
+	static	void	Update_Mouse();
+	static	void	Update_Key();
 
-	static  void Update();
-	static	void EndUpdate();
+	static  void	Update();
+	static	void	EndUpdate();
 
 };
 

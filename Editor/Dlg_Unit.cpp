@@ -276,6 +276,7 @@ void Dlg_Unit::Update_AddModel()
 		}
 
 		m_CurUnit->Insert_Renderer(Tmp);
+		m_CurOne->Get_Component<Controll_User>()->Add_Render(Tmp);
 		m_RenderList.push_back(Tmp);
 	}
 
@@ -305,6 +306,7 @@ void Dlg_Unit::Update_DelModel()
 			{
 				(*m_SRI)->Set_Death();
 				m_CurUnit->Delete_Renderer((*m_SRI));
+				m_CurOne->Get_Component<Controll_User>()->Del_Render((*m_SRI));
 				m_RenderList.erase(m_SRI);
 				return;
 			}

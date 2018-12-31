@@ -209,6 +209,26 @@ public:
 		return nullptr;
 	}
 
+
+	template<typename Com>
+	std::list<KPtr<Com>> Get_Component_List()
+	{
+		std::list<KPtr<Com>> Tmp;
+
+		std::list<KPtr<Component>>::iterator ComStartIter = m_ComList.begin();
+		std::list<KPtr<Component>>::iterator ComEndIter = m_ComList.end();
+
+		for (; ComStartIter != ComEndIter; ++ComStartIter)
+		{
+			if (true == (*ComStartIter)->IsEqual<Com>())
+			{
+				Tmp.push_back((*ComStartIter));
+			}
+		}
+
+		return Tmp;
+	}
+
 	void Set_Death() override;
 
 private:

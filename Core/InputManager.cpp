@@ -68,7 +68,7 @@ void InputManager::Input_Command::Update()
 	// 키가 눌렸을때
 	if (true == Check)
 	{
-		m_PressTime += TimeManager::DeltaTime();
+		m_PressTime -= TimeManager::DeltaTime();
 
 		if (0 != (m_Data & g_bUpStay))
 		{
@@ -169,11 +169,11 @@ void InputManager::Update_Mouse()
 	m_PMPos = m_MPos;
 	m_MPos.m_XMVec2.x = (float)m_iPoint.x;
 	m_MPos.m_XMVec2.y = (float)m_iPoint.y;
-
+	m_bMove = true;
 
 	if (m_MPos == m_PMPos)
 	{
-		m_MDir = .0f;
+		m_bMove = false;
 		return;
 	}
 
@@ -186,11 +186,6 @@ void InputManager::Update_Mouse()
 		KVector2 CPos = m_MPos + KVector2((float)pdist.x, (float)pdist.y);
 		POINT TPoint = { (long)CPos.x, (long)CPos.y };
 		SetCursorPos(TPoint.x, TPoint.y);
-		ShowCursor(false);
-	}
-	else
-	{
-		ShowCursor(true);
 	}
 }
 
@@ -221,6 +216,12 @@ bool InputManager::IsKey(const wchar_t* _Name) {
 	}
 	return true;
 }
+bool& InputManager::Is_MouseMove()
+{
+	return m_bMove;
+}
+
+
 bool InputManager::Up(const wchar_t* _Name) {
 	KPtr<Input_Command> pKEY = Map_Find<KPtr<Input_Command>>(m_KeyMap, _Name);
 	if (nullptr == pKEY)
@@ -293,11 +294,23 @@ bool InputManager::Check_InScr()
 
 void InputManager::Set_MLock()
 {
+	if (true == m_bLock)
+	{
+		return;
+	}
+
 	m_bLock = true;
+	ShowCursor(false);
 }
 void InputManager::Set_MUnLock()
 {
+	if (false == m_bLock)
+	{
+		return;
+	}
+
 	m_bLock = false;
+	ShowCursor(true);
 }
 
 
