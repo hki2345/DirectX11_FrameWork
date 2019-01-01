@@ -170,6 +170,7 @@ void InputManager::Update_Mouse()
 	m_MPos.m_XMVec2.x = (float)m_iPoint.x;
 	m_MPos.m_XMVec2.y = (float)m_iPoint.y;
 	m_bMove = true;
+	m_MDir = .0f;
 
 	if (m_MPos == m_PMPos)
 	{

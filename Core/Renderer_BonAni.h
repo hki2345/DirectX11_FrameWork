@@ -11,6 +11,9 @@ public:
 	~Renderer_BonAni();
 
 private:
+	KVector m_RotPivot;
+
+
 	// 일단 본을 찍어내기 위해선 본을 다 알아야 하겠다.
 	KPtr<MeshContainer> MCon;
 	KPtr<Changer_Animation> CAni;
@@ -39,6 +42,11 @@ private:
 
 
 public:
+	void rot_pivot(const KVector& _Value)
+	{
+		m_RotPivot = _Value;
+	}
+
 	// true - 스테틱, false
 	void Set_Static()
 	{
@@ -106,6 +114,7 @@ public:
 	void Set_TexturePath(const TEX_TYPE& _Value, const wchar_t* _Path);
 	void PrevUpdate() override;
 	void RenderBegin(KPtr<Camera> _Cam, const KUINT& _MeshIdx, const KUINT& _MtlIdx) override;
+	void Update_Trans(KPtr<Camera> _Camera) override;
 
 
 	// 랜더러에서 시키면 자동으로 여과되서 들어간다.

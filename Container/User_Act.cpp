@@ -39,6 +39,7 @@ void Controll_User::Update_MOVE()
 	{
 		TT = one()->Trans();
 		TT->Moving(TT->back_local() * m_pUnit->linear_speed() * DELTATIME);
+		m_RenderRot.y = m_PlayRot.y + KPI;
 	}
 	if (true == KEY_PRESS(L"MLEFT"))
 	{
@@ -118,17 +119,17 @@ void Controll_User::Update_AIDLE()
 }
 void Controll_User::Update_ATTACK()
 {
-	m_RenderRot.y = m_PlayRot.y;
+	m_RenderRot.y = m_PlayRot.y + KPI;
 }
 void Controll_User::Update_BOMB()
 {
-	m_RenderRot.y = m_PlayRot.y;
+	m_RenderRot.y = m_PlayRot.y + KPI;
 }
 void Controll_User::Update_HEAL()
 {
-	m_RenderRot.y = m_PlayRot.y;
+	m_RenderRot.y = m_PlayRot.y + KPI;
 }
 void Controll_User::Update_OPTI()
 {
-	m_RenderRot.y = m_PlayRot.y;
+	m_RenderRot.y = m_PlayRot.y + KPI;
 }

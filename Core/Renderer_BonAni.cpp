@@ -304,6 +304,43 @@ void Renderer_BonAni::PrevUpdate_Ani()
 }
 
 
+
+void Renderer_BonAni::Update_Trans(KPtr<Camera> _Camera)
+{
+	KASSERT(nullptr == m_Trans);
+	if (nullptr == m_Trans)
+	{
+		return;
+	}
+
+	SubTransUpdate();
+
+	KMatrix RX;
+	KMatrix RY;
+	KMatrix RZ;
+	KMatrix R;
+
+	RX.RotX(m_RotPivot.x);
+	RY.RotY(m_RotPivot.y);
+	RZ.RotZ(m_RotPivot.z);
+
+	R = RX * RY * RZ;
+
+	KMatrix W = m_Trans->scalemat_const() * R * m_Trans->posmat_const();
+
+
+	m_MD.m_W = W.RVTranspose();
+	m_MD.m_V = _Camera->View().RVTranspose();
+	m_MD.m_P = _Camera->Proj().RVTranspose();
+	m_MD.m_WV = (W * _Camera->View()).RTranspose();
+	m_MD.m_VP = _Camera->ViewProj().RVTranspose();
+	m_MD.m_WVP = (W * _Camera->ViewProj()).RTranspose();
+	m_MD.m_CamPos = _Camera->Trans()->pos_world();
+}
+
+
+
+
 void Renderer_BonAni::RenderBegin(KPtr<Camera> _Cam, const KUINT& _MeshIdx, const KUINT& _MtlIdx)
 {
 	if (nullptr != m_pBoneTex)

@@ -123,7 +123,8 @@ PS_DEFFERDOUTPUT PS_DEFFERDANI(VTX3DMESH_OUTPUT _in)
 {
     PS_DEFFERDOUTPUT outData = (PS_DEFFERDOUTPUT) 0.0f;
     float4 CalColor = float4(1.0f, 1.0f, 1.0f, 1.0f);
-    
+
+
     for (int i = 0; i < TexCount; ++i)
     {
         if (-1 != ArrTex[i].Tex_Idx)
@@ -131,27 +132,45 @@ PS_DEFFERDOUTPUT PS_DEFFERDANI(VTX3DMESH_OUTPUT _in)
             // 세력 색깔이 텍스쳐 전체에 곱해지는 게 아니고 ...
             if (ArrTex[i].Type == TEX)
             {
-                CalColor *= GetTexToColor(ArrTex[i].Tex_Idx, ArrTex[i].Tex_Smp, _in.vUv)/* * _in.vColor*/;
+                CalColor *= GetTexToColor(ArrTex[i].Tex_Idx, ArrTex[i].Tex_Smp, _in.vUv) /* * _in.vColor*/;
+                if (.98f > CalColor.a)
+                {
+                    CalColor *= m_Color;
+                }
+
             }
             else if (ArrTex[i].Type == BUMP)
             {
-                _in.vNormal = CalBump(ArrTex[i].Tex_Idx, ArrTex[i].Tex_Smp, _in.vUv, _in.vTangent, _in.vBNormal, _in.vNormal);
+                _in.vNormal = CalSBump(ArrTex[i].Tex_Idx, ArrTex[i].Tex_Smp, _in.vUv, _in.vTangent, _in.vBNormal, _in.vNormal);
+            }
+            else if (ArrTex[i].Type == SPEC)
+            {
+                float4 Spec = GetTexToColor(ArrTex[i].Tex_Idx, ArrTex[i].Tex_Smp, _in.vUv) * _in.vColor;
+                CalColor = saturate(CalColor + Spec * .3f);
+            }
+            else if (ArrTex[i].Type == EMIS)
+            {
+                CalColor += GetTexToColor(ArrTex[i].Tex_Idx, ArrTex[i].Tex_Smp, _in.vUv) * _in.vColor * 3.0f;
             }
         }
     }
 
     
-    // 스타 2 텍스쳐에 구멍이 뜰린 곳에 버텍스 색상으 ㄹ박아넣음 -> 세력 색깔
-    // 컨스트 버퍼로 받아서 넣음
-    if (.95f > CalColor.a)
-    {
-        outData.vDiffuse.rgb = CalColor * m_Color;
-    }
-    else
-    {
-        outData.vDiffuse.rgb = CalColor;
-    }
     
+    
+    //// 스타 2 텍스쳐에 구멍이 뜰린 곳에 버텍스 색상으 ㄹ박아넣음 -> 세력 색깔
+    //// 컨스트 버퍼로 받아서 넣음
+    //if (.999f > CalColor.a)
+    //{
+    //    outData.vDiffuse.rgb = CalColor * m_Color;
+    //}
+    //else
+    //{
+    //    outData.vDiffuse.rgb = CalColor;
+    //}
+
+
+    outData.vDiffuse.rgb = CalColor.rgb;
     outData.vDiffuse.a = _in.vColor.a;
     outData.vNoraml = -_in.vNormal;
     outData.vNoraml.a = 1.0f;

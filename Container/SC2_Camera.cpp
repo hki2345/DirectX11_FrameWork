@@ -16,7 +16,7 @@
 
 SC2_Camera::SC2_Camera() : 
 	m_Speed(10.0f)
-	, m_PlayCamInfo(.0f, -5.5f, -1.5f, .0f)
+	, m_PlayCamInfo(.0f, -5.5f, -1.0f, .0f)
 {
 }
 
@@ -178,10 +178,10 @@ void SC2_Camera::Update_InGame()
 
 
 	KPtr<TransPosition> UTrans = m_pUser->one()->Trans();
-	m_Trans->pos_local(UTrans->pos_local() + m_pUser->pos_player() * m_PlayCamInfo.x + KVector(.0f, 1.5f, .0f));
-	m_Trans->rotate_localrad(m_pUser->rot_player() /*+ KVector(.0f, KPI)*/);
-
-	UTrans->rotate_localrad(m_pUser->rot_render());
+	m_Trans->pos_local(UTrans->pos_local() - 
+		m_pUser->pos_player() * m_PlayCamInfo.x * KVector(1.0f, -1.0f, 1.0f, 1.0f) + KVector(.0f, 1.25f, .0f));
+	m_Trans->rotate_localrad(m_pUser->rot_player() + KVector(.0f, KPI));
+	UTrans->rotate_localrad(m_pUser->rot_player() + KVector(.0f, KPI));
 }
 
 void SC2_Camera::Update_Part()

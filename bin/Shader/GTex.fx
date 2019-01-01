@@ -6,6 +6,8 @@
 
 #define TEX 0
 #define BUMP 1
+#define SPEC 2
+#define EMIS 3
 
 Texture2D g_Tex_0 : register(t0);
 Texture2D g_Tex_1 : register(t1);
@@ -154,14 +156,36 @@ float4 GetMTexToColor(int _Tex, int _Smp, float2 _Uv, float _Idx)
 
 
 //                                          x                    y
-float4 CalBump(int _Bumpidx, int _BumpSmp, float2 _Uv, float4 _ViewTangent, float4 _ViewBNormal, float4 _Normal)
+// 알파가 Red - Red가 Blue
+float4 CalSBump(int _Bumpidx, int _BumpSmp, float2 _Uv, float4 _ViewTangent, float4 _ViewBNormal, float4 _Normal)
 {
     float4 BumpNormal = GetTexToColor(_Bumpidx, _BumpSmp, _Uv);
 
+    
+    BumpNormal.b = BumpNormal.r;
+    BumpNormal.r = BumpNormal.a;
+
+        
     BumpNormal = BumpNormal * 2.0f - 1.0f; // 0.0 ~ 1.0f -> -1.0f ~ 1.0f
     BumpNormal = normalize(BumpNormal);
     BumpNormal.w = 0.0f;
+    
+    // 탄젠트 공간행렬이라고 한다.
+    float3x3 matTBN = float3x3(_ViewTangent.xyz, _ViewBNormal.xyz, _Normal.xyz);
+    BumpNormal.xyz = mul(BumpNormal.xyz, matTBN);
+    BumpNormal.w = 0.0f;
 
+    return BumpNormal;
+}
+
+float4 CalBump(int _Bumpidx, int _BumpSmp, float2 _Uv, float4 _ViewTangent, float4 _ViewBNormal, float4 _Normal)
+{
+    float4 BumpNormal = GetTexToColor(_Bumpidx, _BumpSmp, _Uv);
+    
+    BumpNormal = BumpNormal * 2.0f - 1.0f; // 0.0 ~ 1.0f -> -1.0f ~ 1.0f
+    BumpNormal = normalize(BumpNormal);
+    BumpNormal.w = 0.0f;
+    
     // 탄젠트 공간행렬이라고 한다.
     float3x3 matTBN = float3x3(_ViewTangent.xyz, _ViewBNormal.xyz, _Normal.xyz);
     BumpNormal.xyz = mul(BumpNormal.xyz, matTBN);

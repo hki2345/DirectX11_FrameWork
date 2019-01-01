@@ -109,11 +109,11 @@ void Controll_User::Update()
 		return;
 	}
 
-	Update_Renderer();
 	Update_Move();
 	Update_Act();
 	Update_Terrain();
 	Update_Mouse();
+	Update_Renderer();
 }
 
 void Controll_User::Update_Renderer()
@@ -123,7 +123,7 @@ void Controll_User::Update_Renderer()
 
 	for (; m_SRI != m_ERI; ++m_SRI)
 	{
-		KVector Tmp = (*m_SRI)->Trans()->rotate_local();
+		(*m_SRI)->rot_pivot(m_RenderRot + KVector(.0f, KPI, .0f));
 	}
 }
 
@@ -203,7 +203,6 @@ void Controll_User::Update_Mouse()
 			KMatrix RMat = RMatX * RMatY * RMatZ;
 
 			
-			// 원리상 back이 맞지만 원소스에서 back 좌표가 검출된다는 식으로 해 이렇게 구현
 			m_PlayPos = KVector4::Forword;
 			m_PlayPos = RMat.MulVecZero(m_PlayPos);
 			m_PlayPos.NormalizeVec3();

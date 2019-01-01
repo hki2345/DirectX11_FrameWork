@@ -70,11 +70,6 @@ PS_DEFFERDOUTPUT PS_DEFFERD(VTX3DMESH_OUTPUT _in)
             if (ArrTex[i].Type == TEX)
             {
                 CalColor *= GetTexToColor(ArrTex[i].Tex_Idx, ArrTex[i].Tex_Smp, _in.vUv) * _in.vColor;
-
-                //if (IsAlpha == 0)
-                //{
-                //    CalColor.a = 1.0f;
-                //}
             }
             else if (ArrTex[i].Type == BUMP)
             {
@@ -148,7 +143,7 @@ PS_DEFFERDLIGHTOUTPUT PS_DEFFERDLIGHT(VS_DEFFERDLIGHTOUTPUT _Input)
 
 
     // 빛을 받을거냐 말거냐의 차이
-    OUTDATA.vDiffuse.rgb = info.Diff.rgb;
+    OUTDATA.vDiffuse.rgb = info.Diff.rgb + float3(.5f, .5f, .5f);
     OUTDATA.vDiffuse.a = 1.0f;
     OUTDATA.vSpaculer.rgb = info.Spec.rgb;
     OUTDATA.vSpaculer.a = 1.0f;
