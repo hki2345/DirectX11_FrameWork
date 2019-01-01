@@ -49,6 +49,17 @@ bool KDevice::DefRenderTaget()
 	ResourceManager<RenderTarget_Multi>::Create(L"DRAW", L"COLOR_DIFFUSE", L"POSTION", L"NORMAL", L"DEPTH");
 
 
+
+	// ºí·ë ·»´õ Å¸°Ù
+	ResourceManager<RenderTarget>::Create(L"S512", 512, 512, KVector::Blue, D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE, DXGI_FORMAT_R32G32B32A32_FLOAT);
+	ResourceManager<RenderTarget>::Create(L"S256", 256, 256, KVector::Blue, D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE, DXGI_FORMAT_R32G32B32A32_FLOAT);
+	ResourceManager<RenderTarget>::Create(L"S128", 128, 128, KVector::Blue, D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE, DXGI_FORMAT_R32G32B32A32_FLOAT);
+	ResourceManager<RenderTarget>::Create(L"S64", 64, 64, KVector::Blue, D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE, DXGI_FORMAT_R32G32B32A32_FLOAT);
+
+	ResourceManager<RenderTarget_Multi>::Create(L"CUT", L"S512", L"S256", L"S128", L"S64");
+
+
+
 	return true;
 }
 
@@ -622,21 +633,42 @@ bool KDevice::Mat3DCreate()
 	IMGMAT->Set_PXShader(L"IMGPIX");
 	IMGMAT->Set_Blend(L"ALPHA");
 
+	{
+		// SKY FORWARD
+		KPtr<Shader_Vertex> SKY3DVTX = ResourceManager<Shader_Vertex>::Load_FromKey(L"SKY3DVTXFORWARD", L"Shader", L"SkyBox.fx", "VS_SKY3D");
+		SKY3DVTX->Add_Layout("POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
+		SKY3DVTX->Add_Layout("TEXCOORD", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32_FLOAT, 0);
+		SKY3DVTX->Add_Layout("COLOR", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
+		SKY3DVTX->Add_Layout("NORMAL", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
+		SKY3DVTX->Add_Layout("TANGENT", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
+		SKY3DVTX->Add_LayoutFin("BINORMAL", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
+		KPtr<Shader_Pixel> SKY3DPIX = ResourceManager<Shader_Pixel>::Load_FromKey(L"SKY3DPIXFORWARD", L"Shader", L"SkyBox.fx", "PS_SKY3DFORWARD");
 
-	// SKY
-	KPtr<Shader_Vertex> SKY3DVTX = ResourceManager<Shader_Vertex>::Load_FromKey(L"SKY3DVTX", L"Shader", L"SkyBox.fx", "VS_SKY3D");
-	SKY3DVTX->Add_Layout("POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
-	SKY3DVTX->Add_Layout("TEXCOORD", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32_FLOAT, 0);
-	SKY3DVTX->Add_Layout("COLOR", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
-	SKY3DVTX->Add_Layout("NORMAL", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
-	SKY3DVTX->Add_Layout("TANGENT", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
-	SKY3DVTX->Add_LayoutFin("BINORMAL", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
-	KPtr<Shader_Pixel> SKY3DPIX = ResourceManager<Shader_Pixel>::Load_FromKey(L"SKY3DPIX", L"Shader", L"SkyBox.fx", "PS_SKY3D");
+		KPtr<KMaterial> SKY3DMAT = ResourceManager<KMaterial>::Create(L"SKY3DMATFORWARD");
+		SKY3DMAT->Set_VTShader(L"SKY3DVTXFORWARD");
+		SKY3DMAT->Set_PXShader(L"SKY3DPIXFORWARD");
+		SKY3DMAT->Set_Blend(L"ALPHA");
+	}
 
-	KPtr<KMaterial> SKY3DMAT = ResourceManager<KMaterial>::Create(L"SKY3DMAT");
-	SKY3DMAT->Set_VTShader(L"SKY3DVTX");
-	SKY3DMAT->Set_PXShader(L"SKY3DPIX");
-	SKY3DMAT->Set_Blend(L"ALPHA");
+	{
+		// SKY DEFFERD
+		KPtr<Shader_Vertex> SKY3DVTX = ResourceManager<Shader_Vertex>::Load_FromKey(L"SKY3DVTXDEFFERD", L"Shader", L"SkyBox.fx", "VS_SKY3D");
+		SKY3DVTX->Add_Layout("POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
+		SKY3DVTX->Add_Layout("TEXCOORD", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32_FLOAT, 0);
+		SKY3DVTX->Add_Layout("COLOR", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
+		SKY3DVTX->Add_Layout("NORMAL", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
+		SKY3DVTX->Add_Layout("TANGENT", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
+		SKY3DVTX->Add_LayoutFin("BINORMAL", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
+		KPtr<Shader_Pixel> SKY3DPIX = ResourceManager<Shader_Pixel>::Load_FromKey(L"SKY3DPIXDEFFERD", L"Shader", L"SkyBox.fx", "PS_SKY3DDEFFERD");
+
+		KPtr<KMaterial> SKY3DMAT = ResourceManager<KMaterial>::Create(L"SKY3DMATDEFFERD");
+		SKY3DMAT->Set_VTShader(L"SKY3DVTXDEFFERD");
+		SKY3DMAT->Set_PXShader(L"SKY3DPIXDEFFERD");
+		SKY3DMAT->Set_Blend(L"ALPHA");
+	}
+
+
+
 
 	KPtr<Shader_Vertex> MESH3DVTX = ResourceManager<Shader_Vertex>::Load_FromKey(L"MESH3DVTX", L"Shader", L"MeshMat.fx", "VS_MESH3D");
 	MESH3DVTX->Add_Layout("POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
@@ -878,6 +910,47 @@ bool KDevice::Mat3DCreate()
 		MTL->Set_Blend(L"ALPHA");
 	}
 
+
+	{
+		KPtr<Shader_Vertex> VTX = ResourceManager<Shader_Vertex>::Load_FromKey(L"POSTEXVTX", L"Shader", L"Bloom.fx", "VS_EX");
+		VTX->Add_Layout("POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
+		VTX->Add_LayoutFin("TEXCOORD", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32_FLOAT, 0);
+		VTX->CreateCB<KVector>(L"SCREENSIZE", D3D11_USAGE_DYNAMIC, 0);
+		VTX->CreateCB<KVector>(L"TARGETSIZE", D3D11_USAGE_DYNAMIC, 1);
+		KPtr<Shader_Pixel> PIX = ResourceManager<Shader_Pixel>::Load_FromKey(L"POSTEXPIX", L"Shader", L"Bloom.fx", "PS_EX");
+
+		KPtr<KMaterial> MAT = ResourceManager<KMaterial>::Create(L"POSTEX");
+		MAT->Set_VTShader(L"POSTEXVTX");
+		MAT->Set_PXShader(L"POSTEXPIX");
+		MAT->Set_Blend(L"ALPHA");
+	}
+
+	{
+		KPtr<Shader_Vertex> VTX = ResourceManager<Shader_Vertex>::Load_FromKey(L"POSTSMALLVTX", L"Shader", L"Bloom.fx", "VS_SMALL");
+		VTX->Add_Layout("POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
+		VTX->Add_LayoutFin("TEXCOORD", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32_FLOAT, 0);
+		VTX->CreateCB<KVector>(L"SCREENSIZE", D3D11_USAGE_DYNAMIC, 0);
+		VTX->CreateCB<KVector>(L"TARGETSIZE", D3D11_USAGE_DYNAMIC, 1);
+		KPtr<Shader_Pixel> PIX = ResourceManager<Shader_Pixel>::Load_FromKey(L"POSTSMALLPIX", L"Shader", L"Bloom.fx", "PS_SMALL");
+
+		KPtr<KMaterial> MAT = ResourceManager<KMaterial>::Create(L"POSTSMALL");
+		MAT->Set_VTShader(L"POSTSMALLVTX");
+		MAT->Set_PXShader(L"POSTSMALLPIX");
+		MAT->Set_Blend(L"ALPHA");
+	}
+
+	{
+		KPtr<Shader_Vertex> VTX = ResourceManager<Shader_Vertex>::Load_FromKey(L"POSTBLOOMVTX", L"Shader", L"Bloom.fx", "VS_BLOOMMERGE");
+		VTX->Add_Layout("POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
+		VTX->Add_LayoutFin("TEXCOORD", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32_FLOAT, 0);
+		KPtr<Shader_Pixel> PIX = ResourceManager<Shader_Pixel>::Load_FromKey(L"POSTBLOOMPIX", L"Shader", L"Bloom.fx", "PS_BLOOMMERGE");
+		PIX->CreateCB<KVector>(L"SCREENSIZE", D3D11_USAGE_DYNAMIC, 0);
+
+		KPtr<KMaterial> MAT = ResourceManager<KMaterial>::Create(L"POSTBLOOMMERGE");
+		MAT->Set_VTShader(L"POSTBLOOMVTX");
+		MAT->Set_PXShader(L"POSTBLOOMPIX");
+		MAT->Set_Blend(L"ALPHA");
+	}
 
 	return true;
 }

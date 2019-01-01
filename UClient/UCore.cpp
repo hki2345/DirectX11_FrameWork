@@ -9,6 +9,7 @@
 #include "Core_Class.cpp"
 #include "DebugManager.cpp"
 #include "DXContainer.cpp"
+#include "Effect_Bloom.cpp"
 #include "Effect_Gaussian.cpp"
 #include "HDevice_DefaultData.cpp"
 #include "HDevice_DefaultData3D.cpp"

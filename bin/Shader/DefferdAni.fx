@@ -146,7 +146,7 @@ PS_DEFFERDOUTPUT PS_DEFFERDANI(VTX3DMESH_OUTPUT _in)
             else if (ArrTex[i].Type == SPEC)
             {
                 float4 Spec = GetTexToColor(ArrTex[i].Tex_Idx, ArrTex[i].Tex_Smp, _in.vUv) * _in.vColor;
-                CalColor = saturate(CalColor + Spec * .3f);
+                CalColor += saturate(Spec + CalColor) * .4f;
             }
             else if (ArrTex[i].Type == EMIS)
             {

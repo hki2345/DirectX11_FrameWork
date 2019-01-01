@@ -17,6 +17,7 @@
 #include <Renderer_Draw.h>
 
 #include <Effect_Gaussian.h>
+#include <Effect_Bloom.h>
 #include <Texture_Multi.h>
 
 #include <DebugManager.h>
@@ -82,25 +83,26 @@ BOOL Dlg_Editor::OnInitDialog()
 	SKYMESH->Trans()->scale_local(KVector4(10000.0f, 10000.0f, 10000.0f));
 	SKYMESH->Trans()->pos_local(KVector4(.0f, 0.0f, 0.0f));
 	KPtr<Renderer_Mesh> SKYMESH1 = SKYMESH->Add_Component<Renderer_Mesh>();
-	SKYMESH1->Set_Material(L"SKY3DMAT");
+	SKYMESH1->Set_Material(L"SKY3DMATFORWARD");
 	SKYMESH1->Set_RSState(L"SNONE");
-	SKYMESH1->ROpt.Defferd_orForward = 1;
+	SKYMESH1->ROpt.Defferd_orForward = 0;
 	SKYMESH1->ROpt.LightOpacity = 1.0f;
 	SKYMESH1->Set_Mesh(L"SPHERE");
 	SKYMESH1->material()->Insert_TexData(TEX_TYPE::TEX_COLOR, 0, L"Space.jpg");
+	SKYMESH1->ROpt.Defferd_orForward = 0;
+
 
 	KPtr<TheOne> GRIDACTOR = TabScene->Create_One();
 	GRIDACTOR->Trans()->rotate_world(KVector4(90.0f, 0.0f, 0.0f));
 	GRIDACTOR->Trans()->scale_world(KVector4(10000.0f, 10000.0f, 10000.0f));
 	KPtr<Renderer_Grid> GRIDRENDER = GRIDACTOR->Add_Component<Renderer_Grid>();
-	GRIDRENDER->ROpt.Defferd_orForward = 1;
 
 
 
 
 
-
-	// TabScene->Camera()->Create_EffectPost<Effect_Gaussian>(0);
+	TabScene->Camera()->Create_EffectPost<Effect_Bloom>(0);
+	// TabScene->Camera()->Create_EffectPost<Effect_Gaussian>(1);
 	TabScene->Camera()->Add_Component<SC2_Camera>();
 	TabScene->Camera()->Far(10000.0f);
 	TabScene->Camera()->one()->Trans()->pos_local(KVector4(0.0f, 10.0f, -20.0f));
@@ -248,42 +250,42 @@ void Dlg_Editor::Collision_Test(KCollision*, KCollision*)
 void Dlg_Editor::Init_Dlg()
 {
 
-	// ResourceManager<MeshContainer>::Clear();
-	// ResourceManager<Changer_Animation>::Clear();
-	// 
-	// 
-	// // TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
-	// // 만약 자체 메쉬에 애니메이션을 바로 적용시키려면
-	// // 애니메이션이 먼저 불러온 후 배급받는 식이다.
-	// ResourceManager<Changer_Animation>::All_Load();
-	// ResourceManager<MeshContainer>::All_Load();
-	// 
-	// KPtr<State> TabScene = Core_Class::MainSceneMgr().Find_State(StateName.GetString());
-	// 
-	// KPtr<TheOne> m_CurOne = TabScene->Create_One(L"");
-	// m_CurOne->Trans()->pos_local(KVector(5.0f));
-	// m_CurOne->Trans()->scale_local(KVector(1.f, 1.f, 1.f));
-	// 
-	// KPtr<Renderer_BonAni> TRender = m_CurOne->Add_Component<Renderer_BonAni>();
-	// TRender->Set_Fbx(L"BattleCruiser.KM3");
-	// 
-	// if (nullptr == TRender->changer_animation())
-	// {
-	// 	TRender->Create_Animation();
-	// }
-	// 
-	// 
-	// KPtr<TheOne> m_CurOne2 = TabScene->Create_One(L"");
-	// m_CurOne2->Trans()->pos_local(KVector(.0f));
-	// m_CurOne2->Trans()->scale_local(KVector(1.f, 1.f, 1.f));
-	// 
-	// KPtr<Renderer_BonAni> TRender2 = m_CurOne2->Add_Component<Renderer_BonAni>();
-	// TRender2->Set_Fbx(L"BattleCruiser.KM3");
-	// 
-	// 
-	// if (nullptr == TRender2->changer_animation())
-	// {
-	// 	TRender2->Create_Animation();
-	// }
+	ResourceManager<MeshContainer>::Clear();
+	ResourceManager<Changer_Animation>::Clear();
+	
+	
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	// 만약 자체 메쉬에 애니메이션을 바로 적용시키려면
+	// 애니메이션이 먼저 불러온 후 배급받는 식이다.
+	ResourceManager<Changer_Animation>::All_Load();
+	ResourceManager<MeshContainer>::All_Load();
+	
+	KPtr<State> TabScene = Core_Class::MainSceneMgr().Find_State(StateName.GetString());
+	
+	KPtr<TheOne> m_CurOne = TabScene->Create_One(L"");
+	m_CurOne->Trans()->pos_local(KVector(5.0f));
+	m_CurOne->Trans()->scale_local(KVector(1.f, 1.f, 1.f));
+	
+	KPtr<Renderer_BonAni> TRender = m_CurOne->Add_Component<Renderer_BonAni>();
+	TRender->Set_Fbx(L"BattleCruiser.KM3");
+	
+	if (nullptr == TRender->changer_animation())
+	{
+		TRender->Create_Animation();
+	}
+	
+	
+	KPtr<TheOne> m_CurOne2 = TabScene->Create_One(L"");
+	m_CurOne2->Trans()->pos_local(KVector(.0f));
+	m_CurOne2->Trans()->scale_local(KVector(1.f, 1.f, 1.f));
+	
+	KPtr<Renderer_BonAni> TRender2 = m_CurOne2->Add_Component<Renderer_BonAni>();
+	TRender2->Set_Fbx(L"BattleCruiser.KM3");
+	
+	
+	if (nullptr == TRender2->changer_animation())
+	{
+		TRender2->Create_Animation();
+	}
 
 }

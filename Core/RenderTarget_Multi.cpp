@@ -48,31 +48,77 @@ void RenderTarget_Multi::CreateDepth(unsigned int _W, unsigned int _H)
 	return;
 }
 
-void RenderTarget_Multi::OMSet() 
-{
-	if (nullptr != m_DepthTex)
-	{
-		Core_Class::Context()->OMSetRenderTargets(TagetCount(), &m_RenderTagetView[0], m_DepthTex->DSV());
-		Core_Class::Context()->OMSetDepthStencilState(m_pDepthStencilState, 1);
-	} 
-	else 
-	{
-		// 이 과정ㅇ은 -> 현재 이 멀티 타겟이 뎁스 스텐실을 가진 경우 그대로 하게 되고
-		// 아니면 기존 디바이스가 가진 백버퍼의 뎁스스텐실을 적용시킨다는 뜻
-		if (false == m_bDefaultDepth)
-		{
-			ID3D11DepthStencilView* OldDepth;
-			Core_Class::Context()->OMGetRenderTargets(0, nullptr, &OldDepth);
-			Core_Class::Context()->OMSetRenderTargets(TagetCount(), &m_RenderTagetView[0], OldDepth);
-			Core_Class::Context()->OMSetDepthStencilState(m_pDepthStencilState, 1);
-			OldDepth->Release();
-		}
-		else 
-		{
-			Core_Class::Context()->OMSetRenderTargets(TagetCount(), &m_RenderTagetView[0], Core_Class::MainDevice().Depth());
-		}
 
+void RenderTarget_Multi:: OMSetOneTarget(const int& _Inx, const bool& _Depth /*= true*/)
+{
+
+	if (true == _Depth)
+	{
+		if (nullptr != m_DepthTex)
+		{
+			Core_Class::Context()->OMSetRenderTargets(TagetCount(), &m_RenderTagetView[0], m_DepthTex->DSV());
+			Core_Class::Context()->OMSetDepthStencilState(m_pDepthStencilState, 1);
+		}
+		else
+		{
+			// 이 과정ㅇ은 -> 현재 이 멀티 타겟이 뎁스 스텐실을 가진 경우 그대로 하게 되고
+			// 아니면 기존 디바이스가 가진 백버퍼의 뎁스스텐실을 적용시킨다는 뜻
+			if (false == m_bDefaultDepth)
+			{
+				ID3D11DepthStencilView* OldDepth;
+				Core_Class::Context()->OMGetRenderTargets(0, nullptr, &OldDepth);
+				Core_Class::Context()->OMSetRenderTargets(1, &m_RenderTagetView[_Inx], OldDepth);
+				// Core_Class::Context()->OMSetDepthStencilState(m_pDepthStencilState, 1);
+				OldDepth->Release();
+			}
+			else
+			{
+				Core_Class::Context()->OMSetRenderTargets(1, &m_RenderTagetView[_Inx], Core_Class::MainDevice().Depth());
+			}
+		}
 	}
+	else
+	{
+		Core_Class::Context()->OMSetRenderTargets(1, &m_RenderTagetView[_Inx], nullptr);
+	}
+}
+
+void RenderTarget_Multi::OMSet(const bool& _Depth /*= true*/)
+{
+	if (true == _Depth)
+	{
+		if (nullptr != m_DepthTex)
+		{
+			Core_Class::Context()->OMSetRenderTargets(TagetCount(), &m_RenderTagetView[0], m_DepthTex->DSV());
+			Core_Class::Context()->OMSetDepthStencilState(m_pDepthStencilState, 1);
+		}
+		else
+		{
+			// 이 과정ㅇ은 -> 현재 이 멀티 타겟이 뎁스 스텐실을 가진 경우 그대로 하게 되고
+			// 아니면 기존 디바이스가 가진 백버퍼의 뎁스스텐실을 적용시킨다는 뜻
+			if (false == m_bDefaultDepth)
+			{
+				ID3D11DepthStencilView* OldDepth;
+				Core_Class::Context()->OMGetRenderTargets(0, nullptr, &OldDepth);
+				Core_Class::Context()->OMSetRenderTargets(TagetCount(), &m_RenderTagetView[0], OldDepth);
+				// Core_Class::Context()->OMSetDepthStencilState(m_pDepthStencilState, 1);
+				OldDepth->Release();
+			}
+			else
+			{
+				Core_Class::Context()->OMSetRenderTargets(TagetCount(), &m_RenderTagetView[0], Core_Class::MainDevice().Depth());
+			}
+		}
+	}
+	else
+	{
+		Core_Class::Context()->OMSetRenderTargets(TagetCount(), &m_RenderTagetView[0], nullptr);
+	}
+}
+
+void RenderTarget_Multi::Clear_OneTarget(const int& _Value)
+{
+	m_RenderTaget[_Value]->Clear();
 }
 
 void RenderTarget_Multi::Clear() 

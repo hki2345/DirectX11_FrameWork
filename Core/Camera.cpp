@@ -169,6 +169,8 @@ void Camera::Progress_Post()
 
 	KPtr<RenderTarget_Multi> TmpTarget = m_CamTarget;
 
+
+	int Cnt = 0;
 	for (; m_SFMI != m_EFMI; ++m_SFMI)
 	{
 		if (true == m_SFMI->second->effect_on_off())
@@ -176,17 +178,22 @@ void Camera::Progress_Post()
 			m_SFMI->second->m_RTarget = TmpTarget;
 			m_SFMI->second->Update();
 			TmpTarget = m_SFMI->second->m_OTarget;
+			++Cnt;
 		}
 	}
 
 
-	// 누적시켜서 찍는 방식
-	m_CamTarget->OMSet();
-	TmpTarget->target_tex(0)->Update(0);
-	m_CamScreenMtl->Update();
-	m_CamMesh->Update();
-	m_CamMesh->Render();
-	TmpTarget->target_tex(0)->Reset(0);
+	if (1 <= Cnt)
+	{
+		// 누적시켜서 찍는 방식
+		m_CamTarget->OMSet();
+		TmpTarget->target_tex(0)->Update(0);
+		m_CamScreenMtl->Update();
+		m_CamMesh->Update();
+		m_CamMesh->Render();
+		TmpTarget->target_tex(0)->Reset(0);
+
+	}
 }
 
 

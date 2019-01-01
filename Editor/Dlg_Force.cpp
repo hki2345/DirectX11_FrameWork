@@ -13,6 +13,7 @@
 #include <Renderer_BonAni.h>
 #include <ResourceManager.h>
 #include <Renderer_Mesh.h>
+#include <Effect_Bloom.h>
 
 #include <Con_Class.h>
 #include <SC2_Force.h>
@@ -50,9 +51,9 @@ BOOL Dlg_Force::OnInitDialog()
 	SKYMESH->Trans()->scale_local(KVector4(10000.0f, 10000.0f, 10000.0f));
 	SKYMESH->Trans()->pos_local(KVector4(.0f, 0.0f, 0.0f));
 	KPtr<Renderer_Mesh> SKYMESH1 = SKYMESH->Add_Component<Renderer_Mesh>();
-	SKYMESH1->Set_Material(L"SKY3DMAT");
+	SKYMESH1->Set_Material(L"SKY3DMATFORWARD");
 	SKYMESH1->Set_RSState(L"SNONE");
-	SKYMESH1->ROpt.Defferd_orForward = 1;
+	SKYMESH1->ROpt.Defferd_orForward = 0;
 	SKYMESH1->ROpt.LightOpacity = 1.0f;
 	SKYMESH1->Set_Mesh(L"SPHERE");
 	SKYMESH1->material()->Insert_TexData(TEX_TYPE::TEX_COLOR, 0, L"Space.jpg");
@@ -68,6 +69,8 @@ BOOL Dlg_Force::OnInitDialog()
 	TabScene->Camera()->Add_Component<SC2_Camera>();
 	TabScene->Camera()->Far(10000.0f);
 	TabScene->Camera()->one()->Trans()->pos_local(KVector4(0.0f, 10.0f, -20.0f));
+	TabScene->Camera()->Create_EffectPost<Effect_Bloom>(0);
+
 
 
 	KPtr<TheOne> Light2 = TabScene->Create_One();

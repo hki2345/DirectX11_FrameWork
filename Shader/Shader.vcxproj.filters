@@ -39,5 +39,6 @@
     <FxCompile Include="..\bin\Shader\Effect.fx" />
     <FxCompile Include="..\bin\Shader\Forward.fx" />
     <FxCompile Include="..\bin\Shader\Draw.fx" />
+    <FxCompile Include="..\bin\Shader\Bloom.fx" />
   </ItemGroup>
 </Project>

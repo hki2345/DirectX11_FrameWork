@@ -44,7 +44,10 @@ public:
 	}
 
 public:
-	void OMSet();
+	void OMSetOneTarget(const int& _Inx, const bool& _Depth = true);
+	void OMSet(const bool& _Depth = true);
+
+	void Clear_OneTarget(const int& _Value);
 	void Clear();
 	void CreateDepth(unsigned int _W, unsigned int _H);
 

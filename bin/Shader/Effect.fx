@@ -121,7 +121,7 @@ float4 PS_EFFECTRENDER(EFFECT_GSOUT _Data) : SV_Target
     }
     else
     {
-        Tmp.a = .5f * _Data.Value.a * Tmp.a;
+        Tmp.a = .0f * _Data.Value.a * Tmp.a;
     }
     
     //float X = ZPos.x - _Data.Pos.z;

@@ -112,7 +112,7 @@ void RenderManager::Render()
 			// 타겟 머지
 			// 다시 켜야되.
 			// 기본 뎁스 - 덮어그리는 식
-			Core_Class::MainDevice().Set_DSS(L"ALWAYS");
+			Core_Class::MainDevice().Set_DSS(L"BASIC");
 			Render_Forward(m_CSI->second, m_ALLFI, i);
 
 			// 최종 나온 결과물을 

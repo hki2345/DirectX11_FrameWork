@@ -66,7 +66,44 @@ VTX3DMESH_OUTPUT VS_SKY3D(VTX3DMESH_INPUT _iN)
 	return outData;
 }
 
-PS_DEFFERDOUTPUT PS_SKY3D(VTX3DMESH_OUTPUT _in)
+
+PS_FORWARDOUTPUT PS_SKY3DFORWARD(VTX3DMESH_OUTPUT _in)
+{
+//	PS3D_OUTPUT outData = (PS3D_OUTPUT)0.0f;
+//	outData.vColor = g_Tex_0.Sample(g_Sam_0, float2(_in.vUv.x, _in.vUv.y));
+//    return outData;
+
+    
+    PS_FORWARDOUTPUT outData = (PS_FORWARDOUTPUT) 0.0f;
+    
+    outData.vDiffuse = _in.vColor;
+    float4 CalColor = float4(1.0f, 1.0f, 1.0f, 1.0f);
+    
+
+
+    for (int i = 0; i < TexCount; ++i)
+    {
+        if (-1 != ArrTex[i].Tex_Idx)
+        {
+            if (ArrTex[i].Type == TEX)
+            {
+                CalColor *= GetTexToColor(ArrTex[i].Tex_Idx, ArrTex[i].Tex_Smp, _in.vUv) * _in.vColor;
+            }
+            else if (ArrTex[i].Type == BUMP)
+            {
+                _in.vNormal = CalBump(ArrTex[i].Tex_Idx, ArrTex[i].Tex_Smp, _in.vUv, _in.vTangent, _in.vBNormal, _in.vNormal);
+            }
+        }
+    }
+    
+    // 포워드 색깔을 아예 사용하지 않는 것은 아니다.
+    // 빛계산 노말로 들어가는 중
+    outData.vDiffuse.rgba = CalColor;
+    return outData;
+}
+
+
+PS_DEFFERDOUTPUT PS_SKY3DDEFFERD(VTX3DMESH_OUTPUT _in)
 {
 //	PS3D_OUTPUT outData = (PS3D_OUTPUT)0.0f;
 //	outData.vColor = g_Tex_0.Sample(g_Sam_0, float2(_in.vUv.x, _in.vUv.y));

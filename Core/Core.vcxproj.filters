@@ -247,6 +247,9 @@
     <ClInclude Include="Renderer_Draw.h">
       <Filter>03 Manager\Render\Child</Filter>
     </ClInclude>
+    <ClInclude Include="Effect_Bloom.h">
+      <Filter>03 Manager\Render\Effect</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SmartPtr.cpp">
@@ -476,6 +479,9 @@
     </ClCompile>
     <ClCompile Include="Renderer_Draw.cpp">
       <Filter>03 Manager\Render\Child</Filter>
+    </ClCompile>
+    <ClCompile Include="Effect_Bloom.cpp">
+      <Filter>03 Manager\Render\Effect</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

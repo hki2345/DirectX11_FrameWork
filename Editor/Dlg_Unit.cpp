@@ -117,9 +117,9 @@ BOOL Dlg_Unit::OnInitDialog()
 	SKYMESH->Trans()->scale_local(KVector4(10000.0f, 10000.0f, 10000.0f));
 	SKYMESH->Trans()->pos_local(KVector4(.0f, 0.0f, 0.0f));
 	KPtr<Renderer_Mesh> SKYMESH1 = SKYMESH->Add_Component<Renderer_Mesh>();
-	SKYMESH1->Set_Material(L"SKY3DMAT");
+	SKYMESH1->Set_Material(L"SKY3DMATFORWARD");
 	SKYMESH1->Set_RSState(L"SNONE");
-	SKYMESH1->ROpt.Defferd_orForward = 1;
+	SKYMESH1->ROpt.Defferd_orForward = 0;
 	SKYMESH1->ROpt.LightOpacity = 1.0f;
 	SKYMESH1->Set_Mesh(L"SPHERE");
 	SKYMESH1->material()->Insert_TexData(TEX_TYPE::TEX_COLOR, 0, L"Space.jpg");

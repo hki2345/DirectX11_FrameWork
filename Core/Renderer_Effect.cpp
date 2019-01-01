@@ -111,7 +111,7 @@ void Renderer_Effect::Render(KPtr<Camera> _Camera, const KUINT& _MeshIdx, const 
 {
 	std::wstring PrevDs = Core_Class::MainDevice().ds_name();
 
-	Core_Class::MainDevice().Set_DSS(L"EFFECT");
+	Core_Class::MainDevice().Set_DSS(L"BASIC");
 	Core_Class::Context()->RSSetState(nullptr);
 	// 점들을 넘기는 거다 삼각형이 아니고
 	Core_Class::Context()->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_POINTLIST);
