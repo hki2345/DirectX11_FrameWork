@@ -143,7 +143,7 @@ PS_DEFFERDLIGHTOUTPUT PS_DEFFERDLIGHT(VS_DEFFERDLIGHTOUTPUT _Input)
 
 
     // 빛을 받을거냐 말거냐의 차이
-    OUTDATA.vDiffuse.rgb = info.Diff.rgb + float3(.5f, .5f, .5f);
+    OUTDATA.vDiffuse.rgb = info.Diff.rgb + float3(.7f, .7f, .7f);
     OUTDATA.vDiffuse.a = 1.0f;
     OUTDATA.vSpaculer.rgb = info.Spec.rgb;
     OUTDATA.vSpaculer.a = 1.0f;

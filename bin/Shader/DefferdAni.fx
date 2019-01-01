@@ -146,7 +146,7 @@ PS_DEFFERDOUTPUT PS_DEFFERDANI(VTX3DMESH_OUTPUT _in)
             else if (ArrTex[i].Type == SPEC)
             {
                 float4 Spec = GetTexToColor(ArrTex[i].Tex_Idx, ArrTex[i].Tex_Smp, _in.vUv) * _in.vColor;
-                CalColor += saturate(Spec + CalColor) * .4f;
+                CalColor *= saturate(Spec * 1.6f + CalColor);
             }
             else if (ArrTex[i].Type == EMIS)
             {
@@ -172,7 +172,7 @@ PS_DEFFERDOUTPUT PS_DEFFERDANI(VTX3DMESH_OUTPUT _in)
 
     outData.vDiffuse.rgb = CalColor.rgb;
     outData.vDiffuse.a = _in.vColor.a;
-    outData.vNoraml = -_in.vNormal;
+    outData.vNoraml = _in.vNormal;
     outData.vNoraml.a = 1.0f;
     outData.vPosition = _in.vViewPos;
     outData.vDepth.x = outData.vPosition.z;
