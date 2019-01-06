@@ -2,7 +2,7 @@
 #include "TabDlg.h"
 #include "afxwin.h"
 
-
+#include "DropEditor.h"
 
 // Dlg_Terrain 대화 상자입니다.
 
@@ -38,10 +38,13 @@ private:
 
 	CEdit NameEdit[3];
 	float TerSSEdit[4];
-	float UnitPosEdit[3];
 	CEdit TexName;
 	CListBox UBoxList;
 	CButton m_TerBtn;
+
+	DropEditor	m_PosDrop[3];
+	float		UnitPosEdit[3];
+
 
 
 protected:
@@ -51,6 +54,7 @@ protected:
 	KPtr<Force_Unit> Create_Unit();
 
 	void Update_SSPos();
+	void Update_SSPosFunc();
 
 
 	void Update_Force();

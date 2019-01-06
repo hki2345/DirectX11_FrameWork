@@ -201,6 +201,35 @@ void Dlg_Terrain::DoDataExchange(CDataExchange* pDX)
 		++StartId;
 	}
 
+	StartId = IDC_UNITSTATICPOSX;
+	// 조각 X Z, 스케일 X Z
+	for (size_t X = 0; X < 3; ++X)
+	{
+
+		m_PosDrop[X].pValue = &UnitPosEdit[X];
+		m_PosDrop[X].Parent = this;
+		m_PosDrop[X].ValueChangeFunc(this, &Dlg_Terrain::Update_SSPosFunc);
+		DDX_Control(pDX, StartId, m_PosDrop[X]);
+
+
+
+		switch (X)
+		{
+		case 0:
+			m_PosDrop[X].SetWindowTextW(L"X");
+			break;
+		case 1:
+			m_PosDrop[X].SetWindowTextW(L"Y");
+			break;
+		case 2:
+			m_PosDrop[X].SetWindowTextW(L"Z");
+			break;
+		default:
+			break;
+		}
+		++StartId;
+	}
+
 	DDX_Control(pDX, IDC_TERUNITLIST, UBoxList);
 	DDX_Control(pDX, IDC_TEREDITBTN, m_TerBtn);
 }
@@ -228,6 +257,29 @@ void Dlg_Terrain::Update_SSPos()
 		UnitPosEdit[2] = TVec.m3;
 		UpdateData(FALSE);
 	}
+}
+
+void Dlg_Terrain::Update_SSPosFunc()
+{
+	if (nullptr == m_SelectUnit)
+	{
+		int A = UBoxList.GetCurSel();
+
+		if (0 <= A)
+		{
+			m_SelectUnit = m_UComVec[A];
+		}
+		else
+		{
+			return;
+		}
+	}
+
+	KVector TVec = KVector(UnitPosEdit[0], UnitPosEdit[1], UnitPosEdit[2]);
+
+	float TMP = m_pTer->Y_Terrain(TVec);
+	TVec.y = TMP;
+	m_SelectUnit->one()->Trans()->pos_local(TVec);
 }
 
 void Dlg_Terrain::Update_Force()

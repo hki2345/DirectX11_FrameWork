@@ -229,6 +229,31 @@ void Dlg_Unit::DoDataExchange(CDataExchange* pDX)
 		m_DropStatic[i].Parent = this;
 		m_DropStatic[i].ValueChangeFunc(this, &Dlg_Unit::Update_ValueFunc);
 		DDX_Control(pDX, StartId, m_DropStatic[i]);
+
+
+
+		switch (i)
+		{
+		case 0:
+			m_DropStatic[i].SetWindowTextW(L"L");
+			break;
+		case 1:
+			m_DropStatic[i].SetWindowTextW(L"R");
+			break;
+		case 2:
+			m_DropStatic[i].SetWindowTextW(L"X");
+			break;
+		case 3:
+			m_DropStatic[i].SetWindowTextW(L"Y");
+			break;
+		case 4:
+			m_DropStatic[i].SetWindowTextW(L"Z");
+			break;
+		default:
+			break;
+		}
+
+
 		++StartId;
 	}
 }

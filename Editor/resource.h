@@ -120,11 +120,11 @@
 #define IDC_UNITLINEAR                  1109
 #define IDC_UNITROTATE                  1110
 #define IDC_USCALEX                     1111
+#define IDC_UNITSTATICPOSX              1111
 #define IDC_USCALEY                     1112
+#define IDC_UNITSTATICPOSY              1112
 #define IDC_USCALEZ                     1113
-#define IDC_UNITSTATICPOSX				1111
-#define IDC_UNITSTATICPOSY				1112
-#define IDC_UNITSTATICPOSZ				1113
+#define IDC_UNITSTATICPOSZ              1113
 
 // Next default values for new objects
 // 
@@ -132,7 +132,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        358
 #define _APS_NEXT_COMMAND_VALUE         32771
-#define _APS_NEXT_CONTROL_VALUE         1118
+#define _APS_NEXT_CONTROL_VALUE         1119
 #define _APS_NEXT_SYMED_VALUE           312
 #endif
 #endif
