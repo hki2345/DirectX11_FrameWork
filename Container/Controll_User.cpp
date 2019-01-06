@@ -18,6 +18,12 @@ Controll_User::~Controll_User()
 {
 }
 
+
+void Controll_User::Set_Render()
+{
+	m_RList = one()->Get_Component_List<Renderer_BonAni>();
+}
+
 void Controll_User::Add_Render(KPtr<Renderer_BonAni> _Other)
 {
 	m_RList.push_back(_Other);
@@ -113,10 +119,10 @@ void Controll_User::Update()
 	Update_Act();
 	Update_Terrain();
 	Update_Mouse();
-	Update_Renderer();
+	Update_RenCol();
 }
 
-void Controll_User::Update_Renderer()
+void Controll_User::Update_RenCol()
 {
 	m_SRI = m_RList.begin();
 	m_ERI = m_RList.end();
@@ -125,6 +131,8 @@ void Controll_User::Update_Renderer()
 	{
 		(*m_SRI)->rot_pivot(m_RenderRot + KVector(.0f, KPI, .0f));
 	}
+	
+	m_pUnit->Rot_Unit(m_RenderRot + KVector(.0f, KPI, .0f));
 }
 
 

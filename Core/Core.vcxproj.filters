@@ -250,6 +250,9 @@
     <ClInclude Include="Effect_Bloom.h">
       <Filter>03 Manager\Render\Effect</Filter>
     </ClInclude>
+    <ClInclude Include="KBox_Col.h">
+      <Filter>03 Manager\Collision\3D</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SmartPtr.cpp">
@@ -482,6 +485,9 @@
     </ClCompile>
     <ClCompile Include="Effect_Bloom.cpp">
       <Filter>03 Manager\Render\Effect</Filter>
+    </ClCompile>
+    <ClCompile Include="KBox_Col.cpp">
+      <Filter>03 Manager\Collision\3D</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

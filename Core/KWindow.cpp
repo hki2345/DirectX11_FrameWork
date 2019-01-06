@@ -3,7 +3,6 @@
 
 #include "KMacro.h"
 #include "ResourceManager.h"
-#include "DebugManager.h"
 #include "InputManager.h"
 
 

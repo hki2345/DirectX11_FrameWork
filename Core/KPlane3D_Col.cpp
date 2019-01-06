@@ -38,5 +38,5 @@ void KPlane3D_Col::Update_Figure()
 
 void KPlane3D_Col::DebugRender()
 {
-	// Update_Figure();
+	int a = 0;
 }

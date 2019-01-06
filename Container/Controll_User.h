@@ -49,7 +49,7 @@ private:
 	KVector		m_RenderRot;
 
 private:
-	void Update_Renderer();
+	void Update_RenCol();
 	void Update_Move();
 	void Update_Act();
 	void Update_Mouse();
@@ -83,6 +83,7 @@ public:
 		return m_RenderRot;
 	}
 
+	void Set_Render();
 	void Add_Render(KPtr<Renderer_BonAni> _Other);
 	void Del_Render(KPtr<Renderer_BonAni> _Other);
 

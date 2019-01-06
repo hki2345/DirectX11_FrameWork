@@ -250,6 +250,21 @@ public:
 	}
 
 
+
+	static bool OBBToOBB(const DirectX::BoundingOrientedBox& _Left, const DirectX::BoundingOrientedBox& _Right)
+	{
+		return _Left.Intersects(_Right);
+	}
+
+	static bool OBBToRay(const DirectX::BoundingOrientedBox& _Left, KVector _Ori, KVector _Dir, float& _dist)
+	{
+		float Tmp = _dist;
+		bool TT = _Left.Intersects(_Ori, _Dir, _dist);
+		return TT;
+	}
+
+
+
 	static bool PlaneToRay(const KMatrix& _Left, KVector _Ori, KVector _Dir, float& _dist)
 	{
 		bool TT = false;
@@ -267,6 +282,7 @@ public:
 		}
 		return TT;
 	}
+
 
 
 	static KVector Calc_ColPoint(const KVector& _Ori, const  KVector& _Dir, const float& _dist)

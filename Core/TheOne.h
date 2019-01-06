@@ -229,6 +229,23 @@ public:
 		return Tmp;
 	}
 
+
+
+	template<typename Com>
+	void Delete_Component()
+	{
+		std::list<KPtr<Component>>::iterator ComStartIter = m_ComList.begin();
+		std::list<KPtr<Component>>::iterator ComEndIter = m_ComList.end();
+
+		for (; ComStartIter != ComEndIter; ++ComStartIter)
+		{
+			if (true == (*ComStartIter)->IsEqual<Com>())
+			{
+				(*ComStartIter)->Set_Death();
+			}
+		}
+	}
+
 	void Set_Death() override;
 
 private:

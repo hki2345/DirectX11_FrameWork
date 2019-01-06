@@ -27,6 +27,9 @@ void KCollision::ColInit() {
 	ColFunc[CT_RAY3D][CT_SPHERE3D] = &Funtion_Col::RayToSphereFunc;
 	ColFunc[CT_PLANE3D][CT_RAY3D] = &Funtion_Col::PlaneToRayFunc;
 	ColFunc[CT_RAY3D][CT_PLANE3D] = &Funtion_Col::RayToPlaneFunc;
+	ColFunc[CT_OBB3D][CT_RAY3D] = &Funtion_Col::OBBToRayFunc;
+	ColFunc[CT_RAY3D][CT_OBB3D] = &Funtion_Col::RayToOBBFunc;
+	ColFunc[CT_OBB3D][CT_OBB3D] = &Funtion_Col::OBBToOBBFunc;
 }
 
 KCollision::KCollision()
@@ -58,12 +61,15 @@ void KCollision::ColCheck(KCollision* _Col) {
 	if (true == Check)
 	{
 		ColFindIter = m_ColSet.find(_Col);
+		// Enter
 		if (ColFindIter == m_ColSet.end())
 		{
 			m_ColSet.insert(_Col);
 			_Col->m_ColSet.insert(this);
 			CallEnterList(_Col);
 		}
+
+		// Stay
 		else {
 			CallStayList(_Col);
 		}
@@ -71,6 +77,8 @@ void KCollision::ColCheck(KCollision* _Col) {
 	else 
 	{
 		ColFindIter = m_ColSet.find(_Col);
+	
+		// Exit
 		if (ColFindIter != m_ColSet.end())
 		{
 			m_ColSet.erase(_Col);

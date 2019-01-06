@@ -86,11 +86,11 @@
 #define IDC_RENRESTARTBTN               1075
 #define IDC_ULEDIT                      1076
 #define IDC_UREDIT                      1077
-#define IDC_UNITNAMEINFO                1078
-#define IDC_KUNITXINFO                  1079
-#define IDC_KUNITYINFO                  1080
+#define IDC_KUNITXINFO                  1078
+#define IDC_KUNITYINFO                  1079
 #define IDC_TERCLEAR                    1080
-#define IDC_KUNITZINFO                  1081
+#define IDC_KUNITZINFO                  1080
+#define IDC_UNITNAMEINFO                1081
 #define IDC_TERSAVE                     1081
 #define IDC_WNONEBTN                    1082
 #define IDC_TERUNITLIST                 1082
@@ -115,8 +115,16 @@
 #define IDC_TEREDITBTN                  1104
 #define IDC_STATETERBTN                 1105
 #define IDC_STATERESLIST                1106
-#define IDC_LIST1                       1107
 #define IDC_UNITLIST                    1107
+#define IDC_TERSETPLAY                  1108
+#define IDC_UNITLINEAR                  1109
+#define IDC_UNITROTATE                  1110
+#define IDC_USCALEX                     1111
+#define IDC_USCALEY                     1112
+#define IDC_USCALEZ                     1113
+#define IDC_UNITSTATICPOSX				1111
+#define IDC_UNITSTATICPOSY				1112
+#define IDC_UNITSTATICPOSZ				1113
 
 // Next default values for new objects
 // 
@@ -124,7 +132,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        358
 #define _APS_NEXT_COMMAND_VALUE         32771
-#define _APS_NEXT_CONTROL_VALUE         1108
+#define _APS_NEXT_CONTROL_VALUE         1118
 #define _APS_NEXT_SYMED_VALUE           312
 #endif
 #endif

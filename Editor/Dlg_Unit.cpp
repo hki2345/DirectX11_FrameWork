@@ -42,10 +42,6 @@ Dlg_Unit::~Dlg_Unit()
 
 void Dlg_Unit::Init_Dlg()
 {
-	//ResourceManager<MeshContainer>::Clear();
-	//ResourceManager<Changer_Animation>::Clear();
-
-
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 	// 만약 자체 메쉬에 애니메이션을 바로 적용시키려면
 	// 애니메이션이 먼저 불러온 후 배급받는 식이다.
@@ -61,7 +57,9 @@ void Dlg_Unit::Init_Dlg()
 	m_CurOne->Trans()->pos_local(KVector(.0f));
 	m_CurOne->Trans()->scale_local(KVector(1.f, 1.f, 1.f));
 
-	m_CurUnit = m_CurOne->Add_Component<Force_Unit>(L"Marine");
+	m_CurUnit = m_CurOne->Add_Component<Force_Unit>(L"TT");
+	m_CurUnit->Insert_Collider();
+	m_CurUnit->unit_scale({ 1.0f, 1.0f, 1.0f });
 	m_CurOne->Add_Component<Controll_User>(m_pTer, m_CurUnit, TabScene->Camera()->Get_Component<SC2_Camera>());
 
 
@@ -69,10 +67,10 @@ void Dlg_Unit::Init_Dlg()
 
 	InfoValue[0].SetWindowTextW(L".0");
 	InfoValue[1].SetWindowTextW(L".0");
-	InfoValue[2].SetWindowTextW(L"UNITNAME");
+	InfoValue[2].SetWindowTextW(L"1.0");
 	InfoValue[3].SetWindowTextW(L"1.0");
 	InfoValue[4].SetWindowTextW(L"1.0");
-	InfoValue[5].SetWindowTextW(L"1.0");
+	InfoValue[5].SetWindowTextW(L"UNITNAME");
 
 	WeaponType[0].SetCheck(true);
 	WeaponType[1].SetCheck(false);
@@ -128,7 +126,6 @@ BOOL Dlg_Unit::OnInitDialog()
 	GRIDACTOR->Trans()->rotate_world(KVector4(90.0f, 0.0f, 0.0f));
 	GRIDACTOR->Trans()->scale_world(KVector4(10000.0f, 10000.0f, 10000.0f));
 	KPtr<Renderer_Grid> GRIDRENDER = GRIDACTOR->Add_Component<Renderer_Grid>();
-	GRIDRENDER->ROpt.Defferd_orForward = 1;
 
 	
 	m_pCam = TabScene->Camera()->Add_Component<SC2_Camera>();
@@ -200,14 +197,38 @@ void Dlg_Unit::DoDataExchange(CDataExchange* pDX)
 		DDX_Control(pDX, StartId, InfoValue[X]);
 		++StartId;
 	}
-
-
+	
+	
+	//////////////////////////////////////////
 	StartId = IDC_WNONEBTN;
 
 	// 스피드 * 2, 이름, 스케일
 	for (size_t X = 0; X < 3; ++X)
 	{
 		DDX_Control(pDX, StartId, WeaponType[X]);
+		++StartId;
+	}
+
+
+
+	////////////// static
+	StartId = IDC_ULEDIT;
+
+	// 스피드 * 2
+	// 스케일
+	for (size_t X = 0; X < 5; ++X)
+	{
+		DDX_Text(pDX, StartId, m_fInfoValue[X]);
+		++StartId;
+	}
+
+	StartId = IDC_UNITLINEAR;
+	for (size_t i = 0; i < 5; i++)
+	{
+		m_DropStatic[i].pValue = &m_fInfoValue[i];
+		m_DropStatic[i].Parent = this;
+		m_DropStatic[i].ValueChangeFunc(this, &Dlg_Unit::Update_ValueFunc);
+		DDX_Control(pDX, StartId, m_DropStatic[i]);
 		++StartId;
 	}
 }
@@ -385,7 +406,7 @@ void Dlg_Unit::OnBnClickedUnitloadbtn()
 
 
 	CString Tmp;
-	InfoValue[2].GetWindowTextW(Tmp);
+	InfoValue[5].GetWindowTextW(Tmp);
 
 
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
@@ -393,7 +414,7 @@ void Dlg_Unit::OnBnClickedUnitloadbtn()
 
 
 	// 이름
-	InfoValue[2].SetWindowTextW(Tmp);
+	InfoValue[5].SetWindowTextW(Tmp);
 
 	std::wstring TmpStr;
 	TmpStr = std::to_wstring(m_CurUnit->linear_speed());
@@ -403,13 +424,13 @@ void Dlg_Unit::OnBnClickedUnitloadbtn()
 	InfoValue[1].SetWindowTextW(TmpStr.c_str());
 
 	TmpStr = std::to_wstring(m_CurUnit->unit_scale().x);
-	InfoValue[3].SetWindowTextW(TmpStr.c_str());
+	InfoValue[2].SetWindowTextW(TmpStr.c_str());
 
 	TmpStr = std::to_wstring(m_CurUnit->unit_scale().y);
-	InfoValue[4].SetWindowTextW(TmpStr.c_str());
+	InfoValue[3].SetWindowTextW(TmpStr.c_str());
 
 	TmpStr = std::to_wstring(m_CurUnit->unit_scale().z);
-	InfoValue[5].SetWindowTextW(TmpStr.c_str());
+	InfoValue[4].SetWindowTextW(TmpStr.c_str());
 
 
 
@@ -495,28 +516,28 @@ void Dlg_Unit::UnitInfoSelchange(UINT _Id)
 	{
 		m_CurUnit->rotate_speed(Tmpf);
 	}
-	// 이름 - 스트링
-	else if (2 == TempId)
-	{
-		m_CurUnit->name(TempStr.GetBuffer());
-	}
 	// XScale
-	else if (3 == TempId)
+	else if (2 == TempId)
 	{
 		m_CurUnit->unit_scale(
 			KVector(Tmpf, m_CurUnit->unit_scale().y, m_CurUnit->unit_scale().z, .0f));
 	}
 	// YScale
-	else if (4 == TempId)
+	else if (3 == TempId)
 	{
 		m_CurUnit->unit_scale(
 			KVector(m_CurUnit->unit_scale().x, Tmpf, m_CurUnit->unit_scale().z, .0f));
 	}
 	// ZScale
-	else if (5 == TempId)
+	else if (4 == TempId)
 	{
 		m_CurUnit->unit_scale(
 			KVector(m_CurUnit->unit_scale().x, m_CurUnit->unit_scale().y, Tmpf, .0f));
+	}
+	// 이름 - 스트링
+	else if (5 == TempId)
+	{
+		m_CurUnit->name(TempStr.GetBuffer());
 	}
 
 }
@@ -544,4 +565,13 @@ void Dlg_Unit::UnitWeaponSelchange(UINT _Id)
 	default:
 		break;
 	}
+}
+
+
+
+void Dlg_Unit::Update_ValueFunc()
+{
+	m_CurUnit->linear_speed(m_fInfoValue[0]);
+	m_CurUnit->rotate_speed(m_fInfoValue[1]);
+	m_CurUnit->unit_scale({ m_fInfoValue[2], m_fInfoValue[3], m_fInfoValue[4] });
 }

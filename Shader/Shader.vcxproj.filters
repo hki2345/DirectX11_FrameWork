@@ -32,7 +32,6 @@
     <FxCompile Include="..\bin\Shader\VTXLight.fx" />
     <FxCompile Include="..\bin\Shader\BRectShader.fx" />
     <FxCompile Include="..\bin\Shader\ColorShader.fx" />
-    <FxCompile Include="..\bin\Shader\DebugRectShader.fx" />
     <FxCompile Include="..\bin\Shader\BoneAni.fx" />
     <FxCompile Include="..\bin\Shader\DefferdAni.fx" />
     <FxCompile Include="..\bin\Shader\TerrainDefferd_Tessel.fx" />
@@ -40,5 +39,7 @@
     <FxCompile Include="..\bin\Shader\Forward.fx" />
     <FxCompile Include="..\bin\Shader\Draw.fx" />
     <FxCompile Include="..\bin\Shader\Bloom.fx" />
+    <FxCompile Include="..\bin\Shader\DebugShader.fx" />
+    <FxCompile Include="..\bin\Shader\Effect_Gaussian.fx" />
   </ItemGroup>
 </Project>

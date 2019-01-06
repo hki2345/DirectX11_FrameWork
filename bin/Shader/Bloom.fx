@@ -20,23 +20,6 @@ static float g_vGaussian[25] =
     0.0f, 0.0f, 8.0f, 0.0f, 0.0f // 8 // 112
 };
 
-struct VTXCOL_INPUT
-{
-    float4 vPos : POSITION;
-    float2 vUv : TEXCOORD;
-};
-
-struct VTXCOL_OUTPUT
-{
-    float4 vPos : SV_POSITION;
-    float2 vUv : TEXCOORD;
-};
-
-struct PS_OUTPUT
-{
-    float4 vCol : SV_Target;
-};
-
 
 cbuffer SCREENSIZE : register(b0)
 {
@@ -57,9 +40,9 @@ static matrix CalMat =
     { 0.0f, 0.0f, 0.0f, 1.0f },
 };
 
-VTXCOL_OUTPUT VS_EX(VTXCOL_INPUT _In)
+VS_TEXOUTPUT VS_EX(VS_TEXINPUT _In)
 {
-    VTXCOL_OUTPUT outData = (VTXCOL_OUTPUT) 0.f;
+    VS_TEXOUTPUT outData = (VS_TEXOUTPUT) 0.f;
     outData.vPos = mul(_In.vPos, CalMat);
 
     _In.vUv.x *= (g_ScreenSize.x / g_TargetSize.x);
@@ -69,7 +52,7 @@ VTXCOL_OUTPUT VS_EX(VTXCOL_INPUT _In)
     return outData;
 }
 
-PS_OUTPUT PS_EX(VTXCOL_OUTPUT _in)
+PS_OUTPUT PS_EX(VS_TEXOUTPUT _in)
 {
     PS_OUTPUT outData = (PS_OUTPUT) 0.0f;
 
@@ -83,9 +66,9 @@ PS_OUTPUT PS_EX(VTXCOL_OUTPUT _in)
     return outData;
 }
 
-VTXCOL_OUTPUT VS_SMALL(VTXCOL_INPUT _In)
+VS_TEXOUTPUT VS_SMALL(VS_TEXINPUT _In)
 {
-    VTXCOL_OUTPUT outData = (VTXCOL_OUTPUT) 0.f;
+    VS_TEXOUTPUT outData = (VS_TEXOUTPUT) 0.f;
     outData.vPos = mul(_In.vPos, CalMat);
 
     _In.vUv.x *= (g_ScreenSize.x / g_TargetSize.x);
@@ -95,7 +78,7 @@ VTXCOL_OUTPUT VS_SMALL(VTXCOL_INPUT _In)
     return outData;
 }
 
-PS_OUTPUT PS_SMALL(VTXCOL_OUTPUT _in)
+PS_OUTPUT PS_SMALL(VS_TEXOUTPUT _in)
 {
     PS_OUTPUT outData = (PS_OUTPUT) 0.0f;
 
@@ -107,15 +90,15 @@ PS_OUTPUT PS_SMALL(VTXCOL_OUTPUT _in)
 // 일단 뭉개지 않고.
 //     g_tex1 // 추출타겟
 
-VTXCOL_OUTPUT VS_BLOOMMERGE(VTXCOL_INPUT _In)
+VS_TEXOUTPUT VS_BLOOMMERGE(VS_TEXINPUT _In)
 {
-    VTXCOL_OUTPUT outData = (VTXCOL_OUTPUT) 0.f;
+    VS_TEXOUTPUT outData = (VS_TEXOUTPUT) 0.f;
     outData.vPos = mul(_In.vPos, DirMat);
     outData.vUv = _In.vUv;
     return outData;
 }
 
-PS_OUTPUT PS_BLOOMMERGE(VTXCOL_OUTPUT _in)
+PS_OUTPUT PS_BLOOMMERGE(VS_TEXOUTPUT _in)
 {
     // 축소 버퍼를 만든다. 
     PS_OUTPUT outData = (PS_OUTPUT) 0.0f;

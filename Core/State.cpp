@@ -48,105 +48,105 @@ void State::Progress()
 }
 
 void State::PrevUpdate() {
-	m_StartMapIter = m_ActorMap.begin();
-	m_EndMapIter = m_ActorMap.end();
+	m_SOI = m_OneMap.begin();
+	m_EOI = m_OneMap.end();
 
-	for (; m_StartMapIter != m_EndMapIter; ++m_StartMapIter)
+	for (; m_SOI != m_EOI; ++m_SOI)
 	{
-		m_StartListIter = m_StartMapIter->second.begin();
-		m_EndListIter = m_StartMapIter->second.end();
+		m_SOLI = m_SOI->second.begin();
+		m_EOLI = m_SOI->second.end();
 
-		for (; m_StartListIter != m_EndListIter; ++m_StartListIter)
+		for (; m_SOLI != m_EOLI; ++m_SOLI)
 		{
-			if (false == (*m_StartListIter)->Is_Active())
+			if (false == (*m_SOLI)->Is_Active())
 			{
 				continue;
 			}
 
-			(*m_StartListIter)->PrevUpdate();
+			(*m_SOLI)->PrevUpdate();
 		}
 	}
 }
 void State::Update() {
-	m_StartMapIter = m_ActorMap.begin();
-	m_EndMapIter = m_ActorMap.end();
+	m_SOI = m_OneMap.begin();
+	m_EOI = m_OneMap.end();
 
-	for (; m_StartMapIter != m_EndMapIter; ++m_StartMapIter)
+	for (; m_SOI != m_EOI; ++m_SOI)
 	{
-		m_StartListIter = m_StartMapIter->second.begin();
-		m_EndListIter = m_StartMapIter->second.end();
+		m_SOLI = m_SOI->second.begin();
+		m_EOLI = m_SOI->second.end();
 
-		for (; m_StartListIter != m_EndListIter; ++m_StartListIter)
+		for (; m_SOLI != m_EOLI; ++m_SOLI)
 		{
-			if (false == (*m_StartListIter)->Is_Active())
+			if (false == (*m_SOLI)->Is_Active())
 			{
 				continue;
 			}
 
-			(*m_StartListIter)->Update();
+			(*m_SOLI)->Update();
 		}
 	}
 }
 void State::NextUpdate() {
-	m_StartMapIter = m_ActorMap.begin();
-	m_EndMapIter = m_ActorMap.end();
+	m_SOI = m_OneMap.begin();
+	m_EOI = m_OneMap.end();
 
-	for (; m_StartMapIter != m_EndMapIter; ++m_StartMapIter)
+	for (; m_SOI != m_EOI; ++m_SOI)
 	{
-		m_StartListIter = m_StartMapIter->second.begin();
-		m_EndListIter = m_StartMapIter->second.end();
+		m_SOLI = m_SOI->second.begin();
+		m_EOLI = m_SOI->second.end();
 
-		for (; m_StartListIter != m_EndListIter; ++m_StartListIter)
+		for (; m_SOLI != m_EOLI; ++m_SOLI)
 		{
-			if (false == (*m_StartListIter)->Is_Active())
+			if (false == (*m_SOLI)->Is_Active())
 			{
 				continue;
 			}
 
-			(*m_StartListIter)->NextUpdate();
+			(*m_SOLI)->NextUpdate();
 		}
 	}
 }
 
 
 void State::FinalUpdate() {
-	m_StartMapIter = m_ActorMap.begin();
-	m_EndMapIter = m_ActorMap.end();
+	m_SOI = m_OneMap.begin();
+	m_EOI = m_OneMap.end();
 
-	for (; m_StartMapIter != m_EndMapIter; ++m_StartMapIter)
+	for (; m_SOI != m_EOI; ++m_SOI)
 	{
-		m_StartListIter = m_StartMapIter->second.begin();
-		m_EndListIter = m_StartMapIter->second.end();
+		m_SOLI = m_SOI->second.begin();
+		m_EOLI = m_SOI->second.end();
 
-		for (; m_StartListIter != m_EndListIter; ++m_StartListIter)
+		for (; m_SOLI != m_EOLI; ++m_SOLI)
 		{
-			if (false == (*m_StartListIter)->Is_Active())
+			if (false == (*m_SOLI)->Is_Active())
 			{
 				continue;
 			}
 
-			(*m_StartListIter)->FinalUpdate();
+			(*m_SOLI)->FinalUpdate();
 		}
 	}
 }
 
 void State::DebugUpdate() {
-	m_StartMapIter = m_ActorMap.begin();
-	m_EndMapIter = m_ActorMap.end();
+	m_SOI = m_OneMap.begin();
+	m_EOI = m_OneMap.end();
 
-	for (; m_StartMapIter != m_EndMapIter; ++m_StartMapIter)
+	for (; m_SOI != m_EOI; ++m_SOI)
 	{
-		m_StartListIter = m_StartMapIter->second.begin();
-		m_EndListIter = m_StartMapIter->second.end();
+		m_SOLI = m_SOI->second.begin();
+		m_EOLI = m_SOI->second.end();
 
-		for (; m_StartListIter != m_EndListIter; ++m_StartListIter)
+		for (; m_SOLI != m_EOLI; ++m_SOLI)
 		{
-			if (false == (*m_StartListIter)->Is_Active())
+			if (false == (*m_SOLI)->Is_Active())
 			{
 				continue;
 			}
 
-			(*m_StartListIter)->DebugUpdate();
+			(*m_SOLI)->DebugUpdate();
 		}
 	}
 }
@@ -157,22 +157,22 @@ void State::Render()
 }
 
 void State::DebugRender() {
-	m_StartMapIter = m_ActorMap.begin();
-	m_EndMapIter = m_ActorMap.end();
+	m_SOI = m_OneMap.begin();
+	m_EOI = m_OneMap.end();
 
-	for (; m_StartMapIter != m_EndMapIter; ++m_StartMapIter)
+	for (; m_SOI != m_EOI; ++m_SOI)
 	{
-		m_StartListIter = m_StartMapIter->second.begin();
-		m_EndListIter = m_StartMapIter->second.end();
+		m_SOLI = m_SOI->second.begin();
+		m_EOLI = m_SOI->second.end();
 
-		for (; m_StartListIter != m_EndListIter; ++m_StartListIter)
+		for (; m_SOLI != m_EOLI; ++m_SOLI)
 		{
-			if (false == (*m_StartListIter)->Is_Active())
+			if (false == (*m_SOLI)->Is_Active())
 			{
 				continue;
 			}
 
-			(*m_StartListIter)->DebugRender();
+			(*m_SOLI)->DebugRender();
 		}
 	}
 
@@ -194,24 +194,24 @@ void State::Release()
 	This_Col2DManager.Release();
 	This_Col3DManager.Release();
 
-	m_StartMapIter = m_ActorMap.begin();
-	m_EndMapIter = m_ActorMap.end();
+	m_SOI = m_OneMap.begin();
+	m_EOI = m_OneMap.end();
 
-	for (; m_StartMapIter != m_EndMapIter; ++m_StartMapIter)
+	for (; m_SOI != m_EOI; ++m_SOI)
 	{
-		m_StartListIter = m_StartMapIter->second.begin();
-		m_EndListIter = m_StartMapIter->second.end();
+		m_SOLI = m_SOI->second.begin();
+		m_EOLI = m_SOI->second.end();
 
-		for (; m_StartListIter != m_EndListIter; )
+		for (; m_SOLI != m_EOLI; )
 		{
-			if (false == (*m_StartListIter)->Is_Death())
+			if (false == (*m_SOLI)->Is_Death())
 			{
-				(*m_StartListIter)->Release();
-				++m_StartListIter;
+				(*m_SOLI)->Release();
+				++m_SOLI;
 				continue;
 			}
 
-			m_StartListIter = m_StartMapIter->second.erase(m_StartListIter);
+			m_SOLI = m_SOI->second.erase(m_SOLI);
 		}
 	}
 }
@@ -245,11 +245,11 @@ void State::Start()
 std::unordered_map<int, std::list<KPtr<TheOne>>>::iterator ActorIter;
 KPtr<TheOne> State::Create_One(const wchar_t* _pName /*= L"HObject"*/, int _Order /*= 0*/)
 {
-	if (false == Is_MapFind(m_ActorMap, _Order)) 
+	if (false == Is_MapFind(m_OneMap, _Order)) 
 	{
-		m_ActorMap.insert(std::unordered_map<int, std::list<KPtr<TheOne>>>::value_type(_Order, std::list<KPtr<TheOne>>()));
+		m_OneMap.insert(std::unordered_map<int, std::list<KPtr<TheOne>>>::value_type(_Order, std::list<KPtr<TheOne>>()));
 	}
-	ActorIter = m_ActorMap.find(_Order);
+	ActorIter = m_OneMap.find(_Order);
 	TheOne* pNewActor = new TheOne();
 	pNewActor->name(_pName);
 	pNewActor->order(_Order);
@@ -265,11 +265,11 @@ KPtr<TheOne> State::Create_One(const wchar_t* _pName /*= L"HObject"*/, int _Orde
 
 KPtr<TheOne> State::Create_OneNoneTrans(const wchar_t* _pName /*= L"HObject"*/, int _Order /*= 0*/)
 {
-	if (false == Is_MapFind(m_ActorMap, _Order))
+	if (false == Is_MapFind(m_OneMap, _Order))
 	{
-		m_ActorMap.insert(std::unordered_map<int, std::list<KPtr<TheOne>>>::value_type(_Order, std::list<KPtr<TheOne>>()));
+		m_OneMap.insert(std::unordered_map<int, std::list<KPtr<TheOne>>>::value_type(_Order, std::list<KPtr<TheOne>>()));
 	}
-	ActorIter = m_ActorMap.find(_Order);
+	ActorIter = m_OneMap.find(_Order);
 	TheOne* pNewActor = new TheOne();
 	pNewActor->name(_pName);
 	pNewActor->order(_Order);
@@ -285,10 +285,10 @@ KPtr<TheOne> State::Create_OneNoneTrans(const wchar_t* _pName /*= L"HObject"*/, 
 
 void State::MoveActor(KPtr<TheOne> _Actor)
 {
-	ActorIter = m_ActorMap.find(_Actor->order());
+	ActorIter = m_OneMap.find(_Actor->order());
 
-	KASSERT(ActorIter == m_ActorMap.end());
-	if (ActorIter == m_ActorMap.end())
+	KASSERT(ActorIter == m_OneMap.end());
+	if (ActorIter == m_OneMap.end())
 	{
 		return;
 	}
@@ -301,10 +301,10 @@ void State::MoveActor(KPtr<TheOne> _Actor)
 
 bool State::EraseActor(KPtr<TheOne> _Actor)
 {
-	ActorIter = m_ActorMap.find(_Actor->order());
+	ActorIter = m_OneMap.find(_Actor->order());
 
-	KASSERT(ActorIter == m_ActorMap.end());
-	if (ActorIter == m_ActorMap.end()) {
+	KASSERT(ActorIter == m_OneMap.end());
+	if (ActorIter == m_OneMap.end()) {
 		return false;
 	}
 
@@ -320,7 +320,7 @@ bool State::EraseActor(KPtr<TheOne> _Actor)
 		}
 	}
 
-	KASSERT(ActorIter == m_ActorMap.end());
+	KASSERT(ActorIter == m_OneMap.end());
 	return false;
 }
 
@@ -330,36 +330,36 @@ void State::NextProgress()
 }
 
 void State::EndUpdate() {
-	m_StartMapIter = m_ActorMap.begin();
-	m_EndMapIter = m_ActorMap.end();
+	m_SOI = m_OneMap.begin();
+	m_EOI = m_OneMap.end();
 
-	for (; m_StartMapIter != m_EndMapIter; ++m_StartMapIter)
+	for (; m_SOI != m_EOI; ++m_SOI)
 	{
-		m_StartListIter = m_StartMapIter->second.begin();
-		m_EndListIter = m_StartMapIter->second.end();
+		m_SOLI = m_SOI->second.begin();
+		m_EOLI = m_SOI->second.end();
 
-		for (; m_StartListIter != m_EndListIter; ++m_StartListIter)
+		for (; m_SOLI != m_EOLI; ++m_SOLI)
 		{
-			if (false == (*m_StartListIter)->Is_Active())
+			if (false == (*m_SOLI)->Is_Active())
 			{
 				continue;
 			}
 
-			(*m_StartListIter)->EndUpdate();
+			(*m_SOLI)->EndUpdate();
 		}
 	}
 }
 
 void State::OverPushActor(TheOne* _pActor) 
 {
-	if (false == Is_MapFind(m_ActorMap, _pActor->m_Order))
+	if (false == Is_MapFind(m_OneMap, _pActor->m_Order))
 	{
-		m_ActorMap.insert(std::unordered_map<int, std::list<KPtr<TheOne>>>::value_type(_pActor->m_Order, std::list<KPtr<TheOne>>()));
+		m_OneMap.insert(std::unordered_map<int, std::list<KPtr<TheOne>>>::value_type(_pActor->m_Order, std::list<KPtr<TheOne>>()));
 	}
 
-	ActorIter = m_ActorMap.find(_pActor->m_Order);
+	ActorIter = m_OneMap.find(_pActor->m_Order);
 
-	if (ActorIter == m_ActorMap.end())
+	if (ActorIter == m_OneMap.end())
 	{
 		return;
 	}
@@ -380,8 +380,8 @@ std::vector<KPtr<TheOne>> State::AllObjectList()
 
 	size_t ReserveSize = 0;
 
-	StartMapIter = m_ActorMap.begin();
-	EndMapIter = m_ActorMap.end();
+	StartMapIter = m_OneMap.begin();
+	EndMapIter = m_OneMap.end();
 	for (; StartMapIter != EndMapIter; ++StartMapIter)
 	{
 		ReserveSize += StartMapIter->second.size();
@@ -392,8 +392,8 @@ std::vector<KPtr<TheOne>> State::AllObjectList()
 	std::list<KPtr<TheOne>>::iterator StartListIter;
 	std::list<KPtr<TheOne>>::iterator EndListIter;
 
-	StartMapIter = m_ActorMap.begin();
-	EndMapIter = m_ActorMap.end();
+	StartMapIter = m_OneMap.begin();
+	EndMapIter = m_OneMap.end();
 	for (; StartMapIter != EndMapIter; ++StartMapIter)
 	{
 		StartListIter = StartMapIter->second.begin();
@@ -416,11 +416,11 @@ KPtr<TheOne> State::Create_One(ReadStream& _Stream, void(*_ComLoadPtr)(KPtr<TheO
 
 	if (true == _Root)
 	{
-		if (false == Is_MapFind(m_ActorMap, ReadSize))
+		if (false == Is_MapFind(m_OneMap, ReadSize))
 		{
-			m_ActorMap.insert(std::unordered_map<int, std::list<KPtr<TheOne>>>::value_type(ReadSize, std::list<KPtr<TheOne>>()));
+			m_OneMap.insert(std::unordered_map<int, std::list<KPtr<TheOne>>>::value_type(ReadSize, std::list<KPtr<TheOne>>()));
 		}
-		ActorIter = m_ActorMap.find(ReadSize);
+		ActorIter = m_OneMap.find(ReadSize);
 	}
 
 	TheOne* pNewActor = new TheOne();

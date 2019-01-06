@@ -18,6 +18,7 @@
 #include "HSubTransCom.cpp"
 #include "InputManager.cpp"
 #include "KBlend.cpp"
+#include "KBox_Col.cpp"
 #include "KCollider2D.cpp"
 #include "KCollider2D_DE.cpp"
 #include "KCollider3D_DE.cpp"

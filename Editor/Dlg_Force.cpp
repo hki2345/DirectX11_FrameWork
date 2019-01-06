@@ -32,7 +32,10 @@ Dlg_Force::~Dlg_Force()
 {
 }
 
-
+void Dlg_Force::Init_Dlg()
+{
+	Init_KM3List();
+}
 
 BOOL Dlg_Force::OnInitDialog()
 {
@@ -62,7 +65,6 @@ BOOL Dlg_Force::OnInitDialog()
 	GRIDACTOR->Trans()->rotate_world(KVector4(90.0f, 0.0f, 0.0f));
 	GRIDACTOR->Trans()->scale_world(KVector4(10000.0f, 10000.0f, 10000.0f));
 	KPtr<Renderer_Grid> GRIDRENDER = GRIDACTOR->Add_Component<Renderer_Grid>();
-	GRIDRENDER->ROpt.Defferd_orForward = 1;
 
 
 
@@ -139,11 +141,11 @@ void Dlg_Force::Init_KM3List()
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 	// 만약 자체 메쉬에 애니메이션을 바로 적용시키려면
 	// 애니메이션이 먼저 불러온 후 배급받는 식이다.
-	ResourceManager<MeshContainer>::Clear();
-	ResourceManager<Changer_Animation>::Clear();
-	ResourceManager<Changer_Animation>::All_Load();
-	ResourceManager<MeshContainer>::All_Load();
-
+	if (0 == ResourceManager<Changer_Animation>::All_Count())
+	{
+		ResourceManager<Changer_Animation>::All_Load();
+		ResourceManager<MeshContainer>::All_Load();
+	}
 
 	// 리스트 초기화
 	m_KM3List.ResetContent();

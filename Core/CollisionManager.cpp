@@ -49,9 +49,33 @@ void CollisionManager::Progress()
 
 		if (Link.Left == Link.Right)
 		{
+			LeftStartIter = LeftGIter->second.begin();
+			LeftEndIter = LeftGIter->second.end();
 
+			for (; LeftStartIter != LeftEndIter; ++LeftStartIter)
+			{
+				if (false == (*LeftStartIter)->Is_Active())
+				{
+					continue;
+				}
+
+				RightStartIter = RightGIter->second.begin();
+				RightEndIter = RightGIter->second.end();
+
+				for (; RightStartIter != RightEndIter; ++RightStartIter)
+				{
+					if (false == (*RightStartIter)->Is_Active() ||
+						LeftStartIter == RightStartIter)
+					{
+						continue;
+					}
+
+					(*LeftStartIter)->ColCheck((*RightStartIter));
+				} // for (; RightStartIter != RightEndIter; ++RightStartIter)
+			} // for (; LeftStartIter != LeftEndIter; ++LeftStartIter)
 		}
-		else { // 
+		else 
+		{ // 
 			LeftStartIter = LeftGIter->second.begin();
 			LeftEndIter = LeftGIter->second.end();
 

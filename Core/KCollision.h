@@ -30,7 +30,7 @@ enum COLTYPE
 	CT_SPHERE3D, // 3
 	CT_RAY3D, // 2
 	CT_AABB3D, // 1// 회전 하지 않는 큐브
-	CT_OBB3D,// 회전 하지 않는 큐브
+	CT_OBB3D,// 회전 하는 않는 큐브
 	CT_MAX
 };
 
@@ -62,6 +62,8 @@ public:
 };
 
 
+
+
 class KPlaneCon : public Figure_Col
 {
 public:
@@ -72,6 +74,17 @@ public:
 	virtual ~KPlaneCon() {}
 };
 
+
+
+class KBoxCon : public Figure_Col
+{
+public:
+	DirectX::BoundingOrientedBox m_Box;
+
+public:
+	KBoxCon() {}
+	virtual ~KBoxCon() {}
+};
 
 class KSphereCon : public Figure_Col
 {
@@ -269,6 +282,54 @@ public:
 		return PlaneToRayFunc(_Right, _Left);
 	}
 
+
+
+	static bool OBBToRayFunc(const Figure_Col* _Left, const Figure_Col* _Right)
+	{
+#ifdef _DEBUG
+		if (nullptr == _Left || nullptr == _Right)
+		{
+			return false;
+		}
+		if (_Left->m_ColType != COLTYPE::CT_OBB3D || _Right->m_ColType != COLTYPE::CT_RAY3D)
+		{
+			return false;
+		}
+#endif
+
+		bool TT = KMath::OBBToRay(((KBoxCon*)_Left)->m_Box, ((KRayCon*)_Right)->Ori, ((KRayCon*)_Right)->Dir, ((KRayCon*)_Right)->Dist);
+
+		if (0 == ((KRayCon*)_Right)->Dist)
+		{
+			((KBoxCon*)_Left)->m_ColPoint = KVector::Zero;
+			((KRayCon*)_Right)->m_ColPoint = KVector::Zero;
+			return TT;
+		}
+		((KBoxCon*)_Left)->m_ColPoint = KMath::Calc_ColPoint(((KRayCon*)_Right)->Ori, ((KRayCon*)_Right)->Dir, ((KRayCon*)_Right)->Dist);
+		((KRayCon*)_Right)->m_ColPoint = ((KBoxCon*)_Left)->m_ColPoint;
+		return TT;
+	}
+
+	static bool RayToOBBFunc(const Figure_Col* _Left, const Figure_Col* _Right)
+	{
+		return OBBToRayFunc(_Right, _Left);
+	}
+
+
+	static bool OBBToOBBFunc(const Figure_Col* _Left, const Figure_Col* _Right)
+	{
+#ifdef _DEBUG
+		if (nullptr == _Left || nullptr == _Right)
+		{
+			return false;
+		}
+		if (_Left->m_ColType != COLTYPE::CT_OBB3D || _Right->m_ColType != COLTYPE::CT_OBB3D)
+		{
+			return false;
+		}
+#endif
+		return KMath::OBBToOBB(((KBoxCon*)_Left)->m_Box, ((KBoxCon*)_Right)->m_Box);
+	}
 };
 
 

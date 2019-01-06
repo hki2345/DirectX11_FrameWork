@@ -40,6 +40,7 @@ KPtr<Force_Unit> SC2_Force::Create_Unit(const wchar_t* _Name)
 	TOne->Trans()->scale_local(KVector(1.f, 1.f, 1.f));
 	KPtr<Force_Unit> TT = TOne->Add_Component<Force_Unit>(_Name);
 	TT->force(this);
+	TT->Insert_Collider();
 
 	m_UList.push_back(TT);
 

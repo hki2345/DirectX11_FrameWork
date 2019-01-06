@@ -29,39 +29,21 @@ static float g_vGaussian[25] =
     1.0f, 2.0f, 4.0f, 2.0f, 1.0f // 10
 };
 // 현재 저거 다 합친 수로 나누면 된다.
-
-struct VTXCOL_INPUT
-{
-    float4 vPos : POSITION;
-    float2 vUv : TEXCOORD;
-};
-
-struct VTXCOL_OUTPUT
-{
-    float4 vPos : SV_POSITION;
-    float2 vUv : TEXCOORD;
-};
-
-struct PS_OUTPUT
-{
-    float4 vCol : SV_Target;
-};
-
 cbuffer POSTDATA : register(b0)
 {
     float4 g_ScreenSize;
 }
 
 
-VTXCOL_OUTPUT VS_GN(VTXCOL_INPUT _In)
+VS_TEXOUTPUT VS_GN(VS_TEXINPUT _In)
 {
-    VTXCOL_OUTPUT outData = (VTXCOL_OUTPUT) 0.f;
+    VS_TEXOUTPUT outData = (VS_TEXOUTPUT) 0.f;
     outData.vPos = mul(_In.vPos, DirMat);
     outData.vUv = _In.vUv;
     return outData;
 }
 
-PS_OUTPUT PS_GN(VTXCOL_OUTPUT _in)
+PS_OUTPUT PS_GN(VS_TEXOUTPUT _in)
 {
     PS_OUTPUT outData = (PS_OUTPUT) 0.0f;
     // 축소 버퍼를 만든다. 

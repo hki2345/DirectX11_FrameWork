@@ -987,6 +987,13 @@ public:
 		return DirectX::XMLoadFloat4(&m_XMVec4);
 	}
 
+	KVector4 Compute_Quarternion()
+	{
+		KVector4 Temp = DirectX::XMQuaternionRotationRollPitchYaw(x, y, z);
+		return Temp;
+	}
+
+
 public:
 	static KVector4 Dot(const KVector4& _Left, const KVector4& _Right)
 	{

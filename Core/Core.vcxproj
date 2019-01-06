@@ -24,6 +24,7 @@
     <ClInclude Include="Effect_Bloom.h" />
     <ClInclude Include="Effect_Gaussian.h" />
     <ClInclude Include="KCollider3D_DE.h" />
+    <ClInclude Include="KBox_Col.h" />
     <ClInclude Include="KM3.h" />
     <ClInclude Include="KRay3D.h" />
     <ClInclude Include="KPlane3D_Col.h" />
@@ -108,6 +109,7 @@
     <ClCompile Include="Effect_Bloom.cpp" />
     <ClCompile Include="Effect_Gaussian.cpp" />
     <ClCompile Include="KCollider3D_DE.cpp" />
+    <ClCompile Include="KBox_Col.cpp" />
     <ClCompile Include="KFBX.cpp" />
     <ClCompile Include="KM3.cpp" />
     <ClCompile Include="KRay3D.cpp" />

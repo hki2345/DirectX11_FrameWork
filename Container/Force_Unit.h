@@ -16,7 +16,8 @@ enum WEAPON_TYPE
 // 유닛 정보 내에 있는 이름은 해당 메쉬를 불러온다.
 class SC2_Force;
 class Renderer_BonAni;
-class KSphere_Col;
+class KBox_Col;
+class KCollision;
 class Force_Unit : public Component
 {
 public:
@@ -51,7 +52,9 @@ public:
 	// 유닛의 속성은 누적되는 방식이기 때문에 이 방식으로 하는 게 맞다.
 	// 이 방식 - 비트단위 연산
 private:
-	KPtr<KSphere_Col>					m_Col;
+	KVector								m_ColPivot;
+
+	KPtr<KBox_Col>						m_Col;
 	KPtr<SC2_Force> 					m_Force;
 	Unit_Info							m_Info;
 	ANI_TYPE							m_AType;
@@ -67,6 +70,9 @@ private:
 private:
 	void Update_StrList();
 	void Update_RenderAni();
+	void Update_Col();
+
+	void Collision_OtherUnit(KCollision* _Left, KCollision* _Right);
 
 
 public:
@@ -80,8 +86,12 @@ public:
 	void Reset_Renderer();
 	void Delete_Renderer(KPtr<Renderer_BonAni> _Other);
 	void Insert_Renderer(KPtr<Renderer_BonAni> _Other);
+	void Insert_Collider();
 
-
+	void Rot_Unit(const KVector& _Value)
+	{
+		m_ColPivot = _Value;
+	}
 
 	void force(KPtr<SC2_Force> _Force)
 	{
@@ -134,13 +144,13 @@ public:
 		m_Info.RSpeed = _Value;
 	}
 
-	KVector& unit_scale()
-	{
-		return m_Info.UScale;
-	}
 	void unit_scale(const KVector& _Value)
 	{
 		m_Info.UScale = _Value;
+	}
+	KVector& unit_scale()
+	{
+		return m_Info.UScale;
 	}
 
 	void Set_Animation(const ANI_TYPE& _Value)

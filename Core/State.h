@@ -130,19 +130,19 @@ public:
 	void Start();
 
 private:
-	std::unordered_map<int, std::list<KPtr<TheOne>>>::iterator m_StartMapIter;
-	std::unordered_map<int, std::list<KPtr<TheOne>>>::iterator m_EndMapIter;
+	std::unordered_map<int, std::list<KPtr<TheOne>>>::iterator m_SOI;
+	std::unordered_map<int, std::list<KPtr<TheOne>>>::iterator m_EOI;
+	std::unordered_map<int, std::list<KPtr<TheOne>>> m_OneMap;
 
-	std::list<KPtr<TheOne>>::iterator m_StartListIter;
-	std::list<KPtr<TheOne>>::iterator m_EndListIter;
-	std::unordered_map<int, std::list<KPtr<TheOne>>> m_ActorMap;
+	std::list<KPtr<TheOne>>::iterator m_SOLI;
+	std::list<KPtr<TheOne>>::iterator m_EOLI;
 
 private:
 	std::vector<KPtr<TheOne>> AllObjectList();
 
 public:
 	std::unordered_map<int, std::list<KPtr<TheOne>>> AllActor() {
-		return m_ActorMap;
+		return m_OneMap;
 	}
 
 public:

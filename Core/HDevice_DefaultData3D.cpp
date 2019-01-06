@@ -426,6 +426,12 @@ bool KDevice::Mesh3DCreate() {
 		36, (UINT)IDX16::MemberSize(), D3D11_USAGE_DEFAULT, Cube3D_Idx,
 		IDX16::FM()/*, D3D11_PRIMITIVE_TOPOLOGY::D3D10_PRIMITIVE_TOPOLOGY_LINESTRIP*/);
 
+
+	ResourceManager<KMesh>::Create(L"DEBUGCUBE",
+		8, (UINT)sizeof(VTX3D), D3D11_USAGE_DYNAMIC, Cube3D_Vert,
+		36, (UINT)IDX16::MemberSize(), D3D11_USAGE_DEFAULT, Cube3D_Idx,
+		IDX16::FM(), D3D11_PRIMITIVE_TOPOLOGY::D3D10_PRIMITIVE_TOPOLOGY_LINESTRIP);
+
 #pragma endregion
 
 #pragma region Sphere
@@ -607,7 +613,7 @@ bool KDevice::Mat3DCreate()
 	KPtr<KMaterial> GRID3DMAT = ResourceManager<KMaterial>::Create(L"GRID3DMAT");
 	GRID3DMAT->Set_VTShader(L"GRID3DVTX");
 	GRID3DMAT->Set_PXShader(L"GRID3DPIX");
-	GRID3DMAT->Set_Blend(L"FORWARD_COVER");
+	GRID3DMAT->Set_Blend(L"ALPHA");
 
 	// RECT
 	KPtr<Shader_Vertex> RECT3DVTX = ResourceManager<Shader_Vertex>::Load_FromKey(L"RECT3DVTX", L"Shader", L"RECT3D.fx", "VS_RECT3D");
@@ -668,6 +674,23 @@ bool KDevice::Mat3DCreate()
 	}
 
 
+	{
+		// DEBUG
+		KPtr<Shader_Vertex> VTX = ResourceManager<Shader_Vertex>::Load_FromKey(L"DEBUGVTX", L"Shader", L"DebugShader.fx", "VS_DEBUG");
+		VTX->Add_Layout("POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
+		VTX->Add_Layout("TEXCOORD", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32_FLOAT, 0);
+		VTX->Add_Layout("COLOR", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
+		VTX->Add_Layout("NORMAL", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
+		VTX->Add_Layout("TANGENT", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
+		VTX->Add_LayoutFin("BINORMAL", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
+		KPtr<Shader_Pixel> PIX = ResourceManager<Shader_Pixel>::Load_FromKey(L"DEBUGPIX", L"Shader", L"DebugShader.fx", "PS_DEBUG");
+		PIX->CreateCB<KVector>(L"DEBUG_COLOR", D3D11_USAGE_DYNAMIC, 2);
+
+		KPtr<KMaterial> MTL = ResourceManager<KMaterial>::Create(L"DEBUGMTL");
+		MTL->Set_VTShader(L"DEBUGVTX");
+		MTL->Set_PXShader(L"DEBUGPIX");
+		MTL->Set_Blend(L"ALPHA");
+	}
 
 
 	KPtr<Shader_Vertex> MESH3DVTX = ResourceManager<Shader_Vertex>::Load_FromKey(L"MESH3DVTX", L"Shader", L"MeshMat.fx", "VS_MESH3D");

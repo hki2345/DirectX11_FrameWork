@@ -74,7 +74,6 @@ BOOL Dlg_MeshConv::OnInitDialog()
 	GRIDACTOR->Trans()->rotate_world(KVector4(90.0f, 0.0f, 0.0f));
 	GRIDACTOR->Trans()->scale_world(KVector4(10000.0f, 10000.0f, 10000.0f));
 	KPtr<Renderer_Grid> GRIDRENDER = GRIDACTOR->Add_Component<Renderer_Grid>();
-	GRIDRENDER->ROpt.Defferd_orForward = 1;
 
 
 	TabScene->Camera()->Add_Component<SC2_Camera>();

@@ -12,8 +12,6 @@
 KRay3D::KRay3D() : m_Dist(1000.0f)
 {
 	pRayCon = CreateColFi<KRayCon>(COLTYPE::CT_RAY3D);
-
-	m_DegMesh = new KMesh();
 }
 
 

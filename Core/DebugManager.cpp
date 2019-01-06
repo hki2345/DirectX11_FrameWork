@@ -46,14 +46,7 @@ void DebugManager::Draw_Rect(const KRect& _Rect, float _Border)
 	}
 
 	KVector2 m_Size = Core_Class::MainWindow().statemanager.cur_state()->Camera()->screen_size();
-
-	KMatrix m_View;
-	KMatrix m_Proj;
-	m_View.ViewToLH(KVector4::Zero, KVector4::Forword, KVector4::Up);
-	m_Proj.OrthLH(m_Size.x, m_Size.y, 0.1f, 1000.0f);
-
 	KMatrix m1 = Core_Class::MainWindow().statemanager.cur_state()->Camera()->ViewProj();
-	KMatrix m2 = m_View * m_Proj;
 
 	KMatrix UScale;
 	UScale.Scale(KVector4(_Rect.m_Size.x, _Rect.m_Size.y, 1.0f));

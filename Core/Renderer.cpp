@@ -7,6 +7,7 @@
 #include "KMaterial.h"
 #include "Core_Class.h"
 
+
 Renderer::Renderer() : m_RsState(nullptr)
 {
 	if (false == Set_Material(L"NONEMAT"))

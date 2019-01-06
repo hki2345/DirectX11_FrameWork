@@ -14,6 +14,9 @@
 #include <SC2_Camera.h>
 #include <SC2_Force.h>
 
+#include <Controll_AI.h>
+#include <Controll_User.h>
+
 #include <Force_Unit.h>
 
 #include <Light.h>
@@ -29,6 +32,7 @@
 #include <InputManager.h>
 
 #include <KRay3D.h>
+#include <KBox_Col.h>
 
 // Dlg_Terrain 대화 상자입니다.
 
@@ -43,6 +47,8 @@ Dlg_Terrain::Dlg_Terrain(CWnd* pParent /*=NULL*/) :
 
 Dlg_Terrain::~Dlg_Terrain()
 {
+	m_Force->Clear_Unit();
+	m_UComVec.clear();
 }
 
 BOOL Dlg_Terrain::OnInitDialog()
@@ -73,10 +79,9 @@ BOOL Dlg_Terrain::OnInitDialog()
 	GRIDACTOR->Trans()->rotate_world(KVector4(90.0f, 0.0f, 0.0f));
 	GRIDACTOR->Trans()->scale_world(KVector4(10000.0f, 10000.0f, 10000.0f));
 	KPtr<Renderer_Grid> GRIDRENDER = GRIDACTOR->Add_Component<Renderer_Grid>();
-	GRIDRENDER->ROpt.Defferd_orForward = 1;
 
 
-	TabScene->Camera()->Add_Component<SC2_Camera>();
+	m_pCam = TabScene->Camera()->Add_Component<SC2_Camera>();
 	TabScene->Camera()->Far(10000.0f);
 	TabScene->Camera()->one()->Trans()->pos_local(KVector4(0.0f, 10.0f, -20.0f));
 
@@ -127,10 +132,11 @@ BOOL Dlg_Terrain::OnInitDialog()
 
 
 
-	TabScene->This_Col3DManager.Link(101, 100);
-	TabScene->This_Col3DManager.Link(100, 101);
+	TabScene->This_Col3DManager.Link(100, 100);
 
-	KPtr<KRay3D> RayCol = TabScene->Camera()->Add_Component<KRay3D>(101);
+	KPtr<KRay3D> RayCol = TabScene->Camera()->Add_Component<KRay3D>(100);
+	RayCol->StayFunc(this, &Dlg_Terrain::Update_StayCol);
+
 
 	if (nullptr != Con_Class::s2_manager())
 	{
@@ -195,7 +201,7 @@ void Dlg_Terrain::DoDataExchange(CDataExchange* pDX)
 		++StartId;
 	}
 
-	DDX_Control(pDX, IDC_TERUNITLIST, UList);
+	DDX_Control(pDX, IDC_TERUNITLIST, UBoxList);
 	DDX_Control(pDX, IDC_TEREDITBTN, m_TerBtn);
 }
 
@@ -206,15 +212,15 @@ void Dlg_Terrain::Init_Dlg()
 
 void Dlg_Terrain::Update_SSPos()
 {
-	int A = UList.GetCurSel();
+	int A = UBoxList.GetCurSel();
 	if (0 > A)
 	{
 		return;
 	}
 
-	if (nullptr != m_UnitVec[A])
+	if (nullptr != m_UComVec[A])
 	{
-		KVector TVec = m_UnitVec[A]->one()->Trans()->pos_local();
+		KVector TVec = m_UComVec[A]->one()->Trans()->pos_local();
 
 		UpdateData(TRUE);
 		UnitPosEdit[0] = TVec.m1;
@@ -224,11 +230,9 @@ void Dlg_Terrain::Update_SSPos()
 	}
 }
 
-
-
 void Dlg_Terrain::Update_Force()
 {
-	m_UnitVec.clear();
+	m_UComVec.clear();
 
 	if (nullptr == m_Force)
 	{
@@ -241,29 +245,43 @@ void Dlg_Terrain::Update_Force()
 
 	for (; S != E; ++S)
 	{
-		m_UnitVec.push_back((*S));
+		m_UComVec.push_back((*S));
 	}
 }
 
 void Dlg_Terrain::Update_UnitList()
 {
-	UList.ResetContent();
+	UBoxList.ResetContent();
 
-	for (size_t i = 0; i < m_UnitVec.size(); i++)
+	for (size_t i = 0; i < m_UComVec.size(); i++)
 	{
-		if (true == m_UnitVec[i]->one()->Is_Active())
+		if (true == m_UComVec[i]->one()->Is_Active())
 		{
-			UList.AddString(m_UnitVec[i]->name());
+			UBoxList.AddString(m_UComVec[i]->name());
 		}
 	}
 }
 
 void Dlg_Terrain::Update_Dlg()
 {
+	if (true == KEY_DOWN(L"INGAME"))
+	{
+		if (SC2_Camera::SC2_CAMMODE::S2M_EDIT == m_pCam->cam_mode())
+		{
+			m_pCam->Set_InGame();
+		}
+		else if (SC2_Camera::SC2_CAMMODE::S2M_INGAME == m_pCam->cam_mode())
+		{
+			m_pCam->Set_Edit();
+		}
+	}
+
+
 	Update_Terrain();
 	Update_Grab();
 	Udpate_Delete();
 	Update_SSPos();
+	Update_Col();
 }
 
 void Dlg_Terrain::Update_Terrain()
@@ -283,24 +301,24 @@ void Dlg_Terrain::Update_Grab()
 		{
 			m_pTer->Mouse_CalOff();
 			m_bGrab = false;
-			m_CurUnit->one()->Set_Death();
-			m_CurUnit = nullptr;
+			m_GrabUnit->one()->Set_Death();
+			m_GrabUnit = nullptr;
 		}
 
 		else if (true == KEY_DOWN(L"LB"))
 		{
 			if (true == m_pTer->Is_OnTer())
 			{
-				m_UnitVec.push_back(Create_Unit());
+				m_UComVec.push_back(Create_Unit());
 			}
 
 			Update_UnitList();
 		}
 
-		if (nullptr != m_CurUnit)
+		if (nullptr != m_GrabUnit)
 		{
 			m_pTer->Mouse_CalOn();
-			m_CurUnit->one()->Trans()->pos_local(m_pTer->pos_mouse());
+			m_GrabUnit->one()->Trans()->pos_local(m_pTer->pos_mouse());
 
 			if (true == m_pTer->Is_Edit())
 			{
@@ -314,52 +332,82 @@ void Dlg_Terrain::Udpate_Delete()
 {
 	if (true == KEY_DOWN(L"DEL"))
 	{
-		int A = UList.GetCurSel();
+		int A = UBoxList.GetCurSel();
 		if (0 > A)
 		{
 			return;
 		}
 
-		if (nullptr != m_UnitVec[A])
+		if (nullptr != m_UComVec[A])
 		{
-			std::vector<KPtr<Force_Unit>>::iterator Iter = m_UnitVec.begin();
+			std::vector<KPtr<Force_Unit>>::iterator Iter = m_UComVec.begin();
 
-			for (size_t i = 0; i < m_UnitVec.size(); ++i, ++Iter)
+			for (size_t i = 0; i < m_UComVec.size(); ++i, ++Iter)
 			{
-				if (m_UnitVec[A] == m_UnitVec[i])
+				if (m_UComVec[A] == m_UComVec[i])
 				{
 					break;
 				}
 			}
 
 			m_Force->Delete_Unit((*Iter));
-			m_UnitVec.erase(Iter);
+			m_UComVec.erase(Iter);
 		}
 		Update_UnitList();
 	}
 }
 
+void Dlg_Terrain::Update_Col()
+{
+	int A = UBoxList.GetCurSel();
+	if (0 > A)
+	{
+		return;
+	}
+
+	for (size_t i = 0; i < m_UComVec.size(); i++)
+	{
+		if (m_UComVec[i] == m_CurPlayer)
+		{
+			continue;
+		}
+		m_UComVec[i]->Get_Component<KBox_Col>()->debug_color(KColor::Green);
+	}
+
+
+	if (nullptr != m_UComVec[A] && m_UComVec[A] != m_CurPlayer)
+	{
+		m_UComVec[A]->Get_Component<KBox_Col>()->debug_color(KColor::Yellow);
+	}
+}
+
+
 KPtr<Force_Unit> Dlg_Terrain::Create_Unit()
 {
-	if (nullptr == m_CurUnit)
+	if (nullptr == m_GrabUnit)
 	{
 		return nullptr;
 	}
 
-	KPtr<Force_Unit> TOne = m_Force->Create_Unit(m_CurUnit->name());
-	TOne->one()->Trans()->pos_local(m_CurUnit->one()->Trans()->pos_local());
+	KPtr<Force_Unit> TOne = m_Force->Create_Unit(m_GrabUnit->name());
+	TOne->one()->Trans()->pos_local(m_GrabUnit->one()->Trans()->pos_local());
 
 	return TOne;
 }
 
 void Dlg_Terrain::Create_Grab(const wchar_t* _Name)
 {
+	if (nullptr != m_GrabUnit)
+	{
+		m_GrabUnit->one()->Set_Death();
+	}
+
 	KPtr<State> TabScene = Core_Class::MainScene();
 	KPtr<TheOne> TOne = TabScene->Create_One();
 
 	TOne->Trans()->pos_local(KVector(.0f));
 	TOne->Trans()->scale_local(KVector(1.f, 1.f, 1.f));
-	m_CurUnit = TOne->Add_Component<Force_Unit>(_Name);
+	m_GrabUnit = TOne->Add_Component<Force_Unit>(_Name);
 
 	m_bGrab = true;
 }
@@ -381,6 +429,7 @@ BEGIN_MESSAGE_MAP(Dlg_Terrain, TabDlg)
 	ON_CONTROL_RANGE(EN_CHANGE, IDC_UNITPOSXEDIT, IDC_UNITPOSZEDIT, &Dlg_Terrain::OnUnitPosSelChanged)
 	ON_BN_CLICKED(IDC_STATERESLIST, &Dlg_Terrain::OnBnClickedStatereslist)
 	ON_BN_CLICKED(IDC_TEREDITBTN, &Dlg_Terrain::OnBnClickedTereditbtn)
+	ON_BN_CLICKED(IDC_TERSETPLAY, &Dlg_Terrain::OnBnClickedTersetplay)
 END_MESSAGE_MAP()
 
 
@@ -421,7 +470,7 @@ void Dlg_Terrain::OnBnClickedStateclear()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 	m_Force->Clear_Unit();
-	m_UnitVec.clear();
+	m_UComVec.clear();
 	Update_UnitList();
 }
 
@@ -519,20 +568,20 @@ void Dlg_Terrain::OnUnitPosSelChanged(UINT _Id)
 	UpdateData(FALSE);
 
 
-	int A = UList.GetCurSel();
+	int A = UBoxList.GetCurSel();
 	if (0 > A)
 	{
 		return;
 	}
 
 
-	if (nullptr != m_UnitVec[A])
+	if (nullptr != m_UComVec[A])
 	{
 		KVector TVec = KVector(UnitPosEdit[0], UnitPosEdit[1], UnitPosEdit[2]);
 
 		float TMP = m_pTer->Y_Terrain(TVec);
 		TVec.y = TMP;
-		m_UnitVec[A]->one()->Trans()->pos_local(TVec);
+		m_UComVec[A]->one()->Trans()->pos_local(TVec);
 	}
 }
 
@@ -553,4 +602,79 @@ void Dlg_Terrain::OnBnClickedTereditbtn()
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 	m_pTer->Edit_On();
 	m_TerBtn.EnableWindow(FALSE);
+}
+
+
+void Dlg_Terrain::OnBnClickedTersetplay()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	
+	
+	// 나중에 충돌체로 얻을 수 있음
+	if (nullptr == m_SelectUnit)
+	{
+		int A = UBoxList.GetCurSel();
+		m_SelectUnit = m_UComVec[A];
+	}
+	
+
+	if (nullptr == m_SelectUnit)
+	{
+		return;
+	}
+
+	KPtr<State> TabScene = Core_Class::MainSceneMgr().Find_State(StateName.GetString());
+
+
+
+	if (nullptr != m_SelectUnit->Get_Component<Controll_User>())
+	{
+		return;
+	}
+	
+	m_SelectUnit->Delete_Component<Controll_AI>();
+	KPtr<Controll_User> Cont = m_SelectUnit->Add_Component<Controll_User>(m_pTer, m_SelectUnit, m_pCam);
+	Cont->Set_Render();
+
+
+	if (nullptr != m_CurPlayer)
+	{
+		m_CurPlayer->Delete_Component<Controll_User>();
+	}
+
+
+	m_CurPlayer = m_SelectUnit;
+	m_CurPlayer->Get_Component<KBox_Col>()->debug_color(KColor::Red);
+
+
+	m_SelectUnit = nullptr;
+}
+
+
+
+void Dlg_Terrain::Update_StayCol(KCollision* _Left, KCollision* _Right)
+{
+	KPtr<KBox_Col> Tmp = _Left->Get_Component<KBox_Col>();
+
+	if (nullptr == Tmp)
+	{
+		Tmp = _Right->Get_Component<KBox_Col>();
+		if (nullptr == Tmp)
+		{
+			return;
+		}
+	}
+
+	if (KEY_DOWN(L"LB"))
+	{
+		m_SelectUnit = Tmp->Get_Component<Force_Unit>();
+		for (int i = 0; i < m_UComVec.size(); ++i)
+		{
+			if (m_SelectUnit == m_UComVec[i])
+			{
+				UBoxList.SetCurSel(i);
+				break;
+			}
+		}
+	}
 }

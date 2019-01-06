@@ -9,7 +9,7 @@
 
 #include <ResourceManager.h>
 #include <Renderer_BonAni.h>
-#include <KSphere_Col.h>
+#include <KBox_Col.h>
 
 
 Force_Unit::Force_Unit()
@@ -25,6 +25,8 @@ Force_Unit::Force_Unit()
 Force_Unit::~Force_Unit()
 {
 }
+
+
 
 bool Force_Unit::Init(const wchar_t* _Name)
 {
@@ -47,6 +49,7 @@ void Force_Unit::Update()
 	}
 
 	Update_RenderAni();
+	Update_Col();
 }
 
 
@@ -193,6 +196,15 @@ void Force_Unit::Insert_Renderer(KPtr<Renderer_BonAni> _Other)
 	Update_StrList();
 }
 
+void Force_Unit::Insert_Collider()
+{
+	if (nullptr == m_Col)
+	{
+		m_Col = one()->Add_Component<KBox_Col>(100);
+		m_Col->StayFunc(this, &Force_Unit::Collision_OtherUnit);
+	}
+}
+
 void Force_Unit::Update_StrList()
 {
 	m_StrList.clear();
@@ -217,4 +229,24 @@ void Force_Unit::Update_RenderAni()
 		// 0 번째는 그거 임 전체 애니
 		(*m_SRI)->Set_Clip((int)m_AType + 1);
 	}
+}
+
+
+void Force_Unit::Update_Col()
+{
+	if (nullptr == m_Col)
+	{
+		return;
+	}
+
+	m_Col->pos_pivot(one()->Trans()->pos_world());
+	m_Col->scale_pivot(m_Info.UScale);
+	m_Col->rot_pivot(m_ColPivot);
+}
+
+
+
+void Force_Unit::Collision_OtherUnit(KCollision* _Left, KCollision* _Right)
+{
+	KLOG(L"Unit Collision: %b", true);
 }

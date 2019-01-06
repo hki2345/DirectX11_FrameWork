@@ -35,6 +35,7 @@ private:
 	std::list<KPtr<TheOne>>::iterator m_EO;
 
 private:
+	void Init_Dlg();
 	void Init_KM3List();
 	void Init_ForceList();
 

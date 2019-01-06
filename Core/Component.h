@@ -28,6 +28,13 @@ public:
 	}
 
 	template<typename T>
+	void Delete_Component() 
+	{
+		return one()->Delete_Component<T>();
+	}
+
+
+	template<typename T>
 	KPtr<T> Add_Component() {
 		return one()->Add_Component<T>();
 	}
@@ -37,6 +44,10 @@ public:
 		return one()->Add_Component<T>(_1);
 	}
 
+	template<typename T, typename V1, typename V2, typename V3>
+	KPtr<T> Add_Component(V1 _1, V2 _2, V3 _3) {
+		return one()->Add_Component<T>(_1, _2, _3);
+	}
 public:
 	virtual void ComInit();
 

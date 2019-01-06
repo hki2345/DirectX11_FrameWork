@@ -1,7 +1,7 @@
 #pragma once
 #include "TabDlg.h"
 #include "afxwin.h"
-
+#include "DropEditor.h"
 
 
 // Dlg_Unit 대화 상자입니다.
@@ -27,10 +27,15 @@ protected:
 	void Update_DelModel();
 	void Update_SelectList();
 
+	void Update_ValueFunc();
+
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV 지원입니다.
 
 	DECLARE_MESSAGE_MAP()
 public:
+	float		m_fInfoValue[5];
+	DropEditor	m_DropStatic[5];
+
 	CListBox m_KM3List;
 	CListBox m_SelectList;
 
