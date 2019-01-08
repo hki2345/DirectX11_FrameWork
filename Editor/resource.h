@@ -79,6 +79,7 @@
 #define IDC_UNITSELECTLIST              1067
 #define IDC_RENDELETEBTN                1068
 #define IDC_RENINSERTBTN                1069
+#define IDC_RENRESETBTN                 1070
 #define IDC_KM3PREVBTN                  1071
 #define IDC_KM3NEXTBTN                  1073
 #define IDC_UNITLOADBTN                 1073
@@ -98,8 +99,11 @@
 #define IDC_WSHOTBTN                    1084
 #define IDC_TERLOAD                     1084
 #define IDC_STATELOAD                   1085
+#define IDC_UNITNONEBTN                 1085
 #define IDC_STATESAVE                   1086
+#define IDC_UNITENEMYBTN                1086
 #define IDC_STATECLEAR                  1087
+#define IDC_UNITUSERBTN                 1087
 #define IDC_UNITPOSXEDIT                1092
 #define IDC_UNITPOSYEDIT                1093
 #define IDC_UNITPOSZEDIT                1094
@@ -125,6 +129,9 @@
 #define IDC_UNITSTATICPOSY              1112
 #define IDC_USCALEZ                     1113
 #define IDC_UNITSTATICPOSZ              1113
+#define IDC_TERNONERADIO                1119
+#define IDC_TERENEMYRADIO               1120
+#define IDC_TERUSERRADIO                1121
 
 // Next default values for new objects
 // 
@@ -132,7 +139,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        358
 #define _APS_NEXT_COMMAND_VALUE         32771
-#define _APS_NEXT_CONTROL_VALUE         1119
+#define _APS_NEXT_CONTROL_VALUE         1121
 #define _APS_NEXT_SYMED_VALUE           312
 #endif
 #endif

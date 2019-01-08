@@ -15,10 +15,11 @@
 Force_Unit::Force_Unit()
 {
 	m_AType = ANI_TYPE::ALL;
-	m_Info.WTpye = WEAPON_TYPE::NONE;
+	m_Info.WType = WEAPON_TYPE::NONE;
 	m_Info.LSpeed = .0f;
 	m_Info.RSpeed = .0f;
 	m_Info.UScale = KVector::Zero;
+	m_Info.PBType = PLAYABLE_TYPE::PBT_NONE;
 }
 
 
@@ -66,10 +67,11 @@ bool Force_Unit::Load(const wchar_t* _Name)
 	ReadStream RS = ReadStream(Tmp.c_str());
 	
 
-	RS.Read(m_Info.WTpye);
+	RS.Read(m_Info.WType);
 	RS.Read(m_Info.LSpeed);
 	RS.Read(m_Info.RSpeed);
 	RS.Read(m_Info.UScale);
+	RS.Read(m_Info.PBType);
 
 	int Cnt = 0;
 	RS.Read(Cnt);
@@ -115,10 +117,11 @@ bool Force_Unit::Save()
 	Tmp = PathManager::Find_ForderPath(L"KUD") + Tmp;
 	WriteStream WS = WriteStream(Tmp.c_str());
 
-	WS.Write(m_Info.WTpye);
+	WS.Write(m_Info.WType);
 	WS.Write(m_Info.LSpeed);
 	WS.Write(m_Info.RSpeed);
 	WS.Write(m_Info.UScale);
+	WS.Write(m_Info.PBType);
 
 	int Cnt = (int)m_StrList.size();
 	WS.Write(Cnt);

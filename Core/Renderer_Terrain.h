@@ -13,12 +13,12 @@ public:
 };
 
 
+class KRay3D;
 class Renderer_Terrain : public Renderer
 {
 private:
 	bool	m_Edit;
 	bool	m_CalMPos;
-	bool	m_OnTer;
 
 	float	m_BSize;
 
@@ -28,7 +28,8 @@ private:
 
 	std::vector<VTX3D>	m_TempVtx;
 	std::vector<UINT>	m_TempIdx;
-	
+
+	KPtr<KRay3D>		m_CRay;
 	KPtr<Texture>		m_NormalTex;
 
 private:
@@ -36,6 +37,8 @@ private:
 	void Reset_DI();
 	void Set_DI();
 	void Ascent_Normal(const float& _Value);
+
+	bool Check_Plain();
 
 public:	
 	void Reset_Terrain(const KUINT& _X, const KUINT& _Z, const wchar_t* _NorMap = nullptr, const float& _HRatio = 1.0f);
@@ -81,9 +84,9 @@ public:
 		Reset_Terrain(m_TFD.SizeX, m_TFD.SizeZ);
 	}
 
-	bool& Is_OnTer()
+	bool Is_OnTer()
 	{
-		return m_OnTer;
+		return Check_Plain();
 	}
 
 	void Mouse_CalOn()

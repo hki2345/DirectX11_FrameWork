@@ -161,6 +161,7 @@ BOOL Dlg_Terrain::OnInitDialog()
 	{
 		UnitPosEdit[i] = .0f;
 	}
+	m_PBTBtn[0].SetCheck(true);
 	UpdateData(FALSE);
 
 	return TRUE;
@@ -232,6 +233,14 @@ void Dlg_Terrain::DoDataExchange(CDataExchange* pDX)
 
 	DDX_Control(pDX, IDC_TERUNITLIST, UBoxList);
 	DDX_Control(pDX, IDC_TEREDITBTN, m_TerBtn);
+
+
+	StartId = IDC_TERNONERADIO;
+	for (size_t i = 0; i < 3; i++)
+	{
+		DDX_Control(pDX, StartId, m_PBTBtn[i]);
+		++StartId;
+	}
 }
 
 
@@ -239,7 +248,7 @@ void Dlg_Terrain::Init_Dlg()
 {
 }
 
-void Dlg_Terrain::Update_SSPos()
+void Dlg_Terrain::Update_SelectInfo()
 {
 	int A = UBoxList.GetCurSel();
 	if (0 > A)
@@ -249,31 +258,35 @@ void Dlg_Terrain::Update_SSPos()
 
 	if (nullptr != m_UComVec[A])
 	{
+		if (true == KEY_UNPRESS(L"LB"))
+		{
+			return;
+		}
+
 		KVector TVec = m_UComVec[A]->one()->Trans()->pos_local();
 
 		UpdateData(TRUE);
 		UnitPosEdit[0] = TVec.m1;
 		UnitPosEdit[1] = TVec.m2;
 		UnitPosEdit[2] = TVec.m3;
+
+		m_PBTBtn[0].SetCheck(false);
+		m_PBTBtn[1].SetCheck(false);
+		m_PBTBtn[2].SetCheck(false);
+
+		m_PBTBtn[(int)m_UComVec[A]->playable_type()].SetCheck(true);
 		UpdateData(FALSE);
 	}
 }
 
 void Dlg_Terrain::Update_SSPosFunc()
 {
+	m_SelectUnit = Cur_Unit();
 	if (nullptr == m_SelectUnit)
 	{
-		int A = UBoxList.GetCurSel();
-
-		if (0 <= A)
-		{
-			m_SelectUnit = m_UComVec[A];
-		}
-		else
-		{
-			return;
-		}
+		return;
 	}
+
 
 	KVector TVec = KVector(UnitPosEdit[0], UnitPosEdit[1], UnitPosEdit[2]);
 
@@ -332,7 +345,7 @@ void Dlg_Terrain::Update_Dlg()
 	Update_Terrain();
 	Update_Grab();
 	Udpate_Delete();
-	Update_SSPos();
+	Update_SelectInfo();
 	Update_Col();
 }
 
@@ -433,6 +446,22 @@ void Dlg_Terrain::Update_Col()
 	}
 }
 
+KPtr<Force_Unit> Dlg_Terrain::Cur_Unit()
+{
+	if (nullptr != m_SelectUnit)
+	{
+		return m_SelectUnit;
+	}
+
+	int A = UBoxList.GetCurSel();
+
+	if (0 <= A)
+	{
+		return m_UComVec[A];
+	}
+	
+	return nullptr;
+}
 
 KPtr<Force_Unit> Dlg_Terrain::Create_Unit()
 {
@@ -479,6 +508,9 @@ BEGIN_MESSAGE_MAP(Dlg_Terrain, TabDlg)
 	ON_CONTROL_RANGE(EN_CHANGE, IDC_TERNAME, IDC_STATETERNAME, &Dlg_Terrain::OnEditSelChanged)
 	ON_CONTROL_RANGE(EN_CHANGE, IDC_TERSPLITX, IDC_TERSCALEZ, &Dlg_Terrain::OnTerInfoSelChanged)
 	ON_CONTROL_RANGE(EN_CHANGE, IDC_UNITPOSXEDIT, IDC_UNITPOSZEDIT, &Dlg_Terrain::OnUnitPosSelChanged)
+
+	ON_CONTROL_RANGE(BN_CLICKED, IDC_TERNONERADIO, IDC_TERUSERRADIO, &Dlg_Terrain::UnitPlayableBtnchange)
+
 	ON_BN_CLICKED(IDC_STATERESLIST, &Dlg_Terrain::OnBnClickedStatereslist)
 	ON_BN_CLICKED(IDC_TEREDITBTN, &Dlg_Terrain::OnBnClickedTereditbtn)
 	ON_BN_CLICKED(IDC_TERSETPLAY, &Dlg_Terrain::OnBnClickedTersetplay)
@@ -663,12 +695,11 @@ void Dlg_Terrain::OnBnClickedTersetplay()
 	
 	
 	// 나중에 충돌체로 얻을 수 있음
+	m_SelectUnit = Cur_Unit();
 	if (nullptr == m_SelectUnit)
 	{
-		int A = UBoxList.GetCurSel();
-		m_SelectUnit = m_UComVec[A];
+		return;
 	}
-	
 
 	if (nullptr == m_SelectUnit)
 	{
@@ -728,5 +759,34 @@ void Dlg_Terrain::Update_StayCol(KCollision* _Left, KCollision* _Right)
 				break;
 			}
 		}
+	}
+}
+
+void Dlg_Terrain::UnitPlayableBtnchange(UINT _Id)
+{
+	m_SelectUnit = Cur_Unit();
+	if (nullptr == m_SelectUnit)
+	{
+		return;
+	}
+
+	UINT TempId = _Id - IDC_TERNONERADIO;
+
+	switch (TempId)
+	{
+	case 0:
+		m_SelectUnit->playable_type(PLAYABLE_TYPE::PBT_NONE);
+		break;
+
+	case 1:
+		m_SelectUnit->playable_type(PLAYABLE_TYPE::PBT_ENEMY);
+		break;
+
+	case 2:
+		m_SelectUnit->playable_type(PLAYABLE_TYPE::PBT_USER);
+		break;
+
+	default:
+		break;
 	}
 }

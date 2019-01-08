@@ -167,6 +167,7 @@
     <ClCompile Include="Controll_AI.cpp" />
     <ClCompile Include="Controll_User.cpp" />
     <ClCompile Include="Con_Class.cpp" />
+    <ClCompile Include="Enemy_Act.cpp" />
     <ClCompile Include="SC2_Camera.cpp" />
     <ClCompile Include="Force_Unit.cpp" />
     <ClCompile Include="SC2Manager.cpp" />

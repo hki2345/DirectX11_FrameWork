@@ -21,18 +21,6 @@ SC2_Force::~SC2_Force()
 
 KPtr<Force_Unit> SC2_Force::Create_Unit(const wchar_t* _Name)
 {
-	/*m_SUI = m_UList.begin();
-	m_EUI = m_UList.end();
-
-	for (; m_SUI != m_EUI; ++m_SUI)
-	{
-		if (false == PathManager::Is_StrVSStr((*m_SUI)->name(), _Name))
-		{
-			return nullptr;
-		}
-	}*/
-
-
 	KPtr<State> TabScene = Core_Class::MainScene();
 	KPtr<TheOne> TOne = TabScene->Create_One();
 

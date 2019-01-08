@@ -101,6 +101,8 @@ bool Controll_User::Init(KPtr<Renderer_Terrain> _Terrain, KPtr<Force_Unit> _Unit
 	m_MType = MOVE_TYPE::MT_IDLE;
 	m_AType = ACT_TYPE::AT_IDLE;
 
+
+	m_pUnit->playable_type(PLAYABLE_TYPE::PBT_USER);
 	m_MirrorY = false;
 
 	return true;

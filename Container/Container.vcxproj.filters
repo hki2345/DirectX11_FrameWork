@@ -28,7 +28,9 @@
     <ClInclude Include="Controll_User.h">
       <Filter>SC2\Controller</Filter>
     </ClInclude>
-    <ClInclude Include="Controll_AI.h" />
+    <ClInclude Include="Controll_AI.h">
+      <Filter>SC2\Controller</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SC2Manager.cpp">
@@ -58,8 +60,13 @@
     <ClCompile Include="Controll_User.cpp">
       <Filter>SC2\Controller</Filter>
     </ClCompile>
-    <ClCompile Include="Controll_AI.cpp" />
     <ClCompile Include="User_Act.cpp">
+      <Filter>SC2\Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="Controll_AI.cpp">
+      <Filter>SC2\Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy_Act.cpp">
       <Filter>SC2\Controller</Filter>
     </ClCompile>
   </ItemGroup>

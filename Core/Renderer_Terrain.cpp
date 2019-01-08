@@ -36,36 +36,16 @@ void Renderer_Terrain::TerrainTo_MPos(KPtr<Camera> _Camera)
 	}
 
 
-	KPtr<KRay3D> CRay = _Camera->Get_Component<KRay3D>();
-	if (nullptr == CRay)
+	m_CRay = _Camera->Get_Component<KRay3D>();
+	if (nullptr == m_CRay)
 	{
 		return;
 	}
 
 
 	
-	m_OnTer = false;
-
-
-	// 1차 플레인 검열
-	// LU
-	KVector V0 = m_TempVtx[(m_TFD.SizeZ + 1) * (m_TFD.SizeX) - 1].Pos * m_Trans->scale_world() + m_Trans->pos_world();
-
-	// RU
-	KVector V1 = m_TempVtx[(m_TFD.SizeZ) * (m_TFD.SizeX) + m_TFD.SizeX].Pos * m_Trans->scale_world() + m_Trans->pos_world();
-
-	// LD
-	KVector V2 = m_TempVtx[0].Pos * m_Trans->scale_world() + m_Trans->pos_world();
-
-	// RD
-	KVector V3 = m_TempVtx[m_TFD.SizeX].Pos * m_Trans->scale_world() + m_Trans->pos_world();
-	m_OnTer = DirectX::TriangleTests::Intersects(CRay->ray_container()->Ori, CRay->ray_container()->Dir, V3, V1, V0, CRay->ray_container()->Dist);
-	if (false == m_OnTer)
-	{
-		m_OnTer = DirectX::TriangleTests::Intersects(CRay->ray_container()->Ori, CRay->ray_container()->Dir, V2, V3, V1, CRay->ray_container()->Dist);
-	}
-
-	if (false == m_OnTer)
+	bool Ter = Check_Plain();
+	if (false == Ter)
 	{
 		Reset_DI();
 		return;
@@ -83,26 +63,26 @@ void Renderer_Terrain::TerrainTo_MPos(KPtr<Camera> _Camera)
 			// 지금은 아니지만 나중에 열어보면 아마 다시 써야하는게 맞겟다. 아니면 디버그하든가.
 			// 아므ㅜ래도 디버그보단 그때 새마음 새뜻으로 다시 시작하는게 더 빠르겠다.
 			// LU
-			V0 = m_TempVtx[((Z + 1) * (m_TFD.SizeX + 1)) + X].Pos * m_Trans->scale_world() + m_Trans->pos_world();
+			KVector V0 = m_TempVtx[((Z + 1) * (m_TFD.SizeX + 1)) + X].Pos * m_Trans->scale_world() + m_Trans->pos_world();
 
 			// RU
-			V1 = m_TempVtx[((Z + 1) * (m_TFD.SizeX + 1)) + (X + 1)].Pos * m_Trans->scale_world() + m_Trans->pos_world();
+			KVector V1 = m_TempVtx[((Z + 1) * (m_TFD.SizeX + 1)) + (X + 1)].Pos * m_Trans->scale_world() + m_Trans->pos_world();
 
 			// LD
-			V2 = m_TempVtx[((Z) * (m_TFD.SizeX + 1)) + (X)].Pos * m_Trans->scale_world() + m_Trans->pos_world();
+			KVector V2 = m_TempVtx[((Z) * (m_TFD.SizeX + 1)) + (X)].Pos * m_Trans->scale_world() + m_Trans->pos_world();
 
 			// RD
-			V3 = m_TempVtx[((Z) * (m_TFD.SizeX + 1)) + (X + 1)].Pos * m_Trans->scale_world() + m_Trans->pos_world();
+			KVector V3 = m_TempVtx[((Z) * (m_TFD.SizeX + 1)) + (X + 1)].Pos * m_Trans->scale_world() + m_Trans->pos_world();
 
-			m_OnTer = DirectX::TriangleTests::Intersects(CRay->ray_container()->Ori, CRay->ray_container()->Dir, V3, V1, V0, CRay->ray_container()->Dist);
-			if (false == m_OnTer)
+			Ter = DirectX::TriangleTests::Intersects(m_CRay->ray_container()->Ori, m_CRay->ray_container()->Dir, V3, V1, V0, m_CRay->ray_container()->Dist);
+			if (false == Ter)
 			{
-				m_OnTer = DirectX::TriangleTests::Intersects(CRay->ray_container()->Ori, CRay->ray_container()->Dir, V2, V3, V1, CRay->ray_container()->Dist);
+				Ter = DirectX::TriangleTests::Intersects(m_CRay->ray_container()->Ori, m_CRay->ray_container()->Dir, V2, V3, V1, m_CRay->ray_container()->Dist);
 			}
 
-			if (true == m_OnTer)
+			if (true == Ter)
 			{
-				m_MPos = KMath::Calc_ColPoint(CRay->ray_container()->Ori, CRay->ray_container()->Dir, CRay->ray_container()->Dist);
+				m_MPos = KMath::Calc_ColPoint(m_CRay->ray_container()->Ori, m_CRay->ray_container()->Dir, m_CRay->ray_container()->Dist);
 				m_DI.MUv = KMath::PostoUV2_XZ(m_MPos, m_Trans, KVector((float)m_TFD.SizeX, .0f, (float)m_TFD.SizeZ, .0f));
 				m_DI.MUv.y = 1.0f - m_DI.MUv.y;
 
@@ -157,7 +137,35 @@ void Renderer_Terrain::Ascent_Normal(const float& _Value)
 	mesh()->Update_Vertex((KUINT)m_TempVtx.size(), sizeof(VTX3D), D3D11_USAGE_DYNAMIC, &m_TempVtx[0]);
 }
 
+bool Renderer_Terrain::Check_Plain()
+{
+	bool m_OnTer = false;
+	if (nullptr == m_CRay)
+	{
+		return m_OnTer;
+	}
 
+
+	// 1차 플레인 검열
+	// LU
+	KVector V0 = m_TempVtx[(m_TFD.SizeZ + 1) * (m_TFD.SizeX) - 1].Pos * m_Trans->scale_world() + m_Trans->pos_world();
+
+	// RU
+	KVector V1 = m_TempVtx[(m_TFD.SizeZ) * (m_TFD.SizeX) + m_TFD.SizeX].Pos * m_Trans->scale_world() + m_Trans->pos_world();
+
+	// LD
+	KVector V2 = m_TempVtx[0].Pos * m_Trans->scale_world() + m_Trans->pos_world();
+
+	// RD
+	KVector V3 = m_TempVtx[m_TFD.SizeX].Pos * m_Trans->scale_world() + m_Trans->pos_world();
+	m_OnTer = DirectX::TriangleTests::Intersects(m_CRay->ray_container()->Ori, m_CRay->ray_container()->Dir, V3, V1, V0, m_CRay->ray_container()->Dist);
+	if (false == m_OnTer)
+	{
+		m_OnTer = DirectX::TriangleTests::Intersects(m_CRay->ray_container()->Ori, m_CRay->ray_container()->Dir, V2, V3, V1, m_CRay->ray_container()->Dist);
+	}
+
+	return m_OnTer;
+}
 
 
 void Renderer_Terrain::Reset_Terrain(const KUINT& _X, const KUINT& _Z, const wchar_t* _NorMap /*= nullptr*/, const float& _HRatio /*= 1.0f*/)

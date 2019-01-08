@@ -58,8 +58,9 @@ void Dlg_Unit::Init_Dlg()
 	m_CurOne->Trans()->scale_local(KVector(1.f, 1.f, 1.f));
 
 	m_CurUnit = m_CurOne->Add_Component<Force_Unit>(L"TT");
+	m_CurUnit->Reset_Renderer();
 	m_CurUnit->Insert_Collider();
-	m_CurUnit->unit_scale({ 1.0f, 1.0f, 1.0f });
+	m_CurUnit->scale_unit({ 1.0f, 1.0f, 1.0f });
 	m_CurOne->Add_Component<Controll_User>(m_pTer, m_CurUnit, TabScene->Camera()->Get_Component<SC2_Camera>());
 
 
@@ -77,6 +78,9 @@ void Dlg_Unit::Init_Dlg()
 	WeaponType[2].SetCheck(false);
 
 
+	PlayType[0].SetCheck(true);
+	PlayType[1].SetCheck(false);
+	PlayType[2].SetCheck(false);
 
 	Update_RscTree();
 }
@@ -210,6 +214,13 @@ void Dlg_Unit::DoDataExchange(CDataExchange* pDX)
 	}
 
 
+
+	StartId = IDC_UNITNONEBTN;
+	for (size_t X = 0; X < 3; ++X)
+	{
+		DDX_Control(pDX, StartId, PlayType[X]);
+		++StartId;
+	}
 
 	////////////// static
 	StartId = IDC_ULEDIT;
@@ -390,8 +401,10 @@ BEGIN_MESSAGE_MAP(Dlg_Unit, TabDlg)
 	ON_BN_CLICKED(IDC_RENRESTARTBTN, &Dlg_Unit::OnBnClickedRenrestartbtn)
 
 
-	ON_CONTROL_RANGE(EN_CHANGE, IDC_ULEDIT, IDC_KUNITZINFO, &Dlg_Unit::UnitInfoSelchange)
+	ON_CONTROL_RANGE(EN_CHANGE, IDC_ULEDIT, IDC_UNITNAMEINFO, &Dlg_Unit::UnitInfoSelchange)
 	ON_CONTROL_RANGE(BN_CLICKED, IDC_WNONEBTN, IDC_WSHOTBTN, &Dlg_Unit::UnitWeaponSelchange)
+	ON_CONTROL_RANGE(BN_CLICKED, IDC_UNITNONEBTN, IDC_UNITUSERBTN, &Dlg_Unit::UnitPlayableBtnchange)
+	ON_BN_CLICKED(IDC_RENRESETBTN, &Dlg_Unit::OnBnClickedRenresetbtn)
 END_MESSAGE_MAP()
 
 
@@ -448,13 +461,13 @@ void Dlg_Unit::OnBnClickedUnitloadbtn()
 	TmpStr = std::to_wstring(m_CurUnit->rotate_speed());
 	InfoValue[1].SetWindowTextW(TmpStr.c_str());
 
-	TmpStr = std::to_wstring(m_CurUnit->unit_scale().x);
+	TmpStr = std::to_wstring(m_CurUnit->scale_unit().x);
 	InfoValue[2].SetWindowTextW(TmpStr.c_str());
 
-	TmpStr = std::to_wstring(m_CurUnit->unit_scale().y);
+	TmpStr = std::to_wstring(m_CurUnit->scale_unit().y);
 	InfoValue[3].SetWindowTextW(TmpStr.c_str());
 
-	TmpStr = std::to_wstring(m_CurUnit->unit_scale().z);
+	TmpStr = std::to_wstring(m_CurUnit->scale_unit().z);
 	InfoValue[4].SetWindowTextW(TmpStr.c_str());
 
 
@@ -476,6 +489,27 @@ void Dlg_Unit::OnBnClickedUnitloadbtn()
 
 	case WEAPON_TYPE::SHOT:
 		WeaponType[2].SetCheck(true);
+		break;
+	default:
+		break;
+	}
+
+	PlayType[0].SetCheck(false);
+	PlayType[1].SetCheck(false);
+	PlayType[2].SetCheck(false);
+
+	switch (m_CurUnit->playable_type())
+	{
+	case PLAYABLE_TYPE::PBT_NONE:
+		PlayType[0].SetCheck(true);
+		break;
+
+	case PLAYABLE_TYPE::PBT_ENEMY:
+		PlayType[1].SetCheck(true);
+		break;
+
+	case PLAYABLE_TYPE::PBT_USER:
+		PlayType[2].SetCheck(true);
 		break;
 	default:
 		break;
@@ -544,20 +578,20 @@ void Dlg_Unit::UnitInfoSelchange(UINT _Id)
 	// XScale
 	else if (2 == TempId)
 	{
-		m_CurUnit->unit_scale(
-			KVector(Tmpf, m_CurUnit->unit_scale().y, m_CurUnit->unit_scale().z, .0f));
+		m_CurUnit->scale_unit(
+			KVector(Tmpf, m_CurUnit->scale_unit().y, m_CurUnit->scale_unit().z, .0f));
 	}
 	// YScale
 	else if (3 == TempId)
 	{
-		m_CurUnit->unit_scale(
-			KVector(m_CurUnit->unit_scale().x, Tmpf, m_CurUnit->unit_scale().z, .0f));
+		m_CurUnit->scale_unit(
+			KVector(m_CurUnit->scale_unit().x, Tmpf, m_CurUnit->scale_unit().z, .0f));
 	}
 	// ZScale
 	else if (4 == TempId)
 	{
-		m_CurUnit->unit_scale(
-			KVector(m_CurUnit->unit_scale().x, m_CurUnit->unit_scale().y, Tmpf, .0f));
+		m_CurUnit->scale_unit(
+			KVector(m_CurUnit->scale_unit().x, m_CurUnit->scale_unit().y, Tmpf, .0f));
 	}
 	// 이름 - 스트링
 	else if (5 == TempId)
@@ -593,10 +627,40 @@ void Dlg_Unit::UnitWeaponSelchange(UINT _Id)
 }
 
 
+void Dlg_Unit::UnitPlayableBtnchange(UINT _Id)
+{
+	UINT TempId = _Id - IDC_UNITNONEBTN;
+
+	switch (TempId)
+	{
+	case 0:
+		m_CurUnit->playable_type(PLAYABLE_TYPE::PBT_NONE);
+		break;
+
+	case 1:
+		m_CurUnit->playable_type(PLAYABLE_TYPE::PBT_ENEMY);
+		break;
+
+	case 2:
+		m_CurUnit->playable_type(PLAYABLE_TYPE::PBT_USER);
+		break;
+
+	default:
+		break;
+	}
+}
+
 
 void Dlg_Unit::Update_ValueFunc()
 {
 	m_CurUnit->linear_speed(m_fInfoValue[0]);
 	m_CurUnit->rotate_speed(m_fInfoValue[1]);
-	m_CurUnit->unit_scale({ m_fInfoValue[2], m_fInfoValue[3], m_fInfoValue[4] });
+	m_CurUnit->scale_unit({ m_fInfoValue[2], m_fInfoValue[3], m_fInfoValue[4] });
+}
+
+void Dlg_Unit::OnBnClickedRenresetbtn()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	m_CurUnit->Reset_Renderer(); 
+	Update_SelectList();
 }

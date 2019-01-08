@@ -12,6 +12,13 @@ enum WEAPON_TYPE
 	SHOT,
 };
 
+enum PLAYABLE_TYPE
+{
+	PBT_NONE = 0,
+	PBT_ENEMY,
+	PBT_USER,
+};
+
 // 유닛이름은 -> 유닛 정보를 불러오고
 // 유닛 정보 내에 있는 이름은 해당 메쉬를 불러온다.
 class SC2_Force;
@@ -42,10 +49,11 @@ public:
 	{
 	public:
 		// 핵심 네 개의 정보
-		WEAPON_TYPE		WTpye;
+		WEAPON_TYPE		WType;
 		float			LSpeed;
 		float			RSpeed;
 		KVector4		UScale;
+		PLAYABLE_TYPE	PBType;
 	};
 
 
@@ -117,13 +125,15 @@ public:
 		return m_RList;
 	}
 
+
+#pragma region UNITINFO
 	void weapon_type(const WEAPON_TYPE& _Value)
 	{
-		m_Info.WTpye = _Value;
+		m_Info.WType = _Value;
 	}
 	WEAPON_TYPE& weapon_type()
 	{
-		return m_Info.WTpye;
+		return m_Info.WType;
 	}
 
 	float& linear_speed()
@@ -144,14 +154,24 @@ public:
 		m_Info.RSpeed = _Value;
 	}
 
-	void unit_scale(const KVector& _Value)
+	void scale_unit(const KVector& _Value)
 	{
 		m_Info.UScale = _Value;
 	}
-	KVector& unit_scale()
+	KVector& scale_unit()
 	{
 		return m_Info.UScale;
 	}
+
+	void playable_type(const PLAYABLE_TYPE& _Value)
+	{
+		m_Info.PBType = _Value;
+	}
+	PLAYABLE_TYPE& playable_type()
+	{
+		return m_Info.PBType;
+	}
+#pragma endregion
 
 	void Set_Animation(const ANI_TYPE& _Value)
 	{

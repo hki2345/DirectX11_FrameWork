@@ -41,6 +41,8 @@ private:
 	CEdit TexName;
 	CListBox UBoxList;
 	CButton m_TerBtn;
+	CButton m_PBTBtn[3];
+	int		m_PBTCheck;
 
 	DropEditor	m_PosDrop[3];
 	float		UnitPosEdit[3];
@@ -52,8 +54,9 @@ protected:
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV 지원입니다.
 
 	KPtr<Force_Unit> Create_Unit();
+	KPtr<Force_Unit> Cur_Unit();
 
-	void Update_SSPos();
+	void Update_SelectInfo();
 	void Update_SSPosFunc();
 
 
@@ -65,6 +68,7 @@ protected:
 	void Update_Col();
 
 	void Update_StayCol(KCollision* _Left, KCollision* _Right);
+
 
 public:
 	void Init_Dlg() override;
@@ -95,6 +99,7 @@ public:
 	afx_msg void OnEditSelChanged(UINT _Id);
 	afx_msg void OnTerInfoSelChanged(UINT _Id);
 	afx_msg void OnUnitPosSelChanged(UINT _Id);
+	afx_msg void UnitPlayableBtnchange(UINT _Id);
 	afx_msg void OnBnClickedStatereslist();
 	afx_msg void OnBnClickedTereditbtn();
 	afx_msg void OnBnClickedTersetplay();

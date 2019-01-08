@@ -2,6 +2,7 @@
 #include "Controll_AI.cpp"
 #include "Controll_User.cpp"
 #include "Con_Class.cpp"
+#include "Enemy_Act.cpp"
 #include "Force_Unit.cpp"
 #include "SC2Manager.cpp"
 #include "SC2_Camera.cpp"

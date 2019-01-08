@@ -29,6 +29,7 @@ protected:
 
 	void Update_ValueFunc();
 
+
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV 지원입니다.
 
 	DECLARE_MESSAGE_MAP()
@@ -54,6 +55,7 @@ public:
 
 	CEdit InfoValue[6];
 	CButton WeaponType[3];
+	CButton PlayType[3];
 
 
 	virtual BOOL OnInitDialog();
@@ -69,4 +71,6 @@ public:
 	afx_msg void OnBnClickedRenrestartbtn();
 	afx_msg void UnitInfoSelchange(UINT _Id);
 	afx_msg void UnitWeaponSelchange(UINT _Id);
+	afx_msg void UnitPlayableBtnchange(UINT _Id);
+	afx_msg void OnBnClickedRenresetbtn();
 };
