@@ -1,13 +1,14 @@
 #pragma once
 // 유닛도 세력을 알아야하지만 유닛은 간접적으로 아는 식(포인터)
 // 요놈은 유닛을 직접 만들어야 하니까 값으로 알아야 겠다.
-#include "Force_Unit.h"
+#include <Begin_Updater.h>
 #include <DXContainer.h>
 #include "Container.h"
 
 #include <map>
 
 // 이름과 그 세력의 고유 색을 가진다
+class Force_Unit;
 class SC2_Force : public Begin_Updater
 {
 public:
@@ -79,6 +80,9 @@ public:
 	{
 		return &m_UList;
 	}
+
+	void playable_type(const PLAYABLE_TYPE& _Value);
+	PLAYABLE_TYPE& playable_type();
 
 
 	KPtr<Force_Unit> Create_Unit(const wchar_t* _Name);

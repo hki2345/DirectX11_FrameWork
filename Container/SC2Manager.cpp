@@ -1,8 +1,17 @@
 #include <KMacro.h>
 #include "SC2Manager.h"
 #include "SC2_Force.h"
+#include "Force_Unit.h"
+
+
 #include "SC2_Camera.h"
 
+#include <ResourceManager.h>
+#include <WriteStream.h>
+#include <ReadStream.h>
+
+#include <Changer_Animation.h>
+#include <Renderer_BonAni.h>
 
 
 SC2Manager::SC2Manager() :
@@ -15,6 +24,15 @@ SC2Manager::SC2Manager() :
 
 SC2Manager::~SC2Manager()
 {
+	//m_SFI = m_FMap.begin();
+	//m_EFI = m_FMap.end();
+
+	//for (; m_SFI != m_EFI; ++m_SFI)
+	//{
+	//	m_SFI->second->Clear_Unit();
+	//}
+
+	//m_FMap.clear();
 }
 
 
@@ -87,13 +105,13 @@ bool SC2Manager::Init()
 		return true;
 	}
 
-	Create_Force(L"BOOMBAYAH", KColor::Red);
-	Create_Force(L"TT", KColor::Blue);
-	Create_Force(L"AHYEAH", KColor::Green);
-	Create_Force(L"GLASSBEAD", KColor::Yellow);
-	Create_Force(L"LUV", KColor::White);
-	Create_Force(L"BAAM", KColor::Cyan);
-	Create_Force(L"REDFLAVER", KColor(1.0f, .5f, .5f, 1.0f));
+	Create_Force(L"BOOMBAYAH", KColor(1.0f, .1f, .1f, 1.0f));
+	Create_Force(L"TT", KColor(.1f, .1f, .9f, 1.0f));
+	Create_Force(L"AHYEAH", KColor(.1f, .9f, .1f, 1.0f));
+	Create_Force(L"GLASSBEAD", KColor(.9f, .9f, .1f, 1.0f));
+	Create_Force(L"LUV", KColor(.9f, .9f, .9f, 1.0f));
+	Create_Force(L"BAAM", KColor(.1f, .9f, .9f, 1.0f));
+	Create_Force(L"REDFLAVER", KColor(.9f, .5f, .5f, 1.0f));
 	Create_Force(L"POP/STARS", KColor(.5f, .0f, .8f, 1.0f));
 
 
@@ -170,3 +188,85 @@ void SC2Manager::Update()
 	}
 }
 
+
+
+std::list<KPtr<Force_Unit>>* SC2Manager::force_unit_list(const wchar_t* _Name)
+{
+	KPtr<SC2_Force> TT = Find_Force(_Name);
+
+	return &TT->m_UList;
+}
+
+
+void SC2Manager::Save(const wchar_t* _Name)
+{
+	std::wstring Tmp = _Name;
+	Tmp += L".state";
+
+	Tmp = PathManager::Find_ForderPath(L"STATE") + Tmp;
+
+	WriteStream WS = WriteStream(Tmp.c_str());
+
+
+	int size = (int)m_FMap.size();
+
+	WS.Write(size);
+
+	m_SFI = m_FMap.begin();
+	m_EFI = m_FMap.end();
+
+	for (; m_SFI != m_EFI; ++m_SFI)
+	{
+		WS.Write(m_SFI->first.c_str(), sizeof(wchar_t) * NAMENUM);
+		WS.Write(&m_SFI->second->force_color(), sizeof(KVector));
+		m_SFI->second->Save();
+	}
+}
+
+
+void SC2Manager::Load(const wchar_t* _Name)
+{
+	Clear_Force();
+
+	std::wstring Tmp = _Name;
+	Tmp += L".state";
+
+	Tmp = PathManager::Find_ForderPath(L"STATE") + Tmp;
+	ReadStream RS = ReadStream(Tmp.c_str());
+
+	if (0 == ResourceManager<Changer_Animation>::All_Count())
+	{
+		ResourceManager<Changer_Animation>::All_Load();
+		ResourceManager<MeshContainer>::All_Load();
+	}
+
+
+	int size;
+
+	RS.Read(size);
+
+	for (int i = 0; i < size; ++i)
+	{
+		wchar_t TT[NAMENUM];
+		KVector TCol;
+		RS.Read(TT, sizeof(wchar_t) * NAMENUM);
+		RS.Read(&TCol, sizeof(KVector));
+
+		KPtr<SC2_Force> TForce = Create_Force(TT, TCol);
+		TForce->Load(TT);
+		m_FMap.insert(std::map<std::wstring, KPtr<SC2_Camera>>::value_type(TT, TForce));
+	}
+}
+
+void SC2Manager::Clear_Force()
+{
+	m_SFI = m_FMap.begin();
+	m_EFI = m_FMap.end();
+
+	for (; m_SFI != m_EFI; ++m_SFI)
+	{
+		m_SFI->second->Clear_Unit();
+	}
+
+	m_FMap.clear();
+}

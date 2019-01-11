@@ -1,16 +1,17 @@
 #pragma once
 #include <DXContainer.h>
-
-
 #include <Begin_Updater.h>
+
+#include <list>
 #include <map>
-#include <stireg.h>
+#include <string.h>
 
 
 
 // 세력들과 진행상황을 관리한다.
 class SC2_Force;
 class SC2_Camera;
+class Force_Unit;
 class SC2Manager : public Begin_Updater
 {
 private:
@@ -38,6 +39,7 @@ private:
 
 
 public:
+
 	std::map<std::wstring, KPtr<SC2_Force>>* force_map()
 	{
 		return &m_FMap;
@@ -50,6 +52,15 @@ public:
 	KPtr<SC2_Force> Create_Force(const wchar_t* _Name, const KColor& _Color);
 	KPtr<SC2_Force> Find_Force(const wchar_t* _Name);
 	KPtr<SC2_Force> Find_Force(const KColor& _Color);
+
+	void Save(const wchar_t* _Name);
+	void Load(const wchar_t* _Name);
+	void Clear_Force();
+
+
+	std::list<KPtr<Force_Unit>>* force_unit_list(const wchar_t* _Name);
+
+
 
 	void game_run(const GAMERUN_TYPE& _Value)
 	{

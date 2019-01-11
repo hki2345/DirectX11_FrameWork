@@ -1,4 +1,6 @@
 #include "SC2_Force.h"
+#include "Force_Unit.h"
+
 
 #include <WriteStream.h>
 #include <ReadStream.h>
@@ -167,4 +169,20 @@ void SC2_Force::Load(const wchar_t* _Name)
 		KPtr<Force_Unit> TU = Create_Unit(Tmp);
 		TU->one()->Trans()->pos_local(TT);
 	}
+}
+
+
+void SC2_Force::playable_type(const PLAYABLE_TYPE& _Value)
+{
+	m_SUI = m_UList.begin();
+	m_EUI = m_UList.end();
+
+	for (; m_SUI != m_EUI; ++m_SUI)
+	{
+		(*m_SUI)->playable_type(_Value);
+	}
+}
+PLAYABLE_TYPE& SC2_Force::playable_type()
+{
+	return (*m_UList.begin())->playable_type();
 }

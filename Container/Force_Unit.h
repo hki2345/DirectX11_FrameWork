@@ -5,19 +5,6 @@
 
 #include "Container.h"
 
-enum WEAPON_TYPE
-{
-	NONE  = 0,
-	INSTANCE,
-	SHOT,
-};
-
-enum PLAYABLE_TYPE
-{
-	PBT_NONE = 0,
-	PBT_ENEMY,
-	PBT_USER,
-};
 
 // 유닛이름은 -> 유닛 정보를 불러오고
 // 유닛 정보 내에 있는 이름은 해당 메쉬를 불러온다.
@@ -104,6 +91,10 @@ public:
 	void force(KPtr<SC2_Force> _Force)
 	{
 		m_Force = _Force;
+	}
+	KPtr<SC2_Force> force()
+	{
+		return m_Force;
 	}
 
 	Unit_Info& unit_info()

@@ -14,7 +14,15 @@ public:
 		m_S2Manager = _Manager;
 	}
 
-	static KPtr<SC2Manager> s2_manager();
+	static KPtr<SC2Manager> s2_manager()
+	{
+		if (nullptr == m_S2Manager)
+		{
+			m_S2Manager = new SC2Manager();
+		}
+
+		return m_S2Manager;
+	}
 
 
 

@@ -52,6 +52,19 @@ enum TERRANUNIT_FORM
 };
 
 
+enum WEAPON_TYPE
+{
+	NONE = 0,
+	INSTANCE,
+	SHOT,
+};
+
+enum PLAYABLE_TYPE
+{
+	PBT_NONE = 0,
+	PBT_ENEMY,
+	PBT_USER,
+};
 
 
 template<typename Res>

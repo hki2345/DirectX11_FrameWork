@@ -49,6 +49,8 @@ void Force_Unit::Update()
 		}
 	}
 
+	KLOG(L"playble type: %d", (int)m_Info.PBType);
+
 	Update_RenderAni();
 	Update_Col();
 }

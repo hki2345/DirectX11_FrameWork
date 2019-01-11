@@ -38,6 +38,7 @@ void Edit_Launcher::Build()
 	PathManager::Create_ForderPath(L"KUD", L"Data\\KUD");
 	PathManager::Create_ForderPath(L"KTD", L"Data\\KTD");
 	PathManager::Create_ForderPath(L"FORCE", L"Data\\Force");
+	PathManager::Create_ForderPath(L"STATE", L"Data\\State");
 	PathManager::Create_ForderPath(L"SpriteBack", L"Data\\Back\\Sprite");
 
 	// 이렇게 경로를 잡은 뒤 해야함

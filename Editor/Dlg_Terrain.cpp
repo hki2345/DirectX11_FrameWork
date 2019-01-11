@@ -9,10 +9,11 @@
 #include "Edit_Class.h"
 #include <Con_Class.h>
 
+#include <SC2_Force.h>
+#include <SC2Manager.h>
 
 #include <Core_Class.h>
 #include <SC2_Camera.h>
-#include <SC2_Force.h>
 
 #include <Controll_AI.h>
 #include <Controll_User.h>
@@ -40,14 +41,14 @@ IMPLEMENT_DYNAMIC(Dlg_Terrain, TabDlg)
 
 Dlg_Terrain::Dlg_Terrain(CWnd* pParent /*=NULL*/) :
 	TabDlg(IDD_TERRAINDLG, pParent),
-	m_Force(nullptr)
+	m_CurForce(nullptr)
 {
 
 }
 
 Dlg_Terrain::~Dlg_Terrain()
 {
-	m_Force->Clear_Unit();
+	Con_Class::s2_manager()->Clear_Force();
 	m_UComVec.clear();
 }
 
@@ -137,16 +138,6 @@ BOOL Dlg_Terrain::OnInitDialog()
 	KPtr<KRay3D> RayCol = TabScene->Camera()->Add_Component<KRay3D>(100);
 	RayCol->StayFunc(this, &Dlg_Terrain::Update_StayCol);
 
-
-	if (nullptr != Con_Class::s2_manager())
-	{
-		m_Force = Con_Class::s2_manager()->Find_Force(L"TT");
-	}
-	else
-	{
-		KPtr<SC2Manager> MManager = new SC2Manager();
-		Con_Class::s2_manager(MManager);
-	}
 
 
 	// PathManager::Is_StrVSStr
@@ -241,29 +232,26 @@ void Dlg_Terrain::DoDataExchange(CDataExchange* pDX)
 		DDX_Control(pDX, StartId, m_PBTBtn[i]);
 		++StartId;
 	}
+	DDX_Control(pDX, IDC_FORCELIST, m_FocusCombo);
+	DDX_Control(pDX, IDC_TERSETPLAY, m_PlayEditBtn);
 }
 
 
 void Dlg_Terrain::Init_Dlg()
 {
+	Update_Combo();
 }
 
 void Dlg_Terrain::Update_SelectInfo()
 {
-	int A = UBoxList.GetCurSel();
-	if (0 > A)
-	{
-		return;
-	}
-
-	if (nullptr != m_UComVec[A])
+	if (nullptr != m_SelectUnit)
 	{
 		if (true == KEY_UNPRESS(L"LB"))
 		{
 			return;
 		}
 
-		KVector TVec = m_UComVec[A]->one()->Trans()->pos_local();
+		KVector TVec = m_SelectUnit->one()->Trans()->pos_local();
 
 		UpdateData(TRUE);
 		UnitPosEdit[0] = TVec.m1;
@@ -274,7 +262,7 @@ void Dlg_Terrain::Update_SelectInfo()
 		m_PBTBtn[1].SetCheck(false);
 		m_PBTBtn[2].SetCheck(false);
 
-		m_PBTBtn[(int)m_UComVec[A]->playable_type()].SetCheck(true);
+		m_PBTBtn[(int)m_SelectUnit->force()->playable_type()].SetCheck(true);
 		UpdateData(FALSE);
 	}
 }
@@ -298,19 +286,23 @@ void Dlg_Terrain::Update_SSPosFunc()
 void Dlg_Terrain::Update_Force()
 {
 	m_UComVec.clear();
-
-	if (nullptr == m_Force)
-	{
-		return;
-	}
 	
-	std::list<KPtr<Force_Unit>>* TT = m_Force->unit_list();
-	std::list<KPtr<Force_Unit>>::iterator S = TT->begin();
-	std::list<KPtr<Force_Unit>>::iterator E = TT->end();
+
+	std::map<std::wstring, KPtr<SC2_Force>>* Tmp = Con_Class::s2_manager()->force_map();
+
+	std::map<std::wstring, KPtr<SC2_Force>>::iterator S = Tmp->begin();
+	std::map<std::wstring, KPtr<SC2_Force>>::iterator E = Tmp->end();
 
 	for (; S != E; ++S)
 	{
-		m_UComVec.push_back((*S));
+		std::list<KPtr<Force_Unit>>* TT = S->second->unit_list();
+		std::list<KPtr<Force_Unit>>::iterator S = TT->begin();
+		std::list<KPtr<Force_Unit>>::iterator E = TT->end();
+
+		for (; S != E; ++S)
+		{
+			m_UComVec.push_back((*S));
+		}
 	}
 }
 
@@ -320,7 +312,7 @@ void Dlg_Terrain::Update_UnitList()
 
 	for (size_t i = 0; i < m_UComVec.size(); i++)
 	{
-		if (true == m_UComVec[i]->one()->Is_Active())
+		if (true == m_UComVec[i]->one()->Is_Active() && m_UComVec[i]->force() == m_CurForce)
 		{
 			UBoxList.AddString(m_UComVec[i]->name());
 		}
@@ -342,9 +334,9 @@ void Dlg_Terrain::Update_Dlg()
 	}
 
 
+	Udpate_Delete();
 	Update_Terrain();
 	Update_Grab();
-	Udpate_Delete();
 	Update_SelectInfo();
 	Update_Col();
 }
@@ -397,67 +389,81 @@ void Dlg_Terrain::Udpate_Delete()
 {
 	if (true == KEY_DOWN(L"DEL"))
 	{
-		int A = UBoxList.GetCurSel();
-		if (0 > A)
-		{
-			return;
-		}
-
-		if (nullptr != m_UComVec[A])
+		if (nullptr != m_SelectUnit)
 		{
 			std::vector<KPtr<Force_Unit>>::iterator Iter = m_UComVec.begin();
 
 			for (size_t i = 0; i < m_UComVec.size(); ++i, ++Iter)
 			{
-				if (m_UComVec[A] == m_UComVec[i])
+				if (m_SelectUnit == m_UComVec[i])
 				{
 					break;
 				}
 			}
 
-			m_Force->Delete_Unit((*Iter));
+			m_CurForce->Delete_Unit((*Iter));
 			m_UComVec.erase(Iter);
+			m_SelectUnit = nullptr;
 		}
 		Update_UnitList();
+	}
+
+	if (m_SelectUnit != nullptr && true == m_SelectUnit->Is_Death())
+	{
+		m_SelectUnit = nullptr;
 	}
 }
 
 void Dlg_Terrain::Update_Col()
 {
-	int A = UBoxList.GetCurSel();
-	if (0 > A)
-	{
-		return;
-	}
-
 	for (size_t i = 0; i < m_UComVec.size(); i++)
 	{
 		if (m_UComVec[i] == m_CurPlayer)
 		{
 			continue;
 		}
-		m_UComVec[i]->Get_Component<KBox_Col>()->debug_color(KColor::Green);
+		m_UComVec[i]->Get_Component<KBox_Col>()->debug_color(m_UComVec[i]->force()->force_color());
 	}
 
 
-	if (nullptr != m_UComVec[A] && m_UComVec[A] != m_CurPlayer)
+	if (nullptr != m_SelectUnit && m_SelectUnit != m_CurPlayer)
 	{
-		m_UComVec[A]->Get_Component<KBox_Col>()->debug_color(KColor::Yellow);
+		m_SelectUnit->Get_Component<KBox_Col>()->debug_color(KColor::Yellow);
 	}
 }
 
-KPtr<Force_Unit> Dlg_Terrain::Cur_Unit()
+
+void Dlg_Terrain::Update_Combo()
 {
-	if (nullptr != m_SelectUnit)
+	m_FocusCombo.ResetContent();
+
+	std::map<std::wstring, KPtr<SC2_Force>>* TT = Con_Class::s2_manager()->force_map();
+
+	std::map<std::wstring, KPtr<SC2_Force>>::iterator S = TT->begin();
+	std::map<std::wstring, KPtr<SC2_Force>>::iterator E = TT->end();
+
+
+	for (; S != E; ++S)
 	{
-		return m_SelectUnit;
+		m_FocusCombo.AddString(S->first.c_str());
 	}
 
-	int A = UBoxList.GetCurSel();
+	m_FocusCombo.SetCurSel(0);
 
-	if (0 <= A)
+	S = TT->begin();
+	m_CurForce = S->second;
+}
+
+
+
+KPtr<Force_Unit> Dlg_Terrain::Cur_Unit()
+{
+	for (size_t i = 0; i < m_UComVec.size(); i++)
 	{
-		return m_UComVec[A];
+		if (m_UComVec[i] == m_SelectUnit)
+		{
+			return m_UComVec[i];
+		}
 	}
 	
 	return nullptr;
@@ -470,7 +476,7 @@ KPtr<Force_Unit> Dlg_Terrain::Create_Unit()
 		return nullptr;
 	}
 
-	KPtr<Force_Unit> TOne = m_Force->Create_Unit(m_GrabUnit->name());
+	KPtr<Force_Unit> TOne = m_CurForce->Create_Unit(m_GrabUnit->name());
 	TOne->one()->Trans()->pos_local(m_GrabUnit->one()->Trans()->pos_local());
 
 	return TOne;
@@ -514,6 +520,7 @@ BEGIN_MESSAGE_MAP(Dlg_Terrain, TabDlg)
 	ON_BN_CLICKED(IDC_STATERESLIST, &Dlg_Terrain::OnBnClickedStatereslist)
 	ON_BN_CLICKED(IDC_TEREDITBTN, &Dlg_Terrain::OnBnClickedTereditbtn)
 	ON_BN_CLICKED(IDC_TERSETPLAY, &Dlg_Terrain::OnBnClickedTersetplay)
+	ON_CBN_SELCHANGE(IDC_FORCELIST, &Dlg_Terrain::OnCbnSelchangeForcelist)
 END_MESSAGE_MAP()
 
 
@@ -553,7 +560,17 @@ void Dlg_Terrain::OnBnClickedTercovertex()
 void Dlg_Terrain::OnBnClickedStateclear()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
-	m_Force->Clear_Unit();
+
+	std::map<std::wstring, KPtr<SC2_Force>>* TT = Con_Class::s2_manager()->force_map();
+
+	std::map<std::wstring, KPtr<SC2_Force>>::iterator S = TT->begin();
+	std::map<std::wstring, KPtr<SC2_Force>>::iterator E = TT->end();
+
+	for (; S != E; ++S)
+	{
+		S->second->Clear_Unit();
+	}
+	
 	m_UComVec.clear();
 	Update_UnitList();
 }
@@ -562,19 +579,59 @@ void Dlg_Terrain::OnBnClickedStateclear()
 void Dlg_Terrain::OnBnClickedStateload()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
-	CString Tem;
-	NameEdit[1].GetWindowTextW(Tem);
-	m_Force->Load(Tem.GetString());
+	static TCHAR BASED_CODE szFilter[] = _T("STATE 파일(*.State) | *.STATE;*.state; |모든파일(*.*)|*.*||");
+
+	CFileDialog dlg(TRUE, _T("*.STATE"), _T("*.state"), OFN_HIDEREADONLY , szFilter, this);
+
+	if (IDOK == dlg.DoModal())
+	{
+		// 한번에 불러오려는 포스 ->
+		// 이 좌표 다음이 바로 다음 선택한 파일의 패스를 나타냄
+		CString pathName = dlg.GetFileTitle();
+
+
+		Con_Class::s2_manager()->Load(pathName.GetBuffer());
+		MessageBox(pathName + L"\n불러오기를 완료했습니다.");
+	}
+	else
+	{
+		return;
+	}
 
 	Update_Force();
+	Update_Combo();
 	Update_UnitList();
+
+
+	m_PBTBtn[0].SetCheck(false);
+	m_PBTBtn[1].SetCheck(false);
+	m_PBTBtn[2].SetCheck(false);
+
+	m_PBTBtn[m_CurForce->playable_type()].SetCheck(true);
 }
 
 
 void Dlg_Terrain::OnBnClickedStatesave()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
-	m_Force->Save();
+	static TCHAR BASED_CODE szFilter[] = _T("STATE 파일(*.State) | *.STATE;*.state; |모든파일(*.*)|*.*||");
+
+	CFileDialog dlg(TRUE, _T("*.STATE"), _T("*.state"), OFN_HIDEREADONLY, szFilter, this);
+
+	if (IDOK == dlg.DoModal())
+	{
+		// 한번에 불러오려는 포스 ->
+		// 이 좌표 다음이 바로 다음 선택한 파일의 패스를 나타냄
+		CString pathName = dlg.GetFileTitle();
+
+
+		Con_Class::s2_manager()->Save(pathName.GetBuffer());
+		MessageBox(pathName + L"\n저장을 완료했습니다.");
+	}
+	else
+	{
+		return;
+	}
 }
 
 
@@ -651,21 +708,14 @@ void Dlg_Terrain::OnUnitPosSelChanged(UINT _Id)
 	UpdateData(TRUE);
 	UpdateData(FALSE);
 
-
-	int A = UBoxList.GetCurSel();
-	if (0 > A)
-	{
-		return;
-	}
-
-
-	if (nullptr != m_UComVec[A])
+	
+	if (nullptr != m_SelectUnit)
 	{
 		KVector TVec = KVector(UnitPosEdit[0], UnitPosEdit[1], UnitPosEdit[2]);
 
 		float TMP = m_pTer->Y_Terrain(TVec);
 		TVec.y = TMP;
-		m_UComVec[A]->one()->Trans()->pos_local(TVec);
+		m_SelectUnit->one()->Trans()->pos_local(TVec);
 	}
 }
 
@@ -692,45 +742,51 @@ void Dlg_Terrain::OnBnClickedTereditbtn()
 void Dlg_Terrain::OnBnClickedTersetplay()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
-	
-	
-	// 나중에 충돌체로 얻을 수 있음
 	m_SelectUnit = Cur_Unit();
 	if (nullptr == m_SelectUnit)
 	{
 		return;
 	}
 
-	if (nullptr == m_SelectUnit)
+	if (SC2_Camera::SC2_CAMMODE::S2M_EDIT == m_pCam->cam_mode())
 	{
-		return;
+		m_PlayEditBtn.SetWindowTextW(L"Edit");
+		m_pCam->Set_InGame();
 	}
-
-	KPtr<State> TabScene = Core_Class::MainSceneMgr().Find_State(StateName.GetString());
-
-
-
-	if (nullptr != m_SelectUnit->Get_Component<Controll_User>())
+	else if (SC2_Camera::SC2_CAMMODE::S2M_INGAME == m_pCam->cam_mode())
 	{
-		return;
+		m_PlayEditBtn.SetWindowTextW(L"Play");
+		m_pCam->Set_Edit();
 	}
 	
-	m_SelectUnit->Delete_Component<Controll_AI>();
-	KPtr<Controll_User> Cont = m_SelectUnit->Add_Component<Controll_User>(m_pTer, m_SelectUnit, m_pCam);
-	Cont->Set_Render();
-
-
+	KPtr<State> TabScene = Core_Class::MainSceneMgr().Find_State(StateName.GetString());
 	if (nullptr != m_CurPlayer)
 	{
 		m_CurPlayer->Delete_Component<Controll_User>();
 	}
 
-
 	m_CurPlayer = m_SelectUnit;
 	m_CurPlayer->Get_Component<KBox_Col>()->debug_color(KColor::Red);
-
-
 	m_SelectUnit = nullptr;
+
+	if (nullptr != m_CurPlayer->Get_Component<Controll_AI>())
+	{
+		m_CurPlayer->Delete_Component<Controll_AI>();
+	}
+
+
+	KPtr<Controll_User> Cont = m_CurPlayer->Get_Component<Controll_User>();
+	if (nullptr == Cont)
+	{
+		Cont = m_CurPlayer->Add_Component<Controll_User>(m_pTer, m_CurPlayer, m_pCam);
+		Cont->Set_Render();
+	}
+
+	TabScene->Camera()->Get_Component<SC2_Camera>()->Set_User(Cont);
+
+
+
+
 }
 
 
@@ -751,6 +807,13 @@ void Dlg_Terrain::Update_StayCol(KCollision* _Left, KCollision* _Right)
 	if (KEY_DOWN(L"LB"))
 	{
 		m_SelectUnit = Tmp->Get_Component<Force_Unit>();
+
+		if (m_SelectUnit->force() != m_CurForce)
+		{
+			m_SelectUnit = nullptr;
+			return;
+		}
+		
 		for (int i = 0; i < m_UComVec.size(); ++i)
 		{
 			if (m_SelectUnit == m_UComVec[i])
@@ -764,8 +827,7 @@ void Dlg_Terrain::Update_StayCol(KCollision* _Left, KCollision* _Right)
 
 void Dlg_Terrain::UnitPlayableBtnchange(UINT _Id)
 {
-	m_SelectUnit = Cur_Unit();
-	if (nullptr == m_SelectUnit)
+	if (nullptr == m_CurForce)
 	{
 		return;
 	}
@@ -775,18 +837,44 @@ void Dlg_Terrain::UnitPlayableBtnchange(UINT _Id)
 	switch (TempId)
 	{
 	case 0:
-		m_SelectUnit->playable_type(PLAYABLE_TYPE::PBT_NONE);
+		m_CurForce->playable_type(PLAYABLE_TYPE::PBT_NONE);
 		break;
 
 	case 1:
-		m_SelectUnit->playable_type(PLAYABLE_TYPE::PBT_ENEMY);
+		m_CurForce->playable_type(PLAYABLE_TYPE::PBT_ENEMY);
 		break;
 
 	case 2:
-		m_SelectUnit->playable_type(PLAYABLE_TYPE::PBT_USER);
+		m_CurForce->playable_type(PLAYABLE_TYPE::PBT_USER);
 		break;
 
 	default:
 		break;
 	}
+}
+
+void Dlg_Terrain::OnCbnSelchangeForcelist()
+{
+	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
+	int Cnt = 0;
+
+	std::map<std::wstring, KPtr<SC2_Force>>* TT = Con_Class::s2_manager()->force_map();
+
+	std::map<std::wstring, KPtr<SC2_Force>>::iterator S = TT->begin();
+	std::map<std::wstring, KPtr<SC2_Force>>::iterator E = TT->end();
+
+
+	for (; S != E; ++S)
+	{
+		if (Cnt == m_FocusCombo.GetCurSel())
+		{
+			m_CurForce = S->second;
+			break;
+		}
+
+		++Cnt;
+	}
+
+	Update_Force();
+	Update_UnitList();
 }

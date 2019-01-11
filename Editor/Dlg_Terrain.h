@@ -28,10 +28,10 @@ private:
 
 	KPtr<SC2_Camera>				m_pCam;
 	KPtr<Renderer_Terrain>			m_pTer;
-	KPtr<SC2_Force>					m_Force;
 	KPtr<Force_Unit>				m_GrabUnit;
 	KPtr<Force_Unit>				m_SelectUnit;
 
+	KPtr<SC2_Force>					m_CurForce;
 	KPtr<Force_Unit>				m_CurPlayer;
 
 	std::vector<KPtr<Force_Unit>>	m_UComVec;
@@ -43,10 +43,12 @@ private:
 	CButton m_TerBtn;
 	CButton m_PBTBtn[3];
 	int		m_PBTCheck;
+	CComboBox m_FocusCombo;
 
 	DropEditor	m_PosDrop[3];
 	float		UnitPosEdit[3];
 
+	CButton m_PlayEditBtn;
 
 
 protected:
@@ -66,6 +68,7 @@ protected:
 	void Update_Grab();
 	void Udpate_Delete();
 	void Update_Col();
+	void Update_Combo();
 
 	void Update_StayCol(KCollision* _Left, KCollision* _Right);
 
@@ -103,4 +106,5 @@ public:
 	afx_msg void OnBnClickedStatereslist();
 	afx_msg void OnBnClickedTereditbtn();
 	afx_msg void OnBnClickedTersetplay();
+	afx_msg void OnCbnSelchangeForcelist();
 };
