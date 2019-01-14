@@ -32,6 +32,7 @@
     <FxCompile Include="..\bin\Shader\Effect_Gaussian.fx" />
     <FxCompile Include="..\bin\Shader\Forward.fx" />
     <FxCompile Include="..\bin\Shader\ForwardLight.fx" />
+    <FxCompile Include="..\bin\Shader\GameValue.fx" />
     <FxCompile Include="..\bin\Shader\GRID3D.fx" />
     <FxCompile Include="..\bin\Shader\GTex.fx" />
     <FxCompile Include="..\bin\Shader\GValue.fx" />

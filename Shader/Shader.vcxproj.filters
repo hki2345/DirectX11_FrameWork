@@ -41,5 +41,6 @@
     <FxCompile Include="..\bin\Shader\Bloom.fx" />
     <FxCompile Include="..\bin\Shader\DebugShader.fx" />
     <FxCompile Include="..\bin\Shader\Effect_Gaussian.fx" />
+    <FxCompile Include="..\bin\Shader\GameValue.fx" />
   </ItemGroup>
 </Project>

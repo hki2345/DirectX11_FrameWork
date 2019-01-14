@@ -6,6 +6,7 @@
 
 #include "SC2_Camera.h"
 
+#include <Core_Class.h>
 #include <ResourceManager.h>
 #include <WriteStream.h>
 #include <ReadStream.h>
@@ -114,7 +115,6 @@ bool SC2Manager::Init()
 	Create_Force(L"BAAM", KColor(.1f, .9f, .9f, 1.0f));
 	Create_Force(L"REDFLAVER", KColor(.9f, .5f, .5f, 1.0f));
 	Create_Force(L"POP/STARS", KColor(.5f, .0f, .8f, 1.0f));
-
 
 	return true;
 }

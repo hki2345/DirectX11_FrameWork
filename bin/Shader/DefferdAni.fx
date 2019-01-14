@@ -2,6 +2,8 @@
 // 텍스처는 t
 // 샘플러는 s
 #include "GValue.fx"
+#include "GameValue.fx"
+
 #include "PSOUT.fx"
 #include "DefferdLight.fx"
 #include "BoneAni.fx"
@@ -40,11 +42,6 @@ class SkinInfo
     float4 vTangent; // U와 일치하는 X축
 };
 
-
-cbuffer ForceColor : register(b5)
-{
-    float4 m_Color;
-}
 
 matrix GetBoneMat(int _BoneIdx, int _RowIdx)
 {
@@ -134,8 +131,9 @@ PS_DEFFERDOUTPUT PS_DEFFERDANI(VTX3DMESH_OUTPUT _in)
             {
                 CalColor *= GetTexToColor(ArrTex[i].Tex_Idx, ArrTex[i].Tex_Smp, _in.vUv) /* * _in.vColor*/;
                 if (.98f > CalColor.a)
-                {
-                    CalColor *= m_Color;
+                {                    
+                    float4 TCol = g_ColorTex.Load(int3(0, 0, 0));
+                    CalColor *= TCol;
                 }
 
             }
@@ -156,18 +154,6 @@ PS_DEFFERDOUTPUT PS_DEFFERDANI(VTX3DMESH_OUTPUT _in)
     }
 
     
-    
-    
-    //// 스타 2 텍스쳐에 구멍이 뜰린 곳에 버텍스 색상으 ㄹ박아넣음 -> 세력 색깔
-    //// 컨스트 버퍼로 받아서 넣음
-    //if (.999f > CalColor.a)
-    //{
-    //    outData.vDiffuse.rgb = CalColor * m_Color;
-    //}
-    //else
-    //{
-    //    outData.vDiffuse.rgb = CalColor;
-    //}
 
 
     outData.vDiffuse.rgb = CalColor.rgb;

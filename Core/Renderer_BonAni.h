@@ -30,7 +30,10 @@ private:
 	float m_CurTime;
 	float m_UpdateTime;
 
-	KColor m_ForceColor;
+
+	// 세력 설정
+	std::wstring	m_FName;
+	KColor			m_FColor;
 
 	// 행렬과 본을 따로 저장해 둔다.
 	std::vector<KMatrix> m_MXData_CurAni;
@@ -39,6 +42,7 @@ private:
 	// 본의 정보가 쉐이더로 넘기기엔 버퍼의 크기가 너무 커지니
 	// 차라리 텍스쳐로 보내는 방법 - 텍스쳐는 그 자체로 정보가 될 수 있다.
 	KPtr<Texture> m_pBoneTex;
+	KPtr<Texture> m_pColTex;
 
 
 public:
@@ -57,13 +61,18 @@ public:
 		ROpt.IsBoneAni = 1;
 	}
 
+
+	void force_name(const std::wstring _Value)
+	{
+		m_FName = _Value;
+	}
 	KColor& force_color()
 	{
-		return m_ForceColor;
+		return m_FColor;
 	}
 	void force_color(const KColor& _Value)
 	{
-		m_ForceColor = _Value;
+		m_FColor = _Value;
 	}
 
 	int& cur_frame()

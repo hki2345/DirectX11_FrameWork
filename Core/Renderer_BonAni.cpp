@@ -16,7 +16,7 @@ m_FrameCnt(30),
 m_UpdateSpd(.0f), 
 m_UpdateTime(.0f),
 PauseInx(-1),
-m_ForceColor(KColor::White)
+m_FColor(KColor::White)
 {
 	ROpt.Render_DT = RENDER_DATATYPE::RDT_DATA;
 	ROpt.IsBoneAni = 1;
@@ -163,6 +163,14 @@ void Renderer_BonAni::Init_Mesh()
 		, D3D11_USAGE_DYNAMIC
 	);
 
+	m_pColTex = new Texture();
+	m_pColTex->Create(
+		1, 1
+		, D3D11_BIND_SHADER_RESOURCE
+		, DXGI_FORMAT_R32G32B32A32_FLOAT
+		, D3D11_USAGE_DYNAMIC
+	);
+
 
 	m_BoneData_CurAni.resize(MCon->m_Data.BoneVec.size());
 	m_MXData_CurAni.resize(MCon->m_Data.BoneVec.size());
@@ -294,12 +302,9 @@ void Renderer_BonAni::PrevUpdate_Ani()
 	}
 
 
-
 	// 세력 설정하는 부분
-	Core_Class::MainDevice().SettingCB<KColor>(L"FORCE_COLOR", m_ForceColor, SHTYPE::ST_PS);
 	m_pBoneTex->Set_Pixel(&m_MXData_CurAni[0], sizeof(KMatrix) * m_MXData_CurAni.size());
-
-	
+	m_pColTex->Set_Pixel(&m_FColor, sizeof(KColor));	
 }
 
 
@@ -346,6 +351,7 @@ void Renderer_BonAni::RenderBegin(KPtr<Camera> _Cam, const KUINT& _MeshIdx, cons
 	{
 		// 데이터 텍스쳐는 10번에 할당한다.
 		m_pBoneTex->Update(10);
+		m_pColTex->Update(11);
 	}
 }
 

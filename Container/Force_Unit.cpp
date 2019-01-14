@@ -65,6 +65,7 @@ void Force_Unit::Update()
 	{
 		if (nullptr != m_Force)
 		{
+			(*m_SRI)->force_name(m_Force->force_name());
 			(*m_SRI)->force_color(m_Force->force_color());
 		}
 	}
