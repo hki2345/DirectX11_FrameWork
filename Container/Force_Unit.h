@@ -10,6 +10,7 @@
 // 유닛 정보 내에 있는 이름은 해당 메쉬를 불러온다.
 class SC2_Force;
 class Renderer_BonAni;
+class Renderer_Terrain;
 class KBox_Col;
 class KCollision;
 class Force_Unit : public Component
@@ -41,6 +42,12 @@ public:
 		float			RSpeed;
 		KVector4		UScale;
 		PLAYABLE_TYPE	PBType;
+
+		// 체력 - 공격 인터벌 - 
+		// 점수 - 업적 점수
+		float			HP;
+		float			Interval;
+		float			Score;
 	};
 
 
@@ -53,6 +60,7 @@ private:
 	KPtr<SC2_Force> 					m_Force;
 	Unit_Info							m_Info;
 	ANI_TYPE							m_AType;
+	KPtr<Renderer_Terrain>				m_pTer;
 
 	std::list<std::wstring>				m_StrList;
 	std::list<std::wstring>::iterator	m_SCI;
@@ -71,11 +79,12 @@ private:
 
 
 public:
-	virtual bool Init(const wchar_t* _Name);
+	virtual bool Init(const wchar_t* _Name, KPtr<Renderer_Terrain> _Ter, const bool& _Find = true);
 	virtual void Update();
 
 
 	bool Load(const wchar_t* _Name);
+	bool Load_NoFind(const wchar_t* _Name);
 	bool Save();
 
 	void Reset_Renderer();
@@ -92,6 +101,17 @@ public:
 	{
 		m_Force = _Force;
 	}
+
+	void terrain(KPtr<Renderer_Terrain> _Value)
+	{
+		m_pTer = _Value;
+	}
+
+	KPtr<Renderer_Terrain> terrain()
+	{
+		return m_pTer;
+	}
+
 	KPtr<SC2_Force> force()
 	{
 		return m_Force;
@@ -164,10 +184,49 @@ public:
 	}
 #pragma endregion
 
+
+#pragma region UNIT GAMEINFO
+	float& hp()
+	{
+		return m_Info.HP;
+	}
+	float& interval()
+	{
+		return m_Info.Interval;
+	}
+	float& score()
+	{
+		return m_Info.Score;
+	}
+
+	void hp(const float& _Value)
+	{
+		m_Info.HP = _Value;
+	}
+	void interval(const float& _Value)
+	{
+		m_Info.Interval = _Value;
+	}
+	void score(const float& _Value)
+	{
+		m_Info.Score = _Value;
+	}
+#pragma endregion
+
 	void Set_Animation(const ANI_TYPE& _Value)
 	{
 		m_AType = _Value;
 	}
+
+
+	////////////////// IN GAME
+
+private:
+	void Update_Game();
+
+
+public:
+	void Damage(const float& _Value);
 
 public:
 	Force_Unit();

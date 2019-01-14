@@ -84,6 +84,7 @@ bool KDevice::Def3DCreate()
 
 	ResourceManager<KBlend>::Create(L"ALPHA");
 
+
 	Core_Class::MainDevice().CreateCB<KColor>(L"FORCE_COLOR", D3D11_USAGE_DYNAMIC, 5);
 	Core_Class::MainDevice().CreateCB<MatrixContainer>(L"MATCON", D3D11_USAGE_DYNAMIC, 10);
 	Core_Class::MainDevice().CreateCB<RenderOption>(L"RENDEROPTION", D3D11_USAGE_DYNAMIC, 11);

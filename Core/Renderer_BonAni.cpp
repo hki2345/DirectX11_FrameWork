@@ -25,7 +25,7 @@ m_ForceColor(KColor::White)
 
 Renderer_BonAni::~Renderer_BonAni()
 {
-	if (nullptr != ResourceManager<Changer_Animation>::Find(CAni->name()))
+	if (nullptr != ResourceManager<Changer_Animation>::Find(CAni))
 	{
 		ResourceManager<Changer_Animation>::Erase(CAni);
 	}
@@ -293,11 +293,11 @@ void Renderer_BonAni::PrevUpdate_Ani()
 		m_MXData_CurAni[i] = MCon->m_Data.BoneVec[i]->OffsetMX * m_BoneData_CurAni[i];
 	}
 
-	m_pBoneTex->Set_Pixel(&m_MXData_CurAni[0], sizeof(KMatrix) * m_MXData_CurAni.size());
 
 
 	// 세력 설정하는 부분
 	Core_Class::MainDevice().SettingCB<KColor>(L"FORCE_COLOR", m_ForceColor, SHTYPE::ST_PS);
+	m_pBoneTex->Set_Pixel(&m_MXData_CurAni[0], sizeof(KMatrix) * m_MXData_CurAni.size());
 
 	
 }
@@ -409,7 +409,7 @@ void Renderer_BonAni::Set_TexturePath(const TEX_TYPE& _Value, const wchar_t* _Pa
 /********************************** 지정 애니메이션*********************************/
 // 원래 리소스에서 하는게 맞는데 랜더러에서 하면 이렇게 좀 필터에서 바로 지정할 수 있다.
 // 그렇게 하자
-KPtr<Changer_Animation> Renderer_BonAni::Create_Animation()
+KPtr<Changer_Animation> Renderer_BonAni::Create_Animation(const bool& _Find /*= true*/)
 {
 	if (nullptr != CAni)
 	{
@@ -419,8 +419,29 @@ KPtr<Changer_Animation> Renderer_BonAni::Create_Animation()
 	std::wstring TStr = MCon->FileName();
 	TStr += L".KCA";
 
-	CAni = ResourceManager<Changer_Animation>::Find(TStr.c_str());
+	std::wstring LStr = PathManager::Find_ForderPath(L"KCA") + TStr;
 
+
+	if (true == _Find)
+	{
+		CAni = ResourceManager<Changer_Animation>::Find(LStr.c_str());
+		if (nullptr != CAni)
+		{
+			Set_Clip(0);
+			return CAni;
+		}
+	}
+	else
+	{
+		CAni = ResourceManager<Changer_Animation>::Load_NoneFind(LStr.c_str());
+		if (nullptr != CAni)
+		{
+			Set_Clip(0);
+			return CAni;
+		}
+	}
+
+	CAni = ResourceManager<Changer_Animation>::Load(LStr.c_str());
 	if (nullptr != CAni)
 	{
 		Set_Clip(0);
@@ -428,7 +449,6 @@ KPtr<Changer_Animation> Renderer_BonAni::Create_Animation()
 	}
 
 	CAni = ResourceManager<Changer_Animation>::Create(TStr.c_str());
-
 
 	// 기본 유닛 애니메이션7
 	Create_Clip(L"ALLAni", 0, 100000);

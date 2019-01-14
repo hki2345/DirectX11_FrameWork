@@ -13,9 +13,6 @@
     <ClInclude Include="Unit_SkillObj.h">
       <Filter>SC2\Force</Filter>
     </ClInclude>
-    <ClInclude Include="Unit_Marine.h">
-      <Filter>SC2\Unit\Terran</Filter>
-    </ClInclude>
     <ClInclude Include="Con_Class.h">
       <Filter>SC2\SC2_Core</Filter>
     </ClInclude>
@@ -45,9 +42,6 @@
     <ClCompile Include="Unit_SkillObj.cpp">
       <Filter>SC2\Force</Filter>
     </ClCompile>
-    <ClCompile Include="Unit_Marine.cpp">
-      <Filter>SC2\Unit\Terran</Filter>
-    </ClCompile>
     <ClCompile Include="Con_Class.cpp">
       <Filter>SC2\SC2_Core</Filter>
     </ClCompile>
@@ -69,6 +63,9 @@
     <ClCompile Include="Enemy_Act.cpp">
       <Filter>SC2\Controller</Filter>
     </ClCompile>
+    <ClCompile Include="Force_Unit_GameAct.cpp">
+      <Filter>SC2\Unit</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="SC2">
@@ -76,9 +73,6 @@
     </Filter>
     <Filter Include="SC2\Unit">
       <UniqueIdentifier>{c635a210-8df5-4254-99f4-f2540187b243}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="SC2\Unit\Terran">
-      <UniqueIdentifier>{07e89fa1-04b2-4dd5-8f31-c3d4d8bc314a}</UniqueIdentifier>
     </Filter>
     <Filter Include="SC2\Building">
       <UniqueIdentifier>{a6d02d37-26e1-4f14-bb05-66c83d44d72c}</UniqueIdentifier>
@@ -95,14 +89,20 @@
     <Filter Include="SC2\Container">
       <UniqueIdentifier>{6a7b9693-c9d3-4f30-9426-f8b275d65e4d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="SC2\Unit\Zerg">
-      <UniqueIdentifier>{a467ad83-aeed-4832-9fe0-f4699e5bd27f}</UniqueIdentifier>
-    </Filter>
     <Filter Include="SC2\Force">
       <UniqueIdentifier>{62e8d1f1-aa15-4a9c-b61a-6a88dc44cde3}</UniqueIdentifier>
     </Filter>
     <Filter Include="SC2\Controller">
       <UniqueIdentifier>{096e9e08-515a-421e-8317-8cc1236d31d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SC2\Unit\Player">
+      <UniqueIdentifier>{07e89fa1-04b2-4dd5-8f31-c3d4d8bc314a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SC2\Unit\NPC">
+      <UniqueIdentifier>{a467ad83-aeed-4832-9fe0-f4699e5bd27f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SC2\Unit\Enemy">
+      <UniqueIdentifier>{b2f418f7-c0c5-4d07-b2f4-9c4b0f37c23e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

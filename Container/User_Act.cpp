@@ -19,6 +19,10 @@ void Controll_User::Update_MIDLE()
 		m_MType = Controll_User::MT_MOVE;
 	}
 }
+void Controll_User::Udpate_DEATH()
+{
+	m_pUnit->Set_Animation(Force_Unit::ANI_TYPE::DEATH);
+}
 void Controll_User::Update_MOVE()
 {
 	m_pUnit->Set_Animation(Force_Unit::ANI_TYPE::WALK01);
@@ -62,9 +66,11 @@ void Controll_User::Update_MOVE()
 	}
 
 	KVector TVec = TT->pos_local();
-	TVec.y = m_pTer->Y_Terrain(TVec);
+	TVec.y = m_pUnit->terrain()->Y_Terrain(TVec);
 	TT->pos_local(TVec);
 }
+
+
 void Controll_User::Update_RUN()
 {
 	m_pUnit->Set_Animation(Force_Unit::ANI_TYPE::WALK01);
@@ -105,7 +111,7 @@ void Controll_User::Update_RUN()
 	}
 
 	KVector TVec = TT->pos_local();
-	TVec.y = m_pTer->Y_Terrain(TVec);
+	TVec.y = m_pUnit->terrain()->Y_Terrain(TVec);
 	TT->pos_local(TVec);
 
 	m_RenderRot.y = m_PlayRot.y + KPI;
@@ -115,13 +121,59 @@ void Controll_User::Update_RUN()
 
 void Controll_User::Update_AIDLE()
 {
+	if (Controll_User::AT_DEATH == m_AType || .0f > m_pUnit->hp())
+	{
+		m_AType = Controll_User::AT_DEATH;
+		return;
+	}
 
+	if (true == KEY_PRESS(L"LB"))
+	{
+		m_AType = Controll_User::AT_ATTACK;
+	}
+	if (true == KEY_DOWN(L"RB"))
+	{
+		m_AType = Controll_User::AT_BOMB;
+	}
+	if (true == KEY_DOWN(L"E"))
+	{
+		m_AType = Controll_User::AT_HEAL;
+	}
+	if (true == KEY_DOWN(L"F"))
+	{
+		m_AType = Controll_User::AT_STORY;
+	}
+	if (true == KEY_DOWN(L"Q"))
+	{
+		m_AType = Controll_User::AT_OPTI;
+	}
 }
 void Controll_User::Update_ATTACK()
 {
-	m_RenderRot.y = m_PlayRot.y + KPI;
+	if (true == KEY_UNPRESS(L"LB"))
+	{
+		m_AType = Controll_User::AT_IDLE;
+	}
+	m_pUnit->Set_Animation(Force_Unit::ANI_TYPE::ATTACK01);
+
+	KPtr<TransPosition> TT = one()->Trans();
+	KVector TVec = TT->pos_local();
+	TVec.y = m_pUnit->terrain()->Y_Terrain(TVec);
+	TT->pos_local(TVec);
+
+	if (nullptr == m_pFocusUnit)
+	{
+		return;
+	}
+
+	m_pFocusUnit->Damage(4.0f);
 }
 void Controll_User::Update_BOMB()
+{
+	m_RenderRot.y = m_PlayRot.y + KPI;
+
+}
+void Controll_User::Update_STORY()
 {
 	m_RenderRot.y = m_PlayRot.y + KPI;
 }
@@ -132,4 +184,9 @@ void Controll_User::Update_HEAL()
 void Controll_User::Update_OPTI()
 {
 	m_RenderRot.y = m_PlayRot.y + KPI;
+}
+
+void Controll_User::Update_DEATH()
+{
+	m_pUnit->Set_Animation(Force_Unit::ANI_TYPE::DEATH);
 }

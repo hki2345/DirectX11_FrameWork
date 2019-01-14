@@ -1,12 +1,14 @@
 #pragma once
 #include "SC2Manager.h"
+#include "SC2_Force.h"
 
 
 class Con_Class
 {
 private:
 	static KPtr<SC2Manager> m_S2Manager;
-
+	static KPtr<SC2_Force>	m_fPlayer;
+	static KPtr<SC2_Force>	m_fEnemy;
 
 public:
 	static void s2_manager(KPtr<SC2Manager> _Manager)
@@ -25,6 +27,28 @@ public:
 	}
 
 
+
+	static void force_player(KPtr<SC2_Force> _Other)
+	{
+		m_fPlayer = _Other;
+	}
+
+	static KPtr<SC2_Force> force_player()
+	{
+		return m_fPlayer;
+	}
+
+
+
+	static void force_enemy(KPtr<SC2_Force> _Other)
+	{
+		m_fEnemy = _Other;
+	}
+
+	static KPtr<SC2_Force> force_enemy()
+	{
+		return m_fEnemy;
+	}
 
 
 public:

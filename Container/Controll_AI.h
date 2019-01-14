@@ -25,10 +25,11 @@ public:
 	enum ACT_TYPE
 	{
 		AT_IDLE = 0,
-		AT_ATTACK,
-		AT_BOMB,
-		AT_HEAL,
-		AT_OPTI
+		AT_ATTACK01,
+		AT_ATTACK02,
+		AT_ATTACK03,
+		
+		AT_DEATH,
 	};
 
 private:
@@ -39,7 +40,6 @@ private:
 	std::list<KPtr<Renderer_BonAni>>::iterator m_ERI;
 
 	KPtr<Force_Unit>		m_pUnit;
-	KPtr<Renderer_Terrain>	m_pTer;
 
 	MOVE_TYPE	m_MType;
 	ACT_TYPE	m_AType;
@@ -52,7 +52,6 @@ private:
 	void Update_RenCol();
 	void Update_Move();
 	void Update_Act();
-	void Update_Mouse();
 
 
 	void Update_MIDLE();
@@ -60,10 +59,10 @@ private:
 	void Update_RUN();
 
 	void Update_AIDLE();
-	void Update_ATTACK();
-	void Update_BOMB();
-	void Update_HEAL();
-	void Update_OPTI();
+	void Update_ATTACK01();
+	void Update_ATTACK02();
+	void Update_ATTACK03();
+	void Update_DEATH();
 
 
 	void Update_Terrain();
@@ -87,7 +86,7 @@ public:
 	void Add_Render(KPtr<Renderer_BonAni> _Other);
 	void Del_Render(KPtr<Renderer_BonAni> _Other);
 
-	bool Init(KPtr<Renderer_Terrain> _Terrain, KPtr<Force_Unit>	_Unit);
+	bool Init(KPtr<Force_Unit>	_Unit);
 	void Update();
 };
 

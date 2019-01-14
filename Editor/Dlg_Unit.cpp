@@ -57,11 +57,11 @@ void Dlg_Unit::Init_Dlg()
 	m_CurOne->Trans()->pos_local(KVector(.0f));
 	m_CurOne->Trans()->scale_local(KVector(1.f, 1.f, 1.f));
 
-	m_CurUnit = m_CurOne->Add_Component<Force_Unit>(L"TT");
+	m_CurUnit = m_CurOne->Add_Component<Force_Unit>(L"TT", m_pTer);
 	m_CurUnit->Reset_Renderer();
 	m_CurUnit->Insert_Collider();
 	m_CurUnit->scale_unit({ 1.0f, 1.0f, 1.0f });
-	m_CurOne->Add_Component<Controll_User>(m_pTer, m_CurUnit, TabScene->Camera()->Get_Component<SC2_Camera>());
+	m_CurOne->Add_Component<Controll_User>(m_CurUnit, TabScene->Camera()->Get_Component<SC2_Camera>());
 
 
 	CString TmpStr;
@@ -72,6 +72,11 @@ void Dlg_Unit::Init_Dlg()
 	InfoValue[3].SetWindowTextW(L"1.0");
 	InfoValue[4].SetWindowTextW(L"1.0");
 	InfoValue[5].SetWindowTextW(L"UNITNAME");
+
+
+	GameInfoValue[0].SetWindowTextW(L".0");
+	GameInfoValue[1].SetWindowTextW(L".0");
+	GameInfoValue[2].SetWindowTextW(L"1.0");
 
 	WeaponType[0].SetCheck(true);
 	WeaponType[1].SetCheck(false);
@@ -193,14 +198,21 @@ void Dlg_Unit::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_UNITSELECTLIST, m_SelectList);
 
 
-	int StartId = IDC_ULEDIT;
-	
 	// 스피드 * 2, 이름, 스케일
+	int StartId = IDC_ULEDIT;	
 	for (size_t X = 0;  X < 6; ++X)
 	{
 		DDX_Control(pDX, StartId, InfoValue[X]);
 		++StartId;
 	}
+	////////////// static
+	StartId = IDC_ULEDIT;
+	for (size_t X = 0; X < 5; ++X)
+	{
+		DDX_Text(pDX, StartId, m_fInfoValue[X]);
+		++StartId;
+	}
+
 	
 	
 	//////////////////////////////////////////
@@ -222,16 +234,6 @@ void Dlg_Unit::DoDataExchange(CDataExchange* pDX)
 		++StartId;
 	}
 
-	////////////// static
-	StartId = IDC_ULEDIT;
-
-	// 스피드 * 2
-	// 스케일
-	for (size_t X = 0; X < 5; ++X)
-	{
-		DDX_Text(pDX, StartId, m_fInfoValue[X]);
-		++StartId;
-	}
 
 	StartId = IDC_UNITLINEAR;
 	for (size_t i = 0; i < 5; i++)
@@ -261,6 +263,51 @@ void Dlg_Unit::DoDataExchange(CDataExchange* pDX)
 			m_DropStatic[i].SetWindowTextW(L"Z");
 			break;
 		default:
+			break;
+		}
+
+
+		++StartId;
+	}
+
+
+
+	// 체력, 공속, 점수
+	StartId = IDC_UNITINFOHP;
+	for (size_t X = 0; X < 3; ++X)
+	{
+		DDX_Control(pDX, StartId, GameInfoValue[X]);
+		++StartId;
+	}
+
+	// 체력, 공속, 점수
+	StartId = IDC_UNITINFOHP;
+	for (size_t X = 0; X < 3; ++X)
+	{
+		DDX_Text(pDX, StartId, m_fGInfoValue[X]);
+		++StartId;
+	}
+
+	StartId = IDC_UHP;
+	for (size_t i = 0; i < 3; i++)
+	{
+		m_GDropStatic[i].pValue = &m_fGInfoValue[i];
+		m_GDropStatic[i].Parent = this;
+		m_GDropStatic[i].ValueChangeFunc(this, &Dlg_Unit::Update_GValueFunc);
+		DDX_Control(pDX, StartId, m_GDropStatic[i]);
+
+
+
+		switch (i)
+		{
+		case 0:
+			m_GDropStatic[i].SetWindowTextW(L"Hp");
+			break;
+		case 1:
+			m_GDropStatic[i].SetWindowTextW(L"Interval");
+			break;
+		case 2:
+			m_GDropStatic[i].SetWindowTextW(L"Score");
 			break;
 		}
 
@@ -402,6 +449,7 @@ BEGIN_MESSAGE_MAP(Dlg_Unit, TabDlg)
 
 
 	ON_CONTROL_RANGE(EN_CHANGE, IDC_ULEDIT, IDC_UNITNAMEINFO, &Dlg_Unit::UnitInfoSelchange)
+	ON_CONTROL_RANGE(EN_CHANGE, IDC_UNITINFOHP, IDC_UNITINFOINTERVAL, &Dlg_Unit::UnitGameInfoSelchange)
 	ON_CONTROL_RANGE(BN_CLICKED, IDC_WNONEBTN, IDC_WSHOTBTN, &Dlg_Unit::UnitWeaponSelchange)
 	ON_CONTROL_RANGE(BN_CLICKED, IDC_UNITNONEBTN, IDC_UNITUSERBTN, &Dlg_Unit::UnitPlayableBtnchange)
 	ON_BN_CLICKED(IDC_RENRESETBTN, &Dlg_Unit::OnBnClickedRenresetbtn)
@@ -471,6 +519,14 @@ void Dlg_Unit::OnBnClickedUnitloadbtn()
 	InfoValue[4].SetWindowTextW(TmpStr.c_str());
 
 
+	TmpStr = std::to_wstring(m_CurUnit->hp());
+	GameInfoValue[0].SetWindowTextW(TmpStr.c_str());
+
+	TmpStr = std::to_wstring(m_CurUnit->interval());
+	GameInfoValue[1].SetWindowTextW(TmpStr.c_str());
+
+	TmpStr = std::to_wstring(m_CurUnit->score());
+	GameInfoValue[2].SetWindowTextW(TmpStr.c_str());
 
 
 	WeaponType[0].SetCheck(false);
@@ -554,15 +610,35 @@ void Dlg_Unit::OnBnClickedRenrestartbtn()
 }
 
 
+void Dlg_Unit::UnitGameInfoSelchange(UINT _Id)
+{
+	UINT TempId = _Id - IDC_UNITINFOHP;
+	CString TempStr;
+	GameInfoValue[TempId].GetWindowTextW(TempStr);
+	float Tmpf = (float)_wtof(TempStr.GetBuffer());
+
+	// 체력
+	if (0 == TempId)
+	{
+		m_CurUnit->hp(Tmpf);
+	}
+	// 인터벌
+	else if (1 == TempId)
+	{
+		m_CurUnit->interval(Tmpf);
+	}
+	// 점수 - 업적점수
+	else if (2 == TempId)
+	{
+		m_CurUnit->score(Tmpf);
+	}
+}
+
 void Dlg_Unit::UnitInfoSelchange(UINT _Id)
 {
 	UINT TempId = _Id - IDC_ULEDIT;
 	CString TempStr;
-	Force_Unit::Unit_Info NI;
-
-
 	InfoValue[TempId].GetWindowTextW(TempStr);
-
 	float Tmpf = (float)_wtof(TempStr.GetBuffer());
 
 	// 선형 속도
@@ -657,6 +733,15 @@ void Dlg_Unit::Update_ValueFunc()
 	m_CurUnit->rotate_speed(m_fInfoValue[1]);
 	m_CurUnit->scale_unit({ m_fInfoValue[2], m_fInfoValue[3], m_fInfoValue[4] });
 }
+
+
+void Dlg_Unit::Update_GValueFunc()
+{
+	m_CurUnit->hp(m_fGInfoValue[0]);
+	m_CurUnit->interval(m_fGInfoValue[1]);
+	m_CurUnit->score(m_fGInfoValue[2]);
+}
+
 
 void Dlg_Unit::OnBnClickedRenresetbtn()
 {

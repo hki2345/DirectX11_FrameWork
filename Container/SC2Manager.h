@@ -12,6 +12,7 @@
 class SC2_Force;
 class SC2_Camera;
 class Force_Unit;
+class Renderer_Terrain;
 class SC2Manager : public Begin_Updater
 {
 private:
@@ -54,7 +55,7 @@ public:
 	KPtr<SC2_Force> Find_Force(const KColor& _Color);
 
 	void Save(const wchar_t* _Name);
-	void Load(const wchar_t* _Name);
+	void Load(const wchar_t* _Name, KPtr<Renderer_Terrain> _Ter);
 	void Clear_Force();
 
 

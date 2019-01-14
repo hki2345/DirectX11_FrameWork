@@ -8,6 +8,7 @@
 #include <WriteStream.h>
 
 #include <ResourceManager.h>
+#include <Renderer_Terrain.h>
 #include <Renderer_BonAni.h>
 #include <KBox_Col.h>
 
@@ -20,6 +21,10 @@ Force_Unit::Force_Unit()
 	m_Info.RSpeed = .0f;
 	m_Info.UScale = KVector::Zero;
 	m_Info.PBType = PLAYABLE_TYPE::PBT_NONE;
+
+	m_Info.HP = 10;
+	m_Info.Interval = 1.0f;
+	m_Info.Score = 50.0f;
 }
 
 
@@ -29,9 +34,24 @@ Force_Unit::~Force_Unit()
 
 
 
-bool Force_Unit::Init(const wchar_t* _Name)
+bool Force_Unit::Init(const wchar_t* _Name, KPtr<Renderer_Terrain> _Ter, const bool& _Find)
 {
-	Load(_Name);
+	if (nullptr == _Ter)
+	{
+		BBY;
+	}
+
+	if (true == _Find)
+	{
+		Load(_Name);
+	}
+	else
+	{
+		Load_NoFind(_Name);
+	}
+
+	m_pTer = _Ter;
+
 
 	return true;
 }
@@ -74,6 +94,9 @@ bool Force_Unit::Load(const wchar_t* _Name)
 	RS.Read(m_Info.RSpeed);
 	RS.Read(m_Info.UScale);
 	RS.Read(m_Info.PBType);
+	RS.Read(m_Info.HP);
+	RS.Read(m_Info.Interval);
+	RS.Read(m_Info.Score);
 
 	int Cnt = 0;
 	RS.Read(Cnt);
@@ -111,6 +134,65 @@ bool Force_Unit::Load(const wchar_t* _Name)
 	return true;
 }
 
+
+// 리소스 메니저에서 이미 All_LOad를 하였다 가정한다.
+bool Force_Unit::Load_NoFind(const wchar_t* _Name)
+{
+	Reset_Renderer();
+	name(_Name);
+	std::wstring Tmp = _Name;
+	Tmp += L".KUD";
+
+	Tmp = PathManager::Find_ForderPath(L"KUD") + Tmp;
+
+	ReadStream RS = ReadStream(Tmp.c_str());
+
+
+	RS.Read(m_Info.WType);
+	RS.Read(m_Info.LSpeed);
+	RS.Read(m_Info.RSpeed);
+	RS.Read(m_Info.UScale);
+	RS.Read(m_Info.PBType);
+	RS.Read(m_Info.HP);
+	RS.Read(m_Info.Interval);
+	RS.Read(m_Info.Score);
+
+	int Cnt = 0;
+	RS.Read(Cnt);
+	for (size_t i = 0; i < Cnt; i++)
+	{
+		wchar_t Tmp[NAMENUM];
+		RS.Read(Tmp, sizeof(wchar_t) * NAMENUM);
+		m_StrList.push_back(Tmp);
+	}
+
+
+
+	m_SCI = m_StrList.begin();
+	m_ECI = m_StrList.end();
+
+	for (; m_SCI != m_ECI; ++m_SCI)
+	{
+		Tmp.clear();
+		Tmp += (*m_SCI) + L".KM3";
+
+		if (nullptr == one())
+		{
+			KPtr<TheOne> TOne = Core_Class::MainScene()->Create_One(L"TKM3");
+			TOne->Set_Component(this);
+		}
+
+
+		KPtr<Renderer_BonAni> TRen = one()->Add_Component<Renderer_BonAni>();
+		TRen->Set_Fbx(Tmp.c_str());
+		TRen->Create_Animation(false);
+		m_RList.push_back(TRen);
+	}
+
+
+	return true;
+}
+
 bool Force_Unit::Save()
 {
 	std::wstring Tmp = ws_name();
@@ -124,6 +206,9 @@ bool Force_Unit::Save()
 	WS.Write(m_Info.RSpeed);
 	WS.Write(m_Info.UScale);
 	WS.Write(m_Info.PBType);
+	WS.Write(m_Info.HP);
+	WS.Write(m_Info.Interval);
+	WS.Write(m_Info.Score);
 
 	int Cnt = (int)m_StrList.size();
 	WS.Write(Cnt);

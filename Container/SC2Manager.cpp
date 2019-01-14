@@ -12,6 +12,7 @@
 
 #include <Changer_Animation.h>
 #include <Renderer_BonAni.h>
+#include <Renderer_Terrain.h>
 
 
 SC2Manager::SC2Manager() :
@@ -224,7 +225,7 @@ void SC2Manager::Save(const wchar_t* _Name)
 }
 
 
-void SC2Manager::Load(const wchar_t* _Name)
+void SC2Manager::Load(const wchar_t* _Name, KPtr<Renderer_Terrain> _Ter)
 {
 	Clear_Force();
 
@@ -253,7 +254,7 @@ void SC2Manager::Load(const wchar_t* _Name)
 		RS.Read(&TCol, sizeof(KVector));
 
 		KPtr<SC2_Force> TForce = Create_Force(TT, TCol);
-		TForce->Load(TT);
+		TForce->Load(TT, _Ter);
 		m_FMap.insert(std::map<std::wstring, KPtr<SC2_Camera>>::value_type(TT, TForce));
 	}
 }

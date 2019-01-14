@@ -5,7 +5,11 @@
 #include <WriteStream.h>
 #include <ReadStream.h>
 #include <Core_Class.h>
+#include <Renderer_Terrain.h>
 
+
+#include "Controll_AI.h"
+#include "Controll_User.h"
 
 
 SC2_Force::SC2_Force(const wchar_t* _Name, const KColor& _Color)
@@ -21,14 +25,14 @@ SC2_Force::~SC2_Force()
 } 
 
 
-KPtr<Force_Unit> SC2_Force::Create_Unit(const wchar_t* _Name)
+KPtr<Force_Unit> SC2_Force::Create_Unit(const wchar_t* _Name, KPtr<Renderer_Terrain> _Ter)
 {
 	KPtr<State> TabScene = Core_Class::MainScene();
 	KPtr<TheOne> TOne = TabScene->Create_One();
 
 	TOne->Trans()->pos_local(KVector::Zero);
 	TOne->Trans()->scale_local(KVector(1.f, 1.f, 1.f));
-	KPtr<Force_Unit> TT = TOne->Add_Component<Force_Unit>(_Name);
+	KPtr<Force_Unit> TT = TOne->Add_Component<Force_Unit>(_Name, _Ter, false);
 	TT->force(this);
 	TT->Insert_Collider();
 
@@ -139,7 +143,7 @@ void SC2_Force::Save()
 }
 
 
-void SC2_Force::Load(const wchar_t* _Name)
+void SC2_Force::Load(const wchar_t* _Name, KPtr<Renderer_Terrain> _Ter)
 {
 	Clear_Unit();
 
@@ -166,7 +170,7 @@ void SC2_Force::Load(const wchar_t* _Name)
 		RS.Read(Tmp, sizeof(wchar_t) * NAMENUM);
 		RS.Read(&TT, sizeof(KVector));
 
-		KPtr<Force_Unit> TU = Create_Unit(Tmp);
+		KPtr<Force_Unit> TU = Create_Unit(Tmp, _Ter);
 		TU->one()->Trans()->pos_local(TT);
 	}
 }
@@ -180,6 +184,25 @@ void SC2_Force::playable_type(const PLAYABLE_TYPE& _Value)
 	for (; m_SUI != m_EUI; ++m_SUI)
 	{
 		(*m_SUI)->playable_type(_Value);
+
+		switch (_Value)
+		{
+		case PBT_NONE:
+		{	
+			(*m_SUI)->Delete_Component<Controll_AI>();
+			(*m_SUI)->Delete_Component<Controll_User>();
+			break;
+		}
+		case PBT_ENEMY:
+		{
+			(*m_SUI)->Add_Component<Controll_AI>((*m_SUI));
+			break;
+		}
+		case PBT_USER:
+			break;
+		default:
+			break;
+		}
 	}
 }
 PLAYABLE_TYPE& SC2_Force::playable_type()

@@ -1,10 +1,15 @@
 #include "Controll_User.h"
 #include "Force_Unit.h"
 
+#include <Core_Class.h>
 #include <Renderer_BonAni.h>
 #include <Renderer_Terrain.h>
 #include <InputManager.h>
 #include <KWindow.h>
+
+
+#include <KBox_Col.h>
+#include <KRay3D.h>
 
 #include "SC2_Camera.h"
 
@@ -44,7 +49,7 @@ void Controll_User::Del_Render(KPtr<Renderer_BonAni> _Other)
 	}
 }
 
-bool Controll_User::Init(KPtr<Renderer_Terrain> _Terrain, KPtr<Force_Unit> _Unit, KPtr<SC2_Camera> _Cam)
+bool Controll_User::Init(KPtr<Force_Unit> _Unit, KPtr<SC2_Camera> _Cam)
 {
 	if (false == IS_KEY(L"MFOR"))
 	{
@@ -87,13 +92,12 @@ bool Controll_User::Init(KPtr<Renderer_Terrain> _Terrain, KPtr<Force_Unit> _Unit
 	}
 
 
-	if (nullptr == _Terrain)
+	if (nullptr == _Unit->terrain())
 	{
 		BBY;
 	}
 
 
-	m_pTer = _Terrain;
 	m_pUnit = _Unit;
 	m_pCam = _Cam;
 	m_pCam->Set_User(this);
@@ -104,6 +108,16 @@ bool Controll_User::Init(KPtr<Renderer_Terrain> _Terrain, KPtr<Force_Unit> _Unit
 
 	m_pUnit->playable_type(PLAYABLE_TYPE::PBT_USER);
 	m_MirrorY = false;
+
+
+
+	KPtr<KRay3D> RayCol = state()->Camera()->Get_Component<KRay3D>();
+
+	if (nullptr == RayCol)
+	{
+		return true;
+	}
+	RayCol->StayFunc(this, &Controll_User::Update_StayCol);
 
 	return true;
 }
@@ -117,12 +131,33 @@ void Controll_User::Update()
 		return;
 	}
 
+	
 	Update_Move();
 	Update_Act();
+
+
 	Update_Terrain();
 	Update_Mouse();
 	Update_RenCol();
 }
+
+void Controll_User::Update_StayCol(KCollision* _Left, KCollision* _Right)
+{
+	KPtr<KBox_Col> Tmp = _Left->Get_Component<KBox_Col>();
+
+	if (nullptr == Tmp)
+	{
+		Tmp = _Right->Get_Component<KBox_Col>();
+		if (nullptr == Tmp)
+		{
+			m_pFocusUnit = nullptr;
+			return;
+		}
+	}
+
+	m_pFocusUnit = Tmp->Get_Component<Force_Unit>();
+}
+
 
 void Controll_User::Update_RenCol()
 {
@@ -140,6 +175,11 @@ void Controll_User::Update_RenCol()
 
 void Controll_User::Update_Move()
 {
+	if (Controll_User::AT_DEATH == m_AType)
+	{
+		return;
+	}
+
 	switch (m_MType)
 	{
 	case Controll_User::MT_IDLE:
@@ -173,6 +213,10 @@ void Controll_User::Update_Act()
 		KLOG(L"Unit Act: ATTACK");
 		break;
 	case Controll_User::AT_BOMB:
+		Update_BOMB();
+		KLOG(L"Unit Act: BOMB");
+		break;
+	case Controll_User::AT_STORY:
 		Update_BOMB();
 		KLOG(L"Unit Act: BOMB");
 		break;
@@ -228,21 +272,21 @@ void Controll_User::Update_Terrain()
 	KVector4 TT = one()->Trans()->pos_local();
 
 
-	if (m_pTer->TER_Left() > TT.x)
+	if (m_pUnit->terrain()->TER_Left() > TT.x)
 	{
-		TT.x = m_pTer->TER_Left();
+		TT.x = m_pUnit->terrain()->TER_Left();
 	}
-	if (m_pTer->TER_Right() < TT.x)
+	if (m_pUnit->terrain()->TER_Right() < TT.x)
 	{
-		TT.x = m_pTer->TER_Right();
+		TT.x = m_pUnit->terrain()->TER_Right();
 	}
-	if (m_pTer->TER_Down() > TT.z)
+	if (m_pUnit->terrain()->TER_Down() > TT.z)
 	{
-		TT.z = m_pTer->TER_Down();
+		TT.z = m_pUnit->terrain()->TER_Down();
 	}
-	if (m_pTer->TER_Up() < TT.z)
+	if (m_pUnit->terrain()->TER_Up() < TT.z)
 	{
-		TT.z = m_pTer->TER_Up();
+		TT.z = m_pUnit->terrain()->TER_Up();
 	}
 	one()->Trans()->pos_local(TT);
 }

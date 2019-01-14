@@ -6,6 +6,7 @@ class Force_Unit;
 class SC2_Camera;
 class Renderer_Terrain;
 class Renderer_BonAni;
+class KCollision;
 class Controll_User : public Component
 {
 public:
@@ -26,8 +27,11 @@ public:
 		AT_IDLE = 0,
 		AT_ATTACK,
 		AT_BOMB,
+		AT_STORY,
 		AT_HEAL,
-		AT_OPTI
+		AT_OPTI,
+
+		AT_DEATH,
 	};
 
 private:
@@ -39,7 +43,6 @@ private:
 
 	KPtr<Force_Unit>		m_pUnit;
 	KPtr<SC2_Camera>		m_pCam;
-	KPtr<Renderer_Terrain>	m_pTer;
 
 	MOVE_TYPE	m_MType;
 	ACT_TYPE	m_AType;
@@ -48,7 +51,11 @@ private:
 	KVector		m_PlayPos;
 	KVector		m_RenderRot;
 
+	KPtr<Force_Unit>		m_pFocusUnit;
+
 private:
+	void Update_StayCol(KCollision* _Left, KCollision* _Right);
+
 	void Update_RenCol();
 	void Update_Move();
 	void Update_Act();
@@ -58,13 +65,16 @@ private:
 	void Update_MIDLE();
 	void Update_MOVE();
 	void Update_RUN();
+	void Udpate_DEATH();
 
 	void Update_AIDLE();
 	void Update_ATTACK();
 	void Update_BOMB();
+	void Update_STORY();
 	void Update_HEAL();
 	void Update_OPTI();
 
+	void Update_DEATH();
 
 	void Update_Terrain();
 
@@ -87,7 +97,7 @@ public:
 	void Add_Render(KPtr<Renderer_BonAni> _Other);
 	void Del_Render(KPtr<Renderer_BonAni> _Other);
 
-	bool Init(KPtr<Renderer_Terrain> _Terrain, KPtr<Force_Unit>	_Unit, KPtr<SC2_Camera> _Cam);
+	bool Init(KPtr<Force_Unit>	_Unit, KPtr<SC2_Camera> _Cam);
 	void Update();
 };
 

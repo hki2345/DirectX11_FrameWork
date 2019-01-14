@@ -159,7 +159,6 @@
     <ClInclude Include="Force_Unit.h" />
     <ClInclude Include="SC2Manager.h" />
     <ClInclude Include="SC2_Force.h" />
-    <ClInclude Include="Unit_Marine.h" />
     <ClInclude Include="Unit_SkillObj.h" />
   </ItemGroup>
   <ItemGroup>
@@ -172,7 +171,7 @@
     <ClCompile Include="Force_Unit.cpp" />
     <ClCompile Include="SC2Manager.cpp" />
     <ClCompile Include="SC2_Force.cpp" />
-    <ClCompile Include="Unit_Marine.cpp" />
+    <ClCompile Include="Force_Unit_GameAct.cpp" />
     <ClCompile Include="Unit_SkillObj.cpp" />
     <ClCompile Include="User_Act.cpp" />
   </ItemGroup>

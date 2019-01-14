@@ -28,6 +28,7 @@ protected:
 	void Update_SelectList();
 
 	void Update_ValueFunc();
+	void Update_GValueFunc();
 
 
 	virtual void DoDataExchange(CDataExchange* pDX);    // DDX/DDV 지원입니다.
@@ -36,6 +37,12 @@ protected:
 public:
 	float		m_fInfoValue[5];
 	DropEditor	m_DropStatic[5];
+	CEdit		InfoValue[6];
+
+	float		m_fGInfoValue[3];
+	DropEditor	m_GDropStatic[3];
+	CEdit		GameInfoValue[3];
+
 
 	CListBox m_KM3List;
 	CListBox m_SelectList;
@@ -53,7 +60,7 @@ public:
 	std::list<KPtr<Renderer_BonAni>>::iterator m_ERI;
 
 
-	CEdit InfoValue[6];
+
 	CButton WeaponType[3];
 	CButton PlayType[3];
 
@@ -70,6 +77,7 @@ public:
 	afx_msg void OnLbnSelchangeUnitkm3list();
 	afx_msg void OnBnClickedRenrestartbtn();
 	afx_msg void UnitInfoSelchange(UINT _Id);
+	afx_msg void UnitGameInfoSelchange(UINT _Id);
 	afx_msg void UnitWeaponSelchange(UINT _Id);
 	afx_msg void UnitPlayableBtnchange(UINT _Id);
 	afx_msg void OnBnClickedRenresetbtn();

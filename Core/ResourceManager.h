@@ -97,7 +97,46 @@ public:
 	static size_t All_Count() { return m_RSMap.size();	}
 
 
+	static size_t Name_Count(const std::wstring _Name)
+	{
+		int Cnt = 0;
+
+		std::unordered_map<std::wstring, KPtr<Res>>::iterator S = m_RSMap.begin();
+		std::unordered_map<std::wstring, KPtr<Res>>::iterator E = m_RSMap.end();
+
+		for (; S != E; ++S)
+		{
+			if (S->second->name() == _Name)
+			{
+				++Cnt;
+			}
+		}
+
+		return Cnt;
+	}
+
 public:
+	static KPtr<Res> Find(KPtr<Res> _Ptr)
+	{
+		if (0 >= m_RSMap.size())
+		{
+			return nullptr;
+		}
+
+		std::unordered_map<std::wstring, KPtr<Res>>::iterator S = m_RSMap.begin();
+		std::unordered_map<std::wstring, KPtr<Res>>::iterator E = m_RSMap.end();
+
+		for (; S != E; ++S)
+		{
+			if (_Ptr == S->second)
+			{
+				return S->second;
+			}
+		}
+
+		return nullptr;
+	}
+
 	static KPtr<Res> Find(const wchar_t* _Name)
 	{
 		if (0 >= m_RSMap.size())
@@ -148,7 +187,7 @@ public:
 		{
 			if (_Ptr == S->second)
 			{
-				m_RSMap.erase(S->first);
+				m_RSMap.erase(S);
 				break;
 			}
 		}
@@ -311,6 +350,26 @@ public:
 #pragma endregion
 
 #pragma region LOAD
+	static KPtr<Res> Load_NoneFind(const wchar_t* _Path)
+	{
+		Res* NewRes = new Res();
+		NewRes->Split_Path(_Path);
+		NewRes->name(NewRes->FileNameExt());
+
+		if (false == NewRes->Load())
+		{
+			delete NewRes;
+			return nullptr;
+		}
+
+
+		std::wstring Tmp = NewRes->name();
+		Tmp += PathManager::Convert_Int2Str((int)ResourceManager<Res>::Name_Count(Tmp));
+		m_RSMap.insert(std::unordered_map<std::wstring, KPtr<Res>>::value_type(Tmp, NewRes));
+
+		return NewRes;
+	}
+
 	static KPtr<Res> Load(const wchar_t* _Path)
 	{
 		Res* NewRes = new Res();

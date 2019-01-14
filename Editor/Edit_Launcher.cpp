@@ -58,6 +58,8 @@ void Edit_Launcher::Build()
 	InputManager::Create_Command(L"Left", 'A');
 	InputManager::Create_Command(L"Down", 'S');
 	InputManager::Create_Command(L"Right", 'D');
+	InputManager::Create_Command(L"E", 'E');
+	InputManager::Create_Command(L"F", 'F');
 	InputManager::Create_Command(L"Q", 'Q');
 	InputManager::Create_Command(L"MUNLOCK", VK_MENU);
 	InputManager::Create_Command(L"DEBUG", VK_LSHIFT, 'B');

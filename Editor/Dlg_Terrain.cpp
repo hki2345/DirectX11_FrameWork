@@ -288,21 +288,14 @@ void Dlg_Terrain::Update_Force()
 	m_UComVec.clear();
 	
 
-	std::map<std::wstring, KPtr<SC2_Force>>* Tmp = Con_Class::s2_manager()->force_map();
+	
+	std::list<KPtr<Force_Unit>>* TT = m_CurForce->unit_list();
+	std::list<KPtr<Force_Unit>>::iterator US = TT->begin();
+	std::list<KPtr<Force_Unit>>::iterator YE = TT->end();
 
-	std::map<std::wstring, KPtr<SC2_Force>>::iterator S = Tmp->begin();
-	std::map<std::wstring, KPtr<SC2_Force>>::iterator E = Tmp->end();
-
-	for (; S != E; ++S)
+	for (; US != YE; ++US)
 	{
-		std::list<KPtr<Force_Unit>>* TT = S->second->unit_list();
-		std::list<KPtr<Force_Unit>>::iterator S = TT->begin();
-		std::list<KPtr<Force_Unit>>::iterator E = TT->end();
-
-		for (; S != E; ++S)
-		{
-			m_UComVec.push_back((*S));
-		}
+		m_UComVec.push_back((*US));
 	}
 }
 
@@ -312,7 +305,7 @@ void Dlg_Terrain::Update_UnitList()
 
 	for (size_t i = 0; i < m_UComVec.size(); i++)
 	{
-		if (true == m_UComVec[i]->one()->Is_Active() && m_UComVec[i]->force() == m_CurForce)
+		if (true == m_UComVec[i]->one()->Is_Active())
 		{
 			UBoxList.AddString(m_UComVec[i]->name());
 		}
@@ -338,7 +331,7 @@ void Dlg_Terrain::Update_Dlg()
 	Update_Terrain();
 	Update_Grab();
 	Update_SelectInfo();
-	Update_Col();
+	Update_Color();
 }
 
 void Dlg_Terrain::Update_Terrain()
@@ -414,7 +407,7 @@ void Dlg_Terrain::Udpate_Delete()
 	}
 }
 
-void Dlg_Terrain::Update_Col()
+void Dlg_Terrain::Update_Color()
 {
 	for (size_t i = 0; i < m_UComVec.size(); i++)
 	{
@@ -476,7 +469,7 @@ KPtr<Force_Unit> Dlg_Terrain::Create_Unit()
 		return nullptr;
 	}
 
-	KPtr<Force_Unit> TOne = m_CurForce->Create_Unit(m_GrabUnit->name());
+	KPtr<Force_Unit> TOne = m_CurForce->Create_Unit(m_GrabUnit->name(), m_pTer);
 	TOne->one()->Trans()->pos_local(m_GrabUnit->one()->Trans()->pos_local());
 
 	return TOne;
@@ -494,7 +487,7 @@ void Dlg_Terrain::Create_Grab(const wchar_t* _Name)
 
 	TOne->Trans()->pos_local(KVector(.0f));
 	TOne->Trans()->scale_local(KVector(1.f, 1.f, 1.f));
-	m_GrabUnit = TOne->Add_Component<Force_Unit>(_Name);
+	m_GrabUnit = TOne->Add_Component<Force_Unit>(_Name, m_pTer);
 
 	m_bGrab = true;
 }
@@ -590,7 +583,7 @@ void Dlg_Terrain::OnBnClickedStateload()
 		CString pathName = dlg.GetFileTitle();
 
 
-		Con_Class::s2_manager()->Load(pathName.GetBuffer());
+		Con_Class::s2_manager()->Load(pathName.GetBuffer(), m_pTer);
 		MessageBox(pathName + L"\n불러오기를 완료했습니다.");
 	}
 	else
@@ -778,10 +771,10 @@ void Dlg_Terrain::OnBnClickedTersetplay()
 	KPtr<Controll_User> Cont = m_CurPlayer->Get_Component<Controll_User>();
 	if (nullptr == Cont)
 	{
-		Cont = m_CurPlayer->Add_Component<Controll_User>(m_pTer, m_CurPlayer, m_pCam);
+		Cont = m_CurPlayer->Add_Component<Controll_User>(m_CurPlayer, m_pCam);
 		Cont->Set_Render();
 	}
-
+	
 	TabScene->Camera()->Get_Component<SC2_Camera>()->Set_User(Cont);
 
 

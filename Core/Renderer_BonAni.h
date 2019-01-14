@@ -119,7 +119,7 @@ public:
 
 	// 랜더러에서 시키면 자동으로 여과되서 들어간다.
 	// 물론 직접 때려박을 수도 있다.
-	KPtr<Changer_Animation> Create_Animation();
+	KPtr<Changer_Animation> Create_Animation(const bool& _Find = true);
 
 
 	KPtr<Changer_Animation::Ani_Clip> Create_Clip(const wchar_t* _Name, const int& _Start, const int& _End);

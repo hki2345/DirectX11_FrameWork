@@ -104,6 +104,9 @@
 #define IDC_UNITENEMYBTN                1086
 #define IDC_STATECLEAR                  1087
 #define IDC_UNITUSERBTN                 1087
+#define IDC_UNITINFOHP                  1088
+#define IDC_UNITINFOINTERVAL            1089
+#define IDC_UNITINFOSCORE               1090
 #define IDC_UNITPOSXEDIT                1092
 #define IDC_UNITPOSYEDIT                1093
 #define IDC_UNITPOSZEDIT                1094
@@ -129,6 +132,9 @@
 #define IDC_UNITSTATICPOSY              1112
 #define IDC_USCALEZ                     1113
 #define IDC_UNITSTATICPOSZ              1113
+#define IDC_UHP                         1114
+#define IDC_UINTEVAL                    1115
+#define IDC_USCORE                      1116
 #define IDC_TERNONERADIO                1119
 #define IDC_TERENEMYRADIO               1120
 #define IDC_TERUSERRADIO                1121

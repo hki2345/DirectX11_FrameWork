@@ -67,7 +67,7 @@ protected:
 	void Update_Terrain();
 	void Update_Grab();
 	void Udpate_Delete();
-	void Update_Col();
+	void Update_Color();
 	void Update_Combo();
 
 	void Update_StayCol(KCollision* _Left, KCollision* _Right);

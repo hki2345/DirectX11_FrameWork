@@ -25,6 +25,7 @@ Dlg_UnitList::Dlg_UnitList(CWnd* pParent /*=NULL*/)
 
 Dlg_UnitList::~Dlg_UnitList()
 {
+	int a = 0;
 }
 
 
@@ -38,7 +39,10 @@ void Dlg_UnitList::Init_Dlg(TabDlg* _Other)
 		ResourceManager<MeshContainer>::All_Load();
 	}
 
-	SC2_ConManager<Force_Unit>::All_Load();
+	if (0 == SC2_ConManager<Force_Unit>::All_Count())
+	{
+		SC2_ConManager<Force_Unit>::All_Load();
+	}
 
 	std::vector<KPtr<Force_Unit>> TT = SC2_ConManager<Force_Unit>::All_SingleVec();
 
