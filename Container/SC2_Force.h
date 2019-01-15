@@ -10,6 +10,7 @@
 // 이름과 그 세력의 고유 색을 가진다
 class Force_Unit;
 class Renderer_Terrain;
+class State;
 class SC2_Force : public Begin_Updater
 {
 public:
@@ -83,11 +84,14 @@ public:
 	}
 
 	void playable_type(const PLAYABLE_TYPE& _Value);
+	void playable_type(const PLAYABLE_TYPE& _Value, KPtr<State> _State);
 	PLAYABLE_TYPE& playable_type();
 
 
 	KPtr<Force_Unit> Create_Unit(const wchar_t* _Name, KPtr<Renderer_Terrain> _Ter);
+	KPtr<Force_Unit> Create_Unit(const wchar_t* _Name, KPtr<Renderer_Terrain> _Ter, KPtr<State> _State);
 	KPtr<Force_Unit> Find_Unit(const wchar_t* _Name);
+	KPtr<Force_Unit> Find_Unit(const int& _Name);
 	void Delete_Unit(KPtr<Force_Unit> _Unit);
 	void Clear_Unit();
 

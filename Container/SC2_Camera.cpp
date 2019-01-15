@@ -1,6 +1,12 @@
 #include "SC2_Camera.h"
+
+#include "Controll_AI.h"
 #include "Controll_User.h"
 
+#include "Con_Class.h"
+#include "SC2Manager.h"
+#include "SC2_Force.h"
+#include "Force_Unit.h"
 
 #include <InputManager.h>
 #include <TimeManager.h>
@@ -321,4 +327,29 @@ void SC2_Camera::Update_Wheel()
 	{
 		m_Trans->Moving(m_Trans->forward_local() * (float)Check * .02f);
 	}
+}
+
+
+
+void SC2_Camera::Set_Edit()
+{
+	m_CMode = SC2_CAMMODE::S2M_EDIT;
+}
+
+
+void SC2_Camera::Set_Part()
+{
+	m_CMode = SC2_CAMMODE::S2M_PART;
+}
+
+KPtr<Force_Unit> SC2_Camera::Set_InGame()
+{
+	m_CMode = SC2_CAMMODE::S2M_INGAME;
+
+	KPtr<Force_Unit> TU = Con_Class::force_player()->Find_Unit(0);
+	KPtr<Controll_User> TC = TU->Get_Component<Controll_User>();
+
+	Set_User(TC);
+
+	return TU;
 }

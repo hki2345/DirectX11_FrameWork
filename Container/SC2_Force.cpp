@@ -1,5 +1,6 @@
 #include "SC2_Force.h"
 #include "Force_Unit.h"
+#include "Con_Class.h"
 
 
 #include <WriteStream.h>
@@ -10,6 +11,7 @@
 
 #include "Controll_AI.h"
 #include "Controll_User.h"
+#include "SC2_Camera.h"
 
 
 SC2_Force::SC2_Force(const wchar_t* _Name, const KColor& _Color)
@@ -41,6 +43,23 @@ KPtr<Force_Unit> SC2_Force::Create_Unit(const wchar_t* _Name, KPtr<Renderer_Terr
 	return TT;
 }
 
+
+KPtr<Force_Unit> SC2_Force::Create_Unit(const wchar_t* _Name, KPtr<Renderer_Terrain> _Ter, KPtr<State> _State)
+{
+	KPtr<State> TabScene = _State;
+	KPtr<TheOne> TOne = TabScene->Create_One();
+
+	TOne->Trans()->pos_local(KVector::Zero);
+	TOne->Trans()->scale_local(KVector(1.f, 1.f, 1.f));
+	KPtr<Force_Unit> TT = TOne->Add_Component<Force_Unit>(_Name, _Ter, false);
+	TT->force(this);
+	TT->Insert_Collider();
+
+	m_UList.push_back(TT);
+
+	return TT;
+}
+
 KPtr<Force_Unit> SC2_Force::Find_Unit(const wchar_t* _Name)
 {
 	m_SUI = m_UList.begin();
@@ -49,6 +68,26 @@ KPtr<Force_Unit> SC2_Force::Find_Unit(const wchar_t* _Name)
 	for (; m_SUI != m_EUI; ++m_SUI)
 	{
 		if (true == PathManager::Is_StrVSStr((*m_SUI)->name(), _Name))
+		{
+			return (*m_SUI);
+		}
+	}
+	return nullptr;
+}
+
+KPtr<Force_Unit> SC2_Force::Find_Unit(const int& _Name)
+{
+	if (_Name > m_UList.size() || 0 > _Name)
+	{
+		BBY;
+	}
+
+	m_SUI = m_UList.begin();
+	m_EUI = m_UList.end();
+
+	for (int Cnt = 0; m_SUI != m_EUI; ++m_SUI, ++Cnt)
+	{
+		if (_Name == Cnt)
 		{
 			return (*m_SUI);
 		}
@@ -94,21 +133,6 @@ bool SC2_Force::Init()
 
 void SC2_Force::Update()
 {
-	m_SUI = m_UList.begin();
-	m_EUI = m_UList.end();
-
-	for (; m_SUI != m_EUI;)
-	{
-		if (false == (*m_SUI)->Is_Death())
-		{
-			(*m_SUI)->Update();
-			++m_SUI;
-		}
-		else
-		{
-			m_SUI = m_UList.erase(m_SUI);
-		}
-	}
 }
 
 
@@ -191,20 +215,85 @@ void SC2_Force::playable_type(const PLAYABLE_TYPE& _Value)
 		{	
 			(*m_SUI)->Delete_Component<Controll_AI>();
 			(*m_SUI)->Delete_Component<Controll_User>();
+
+			if (this == Con_Class::force_enemy())
+			{
+				Con_Class::force_enemy(nullptr);
+			}
+			if (this == Con_Class::force_player())
+			{
+				Con_Class::force_player(nullptr);
+			}
 			break;
 		}
 		case PBT_ENEMY:
 		{
+			(*m_SUI)->Delete_Component<Controll_AI>();
+			(*m_SUI)->Delete_Component<Controll_User>();
+
 			(*m_SUI)->Add_Component<Controll_AI>((*m_SUI));
+
+			Con_Class::force_enemy(this);
+
+			if (this == Con_Class::force_player())
+			{
+				Con_Class::force_player(nullptr);
+			}
 			break;
 		}
 		case PBT_USER:
+		{
+			(*m_SUI)->Delete_Component<Controll_AI>();
+			(*m_SUI)->Delete_Component<Controll_User>();
+			(*m_SUI)->Add_Component<Controll_User>((*m_SUI), Core_Class::MainScene()->Camera()->Get_Component<SC2_Camera>());
+
+			Con_Class::force_player(this);
+
+			if (this == Con_Class::force_enemy())
+			{
+				Con_Class::force_enemy(nullptr);
+			}
 			break;
+		}
 		default:
 			break;
 		}
 	}
 }
+
+
+void SC2_Force::playable_type(const PLAYABLE_TYPE& _Value, KPtr<State> _State)
+{
+	m_SUI = m_UList.begin();
+	m_EUI = m_UList.end();
+
+	for (; m_SUI != m_EUI; ++m_SUI)
+	{
+		(*m_SUI)->playable_type(_Value);
+
+		switch (_Value)
+		{
+		case PBT_USER:
+		{
+			(*m_SUI)->Delete_Component<Controll_AI>();
+			(*m_SUI)->Delete_Component<Controll_User>();
+			(*m_SUI)->Add_Component<Controll_User>((*m_SUI), _State->Camera()->Get_Component<SC2_Camera>());
+
+			Con_Class::force_player(this);
+
+			if (this == Con_Class::force_enemy())
+			{
+				Con_Class::force_enemy(nullptr);
+			}
+			break;
+		}
+		default:
+			break;
+		}
+	}
+}
+
+
 PLAYABLE_TYPE& SC2_Force::playable_type()
 {
 	return (*m_UList.begin())->playable_type();

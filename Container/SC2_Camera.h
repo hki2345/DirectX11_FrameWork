@@ -7,6 +7,7 @@ class KMesh;
 class KMaterial;
 class Sampler;
 class Controll_User;
+class Force_Unit;
 class SC2_Camera : public SomeOne
 {
 public:
@@ -66,18 +67,11 @@ public:
 	bool Init();
 	void Update();
 
-	void Set_Edit()
-	{
-		m_CMode = SC2_CAMMODE::S2M_EDIT;
-	}
-	void Set_Part()
-	{
-		m_CMode = SC2_CAMMODE::S2M_PART;
-	}
-	void Set_InGame()
-	{
-		m_CMode = SC2_CAMMODE::S2M_INGAME;
-	}
+	void Set_Edit();
+	void Set_Part();
+	KPtr<Force_Unit> Set_InGame();
+
+
 	void Set_User(Controll_User* _Other)
 	{
 		m_pUser = _Other;

@@ -35,25 +35,21 @@ void Controll_User::Update_MOVE()
 	KPtr<TransPosition> TT = one()->Trans();
 	if (true == KEY_PRESS(L"MFOR"))
 	{
-		TT = one()->Trans();
 		TT->Moving(TT->forward_local() * m_pUnit->linear_speed() * DELTATIME);
 		m_RenderRot.y = m_PlayRot.y + KPI;
 	}
 	if (true == KEY_PRESS(L"MBACK"))
 	{
-		TT = one()->Trans();
 		TT->Moving(TT->back_local() * m_pUnit->linear_speed() * DELTATIME);
 		m_RenderRot.y = m_PlayRot.y + KPI;
 	}
 	if (true == KEY_PRESS(L"MLEFT"))
 	{
-		TT = one()->Trans();
 		TT->Moving(TT->left_local() * m_pUnit->linear_speed() * DELTATIME);
 
 	}
 	if (true == KEY_PRESS(L"MRIGHT"))
 	{
-		TT = one()->Trans();
 		TT->Moving(TT->right_local() * m_pUnit->linear_speed() * DELTATIME);
 	}
 

@@ -119,6 +119,11 @@ bool Controll_User::Init(KPtr<Force_Unit> _Unit, KPtr<SC2_Camera> _Cam)
 	}
 	RayCol->StayFunc(this, &Controll_User::Update_StayCol);
 
+
+	if (m_RList.size() == 0)
+	{
+		m_RList = m_pUnit->list_renderer();
+	}
 	return true;
 }
 
@@ -131,7 +136,11 @@ void Controll_User::Update()
 		return;
 	}
 
-	
+	if (true == m_pUnit->one()->Is_Death())
+	{
+		return;
+	}
+
 	Update_Move();
 	Update_Act();
 
@@ -140,6 +149,8 @@ void Controll_User::Update()
 	Update_Mouse();
 	Update_RenCol();
 }
+
+
 
 void Controll_User::Update_StayCol(KCollision* _Left, KCollision* _Right)
 {
@@ -156,6 +167,12 @@ void Controll_User::Update_StayCol(KCollision* _Left, KCollision* _Right)
 	}
 
 	m_pFocusUnit = Tmp->Get_Component<Force_Unit>();
+
+	if (m_pFocusUnit == m_pUnit)
+	{
+		m_pFocusUnit = nullptr;
+		return;
+	}
 }
 
 
@@ -177,6 +194,7 @@ void Controll_User::Update_Move()
 {
 	if (Controll_User::AT_DEATH == m_AType)
 	{
+		KLOG(L"Unit Move: DEATH");
 		return;
 	}
 

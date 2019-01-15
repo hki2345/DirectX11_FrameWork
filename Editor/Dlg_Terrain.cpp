@@ -15,9 +15,6 @@
 #include <Core_Class.h>
 #include <SC2_Camera.h>
 
-#include <Controll_AI.h>
-#include <Controll_User.h>
-
 #include <Force_Unit.h>
 
 #include <Light.h>
@@ -318,10 +315,12 @@ void Dlg_Terrain::Update_Dlg()
 	{
 		if (SC2_Camera::SC2_CAMMODE::S2M_EDIT == m_pCam->cam_mode())
 		{
+			m_PlayEditBtn.SetWindowTextW(L"Play");
 			m_pCam->Set_InGame();
 		}
 		else if (SC2_Camera::SC2_CAMMODE::S2M_INGAME == m_pCam->cam_mode())
 		{
+			m_PlayEditBtn.SetWindowTextW(L"Edit");
 			m_pCam->Set_Edit();
 		}
 	}
@@ -413,6 +412,7 @@ void Dlg_Terrain::Update_Color()
 	{
 		if (m_UComVec[i] == m_CurPlayer)
 		{
+			m_UComVec[i]->Get_Component<KBox_Col>()->debug_color(KColor::Red);
 			continue;
 		}
 		m_UComVec[i]->Get_Component<KBox_Col>()->debug_color(m_UComVec[i]->force()->force_color());
@@ -735,51 +735,16 @@ void Dlg_Terrain::OnBnClickedTereditbtn()
 void Dlg_Terrain::OnBnClickedTersetplay()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
-	m_SelectUnit = Cur_Unit();
-	if (nullptr == m_SelectUnit)
-	{
-		return;
-	}
-
 	if (SC2_Camera::SC2_CAMMODE::S2M_EDIT == m_pCam->cam_mode())
 	{
 		m_PlayEditBtn.SetWindowTextW(L"Edit");
-		m_pCam->Set_InGame();
+		m_CurPlayer = m_pCam->Set_InGame();
 	}
 	else if (SC2_Camera::SC2_CAMMODE::S2M_INGAME == m_pCam->cam_mode())
 	{
 		m_PlayEditBtn.SetWindowTextW(L"Play");
 		m_pCam->Set_Edit();
 	}
-	
-	KPtr<State> TabScene = Core_Class::MainSceneMgr().Find_State(StateName.GetString());
-	if (nullptr != m_CurPlayer)
-	{
-		m_CurPlayer->Delete_Component<Controll_User>();
-	}
-
-	m_CurPlayer = m_SelectUnit;
-	m_CurPlayer->Get_Component<KBox_Col>()->debug_color(KColor::Red);
-	m_SelectUnit = nullptr;
-
-	if (nullptr != m_CurPlayer->Get_Component<Controll_AI>())
-	{
-		m_CurPlayer->Delete_Component<Controll_AI>();
-	}
-
-
-	KPtr<Controll_User> Cont = m_CurPlayer->Get_Component<Controll_User>();
-	if (nullptr == Cont)
-	{
-		Cont = m_CurPlayer->Add_Component<Controll_User>(m_CurPlayer, m_pCam);
-		Cont->Set_Render();
-	}
-	
-	TabScene->Camera()->Get_Component<SC2_Camera>()->Set_User(Cont);
-
-
-
-
 }
 
 

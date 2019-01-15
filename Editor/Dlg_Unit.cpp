@@ -18,6 +18,8 @@
 
 #include "Edit_Class.h"
 
+
+#include <Con_Class.h>
 #include <Force_Unit.h>
 #include <Controll_User.h>
 #include <SC2_Camera.h>
@@ -43,27 +45,6 @@ Dlg_Unit::~Dlg_Unit()
 void Dlg_Unit::Init_Dlg()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
-	// 만약 자체 메쉬에 애니메이션을 바로 적용시키려면
-	// 애니메이션이 먼저 불러온 후 배급받는 식이다.
-	
-	if (0 == ResourceManager<Changer_Animation>::All_Count())
-	{
-		ResourceManager<Changer_Animation>::All_Load();
-		ResourceManager<MeshContainer>::All_Load();
-	}
-
-	KPtr<State> TabScene = Core_Class::MainSceneMgr().Find_State(StateName.GetString());
-	m_CurOne = TabScene->Create_One(L"Unit_Model");
-	m_CurOne->Trans()->pos_local(KVector(.0f));
-	m_CurOne->Trans()->scale_local(KVector(1.f, 1.f, 1.f));
-
-	m_CurUnit = m_CurOne->Add_Component<Force_Unit>(L"TT", m_pTer);
-	m_CurUnit->Reset_Renderer();
-	m_CurUnit->Insert_Collider();
-	m_CurUnit->scale_unit({ 1.0f, 1.0f, 1.0f });
-	m_CurOne->Add_Component<Controll_User>(m_CurUnit, TabScene->Camera()->Get_Component<SC2_Camera>());
-
-
 	CString TmpStr;
 
 	InfoValue[0].SetWindowTextW(L".0");
@@ -185,6 +166,34 @@ BOOL Dlg_Unit::OnInitDialog()
 	pLight4->Trans()->rotate_world(KVector4(.0F, 45.0F, 0.0f));
 	pLight4->Trans()->scale_world(KVector4(30.0f, 30.0f, 30.0f));
 	pLight4->PushLightLayer(0);
+
+
+
+	// 만약 자체 메쉬에 애니메이션을 바로 적용시키려면
+	// 애니메이션이 먼저 불러온 후 배급받는 식이다.
+
+	if (0 == ResourceManager<Changer_Animation>::All_Count())
+	{
+		ResourceManager<Changer_Animation>::All_Load();
+		ResourceManager<MeshContainer>::All_Load();
+	}
+
+	if (nullptr != m_CurUnit)
+	{
+		return TRUE;
+	}
+
+	Con_Class::force_player(L"TT");
+	m_CurUnit = Con_Class::force_player()->Create_Unit(L"TT", m_pTer, TabScene);
+	m_CurOne = m_CurUnit->one();
+	Con_Class::force_player()->playable_type(PLAYABLE_TYPE::PBT_USER, TabScene);
+
+
+	m_CurUnit->Reset_Renderer();
+	m_CurUnit->Insert_Collider();
+	m_CurUnit->scale_unit({ 1.0f, 1.0f, 1.0f });
+
+
 
 	return TRUE;  // return TRUE unless you set the focus to a control
 				  // 예외: OCX 속성 페이지는 FALSE를 반환해야 합니다.

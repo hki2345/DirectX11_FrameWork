@@ -32,6 +32,10 @@ public:
 	{
 		m_fPlayer = _Other;
 	}
+	static void force_player(const wchar_t* _Name)
+	{
+		m_fPlayer = m_S2Manager->Find_Force(_Name);
+	}
 
 	static KPtr<SC2_Force> force_player()
 	{

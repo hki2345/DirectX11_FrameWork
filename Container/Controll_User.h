@@ -55,6 +55,7 @@ private:
 
 private:
 	void Update_StayCol(KCollision* _Left, KCollision* _Right);
+	
 
 	void Update_RenCol();
 	void Update_Move();
