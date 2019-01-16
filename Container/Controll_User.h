@@ -7,6 +7,7 @@ class SC2_Camera;
 class Renderer_Terrain;
 class Renderer_BonAni;
 class KCollision;
+class KRay3D;
 class Controll_User : public Component
 {
 public:
@@ -52,6 +53,9 @@ private:
 	KVector		m_RenderRot;
 
 	KPtr<Force_Unit>		m_pFocusUnit;
+	KPtr<KRay3D> RayCol;
+
+	float m_UTime;
 
 private:
 	void Update_StayCol(KCollision* _Left, KCollision* _Right);

@@ -28,6 +28,7 @@
     <ClInclude Include="Controll_AI.h">
       <Filter>SC2\Controller</Filter>
     </ClInclude>
+    <ClInclude Include="Controll_Medivac.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SC2Manager.cpp">
@@ -66,6 +67,7 @@
     <ClCompile Include="Force_Unit_GameAct.cpp">
       <Filter>SC2\Unit</Filter>
     </ClCompile>
+    <ClCompile Include="Controll_Medivac.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="SC2">

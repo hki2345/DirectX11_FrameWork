@@ -231,7 +231,7 @@ BOOL Dlg_Editor::OnInitDialog()
 	TabScene->This_Col3DManager.Link(100, 101);
 
 	KPtr<KRay3D> RayCol = TabScene->Camera()->Add_Component<KRay3D>(101);
-	RayCol->EnterFunc(this, &Dlg_Editor::Collision_Test);
+	RayCol->EnterFunc(L"Edit Study", this, &Dlg_Editor::Collision_Test);
 
 	// KPtr<KPlane3D_Col> Tescol = TERRAIN->Add_Component<KPlane3D_Col>(100);
 	// KPtr<KPlane3D_Col> RendCol = DrawOne->Add_Component<KPlane3D_Col>(100);

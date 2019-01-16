@@ -116,28 +116,26 @@ void Controll_AI::Update_Move()
 
 void Controll_AI::Update_Act()
 {
+	KLOG(L"Unit Act: %f", m_pUnit->hp());
+
 	switch (m_AType)
 	{
 	case Controll_AI::AT_IDLE:
 		Update_AIDLE();
-		KLOG(L"Unit Act: IDLE");
 		break;
 	case Controll_AI::AT_ATTACK01:
 		Update_ATTACK01();
-		KLOG(L"Unit Act: ATTACK");
 		break;
 	case Controll_AI::AT_ATTACK02:
 		Update_ATTACK02();
-		KLOG(L"Unit Act: ATTACK");
 		break;
 	case Controll_AI::AT_ATTACK03:
 		Update_ATTACK03();
-		KLOG(L"Unit Act: ATTACK");
 		break;
 
 	case Controll_AI::AT_DEATH:
 		Update_DEATH();
-		KLOG(L"Unit Act: DEATH");
+		
 		break;
 	default:
 		break;

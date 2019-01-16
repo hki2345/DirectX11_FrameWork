@@ -334,6 +334,9 @@ void SC2_Camera::Update_Wheel()
 void SC2_Camera::Set_Edit()
 {
 	m_CMode = SC2_CAMMODE::S2M_EDIT;
+
+	KPtr<Force_Unit> TU = Con_Class::force_player()->Find_Unit(0);
+	TU->Delete_Component<Controll_User>();
 }
 
 

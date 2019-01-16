@@ -17,6 +17,40 @@ Changer_Animation::~Changer_Animation()
 
 
 
+KPtr<Changer_Animation::Ani_Clip> Changer_Animation::Find_AniClip(const wchar_t* _Name)
+{
+	std::list<KPtr<Changer_Animation::Ani_Clip>>::iterator S = m_ACList.begin();
+	std::list<KPtr<Changer_Animation::Ani_Clip>>::iterator E = m_ACList.end();
+
+	std::wstring Tmp = _Name;
+
+	for (; S != E; ++S)
+	{
+		if ((*S)->Name == Tmp)
+		{
+			return (*S);
+		}
+	}
+
+	return nullptr;
+}
+
+KPtr<Changer_Animation::Ani_Clip> Changer_Animation::Find_AniClip(const int& _Num)
+{
+	std::list<KPtr<Changer_Animation::Ani_Clip>>::iterator S = m_ACList.begin();
+	std::list<KPtr<Changer_Animation::Ani_Clip>>::iterator E = m_ACList.end();
+
+	for (int Cnt = 0; S != E; ++S, ++Cnt)
+	{
+		if (Cnt == _Num)
+		{
+			return (*S);
+		}
+	}
+
+	return nullptr;
+}
+
 KPtr<Changer_Animation::Ani_Clip> Changer_Animation::Create_AniClip(const wchar_t* _Name, const int& _Start, const int& _End)
 {
 	if (0 == _Name[0])

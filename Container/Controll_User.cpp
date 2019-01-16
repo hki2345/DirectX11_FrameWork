@@ -14,13 +14,17 @@
 #include "SC2_Camera.h"
 
 
-Controll_User::Controll_User()
+Controll_User::Controll_User() : RayCol(nullptr), m_UTime(.0f)
 {
 }
 
 
 Controll_User::~Controll_User()
 {
+	if (nullptr != RayCol)
+	{
+		RayCol->StayFunc_Delete(L"Controll User");
+	}
 }
 
 
@@ -111,13 +115,13 @@ bool Controll_User::Init(KPtr<Force_Unit> _Unit, KPtr<SC2_Camera> _Cam)
 
 
 
-	KPtr<KRay3D> RayCol = state()->Camera()->Get_Component<KRay3D>();
+	RayCol = state()->Camera()->Get_Component<KRay3D>();
 
 	if (nullptr == RayCol)
 	{
 		return true;
 	}
-	RayCol->StayFunc(this, &Controll_User::Update_StayCol);
+	RayCol->StayFunc(L"Controll User", this, &Controll_User::Update_StayCol);
 
 
 	if (m_RList.size() == 0)

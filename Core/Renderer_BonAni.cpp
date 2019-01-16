@@ -12,10 +12,12 @@
 
 Renderer_BonAni::Renderer_BonAni() : 
 m_ClipInx(1), 
+m_InitAni(true),
 m_FrameCnt(30), 
 m_UpdateSpd(.0f), 
 m_UpdateTime(.0f),
 PauseInx(-1),
+m_loop(true),
 m_FColor(KColor::White)
 {
 	ROpt.Render_DT = RENDER_DATATYPE::RDT_DATA;
@@ -199,6 +201,13 @@ void Renderer_BonAni::PrevUpdate_Ani()
 	{
 		return;
 	}
+
+	if (true == m_InitAni)
+	{
+		m_UpdateTime = .0f;
+		m_InitAni = false;
+	}
+
 	m_UpdateTime += DELTATIME;
 
 	// 시작 프레임
@@ -230,9 +239,18 @@ void Renderer_BonAni::PrevUpdate_Ani()
 	// 현재 프레임이 프레임의 끝보다 크면 0으로 초기화
 	if (iFrameInx >= CAni->cur_clip()->End - 1)
 	{
-		m_UpdateTime = .0f; 		
-		iFrameInx = CAni->cur_clip()->Start;
-		return;
+		if (true == m_loop)
+		{
+			m_UpdateTime = .0f;
+			iFrameInx = CAni->cur_clip()->Start;
+			return;
+		}
+
+		else
+		{
+			iFrameInx = CAni->cur_clip()->End;
+			return;
+		}
 	}
 
 	if (0 <= PauseInx)
@@ -520,7 +538,13 @@ void Renderer_BonAni::Set_Clip(const wchar_t* _Name)
 		BBY;
 	}
 
+	if (CAni->cur_clip() == CAni->Find_AniClip(_Name))
+	{
+		return;
+	}
+
 	CAni->Set_AniClip(_Name);
+	m_InitAni = true;
 }
 void Renderer_BonAni::Set_Clip(const int& _Num)
 {
@@ -529,5 +553,12 @@ void Renderer_BonAni::Set_Clip(const int& _Num)
 		BBY;
 	}
 
+	if (CAni->cur_clip() == CAni->Find_AniClip(_Num))
+	{
+		return;
+	}
+
+
 	CAni->Set_AniClip(_Num);
+	m_InitAni = true;
 }

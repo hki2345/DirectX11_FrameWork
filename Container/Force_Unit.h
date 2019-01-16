@@ -54,6 +54,7 @@ public:
 	// 유닛의 속성은 누적되는 방식이기 때문에 이 방식으로 하는 게 맞다.
 	// 이 방식 - 비트단위 연산
 private:
+	bool								m_RenLoop;
 	KVector								m_ColPivot;
 
 	KPtr<KBox_Col>						m_Col;
@@ -213,9 +214,10 @@ public:
 	}
 #pragma endregion
 
-	void Set_Animation(const ANI_TYPE& _Value)
+	void Set_Animation(const ANI_TYPE& _Value, const bool& _loop = true)
 	{
 		m_AType = _Value;
+		m_RenLoop = _loop;
 	}
 
 

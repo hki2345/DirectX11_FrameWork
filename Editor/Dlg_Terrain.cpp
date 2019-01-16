@@ -133,7 +133,7 @@ BOOL Dlg_Terrain::OnInitDialog()
 	TabScene->This_Col3DManager.Link(100, 100);
 
 	KPtr<KRay3D> RayCol = TabScene->Camera()->Add_Component<KRay3D>(100);
-	RayCol->StayFunc(this, &Dlg_Terrain::Update_StayCol);
+	RayCol->StayFunc(L"Terrain Edit", this, &Dlg_Terrain::Update_StayCol);
 
 
 

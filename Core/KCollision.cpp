@@ -111,32 +111,32 @@ bool KCollision::Init()
 
 void KCollision::CallEnterList(KCollision* _Right)
 {
-	m_EnterStartIter = m_EnterFuncList.begin();
-	m_EnterEndIter = m_EnterFuncList.end();
+	m_EnSI = m_EnterFuncMap.begin();
+	m_EnEI = m_EnterFuncMap.end();
 
-	for (; m_EnterStartIter != m_EnterEndIter; ++m_EnterStartIter)
+	for (; m_EnSI != m_EnEI; ++m_EnSI)
 	{
-		(*m_EnterStartIter)(this, _Right);
+		m_EnSI->second(this, _Right);
 	}
 }
 void KCollision::CallStayList(KCollision* _Right) 
 {
-	m_StayStartIter = m_StayFuncList.begin();
-	m_StayEndIter = m_StayFuncList.end();
+	m_SSI = m_StayFuncMap.begin();
+	m_SEI = m_StayFuncMap.end();
 
-	for (; m_StayStartIter != m_StayEndIter; ++m_StayStartIter)
+	for (; m_SSI != m_SEI; ++m_SSI)
 	{
-		(*m_StayStartIter)(this, _Right);
+		m_SSI->second(this, _Right);
 	}
 }
 
 void KCollision::CallExitList(KCollision* _Right) {
-	m_ExitStartIter = m_ExitFuncList.begin();
-	m_ExitEndIter = m_ExitFuncList.end();
+	m_ExSI = m_ExitFuncMap.begin();
+	m_ExEI = m_ExitFuncMap.end();
 
-	for (; m_ExitStartIter != m_ExitEndIter; ++m_ExitStartIter)
+	for (; m_ExSI != m_ExEI; ++m_ExSI)
 	{
-		(*m_ExitStartIter)(this, _Right);
+		m_ExSI->second(this, _Right);
 	}
 }
 

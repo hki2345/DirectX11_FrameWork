@@ -21,6 +21,9 @@ private:
 	//FBXLoader* m_pLoader;
 
 	// 애니메이션 0번쨰 프레임 ~ X 프레임 보는 그 시간
+	bool m_InitAni;
+	bool m_loop;
+
 	int m_ClipInx;
 	int m_FrameCnt;
 	int iFrameInx;
@@ -90,6 +93,10 @@ public:
 		PauseInx = _Value;
 	}
 
+	void loop(const bool& _Value)
+	{
+		m_loop = _Value;
+	}
 
 	void Reset_Frame()
 	{
@@ -102,6 +109,11 @@ private:
 
 
 public:
+	void Init_Ani()
+	{
+		m_InitAni = true;
+	}
+
 	KPtr<Changer_Animation> changer_animation()
 	{
 		return CAni;

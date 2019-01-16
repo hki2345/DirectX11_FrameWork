@@ -47,6 +47,8 @@ public:
 
 
 	KPtr<Ani_Clip> Create_AniClip(const wchar_t* _Name, const int& _Start, const int& _End);
+	KPtr<Ani_Clip> Find_AniClip(const wchar_t* _Name);
+	KPtr<Ani_Clip> Find_AniClip(const int& _Num);
 	
 	bool Create() { return true; }
 	void Set_Name(KPtr<Ani_Clip> _Clip, const wchar_t* _Name);
@@ -54,6 +56,8 @@ public:
 	bool Set_AniClip(KPtr<Changer_Animation::Ani_Clip> _Other);
 	bool Set_AniClip(const wchar_t* _Name);
 	bool Set_AniClip(const int& _Num);
+
+	
 	int contain_name(const wchar_t* _name);
 
 

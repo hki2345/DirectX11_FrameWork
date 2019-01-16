@@ -2,6 +2,7 @@
 #include "Component_DE.h"
 #include "KMath.h"
 #include <set>
+#include <map>
 #include <functional>
 
 // 도형을 표현할때.
@@ -381,42 +382,97 @@ public:
 	bool FiColCheck(const Figure_Col* _Col);
 
 private:
-	std::list<std::function<void(KCollision* _Left, KCollision* _Right)>>::iterator m_EnterStartIter;
-	std::list<std::function<void(KCollision* _Left, KCollision* _Right)>>::iterator m_EnterEndIter;
-	std::list<std::function<void(KCollision* _Left, KCollision* _Right)>> m_EnterFuncList;
-
-	std::list<std::function<void(KCollision* _Left, KCollision* _Right)>>::iterator m_StayStartIter;
-	std::list<std::function<void(KCollision* _Left, KCollision* _Right)>>::iterator m_StayEndIter;
-	std::list<std::function<void(KCollision* _Left, KCollision* _Right)>> m_StayFuncList;
-
-	std::list<std::function<void(KCollision* _Left, KCollision* _Right)>>::iterator m_ExitStartIter;
-	std::list<std::function<void(KCollision* _Left, KCollision* _Right)>>::iterator m_ExitEndIter;
-	std::list<std::function<void(KCollision* _Left, KCollision* _Right)>> m_ExitFuncList;
+	std::map<std::wstring, std::function<void(KCollision* _Left, KCollision* _Right)>>::iterator m_EnSI;
+	std::map<std::wstring, std::function<void(KCollision* _Left, KCollision* _Right)>>::iterator m_EnEI;
+	std::map<std::wstring, std::function<void(KCollision* _Left, KCollision* _Right)>> m_EnterFuncMap;
+	
+	std::map<std::wstring, std::function<void(KCollision* _Left, KCollision* _Right)>>::iterator m_SSI;
+	std::map<std::wstring, std::function<void(KCollision* _Left, KCollision* _Right)>>::iterator m_SEI;
+	std::map<std::wstring, std::function<void(KCollision* _Left, KCollision* _Right)>> m_StayFuncMap;
+	
+	std::map<std::wstring, std::function<void(KCollision* _Left, KCollision* _Right)>>::iterator m_ExSI;
+	std::map<std::wstring, std::function<void(KCollision* _Left, KCollision* _Right)>>::iterator m_ExEI;
+	std::map<std::wstring, std::function<void(KCollision* _Left, KCollision* _Right)>> m_ExitFuncMap;
 
 public:
 	// 함수를 호출할때 그 오브젝트가 지워진다면 터지게 된다.
 	template<typename T>
-	void EnterFunc(T* _Obj, void(T::*_PTR)(KCollision*, KCollision*))
+	void EnterFunc(const wchar_t* _Name, T* _Obj, void(T::*_PTR)(KCollision*, KCollision*))
 	{
 		if (nullptr == _PTR)		{			return;		}
 		if (nullptr == _Obj)		{			return;		}
-		m_EnterFuncList.push_back(std::bind(_PTR, _Obj, std::placeholders::_1, std::placeholders::_2));
+		m_EnterFuncMap.insert(
+			std::map<std::wstring, std::function<void(KCollision* _Left, KCollision* _Right)>>::value_type
+			(_Name, (std::bind(_PTR, _Obj, std::placeholders::_1, std::placeholders::_2))));
 	}
 
 	template<typename T>
-	void StayFunc(T* _Obj, void(T::*_PTR)(KCollision*, KCollision*))
+	void StayFunc(const wchar_t* _Name, T* _Obj, void(T::*_PTR)(KCollision*, KCollision*))
 	{
 		if (nullptr == _PTR) { return; }
 		if (nullptr == _Obj) { return; }
-		m_StayFuncList.push_back(std::bind(_PTR, _Obj, std::placeholders::_1, std::placeholders::_2));
+
+		m_StayFuncMap.insert(
+			std::map<std::wstring, std::function<void(KCollision* _Left, KCollision* _Right)>>::value_type
+			(_Name, (std::bind(_PTR, _Obj, std::placeholders::_1, std::placeholders::_2))));
 	}
 
 	template<typename T>
-	void ExitFunc(T* _Obj, void(T::*_PTR)(KCollision*, KCollision*))
+	void ExitFunc(const wchar_t* _Name, T* _Obj, void(T::*_PTR)(KCollision*, KCollision*))
 	{
 		if (nullptr == _PTR) { return; }
 		if (nullptr == _Obj) { return; }
-		m_ExitFuncList.push_back(std::bind(_PTR, _Obj, std::placeholders::_1, std::placeholders::_2));
+		m_ExitFuncMap.insert(
+			std::map<std::wstring, std::function<void(KCollision* _Left, KCollision* _Right)>>::value_type
+			(_Name, (std::bind(_PTR, _Obj, std::placeholders::_1, std::placeholders::_2))));
+	}
+
+
+	// DELETE
+	// 함수를 호출할때 그 오브젝트가 지워진다면 터지게 된다.
+	void EnterFunc_Delete(const wchar_t* _Name)
+	{
+		m_EnSI = m_EnterFuncMap.begin();
+		m_EnEI = m_EnterFuncMap.end();
+
+		for (; m_EnSI != m_EnEI; ++m_EnSI)
+		{
+			if (_Name == m_EnSI->first)
+			{
+				m_EnterFuncMap.erase(m_EnSI);
+				return;
+			}
+		}
+	}
+
+	void StayFunc_Delete(const wchar_t* _Name)
+	{
+		m_SSI = m_StayFuncMap.begin();
+		m_SEI = m_StayFuncMap.end();
+
+		for (; m_SSI != m_SEI; ++m_SSI)
+		{
+			if (_Name == m_SSI->first)
+			{
+				m_StayFuncMap.erase(m_SSI);
+				return;
+			}
+		}
+	}
+
+	void ExitFunc_Delete(const wchar_t* _Name)
+	{
+		m_ExSI = m_ExitFuncMap.begin();
+		m_ExEI = m_ExitFuncMap.end();
+
+		for (; m_ExSI != m_ExEI; ++m_ExSI)
+		{
+			if (_Name == m_ExSI->first)
+			{
+				m_ExitFuncMap.erase(m_ExSI);
+				return;
+			}
+		}
 	}
 
 private:

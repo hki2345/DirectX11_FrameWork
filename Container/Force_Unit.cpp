@@ -13,7 +13,8 @@
 #include <KBox_Col.h>
 
 
-Force_Unit::Force_Unit()
+Force_Unit::Force_Unit() :
+	m_RenLoop (true)
 {
 	m_AType = ANI_TYPE::ALL;
 	m_Info.WType = WEAPON_TYPE::NONE;
@@ -292,7 +293,7 @@ void Force_Unit::Insert_Collider()
 	if (nullptr == m_Col)
 	{
 		m_Col = one()->Add_Component<KBox_Col>(100);
-		m_Col->StayFunc(this, &Force_Unit::Collision_OtherUnit);
+		m_Col->StayFunc(L"ForceUnit Collision", this, &Force_Unit::Collision_OtherUnit);
 	}
 }
 
@@ -319,6 +320,7 @@ void Force_Unit::Update_RenderAni()
 	{
 		// 0 번째는 그거 임 전체 애니
 		(*m_SRI)->Set_Clip((int)m_AType + 1);
+		(*m_SRI)->loop(m_RenLoop);
 	}
 }
 
