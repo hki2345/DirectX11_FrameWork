@@ -232,6 +232,8 @@ void Controll_User::Update_OPTI()
 		KPtr<TheOne> TOne = state()->Create_One();
 		TOne->Add_Component<Controll_Hyperion>(
 			one()->Trans()->pos_world(),
+			KVector(one()->Trans()->forward_local().x, .0f, one()->Trans()->forward_local().z),
+			KVector(one()->Trans()->right_local().x, .0f, one()->Trans()->right_local().z),
 			m_RenderRot + KVector(.0f, KPI, .0f),
 			m_pUnit->terrain());
 

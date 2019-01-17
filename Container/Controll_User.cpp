@@ -110,7 +110,7 @@ bool Controll_User::Init(KPtr<Force_Unit> _Unit, KPtr<SC2_Camera> _Cam)
 
 	m_MType = MOVE_TYPE::MT_IDLE;
 	m_AType = ACT_TYPE::AT_IDLE;
-	m_OType = OPTI_TYPE::OT_HYPERION;
+	m_OType = OPTI_TYPE::OT_NOVA;
 
 
 	m_pUnit->playable_type(PLAYABLE_TYPE::PBT_USER);

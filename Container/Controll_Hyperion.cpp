@@ -18,12 +18,28 @@ Controll_Hyperion::Controll_Hyperion()
 
 Controll_Hyperion::~Controll_Hyperion()
 {
+	m_SULI = m_pUnitList.begin();
+	m_EULI = m_pUnitList.end();
+
+	for (m_SPI = m_TPos.begin(); m_SULI != m_EULI; ++m_SULI, ++m_SPI)
+	{
+		(*m_SULI)->one()->Set_Death();
+	}
+
+	m_pUnitList.clear();
 }
 
 
 
-bool Controll_Hyperion::Init(const KVector& _InitPos, const KVector& _RotPos, KPtr<Renderer_Terrain> _Ter)
+bool Controll_Hyperion::Init(
+	const KVector& _InitPos
+	, const KVector& _Forward
+	, const KVector& _Right
+	, const KVector& _RotPos
+	, KPtr<Renderer_Terrain> _Ter)
 {
+	m_For = _Forward;
+
 	m_pUnitList.push_back(Con_Class::s2_manager()->Find_Force(L"LUV")->Create_Unit(L"HYPERION", _Ter, state()));
 	for (size_t i = 0; i < 8; i++)
 	{
@@ -31,18 +47,47 @@ bool Controll_Hyperion::Init(const KVector& _InitPos, const KVector& _RotPos, KP
 	}
 
 	m_SULI = m_pUnitList.begin();
-	(*m_SULI)->one()->Trans()->scale_local(KVector(2.0f, 2.0f, 2.0f));
+	(*m_SULI)->one()->Trans()->scale_local(KVector(3.0f, 3.0f, 3.0f));
+
+	m_SULI = m_pUnitList.begin();
+	m_EULI = m_pUnitList.end();
+
+	for (; m_SULI != m_EULI; ++m_SULI)
+	{
+		(*(*m_SULI)->list_renderer().begin())->rot_pivot(_RotPos);
+	}
 
 
-/*
 
-	(*m_pUnit->list_renderer().begin())->rot_pivot(_RotPos);
-	m_pUnit->one()->Trans()->rotate_local(_RotPos);
-	m_pUnit->one()->Trans()->pos_local(m_TPos - KVector(100.0f, 100.0f, .0f));
-*/
+
+	m_TPos.push_back(KVector(_InitPos + _Forward * 13.0f + KVector(.0f, 10.0f, .0f)));
+	
+	m_TPos.push_back(KVector(_InitPos + _Forward * 14.0f + _Right * 4.0f + KVector(.0f, 10.0f, .0f)));
+	m_TPos.push_back(KVector(_InitPos + _Forward * 15.0f + _Right * 10.0f + KVector(.0f, 10.0f, .0f)));
+	
+	m_TPos.push_back(KVector(_InitPos + _Forward * 14.0f + _Right * -4.0f + KVector(.0f, 10.0f, .0f)));
+	m_TPos.push_back(KVector(_InitPos + _Forward * 15.0f + _Right * -10.0f + KVector(.0f, 10.0f, .0f)));
+	
+	m_TPos.push_back(KVector(_InitPos + _Forward * 7.0f + _Right * 6.5f + KVector(.0f, 10.0f, .0f)));
+	m_TPos.push_back(KVector(_InitPos + _Forward * 5.0f + _Right * 12.0f + KVector(.0f, 10.0f, .0f)));
+	
+	m_TPos.push_back(KVector(_InitPos + _Forward * 7.0f + _Right * -6.5f + KVector(.0f, 10.0f, .0f)));
+	m_TPos.push_back(KVector(_InitPos + _Forward * 5.0f + _Right * -12.0f + KVector(.0f, 10.0f, .0f)));
+
+
+
+	m_SULI = m_pUnitList.begin();
+	m_EULI = m_pUnitList.end();
+
+	for (m_SPI = m_TPos.begin(); m_SULI != m_EULI; ++m_SULI, ++m_SPI)
+	{
+		(*m_SULI)->one()->Trans()->pos_local((*m_SPI) + _Forward * -100.0f);
+	}
+
 
 	m_MType = MOVE_TYPE::MT_WARPIN;
 	m_UTime = .0f;
+	m_LauCnt = 1;
 	return true;
 }
 
@@ -69,13 +114,54 @@ void Controll_Hyperion::Update()
 
 void Controll_Hyperion::Update_WARPIN()
 {
-	m_ATime = .0f;
+	m_UTime += DELTATIME;
+	
+	m_SULI = m_pUnitList.begin();
+	m_EULI = m_pUnitList.end();
+	
+	
+	if (m_LauCnt > 8)
+	{
+		m_SPI = m_TPos.begin();
+
+		if ((*m_SULI)->one()->Trans()->pos_local().x >= (*m_SPI).x ||
+			(*m_SULI)->one()->Trans()->pos_local().y >= (*m_SPI).y)
+		{
+			(*m_SULI)->one()->Trans()->pos_local((*m_SPI));
+			m_UTime = .0f;
+			m_ATime = .0f;
+			m_MType = MOVE_TYPE::MT_ATTACK;
+		}
+		else
+		{
+			(*m_SULI)->one()->Trans()->Moving(m_For * 50.0f);
+		}
+	}
+	else
+	{
+		int Cnt = 0;
+		for (m_SPI = m_TPos.begin(); m_SULI != m_EULI; ++m_SULI, ++m_SPI, ++Cnt)
+		{
+			if ((*m_SULI)->one()->Trans()->pos_local().x >= (*m_SPI).x ||
+				(*m_SULI)->one()->Trans()->pos_local().y >= (*m_SPI).y)
+			{
+				++m_LauCnt;
+				(*m_SULI)->one()->Trans()->pos_local((*m_SPI));
+			}
+
+			if (Cnt == m_LauCnt)
+			{
+				(*m_SULI)->one()->Trans()->Moving(m_For * 50.0f);
+			}
+		}
+	}
 
 
 }
+
+
 void Controll_Hyperion::Update_ATTACK()
-{/*
-	m_pUnit->Set_Animation(Force_Unit::ANI_TYPE::ATTACK02);
+{
 	m_UTime += DELTATIME;
 	m_ATime += DELTATIME;
 
@@ -87,19 +173,52 @@ void Controll_Hyperion::Update_ATTACK()
 		std::list<KPtr<Force_Unit>>::iterator S = Con_Class::force_enemy()->unit_list()->begin();
 		std::list<KPtr<Force_Unit>>::iterator E = Con_Class::force_enemy()->unit_list()->end();
 
+
+		m_SULI = m_pUnitList.begin();
+		m_EULI = m_pUnitList.end();
+
+		for (m_SPI = m_TPos.begin(); m_SULI != m_EULI; ++m_SULI, ++m_SPI)
+		{
+			(*m_SULI)->one()->Trans()->Moving(m_For * .1f);
+		}
+
 		for (; S != E; ++S)
 		{
-			(*S)->Damage(10.0f);
+			(*S)->Damage(4.0f);
 		}
 	}
 
 	if (m_ATime > 10.0f)
 	{
 		m_MType = MOVE_TYPE::MT_WARPOUT;
-	}*/
+	}
 }
 
 
 void Controll_Hyperion::Update_WARPOUT()
 {
+	m_UTime += DELTATIME;
+
+	m_SULI = m_pUnitList.begin();
+	m_EULI = m_pUnitList.end();
+
+	for (m_SPI = m_TPos.begin(); m_SULI != m_EULI; ++m_SULI, ++m_SPI)
+	{
+		(*m_SULI)->one()->Trans()->Moving(m_For * 20.0f);
+	}
+
+	if (3.0f <= m_UTime)
+	{
+		m_SULI = m_pUnitList.begin();
+		m_EULI = m_pUnitList.end();
+
+		for (; m_SULI != m_EULI; ++m_SULI)
+		{
+			(*m_SULI)->force()->Delete_Unit((*m_SULI));
+			one()->Set_Death();
+		}
+
+		m_pUnitList.clear();
+		m_TPos.clear();
+	}
 }

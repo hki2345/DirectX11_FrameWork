@@ -310,8 +310,8 @@ bool ResourceManager<KS>::All_LoadSub(const intptr_t& _Handle, _wfinddata_t& _FD
 			if (Exi == L".png" || Exi == L".PNG" || Exi == L".Png" ||
 				Exi == L".jpg" || Exi == L".JPG" || Exi == L".Jpg" || 
 				Exi == L".bmp" || Exi == L".dds" || Exi == L".DDS" ||
-				Exi == L".mp3" || Exi == L".KM3" || Exi == L".km3" ||
-				Exi == L".KCA")
+				Exi == L".mp3" || Exi == L".ogg" || Exi == L".wav" ||
+				Exi == L".KM3" || Exi == L".km3" || Exi == L".KCA")
 			{
 				// 이걸해야 연속으로 막 불러올 수 있지 않곗냐;
 				if (nullptr == ResourceManager<KS>::Find(Folder.c_str()))

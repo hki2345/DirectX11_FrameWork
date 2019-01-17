@@ -34,6 +34,7 @@ private:
 	KVector		m_RenderRot;
 
 	float m_UTime;
+	float m_ATime;
 
 private:
 	void Update_MIDLE();
