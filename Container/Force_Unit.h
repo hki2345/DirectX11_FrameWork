@@ -92,6 +92,8 @@ public:
 	void Delete_Renderer(KPtr<Renderer_BonAni> _Other);
 	void Insert_Renderer(KPtr<Renderer_BonAni> _Other);
 	void Insert_Collider();
+	bool Check_AniDone();
+
 
 	void Rot_Unit(const KVector& _Value)
 	{
@@ -187,6 +189,16 @@ public:
 
 
 #pragma region UNIT GAMEINFO
+	bool Is_HPDeath()
+	{
+		if (0 <= m_Info.HP)
+		{
+			return false;
+		}
+
+		return true;
+	}
+
 	float& hp()
 	{
 		return m_Info.HP;

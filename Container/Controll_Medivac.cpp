@@ -48,11 +48,11 @@ void Controll_Medivac::Update_LAND()
 }
 
 
-bool Controll_Medivac::Init(const KVector& _InitPos, KPtr<Renderer_Terrain> _Ter)
+bool Controll_Medivac::Init(const KVector& _InitPos, const KVector& _Rot, KPtr<Renderer_Terrain> _Ter)
 {
 	m_pUnit = Con_Class::s2_manager()->Find_Force(L"AHYEAH")->Create_Unit(L"MEDIVAC", _Ter, state());
+	(*m_pUnit->list_renderer().begin())->rot_pivot(_Rot);
 
-	m_Render = (*m_pUnit->list_renderer().begin());
 
 	KVector TT = _InitPos;
 	m_TPos = TT;

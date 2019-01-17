@@ -23,7 +23,6 @@ public:
 private:
 	bool m_MirrorY;
 
-	KPtr<Renderer_BonAni> m_Render;
 	KPtr<Force_Unit>		m_pUnit;
 
 	MOVE_TYPE	m_MType;
@@ -41,21 +40,7 @@ private:
 
 
 public:
-	KVector& pos_player()
-	{
-		return m_PlayPos;
-	}
-
-	KVector& rot_player()
-	{
-		return m_PlayRot;
-	}
-	KVector& rot_render()
-	{
-		return m_RenderRot;
-	}
-
-	bool Init(const KVector& _InitPos, KPtr<Renderer_Terrain> _Ter);
+	bool Init(const KVector& _InitPos, const KVector& _Rot, KPtr<Renderer_Terrain> _Ter);
 	void Update();
 };
 

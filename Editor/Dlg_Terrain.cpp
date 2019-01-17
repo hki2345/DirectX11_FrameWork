@@ -46,7 +46,7 @@ Dlg_Terrain::Dlg_Terrain(CWnd* pParent /*=NULL*/) :
 Dlg_Terrain::~Dlg_Terrain()
 {
 	Con_Class::s2_manager()->Clear_Force();
-	m_UComVec.clear();
+	m_UComList.clear();
 }
 
 BOOL Dlg_Terrain::OnInitDialog()
@@ -282,29 +282,25 @@ void Dlg_Terrain::Update_SSPosFunc()
 
 void Dlg_Terrain::Update_Force()
 {
-	m_UComVec.clear();
+	m_UComList.clear();
 	
 
 	
-	std::list<KPtr<Force_Unit>>* TT = m_CurForce->unit_list();
-	std::list<KPtr<Force_Unit>>::iterator US = TT->begin();
-	std::list<KPtr<Force_Unit>>::iterator YE = TT->end();
-
-	for (; US != YE; ++US)
-	{
-		m_UComVec.push_back((*US));
-	}
+	m_UComList = *m_CurForce->unit_list();
 }
 
 void Dlg_Terrain::Update_UnitList()
 {
 	UBoxList.ResetContent();
 
-	for (size_t i = 0; i < m_UComVec.size(); i++)
+	std::list<KPtr<Force_Unit>>::iterator S = m_UComList.begin();
+	std::list<KPtr<Force_Unit>>::iterator E = m_UComList.end();
+
+	for (; S != E; ++S)
 	{
-		if (true == m_UComVec[i]->one()->Is_Active())
+		if (true == (*S)->one()->Is_Active())
 		{
-			UBoxList.AddString(m_UComVec[i]->name());
+			UBoxList.AddString((*S)->name());
 		}
 	}
 }
@@ -358,7 +354,7 @@ void Dlg_Terrain::Update_Grab()
 		{
 			if (true == m_pTer->Is_OnTer())
 			{
-				m_UComVec.push_back(Create_Unit());
+				m_UComList.push_back(Create_Unit());
 			}
 
 			Update_UnitList();
@@ -383,18 +379,19 @@ void Dlg_Terrain::Udpate_Delete()
 	{
 		if (nullptr != m_SelectUnit)
 		{
-			std::vector<KPtr<Force_Unit>>::iterator Iter = m_UComVec.begin();
+			std::list<KPtr<Force_Unit>>::iterator S = m_UComList.begin();
+			std::list<KPtr<Force_Unit>>::iterator E = m_UComList.end();
 
-			for (size_t i = 0; i < m_UComVec.size(); ++i, ++Iter)
+			for (; S != E; ++S)
 			{
-				if (m_SelectUnit == m_UComVec[i])
+				if (m_SelectUnit == (*S))
 				{
 					break;
 				}
 			}
 
-			m_CurForce->Delete_Unit((*Iter));
-			m_UComVec.erase(Iter);
+			m_CurForce->Delete_Unit((*S));
+			m_UComList.erase(S);
 			m_SelectUnit = nullptr;
 		}
 		Update_UnitList();
@@ -404,18 +401,38 @@ void Dlg_Terrain::Udpate_Delete()
 	{
 		m_SelectUnit = nullptr;
 	}
+
+
+
+	std::list<KPtr<Force_Unit>>::iterator S = m_UComList.begin();
+	std::list<KPtr<Force_Unit>>::iterator E = m_UComList.end();
+
+	for (; S != E; )
+	{
+		if (0 >= (*S)->hp())
+		{
+			S = m_UComList.erase(S);
+		}
+		else
+		{
+			++S;
+		}
+	}
 }
 
 void Dlg_Terrain::Update_Color()
 {
-	for (size_t i = 0; i < m_UComVec.size(); i++)
+	std::list<KPtr<Force_Unit>>::iterator S = m_UComList.begin();
+	std::list<KPtr<Force_Unit>>::iterator E = m_UComList.end();
+
+	for (; S != E; ++S)
 	{
-		if (m_UComVec[i] == m_CurPlayer)
+		if ((*S) == m_CurPlayer)
 		{
-			m_UComVec[i]->Get_Component<KBox_Col>()->debug_color(KColor::Red);
+			(*S)->Get_Component<KBox_Col>()->debug_color(KColor::Red);
 			continue;
 		}
-		m_UComVec[i]->Get_Component<KBox_Col>()->debug_color(m_UComVec[i]->force()->force_color());
+		(*S)->Get_Component<KBox_Col>()->debug_color((*S)->force()->force_color());
 	}
 
 
@@ -451,11 +468,14 @@ void Dlg_Terrain::Update_Combo()
 
 KPtr<Force_Unit> Dlg_Terrain::Cur_Unit()
 {
-	for (size_t i = 0; i < m_UComVec.size(); i++)
+	std::list<KPtr<Force_Unit>>::iterator S = m_UComList.begin();
+	std::list<KPtr<Force_Unit>>::iterator E = m_UComList.end();
+
+	for (; S != E; ++S)
 	{
-		if (m_UComVec[i] == m_SelectUnit)
+		if ((*S) == m_SelectUnit)
 		{
-			return m_UComVec[i];
+			return (*S);
 		}
 	}
 	
@@ -564,7 +584,7 @@ void Dlg_Terrain::OnBnClickedStateclear()
 		S->second->Clear_Unit();
 	}
 	
-	m_UComVec.clear();
+	m_UComList.clear();
 	Update_UnitList();
 }
 
@@ -771,12 +791,15 @@ void Dlg_Terrain::Update_StayCol(KCollision* _Left, KCollision* _Right)
 			m_SelectUnit = nullptr;
 			return;
 		}
-		
-		for (int i = 0; i < m_UComVec.size(); ++i)
+
+		std::list<KPtr<Force_Unit>>::iterator S = m_UComList.begin();
+		std::list<KPtr<Force_Unit>>::iterator E = m_UComList.end();
+
+		for (int Cnt = 0; S != E; ++S, ++Cnt)
 		{
-			if (m_SelectUnit == m_UComVec[i])
+			if (m_SelectUnit == (*S))
 			{
-				UBoxList.SetCurSel(i);
+				UBoxList.SetCurSel(Cnt);
 				break;
 			}
 		}

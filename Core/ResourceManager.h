@@ -365,6 +365,13 @@ public:
 
 		std::wstring Tmp = NewRes->name();
 		Tmp += PathManager::Convert_Int2Str((int)ResourceManager<Res>::Name_Count(Tmp));
+		std::unordered_map<std::wstring, KPtr<Res>>::iterator FI = m_RSMap.find(Tmp);
+		if (FI != m_RSMap.end())
+		{
+			delete NewRes;
+			return FI->second;
+		}
+
 		m_RSMap.insert(std::unordered_map<std::wstring, KPtr<Res>>::value_type(Tmp, NewRes));
 
 		return NewRes;

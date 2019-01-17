@@ -1,5 +1,6 @@
 #include "Controll_AI.h"
 #include "Force_Unit.h"
+#include "SC2_Force.h"
 
 #include <Renderer_BonAni.h>
 #include <Renderer_Terrain.h>
@@ -60,4 +61,10 @@ void Controll_AI::Update_ATTACK03()
 void Controll_AI::Update_DEATH()
 {
 	m_pUnit->Set_Animation(Force_Unit::ANI_TYPE::DEATH);
+
+	if (true == m_pUnit->Check_AniDone())
+	{
+		m_pUnit->force()->Delete_Unit(m_pUnit);
+		one()->Set_Death();
+	}
 }

@@ -16,6 +16,13 @@ public:
 
 
 public:
+	enum OPTI_TYPE
+	{
+		OT_ODIN = 0,
+		OT_NOVA,
+		OT_HYPERION,		
+	};
+
 	enum MOVE_TYPE
 	{
 		MT_IDLE = 0,
@@ -47,6 +54,7 @@ private:
 
 	MOVE_TYPE	m_MType;
 	ACT_TYPE	m_AType;
+	OPTI_TYPE	m_OType;
 
 	KVector		m_PlayRot;
 	KVector		m_PlayPos;

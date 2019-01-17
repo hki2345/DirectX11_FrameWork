@@ -34,7 +34,7 @@ private:
 	KPtr<SC2_Force>					m_CurForce;
 	KPtr<Force_Unit>				m_CurPlayer;
 
-	std::vector<KPtr<Force_Unit>>	m_UComVec;
+	std::list<KPtr<Force_Unit>>		m_UComList;
 
 	CEdit NameEdit[3];
 	float TerSSEdit[4];

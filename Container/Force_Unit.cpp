@@ -297,6 +297,23 @@ void Force_Unit::Insert_Collider()
 	}
 }
 
+bool Force_Unit::Check_AniDone()
+{
+	m_SRI = m_RList.begin();
+	m_ERI = m_RList.end();
+
+	for (; m_SRI != m_ERI; ++m_SRI)
+	{
+		if (true == (*m_SRI)->Check_AniDone())
+		{
+			return true;
+		}
+	}
+
+	return false;
+}
+
+
 void Force_Unit::Update_StrList()
 {
 	m_StrList.clear();

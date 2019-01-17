@@ -30,6 +30,8 @@ bool KBox_Col::Init(int _Order/* = 0*/)
 
 void KBox_Col::Update_Figure()
 {
+	m_PosPivot.y += m_ScalePivot.y * .25f;
+
 	// 기본적으로 자신의 크기 - 로 세계에서 돌려본후 충돌했는지 안했는지 판별
 	pBox->m_Box.Center = m_PosPivot.m_XMVec3;
 	pBox->m_Box.Extents = (m_ScalePivot * .5f).m_XMVec3;

@@ -28,7 +28,18 @@
     <ClInclude Include="Controll_AI.h">
       <Filter>SC2\Controller</Filter>
     </ClInclude>
-    <ClInclude Include="Controll_Medivac.h" />
+    <ClInclude Include="Controll_Nova.h">
+      <Filter>SC2\Controller\Optimize</Filter>
+    </ClInclude>
+    <ClInclude Include="Controll_Odin.h">
+      <Filter>SC2\Controller\Optimize</Filter>
+    </ClInclude>
+    <ClInclude Include="Controll_Medivac.h">
+      <Filter>SC2\Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="Controll_Hyperion.h">
+      <Filter>SC2\Controller\Optimize</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SC2Manager.cpp">
@@ -67,7 +78,18 @@
     <ClCompile Include="Force_Unit_GameAct.cpp">
       <Filter>SC2\Unit</Filter>
     </ClCompile>
-    <ClCompile Include="Controll_Medivac.cpp" />
+    <ClCompile Include="Controll_Nova.cpp">
+      <Filter>SC2\Controller\Optimize</Filter>
+    </ClCompile>
+    <ClCompile Include="Controll_Odin.cpp">
+      <Filter>SC2\Controller\Optimize</Filter>
+    </ClCompile>
+    <ClCompile Include="Controll_Medivac.cpp">
+      <Filter>SC2\Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="Controll_Hyperion.cpp">
+      <Filter>SC2\Controller\Optimize</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="SC2">
@@ -105,6 +127,9 @@
     </Filter>
     <Filter Include="SC2\Unit\Enemy">
       <UniqueIdentifier>{b2f418f7-c0c5-4d07-b2f4-9c4b0f37c23e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SC2\Controller\Optimize">
+      <UniqueIdentifier>{14ac4bae-7a54-4628-b42e-d1e3657e1896}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

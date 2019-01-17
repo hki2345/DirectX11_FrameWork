@@ -23,6 +23,7 @@ private:
 	// 애니메이션 0번쨰 프레임 ~ X 프레임 보는 그 시간
 	bool m_InitAni;
 	bool m_loop;
+	bool m_Done;
 
 	int m_ClipInx;
 	int m_FrameCnt;
@@ -49,6 +50,11 @@ private:
 
 
 public:
+	bool Check_AniDone()
+	{
+		return m_Done;
+	}
+
 	void rot_pivot(const KVector& _Value)
 	{
 		m_RotPivot = _Value;

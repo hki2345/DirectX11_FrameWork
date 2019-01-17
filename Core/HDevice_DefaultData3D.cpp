@@ -691,6 +691,7 @@ bool KDevice::Mat3DCreate()
 		MTL->Set_VTShader(L"DEBUGVTX");
 		MTL->Set_PXShader(L"DEBUGPIX");
 		MTL->Set_Blend(L"ALPHA");
+		MTL->Insert_TexData(TEX_TYPE::TEX_TARGET, 1, L"DEPTH");
 	}
 
 

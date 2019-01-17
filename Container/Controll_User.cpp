@@ -14,7 +14,9 @@
 #include "SC2_Camera.h"
 
 
-Controll_User::Controll_User() : RayCol(nullptr), m_UTime(.0f)
+Controll_User::Controll_User() :
+	RayCol(nullptr),
+	m_UTime(.0f)
 {
 }
 
@@ -108,6 +110,7 @@ bool Controll_User::Init(KPtr<Force_Unit> _Unit, KPtr<SC2_Camera> _Cam)
 
 	m_MType = MOVE_TYPE::MT_IDLE;
 	m_AType = ACT_TYPE::AT_IDLE;
+	m_OType = OPTI_TYPE::OT_HYPERION;
 
 
 	m_pUnit->playable_type(PLAYABLE_TYPE::PBT_USER);

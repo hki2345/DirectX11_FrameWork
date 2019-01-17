@@ -10,6 +10,9 @@
 
 #include "Controll_Medivac.h"
 
+#include "Controll_Nova.h"
+#include "Controll_Odin.h"
+#include "Controll_Hyperion.h"
 
 void Controll_User::Update_MIDLE()
 {
@@ -191,13 +194,53 @@ void Controll_User::Update_HEAL()
 
 
 	KPtr<TheOne> TOne = state()->Create_One();
-	TOne->Add_Component<Controll_Medivac>(one()->Trans()->pos_world(), m_pUnit->terrain());
+	TOne->Add_Component<Controll_Medivac>(
+		one()->Trans()->pos_world(),
+		m_RenderRot + KVector(.0f, KPI, .0f),
+		m_pUnit->terrain());
 
 	m_AType = Controll_User::AT_IDLE;
 }
 void Controll_User::Update_OPTI()
 {
 	m_RenderRot.y = m_PlayRot.y + KPI;
+
+	switch (m_OType)
+	{
+	case Controll_User::OT_ODIN:
+	{
+		KPtr<TheOne> TOne = state()->Create_One();
+		TOne->Add_Component<Controll_Odin>(
+			one()->Trans()->pos_world(),
+			m_RenderRot + KVector(.0f, KPI, .0f),
+			m_pUnit->terrain());
+
+		break;
+	}
+	case Controll_User::OT_NOVA:
+	{
+		KPtr<TheOne> TOne = state()->Create_One();
+		TOne->Add_Component<Controll_Nova>(
+			one()->Trans()->pos_world(),
+			m_RenderRot + KVector(.0f, KPI, .0f),
+			m_pUnit->terrain());
+
+		break;
+	}
+	case Controll_User::OT_HYPERION:
+	{
+		KPtr<TheOne> TOne = state()->Create_One();
+		TOne->Add_Component<Controll_Hyperion>(
+			one()->Trans()->pos_world(),
+			m_RenderRot + KVector(.0f, KPI, .0f),
+			m_pUnit->terrain());
+
+		break;
+	}
+	default:
+		break;
+	}
+	m_AType = Controll_User::AT_IDLE;
 }
 
 void Controll_User::Update_DEATH()

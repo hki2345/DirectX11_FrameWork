@@ -208,6 +208,7 @@ void Renderer_BonAni::PrevUpdate_Ani()
 		m_InitAni = false;
 	}
 
+	m_Done = false;
 	m_UpdateTime += DELTATIME;
 
 	// 시작 프레임
@@ -239,6 +240,7 @@ void Renderer_BonAni::PrevUpdate_Ani()
 	// 현재 프레임이 프레임의 끝보다 크면 0으로 초기화
 	if (iFrameInx >= CAni->cur_clip()->End - 1)
 	{
+		m_Done = true;
 		if (true == m_loop)
 		{
 			m_UpdateTime = .0f;
@@ -251,6 +253,7 @@ void Renderer_BonAni::PrevUpdate_Ani()
 			iFrameInx = CAni->cur_clip()->End;
 			return;
 		}
+
 	}
 
 	if (0 <= PauseInx)

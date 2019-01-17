@@ -731,6 +731,14 @@ public:
 		return sqrtf((x) * (x)+(y) * (y)+(z) * (z)+(w) * (w));
 	}
 
+	float distance(const KVector4& _Other) const
+	{
+		return sqrtf(
+			(_Other.x - x) * (_Other.x - x)+
+			(_Other.y - y) * (_Other.y - y)+
+			(_Other.z - z) * (_Other.z - z)+
+			(_Other.w - w) * (_Other.w - w));
+	}
 
 	static KVector4 cross3D(const KVector4& _Left, const KVector4& _Right)
 	{
