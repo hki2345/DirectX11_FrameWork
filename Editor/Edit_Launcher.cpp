@@ -17,6 +17,9 @@
 #include <Renderer_BonAni.h>
 #include <Con_Class.h>
 
+
+
+#include <SoundPlayer.h>
 Edit_Launcher::Edit_Launcher()
 {
 }
@@ -76,4 +79,8 @@ void Edit_Launcher::Build()
 	MTex2->Create_MultiTex(D3D11_USAGE::D3D11_USAGE_DEFAULT, L"Lava.jpg", L"LavaBump.jpg");
 
 	DebugManager::Debug_On();
+
+
+	// SoundPlayer TT = SoundPlayer();
+	// TT.Play(L"Blue Stahli - 88 Rounds Per Minute.mp3");
 }

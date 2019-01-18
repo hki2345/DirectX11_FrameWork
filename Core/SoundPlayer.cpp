@@ -79,7 +79,7 @@ void SoundPlayer::Update()
 	}
 }
 
-bool SoundPlayer::Play(const wchar_t* _SoundName)
+bool SoundPlayer::Play(const wchar_t* _SoundName, const float& _Volume/* = 1.0f*/)
 {
 	m_Sound = ResourceManager<Sound>::Find(_SoundName);
 
@@ -91,6 +91,8 @@ bool SoundPlayer::Play(const wchar_t* _SoundName)
 
 	m_Channel->setCallback(SoundCallBack);
 	m_Channel->setUserData(this);
+
+	m_Channel->setVolume(_Volume);
 
 	m_bPlay = true;
 

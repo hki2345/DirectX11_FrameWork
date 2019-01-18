@@ -27,7 +27,7 @@ private:
 
 public:
 	void Update() override;
-	bool Play(const wchar_t* _SoundName);
+	bool Play(const wchar_t* _SoundName , const float& _Volume = 1.0f);
 	bool Stop();
 
 public:

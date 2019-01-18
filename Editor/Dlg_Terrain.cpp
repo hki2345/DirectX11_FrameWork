@@ -379,6 +379,11 @@ void Dlg_Terrain::Udpate_Delete()
 	{
 		if (nullptr != m_SelectUnit)
 		{
+			if (0 == m_UComList.size())
+			{
+				return;
+			}
+
 			std::list<KPtr<Force_Unit>>::iterator S = m_UComList.begin();
 			std::list<KPtr<Force_Unit>>::iterator E = m_UComList.end();
 
@@ -409,7 +414,7 @@ void Dlg_Terrain::Udpate_Delete()
 
 	for (; S != E; )
 	{
-		if (0 >= (*S)->hp())
+		if (true == (*S)->Is_HPDeath())
 		{
 			S = m_UComList.erase(S);
 		}

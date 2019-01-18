@@ -17,13 +17,14 @@ public:
 public:
 	enum MOVE_TYPE
 	{
-		MT_WARPIN = 0,
+		MT_COME,
+		MT_WARPIN,
 		MT_ATTACK,
 		MT_WARPOUT,
 	};
 
 private:
-	bool m_MirrorY;
+	bool m_Battle;
 
 	std::list<KPtr<Force_Unit>>					m_pUnitList;
 	std::list<KPtr<Force_Unit>>::iterator		m_SULI;
@@ -42,6 +43,7 @@ private:
 	int m_LauCnt;
 
 private:
+	void Update_COME();
 	void Update_WARPIN();
 	void Update_ATTACK();
 	void Update_WARPOUT();

@@ -9,6 +9,7 @@
 #include <InputManager.h>
 
 
+#include <SoundPlayer.h>
 
 
 Controll_Hyperion::Controll_Hyperion()
@@ -60,19 +61,19 @@ bool Controll_Hyperion::Init(
 
 
 
-	m_TPos.push_back(KVector(_InitPos + _Forward * 13.0f + KVector(.0f, 10.0f, .0f)));
+	m_TPos.push_back(KVector(_InitPos + _Forward * 13.0f + KVector(.0f, 9.0f, .0f)));
 	
-	m_TPos.push_back(KVector(_InitPos + _Forward * 14.0f + _Right * 4.0f + KVector(.0f, 10.0f, .0f)));
+	m_TPos.push_back(KVector(_InitPos + _Forward * 14.0f + _Right * 4.0f + KVector(.0f, 8.0f, .0f)));
 	m_TPos.push_back(KVector(_InitPos + _Forward * 15.0f + _Right * 10.0f + KVector(.0f, 10.0f, .0f)));
 	
-	m_TPos.push_back(KVector(_InitPos + _Forward * 14.0f + _Right * -4.0f + KVector(.0f, 10.0f, .0f)));
+	m_TPos.push_back(KVector(_InitPos + _Forward * 14.0f + _Right * -4.0f + KVector(.0f, 8.0f, .0f)));
 	m_TPos.push_back(KVector(_InitPos + _Forward * 15.0f + _Right * -10.0f + KVector(.0f, 10.0f, .0f)));
 	
 	m_TPos.push_back(KVector(_InitPos + _Forward * 7.0f + _Right * 6.5f + KVector(.0f, 10.0f, .0f)));
-	m_TPos.push_back(KVector(_InitPos + _Forward * 5.0f + _Right * 12.0f + KVector(.0f, 10.0f, .0f)));
+	m_TPos.push_back(KVector(_InitPos + _Forward * 5.0f + _Right * 12.0f + KVector(.0f, 8.0f, .0f)));
 	
 	m_TPos.push_back(KVector(_InitPos + _Forward * 7.0f + _Right * -6.5f + KVector(.0f, 10.0f, .0f)));
-	m_TPos.push_back(KVector(_InitPos + _Forward * 5.0f + _Right * -12.0f + KVector(.0f, 10.0f, .0f)));
+	m_TPos.push_back(KVector(_InitPos + _Forward * 5.0f + _Right * -12.0f + KVector(.0f, 8.0f, .0f)));
 
 
 
@@ -85,9 +86,14 @@ bool Controll_Hyperion::Init(
 	}
 
 
-	m_MType = MOVE_TYPE::MT_WARPIN;
+	m_MType = MOVE_TYPE::MT_COME;
 	m_UTime = .0f;
 	m_LauCnt = 1;
+
+	SoundPlayer TT = SoundPlayer();
+	TT.Play(L"Battlecruiser_What00.ogg");
+
+	m_Battle = false;
 	return true;
 }
 
@@ -96,6 +102,9 @@ void Controll_Hyperion::Update()
 {
 	switch (m_MType)
 	{
+	case Controll_Hyperion::MT_COME:
+		Update_COME();
+		break;
 	case Controll_Hyperion::MT_WARPIN:
 		Update_WARPIN();
 		break;
@@ -111,6 +120,27 @@ void Controll_Hyperion::Update()
 	}
 }
 
+void Controll_Hyperion::Update_COME()
+{
+	m_UTime += DELTATIME;
+	if (2.5f <= m_UTime && false == m_Battle)
+	{
+		SoundPlayer TT = SoundPlayer();
+		TT.Play(L"Battlecruiser_Yes01.ogg");
+
+		m_Battle = true;
+	}
+
+	if (7.0f <= m_UTime)
+	{
+		SoundPlayer TT = SoundPlayer();
+		TT.Play(L"Battlecruiser_HyperspaceIn01.wav");
+
+
+		m_MType = MOVE_TYPE::MT_WARPIN;
+		m_UTime = .0f;
+	}
+}
 
 void Controll_Hyperion::Update_WARPIN()
 {
@@ -131,10 +161,16 @@ void Controll_Hyperion::Update_WARPIN()
 			m_UTime = .0f;
 			m_ATime = .0f;
 			m_MType = MOVE_TYPE::MT_ATTACK;
+
+
+			SoundPlayer S1 = SoundPlayer();
+			S1.Play(L"Fleet_Attack.mp3");
+			SoundPlayer S2 = SoundPlayer();
+			S2.Play(L"AC_Alarm_AirRaid_Siren.ogg");
 		}
 		else
 		{
-			(*m_SULI)->one()->Trans()->Moving(m_For * 50.0f);
+			(*m_SULI)->one()->Trans()->Moving(m_For * 20.0f);
 		}
 	}
 	else
@@ -151,7 +187,7 @@ void Controll_Hyperion::Update_WARPIN()
 
 			if (Cnt == m_LauCnt)
 			{
-				(*m_SULI)->one()->Trans()->Moving(m_For * 50.0f);
+				(*m_SULI)->one()->Trans()->Moving(m_For * 20.0f);
 			}
 		}
 	}
@@ -179,18 +215,25 @@ void Controll_Hyperion::Update_ATTACK()
 
 		for (m_SPI = m_TPos.begin(); m_SULI != m_EULI; ++m_SULI, ++m_SPI)
 		{
-			(*m_SULI)->one()->Trans()->Moving(m_For * .1f);
+			(*m_SULI)->one()->Trans()->Moving(m_For * .05f);
 		}
 
 		for (; S != E; ++S)
 		{
-			(*S)->Damage(4.0f);
+			(*S)->Damage(1.0f);
 		}
+
+
+		SoundPlayer S1 = SoundPlayer();
+		S1.Play(L"Battlecruiser_AttackLaunch0.wav", .1f);
 	}
 
-	if (m_ATime > 10.0f)
+	if (m_ATime > 20.0f)
 	{
 		m_MType = MOVE_TYPE::MT_WARPOUT;
+
+		SoundPlayer TT = SoundPlayer();
+		TT.Play(L"Battlecruiser_HyperspaceOut01.wav");
 	}
 }
 
