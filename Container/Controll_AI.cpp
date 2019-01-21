@@ -1,5 +1,6 @@
 #include "Controll_AI.h"
 #include "Force_Unit.h"
+#include "Con_Class.h"
 
 #include <Renderer_BonAni.h>
 #include <Renderer_Terrain.h>
@@ -9,7 +10,7 @@
 
 
 
-Controll_AI::Controll_AI()
+Controll_AI::Controll_AI() : m_Attack(false)
 {
 }
 
@@ -46,8 +47,10 @@ void Controll_AI::Del_Render(KPtr<Renderer_BonAni> _Other)
 
 bool Controll_AI::Init(KPtr<Force_Unit> _Unit)
 {
+	m_pPUnit = (*Con_Class::force_player()->unit_list()->begin());
 	m_pUnit = _Unit;
-
+	
+	
 	if (nullptr == m_pUnit->terrain())
 	{
 		BBY;
@@ -59,18 +62,70 @@ bool Controll_AI::Init(KPtr<Force_Unit> _Unit)
 
 
 	m_pUnit->playable_type(PLAYABLE_TYPE::PBT_ENEMY);
-	m_MirrorY = false;
+	Set_Render();
+	Init_Value();
 
 	return true;
 }
 
+void Controll_AI::Init_Value()
+{
+	m_Attack = false;
+
+	m_UTime = .0f;
+	m_ATime = .0f;
+
+	m_ARange = 3.0f;
+	m_MRange = 15.0f;
+}
 
 void Controll_AI::Update()
 {
-	Update_Move();
+	Update_Death();
+	Update_Dir();
 	Update_Act();
+	Update_Move();
 	Update_Terrain();
 	Update_RenCol();
+}
+
+
+void Controll_AI::Update_Death()
+{
+	if (.0f > m_pUnit->hp())
+	{
+		m_AType = Controll_AI::AT_DEATH;
+	}
+}
+
+void Controll_AI::Update_Dir()
+{
+	if (nullptr == m_pPUnit)
+	{
+		return;
+	}
+
+	
+	KVector Dir = m_pUnit->one()->Trans()->pos_local() - m_pPUnit->one()->Trans()->pos_local();
+	Dir.Normalize();
+
+	m_AIPos = m_pUnit->one()->Trans()->pos_local();
+
+	float TT = Dir.Dot(KVector::Right);
+	m_AIRot = Dir.cross3D(KVector::Right);
+
+
+	m_AIRot.x = m_AIRot.z = .0f;
+	m_AIRot.y += 1.0f;
+	m_AIRot.y *= .5f;
+	m_AIRot.y *= KPI;
+
+	if (0 < TT)
+	{
+		m_AIRot *= -1.0f;
+	}
+
+	m_RenderRot = m_AIRot;
 }
 
 void Controll_AI::Update_RenCol()
@@ -80,16 +135,16 @@ void Controll_AI::Update_RenCol()
 
 	for (; m_SRI != m_ERI; ++m_SRI)
 	{
-		(*m_SRI)->rot_pivot(m_RenderRot + KVector(.0f, KPI, .0f));
+		(*m_SRI)->rot_pivot(m_RenderRot/* + KVector(.0f, KPI, .0f)*/);
 	}
 
-	m_pUnit->Rot_Unit(m_RenderRot + KVector(.0f, KPI, .0f));
+	m_pUnit->Rot_Unit(m_RenderRot);
 }
 
 
 void Controll_AI::Update_Move()
 {
-	if (Controll_AI::AT_DEATH == m_AType)
+	if (Controll_AI::AT_IDLE != m_AType)
 	{
 		return;
 	}
@@ -103,10 +158,6 @@ void Controll_AI::Update_Move()
 	case Controll_AI::MT_MOVE:
 		Update_MOVE();
 		KLOG(L"Unit Move: MOVE");
-		break;
-	case Controll_AI::MT_RUN:
-		Update_RUN();
-		KLOG(L"Unit Move: RUN");
 		break;
 	default:
 		break;
@@ -123,6 +174,17 @@ void Controll_AI::Update_Act()
 	case Controll_AI::AT_IDLE:
 		Update_AIDLE();
 		break;
+
+	case Controll_AI::AT_BURROW:
+		Update_BURROW();
+		break;
+	case Controll_AI::AT_HIDE:
+		Update_HIDE();
+		break;
+	case Controll_AI::AT_UNBURROW:
+		Update_UNBURROW();
+		break;
+
 	case Controll_AI::AT_ATTACK01:
 		Update_ATTACK01();
 		break;

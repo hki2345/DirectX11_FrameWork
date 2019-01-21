@@ -63,17 +63,17 @@ bool Controll_Hyperion::Init(
 
 	m_TPos.push_back(KVector(_InitPos + _Forward * 13.0f + KVector(.0f, 9.0f, .0f)));
 	
-	m_TPos.push_back(KVector(_InitPos + _Forward * 14.0f + _Right * 4.0f + KVector(.0f, 8.0f, .0f)));
-	m_TPos.push_back(KVector(_InitPos + _Forward * 15.0f + _Right * 10.0f + KVector(.0f, 10.0f, .0f)));
+	m_TPos.push_back(KVector(_InitPos + _Forward * 12.0f + _Right * 11.0f + KVector(.0f, 7.0f, .0f)));
+	m_TPos.push_back(KVector(_InitPos + _Forward * 12.0f + _Right * -11.0f + KVector(.0f, 7.0f, .0f)));
 	
-	m_TPos.push_back(KVector(_InitPos + _Forward * 14.0f + _Right * -4.0f + KVector(.0f, 8.0f, .0f)));
+	m_TPos.push_back(KVector(_InitPos + _Forward * 15.0f + _Right * 10.0f + KVector(.0f, 10.0f, .0f)));
 	m_TPos.push_back(KVector(_InitPos + _Forward * 15.0f + _Right * -10.0f + KVector(.0f, 10.0f, .0f)));
 	
-	m_TPos.push_back(KVector(_InitPos + _Forward * 7.0f + _Right * 6.5f + KVector(.0f, 10.0f, .0f)));
 	m_TPos.push_back(KVector(_InitPos + _Forward * 5.0f + _Right * 12.0f + KVector(.0f, 8.0f, .0f)));
-	
-	m_TPos.push_back(KVector(_InitPos + _Forward * 7.0f + _Right * -6.5f + KVector(.0f, 10.0f, .0f)));
 	m_TPos.push_back(KVector(_InitPos + _Forward * 5.0f + _Right * -12.0f + KVector(.0f, 8.0f, .0f)));
+	
+	m_TPos.push_back(KVector(_InitPos + _Forward * 2.0f + _Right * 6.5f + KVector(.0f, 10.0f, .0f)));
+	m_TPos.push_back(KVector(_InitPos + _Forward * 2.0f + _Right * -6.5f + KVector(.0f, 10.0f, .0f)));
 
 
 
@@ -166,7 +166,7 @@ void Controll_Hyperion::Update_WARPIN()
 			SoundPlayer S1 = SoundPlayer();
 			S1.Play(L"Fleet_Attack.mp3");
 			SoundPlayer S2 = SoundPlayer();
-			S2.Play(L"AC_Alarm_AirRaid_Siren.ogg");
+			S2.Play(L"AC_Alarm_AirRaid_Siren.ogg", .4f);
 		}
 		else
 		{

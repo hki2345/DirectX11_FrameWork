@@ -17,46 +17,84 @@ void Controll_AI::Update_MIDLE()
 		return;
 	}
 
-
+	float TT = m_pPUnit->one()->Trans()->pos_local().distance(m_pUnit->one()->Trans()->pos_local());
+	if (m_MRange >= TT)
+	{
+		m_MType = MOVE_TYPE::MT_MOVE;
+	}
 
 	m_pUnit->Set_Animation(Force_Unit::ANI_TYPE::STAND01);
 }
 void Controll_AI::Update_MOVE()
 {
 	m_pUnit->Set_Animation(Force_Unit::ANI_TYPE::WALK01);
-	m_RenderRot.y = m_PlayRot.y + KPI;
+	m_RenderRot.y = m_AIRot.y + KPI;
 	
-}
-void Controll_AI::Update_RUN()
-{
-	m_pUnit->Set_Animation(Force_Unit::ANI_TYPE::WALK01);
+
+	KPtr<TransPosition> TT = m_pUnit->one()->Trans();
+	KVector Dir = m_pPUnit->one()->Trans()->pos_local() - m_pUnit->one()->Trans()->pos_local();
+	Dir.Normalize();
+	TT->Moving(Dir * m_pUnit->linear_speed() * DELTATIME);
 
 
-
-	m_RenderRot.y = m_PlayRot.y + KPI;
+	float Temp = Dir.distance();
+	if (m_MRange <= Temp)
+	{
+		m_MType = MOVE_TYPE::MT_IDLE;
+	}
 }
 
 
 
 void Controll_AI::Update_AIDLE()
 {
-	if (Controll_AI::AT_DEATH == m_AType || .0f > m_pUnit->hp())
+	if (Controll_AI::AT_DEATH == m_AType)
 	{
 		m_AType = Controll_AI::AT_DEATH;
 		return;
 	}
+
+	if (m_ARange >= m_pPUnit->one()->Trans()->pos_local().distance(m_pUnit->one()->Trans()->pos_local()))
+	{
+		m_AType = Controll_AI::AT_ATTACK01;
+	}
 }
+
+
+void Controll_AI::Update_BURROW()
+{
+
+}
+void Controll_AI::Update_HIDE()
+{
+
+}
+void Controll_AI::Update_UNBURROW()
+{
+
+}
+
+
 void Controll_AI::Update_ATTACK01()
 {
-	m_RenderRot.y = m_PlayRot.y + KPI;
+	m_RenderRot.y = m_AIRot.y + KPI;
+	m_pUnit->Set_Animation(Force_Unit::ANI_TYPE::ATTACK01);
+
+
+	if (m_ARange <= m_pPUnit->one()->Trans()->pos_local().distance(m_pUnit->one()->Trans()->pos_local()))
+	{
+		m_AType = Controll_AI::AT_IDLE;
+	}
 }
 void Controll_AI::Update_ATTACK02()
 {
-	m_RenderRot.y = m_PlayRot.y + KPI;
+	m_RenderRot.y = m_AIRot.y + KPI;
+	m_pUnit->Set_Animation(Force_Unit::ANI_TYPE::ATTACK02);
 }
 void Controll_AI::Update_ATTACK03()
 {
-	m_RenderRot.y = m_PlayRot.y + KPI;
+	m_RenderRot.y = m_AIRot.y + KPI;
+	m_pUnit->Set_Animation(Force_Unit::ANI_TYPE::ATTACK03);
 }
 void Controll_AI::Update_DEATH()
 {

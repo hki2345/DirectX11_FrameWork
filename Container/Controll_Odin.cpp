@@ -8,8 +8,9 @@
 #include <Renderer_Terrain.h>
 #include <InputManager.h>
 
+#include <SoundPlayer.h>
 
-Controll_Odin::Controll_Odin()
+Controll_Odin::Controll_Odin() : m_bAttack(false)
 {
 }
 
@@ -22,7 +23,7 @@ Controll_Odin::~Controll_Odin()
 
 void Controll_Odin::Update_LAND()
 {
-	m_pUnit->Set_Animation(Force_Unit::ANI_TYPE::STAND01, false);
+	m_pUnit->Set_Animation(Force_Unit::ANI_TYPE::ATTACK01, false);
 
 	if (m_TPos.y < m_pUnit->one()->Trans()->pos_local().y)
 	{
@@ -32,39 +33,75 @@ void Controll_Odin::Update_LAND()
 	else
 	{
 		m_UTime = .0f;
+		m_ATime = .0f;
+
 		m_MType = MOVE_TYPE::MT_ATTACK;
+
+		SoundPlayer S2 = SoundPlayer();
+		S2.Play(L"Tychus_AC_Mx_Dead_Cue_01.wav");
+
+		SoundPlayer S3 = SoundPlayer();
+		S3.Play(L"TychusOdin_Pkup_Mech_01.wav");
 	}
 }
 
 
 void Controll_Odin::Update_ATTACK()
 {
-	m_pUnit->Set_Animation(Force_Unit::ANI_TYPE::ATTACK01, false);
 	m_UTime += DELTATIME;
+	m_ATime += DELTATIME;
+
+	m_pUnit->Set_Animation(Force_Unit::ANI_TYPE::ATTACK02);
 
 	if (15.0f <= m_UTime)
 	{
 		m_MType = MOVE_TYPE::MT_RISE;
 		m_TPos.y += 10.0f;
+
+
+		SoundPlayer S3 = SoundPlayer();
+		S3.Play(L"TychusOdin_TakeOff_Bkup_Alarm_01.wav", .7f);
+
+		SoundPlayer S2 = SoundPlayer();
+		S2.Play(L"TychusAnnouncer_GamePaused00.ogg", 1.f);
+
+		SoundPlayer S1 = SoundPlayer();
+		S1.Play(L"Tychus_AC_Mx_AccSteel_Bumper_01.wav", .8f);
 	}
 
 	if (0 == m_pEnemyList.size() && true == m_pUnit->Check_AniDone())
 	{
 		m_MType = MOVE_TYPE::MT_RISE;
 		m_TPos.y += 10.0f;
+
+
+		SoundPlayer S3 = SoundPlayer();
+		S3.Play(L"TychusOdin_TakeOff_Bkup_Alarm_01.wav", .7f);
+		
+		SoundPlayer S2 = SoundPlayer();
+		S2.Play(L"TychusAnnouncer_GamePaused00.ogg", 1.f);
+
+		SoundPlayer S1 = SoundPlayer();
+		S1.Play(L"Tychus_AC_Mx_AccSteel_Bumper_01.wav", .8f);
 	}
 
-	if (m_UTime > .1f)
+	
+	if (m_pUnit->Get_Component<Renderer_BonAni>()->index_frame() == 581 && false == m_bAttack)
 	{
+		m_bAttack = true;
+
+		SoundPlayer S3 = SoundPlayer();
+		S3.Play(L"Thor_AttackImpact2.wav", .6f);
+
 		if (0 >= m_pEnemyList.size())
 		{
 			return;
 		}
 
-		m_UTime = .0f;
+		m_ATime = .0f;
 		std::list<KPtr<Force_Unit>>::iterator S = m_pEnemyList.begin();
 
-		(*S)->Damage(10.0f);
+		(*S)->Damage(260.0f);
 
 		if (true == (*S)->Is_HPDeath())
 		{
@@ -72,6 +109,10 @@ void Controll_Odin::Update_ATTACK()
 		}
 	}
 
+	if (true == m_bAttack && m_pUnit->Get_Component<Renderer_BonAni>()->index_frame() == 582)
+	{
+		m_bAttack = false;
+	}
 }
 
 
@@ -110,6 +151,12 @@ bool Controll_Odin::Init(const KVector& _InitPos, const KVector& _Rot, KPtr<Rend
 
 
 
+	m_UTime = .0f;
+	m_ATime = .0f;
+
+	SoundPlayer S1 = SoundPlayer(); 
+	S1.Play(L"Odin_Down.mp3");
+
 	int Limit = 15;
 	int Cnt = 0;
 
@@ -141,7 +188,6 @@ bool Controll_Odin::Init(const KVector& _InitPos, const KVector& _Rot, KPtr<Rend
 		LimitRange -= 1;
 	}
 
-	m_UTime = .0f;
 	return true;
 }
 

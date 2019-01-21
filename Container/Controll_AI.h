@@ -19,12 +19,17 @@ public:
 	{
 		MT_IDLE = 0,
 		MT_MOVE,
-		MT_RUN,
 	};
 
 	enum ACT_TYPE
 	{
 		AT_IDLE = 0,
+
+
+		AT_BURROW,
+		AT_HIDE,
+		AT_UNBURROW,
+
 		AT_ATTACK01,
 		AT_ATTACK02,
 		AT_ATTACK03,
@@ -33,22 +38,33 @@ public:
 	};
 
 private:
-	bool m_MirrorY;
+	bool m_Attack;
+	float m_UTime;
+	float m_ATime;
+
+	float m_MRange;
+	float m_ARange;
 
 	std::list<KPtr<Renderer_BonAni>> m_RList;
 	std::list<KPtr<Renderer_BonAni>>::iterator m_SRI;
 	std::list<KPtr<Renderer_BonAni>>::iterator m_ERI;
 
 	KPtr<Force_Unit>		m_pUnit;
+	KPtr<Force_Unit>		m_pPUnit;
 
 	MOVE_TYPE	m_MType;
 	ACT_TYPE	m_AType;
 
-	KVector		m_PlayRot;
-	KVector		m_PlayPos;
+	KVector		m_AIRot;
+	KVector		m_AIPos;
 	KVector		m_RenderRot;
 
 private:
+	void Init_Value();
+
+
+	void Update_Death();
+	void Update_Dir();
 	void Update_RenCol();
 	void Update_Move();
 	void Update_Act();
@@ -56,9 +72,13 @@ private:
 
 	void Update_MIDLE();
 	void Update_MOVE();
-	void Update_RUN();
 
 	void Update_AIDLE();
+
+	void Update_BURROW();
+	void Update_HIDE();
+	void Update_UNBURROW();
+
 	void Update_ATTACK01();
 	void Update_ATTACK02();
 	void Update_ATTACK03();
@@ -70,12 +90,12 @@ private:
 public:
 	KVector& pos_player()
 	{
-		return m_PlayPos;
+		return m_AIPos;
 	}
 
 	KVector& rot_player()
 	{
-		return m_PlayRot;
+		return m_AIRot;
 	}
 	KVector& rot_render()
 	{

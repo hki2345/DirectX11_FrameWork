@@ -21,6 +21,8 @@ public:
 	};
 
 private:
+	bool m_bAttack;
+
 	std::list<KPtr<Force_Unit>>		m_pEnemyList;
 	KPtr<Force_Unit>		m_pUnit;
 
@@ -28,6 +30,7 @@ private:
 	KVector		m_TPos;
 
 	float m_UTime;
+	float m_ATime;
 	float m_Gravity;
 
 private:

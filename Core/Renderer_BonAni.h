@@ -50,6 +50,11 @@ private:
 
 
 public:
+	int index_frame()
+	{
+		return iFrameInx;
+	}
+
 	bool Check_AniDone()
 	{
 		return m_Done;
