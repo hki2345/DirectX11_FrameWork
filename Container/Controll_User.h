@@ -43,6 +43,9 @@ public:
 	};
 
 private:
+	bool m_ASound;
+	bool m_MSound;
+
 	bool m_MirrorY;
 
 	std::list<KPtr<Renderer_BonAni>> m_RList;

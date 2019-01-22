@@ -9,12 +9,26 @@
 #include <TimeManager.h>
 
 
+#include <SoundPlayer.h>
+
 Controll_Zergling::Controll_Zergling()
 {
 }
 Controll_Zergling::~Controll_Zergling()
 {
 }
+
+
+
+
+void Controll_Zergling::Init_Value()
+{
+	Controll_AI::Init_Value();
+
+	m_ARange = .5f;
+	m_MRange = 5.0f;
+}
+
 
 void Controll_Zergling::Update_MIDLE()
 {
@@ -51,6 +65,17 @@ void Controll_Zergling::Update_UNBURROW()
 void Controll_Zergling::Update_ATTACK01()
 {
 	Controll_AI::Update_ATTACK01();
+	if (m_pUnit->Get_Component<Renderer_BonAni>()->index_frame() == 166 && false == m_ASound)
+	{
+		SoundPlayer TT = SoundPlayer();
+		TT.Play(L"Zergling_AttackLaunch9.wav");
+		m_ASound = true;
+	}
+	else if (m_pUnit->Get_Component<Renderer_BonAni>()->index_frame() == 167)
+	{
+		m_ASound = false;
+	}
+
 }
 void Controll_Zergling::Update_ATTACK02()
 {
@@ -67,6 +92,9 @@ void Controll_Zergling::Update_DEATH()
 	m_pUnit->Reset_Renderer();
 	if (nullptr == DeathRender)
 	{
+		SoundPlayer TT = SoundPlayer();
+		TT.Play(L"Zergling_Death0.wav", .8f);
+
 		DeathRender = one()->Add_Component<Renderer_BonAni>();
 		DeathRender->Set_Fbx(L"ZerglingDeath.KM3");
 		DeathRender->Create_Animation(false);

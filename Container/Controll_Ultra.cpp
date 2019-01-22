@@ -14,11 +14,17 @@
 
 
 
-Controll_Ultra::Controll_Ultra()
+Controll_Ultra::Controll_Ultra() : m_DeathSound(false)
 {
 }
 Controll_Ultra::~Controll_Ultra()
 {
+}
+
+
+void Controll_Ultra::Init_Value()
+{
+	Controll_AI::Init_Value();
 }
 
 void Controll_Ultra::Update_MIDLE()
@@ -55,6 +61,16 @@ void Controll_Ultra::Update_UNBURROW()
 void Controll_Ultra::Update_ATTACK01()
 {
 	Controll_AI::Update_ATTACK01();
+	if (m_pUnit->Get_Component<Renderer_BonAni>()->index_frame() == 323 && false == m_ASound)
+	{
+		SoundPlayer TT = SoundPlayer();
+		TT.Play(L"Ultralisk_AttackLaunch0.wav");
+		m_ASound = true;
+	}
+	else if (m_pUnit->Get_Component<Renderer_BonAni>()->index_frame() == 323)
+	{
+		m_ASound = false;
+	}
 }
 void Controll_Ultra::Update_ATTACK02()
 {
@@ -69,6 +85,14 @@ void Controll_Ultra::Update_ATTACK03()
 void Controll_Ultra::Update_DEATH()
 {
 	m_pUnit->Set_Animation(Force_Unit::ANI_TYPE::DEATH);
+
+	if (false == m_DeathSound)
+	{
+		SoundPlayer TT = SoundPlayer();
+		TT.Play(L"Ultralisk_Death0.wav", .7f);
+
+		m_DeathSound = true;
+	}
 
 	if (true == m_pUnit->Check_AniDone())
 	{

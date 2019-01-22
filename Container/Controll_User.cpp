@@ -16,7 +16,9 @@
 
 Controll_User::Controll_User() :
 	RayCol(nullptr),
-	m_UTime(.0f)
+	m_UTime(.0f),
+	m_ASound(false),
+	m_MSound(false)
 {
 }
 

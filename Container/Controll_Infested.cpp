@@ -8,13 +8,21 @@
 #include <InputManager.h>
 #include <TimeManager.h>
 
-
+#include <SoundPlayer.h>
 
 Controll_Infested::Controll_Infested()
 {
 }
 Controll_Infested::~Controll_Infested()
 {
+}
+
+
+void Controll_Infested::Init_Value()
+{
+	Controll_AI::Init_Value();
+	m_ARange = 1.0f;
+	m_MRange = 8.0f;
 }
 
 void Controll_Infested::Update_MIDLE()
@@ -52,6 +60,17 @@ void Controll_Infested::Update_UNBURROW()
 void Controll_Infested::Update_ATTACK01()
 {
 	Controll_AI::Update_ATTACK01();
+	if (m_pUnit->Get_Component<Renderer_BonAni>()->index_frame() == 343 && false == m_ASound)
+	{
+		SoundPlayer TT = SoundPlayer();
+		TT.Play(L"Marine_AttackLaunch0.wav");
+		m_ASound = true;
+	}
+	else if (m_pUnit->Get_Component<Renderer_BonAni>()->index_frame() == 344)
+	{
+		m_ASound = false;
+	}
+
 }
 void Controll_Infested::Update_ATTACK02()
 {
@@ -66,6 +85,9 @@ void Controll_Infested::Update_DEATH()
 	m_pUnit->Reset_Renderer();
 	if (nullptr == DeathRender)
 	{
+		SoundPlayer TT = SoundPlayer();
+		TT.Play(L"InfestedTerran_What00.ogg", .7f);
+
 		DeathRender = one()->Add_Component<Renderer_BonAni>();
 		DeathRender->Set_Fbx(L"InfestedMarineDeath.KM3");
 		DeathRender->Create_Animation(false);

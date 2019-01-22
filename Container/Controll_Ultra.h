@@ -8,6 +8,10 @@ public:
 	Controll_Ultra();
 	~Controll_Ultra();
 
+private:
+	bool m_DeathSound;
+
+	void Init_Value() override;
 
 	void Update_MIDLE() override;
 	void Update_MOVE() override;

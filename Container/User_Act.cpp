@@ -34,6 +34,21 @@ void Controll_User::Udpate_DEATH()
 void Controll_User::Update_MOVE()
 {
 	m_pUnit->Set_Animation(Force_Unit::ANI_TYPE::WALK01);
+	if (m_MSound == false &&
+		(m_pUnit->Get_Component<Renderer_BonAni>()->index_frame() == 4 ||
+			m_pUnit->Get_Component<Renderer_BonAni>()->index_frame() == 15))
+	{
+		SoundPlayer TT = SoundPlayer();
+		TT.Play(L"Marine_Death_Bodyfall_A_01.wav");
+		m_MSound = true;
+	}
+	else if ((m_pUnit->Get_Component<Renderer_BonAni>()->index_frame() == 5 ||
+		m_pUnit->Get_Component<Renderer_BonAni>()->index_frame() == 16))
+	{
+		m_MSound = false;
+	}
+
+
 	if (true == KEY_DOWN(L"RUN"))
 	{
 		m_MType = Controll_User::MT_RUN;
@@ -78,6 +93,19 @@ void Controll_User::Update_MOVE()
 void Controll_User::Update_RUN()
 {
 	m_pUnit->Set_Animation(Force_Unit::ANI_TYPE::WALK01);
+	if (m_MSound == false &&
+		(m_pUnit->Get_Component<Renderer_BonAni>()->index_frame() == 4 ||
+		m_pUnit->Get_Component<Renderer_BonAni>()->index_frame() == 15))
+	{
+		SoundPlayer TT = SoundPlayer();
+		TT.Play(L"Marine_Death_Bodyfall_A_01.wav");
+		m_MSound = true;
+	}
+	else if ((m_pUnit->Get_Component<Renderer_BonAni>()->index_frame() == 5 ||
+		m_pUnit->Get_Component<Renderer_BonAni>()->index_frame() == 16))
+	{
+		m_MSound = false;
+	}
 
 
 	float RunSpd = 1.5f;
@@ -155,20 +183,30 @@ void Controll_User::Update_AIDLE()
 }
 void Controll_User::Update_ATTACK()
 {
+	m_pUnit->Set_Animation(Force_Unit::ANI_TYPE::ATTACK01);
+	if (m_pUnit->Get_Component<Renderer_BonAni>()->index_frame() == 393 && m_ASound == false)
+	{
+		SoundPlayer TT = SoundPlayer();
+		TT.Play(L"Marine_AttackLaunch0.wav");
+		m_ASound = true;
+	}
+	else if(m_pUnit->Get_Component<Renderer_BonAni>()->index_frame() == 394)
+	{
+		m_ASound = false;
+	}
 
 
 	if (true == KEY_UNPRESS(L"LB"))
 	{
 		m_AType = Controll_User::AT_IDLE;
 	}
-	m_pUnit->Set_Animation(Force_Unit::ANI_TYPE::ATTACK01);
+
 	if (nullptr == m_pFocusUnit)
 	{
 		return;
 	}
+
 	m_RenderRot.y = m_PlayRot.y + KPI;
-
-
 	m_UTime += DELTATIME;
 
 	if (m_UTime > m_pUnit->interval())
@@ -180,6 +218,17 @@ void Controll_User::Update_ATTACK()
 void Controll_User::Update_BOMB()
 {
 	m_pUnit->Set_Animation(Force_Unit::ANI_TYPE::ATTACK01);
+	if (m_pUnit->Get_Component<Renderer_BonAni>()->index_frame() == 393 && m_ASound == false)
+	{
+		SoundPlayer TT = SoundPlayer();
+		TT.Play(L"HH_Hellion_Grenade_AttackLaunch01.wav");
+		m_ASound = true;
+	}
+	else if (m_pUnit->Get_Component<Renderer_BonAni>()->index_frame() == 394)
+	{
+		m_ASound = false;
+	}
+
 	if (nullptr == m_pFocusUnit)
 	{
 		return;

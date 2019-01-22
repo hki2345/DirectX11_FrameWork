@@ -38,6 +38,7 @@ public:
 	};
 
 protected:
+	bool m_ASound;
 	bool m_Attack;
 	float m_UTime;
 	float m_ATime;
@@ -60,7 +61,7 @@ protected:
 	KVector		m_RenderRot;
 
 protected:
-	void Init_Value();
+	virtual void Init_Value();
 
 
 	void Update_Death();

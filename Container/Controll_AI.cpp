@@ -10,7 +10,9 @@
 
 
 
-Controll_AI::Controll_AI() : m_Attack(false)
+Controll_AI::Controll_AI() :
+	m_Attack(false),
+	m_ASound(false)
 {
 }
 
@@ -76,7 +78,7 @@ void Controll_AI::Init_Value()
 	m_ATime = .0f;
 
 	m_ARange = 3.0f;
-	m_MRange = 15.0f;
+	m_MRange = 12.0f;
 }
 
 void Controll_AI::Update()
@@ -100,7 +102,7 @@ void Controll_AI::Update_Death()
 
 void Controll_AI::Update_Dir()
 {
-	if (nullptr == m_pPUnit)
+	if (nullptr == m_pPUnit || 0 > m_pUnit->hp())
 	{
 		return;
 	}

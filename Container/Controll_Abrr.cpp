@@ -8,12 +8,21 @@
 #include <InputManager.h>
 #include <TimeManager.h>
 
+#include <SoundPlayer.h>
 
 Controll_Abrr::Controll_Abrr()
 {
 }
 Controll_Abrr::~Controll_Abrr()
 {
+}
+
+
+void Controll_Abrr::Init_Value()
+{
+	Controll_AI::Init_Value();
+
+	m_MRange = 8.0f;
 }
 
 void Controll_Abrr::Update_MIDLE()
@@ -50,6 +59,16 @@ void Controll_Abrr::Update_UNBURROW()
 void Controll_Abrr::Update_ATTACK01()
 {
 	Controll_AI::Update_ATTACK01();
+	if (m_pUnit->Get_Component<Renderer_BonAni>()->index_frame() == 354 && false == m_ASound)
+	{
+		SoundPlayer TT = SoundPlayer();
+		TT.Play(L"Aberration_Attack_00.ogg");
+		m_ASound = true;
+	}
+	else if (m_pUnit->Get_Component<Renderer_BonAni>()->index_frame() == 355)
+	{
+		m_ASound = false;
+	}
 }
 void Controll_Abrr::Update_ATTACK02()
 {
@@ -66,6 +85,9 @@ void Controll_Abrr::Update_DEATH()
 	m_pUnit->Reset_Renderer();
 	if (nullptr == DeathRender)
 	{
+		SoundPlayer TT = SoundPlayer();
+		TT.Play(L"Aberration_Death_00.wav", .7f);
+
 		DeathRender = one()->Add_Component<Renderer_BonAni>();
 		DeathRender->Set_Fbx(L"Aberration_Death.KM3");
 		DeathRender->Create_Animation(false);

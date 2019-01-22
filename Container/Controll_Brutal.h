@@ -11,6 +11,9 @@ public:
 private:
 	KPtr<Renderer_BonAni> DeathRender;
 
+
+
+	void Init_Value() override;
 	void Update_MIDLE() override;
 	void Update_MOVE() override;
 

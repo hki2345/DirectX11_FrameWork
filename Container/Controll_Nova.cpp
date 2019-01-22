@@ -52,7 +52,7 @@ void Controll_Nova::Update_ATTACK()
 	if (m_ATime > .1f)
 	{
 		SoundPlayer TT = SoundPlayer();
-		TT.Play(L"Nova_SniperRifleBulletImpact01.wav");
+		TT.Play(L"Ghost_SnipeAttackLaunch.wav");
 
 		m_ATime = .0f;
 
