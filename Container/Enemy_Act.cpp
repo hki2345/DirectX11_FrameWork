@@ -64,14 +64,24 @@ void Controll_AI::Update_AIDLE()
 void Controll_AI::Update_BURROW()
 {
 
+	m_pUnit->Set_Animation(Force_Unit::ANI_TYPE::FIDGET02);
 }
 void Controll_AI::Update_HIDE()
 {
+	m_pUnit->Set_Animation(Force_Unit::ANI_TYPE::FIDGET02);
 
+	if (m_ARange >= m_pPUnit->one()->Trans()->pos_local().distance(m_pUnit->one()->Trans()->pos_local()))
+	{
+		m_AType = Controll_AI::AT_UNBURROW;
+	}
 }
 void Controll_AI::Update_UNBURROW()
 {
-
+	m_pUnit->Set_Animation(Force_Unit::ANI_TYPE::FIDGET01);
+	if (true == m_pUnit->Get_Component<Renderer_BonAni>()->Check_AniDone())
+	{
+		m_AType = Controll_AI::AT_IDLE;
+	}
 }
 
 

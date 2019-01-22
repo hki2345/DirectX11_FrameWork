@@ -458,6 +458,13 @@ KPtr<Changer_Animation> Renderer_BonAni::Create_Animation(const bool& _Find /*= 
 			Set_Clip(0);
 			return CAni;
 		}
+
+		CAni = ResourceManager<Changer_Animation>::Load(LStr.c_str());
+		if (nullptr != CAni)
+		{
+			Set_Clip(0);
+			return CAni;
+		}
 	}
 	else
 	{
@@ -468,13 +475,7 @@ KPtr<Changer_Animation> Renderer_BonAni::Create_Animation(const bool& _Find /*= 
 			return CAni;
 		}
 	}
-/*
-	CAni = ResourceManager<Changer_Animation>::Load(LStr.c_str());
-	if (nullptr != CAni)
-	{
-		Set_Clip(0);
-		return CAni;
-	}*/
+
 
 	CAni = ResourceManager<Changer_Animation>::Create(TStr.c_str());
 

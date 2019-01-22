@@ -58,7 +58,7 @@ bool Controll_AI::Init(KPtr<Force_Unit> _Unit)
 
 
 	m_MType = MOVE_TYPE::MT_IDLE;
-	m_AType = ACT_TYPE::AT_IDLE;
+	m_AType = ACT_TYPE::AT_HIDE;
 
 
 	m_pUnit->playable_type(PLAYABLE_TYPE::PBT_ENEMY);
