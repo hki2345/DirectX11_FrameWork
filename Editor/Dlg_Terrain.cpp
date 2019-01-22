@@ -559,6 +559,9 @@ void Dlg_Terrain::OnBnClickedTerload()
 	NameEdit[0].GetWindowTextW(TT);
 
 	m_pTer->Load(TT.GetString());
+
+
+	MessageBox(TT + L"\n(지형)을 불러 왔습니다.");
 }
 
 
@@ -566,6 +569,9 @@ void Dlg_Terrain::OnBnClickedTersave()
 {
 	// TODO: 여기에 컨트롤 알림 처리기 코드를 추가합니다.
 	m_pTer->Save();
+
+
+	MessageBox(L"\n지형 저장을 완료했습니다.");
 }
 
 
@@ -625,7 +631,7 @@ void Dlg_Terrain::OnBnClickedStateload()
 	m_PBTBtn[1].SetCheck(false);
 	m_PBTBtn[2].SetCheck(false);
 
-	m_PBTBtn[m_CurForce->playable_type()].SetCheck(true);
+	// m_PBTBtn[m_CurForce->playable_type()].SetCheck(true);
 }
 
 

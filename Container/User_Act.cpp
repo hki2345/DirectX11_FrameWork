@@ -14,6 +14,9 @@
 #include "Controll_Odin.h"
 #include "Controll_Hyperion.h"
 
+
+#include <SoundPlayer.h>
+
 void Controll_User::Update_MIDLE()
 {
 	m_pUnit->Set_Animation(Force_Unit::ANI_TYPE::STAND01);
@@ -152,6 +155,8 @@ void Controll_User::Update_AIDLE()
 }
 void Controll_User::Update_ATTACK()
 {
+
+
 	if (true == KEY_UNPRESS(L"LB"))
 	{
 		m_AType = Controll_User::AT_IDLE;
@@ -199,6 +204,8 @@ void Controll_User::Update_HEAL()
 		m_RenderRot + KVector(.0f, KPI, .0f),
 		m_pUnit->terrain());
 
+
+	m_pUnit->hp(100);
 	m_AType = Controll_User::AT_IDLE;
 }
 void Controll_User::Update_OPTI()

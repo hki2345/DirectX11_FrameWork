@@ -152,12 +152,17 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Container.h" />
+    <ClInclude Include="Controll_Abrr.h" />
     <ClInclude Include="Controll_AI.h" />
+    <ClInclude Include="Controll_Brutal.h" />
     <ClInclude Include="Controll_Hyperion.h" />
+    <ClInclude Include="Controll_Infested.h" />
     <ClInclude Include="Controll_Medivac.h" />
     <ClInclude Include="Controll_Nova.h" />
     <ClInclude Include="Controll_Odin.h" />
+    <ClInclude Include="Controll_Ultra.h" />
     <ClInclude Include="Controll_User.h" />
+    <ClInclude Include="Controll_Zergling.h" />
     <ClInclude Include="Con_Class.h" />
     <ClInclude Include="SC2_Camera.h" />
     <ClInclude Include="Force_Unit.h" />
@@ -167,12 +172,17 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Container.cpp" />
+    <ClCompile Include="Controll_Abrr.cpp" />
     <ClCompile Include="Controll_AI.cpp" />
+    <ClCompile Include="Controll_Brutal.cpp" />
     <ClCompile Include="Controll_Hyperion.cpp" />
+    <ClCompile Include="Controll_Infested.cpp" />
     <ClCompile Include="Controll_Medivac.cpp" />
     <ClCompile Include="Controll_Nova.cpp" />
     <ClCompile Include="Controll_Odin.cpp" />
+    <ClCompile Include="Controll_Ultra.cpp" />
     <ClCompile Include="Controll_User.cpp" />
+    <ClCompile Include="Controll_Zergling.cpp" />
     <ClCompile Include="Con_Class.cpp" />
     <ClCompile Include="Enemy_Act.cpp" />
     <ClCompile Include="SC2_Camera.cpp" />

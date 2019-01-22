@@ -242,8 +242,8 @@ void Controll_User::Update_Act()
 		KLOG(L"Unit Act: BOMB");
 		break;
 	case Controll_User::AT_STORY:
-		Update_BOMB();
-		KLOG(L"Unit Act: BOMB");
+		// Update_BOMB();
+		KLOG(L"Unit Act: STORY");
 		break;
 	case Controll_User::AT_HEAL:
 		Update_HEAL();

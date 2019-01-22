@@ -9,7 +9,11 @@
 #include <Renderer_Terrain.h>
 
 
-#include "Controll_AI.h"
+#include "Controll_Abrr.h"
+#include "Controll_Zergling.h"
+#include "Controll_Ultra.h"
+#include "Controll_Brutal.h"
+#include "Controll_Infested.h"
 #include "Controll_User.h"
 #include "SC2_Camera.h"
 
@@ -213,7 +217,7 @@ void SC2_Force::playable_type(const PLAYABLE_TYPE& _Value)
 		{
 		case PBT_NONE:
 		{	
-			(*m_SUI)->Delete_Component<Controll_AI>();
+			(*m_SUI)->Delete_Component<Controll_Abrr>();
 			(*m_SUI)->Delete_Component<Controll_User>();
 
 			if (this == Con_Class::force_enemy())
@@ -228,10 +232,33 @@ void SC2_Force::playable_type(const PLAYABLE_TYPE& _Value)
 		}
 		case PBT_ENEMY:
 		{
-			(*m_SUI)->Delete_Component<Controll_AI>();
+			(*m_SUI)->Delete_Component<Controll_Abrr>();
 			(*m_SUI)->Delete_Component<Controll_User>();
 
-			(*m_SUI)->Add_Component<Controll_AI>((*m_SUI));
+			if (L"ABERRATION" == (*m_SUI)->ws_name())
+			{
+				(*m_SUI)->Add_Component<Controll_Abrr>((*m_SUI));
+			}
+			else if (L"ZERGLING" == (*m_SUI)->ws_name())
+			{
+				(*m_SUI)->Add_Component<Controll_Zergling>((*m_SUI));
+			}
+			else if (L"INFESTEDMARINE" == (*m_SUI)->ws_name())
+			{
+				(*m_SUI)->Add_Component<Controll_Infested>((*m_SUI));
+			}
+			else if (L"ULTRALISK" == (*m_SUI)->ws_name())
+			{
+				(*m_SUI)->Add_Component<Controll_Ultra>((*m_SUI));
+			}
+			else if (L"BRUTALISK" == (*m_SUI)->ws_name())
+			{
+				(*m_SUI)->Add_Component<Controll_Brutal>((*m_SUI));
+			}
+			else
+			{
+				(*m_SUI)->Add_Component<Controll_AI>((*m_SUI));
+			}
 
 			Con_Class::force_enemy(this);
 
@@ -243,7 +270,7 @@ void SC2_Force::playable_type(const PLAYABLE_TYPE& _Value)
 		}
 		case PBT_USER:
 		{
-			(*m_SUI)->Delete_Component<Controll_AI>();
+			(*m_SUI)->Delete_Component<Controll_Abrr>();
 			(*m_SUI)->Delete_Component<Controll_User>();
 			(*m_SUI)->Add_Component<Controll_User>((*m_SUI), Core_Class::MainScene()->Camera()->Get_Component<SC2_Camera>());
 
@@ -275,7 +302,12 @@ void SC2_Force::playable_type(const PLAYABLE_TYPE& _Value, KPtr<State> _State)
 		{
 		case PBT_USER:
 		{
-			(*m_SUI)->Delete_Component<Controll_AI>();
+			(*m_SUI)->Delete_Component<Controll_Abrr>();
+			(*m_SUI)->Delete_Component<Controll_Zergling>();
+			(*m_SUI)->Delete_Component<Controll_Ultra>();
+			(*m_SUI)->Delete_Component<Controll_Brutal>();
+			(*m_SUI)->Delete_Component<Controll_Infested>();
+
 			(*m_SUI)->Delete_Component<Controll_User>();
 			(*m_SUI)->Add_Component<Controll_User>((*m_SUI), _State->Camera()->Get_Component<SC2_Camera>());
 

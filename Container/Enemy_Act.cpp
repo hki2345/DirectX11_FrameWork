@@ -70,7 +70,7 @@ void Controll_AI::Update_HIDE()
 {
 	m_pUnit->Set_Animation(Force_Unit::ANI_TYPE::FIDGET02);
 
-	if (m_ARange >= m_pPUnit->one()->Trans()->pos_local().distance(m_pUnit->one()->Trans()->pos_local()))
+	if (m_MRange >= m_pPUnit->one()->Trans()->pos_local().distance(m_pUnit->one()->Trans()->pos_local()))
 	{
 		m_AType = Controll_AI::AT_UNBURROW;
 	}

@@ -37,7 +37,7 @@ public:
 		AT_DEATH,
 	};
 
-private:
+protected:
 	bool m_Attack;
 	float m_UTime;
 	float m_ATime;
@@ -59,7 +59,7 @@ private:
 	KVector		m_AIPos;
 	KVector		m_RenderRot;
 
-private:
+protected:
 	void Init_Value();
 
 
@@ -70,19 +70,19 @@ private:
 	void Update_Act();
 
 
-	void Update_MIDLE();
-	void Update_MOVE();
+	virtual void Update_MIDLE() ;
+	virtual void Update_MOVE();
 
-	void Update_AIDLE();
+	virtual void Update_AIDLE();
 
-	void Update_BURROW();
-	void Update_HIDE();
-	void Update_UNBURROW();
+	virtual void Update_BURROW();
+	virtual void Update_HIDE();
+	virtual void Update_UNBURROW();
 
-	void Update_ATTACK01();
-	void Update_ATTACK02();
-	void Update_ATTACK03();
-	void Update_DEATH();
+	virtual void Update_ATTACK01();
+	virtual void Update_ATTACK02();
+	virtual void Update_ATTACK03();
+	virtual void Update_DEATH();
 
 
 	void Update_Terrain();
