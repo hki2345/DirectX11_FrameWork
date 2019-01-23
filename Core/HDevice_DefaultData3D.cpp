@@ -85,6 +85,7 @@ bool KDevice::Def3DCreate()
 	ResourceManager<KBlend>::Create(L"ALPHA");
 
 
+
 	Core_Class::MainDevice().CreateCB<KColor>(L"FORCE_COLOR", D3D11_USAGE_DYNAMIC, 5);
 	Core_Class::MainDevice().CreateCB<MatrixContainer>(L"MATCON", D3D11_USAGE_DYNAMIC, 10);
 	Core_Class::MainDevice().CreateCB<RenderOption>(L"RENDEROPTION", D3D11_USAGE_DYNAMIC, 11);
@@ -623,6 +624,7 @@ bool KDevice::Mat3DCreate()
 	RECT3DVTX->Add_Layout("COLOR", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
 	RECT3DVTX->Add_LayoutFin("NORMAL", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
 	KPtr<Shader_Pixel> RECT3DPIX = ResourceManager<Shader_Pixel>::Load_FromKey(L"RECT3DPIX", L"Shader", L"RECT3D.fx", "PS_RECT3D");
+	RECT3DPIX->CreateCB<KVector>(L"FADE_CUT", D3D11_USAGE_DYNAMIC, 5);
 
 	KPtr<KMaterial> RECT3DMAT = ResourceManager<KMaterial>::Create(L"RECT3DMAT");
 	RECT3DMAT->Set_VTShader(L"RECT3DVTX");

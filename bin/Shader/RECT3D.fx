@@ -36,6 +36,14 @@ struct PS3D_OUTPUT
 	float4 vColor : SV_Target;
 };
 
+
+cbuffer CUT_FADE : register(b5)
+{
+    // X - Fade Y - Value
+    float4 m_CutFade;
+};
+
+
 VTX3DMESH_OUTPUT VS_RECT3D(VTX3DMESH_INPUT _iN)
 {
 	VTX3DMESH_OUTPUT outData = (VTX3DMESH_OUTPUT)0.f;
@@ -52,7 +60,32 @@ PS3D_OUTPUT PS_RECT3D(VTX3DMESH_OUTPUT _in)
 {
     PS3D_OUTPUT outData = (PS3D_OUTPUT) 0.0f;
     
-    float4 CalColor = g_Tex_0.Sample(g_Sam_0, _in.vUv);    
+    float4 CalColor = g_Tex_0.Sample(g_Sam_0, _in.vUv);
+
+
+    if(0.0f == m_CutFade.x)
+    {
+        if (m_CutFade.y < _in.vUv.x)
+        {
+            CalColor *= float4(.0f, .0f, .0f, .0f);
+        }
+
+    }
+    else if (1.0f == m_CutFade.x)
+    {
+        if (1.0f == m_CutFade.y)
+        {
+        }
+        else if (m_CutFade.y > _in.vUv.x)
+        {
+            CalColor *= float4(.0f, .6f, .6f, 1.0f);
+        }
+        else
+        {
+            CalColor *= float4(.1f, .1f, .1f, 1.0f);
+        }
+    }
     outData.vColor = CalColor;
+
 	return outData;
 }

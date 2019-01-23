@@ -8,6 +8,8 @@
 #include <Renderer_Terrain.h>
 #include <InputManager.h>
 
+#include <SoundPlayer.h>
+
 
 Controll_Medivac::Controll_Medivac()
 {
@@ -25,7 +27,7 @@ void Controll_Medivac::Update_MIDLE()
 	m_pUnit->Set_Animation(Force_Unit::ANI_TYPE::ATTACK02);
 	m_UTime += DELTATIME;
 
-	if (60.0f <= m_UTime)
+	if (10.0f <= m_UTime)
 	{
 		m_pUnit->force()->Delete_Unit(m_pUnit);
 		one()->Set_Death();
@@ -60,6 +62,13 @@ bool Controll_Medivac::Init(const KVector& _InitPos, const KVector& _Rot, KPtr<R
 	
 	TT.y += 5.0f;
 	m_pUnit->one()->Trans()->pos_local(TT);
+
+	SoundPlayer TS = SoundPlayer();
+	TS.Play(L"Medivac_Yes05.ogg");
+
+	SoundPlayer TS2 = SoundPlayer();
+	TS2.Play(L"Tychus_MedivacPlatform_What_02.ogg");
+
 
 	m_MType = MOVE_TYPE::MT_LAND;
 

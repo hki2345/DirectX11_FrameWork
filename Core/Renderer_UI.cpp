@@ -36,6 +36,7 @@ bool Renderer_UI::Init(int _Order /*= 0*/)
 
 void Renderer_UI::Render(KPtr<Camera> _Camera, const KUINT& _MeshIdx, const KUINT& _MtlIdx, Render_Data* _Data)
 {
+	Core_Class::MainDevice().Set_DSS(L"ALWAYS");
 	KASSERT(nullptr == m_Trans);
 	if (nullptr == m_Trans)
 	{
@@ -44,10 +45,17 @@ void Renderer_UI::Render(KPtr<Camera> _Camera, const KUINT& _MeshIdx, const KUIN
 
 
 	Update_TexSmp();
+	KVector m_Cut;
+	m_Cut.x = m_CutFade;
+	m_Cut.y = m_CutValue;
+
+	m_MtlVec[0]->PShader()->SettingCB<KVector>(L"FADE_CUT", m_Cut);
 	m_MtlVec[0]->VShader()->SettingCB<MatrixContainer>(L"MATCON", m_MD);
 	m_MtlVec[0]->Update();
 	m_MeshVec[0]->Update();
 	m_MeshVec[0]->Render();
+
+	Core_Class::MainDevice().Set_DSS(L"BASIC");
 }
 
 

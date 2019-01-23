@@ -71,6 +71,8 @@ private:
 	std::list<KPtr<Renderer_BonAni>>::iterator	m_SRI;
 	std::list<KPtr<Renderer_BonAni>>::iterator	m_ERI;
 
+	float m_MAXHP;
+
 private:
 	void Update_StrList();
 	void Update_RenderAni();
@@ -212,6 +214,10 @@ public:
 		return m_Info.Score;
 	}
 
+	float& maxhp()
+	{
+		return m_MAXHP;
+	}
 	void hp(const float& _Value)
 	{
 		m_Info.HP = _Value;

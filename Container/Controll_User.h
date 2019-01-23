@@ -56,20 +56,22 @@ private:
 	KPtr<Force_Unit>		m_pUnit;
 	KPtr<SC2_Camera>		m_pCam;
 
-
-	KPtr<Camera>			m_pUI;
-
-
-
+	
 	KPtr<Renderer_UI>		m_uMedic;
 	KPtr<Renderer_UI>		m_uFire;
 	KPtr<Renderer_UI>		m_uOpti;
 
 
+	KPtr<Renderer_UI>		m_uCMedic;
+	KPtr<Renderer_UI>		m_uCFire;
+	KPtr<Renderer_UI>		m_uCOpti;
+
+
 	KPtr<Renderer_UI>		m_uHp;
+	KPtr<Renderer_UI>		m_uBHP;
 
 	KPtr<Renderer_UI>		m_uFocusHP;
-	KPtr<Renderer_UI>		m_uBackHP;
+	KPtr<Renderer_UI>		m_uFBackHP;
 
 
 	MOVE_TYPE	m_MType;
@@ -85,11 +87,26 @@ private:
 
 	float m_UTime;
 
+
+	float m_FiTime;
+	float m_MeTime;
+	float m_OpTime;
+
+	float m_FiATime;
+	float m_MeATime;
+	float m_OpATime;
+
+
+
 private:
 	void Init_UI();
 	void Update_UI();
+	void Update_AUI();
+
+
 
 	void Update_StayCol(KCollision* _Left, KCollision* _Right);
+	void Update_ExitCol(KCollision* _Left, KCollision* _Right);
 	
 
 	void Update_RenCol();

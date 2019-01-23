@@ -51,6 +51,8 @@ bool Force_Unit::Init(const wchar_t* _Name, KPtr<Renderer_Terrain> _Ter, const b
 		Load_NoFind(_Name);
 	}
 
+
+	m_MAXHP = m_Info.HP;
 	m_pTer = _Ter;
 
 

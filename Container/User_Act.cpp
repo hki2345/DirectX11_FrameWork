@@ -166,11 +166,19 @@ void Controll_User::Update_AIDLE()
 	}
 	if (true == KEY_DOWN(L"BOMB"))
 	{
-		m_AType = Controll_User::AT_BOMB;
+		if (m_FiATime > m_FiTime)
+		{
+			m_AType = Controll_User::AT_BOMB;
+			m_FiATime = .0f;
+		}
 	}
 	if (true == KEY_DOWN(L"E"))
 	{
-		m_AType = Controll_User::AT_HEAL;
+		if (m_MeATime > m_MeTime)
+		{
+			m_AType = Controll_User::AT_HEAL;
+			m_MeATime = .0f;
+		}
 	}
 	if (true == KEY_DOWN(L"F"))
 	{
@@ -178,7 +186,11 @@ void Controll_User::Update_AIDLE()
 	}
 	if (true == KEY_DOWN(L"Q"))
 	{
-		m_AType = Controll_User::AT_OPTI;
+		if (m_OpATime > m_OpTime)
+		{
+			m_AType = Controll_User::AT_OPTI;
+			m_OpATime = .0f;
+		}
 	}
 }
 void Controll_User::Update_ATTACK()
@@ -187,11 +199,28 @@ void Controll_User::Update_ATTACK()
 	m_UTime += DELTATIME;
 
 	m_pUnit->Set_Animation(Force_Unit::ANI_TYPE::ATTACK01);
+
+
+
+	if (true == KEY_UNPRESS(L"LB"))
+	{
+		m_AType = Controll_User::AT_IDLE;
+		return;
+	}
+
+
 	if (m_pUnit->Get_Component<Renderer_BonAni>()->index_frame() == 393 && m_ASound == false)
 	{
 		SoundPlayer TT = SoundPlayer();
-		TT.Play(L"Marine_AttackLaunch0.wav");
+		TT.Play(L"Marine_AttackLaunch0.wav", .5f);
 		m_ASound = true;
+
+		if (nullptr == m_pFocusUnit)
+		{
+			return;
+		}
+
+		m_pFocusUnit->Damage(4.0f);
 	}
 	else if(m_pUnit->Get_Component<Renderer_BonAni>()->index_frame() == 394)
 	{
@@ -199,21 +228,10 @@ void Controll_User::Update_ATTACK()
 	}
 
 
-	if (true == KEY_UNPRESS(L"LB"))
+	/*if (m_UTime > m_pUnit->interval())
 	{
-		m_AType = Controll_User::AT_IDLE;
-	}
-
-	if (nullptr == m_pFocusUnit)
-	{
-		return;
-	}
-
-	if (m_UTime > m_pUnit->interval())
-	{
-		m_pFocusUnit->Damage(4.0f);
 		m_UTime = .0f;
-	}
+	}*/
 }
 void Controll_User::Update_BOMB()
 {
@@ -221,24 +239,15 @@ void Controll_User::Update_BOMB()
 	m_RenderRot.y = m_PlayRot.y + KPI;
 
 	m_pUnit->Set_Animation(Force_Unit::ANI_TYPE::ATTACK01);
-	if (m_pUnit->Get_Component<Renderer_BonAni>()->index_frame() == 393 && m_ASound == false)
-	{
-		SoundPlayer TT = SoundPlayer();
-		TT.Play(L"HH_Hellion_Grenade_AttackLaunch01.wav");
-		m_ASound = true;
-	}
-	else if (m_pUnit->Get_Component<Renderer_BonAni>()->index_frame() == 394)
-	{
-		m_ASound = false;
-	}
-
+	SoundPlayer TT = SoundPlayer();
+	TT.Play(L"HH_Hellion_Grenade_AttackLaunch01.wav");
+	m_ASound = true;
 	if (nullptr == m_pFocusUnit)
 	{
 		return;
 	}
 
 	m_pFocusUnit->Damage(50.0f);
-
 }
 void Controll_User::Update_STORY()
 {

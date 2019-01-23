@@ -4,6 +4,7 @@
 #include <Core_Class.h>
 #include <Renderer_BonAni.h>
 #include <Renderer_Terrain.h>
+#include <Renderer_UI.h>
 #include <InputManager.h>
 #include <KWindow.h>
 
@@ -20,7 +21,10 @@ Controll_User::Controll_User() :
 	RayCol(nullptr),
 	m_UTime(.0f),
 	m_ASound(false),
-	m_MSound(false)
+	m_MSound(false),
+	m_FiATime(.0f),
+	m_MeATime(.0f),
+	m_OpATime(.0f)
 {
 }
 
@@ -31,6 +35,17 @@ Controll_User::~Controll_User()
 	{
 		RayCol->StayFunc_Delete(L"Controll User");
 	}
+
+	if(nullptr != m_uMedic)      {m_uMedic->one()->Set_Death();	 }
+	if (nullptr != m_uFire)		 {m_uFire->one()->Set_Death();	 }
+	if (nullptr != m_uOpti)		 {m_uOpti->one()->Set_Death();	 }
+	if (nullptr != m_uCMedic)	 {m_uCMedic->one()->Set_Death(); }
+	if (nullptr != m_uCFire)	 {m_uCFire->one()->Set_Death();	 }
+	if (nullptr != m_uCOpti)	 {m_uCOpti->one()->Set_Death();	 }
+	if (nullptr != m_uHp)		 {m_uHp->one()->Set_Death();	 }
+	if (nullptr != m_uBHP)		 {m_uBHP->one()->Set_Death();	 }
+	if (nullptr != m_uFocusHP)	 {m_uFocusHP->one()->Set_Death();}
+	if (nullptr != m_uFBackHP)	 {m_uFBackHP->one()->Set_Death();}
 }
 
 
@@ -114,8 +129,12 @@ bool Controll_User::Init(KPtr<Force_Unit> _Unit, KPtr<SC2_Camera> _Cam)
 
 	m_MType = MOVE_TYPE::MT_IDLE;
 	m_AType = ACT_TYPE::AT_IDLE;
-	m_OType = OPTI_TYPE::OT_HYPERION;
+	m_OType = OPTI_TYPE::OT_NOVA;
 
+
+	m_FiTime = 7.0f;
+	m_MeTime = 30.0f;
+	m_OpTime = 120.0f;
 
 	m_pUnit->playable_type(PLAYABLE_TYPE::PBT_USER);
 	m_MirrorY = false;
@@ -128,7 +147,10 @@ bool Controll_User::Init(KPtr<Force_Unit> _Unit, KPtr<SC2_Camera> _Cam)
 	{
 		return true;
 	}
+
+
 	RayCol->StayFunc(L"Controll User", this, &Controll_User::Update_StayCol);
+	RayCol->ExitFunc(L"Controll User", this, &Controll_User::Update_ExitCol);
 
 
 	if (m_RList.size() == 0)
@@ -155,9 +177,11 @@ void Controll_User::Update()
 		return;
 	}
 
+	
 	Update_Move();
 	Update_Act();
 	Update_UI();
+	Update_AUI();
 
 
 	Update_Terrain();
@@ -190,6 +214,11 @@ void Controll_User::Update_StayCol(KCollision* _Left, KCollision* _Right)
 	}
 }
 
+
+void Controll_User::Update_ExitCol(KCollision* _Left, KCollision* _Right)
+{
+	m_pFocusUnit = nullptr;
+}
 
 void Controll_User::Update_RenCol()
 {
@@ -235,6 +264,10 @@ void Controll_User::Update_Move()
 
 void Controll_User::Update_Act()
 {
+	m_FiATime += DELTATIME;
+	m_MeATime += DELTATIME;
+	m_OpATime += DELTATIME;
+
 	switch (m_AType)
 	{
 	case Controll_User::AT_IDLE:
