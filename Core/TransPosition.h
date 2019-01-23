@@ -192,6 +192,7 @@ public:
 
 	KVector4 rotate_localquat() { return m_LRot.Compute_Quarternion(); }
 	KVector4 rotate_local()	{ return m_LRot;	}
+	KVector4 rotate_localDeg() { return m_LRot * HMATHVAR::RTOD; }
 	KVector4 rotate_world() { return m_WRot; }
 
 	KMatrix matrix_world() const

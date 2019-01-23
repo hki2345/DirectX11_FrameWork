@@ -39,7 +39,7 @@ void Controll_User::Update_MOVE()
 			m_pUnit->Get_Component<Renderer_BonAni>()->index_frame() == 15))
 	{
 		SoundPlayer TT = SoundPlayer();
-		TT.Play(L"Marine_Death_Bodyfall_A_01.wav");
+		TT.Play(L"Marine_Death_Bodyfall_A_01.wav", .1f);
 		m_MSound = true;
 	}
 	else if ((m_pUnit->Get_Component<Renderer_BonAni>()->index_frame() == 5 ||
@@ -98,7 +98,7 @@ void Controll_User::Update_RUN()
 		m_pUnit->Get_Component<Renderer_BonAni>()->index_frame() == 15))
 	{
 		SoundPlayer TT = SoundPlayer();
-		TT.Play(L"Marine_Death_Bodyfall_A_01.wav");
+		TT.Play(L"Marine_Death_Bodyfall_A_01.wav", .1f);
 		m_MSound = true;
 	}
 	else if ((m_pUnit->Get_Component<Renderer_BonAni>()->index_frame() == 5 ||
@@ -183,6 +183,9 @@ void Controll_User::Update_AIDLE()
 }
 void Controll_User::Update_ATTACK()
 {
+	m_RenderRot.y = m_PlayRot.y + KPI;
+	m_UTime += DELTATIME;
+
 	m_pUnit->Set_Animation(Force_Unit::ANI_TYPE::ATTACK01);
 	if (m_pUnit->Get_Component<Renderer_BonAni>()->index_frame() == 393 && m_ASound == false)
 	{
@@ -206,9 +209,6 @@ void Controll_User::Update_ATTACK()
 		return;
 	}
 
-	m_RenderRot.y = m_PlayRot.y + KPI;
-	m_UTime += DELTATIME;
-
 	if (m_UTime > m_pUnit->interval())
 	{
 		m_pFocusUnit->Damage(4.0f);
@@ -217,6 +217,9 @@ void Controll_User::Update_ATTACK()
 }
 void Controll_User::Update_BOMB()
 {
+	m_AType = Controll_User::AT_IDLE;
+	m_RenderRot.y = m_PlayRot.y + KPI;
+
 	m_pUnit->Set_Animation(Force_Unit::ANI_TYPE::ATTACK01);
 	if (m_pUnit->Get_Component<Renderer_BonAni>()->index_frame() == 393 && m_ASound == false)
 	{
@@ -235,8 +238,7 @@ void Controll_User::Update_BOMB()
 	}
 
 	m_pFocusUnit->Damage(50.0f);
-	m_RenderRot.y = m_PlayRot.y + KPI;
-	m_AType = Controll_User::AT_IDLE;
+
 }
 void Controll_User::Update_STORY()
 {

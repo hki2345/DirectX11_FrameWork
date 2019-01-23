@@ -64,7 +64,7 @@ public:
 	{
 		return m_Cam;
 	}
-	bool Init();
+	bool Init(const int& _Order = 0);
 	void Update();
 
 	void Set_Edit();

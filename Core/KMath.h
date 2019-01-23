@@ -300,12 +300,12 @@ public:
 
 
 
-	float DegToRad(const float& _Value)
+	static float DegToRad(const float& _Value)
 	{
 		return _Value * KPI / 180.0f;
 	}
 
-	float RadToDeg(const float& _Value)
+	static float RadToDeg(const float& _Value)
 	{
 		return _Value * 180.0f / KPI;
 	}

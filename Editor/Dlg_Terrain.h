@@ -48,6 +48,10 @@ private:
 	DropEditor	m_PosDrop[3];
 	float		UnitPosEdit[3];
 
+
+	DropEditor	m_RotDrop[3];
+	float		UnitRotEdit[3];
+
 	CButton m_PlayEditBtn;
 
 
@@ -60,6 +64,7 @@ protected:
 
 	void Update_SelectInfo();
 	void Update_SSPosFunc();
+	void Update_SSRotFunc();
 
 
 	void Update_Force();
@@ -102,6 +107,7 @@ public:
 	afx_msg void OnEditSelChanged(UINT _Id);
 	afx_msg void OnTerInfoSelChanged(UINT _Id);
 	afx_msg void OnUnitPosSelChanged(UINT _Id);
+	afx_msg void OnUnitRotSelChanged(UINT _Id);
 	afx_msg void UnitPlayableBtnchange(UINT _Id);
 	afx_msg void OnBnClickedStatereslist();
 	afx_msg void OnBnClickedTereditbtn();

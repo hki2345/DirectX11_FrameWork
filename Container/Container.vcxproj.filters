@@ -120,6 +120,9 @@
     <ClCompile Include="Controll_Zergling.cpp">
       <Filter>SC2\Controller\Monster</Filter>
     </ClCompile>
+    <ClCompile Include="User_UI.cpp">
+      <Filter>SC2\Controller</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="SC2">

@@ -6,6 +6,8 @@
 #include <WriteStream.h>
 #include <ReadStream.h>
 #include <Core_Class.h>
+
+#include <Renderer_BonAni.h>
 #include <Renderer_Terrain.h>
 
 
@@ -165,8 +167,10 @@ void SC2_Force::Save()
 	for (; m_SUI != m_EUI; ++m_SUI)
 	{
 		KVector TT = (*m_SUI)->one()->Trans()->pos_world();
+		KVector RT = (*m_SUI)->one()->Trans()->rotate_local();
 		WS.Write((*m_SUI)->name(), sizeof(wchar_t) * NAMENUM);
 		WS.Write(&TT, sizeof(KVector));
+		WS.Write(&RT, sizeof(KVector));
 	}
 }
 
@@ -185,7 +189,7 @@ void SC2_Force::Load(const wchar_t* _Name, KPtr<Renderer_Terrain> _Ter)
 
 
 	// 개수
-	// 유닛 이름 - 위치
+	// 유닛 이름 - 위치 - 회전
 
 	int Size = 0;
 	RS.Read(Size);
@@ -195,11 +199,24 @@ void SC2_Force::Load(const wchar_t* _Name, KPtr<Renderer_Terrain> _Ter)
 	{
 		wchar_t Tmp[NAMENUM];
 		KVector TT;
+		KVector RT;
 		RS.Read(Tmp, sizeof(wchar_t) * NAMENUM);
 		RS.Read(&TT, sizeof(KVector));
+		RS.Read(&RT, sizeof(KVector));
 
 		KPtr<Force_Unit> TU = Create_Unit(Tmp, _Ter);
 		TU->one()->Trans()->pos_local(TT);
+		TU->one()->Trans()->rotate_local(RT);
+
+		TU->Rot_Unit(RT);
+		std::list<KPtr<Renderer_BonAni>> Renders = TU->list_renderer();
+		std::list<KPtr<Renderer_BonAni>>::iterator S = Renders.begin();
+		std::list<KPtr<Renderer_BonAni>>::iterator E = Renders.end();
+
+		for (; S != E; ++S)
+		{
+			(*S)->rot_pivot(RT);
+		}
 	}
 }
 

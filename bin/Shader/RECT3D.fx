@@ -3,6 +3,7 @@
 // »ùÇÃ·¯´Â s
 #include "GValue.fx"
 #include "Light.fx"
+#include "GTex.fx"
 
 
 // Texture2D g_Tex_0 : register(t0);
@@ -49,7 +50,9 @@ VTX3DMESH_OUTPUT VS_RECT3D(VTX3DMESH_INPUT _iN)
 
 PS3D_OUTPUT PS_RECT3D(VTX3DMESH_OUTPUT _in)
 {
-	PS3D_OUTPUT outData = (PS3D_OUTPUT)0.0f;
-	outData.vColor = _in.vColor;
+    PS3D_OUTPUT outData = (PS3D_OUTPUT) 0.0f;
+    
+    float4 CalColor = g_Tex_0.Sample(g_Sam_0, _in.vUv);    
+    outData.vColor = CalColor;
 	return outData;
 }

@@ -135,6 +135,12 @@
 #define IDC_UHP                         1114
 #define IDC_UINTEVAL                    1115
 #define IDC_USCORE                      1116
+#define IDC_UNITROTXEDIT                1122
+#define IDC_UNITROTYEDIT                1123
+#define IDC_UNITROTZEDIT                1124
+#define IDC_UNITSTATICROTX              1125
+#define IDC_UNITSTATICROTY              1126
+#define IDC_UNITSTATICROTZ              1127
 #define IDC_TERNONERADIO                1119
 #define IDC_TERENEMYRADIO               1120
 #define IDC_TERUSERRADIO                1121

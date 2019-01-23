@@ -149,6 +149,11 @@ BOOL Dlg_Terrain::OnInitDialog()
 	{
 		UnitPosEdit[i] = .0f;
 	}
+
+	for (size_t i = 0; i < 3; i++)
+	{
+		UnitRotEdit[i] = .0f;
+	}
 	m_PBTBtn[0].SetCheck(true);
 	UpdateData(FALSE);
 
@@ -219,6 +224,45 @@ void Dlg_Terrain::DoDataExchange(CDataExchange* pDX)
 		++StartId;
 	}
 
+
+	StartId = IDC_UNITROTXEDIT;
+	// 조각 X Z, 스케일 X Z
+	for (size_t X = 0; X < 3; ++X)
+	{
+		DDX_Text(pDX, StartId, UnitRotEdit[X]);
+		++StartId;
+	}
+
+	StartId = IDC_UNITSTATICROTX;
+	// 조각 X Z, 스케일 X Z
+	for (size_t X = 0; X < 3; ++X)
+	{
+
+		m_RotDrop[X].pValue = &UnitRotEdit[X];
+		m_RotDrop[X].Parent = this;
+		m_RotDrop[X].ValueChangeFunc(this, &Dlg_Terrain::Update_SSRotFunc);
+		DDX_Control(pDX, StartId, m_RotDrop[X]);
+
+
+
+		switch (X)
+		{
+		case 0:
+			m_RotDrop[X].SetWindowTextW(L"X");
+			break;
+		case 1:
+			m_RotDrop[X].SetWindowTextW(L"Y");
+			break;
+		case 2:
+			m_RotDrop[X].SetWindowTextW(L"Z");
+			break;
+		default:
+			break;
+		}
+		++StartId;
+	}
+
+
 	DDX_Control(pDX, IDC_TERUNITLIST, UBoxList);
 	DDX_Control(pDX, IDC_TEREDITBTN, m_TerBtn);
 
@@ -249,11 +293,17 @@ void Dlg_Terrain::Update_SelectInfo()
 		}
 
 		KVector TVec = m_SelectUnit->one()->Trans()->pos_local();
+		KVector RVec = m_SelectUnit->one()->Trans()->rotate_localDeg();
 
 		UpdateData(TRUE);
 		UnitPosEdit[0] = TVec.m1;
 		UnitPosEdit[1] = TVec.m2;
 		UnitPosEdit[2] = TVec.m3;
+
+
+		UnitRotEdit[0] = RVec.m1;
+		UnitRotEdit[1] = RVec.m2;
+		UnitRotEdit[2] = RVec.m3;
 
 		m_PBTBtn[0].SetCheck(false);
 		m_PBTBtn[1].SetCheck(false);
@@ -263,6 +313,7 @@ void Dlg_Terrain::Update_SelectInfo()
 		UpdateData(FALSE);
 	}
 }
+
 
 void Dlg_Terrain::Update_SSPosFunc()
 {
@@ -278,6 +329,23 @@ void Dlg_Terrain::Update_SSPosFunc()
 	float TMP = m_pTer->Y_Terrain(TVec);
 	TVec.y = TMP;
 	m_SelectUnit->one()->Trans()->pos_local(TVec);
+}
+
+
+void Dlg_Terrain::Update_SSRotFunc()
+{
+	m_SelectUnit = Cur_Unit();
+	if (nullptr == m_SelectUnit)
+	{
+		return;
+	}
+
+
+	KVector TVec = KVector(UnitRotEdit[0], UnitRotEdit[1], UnitRotEdit[2]);
+	m_SelectUnit->one()->Trans()->rotate_local(TVec);
+
+	m_SelectUnit->Rot_Unit(TVec);
+	m_SelectUnit->Get_Component<Renderer_BonAni>()->rot_pivot(TVec);
 }
 
 void Dlg_Terrain::Update_Force()
@@ -532,6 +600,7 @@ BEGIN_MESSAGE_MAP(Dlg_Terrain, TabDlg)
 	ON_CONTROL_RANGE(EN_CHANGE, IDC_TERNAME, IDC_STATETERNAME, &Dlg_Terrain::OnEditSelChanged)
 	ON_CONTROL_RANGE(EN_CHANGE, IDC_TERSPLITX, IDC_TERSCALEZ, &Dlg_Terrain::OnTerInfoSelChanged)
 	ON_CONTROL_RANGE(EN_CHANGE, IDC_UNITPOSXEDIT, IDC_UNITPOSZEDIT, &Dlg_Terrain::OnUnitPosSelChanged)
+	ON_CONTROL_RANGE(EN_CHANGE, IDC_UNITROTXEDIT, IDC_UNITROTZEDIT, &Dlg_Terrain::OnUnitRotSelChanged)
 
 	ON_CONTROL_RANGE(BN_CLICKED, IDC_TERNONERADIO, IDC_TERUSERRADIO, &Dlg_Terrain::UnitPlayableBtnchange)
 
@@ -742,6 +811,23 @@ void Dlg_Terrain::OnUnitPosSelChanged(UINT _Id)
 		m_SelectUnit->one()->Trans()->pos_local(TVec);
 	}
 }
+
+
+
+void Dlg_Terrain::OnUnitRotSelChanged(UINT _Id)
+{
+	UINT TempId = _Id - IDC_UNITROTXEDIT;
+	UpdateData(TRUE);
+	UpdateData(FALSE);
+
+
+	if (nullptr != m_SelectUnit)
+	{
+		KVector TVec = KVector(UnitRotEdit[0], UnitRotEdit[1], UnitRotEdit[2]);
+		m_SelectUnit->one()->Trans()->rotate_localrad(TVec);
+	}
+}
+
 
 void Dlg_Terrain::OnBnClickedStatereslist()
 {

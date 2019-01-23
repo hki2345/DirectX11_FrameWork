@@ -6,6 +6,7 @@ class Force_Unit;
 class SC2_Camera;
 class Renderer_Terrain;
 class Renderer_BonAni;
+class Renderer_UI;
 class KCollision;
 class KRay3D;
 class Controll_User : public Component
@@ -55,6 +56,22 @@ private:
 	KPtr<Force_Unit>		m_pUnit;
 	KPtr<SC2_Camera>		m_pCam;
 
+
+	KPtr<Camera>			m_pUI;
+
+
+
+	KPtr<Renderer_UI>		m_uMedic;
+	KPtr<Renderer_UI>		m_uFire;
+	KPtr<Renderer_UI>		m_uOpti;
+
+
+	KPtr<Renderer_UI>		m_uHp;
+
+	KPtr<Renderer_UI>		m_uFocusHP;
+	KPtr<Renderer_UI>		m_uBackHP;
+
+
 	MOVE_TYPE	m_MType;
 	ACT_TYPE	m_AType;
 	OPTI_TYPE	m_OType;
@@ -69,6 +86,9 @@ private:
 	float m_UTime;
 
 private:
+	void Init_UI();
+	void Update_UI();
+
 	void Update_StayCol(KCollision* _Left, KCollision* _Right);
 	
 

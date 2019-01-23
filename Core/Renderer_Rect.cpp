@@ -6,6 +6,7 @@
 
 Renderer_Rect::Renderer_Rect()
 {
+	ROpt.Defferd_orForward = 1;
 }
 
 
@@ -38,7 +39,7 @@ bool Renderer_Rect::Init(int _Order /*= 0*/)
 {
 	Renderer::Init(_Order);
 
-	if (false == Set_Material(L"RECT3DMAT"))
+	if (false == Set_Material(L"MESH3DMAT"))
 	{
 		return false;
 	}

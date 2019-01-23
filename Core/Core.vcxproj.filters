@@ -253,6 +253,9 @@
     <ClInclude Include="KBox_Col.h">
       <Filter>03 Manager\Collision\3D</Filter>
     </ClInclude>
+    <ClInclude Include="Renderer_UI.h">
+      <Filter>03 Manager\Render\Child</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SmartPtr.cpp">
@@ -488,6 +491,9 @@
     </ClCompile>
     <ClCompile Include="KBox_Col.cpp">
       <Filter>03 Manager\Collision\3D</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer_UI.cpp">
+      <Filter>03 Manager\Render\Child</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

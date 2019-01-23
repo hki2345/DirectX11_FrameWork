@@ -154,7 +154,7 @@ public:
 	KPtr<Changer_Animation> Create_Animation(const bool& _Find = true);
 
 
-	KPtr<Changer_Animation::Ani_Clip> Create_Clip(const wchar_t* _Name, const int& _Start, const int& _End);
+	KPtr<Changer_Animation::Ani_Clip> Create_Clip(const wchar_t* _Name, const int& _Start, const int& _End, const bool& _Find = true);
 	bool Erase_Clip(const wchar_t* _Name);
 	void Set_Clip(const wchar_t* _Name);
 	void Set_Clip(const int& _Num);

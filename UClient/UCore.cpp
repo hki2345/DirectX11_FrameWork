@@ -51,6 +51,7 @@
 #include "Renderer_Mesh.cpp"
 #include "Renderer_Rect.cpp"
 #include "Renderer_Terrain.cpp"
+#include "Renderer_UI.cpp"
 #include "RenderManager.cpp"
 #include "RenderTarget.cpp"
 #include "RenderTarget_Multi.cpp"

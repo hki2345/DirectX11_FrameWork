@@ -10,6 +10,8 @@
 
 #include <KBox_Col.h>
 #include <KRay3D.h>
+#include <KFont.h>
+
 
 #include "SC2_Camera.h"
 
@@ -133,6 +135,9 @@ bool Controll_User::Init(KPtr<Force_Unit> _Unit, KPtr<SC2_Camera> _Cam)
 	{
 		m_RList = m_pUnit->list_renderer();
 	}
+
+
+	Init_UI();
 	return true;
 }
 
@@ -152,6 +157,7 @@ void Controll_User::Update()
 
 	Update_Move();
 	Update_Act();
+	Update_UI();
 
 
 	Update_Terrain();

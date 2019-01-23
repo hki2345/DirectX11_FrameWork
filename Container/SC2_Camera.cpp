@@ -31,7 +31,7 @@ SC2_Camera::~SC2_Camera()
 {
 }
 
-bool SC2_Camera::Init()
+bool SC2_Camera::Init(const int& _Order /*= 0*/)
 {
 	m_CMode = SC2_CAMMODE::S2M_EDIT;
 	m_Cam = Get_Component<Camera>();
@@ -39,7 +39,7 @@ bool SC2_Camera::Init()
 	if (nullptr == m_Cam)
 	{
 		KPtr<TheOne> CamOne2 = Core_Class::MainScene()->Create_One(L"Sc2");
-		KPtr<Camera> Cam2 = CamOne2->Add_Component<Camera>();
+		KPtr<Camera> Cam2 = CamOne2->Add_Component<Camera>(_Order);
 	}
 
 	m_Cam->ProjectionMode(Camera::PROJ_MODE::PM_PERS);
