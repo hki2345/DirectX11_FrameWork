@@ -104,7 +104,7 @@ bool Force_Unit::Load(const wchar_t* _Name)
 
 	int Cnt = 0;
 	RS.Read(Cnt);
-	for (size_t i = 0; i < Cnt; i++)
+	for (int i = 0; i < Cnt; i++)
 	{
 		wchar_t Tmp[NAMENUM];
 		RS.Read(Tmp, sizeof(wchar_t) * NAMENUM);
@@ -163,7 +163,7 @@ bool Force_Unit::Load_NoFind(const wchar_t* _Name)
 
 	int Cnt = 0;
 	RS.Read(Cnt);
-	for (size_t i = 0; i < Cnt; i++)
+	for (int i = 0; i < Cnt; i++)
 	{
 		wchar_t Tmp[NAMENUM];
 		RS.Read(Tmp, sizeof(wchar_t) * NAMENUM);

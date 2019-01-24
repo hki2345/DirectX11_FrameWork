@@ -64,7 +64,7 @@ void DebugManager::Draw_Rect(const KRect& _Rect, float _Border)
 
 void DebugManager::Draw_Font(wchar_t* _pStr, KVector2 _Pos, float _fSize, KVector4 _COLOR, FW1_TEXT_FLAG _Flag /*= FW1_TEXT_FLAG::FW1_TOP*/) {
 
-	KPtr<KFont> FindFont = ResourceManager<KFont>::Find(L"ÅÂ³ª¹«");
+	KPtr<KFont> FindFont = ResourceManager<KFont>::Find(L"Kostar");
 
 	if (nullptr != FindFont)
 	{
@@ -72,7 +72,6 @@ void DebugManager::Draw_Font(wchar_t* _pStr, KVector2 _Pos, float _fSize, KVecto
 
 		// FindFont->Draw_Font(_pStr, _Pos, _fSize, 0xffffffff, _Flag);
 	}
-	Core_Class::MainDevice().ResetContext();
 }
 
 void DebugManager::Draw_Log(const wchar_t* const _Str, ...)

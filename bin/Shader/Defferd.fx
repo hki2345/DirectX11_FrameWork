@@ -73,7 +73,16 @@ PS_DEFFERDOUTPUT PS_DEFFERD(VTX3DMESH_OUTPUT _in)
             }
             else if (ArrTex[i].Type == BUMP)
             {
-                _in.vNormal = CalBump(ArrTex[i].Tex_Idx, ArrTex[i].Tex_Smp, _in.vUv, _in.vTangent, _in.vBNormal, _in.vNormal);
+                _in.vNormal = CalSBump(ArrTex[i].Tex_Idx, ArrTex[i].Tex_Smp, _in.vUv, _in.vTangent, _in.vBNormal, _in.vNormal);
+            }
+            else if (ArrTex[i].Type == SPEC)
+            {
+                float4 Spec = GetTexToColor(ArrTex[i].Tex_Idx, ArrTex[i].Tex_Smp, _in.vUv) * _in.vColor;
+                CalColor *= saturate(Spec * 1.6f + CalColor);
+            }
+            else if (ArrTex[i].Type == EMIS)
+            {
+                CalColor += GetTexToColor(ArrTex[i].Tex_Idx, ArrTex[i].Tex_Smp, _in.vUv) * _in.vColor;
             }
         }
     }
@@ -82,9 +91,13 @@ PS_DEFFERDOUTPUT PS_DEFFERD(VTX3DMESH_OUTPUT _in)
 
     // 포워드 색깔을 아예 사용하지 않는 것은 아니다.
     // 빛계산 노말로 들어가는 중
-    outData.vDiffuse.rgba = CalColor;
-    outData.vNoraml.a = CalColor.a;
-    outData.vDepth.g = Light_Opa;
+    outData.vDiffuse.rgb = CalColor.rgb;
+    outData.vDiffuse.a = _in.vColor.a;
+    outData.vNoraml = _in.vNormal;
+    outData.vNoraml.a = 1.0f;
+    outData.vPosition = _in.vViewPos;
+    outData.vDepth.x = outData.vPosition.z;
+    outData.vDepth.w = 1.0f;
     
     return outData;
 }
@@ -142,8 +155,8 @@ PS_DEFFERDLIGHTOUTPUT PS_DEFFERDLIGHT(VS_DEFFERDLIGHTOUTPUT _Input)
     }
 
 
-    // 빛을 받을거냐 말거냐의 차이
-    OUTDATA.vDiffuse.rgb = info.Diff.rgb + float3(.7f, .7f, .7f);
+    // 빛을 받을거냐 말거냐의 차이 - 차르 행성 약간 붉게 ㅇㅇ
+    OUTDATA.vDiffuse.rgb = info.Diff.rgb + float3(.7f, .7f, .7f); // * float3(.7f, .2f, .2f);
     OUTDATA.vDiffuse.a = 1.0f;
     OUTDATA.vSpaculer.rgb = info.Spec.rgb;
     OUTDATA.vSpaculer.a = 1.0f;

@@ -94,7 +94,7 @@ bool Controll_Nova::Init(const KVector& _InitPos, const KVector& _RotPos, KPtr<R
 
 	for (; S != E; ++S)
 	{
-		if (THp < (*S)->hp() && 0 < (*S)->hp() &&  m_pEnemyList.size() < Limit)
+		if (THp < (*S)->hp() && 0 < (*S)->hp() &&  (int)m_pEnemyList.size() < Limit)
 		{
 			m_pEnemyList.push_back((*S));
 		}

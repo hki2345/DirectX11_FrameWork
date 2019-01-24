@@ -67,19 +67,19 @@ void KCore::Progress()
 	// 데드 타임을 이용할것이다.
 }
 
-void KCore::Init_Core(HINSTANCE _Hinst, const wchar_t* _pMainWindowName, HWND _hWnd) {
+void KCore::Init_Core(HINSTANCE _Hinst, const wchar_t* _pMainWindowName, const bool& _Full, HWND _hWnd) {
 
 	// 윈도우 초기화
 	KWindow::Init(_Hinst);
 	if (nullptr == _hWnd)
 	{
-		if (nullptr == KWindow::Create_KWindow(_pMainWindowName))
+		if (nullptr == KWindow::Create_KWindow(_pMainWindowName, _Full))
 		{
 			return;
 		}
 	}
 	else {
-		if (nullptr == KWindow::Create_KWindow(_pMainWindowName, _hWnd))
+		if (nullptr == KWindow::Create_KWindow(_pMainWindowName, _Full, _hWnd))
 		{
 			return;
 		}

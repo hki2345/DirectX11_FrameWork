@@ -50,7 +50,7 @@ void Edit_Launcher::Build()
 	// 디바이스 초기화를 하고 해야함
 	ResourceManager<KImage>::All_Load();
 	ResourceManager<Sound>::All_Load();
-	ResourceManager<KFont>::Create(L"태나무", L"태나무");
+	ResourceManager<KFont>::Create(L"Kostar", L"Kostar");
 	
 
 	InputManager::Create_Command(L"DEL", VK_DELETE);
@@ -79,6 +79,8 @@ void Edit_Launcher::Build()
 	MTex2->Create_MultiTex(D3D11_USAGE::D3D11_USAGE_DEFAULT, L"Lava.jpg", L"LavaBump.jpg");
 
 	DebugManager::Debug_On();
+
+	
 
 
 	// SoundPlayer TT = SoundPlayer();

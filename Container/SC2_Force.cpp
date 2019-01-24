@@ -83,7 +83,7 @@ KPtr<Force_Unit> SC2_Force::Find_Unit(const wchar_t* _Name)
 
 KPtr<Force_Unit> SC2_Force::Find_Unit(const int& _Name)
 {
-	if (_Name > m_UList.size() || 0 > _Name)
+	if (_Name > (int)m_UList.size() || 0 > _Name)
 	{
 		BBY;
 	}

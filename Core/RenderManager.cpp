@@ -132,6 +132,8 @@ void RenderManager::Render()
 		DebugManager::Targetting();
 		DebugManager::Logging();
 	}
+	Core_Class::MainDevice().Set_DSS(L"ALWAYS");
+	Core_Class::MainScene()->UIRender();
 
 	
 	Core_Class::MainDevice().Present();

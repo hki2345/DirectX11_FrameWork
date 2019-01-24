@@ -47,6 +47,7 @@ public:
 	virtual void NextUpdate();
 	virtual void DebugUpdate();
 	virtual void DebugRender();
+	virtual void UIRender();
 
 protected:
 	Begin_Updater();

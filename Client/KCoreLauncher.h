@@ -9,7 +9,6 @@
 
 
 #include <KCore.h>
-#include <SmartPtr.h>
 
 class KCoreLauncher : public KCore::Launcher
 {
@@ -21,4 +20,4 @@ public:
 	~KCoreLauncher();
 };
 
-CORESTART(KCoreLauncher, L"Main_Window");
+CORESTART(KCoreLauncher, L"RaynorSpecialForce", true);

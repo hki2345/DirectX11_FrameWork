@@ -175,11 +175,11 @@ bool Controll_Odin::Init(const KVector& _InitPos, const KVector& _Rot, KPtr<Rend
 		for (; S != E; ++S)
 		{
 			if (LimitRange < m_pUnit->one()->Trans()->pos_local().distance((*S)->one()->Trans()->pos_local()) && 
-				m_pEnemyList.size() <= Limit)
+				(int)m_pEnemyList.size() <= Limit)
 			{
 				m_pEnemyList.push_back((*S));
 			}
-			else if (m_pEnemyList.size() > Limit)
+			else if ((int)m_pEnemyList.size() > Limit)
 			{
 				return true;
 			}

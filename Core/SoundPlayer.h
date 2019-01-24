@@ -19,6 +19,8 @@ private:
 	static bool m_Loop;
 	KPtr<Sound> m_Sound;
 	FMOD::Channel* m_Channel;
+	float m_Volume;
+
 	bool m_bPlay;
 
 private:
@@ -27,7 +29,10 @@ private:
 
 public:
 	void Update() override;
+
+	bool Set_Sound(const wchar_t* _SoundName, const float& _Volume = 1.0f);
 	bool Play(const wchar_t* _SoundName , const float& _Volume = 1.0f);
+	bool Play();
 	bool Stop();
 
 public:

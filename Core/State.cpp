@@ -35,6 +35,7 @@ void State::Progress()
 		for (; StartUpdaterIter != EndUpdaterIter; ++StartUpdaterIter)
 		{
 			(*StartUpdaterIter)->Update_Edit();
+			(*StartUpdaterIter)->Update_State();
 		}
 	}
 
@@ -187,6 +188,39 @@ void State::DebugRender() {
 		}
 	}
 }
+
+void State::UIRender() {
+	m_SOI = m_OneMap.begin();
+	m_EOI = m_OneMap.end();
+
+	for (; m_SOI != m_EOI; ++m_SOI)
+	{
+		m_SOLI = m_SOI->second.begin();
+		m_EOLI = m_SOI->second.end();
+
+		for (; m_SOLI != m_EOLI; ++m_SOLI)
+		{
+			if (false == (*m_SOLI)->Is_Active())
+			{
+				continue;
+			}
+
+			(*m_SOLI)->UIRender();
+		}
+	}
+
+	if (0 != m_SUpdaterList.size())
+	{
+		std::list<KPtr<State_Updater>>::iterator StartUpdaterIter = m_SUpdaterList.begin();
+		std::list<KPtr<State_Updater>>::iterator EndUpdaterIter = m_SUpdaterList.end();
+
+		for (; StartUpdaterIter != EndUpdaterIter; ++StartUpdaterIter)
+		{
+			(*StartUpdaterIter)->UIRender();
+		}
+	}
+}
+
 
 void State::Release() 
 {

@@ -233,7 +233,7 @@ bool Changer_Animation::Load()
 	int Cnt;
 	Stream.Read(Cnt);
 
-	for (size_t i = 0; i < Cnt; i++)
+	for (int i = 0; i < Cnt; i++)
 	{
 		Changer_Animation::Ani_Clip* NewCA = new Changer_Animation::Ani_Clip();
 

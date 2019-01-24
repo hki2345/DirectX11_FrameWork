@@ -59,15 +59,15 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	m_MainWnd.CreateStatic(this, 1, 2, WS_CHILD | WS_VISIBLE);
 
 	SIZE ASize = { 1200, 600}; 
-	SIZE TSize = { 800, 600};
-	SIZE MSize = { ASize.cx - TSize.cx, 600 };
+	SIZE TSize = { 800, 600 };
+	SIZE MSize = { ASize.cx - TSize.cx, 1080 };
 
 
 	// 여기서 핸들 넘겨서 디바이스를 초기화하는 모습
 	m_MainWnd.CreateView(0, 0, RUNTIME_CLASS(View_Device), TSize, nullptr);
 		
 	CWnd* pWnd = m_MainWnd.GetPane(0, 0);
-	KCore::Start<Edit_Launcher>(AfxGetInstanceHandle(), L"MainWindow", pWnd->m_hWnd);
+	KCore::Start<Edit_Launcher>(AfxGetInstanceHandle(), L"MainWindow", false, pWnd->m_hWnd);
 
 	m_MainWnd.CreateView(0, 1, RUNTIME_CLASS(View_Edit), MSize, nullptr);
 

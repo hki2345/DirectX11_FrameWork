@@ -166,14 +166,22 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="EBuilder.h" />
+    <ClInclude Include="EUpdater.h" />
+    <ClInclude Include="GBuilder.h" />
+    <ClInclude Include="GUpdater.h" />
     <ClInclude Include="KCoreLauncher.h" />
-    <ClInclude Include="TestBuilder.h" />
-    <ClInclude Include="TestUpdater.h" />
+    <ClInclude Include="SBuilder.h" />
+    <ClInclude Include="SUpdater.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="EBuilder.cpp" />
+    <ClCompile Include="EUpdater.cpp" />
+    <ClCompile Include="GBuilder.cpp" />
+    <ClCompile Include="GUpdater.cpp" />
     <ClCompile Include="KCoreLauncher.cpp" />
-    <ClCompile Include="TestBuilder.cpp" />
-    <ClCompile Include="TestUpdater.cpp" />
+    <ClCompile Include="SBuilder.cpp" />
+    <ClCompile Include="SUpdater.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Container\Container.vcxproj">

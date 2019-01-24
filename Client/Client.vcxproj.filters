@@ -4,7 +4,7 @@
     <Filter Include="Launcher">
       <UniqueIdentifier>{79485812-0431-453a-a263-bc807330f4b0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Test">
+    <Filter Include="Game">
       <UniqueIdentifier>{aff7a69e-706d-4380-a1ff-b7b6b249c605}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -12,22 +12,46 @@
     <ClInclude Include="KCoreLauncher.h">
       <Filter>Launcher</Filter>
     </ClInclude>
-    <ClInclude Include="TestBuilder.h">
-      <Filter>Test</Filter>
+    <ClInclude Include="SBuilder.h">
+      <Filter>Game</Filter>
     </ClInclude>
-    <ClInclude Include="TestUpdater.h">
-      <Filter>Test</Filter>
+    <ClInclude Include="SUpdater.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="EBuilder.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="EUpdater.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="GBuilder.h">
+      <Filter>Game</Filter>
+    </ClInclude>
+    <ClInclude Include="GUpdater.h">
+      <Filter>Game</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="KCoreLauncher.cpp">
       <Filter>Launcher</Filter>
     </ClCompile>
-    <ClCompile Include="TestBuilder.cpp">
-      <Filter>Test</Filter>
+    <ClCompile Include="SBuilder.cpp">
+      <Filter>Game</Filter>
     </ClCompile>
-    <ClCompile Include="TestUpdater.cpp">
-      <Filter>Test</Filter>
+    <ClCompile Include="SUpdater.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="EBuilder.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="EUpdater.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="GBuilder.cpp">
+      <Filter>Game</Filter>
+    </ClCompile>
+    <ClCompile Include="GUpdater.cpp">
+      <Filter>Game</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

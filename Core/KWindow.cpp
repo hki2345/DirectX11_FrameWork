@@ -6,7 +6,7 @@
 #include "InputManager.h"
 
 
-
+#pragma comment(lib, "Gdi32")
 /*************** Static ************/
 
 HINSTANCE KWindow::g_HInst = nullptr;
@@ -20,12 +20,12 @@ std::unordered_map<std::wstring, KPtr<KWindow>> KWindow::g_WinMap;
 
 
 // 생성자에서 윈도우 관련 것들이 실행 된다.
-KWindow::KWindow(const wchar_t* _Name, HWND _hWnd) : Begin(_Name), m_HWnd(nullptr), statemanager(this), m_Device(this), m_bFull(true)
+KWindow::KWindow(const wchar_t* _Name, HWND _hWnd, const bool& _Full) : Begin(_Name), m_HWnd(nullptr), statemanager(this), m_Device(this), m_bFull(true)
 {
 	if (nullptr == _hWnd)
 	{
 		KRegisterClass();
-		if (FALSE == Init_Instance())
+		if (FALSE == Init_Instance(_Full))
 		{
 			BBY;
 		}
@@ -62,7 +62,7 @@ void KWindow::Init(HINSTANCE _HInst)
 }
 
 
-KPtr<KWindow> KWindow::Create_KWindow(const wchar_t* _Name, HWND _hWnd)
+KPtr<KWindow> KWindow::Create_KWindow(const wchar_t* _Name, const bool& _Full, HWND _hWnd)
 {
 	// 스마트 포인터를 사용하기 때문에 이제 왠만
 	KPtr<KWindow> Win = Map_Find<KPtr<KWindow>>(g_WinMap, _Name);
@@ -74,7 +74,7 @@ KPtr<KWindow> KWindow::Create_KWindow(const wchar_t* _Name, HWND _hWnd)
 
 	KWindow* pNewWindow = nullptr;
 
-	pNewWindow = new KWindow(_Name, _hWnd);
+	pNewWindow = new KWindow(_Name, _hWnd, _Full);
 	
 	if (nullptr == pNewWindow->m_HWnd)
 	{
@@ -187,6 +187,26 @@ void KWindow::FullScr_Off() {
 	m_bFull = true;
 }
 
+// 전체 창모드 참고
+// https://blog.naver.com/aaa4379/221131333295
+// GetDeviceCaps - 장치의 해상도
+// https://docs.microsoft.com/en-us/windows/desktop/api/wingdi/nf-wingdi-getdevicecaps
+
+// GetSystemMetrics - 설정된 해상도
+// http://blog.daum.net/victory6x/1046509
+
+void KWindow::full_size()
+{
+	m_Width = (size_t)GetSystemMetrics(SM_CXSCREEN);
+	m_Height = (size_t)GetSystemMetrics(SM_CYSCREEN);
+
+
+	RECT Rc = { 0, 0, (long)m_Width, (long)m_Height };
+	AdjustWindowRect(&Rc, WS_POPUP, false);
+	SetWindowPos(m_HWnd, nullptr, 0, 0, Rc.right - Rc.left
+		, Rc.bottom - Rc.top, SWP_NOMOVE | SWP_NOZORDER);
+}
+
 void KWindow::size(const size_t&_X, const size_t& _Y)
 {
 	m_Width = _X;
@@ -237,13 +257,21 @@ ATOM KWindow::KRegisterClass()
 }
 
 
-BOOL KWindow::Init_Instance()
+BOOL KWindow::Init_Instance(const bool& _Full /*= false*/)
 {
-	// 테두리 없는 윈도우를 만들고 싶다면 WS_OVERLAPPEDWINDOW
+	// 테두리 없는 윈도우를 만들고 싶다면 WS_OVERLAPPEDWINDOW WS_POPUP
 	// 다른 걸로 넣어줘야 한다.
 
-	m_HWnd = CreateWindowW(name(), L"Title", WS_OVERLAPPEDWINDOW,
-		CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, g_HInst, nullptr);
+	if (false == _Full)
+	{
+		m_HWnd = CreateWindowW(name(), L"Title", WS_OVERLAPPEDWINDOW,
+			CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, g_HInst, nullptr);
+	}
+	else
+	{
+		m_HWnd = CreateWindowW(name(), L"Title", WS_POPUP,
+			CW_USEDEFAULT, 0, CW_USEDEFAULT, 0, nullptr, nullptr, g_HInst, nullptr);
+	}
 
 	if (!m_HWnd)
 	{

@@ -4,7 +4,7 @@
 #include "TransPosition.h"
 #include "Core_Class.h"
 
-
+#include "InputManager.h"
 
 Renderer_UI::Renderer_UI()
 {
@@ -31,7 +31,45 @@ bool Renderer_UI::Init(int _Order /*= 0*/)
 	}
 
 	Set_RSState(L"SBACK");
+	m_OriWinSize = KVector2(800.0f, 600.0f);
+
+
 	return true;
+}
+
+
+void Renderer_UI::Update()
+{
+	if (kwindow()->size() != m_OriWinSize + m_TmpWinSize)
+	{
+		m_TmpWinSize = kwindow()->size() - m_OriWinSize;
+		KVector TO = m_Trans->pos_local();
+
+
+		KVector2 TT = m_TmpWinSize;
+		TT *= .4f;
+		
+		if (0 > TO.x)
+		{
+			TT.x *= -1.0f;
+		}
+		if (0.0f == TO.x)
+		{
+			TT.x = .0f;
+		}
+		if (0 > TO.y)
+		{
+			TT.y *= -1.0f;
+		}
+		if (0.0f == TO.y)
+		{
+			TT.y = .0f;
+		}
+
+		TO = TO + TT;
+		m_Trans->pos_local(TO);
+	}
+
 }
 
 void Renderer_UI::Render(KPtr<Camera> _Camera, const KUINT& _MeshIdx, const KUINT& _MtlIdx, Render_Data* _Data)
@@ -79,8 +117,34 @@ void Renderer_UI::Update_Trans(KPtr<Camera> _Camera)
 	m_MD.m_W = m_Trans->worldmat_const();
 	m_MD.m_V = m_View;
 	m_MD.m_P = m_Proj;
-	m_MD.m_WV = m_Trans->worldmat_const() * m_View;
+	m_MD.m_WV = m_MD.m_W * m_View;
 	m_MD.m_WVP = m_MD.m_WV * m_MD.m_P;
 	m_MD.m_CamPos = KVector(.0f, .0f, -10.0f);
 	m_MD.RTrans();
+}
+
+
+bool Renderer_UI::Mouse_In()
+{
+	KVector2 TT = InputManager::MousePos();
+
+	TT.x -= kwindow()->size().x * .5f;
+	TT.y -= kwindow()->size().y * .5f;
+	TT.y *= -1.0f;
+
+	float L = m_Trans->pos_local().x - m_Trans->scale_local().x * .5f;
+	float R = m_Trans->pos_local().x + m_Trans->scale_local().x * .5f;
+	float U = m_Trans->pos_local().y - m_Trans->scale_local().y * .5f;
+	float D = m_Trans->pos_local().y + m_Trans->scale_local().y * .5f;
+
+	if (TT.x < L || TT.x > R)
+	{
+		return false;
+	}
+	if (TT.y > D || TT.y < U)
+	{
+		return false;
+	}
+
+	return true;
 }

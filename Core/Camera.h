@@ -48,6 +48,10 @@ protected:
 	{
 
 	}
+	~Effect_Post()
+	{
+
+	}
 };
 
 

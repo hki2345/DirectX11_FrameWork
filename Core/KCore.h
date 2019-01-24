@@ -28,13 +28,13 @@ private:
 
 public:
 	template<typename T>
-	static int Start(HINSTANCE _Hinst, const wchar_t* _pMainWindowName, HWND _hWnd = nullptr) 
+	static int Start(HINSTANCE _Hinst, const wchar_t* _pMainWindowName, const bool& _Full, HWND _hWnd = nullptr)
 	{
 		// 인위적이 릭 발 생 -> 잘 작동하는지 판별
 		new int;
 
 		// 이놈 먼저 초기화 - 프로세스와 윈도우를 띄운다.
-		Init_Core(_Hinst, _pMainWindowName, _hWnd);
+		Init_Core(_Hinst, _pMainWindowName, _Full, _hWnd);
 
 		// 그 후에 빌더의 내용의 실행하는 식
 		T m_pBuilder = T();
@@ -46,7 +46,7 @@ public:
 
 
 private:
-	static void Init_Core(HINSTANCE _Hinst, const wchar_t* _pMainWindowName, HWND _hWnd = nullptr);
+	static void Init_Core(HINSTANCE _Hinst, const wchar_t* _pMainWindowName, const bool& _Full, HWND _hWnd = nullptr);
 	static int Loop();
 
 public:
@@ -63,14 +63,14 @@ private:
 // 여기서 코어의 스타트를 끊어주고 해당 빌더의 내용일 실행한다. 물론, 빌더의 내용은 윈도우가 만들어지고 나서다.
 // Start() -> Init() -> 
 #pragma region CORESTMACRO
-#define CORESTART(BUILDER, WINNAME) \
+#define CORESTART(BUILDER, WINNAME, FULL) \
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance, \
 	_In_opt_ HINSTANCE hPrevInstance, \
 	_In_ LPWSTR    lpCmdLine, \
 	_In_ int       nCmdShow) \
 { \
 	_CrtSetDbgFlag(_CRTDBG_LEAK_CHECK_DF | _CRTDBG_ALLOC_MEM_DF); \
-	KCore::Start<BUILDER>(hInstance, WINNAME); \
+	KCore::Start<BUILDER>(hInstance, WINNAME, FULL); \
 	KCore::Loop(); \
 	return 0; \
 }

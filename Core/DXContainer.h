@@ -247,7 +247,7 @@ public:
 	}
 	bool operator != (const KVector2& _Value)
 	{
-		return (x != _Value.x && y != _Value.y);
+		return (x != _Value.x || y != _Value.y);
 	}
 
 
@@ -850,21 +850,17 @@ public:
 		return temp;
 	}
 
-	KVector2 operator + (const KVector2& _Value) const
+	KVector4 operator + (const KVector2& _Value) const
 	{
-		return KVector2(x + _Value.x, y + _Value.y);
+		return KVector4(x + _Value.x, y + _Value.y, z, w);
 	}
-	KVector2 operator * (const KVector2& _Value) const
+	KVector4 operator - (const KVector2& _Value) const
 	{
-		return KVector2(x * _Value.x, y * _Value.y);
+		return KVector4(x - _Value.x, y - _Value.y, z, w);
 	}
-	KVector2 operator - (const KVector2& _Value) const
+	KVector4 operator / (const KVector2& _Value) const
 	{
-		return KVector2(x - _Value.x, y - _Value.y);
-	}
-	KVector2 operator / (const KVector2& _Value) const
-	{
-		KVector2 temp;
+		KVector4 temp;
 
 		if (0 != _Value.x) { temp.x = x / _Value.x; }
 		else { temp.x; }
@@ -1060,6 +1056,9 @@ public:
 		};
 
 		float m[4][4];
+
+
+		float mrray[16];
 	};
 
 public:
@@ -1109,6 +1108,17 @@ public:
 	KMatrix operator*(const DirectX::XMMATRIX& _Other) const
 	{
 		return DirectX::XMMatrixMultiply(*this, _Other);
+	}
+	KMatrix operator*(const float& _Other) const
+	{
+		KMatrix TT;
+
+		for (int i = 0; i < 16; i++)
+		{
+			TT.mrray[i] *= _Other;
+		}
+
+		return TT;
 	}
 
 public:

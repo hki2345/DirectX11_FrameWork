@@ -9,13 +9,17 @@ public:
 	~Renderer_UI();
 
 private:
+	KVector2 m_OriWinSize;
+	KVector2 m_TmpWinSize;
+
 	// 0 == 자르기
 	// 1 == 페이드
 	float m_CutFade;
 	float m_CutValue;
 
-
 public:
+	void Update();
+
 	void Update_Trans(KPtr<Camera> _Camera) override;
 	void Render(KPtr<Camera> _Camera, const KUINT& _MeshIdx, const KUINT& _MtlIdx, Render_Data* _Data) override;
 
@@ -42,5 +46,8 @@ public:
 
 		m_CutValue = _Value;
 	}
+
+
+	bool Mouse_In();
 };
 

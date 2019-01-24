@@ -52,9 +52,9 @@ void Renderer_Terrain::TerrainTo_MPos(KPtr<Camera> _Camera)
 	}
 
 
-	for (size_t Z = 0; Z < m_TFD.SizeZ; Z++)
+	for (int Z = 0; Z < m_TFD.SizeZ; Z++)
 	{
-		for (size_t X = 0; X < m_TFD.SizeX; X++)
+		for (int X = 0; X < m_TFD.SizeX; X++)
 		{
 			// 버텍스 평행이동
 			// 브러쉬 사이즈가 잘 안먹힘 ㅡ.ㅡ;;

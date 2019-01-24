@@ -18,7 +18,7 @@ public:
 	friend KCore;
 
 protected:
-	KWindow(const wchar_t* _Name, HWND _hWnd);
+	KWindow(const wchar_t* _Name, HWND _hWnd, const bool& _Full);
 	~KWindow();
 
 
@@ -37,7 +37,7 @@ private:
 	static void Init(HINSTANCE _HInst);
 
 public:
-	static KPtr<KWindow> Create_KWindow(const wchar_t* _Name, HWND _hWnd = nullptr);
+	static KPtr<KWindow> Create_KWindow(const wchar_t* _Name, const bool& _Full, HWND _hWnd = nullptr);
 	static KPtr<KWindow> Find_KWindow(const wchar_t* _Name);
 	static void Erase_KWindow(const wchar_t* _Name);
 	static void Erase_KWindow(const HWND _Name);
@@ -81,8 +81,10 @@ public:
 	float width_f() { return (float)m_Width; }
 	float height_f() { return (float)m_Height; }
 
+
 	KVector2 size() { return{ width_f(), height_f() }; }
 	void size(const size_t&_X, const size_t& _Y);
+	void full_size();
 	RECT size_rect() 
 	{
 		RECT RC;
@@ -102,7 +104,7 @@ public:
 private:
 	void Update();
 	ATOM KRegisterClass();
-	BOOL Init_Instance();
+	BOOL Init_Instance(const bool& _Full);
 
 public:
 	StateManager statemanager;

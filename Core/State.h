@@ -50,7 +50,9 @@ public:
 	public:
 		virtual void Start_State() {}
 		virtual void Update_Edit() {}
+		virtual void Update_State() {}
 		virtual void DebugRender() {}
+		virtual void UIRender() {}
 
 	protected:
 		State_Updater() {}
@@ -170,6 +172,7 @@ private:
 private:
 	void Render();
 	void DebugRender();
+	void UIRender();
 	void Release();
 
 private:

@@ -79,6 +79,18 @@ void SoundPlayer::Update()
 	}
 }
 
+bool SoundPlayer::Set_Sound(const wchar_t* _SoundName, const float& _Volume /*= 1.0f*/)
+{
+	m_Sound = ResourceManager<Sound>::Find(_SoundName);
+
+	KASSERT(nullptr == m_Sound);
+
+	name(_SoundName);
+	m_Volume = _Volume;
+
+	return true;
+}
+
 bool SoundPlayer::Play(const wchar_t* _SoundName, const float& _Volume/* = 1.0f*/)
 {
 	m_Sound = ResourceManager<Sound>::Find(_SoundName);
@@ -92,7 +104,28 @@ bool SoundPlayer::Play(const wchar_t* _SoundName, const float& _Volume/* = 1.0f*
 	m_Channel->setCallback(SoundCallBack);
 	m_Channel->setUserData(this);
 
-	m_Channel->setVolume(_Volume);
+
+	m_Volume = _Volume;
+	m_Channel->setVolume(m_Volume);
+
+	m_bPlay = true;
+
+	if (FMOD_OK != FR)
+	{
+		KASSERT(true);
+	}
+
+	return true;
+}
+
+
+bool SoundPlayer::Play()
+{
+	FMOD_RESULT FR = SoundDevice::SoundSystem->playSound(m_Sound->m_pSound, nullptr, false, &m_Channel);
+
+	m_Channel->setCallback(SoundCallBack);
+	m_Channel->setUserData(this);
+	m_Channel->setVolume(m_Volume);
 
 	m_bPlay = true;
 
