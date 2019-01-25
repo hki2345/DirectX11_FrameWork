@@ -33,6 +33,7 @@ SC2_Camera::~SC2_Camera()
 
 bool SC2_Camera::Init(const int& _Order /*= 0*/)
 {
+	m_Trans = one()->Trans();
 	m_CMode = SC2_CAMMODE::S2M_EDIT;
 	m_Cam = Get_Component<Camera>();
 

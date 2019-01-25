@@ -34,9 +34,6 @@
     <ClInclude Include="Controll_Odin.h">
       <Filter>SC2\Controller\Optimize</Filter>
     </ClInclude>
-    <ClInclude Include="Controll_Medivac.h">
-      <Filter>SC2\Controller</Filter>
-    </ClInclude>
     <ClInclude Include="Controll_Hyperion.h">
       <Filter>SC2\Controller\Optimize</Filter>
     </ClInclude>
@@ -54,6 +51,12 @@
     </ClInclude>
     <ClInclude Include="Controll_Zergling.h">
       <Filter>SC2\Controller\Monster</Filter>
+    </ClInclude>
+    <ClInclude Include="Controll_Medivac.h">
+      <Filter>SC2\Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="Controll_NPC.h">
+      <Filter>SC2\Controller</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -99,9 +102,6 @@
     <ClCompile Include="Controll_Odin.cpp">
       <Filter>SC2\Controller\Optimize</Filter>
     </ClCompile>
-    <ClCompile Include="Controll_Medivac.cpp">
-      <Filter>SC2\Controller</Filter>
-    </ClCompile>
     <ClCompile Include="Controll_Hyperion.cpp">
       <Filter>SC2\Controller\Optimize</Filter>
     </ClCompile>
@@ -121,6 +121,12 @@
       <Filter>SC2\Controller\Monster</Filter>
     </ClCompile>
     <ClCompile Include="User_UI.cpp">
+      <Filter>SC2\Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="Controll_Medivac.cpp">
+      <Filter>SC2\Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="Controll_NPC.cpp">
       <Filter>SC2\Controller</Filter>
     </ClCompile>
   </ItemGroup>

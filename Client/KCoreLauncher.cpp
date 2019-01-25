@@ -5,17 +5,17 @@
 #include <InputManager.h>
 #include <DebugManager.h>
 
-#include <KFont.h>
 
+#include <Force_Unit.h>
+#include <Renderer_BonAni.h>
 
 #include <KImage.h>
 #include <Texture_Multi.h>
 #include <Sound.h>
+#include <KFont.h>
 
 #include <KThread.h>
-#include <Renderer_BonAni.h>
 #include <Con_Class.h>
-#include <SoundPlayer.h>
 
 #include "SBuilder.h"
 #include "SUpdater.h"
@@ -56,12 +56,6 @@ void KCoreLauncher::Build()
 	// 이렇게 경로를 잡은 뒤 해야함
 	Core_Class::MainWindow().Init_Device();
 
-	// 디바이스 초기화를 하고 해야함
-	ResourceManager<KImage>::All_Load();
-	ResourceManager<Sound>::All_Load();
-	ResourceManager<KFont>::Create(L"Kostar", L"Kostar");
-
-
 	InputManager::Create_Command(L"DEL", VK_DELETE);
 	InputManager::Create_Command(L"ESC", VK_ESCAPE);
 	InputManager::Create_Command(L"RB", VK_RBUTTON);
@@ -77,6 +71,19 @@ void KCoreLauncher::Build()
 	InputManager::Create_Command(L"DEBUG", VK_LSHIFT, 'B');
 	InputManager::Create_Command(L"INGAME", VK_LSHIFT, 'P');
 
+	ResourceManager<KImage>::All_Load();
+	ResourceManager<Sound>::All_Load();
+
+	ResourceManager<Changer_Animation>::All_Load();
+	ResourceManager<MeshContainer>::All_Load();
+
+	ResourceManager<KFont>::Create(L"Kostar", L"Kostar");
+
+	// 멀티 텍스쳐
+	KPtr<Texture_Multi> MTex = ResourceManager<Texture_Multi>::Create(L"FB");
+	MTex->Create_MultiTex(D3D11_USAGE::D3D11_USAGE_DEFAULT, L"Stone.jpg", L"StoneBump.jpg");
+	KPtr<Texture_Multi> MTex2 = ResourceManager<Texture_Multi>::Create(L"FC");
+	MTex2->Create_MultiTex(D3D11_USAGE::D3D11_USAGE_DEFAULT, L"Lava.jpg", L"LavaBump.jpg");
 
 
 	Core_Class::MainSceneMgr().Create_State<SBuilder, SUpdater>(L"Start");
@@ -87,11 +94,7 @@ void KCoreLauncher::Build()
 
 
 
-	// 멀티 텍스쳐
-	KPtr<Texture_Multi> MTex = ResourceManager<Texture_Multi>::Create(L"FB");
-	MTex->Create_MultiTex(D3D11_USAGE::D3D11_USAGE_DEFAULT, L"Stone.jpg", L"StoneBump.jpg");
-	KPtr<Texture_Multi> MTex2 = ResourceManager<Texture_Multi>::Create(L"FC");
-	MTex2->Create_MultiTex(D3D11_USAGE::D3D11_USAGE_DEFAULT, L"Lava.jpg", L"LavaBump.jpg");
+
 
 
 

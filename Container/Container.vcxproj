@@ -159,6 +159,7 @@
     <ClInclude Include="Controll_Infested.h" />
     <ClInclude Include="Controll_Medivac.h" />
     <ClInclude Include="Controll_Nova.h" />
+    <ClInclude Include="Controll_NPC.h" />
     <ClInclude Include="Controll_Odin.h" />
     <ClInclude Include="Controll_Ultra.h" />
     <ClInclude Include="Controll_User.h" />
@@ -179,6 +180,7 @@
     <ClCompile Include="Controll_Infested.cpp" />
     <ClCompile Include="Controll_Medivac.cpp" />
     <ClCompile Include="Controll_Nova.cpp" />
+    <ClCompile Include="Controll_NPC.cpp" />
     <ClCompile Include="Controll_Odin.cpp" />
     <ClCompile Include="Controll_Ultra.cpp" />
     <ClCompile Include="Controll_User.cpp" />

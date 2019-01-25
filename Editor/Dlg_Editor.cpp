@@ -101,11 +101,11 @@ BOOL Dlg_Editor::OnInitDialog()
 
 
 
-	TabScene->Camera()->Create_EffectPost<Effect_Bloom>(0);
-	// TabScene->Camera()->Create_EffectPost<Effect_Gaussian>(1);
-	TabScene->Camera()->Add_Component<SC2_Camera>();
-	TabScene->Camera()->Far(10000.0f);
-	TabScene->Camera()->one()->Trans()->pos_local(KVector4(0.0f, 10.0f, -20.0f));
+	TabScene->camera()->Create_EffectPost<Effect_Bloom>(0);
+	// TabScene->camera()->Create_EffectPost<Effect_Gaussian>(1);
+	TabScene->camera()->Add_Component<SC2_Camera>();
+	TabScene->camera()->Far(10000.0f);
+	TabScene->camera()->one()->Trans()->pos_local(KVector4(0.0f, 10.0f, -20.0f));
 
 
 
@@ -153,7 +153,7 @@ BOOL Dlg_Editor::OnInitDialog()
 	Edit_Class::m_gVIewCom->Release_AllDlg();
 	Edit_Class::m_gVIewCom->Set_One(Light2);
 
-	// TabScene->Camera()->Change_Mode();
+	// TabScene->camera()->Change_Mode();
 
 
 	
@@ -230,7 +230,7 @@ BOOL Dlg_Editor::OnInitDialog()
 	TabScene->This_Col3DManager.Link(101, 100);
 	TabScene->This_Col3DManager.Link(100, 101);
 
-	KPtr<KRay3D> RayCol = TabScene->Camera()->Add_Component<KRay3D>(101);
+	KPtr<KRay3D> RayCol = TabScene->camera()->Add_Component<KRay3D>(101);
 	RayCol->EnterFunc(L"Edit Study", this, &Dlg_Editor::Collision_Test);
 
 	// KPtr<KPlane3D_Col> Tescol = TERRAIN->Add_Component<KPlane3D_Col>(100);

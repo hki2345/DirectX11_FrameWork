@@ -65,8 +65,8 @@ void Renderer_Grid::Update_Trans(KPtr<Camera> _Camera)
 
 	m_MD.m_W = m_Trans->worldmat_const();
 
-	m_MD.m_W.v4.x = state()->Camera()->Trans()->pos_world().x;
-	m_MD.m_W.v4.y = state()->Camera()->Trans()->pos_world().y;
+	m_MD.m_W.v4.x = state()->camera()->Trans()->pos_world().x;
+	m_MD.m_W.v4.y = state()->camera()->Trans()->pos_world().y;
 
 	m_MD.m_V = _Camera->View();
 	m_MD.m_P = _Camera->Proj();

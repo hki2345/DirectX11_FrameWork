@@ -6,6 +6,7 @@
 #include "Controll_Infested.cpp"
 #include "Controll_Medivac.cpp"
 #include "Controll_Nova.cpp"
+#include "Controll_NPC.cpp"
 #include "Controll_Odin.cpp"
 #include "Controll_Ultra.cpp"
 #include "Controll_User.cpp"

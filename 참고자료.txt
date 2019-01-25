@@ -3,3 +3,6 @@ Browse - 에디터 활성화
 
 상대 경로
 http://help.autodesk.com/view/3DSMAX/2016/KOR/?guid=GUID-1DAA53B9-4B58-49C6-A1BA-D6E533396A63
+
+다음 진도?
+http://www.rastertek.com/tutdx11.html

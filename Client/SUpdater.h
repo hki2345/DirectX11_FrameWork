@@ -27,7 +27,6 @@ private:
 	std::list<KPtr<SoundPlayer>>::iterator m_SSI;
 	std::list<KPtr<SoundPlayer>>::iterator m_ESI;
 
-	
 	KPtr<Renderer_UI> m_Logo;
 	KPtr<Renderer_UI> m_Start;
 	KPtr<Renderer_UI> m_Quit;

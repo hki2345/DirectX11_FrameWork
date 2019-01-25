@@ -40,13 +40,13 @@ void DebugManager::Draw_Rect(KVector2 _Pos, KVector2 _Size, float _Border/* = 1*
 // 카메라 행렬이 없을수는 없다.
 void DebugManager::Draw_Rect(const KRect& _Rect, float _Border)
 {
-	if (nullptr == Core_Class::MainWindow().statemanager.cur_state()->Camera())
+	if (nullptr == Core_Class::MainWindow().statemanager.cur_state()->camera())
 	{
 		return;
 	}
 
-	KVector2 m_Size = Core_Class::MainWindow().statemanager.cur_state()->Camera()->screen_size();
-	KMatrix m1 = Core_Class::MainWindow().statemanager.cur_state()->Camera()->ViewProj();
+	KVector2 m_Size = Core_Class::MainWindow().statemanager.cur_state()->camera()->screen_size();
+	KMatrix m1 = Core_Class::MainWindow().statemanager.cur_state()->camera()->ViewProj();
 
 	KMatrix UScale;
 	UScale.Scale(KVector4(_Rect.m_Size.x, _Rect.m_Size.y, 1.0f));

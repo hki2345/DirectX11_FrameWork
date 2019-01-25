@@ -118,9 +118,9 @@ BOOL Dlg_Unit::OnInitDialog()
 	KPtr<Renderer_Grid> GRIDRENDER = GRIDACTOR->Add_Component<Renderer_Grid>();
 
 	
-	m_pCam = TabScene->Camera()->Add_Component<SC2_Camera>();
-	TabScene->Camera()->Far(10000.0f);
-	TabScene->Camera()->one()->Trans()->pos_local(KVector4(0.0f, 10.0f, -20.0f));
+	m_pCam = TabScene->camera()->Add_Component<SC2_Camera>();
+	TabScene->camera()->Far(10000.0f);
+	TabScene->camera()->one()->Trans()->pos_local(KVector4(0.0f, 10.0f, -20.0f));
 
 
 	KPtr<TheOne> TERRAIN = TabScene->Create_One();

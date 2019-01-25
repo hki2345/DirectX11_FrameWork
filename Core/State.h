@@ -54,6 +54,8 @@ public:
 		virtual void DebugRender() {}
 		virtual void UIRender() {}
 
+		virtual void End_State() {}
+
 	protected:
 		State_Updater() {}
 		~State_Updater() {}
@@ -154,7 +156,8 @@ private:
 	Camera* m_Camera;
 
 public:
-	Camera* Camera();
+	Camera* camera();
+	void camera(Camera* _Cam);
 
 
 private:

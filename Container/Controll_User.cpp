@@ -141,7 +141,7 @@ bool Controll_User::Init(KPtr<Force_Unit> _Unit, KPtr<SC2_Camera> _Cam)
 
 
 
-	RayCol = state()->Camera()->Get_Component<KRay3D>();
+	RayCol = state()->camera()->Get_Component<KRay3D>();
 
 	if (nullptr == RayCol)
 	{
@@ -342,17 +342,18 @@ void Controll_User::Update_Terrain()
 	{
 		TT.x = m_pUnit->terrain()->TER_Left();
 	}
-	if (m_pUnit->terrain()->TER_Right() < TT.x)
-	{
-		TT.x = m_pUnit->terrain()->TER_Right();
-	}
+	// ²¨ ¾¾¹ß
+	// if (m_pUnit->terrain()->TER_Right() < TT.x)
+	// {
+	// 	TT.x = m_pUnit->terrain()->TER_Right();
+	// }
 	if (m_pUnit->terrain()->TER_Down() > TT.z)
 	{
 		TT.z = m_pUnit->terrain()->TER_Down();
 	}
-	if (m_pUnit->terrain()->TER_Up() < TT.z)
-	{
-		TT.z = m_pUnit->terrain()->TER_Up();
-	}
+	// if (m_pUnit->terrain()->TER_Up() < TT.z)
+	// {
+	// 	TT.z = m_pUnit->terrain()->TER_Up();
+	// }
 	one()->Trans()->pos_local(TT);
 }

@@ -26,15 +26,13 @@ SC2Manager::SC2Manager() :
 
 SC2Manager::~SC2Manager()
 {
-	//m_SFI = m_FMap.begin();
-	//m_EFI = m_FMap.end();
+	m_SFI = m_FMap.begin();
+	m_EFI = m_FMap.end();
 
-	//for (; m_SFI != m_EFI; ++m_SFI)
-	//{
-	//	m_SFI->second->Clear_Unit();
-	//}
-
-	//m_FMap.clear();
+	for (; m_SFI != m_EFI; ++m_SFI)
+	{
+		m_SFI = m_FMap.erase(m_SFI);
+	}
 }
 
 
@@ -114,7 +112,7 @@ bool SC2Manager::Init()
 	Create_Force(L"LUV", KColor(.9f, .9f, .9f, 1.0f));
 	Create_Force(L"BAAM", KColor(.1f, .9f, .9f, 1.0f));
 	Create_Force(L"REDFLAVER", KColor(.9f, .5f, .5f, 1.0f));
-	Create_Force(L"POP/STARS", KColor(.5f, .0f, .8f, 1.0f));
+	Create_Force(L"POP+STARS", KColor(.5f, .0f, .8f, 1.0f));
 
 	return true;
 }

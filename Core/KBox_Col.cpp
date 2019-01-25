@@ -63,12 +63,12 @@ void KBox_Col::DebugRender()
 	W = S * R * P;
 
 	m_MD.m_W = W.RVTranspose();
-	m_MD.m_V = one()->state()->Camera()->View().RVTranspose();
-	m_MD.m_P = one()->state()->Camera()->Proj().RVTranspose();
-	m_MD.m_WV = (W * one()->state()->Camera()->View()).RTranspose();
-	m_MD.m_VP = (one()->state()->Camera()->ViewProj()).RVTranspose();
-	m_MD.m_WVP = (W * one()->state()->Camera()->ViewProj()).RTranspose();
-	m_MD.m_CamPos = one()->state()->Camera()->Trans()->pos_world();
+	m_MD.m_V = one()->state()->camera()->View().RVTranspose();
+	m_MD.m_P = one()->state()->camera()->Proj().RVTranspose();
+	m_MD.m_WV = (W * one()->state()->camera()->View()).RTranspose();
+	m_MD.m_VP = (one()->state()->camera()->ViewProj()).RVTranspose();
+	m_MD.m_WVP = (W * one()->state()->camera()->ViewProj()).RTranspose();
+	m_MD.m_CamPos = one()->state()->camera()->Trans()->pos_world();
 
 	Core_Class::MainDevice().SettingCB<MatrixContainer>(L"MATCON", m_MD, SHTYPE::ST_VS);
 	Core_Class::MainDevice().SettingCB<MatrixContainer>(L"MATCON", m_MD, SHTYPE::ST_PS);

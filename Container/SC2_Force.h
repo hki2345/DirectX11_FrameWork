@@ -16,7 +16,7 @@ class SC2_Force : public Begin_Updater
 public:
 	friend class SC2Manager;
 
-private:
+public:
 	enum PLAYER_TYPE
 	{
 		PRT_NONE,

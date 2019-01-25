@@ -17,6 +17,7 @@
 #include "Controll_Brutal.h"
 #include "Controll_Infested.h"
 #include "Controll_User.h"
+#include "Controll_NPC.h"
 #include "SC2_Camera.h"
 
 
@@ -30,6 +31,13 @@ SC2_Force::SC2_Force(const wchar_t* _Name, const KColor& _Color)
 
 SC2_Force::~SC2_Force()
 {
+	m_SUI = m_UList.begin();
+	m_EUI = m_UList.end();
+
+	for (; m_SUI != m_EUI; ++m_SUI)
+	{
+		m_SUI = m_UList.erase(m_SUI);
+	}
 } 
 
 
@@ -167,7 +175,7 @@ void SC2_Force::Save()
 	for (; m_SUI != m_EUI; ++m_SUI)
 	{
 		KVector TT = (*m_SUI)->one()->Trans()->pos_world();
-		KVector RT = (*m_SUI)->one()->Trans()->rotate_local();
+		KVector RT = (*m_SUI)->one()->Trans()->rotate_localDeg();
 		WS.Write((*m_SUI)->name(), sizeof(wchar_t) * NAMENUM);
 		WS.Write(&TT, sizeof(KVector));
 		WS.Write(&RT, sizeof(KVector));
@@ -233,10 +241,15 @@ void SC2_Force::playable_type(const PLAYABLE_TYPE& _Value)
 		switch (_Value)
 		{
 		case PBT_NONE:
-		{	
+		{
 			(*m_SUI)->Delete_Component<Controll_Abrr>();
+			(*m_SUI)->Delete_Component<Controll_Zergling>();
+			(*m_SUI)->Delete_Component<Controll_Infested>();
+			(*m_SUI)->Delete_Component<Controll_Ultra>();
+			(*m_SUI)->Delete_Component<Controll_Brutal>();
 			(*m_SUI)->Delete_Component<Controll_User>();
 
+			(*m_SUI)->Add_Component<Controll_NPC>((*m_SUI));
 			if (this == Con_Class::force_enemy())
 			{
 				Con_Class::force_enemy(nullptr);
@@ -289,7 +302,7 @@ void SC2_Force::playable_type(const PLAYABLE_TYPE& _Value)
 		{
 			(*m_SUI)->Delete_Component<Controll_Abrr>();
 			(*m_SUI)->Delete_Component<Controll_User>();
-			(*m_SUI)->Add_Component<Controll_User>((*m_SUI), Core_Class::MainScene()->Camera()->Get_Component<SC2_Camera>());
+			(*m_SUI)->Add_Component<Controll_User>((*m_SUI), Core_Class::MainScene()->camera()->Get_Component<SC2_Camera>());
 
 			Con_Class::force_player(this);
 
@@ -326,7 +339,7 @@ void SC2_Force::playable_type(const PLAYABLE_TYPE& _Value, KPtr<State> _State)
 			(*m_SUI)->Delete_Component<Controll_Infested>();
 
 			(*m_SUI)->Delete_Component<Controll_User>();
-			(*m_SUI)->Add_Component<Controll_User>((*m_SUI), _State->Camera()->Get_Component<SC2_Camera>());
+			(*m_SUI)->Add_Component<Controll_User>((*m_SUI), _State->camera()->Get_Component<SC2_Camera>());
 
 			Con_Class::force_player(this);
 

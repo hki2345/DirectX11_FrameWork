@@ -9,9 +9,14 @@
 #include "Core_Class.h"
 #include <atlstr.h>
 
-Camera* State::Camera() 
+Camera* State::camera() 
 {
 	return m_Camera;
+}
+
+void State::camera(Camera* _Cam)
+{
+	m_Camera = _Cam;
 }
 
 State::State() : m_Camera(nullptr), m_bBuild(false)
@@ -21,7 +26,18 @@ State::State() : m_Camera(nullptr), m_bBuild(false)
 
 State::~State()
 {
-	int a = 0;
+	if (0 != m_SUpdaterList.size())
+	{
+		std::list<KPtr<State_Updater>>::iterator StartUpdaterIter = m_SUpdaterList.begin();
+		std::list<KPtr<State_Updater>>::iterator EndUpdaterIter = m_SUpdaterList.end();
+
+		for (; StartUpdaterIter != EndUpdaterIter; ++StartUpdaterIter)
+		{
+			(*StartUpdaterIter)->End_State();
+		}
+	}
+
+	Release();
 }
 
 
