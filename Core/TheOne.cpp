@@ -200,6 +200,32 @@ void TheOne::DebugRender()
 	}
 }
 
+
+
+void TheOne::UIRender()
+{
+	m_ComSI = m_ComList.begin();
+	m_ComEI = m_ComList.end();
+
+	for (; m_ComSI != m_ComEI; ++m_ComSI)
+	{
+		if (false == (*m_ComSI)->Is_Active())
+		{
+			continue;
+		}
+
+		(*m_ComSI)->UIRender();
+	}
+
+	ChildStartIter = m_pChildList.begin();
+	ChildEndIter = m_pChildList.end();
+
+	for (; ChildStartIter != ChildEndIter; ++ChildStartIter)
+	{
+		(*ChildStartIter)->UIRender();
+	}
+}
+
 void TheOne::EndUpdate() 
 {
 	m_ComSI = m_ComList.begin();

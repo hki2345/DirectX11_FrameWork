@@ -20,4 +20,5 @@
 #include "SC2_Force.cpp"
 #include "Unit_SkillObj.cpp"
 #include "User_Act.cpp"
+#include "User_InGame.cpp"
 #include "User_UI.cpp"

@@ -18,7 +18,8 @@
 
 SC2Manager::SC2Manager() :
 	m_bGR(GRT_PLAY),
-	m_bInit(false)
+	m_bInit(false),
+	m_GameSet(false)
 {
 	Init();
 }

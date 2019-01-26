@@ -28,6 +28,7 @@ SUpdater::~SUpdater()
 
 void SUpdater::Start_State()
 {
+	InputManager::Set_MUnLock();
 	Init_Mesh();
 	Init_Sound(); 
 	Init_UI();

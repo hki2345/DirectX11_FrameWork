@@ -182,10 +182,6 @@ void Controll_User::Update_AIDLE()
 			m_MeATime = .0f;
 		}
 	}
-	if (true == KEY_DOWN(L"F"))
-	{
-		m_AType = Controll_User::AT_STORY;
-	}
 	if (true == KEY_DOWN(L"Q"))
 	{
 		if (m_OpATime > m_OpTime)
@@ -222,6 +218,7 @@ void Controll_User::Update_ATTACK()
 			return;
 		}
 
+		m_OpATime += 3.0f;
 		m_pFocusUnit->Damage(4.0f);
 	}
 	else if(m_pUnit->Get_Component<Renderer_BonAni>()->index_frame() == 394)
@@ -249,6 +246,7 @@ void Controll_User::Update_BOMB()
 		return;
 	}
 
+	m_OpATime += 10.0f;
 	m_pFocusUnit->Damage(50.0f);
 }
 void Controll_User::Update_STORY()

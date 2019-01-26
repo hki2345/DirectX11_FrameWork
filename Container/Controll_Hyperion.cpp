@@ -41,10 +41,10 @@ bool Controll_Hyperion::Init(
 {
 	m_For = _Forward;
 
-	m_pUnitList.push_back(Con_Class::s2_manager()->Find_Force(L"LUV")->Create_Unit(L"HYPERION", _Ter, state()));
+	m_pUnitList.push_back(Con_Class::s2_manager()->Find_Force(L"TT")->Create_Unit(L"HYPERION", _Ter, state()));
 	for (size_t i = 0; i < 8; i++)
 	{
-		m_pUnitList.push_back(Con_Class::s2_manager()->Find_Force(L"LUV")->Create_Unit(L"BATTLECRUISER", _Ter, state()));
+		m_pUnitList.push_back(Con_Class::s2_manager()->Find_Force(L"TT")->Create_Unit(L"BATTLECRUISER", _Ter, state()));
 	}
 
 	m_SULI = m_pUnitList.begin();
@@ -94,6 +94,19 @@ bool Controll_Hyperion::Init(
 	TT.Play(L"Battlecruiser_What00.ogg");
 
 	m_Battle = false;
+
+
+	std::list<KPtr<Force_Unit>>::iterator S = Con_Class::s2_manager()->Find_Force(L"POP+STARS")->unit_list()->begin();
+	std::list<KPtr<Force_Unit>>::iterator E = Con_Class::s2_manager()->Find_Force(L"POP+STARS")->unit_list()->end();
+
+	for (; S != E; ++S)
+	{
+		if (false == (*S)->Is_HPDeath())
+		{
+			m_pEnemyList.push_back(*S);
+		}
+	}
+
 	return true;
 }
 
@@ -201,32 +214,14 @@ void Controll_Hyperion::Update_ATTACK()
 	m_UTime += DELTATIME;
 	m_ATime += DELTATIME;
 
+	m_SULI = m_pUnitList.begin();
+	m_EULI = m_pUnitList.end();
 
-	if (m_UTime > .05f)
+	for (m_SPI = m_TPos.begin(); m_SULI != m_EULI; ++m_SULI, ++m_SPI)
 	{
-		m_UTime = .0f;
-
-		std::list<KPtr<Force_Unit>>::iterator S = Con_Class::force_enemy()->unit_list()->begin();
-		std::list<KPtr<Force_Unit>>::iterator E = Con_Class::force_enemy()->unit_list()->end();
-
-
-		m_SULI = m_pUnitList.begin();
-		m_EULI = m_pUnitList.end();
-
-		for (m_SPI = m_TPos.begin(); m_SULI != m_EULI; ++m_SULI, ++m_SPI)
-		{
-			(*m_SULI)->one()->Trans()->Moving(m_For * .05f);
-		}
-
-		for (; S != E; ++S)
-		{
-			(*S)->Damage(1.0f);
-		}
-
-
-		SoundPlayer S1 = SoundPlayer();
-		S1.Play(L"Battlecruiser_AttackLaunch0.wav", .1f);
+		(*m_SULI)->one()->Trans()->Moving(m_For * .05f);
 	}
+
 
 	if (m_ATime > 20.0f)
 	{
@@ -235,6 +230,28 @@ void Controll_Hyperion::Update_ATTACK()
 		SoundPlayer TT = SoundPlayer();
 		TT.Play(L"Battlecruiser_HyperspaceOut01.wav");
 	}
+
+	if (m_UTime > .1f)
+	{
+		m_UTime = .0f;
+
+		std::list<KPtr<Force_Unit>>::iterator S = m_pEnemyList.begin();
+		if (m_pEnemyList.end() == S)
+		{
+			return;
+		}
+
+		(*S)->Damage(5.f);
+
+		if (true == (*S)->Is_HPDeath())
+		{
+			m_pEnemyList.erase(S);
+		}
+		
+		SoundPlayer S1 = SoundPlayer();
+		S1.Play(L"Battlecruiser_AttackLaunch0.wav", .1f);
+	}
+
 }
 
 

@@ -86,9 +86,9 @@ bool Controll_Nova::Init(const KVector& _InitPos, const KVector& _RotPos, KPtr<R
 
 
 	int Limit = 5;
-	int THp = 300;
+	int THp = 10;
 
-	std::list<KPtr<Force_Unit>> TList = *Con_Class::force_enemy()->unit_list();
+	std::list<KPtr<Force_Unit>> TList = *Con_Class::s2_manager()->Find_Force(L"GLASSBEAD")->unit_list();
 	std::list<KPtr<Force_Unit>>::iterator S = TList.begin();
 	std::list<KPtr<Force_Unit>>::iterator E = TList.end();
 

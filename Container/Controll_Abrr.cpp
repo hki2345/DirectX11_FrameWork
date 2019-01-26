@@ -86,7 +86,7 @@ void Controll_Abrr::Update_DEATH()
 	if (nullptr == DeathRender)
 	{
 		SoundPlayer TT = SoundPlayer();
-		TT.Play(L"Aberration_Death_00.wav", .7f);
+		TT.Play(L"Aberration_Death_00.wav", .4f);
 
 		DeathRender = one()->Add_Component<Renderer_BonAni>();
 		DeathRender->Set_Fbx(L"Aberration_Death.KM3");

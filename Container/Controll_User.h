@@ -8,6 +8,7 @@ class Renderer_Terrain;
 class Renderer_BonAni;
 class Renderer_UI;
 class KCollision;
+class KFont;
 class KRay3D;
 class Controll_User : public Component
 {
@@ -17,6 +18,15 @@ public:
 
 
 public:
+
+	enum STORY_TYPE
+	{
+		ST_NONE = 0,
+		ST_TYCHUS,
+		ST_NOVA,
+		ST_COMMAND,
+	};
+
 	enum OPTI_TYPE
 	{
 		OT_ODIN = 0,
@@ -26,7 +36,8 @@ public:
 
 	enum MOVE_TYPE
 	{
-		MT_IDLE = 0,
+		MT_NONE = 0,
+		MT_IDLE,
 		MT_MOVE,
 		MT_RUN,
 	};
@@ -73,17 +84,23 @@ private:
 	KPtr<Renderer_UI>		m_uFocusHP;
 	KPtr<Renderer_UI>		m_uFBackHP;
 	KPtr<Renderer_UI>		m_uAim;
+	KPtr<Renderer_UI>		m_uConsole;
+	KPtr<Renderer_UI>		m_uFKey;
+	KPtr<Renderer_UI>		m_uCover;
 
 
 	MOVE_TYPE	m_MType;
 	ACT_TYPE	m_AType;
 	OPTI_TYPE	m_OType;
+	STORY_TYPE	m_SType;
 
 	KVector		m_PlayRot;
 	KVector		m_PlayPos;
 	KVector		m_RenderRot;
 
 	KPtr<Force_Unit>		m_pFocusUnit;
+	KPtr<Force_Unit>		m_pStoryUnit;
+	KPtr<KFont>				m_pFont;
 	KPtr<KRay3D> RayCol;
 
 	float m_UTime;
@@ -98,6 +115,10 @@ private:
 	float m_OpATime;
 
 
+	int m_iStory;
+	float m_GameTime;
+	bool m_InGame;
+	bool m_OutGame;
 
 private:
 	void Init_UI();
@@ -105,7 +126,13 @@ private:
 	void Update_AUI();
 
 
+	void Init_Game();
+	void Update_Game();
+	void Update_Story();
 
+
+	void Update_GameCol(KCollision* _Left, KCollision* _Right);
+	void Update_GExitCol(KCollision* _Left, KCollision* _Right);
 	void Update_StayCol(KCollision* _Left, KCollision* _Right);
 	void Update_ExitCol(KCollision* _Left, KCollision* _Right);
 	
@@ -131,6 +158,8 @@ private:
 	void Update_DEATH();
 
 	void Update_Terrain();
+
+	void UIRender();
 
 public:
 	KVector& pos_player()

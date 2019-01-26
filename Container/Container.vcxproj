@@ -194,6 +194,7 @@
     <ClCompile Include="Force_Unit_GameAct.cpp" />
     <ClCompile Include="Unit_SkillObj.cpp" />
     <ClCompile Include="User_Act.cpp" />
+    <ClCompile Include="User_InGame.cpp" />
     <ClCompile Include="User_UI.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

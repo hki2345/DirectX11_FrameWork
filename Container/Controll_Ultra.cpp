@@ -89,7 +89,7 @@ void Controll_Ultra::Update_DEATH()
 	if (false == m_DeathSound)
 	{
 		SoundPlayer TT = SoundPlayer();
-		TT.Play(L"Ultralisk_Death0.wav", .7f);
+		TT.Play(L"Ultralisk_Death0.wav", .5f);
 
 		m_DeathSound = true;
 	}

@@ -26,6 +26,9 @@ public:
 private:
 	bool m_Battle;
 
+
+	std::list<KPtr<Force_Unit>>		m_pEnemyList;
+
 	std::list<KPtr<Force_Unit>>					m_pUnitList;
 	std::list<KPtr<Force_Unit>>::iterator		m_SULI;
 	std::list<KPtr<Force_Unit>>::iterator		m_EULI;

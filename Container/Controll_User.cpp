@@ -2,6 +2,7 @@
 #include "Force_Unit.h"
 
 #include <Core_Class.h>
+#include <ResourceManager.h>
 #include <Renderer_BonAni.h>
 #include <Renderer_Terrain.h>
 #include <Renderer_UI.h>
@@ -127,15 +128,10 @@ bool Controll_User::Init(KPtr<Force_Unit> _Unit, KPtr<SC2_Camera> _Cam)
 	m_pUnit = _Unit;
 	m_pCam = _Cam;
 	m_pCam->Set_User(this);
-
-	m_MType = MOVE_TYPE::MT_IDLE;
-	m_AType = ACT_TYPE::AT_IDLE;
-	m_OType = OPTI_TYPE::OT_NOVA;
-
-
+	
 	m_FiTime = 7.0f;
 	m_MeTime = 30.0f;
-	m_OpTime = 120.0f;
+	
 
 	m_pUnit->playable_type(PLAYABLE_TYPE::PBT_USER);
 	m_MirrorY = false;
@@ -161,12 +157,14 @@ bool Controll_User::Init(KPtr<Force_Unit> _Unit, KPtr<SC2_Camera> _Cam)
 
 
 	Init_UI();
+	Init_Game();
 	return true;
 }
 
 
 void Controll_User::Update()
 {
+
 	if (SC2_Camera::SC2_CAMMODE::S2M_EDIT == m_pCam->cam_mode())
 	{
 		InputManager::Set_MUnLock();
@@ -179,8 +177,10 @@ void Controll_User::Update()
 	}
 
 	
+	Update_Game();
 	Update_Move();
 	Update_Act();
+	
 	Update_UI();
 	Update_AUI();
 
@@ -237,6 +237,10 @@ void Controll_User::Update_RenCol()
 
 void Controll_User::Update_Move()
 {
+	if (true == m_OutGame)
+	{
+		return;
+	}
 	if (Controll_User::AT_DEATH == m_AType)
 	{
 		KLOG(L"Unit Move: DEATH");
@@ -245,6 +249,9 @@ void Controll_User::Update_Move()
 
 	switch (m_MType)
 	{
+	case Controll_User::MT_NONE:
+		KLOG(L"Unit Move: NONE");
+		break;
 	case Controll_User::MT_IDLE:
 		Update_MIDLE();
 		KLOG(L"Unit Move: IDLE");
@@ -265,6 +272,10 @@ void Controll_User::Update_Move()
 
 void Controll_User::Update_Act()
 {
+	if (true == m_OutGame)
+	{
+		return;
+	}
 	m_FiATime += DELTATIME;
 	m_MeATime += DELTATIME;
 	m_OpATime += DELTATIME;
@@ -284,7 +295,6 @@ void Controll_User::Update_Act()
 		KLOG(L"Unit Act: BOMB");
 		break;
 	case Controll_User::AT_STORY:
-		// Update_BOMB();
 		KLOG(L"Unit Act: STORY");
 		break;
 	case Controll_User::AT_HEAL:
@@ -302,6 +312,15 @@ void Controll_User::Update_Act()
 
 void Controll_User::Update_Mouse()
 {
+	if (Controll_User::AT_STORY == m_AType)
+	{
+		return;
+	}
+	if (true == m_OutGame)
+	{
+		return;
+	}
+
 	if (true == InputManager::Is_MouseMove())
 	{
 		if (true == KEY_PRESS(L"MUNLOCK"))

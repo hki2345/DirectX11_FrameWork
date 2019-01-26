@@ -412,6 +412,8 @@ float Renderer_Terrain::Y_Terrain(const KVector& _Pos)
 	{
 		return .0f;
 	}
+	
+	
 
 	// 좌상단
 	KVector V0 = m_TempVtx[((Z + 1) * (m_TFD.SizeX + 1)) + X].Pos  * m_Trans->scale_world() + m_Trans->pos_world();
@@ -424,8 +426,7 @@ float Renderer_Terrain::Y_Terrain(const KVector& _Pos)
 
 	// 우하단
 	KVector V3 = m_TempVtx[((Z) * (m_TFD.SizeX + 1)) + (X + 1)].Pos * m_Trans->scale_world() + m_Trans->pos_world();
-
-
+	
 	// 검출될 y좌표
 	float F0 = .0f;
 	float F1 = .0f;
@@ -435,8 +436,8 @@ float Renderer_Terrain::Y_Terrain(const KVector& _Pos)
 		, .0f
 		, _Pos.z );
 
-	DirectX::TriangleTests::Intersects(ObjPos, KVector::Up, V2, V1, V0, F0);
-	DirectX::TriangleTests::Intersects(ObjPos, KVector::Up, V2, V3, V1, F1);
+	DirectX::TriangleTests::Intersects(ObjPos, KVector::Up, V0, V2, V3, F0);
+	DirectX::TriangleTests::Intersects(ObjPos, KVector::Up, V0, V3, V1, F1);
 	
 	if (0 != F0|| 0 != F1)
 	{

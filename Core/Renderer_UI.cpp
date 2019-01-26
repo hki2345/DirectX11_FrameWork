@@ -6,7 +6,7 @@
 
 #include "InputManager.h"
 
-Renderer_UI::Renderer_UI()
+Renderer_UI::Renderer_UI() : m_AlphaValue(1.0f)
 {
 	ROpt.Defferd_orForward = 0;
 }
@@ -86,6 +86,7 @@ void Renderer_UI::Render(KPtr<Camera> _Camera, const KUINT& _MeshIdx, const KUIN
 	KVector m_Cut;
 	m_Cut.x = m_CutFade;
 	m_Cut.y = m_CutValue;
+	m_Cut.z = m_AlphaValue;
 
 	m_MtlVec[0]->PShader()->SettingCB<KVector>(L"FADE_CUT", m_Cut);
 	m_MtlVec[0]->VShader()->SettingCB<MatrixContainer>(L"MATCON", m_MD);

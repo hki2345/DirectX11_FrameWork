@@ -86,7 +86,7 @@ void Controll_Infested::Update_DEATH()
 	if (nullptr == DeathRender)
 	{
 		SoundPlayer TT = SoundPlayer();
-		TT.Play(L"InfestedTerran_What00.ogg", .7f);
+		TT.Play(L"InfestedTerran_What00.ogg", .5f);
 
 		DeathRender = one()->Add_Component<Renderer_BonAni>();
 		DeathRender->Set_Fbx(L"InfestedMarineDeath.KM3");

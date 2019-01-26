@@ -14,8 +14,10 @@ private:
 
 	// 0 == 자르기
 	// 1 == 페이드
+	// 2 == 알파값
 	float m_CutFade;
 	float m_CutValue;
+	float m_AlphaValue;
 
 public:
 	void Update();
@@ -45,6 +47,18 @@ public:
 		}
 
 		m_CutValue = _Value;
+	}
+
+	void alpha_value(const float& _Value)
+	{
+		if (1.0f < _Value)
+		{
+			m_AlphaValue = 1.0f;
+			return;
+		}
+
+		m_AlphaValue = _Value;
+
 	}
 
 

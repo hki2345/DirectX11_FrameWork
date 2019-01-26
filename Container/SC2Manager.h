@@ -24,6 +24,9 @@ private:
 	};
 
 
+public:
+	bool m_GameSet;
+
 private:
 	bool m_bInit;
 	GAMERUN_TYPE m_bGR;

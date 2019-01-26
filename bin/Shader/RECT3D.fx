@@ -86,6 +86,7 @@ PS3D_OUTPUT PS_RECT3D(VTX3DMESH_OUTPUT _in)
         }
     }
     outData.vColor = CalColor;
+    outData.vColor.a = m_CutFade.z * CalColor.a;
 
 	return outData;
 }

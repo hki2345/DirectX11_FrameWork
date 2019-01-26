@@ -83,6 +83,7 @@ private:
 	void NextUpdate() override;
 	void DebugUpdate() override;
 	void DebugRender() override;
+	void UIRender() override;
 	void FinalUpdate();
 	void EndUpdate();
 

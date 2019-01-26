@@ -98,20 +98,17 @@ void GUpdater::Init_Unit()
 	Con_Class::s2_manager()->Find_Force(L"REDFLAVER")->playable_type(PLAYABLE_TYPE::PBT_ENEMY);
 	Con_Class::s2_manager()->Find_Force(L"POP+STARS")->Set_Active(false);
 	Con_Class::s2_manager()->Find_Force(L"GLASSBEAD")->Set_Active(false);
-	Con_Class::s2_manager()->Find_Force(L"LUV")->Set_Active(false);
 
 	m_pCam->Set_InGame();
 }
 
 void  GUpdater::Update_State()
 {
-	/*
-	if (true == KEY_DOWN(L"LB"))
+	if (true == Con_Class::s2_manager()->m_GameSet)
 	{
 		Core_Class::MainSceneMgr().Change_State(L"End");
 		Con_Class::s2_manager()->Clear_Force();
 	}
-	*/
 }
 
 void GUpdater::UIRender()
