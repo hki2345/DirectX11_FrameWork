@@ -67,8 +67,10 @@ PS_DEFFERDOUTPUT PS_TERRAINDEFFERD(VTX3DMESH_OUTPUT _in)
     float4 CalColor = float4(1.0f, 1.0f, 1.0f, 1.0f);
 
     CalColor *= GetMTexToColor(8, 8, _in.vUv, 0.0f);
-    _in.vNormal = CalMBump(8, 8, _in.vUv, 1.0f, _in.vTangent, _in.vBNormal, _in.vNormal);
+    float4 BumpNormal = CalMBump(8, 8, _in.vUv, 1.0f, _in.vTangent, _in.vBNormal, _in.vNormal);
     
+    BumpNormal = mul(BumpNormal, g_V);
+
     float2 SpUv;
 
     SpUv.x = _in.vUv.x / VTXX;
@@ -84,49 +86,15 @@ PS_DEFFERDOUTPUT PS_TERRAINDEFFERD(VTX3DMESH_OUTPUT _in)
         FloorColor.xyz *= RatioValuie;
         SrcColor.xyz *= (1.0f - Ratio.x);
         CalColor = FloorColor + SrcColor;
-        if (RatioValuie >= 0.9)
-        {
-            _in.vNormal = CalMBump(9 + i, 9 + i, _in.vUv, 1.0f, _in.vTangent, _in.vBNormal, _in.vNormal);
-        }
     }
-
-    //CalColor *= GetTexToColor(0, 0, _in.vUv);
-    //_in.vNormal = CalBump(1, 0, _in.vUv, _in.vTangent, _in.vBNormal, _in.vNormal);
-    // 상수버퍼 하나를 만들어야 한다.
-
-    //// 색깔을 2
-
-    //for (int i = 0; i < FloorCount; ++i)
-    //{
-
-    //}
-
-    //for (int i = 0; i < FloorCount; ++i)
-    //{
-    //    float SPRatio = 0.1;
-
-    //    float3 DestColor = CalColor * (1 - SPRatio);
-    //    float3 TexColor;
-    //    float3 SrcColor;
-    //    SrcColor *= TexColor * (SPRatio);
-    //    CalColor = DestColor + SrcColor;
-    //}
-
-    // BaseDiffTextureColor 
-
-    // 0.5 x
-    // 1, 1, 1,
-    // rgb
-
-    // 칼 컬러가 섞인것으로 나와야 한다.
-
-    // 포워드 색깔을 아예 사용하지 않는 것은 아니다.
-    outData.vDiffuse.rgb = CalColor;
-    outData.vDiffuse.a = _in.vColor.a;
-    outData.vNoraml = _in.vNormal;
+    
+// 포워드 색깔을 아예 사용하지 않는 것은 아니다.
+    outData.vDiffuse.rgb = CalColor.xyz;
+    outData.vDiffuse.a = 1.0f;
+    outData.vNoraml = BumpNormal;
     outData.vNoraml.a = 1.0f;
     outData.vPosition = _in.vViewPos;
-    outData.vDepth.x = outData.vPosition.z;
+    outData.vDepth.x = _in.vPos.z;
     outData.vDepth.w = 1.0f;
 
     return outData;

@@ -123,6 +123,8 @@ PS_OUTPUT PS_BLOOMMERGE(VS_TEXOUTPUT _in)
     outData.vCol = g_Tex_0.Sample(g_Sam_0, _in.vUv);
     outData.vCol += Color;
     outData.vCol.b += Color;
+    outData.vCol.r += Color;
+    // outData.vCol *= float4(1.0f, 6.0f, 2.0f, 1.0f);
 
 
     return outData;

@@ -850,17 +850,18 @@ bool KDevice::Mat3DCreate()
 	DTESSLEVTX->Add_Layout("NORMAL", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
 	DTESSLEVTX->Add_Layout("TANGENT", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
 	DTESSLEVTX->Add_LayoutFin("BINORMAL", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
-	
+	/*
 	KPtr<Shader_Hul>	DTESSLEHUL = ResourceManager<Shader_Hul>::Load_FromKey(L"DTESSLEHUL", L"Shader", L"TerrainDefferd_Tessel.fx", "HS_TERRAINEDEFFERED");
 	KPtr<Shader_Domain> DTESSLEDOM = ResourceManager<Shader_Domain>::Load_FromKey(L"DTESSLEDOM", L"Shader", L"TerrainDefferd_Tessel.fx", "DS_TERRAINEDEFFERED");
+	*/
 	KPtr<Shader_Pixel>	DTESSLEPIX = ResourceManager<Shader_Pixel>::Load_FromKey(L"DTESSLEPIX", L"Shader", L"TerrainDefferd_Tessel.fx", "PS_TERRAINDEFFERD");
 	DTESSLEPIX->CreateCB<TERRAIN_FD>(L"TERRAIN_FD", D3D11_USAGE_DYNAMIC, 0);
 	DTESSLEPIX->CreateCB<DRAW_INFO>(L"DRAW_INFO", D3D11_USAGE_DYNAMIC, 1);
 
 	KPtr<KMaterial> DTESSLEMAT = ResourceManager<KMaterial>::Create(L"DTESSLEMAT");
 	DTESSLEMAT->Set_VTShader(L"DTESSLEVTX");
-	DTESSLEMAT->Set_HUShader(L"DTESSLEHUL");
-	DTESSLEMAT->Set_DMShader(L"DTESSLEDOM");
+	/*DTESSLEMAT->Set_HUShader(L"DTESSLEHUL");
+	DTESSLEMAT->Set_DMShader(L"DTESSLEDOM");*/
 	DTESSLEMAT->Set_PXShader(L"DTESSLEPIX");
 	DTESSLEMAT->Set_Blend(L"ALPHA");	
 

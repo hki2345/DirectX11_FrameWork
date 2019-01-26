@@ -49,7 +49,7 @@ void GUpdater::Init_Terrain()
 	m_pTer->Create_Terrain(64, 64, L"Cover.jpg", 1.0f);
 	m_pTer->base_texture(L"FB");
 	m_pTer->Insert_CoverTex(L"FC", L"Cover.jpg");
-	m_pTer->Set_RSState(L"SFRONT");
+	m_pTer->Set_RSState(L"SNONE");
 	m_pTer->material()->Insert_TexData(TEX_TYPE::TEX_COLOR, 7, L"cursor-target-allied.dds");
 	m_pTer->brush_size(10.0f);
 
@@ -94,6 +94,11 @@ void GUpdater::Init_Unit()
 	Con_Class::s2_manager()->Find_Force(L"BOOMBAYAH")->playable_type(PLAYABLE_TYPE::PBT_USER);
 	Con_Class::s2_manager()->Find_Force(L"BAAM")->playable_type(PLAYABLE_TYPE::PBT_NONE);
 	Con_Class::s2_manager()->Find_Force(L"LUV")->playable_type(PLAYABLE_TYPE::PBT_NONE);
+
+	Con_Class::s2_manager()->Find_Force(L"REDFLAVER")->playable_type(PLAYABLE_TYPE::PBT_ENEMY);
+	Con_Class::s2_manager()->Find_Force(L"POP+STARS")->Set_Active(false);
+	Con_Class::s2_manager()->Find_Force(L"GLASSBEAD")->Set_Active(false);
+	Con_Class::s2_manager()->Find_Force(L"LUV")->Set_Active(false);
 
 	m_pCam->Set_InGame();
 }

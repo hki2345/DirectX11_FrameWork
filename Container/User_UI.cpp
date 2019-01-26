@@ -82,6 +82,13 @@ void Controll_User::Init_UI()
 	m_uHp->material()->Insert_TexData(TEX_TYPE::TEX_COLOR, 0, L"HP.png");
 	m_uHp->cut_fade(.0f);
 	m_uHp->cut_value(1.0f);
+
+	m_uAim = state()->Create_One(L"TT")->Add_Component<Renderer_UI>();
+	m_uAim->one()->Trans()->scale_local(KVector(30.0f, 30.0f, 10.0f, .0f));
+	m_uAim->one()->Trans()->pos_local(KVector(0.0f, 0.0f, 1.1f, .0f));
+	m_uAim->material()->Insert_TexData(TEX_TYPE::TEX_COLOR, 0, L"ui_screen_mainmenu_wcs2017_ping.png");
+	m_uAim->cut_fade(1.0f);
+	m_uAim->cut_value(1.0f);
 }
 
 void Controll_User::Update_UI()

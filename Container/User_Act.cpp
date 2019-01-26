@@ -163,6 +163,7 @@ void Controll_User::Update_AIDLE()
 	{
 		m_UTime = .0f;
 		m_AType = Controll_User::AT_ATTACK;
+		m_ASound = false;
 	}
 	if (true == KEY_DOWN(L"BOMB"))
 	{
@@ -170,6 +171,7 @@ void Controll_User::Update_AIDLE()
 		{
 			m_AType = Controll_User::AT_BOMB;
 			m_FiATime = .0f;
+			m_ASound = false;
 		}
 	}
 	if (true == KEY_DOWN(L"E"))

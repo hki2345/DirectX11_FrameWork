@@ -215,17 +215,18 @@ void Controll_AI::Update_Terrain()
 	{
 		TT.x = m_pUnit->terrain()->TER_Left();
 	}
-	if (m_pUnit->terrain()->TER_Right() < TT.x)
-	{
-		TT.x = m_pUnit->terrain()->TER_Right();
-	}
+	// ²¨ ¾¾¹ß
+	// if (m_pUnit->terrain()->TER_Right() < TT.x)
+	// {
+	// 	TT.x = m_pUnit->terrain()->TER_Right();
+	// }
 	if (m_pUnit->terrain()->TER_Down() > TT.z)
 	{
 		TT.z = m_pUnit->terrain()->TER_Down();
 	}
-	if (m_pUnit->terrain()->TER_Up() < TT.z)
-	{
-		TT.z = m_pUnit->terrain()->TER_Up();
-	}
+	// if (m_pUnit->terrain()->TER_Up() < TT.z)
+	// {
+	// 	TT.z = m_pUnit->terrain()->TER_Up();
+	// }
 	one()->Trans()->pos_local(TT);
 }

@@ -46,6 +46,7 @@ Controll_User::~Controll_User()
 	if (nullptr != m_uBHP)		 {m_uBHP->one()->Set_Death();	 }
 	if (nullptr != m_uFocusHP)	 {m_uFocusHP->one()->Set_Death();}
 	if (nullptr != m_uFBackHP)	 {m_uFBackHP->one()->Set_Death();}
+	if (nullptr != m_uAim)	 { m_uAim->one()->Set_Death(); }
 }
 
 

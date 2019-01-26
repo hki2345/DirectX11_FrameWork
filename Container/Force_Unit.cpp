@@ -73,8 +73,6 @@ void Force_Unit::Update()
 		}
 	}
 
-	KLOG(L"playble type: %d", (int)m_Info.PBType);
-
 	Update_RenderAni();
 	Update_Col();
 }
@@ -360,5 +358,5 @@ void Force_Unit::Update_Col()
 
 void Force_Unit::Collision_OtherUnit(KCollision* _Left, KCollision* _Right)
 {
-	KLOG(L"Unit Collision: %b", true);
+	// KLOG(L"Unit Collision: %b", true);
 }

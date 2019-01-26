@@ -87,7 +87,7 @@ public:
 	void playable_type(const PLAYABLE_TYPE& _Value, KPtr<State> _State);
 	PLAYABLE_TYPE& playable_type();
 
-
+	void Set_Active(const bool& _Value);
 	KPtr<Force_Unit> Create_Unit(const wchar_t* _Name, KPtr<Renderer_Terrain> _Ter);
 	KPtr<Force_Unit> Create_Unit(const wchar_t* _Name, KPtr<Renderer_Terrain> _Ter, KPtr<State> _State);
 	KPtr<Force_Unit> Find_Unit(const wchar_t* _Name);

@@ -282,3 +282,81 @@ PS_DEFFERDOUTPUT PS_TERRAINDEFFERD(DOMAIN_OUT _in)
     return outData;
 }
 
+
+//PS_DEFFERDOUTPUT PS_TERRAINDEFFERD(VTX3DMESH_OUTPUT _in)
+//{
+//    PS_DEFFERDOUTPUT outData = (PS_DEFFERDOUTPUT) 0.0f;
+//    float4 CalColor = float4(1.0f, 1.0f, 1.0f, 1.0f);
+
+
+  
+//    float3 Binormal = _in.vBNormal;
+//    float3 Tangent = _in.vTangent;
+//    float3 Normal = normalize(cross(Binormal, Tangent));
+
+
+//    CalColor *= GetMTexToColor(8, 8, _in.vUv, 0.0f);
+//    float4 BumpNormal = CalMBump(8, 8, _in.vUv, 1.0f, float4(Tangent, .0f), float4(Binormal, .0f), float4(Normal, .0f));
+    
+//    BumpNormal = mul(BumpNormal, g_V);
+
+//    float2 SpUv;
+
+//    SpUv.x = _in.vUv.x / VTXX;
+//    SpUv.y = _in.vUv.y / VTXY;
+
+//    for (int i = 0; i < FloorCount; ++i)
+//    {
+//        // 색깔 섞기.
+//        float4 Ratio = GetTexToColor(i, i, SpUv);
+//        float RatioValuie = (Ratio.x + Ratio.y + Ratio.z) / 3.0f;
+//        float4 FloorColor = GetMTexToColor(9 + i, 9 + i, _in.vUv, 0.0f);
+//        float4 SrcColor = CalColor;
+//        FloorColor.xyz *= RatioValuie;
+//        SrcColor.xyz *= (1.0f - Ratio.x);
+//        CalColor = FloorColor + SrcColor;
+//    }
+
+
+
+
+//    if (MPos.x - PPUV.x * BSize /* * BSize * .5f*/ < _in.vUv.x / VTXX &&
+//        MPos.x + PPUV.x * BSize /* * BSize * .5f*/ > _in.vUv.x / VTXX &&
+//        MPos.y - PPUV.y * BSize /* * BSize * .5f*/ < _in.vUv.y / VTXY &&
+//        MPos.y + PPUV.y * BSize /* * BSize * .5f*/ > _in.vUv.y / VTXY)
+//    {
+//        float4 Tmp4 = float4(1.0f, 1.0f, 1.0f, 1.0f);
+//        if (1.0f == Click)
+//        {
+//            Tmp4 *= float4(.0f, 1.0f, .0f, 1.0f);
+//        }
+//        if (-1.0f == Click)
+//        {
+//            Tmp4 *= float4(1.0f, .0f, .0f, 1.0f);
+//        }
+
+
+//        // 이미지 UV의 시작
+//        float2 Tmp = float2(
+//        _in.vUv.x / VTXX - (MPos.x - PPUV.x * BSize),
+//        _in.vUv.y / VTXY - (MPos.y - PPUV.y * BSize));
+//        // CalColor += float4(1.0f, 1.0f, .0f, .0f);
+//        CalColor += GetTexToColor(ArrTex[3].Tex_Idx, ArrTex[3].Tex_Smp, Tmp * float2(g_W._11, g_W._33) * .5f * BSize) * Tmp4;
+
+        
+//    }
+
+//// 칼 컬러가 섞인것으로 나와야 한다.
+
+//// 포워드 색깔을 아예 사용하지 않는 것은 아니다.
+//    outData.vDiffuse.rgb = CalColor.xyz;
+//    outData.vDiffuse.a = 1.0f;
+//    outData.vNoraml = BumpNormal;
+//    outData.vNoraml.a = 1.0f;
+//    outData.vPosition = _in.vViewPos;
+//    outData.vDepth.x = _in.vPos.z;
+//    outData.vDepth.w = 1.0f;
+
+//    return outData;
+//}
+

@@ -47,6 +47,7 @@
     <FxCompile Include="..\bin\Shader\ScreenMerge.fx" />
     <FxCompile Include="..\bin\Shader\SkyBox.fx" />
     <FxCompile Include="..\bin\Shader\TagetDebug.fx" />
+    <FxCompile Include="..\bin\Shader\TerrainDefferd.fx" />
     <FxCompile Include="..\bin\Shader\TerrainDefferd_Tessel.fx" />
     <FxCompile Include="..\bin\Shader\TexShader.fx" />
     <FxCompile Include="..\bin\Shader\VolumeMesh.fx" />

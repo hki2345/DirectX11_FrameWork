@@ -6,3 +6,6 @@ http://help.autodesk.com/view/3DSMAX/2016/KOR/?guid=GUID-1DAA53B9-4B58-49C6-A1BA
 
 다음 진도?
 http://www.rastertek.com/tutdx11.html
+
+동영상
+https://docs.microsoft.com/ko-kr/windows/desktop/DirectShow/directshow-playback-example

@@ -72,6 +72,7 @@ private:
 
 	KPtr<Renderer_UI>		m_uFocusHP;
 	KPtr<Renderer_UI>		m_uFBackHP;
+	KPtr<Renderer_UI>		m_uAim;
 
 
 	MOVE_TYPE	m_MType;

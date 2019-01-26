@@ -40,6 +40,25 @@ SC2_Force::~SC2_Force()
 	}
 } 
 
+void SC2_Force::Set_Active(const bool& _Value)
+{
+	m_SUI = m_UList.begin();
+	m_EUI = m_UList.end();
+
+	for (; m_SUI != m_EUI; ++m_SUI)
+	{
+		if (true == _Value)
+		{
+			(*m_SUI)->one()->Active_On();
+		}
+		else
+		{
+			(*m_SUI)->one()->Active_Off();
+		}
+	}
+}
+
+
 
 KPtr<Force_Unit> SC2_Force::Create_Unit(const wchar_t* _Name, KPtr<Renderer_Terrain> _Ter)
 {
