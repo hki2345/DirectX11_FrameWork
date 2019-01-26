@@ -8,7 +8,7 @@
 #include <Renderer_Terrain.h>
 #include <InputManager.h>
 
-
+#include <Core_Class.h>
 #include <SoundPlayer.h>
 
 
@@ -28,6 +28,8 @@ Controll_Hyperion::~Controll_Hyperion()
 	}
 
 	m_pUnitList.clear();
+
+	m_pSound->Stop();
 }
 
 
@@ -90,8 +92,9 @@ bool Controll_Hyperion::Init(
 	m_UTime = .0f;
 	m_LauCnt = 1;
 
-	SoundPlayer TT = SoundPlayer();
-	TT.Play(L"Battlecruiser_What00.ogg");
+	m_pSound = new SoundPlayer();
+	m_pASound = new SoundPlayer();
+ 	m_pSound->Play(L"Battlecruiser_What00.ogg");
 
 	m_Battle = false;
 
@@ -138,16 +141,14 @@ void Controll_Hyperion::Update_COME()
 	m_UTime += DELTATIME;
 	if (2.5f <= m_UTime && false == m_Battle)
 	{
-		SoundPlayer TT = SoundPlayer();
-		TT.Play(L"Battlecruiser_Yes01.ogg");
+		m_pSound->Play(L"Battlecruiser_Yes01.ogg");
 
 		m_Battle = true;
 	}
 
 	if (7.0f <= m_UTime)
 	{
-		SoundPlayer TT = SoundPlayer();
-		TT.Play(L"Battlecruiser_HyperspaceIn01.wav");
+		m_pSound->Play(L"Battlecruiser_HyperspaceIn01.wav");
 
 
 		m_MType = MOVE_TYPE::MT_WARPIN;
@@ -176,10 +177,8 @@ void Controll_Hyperion::Update_WARPIN()
 			m_MType = MOVE_TYPE::MT_ATTACK;
 
 
-			SoundPlayer S1 = SoundPlayer();
-			S1.Play(L"Fleet_Attack.mp3");
-			SoundPlayer S2 = SoundPlayer();
-			S2.Play(L"AC_Alarm_AirRaid_Siren.ogg", .4f);
+			m_pSound->Play(L"Fleet_Attack.mp3");
+			m_pSound->Play(L"AC_Alarm_AirRaid_Siren.ogg", .4f);
 		}
 		else
 		{
@@ -222,13 +221,13 @@ void Controll_Hyperion::Update_ATTACK()
 		(*m_SULI)->one()->Trans()->Moving(m_For * .05f);
 	}
 
+	Core_Class::BGM()->Stop();
 
 	if (m_ATime > 20.0f)
 	{
 		m_MType = MOVE_TYPE::MT_WARPOUT;
 
-		SoundPlayer TT = SoundPlayer();
-		TT.Play(L"Battlecruiser_HyperspaceOut01.wav");
+		m_pSound->Play(L"Battlecruiser_HyperspaceOut01.wav");
 	}
 
 	if (m_UTime > .1f)
@@ -248,8 +247,7 @@ void Controll_Hyperion::Update_ATTACK()
 			m_pEnemyList.erase(S);
 		}
 		
-		SoundPlayer S1 = SoundPlayer();
-		S1.Play(L"Battlecruiser_AttackLaunch0.wav", .1f);
+		m_pASound->Play(L"Battlecruiser_AttackLaunch0.wav", .1f);
 	}
 
 }
@@ -276,6 +274,9 @@ void Controll_Hyperion::Update_WARPOUT()
 		{
 			(*m_SULI)->force()->Delete_Unit((*m_SULI));
 			one()->Set_Death();
+			Core_Class::BGM()->Stop();
+			Core_Class::BGM()->Set_FadeIn();
+			Core_Class::BGM()->Play(L"Love_Theme_V2_FULL.ogg");
 		}
 
 		m_pUnitList.clear();

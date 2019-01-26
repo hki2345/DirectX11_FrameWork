@@ -14,7 +14,7 @@
 #include "Controll_Odin.h"
 #include "Controll_Hyperion.h"
 
-
+#include <Core_Class.h>
 #include <SoundPlayer.h>
 
 void Controll_User::Update_MIDLE()
@@ -38,8 +38,7 @@ void Controll_User::Update_MOVE()
 		(m_pUnit->Get_Component<Renderer_BonAni>()->index_frame() == 4 ||
 			m_pUnit->Get_Component<Renderer_BonAni>()->index_frame() == 15))
 	{
-		SoundPlayer TT = SoundPlayer();
-		TT.Play(L"Marine_Death_Bodyfall_A_01.wav", .1f);
+		m_pSound->Play(L"Marine_Death_Bodyfall_A_01.wav", .1f);
 		m_MSound = true;
 	}
 	else if ((m_pUnit->Get_Component<Renderer_BonAni>()->index_frame() == 5 ||
@@ -97,8 +96,7 @@ void Controll_User::Update_RUN()
 		(m_pUnit->Get_Component<Renderer_BonAni>()->index_frame() == 4 ||
 		m_pUnit->Get_Component<Renderer_BonAni>()->index_frame() == 15))
 	{
-		SoundPlayer TT = SoundPlayer();
-		TT.Play(L"Marine_Death_Bodyfall_A_01.wav", .1f);
+		m_pSound->Play(L"Marine_Death_Bodyfall_A_01.wav", .1f);
 		m_MSound = true;
 	}
 	else if ((m_pUnit->Get_Component<Renderer_BonAni>()->index_frame() == 5 ||
@@ -174,7 +172,7 @@ void Controll_User::Update_AIDLE()
 			m_ASound = false;
 		}
 	}
-	if (true == KEY_DOWN(L"E"))
+	if (true == KEY_DOWN(L"HEAL"))
 	{
 		if (m_MeATime > m_MeTime)
 		{
@@ -182,10 +180,11 @@ void Controll_User::Update_AIDLE()
 			m_MeATime = .0f;
 		}
 	}
-	if (true == KEY_DOWN(L"Q"))
+	if (true == KEY_DOWN(L"OPTI"))
 	{
 		if (m_OpATime > m_OpTime)
 		{
+			Core_Class::BGM()->Set_FadeOut();
 			m_AType = Controll_User::AT_OPTI;
 			m_OpATime = .0f;
 		}
@@ -209,8 +208,7 @@ void Controll_User::Update_ATTACK()
 
 	if (m_pUnit->Get_Component<Renderer_BonAni>()->index_frame() == 393 && m_ASound == false)
 	{
-		SoundPlayer TT = SoundPlayer();
-		TT.Play(L"Marine_AttackLaunch0.wav", .5f);
+		m_pSound->Play(L"Marine_AttackLaunch0.wav", .5f);
 		m_ASound = true;
 
 		if (nullptr == m_pFocusUnit)
@@ -238,8 +236,7 @@ void Controll_User::Update_BOMB()
 	m_RenderRot.y = m_PlayRot.y + KPI;
 
 	m_pUnit->Set_Animation(Force_Unit::ANI_TYPE::ATTACK01);
-	SoundPlayer TT = SoundPlayer();
-	TT.Play(L"HH_Hellion_Grenade_AttackLaunch01.wav");
+	m_pSound->Play(L"HH_Hellion_Grenade_AttackLaunch01.wav");
 	m_ASound = true;
 	if (nullptr == m_pFocusUnit)
 	{
@@ -270,7 +267,7 @@ void Controll_User::Update_HEAL()
 }
 void Controll_User::Update_OPTI()
 {
-	m_RenderRot.y = m_PlayRot.y + KPI;
+	m_RenderRot.y = m_PlayRot.y + KPI; 
 
 	switch (m_OType)
 	{

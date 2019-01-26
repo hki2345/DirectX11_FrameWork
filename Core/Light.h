@@ -30,6 +30,7 @@ public:
 	{
 	public:
 		LightColor Lc;
+		KVector4 LightColor;
 		KVector4 LightPos;
 		KVector4 LightDir;
 		KVector4 LightDirInv;
@@ -100,6 +101,10 @@ public:
 		LightLayerPush(Arg...);
 	}
 
+	void Light_Color(const KVector _Value)
+	{
+		Data.LightColor = _Value;
+	}
 	void LightLayerPush() {	}
 	void SetType(LIGHTTYPE _Type);
 

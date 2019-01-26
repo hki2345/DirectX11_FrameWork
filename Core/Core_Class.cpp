@@ -2,8 +2,12 @@
 #include "KMacro.h"
 #include "KWindow.h"
 #include "KDevice.h"
+#include "SoundPlayer.h"
+
 
 KPtr<KWindow> Core_Class::g_MainWindow = nullptr;
+KPtr<SoundPlayer> Core_Class::g_GameBGM = nullptr;
+
 
 Core_Class::Core_Class()
 {
@@ -45,4 +49,14 @@ ID3D11Device* Core_Class::PDevice() {
 }
 ID3D11DeviceContext* Core_Class::Context() {
 	return g_MainWindow->Device().Context();
+}
+
+KPtr<SoundPlayer> Core_Class::BGM()
+{
+	return g_GameBGM;
+}
+
+void Core_Class::BGM(KPtr<SoundPlayer> _Other)
+{
+	g_GameBGM = _Other;
 }

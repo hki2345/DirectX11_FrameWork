@@ -76,6 +76,10 @@ void DebugManager::Draw_Font(wchar_t* _pStr, KVector2 _Pos, float _fSize, KVecto
 
 void DebugManager::Draw_Log(const wchar_t* const _Str, ...)
 {
+	if (false == m_bDebug)
+	{
+		return;
+	}
 	// 가변인자 받는 매크로 맨 밑에 end와 같이 쓰임
 
 	// Ap -> 가변인자 들어가는 리스트

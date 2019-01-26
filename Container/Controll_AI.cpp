@@ -7,7 +7,7 @@
 #include <InputManager.h>
 #include <KWindow.h>
 
-
+#include <SoundPlayer.h>
 
 
 Controll_AI::Controll_AI() :
@@ -19,6 +19,7 @@ Controll_AI::Controll_AI() :
 
 Controll_AI::~Controll_AI()
 {
+	m_cSound->Stop();
 }
 
 
@@ -66,6 +67,11 @@ bool Controll_AI::Init(KPtr<Force_Unit> _Unit)
 	m_pUnit->playable_type(PLAYABLE_TYPE::PBT_ENEMY);
 	Set_Render();
 	Init_Value();
+
+
+	m_cSound = new SoundPlayer();
+	m_cSound->Play(L"Ghost_SnipeAttackLaunch.wav");
+	m_cSound->Stop();
 
 	return true;
 }

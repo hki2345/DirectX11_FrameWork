@@ -61,8 +61,7 @@ void Controll_Abrr::Update_ATTACK01()
 	Controll_AI::Update_ATTACK01();
 	if (m_pUnit->Get_Component<Renderer_BonAni>()->index_frame() == 354 && false == m_ASound)
 	{
-		SoundPlayer TT = SoundPlayer();
-		TT.Play(L"Aberration_Attack_00.ogg");
+		m_cSound->Play(L"Aberration_Attack_00.ogg");
 		m_ASound = true;
 	}
 	else if (m_pUnit->Get_Component<Renderer_BonAni>()->index_frame() == 355)
@@ -85,8 +84,7 @@ void Controll_Abrr::Update_DEATH()
 	m_pUnit->Reset_Renderer();
 	if (nullptr == DeathRender)
 	{
-		SoundPlayer TT = SoundPlayer();
-		TT.Play(L"Aberration_Death_00.wav", .4f);
+		m_cSound->Play(L"Aberration_Death_00.wav", .4f);
 
 		DeathRender = one()->Add_Component<Renderer_BonAni>();
 		DeathRender->Set_Fbx(L"Aberration_Death.KM3");

@@ -8,6 +8,7 @@
 #include <InputManager.h>
 #include <TimeManager.h>
 
+#include <SoundPlayer.h>
 
 
 void Controll_AI::Update_MIDLE()
@@ -80,6 +81,8 @@ void Controll_AI::Update_UNBURROW()
 	m_pUnit->Set_Animation(Force_Unit::ANI_TYPE::FIDGET01);
 	if (true == m_pUnit->Get_Component<Renderer_BonAni>()->Check_AniDone())
 	{
+		m_cSound->Play(L"Brutalisk_UnBurrow_01.wav", .4f);
+
 		m_AType = Controll_AI::AT_IDLE;
 	}
 }

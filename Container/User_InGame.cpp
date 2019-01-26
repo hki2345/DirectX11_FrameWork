@@ -11,6 +11,7 @@
 #include <Renderer_BonAni.h>
 #include <Renderer_Terrain.h>
 
+#include <Core_Class.h>
 #include <KWindow.h>
 #include <InputManager.h>
 #include <TimeManager.h>
@@ -22,6 +23,8 @@
 
 void Controll_User::Init_Game()
 {
+	m_pSound = new SoundPlayer();
+
 	m_pFont = ResourceManager<KFont>::Find(L"Kostar");
 
 	m_MType = MOVE_TYPE::MT_IDLE;
@@ -29,18 +32,25 @@ void Controll_User::Init_Game()
 	m_OType = OPTI_TYPE::OT_ODIN;
 	m_pUnit->Get_Component<KBox_Col>()->StayFunc(L"Game User", this, &Controll_User::Update_GameCol);
 	m_pUnit->Get_Component<KBox_Col>()->ExitFunc(L"Game User", this, &Controll_User::Update_GExitCol);
-	m_uCover->one()->Active_Off();
 	m_uConsole->one()->Active_Off();
 	m_uFKey->one()->Active_Off();
 
 	m_uConsole->alpha_value(.8f);
 
-	m_InGame = true;
+	m_InGame = false;
 	m_OutGame = false;
 
 	m_GameTime = .0f;
 	m_iStory = 0;
 	m_OpTime = 1000000.0f;
+	m_fCover = .0f;
+
+
+	KPtr<SoundPlayer> nB = state()->Create_One(L"Sound")->Add_Component<SoundPlayer>();
+	nB->Play(L"Music_T01.ogg");
+	nB->Loop();
+	nB->Set_FadeIn();
+	Core_Class::BGM(nB);
 }
 
 void Controll_User::Update_Game()
@@ -64,11 +74,11 @@ void Controll_User::Update_Game()
 				return;
 			}
 
-			SoundPlayer SCount = SoundPlayer();
-			SCount.Play(L"UI_BnetSelect01_1.wav");
+			m_pSound->Play(L"UI_BnetSelect01_1.wav");
 
 			if (L"TYCHUS" == m_pStoryUnit->ws_name())
 			{
+				Core_Class::BGM()->Set_FadeOut();
 				m_MType = Controll_User::MT_NONE;
 				m_AType = Controll_User::AT_STORY;
 				m_SType = Controll_User::ST_TYCHUS;
@@ -76,6 +86,7 @@ void Controll_User::Update_Game()
 			}
 			if (L"NOVA" == m_pStoryUnit->ws_name())
 			{
+				Core_Class::BGM()->Set_FadeOut();
 				m_MType = Controll_User::MT_NONE;
 				m_AType = Controll_User::AT_STORY;
 				m_SType = Controll_User::ST_NOVA;
@@ -83,6 +94,7 @@ void Controll_User::Update_Game()
 			}
 			if (L"COMMANDCENTER" == m_pStoryUnit->ws_name())
 			{
+				Core_Class::BGM()->Set_FadeOut();
 				m_MType = Controll_User::MT_NONE;
 				m_AType = Controll_User::AT_STORY;
 				m_SType = Controll_User::ST_COMMAND;
@@ -95,22 +107,28 @@ void Controll_User::Update_Game()
 
 void Controll_User::Update_Story()
 {
-	if (true == m_InGame)
-	{
-		m_GameTime += DELTATIME;
-		m_uCover->one()->Active_On();
+	m_fCover += DELTATIME;
 
-		if (m_GameTime < 3.0f)
+	if (3.0f < m_fCover)
+	{
+		if (false == m_InGame)
 		{
-			m_uCover->alpha_value(1.0f - m_GameTime * .33f);
-		}
-		else
-		{
-			m_GameTime = .0f;
-			m_InGame = false;
-			m_uCover->one()->Active_Off();
+			m_GameTime += DELTATIME;
+			m_uCover->one()->Active_On();
+
+			if (m_GameTime < 3.0f)
+			{
+				m_uCover->alpha_value(1.0f - m_GameTime * .33f);
+			}
+			else
+			{
+				m_InGame = true;
+				m_uCover->one()->Active_Off();
+				m_GameTime = .0f;
+			}
 		}
 	}
+
 
 	if (true == m_OutGame)
 	{
@@ -119,6 +137,7 @@ void Controll_User::Update_Story()
 
 		if (m_GameTime < 3.0f)
 		{
+			Core_Class::BGM()->Set_FadeOut();
 			m_uCover->alpha_value(m_GameTime * .33f);
 		}
 		else
@@ -176,8 +195,7 @@ void Controll_User::UIRender()
 
 			if (true == KEY_DOWN(L"F"))
 			{
-				SoundPlayer SCount = SoundPlayer();
-				SCount.Play(L"UI_BnetSelect01_1.wav");
+				m_pSound->Play(L"UI_BnetSelect01_1.wav");
 				++m_iStory;
 			}
 		}
@@ -189,8 +207,7 @@ void Controll_User::UIRender()
 
 			if (true == KEY_DOWN(L"F"))
 			{
-				SoundPlayer SCount = SoundPlayer();
-				SCount.Play(L"UI_BnetSelect01_1.wav");
+				m_pSound->Play(L"UI_BnetSelect01_1.wav");
 				++m_iStory;
 			}
 		}
@@ -201,8 +218,10 @@ void Controll_User::UIRender()
 
 			if (true == KEY_DOWN(L"F"))
 			{
-				SoundPlayer SCount = SoundPlayer();
-				SCount.Play(L"UI_BnetSelect01_1.wav");
+				Core_Class::BGM()->Stop();
+				Core_Class::BGM()->Play(L"Music_T04.ogg");
+
+				m_pSound->Play(L"UI_BnetSelect01_1.wav");
 				m_OType = OPTI_TYPE::OT_ODIN;
 				m_OpTime = 50.0f;
 
@@ -233,8 +252,7 @@ void Controll_User::UIRender()
 
 			if (true == KEY_DOWN(L"F"))
 			{
-				SoundPlayer SCount = SoundPlayer();
-				SCount.Play(L"UI_BnetSelect01_1.wav");
+				m_pSound->Play(L"UI_BnetSelect01_1.wav");
 				++m_iStory;
 			}
 		}
@@ -247,8 +265,7 @@ void Controll_User::UIRender()
 
 			if (true == KEY_DOWN(L"F"))
 			{
-				SoundPlayer SCount = SoundPlayer();
-				SCount.Play(L"UI_BnetSelect01_1.wav");
+				m_pSound->Play(L"UI_BnetSelect01_1.wav");
 
 				Con_Class::s2_manager()->Find_Force(L"GLASSBEAD")->Set_Active(true);
 				Con_Class::s2_manager()->Find_Force(L"GLASSBEAD")->playable_type(PLAYABLE_TYPE::PBT_ENEMY);
@@ -263,8 +280,10 @@ void Controll_User::UIRender()
 
 			if (true == KEY_DOWN(L"F"))
 			{
-				SoundPlayer SCount = SoundPlayer();
-				SCount.Play(L"UI_BnetSelect01_1.wav");
+				Core_Class::BGM()->Stop();
+				Core_Class::BGM()->Play(L"nDLC01_Music_Cue02.ogg");
+
+				m_pSound->Play(L"UI_BnetSelect01_1.wav");
 				m_OType = OPTI_TYPE::OT_NOVA;
 				m_OpTime = 20.0f;
 				
@@ -297,8 +316,7 @@ void Controll_User::UIRender()
 				Con_Class::s2_manager()->Find_Force(L"POP+STARS")->Set_Active(true);
 				Con_Class::s2_manager()->Find_Force(L"POP+STARS")->playable_type(PLAYABLE_TYPE::PBT_ENEMY);
 
-				SoundPlayer SCount = SoundPlayer();
-				SCount.Play(L"UI_BnetSelect01_1.wav");
+				m_pSound->Play(L"UI_BnetSelect01_1.wav");
 				++m_iStory;
 			}
 		}
@@ -310,8 +328,10 @@ void Controll_User::UIRender()
 
 			if (true == KEY_DOWN(L"F"))
 			{
-				SoundPlayer SCount = SoundPlayer();
-				SCount.Play(L"UI_BnetSelect01_1.wav");
+				Core_Class::BGM()->Stop();
+				Core_Class::BGM()->Play(L"Music_T16.ogg");
+
+				m_pSound->Play(L"UI_BnetSelect01_1.wav");
 				m_OType = OPTI_TYPE::OT_HYPERION;
 				m_OpTime = 120.0f;
 

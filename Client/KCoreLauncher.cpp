@@ -53,23 +53,17 @@ void KCoreLauncher::Build()
 	PathManager::Create_ForderPath(L"STATE", L"Data\\State");
 	PathManager::Create_ForderPath(L"SpriteBack", L"Data\\Back\\Sprite");
 
+	if (false == IS_KEY(L"RB"))
+	{
+		InputManager::Create_Command(L"RB", VK_RBUTTON);
+	}
+	if (false == IS_KEY(L"LB"))
+	{
+		InputManager::Create_Command(L"LB", VK_LBUTTON);
+	}
+
 	// 이렇게 경로를 잡은 뒤 해야함
 	Core_Class::MainWindow().Init_Device();
-
-	InputManager::Create_Command(L"DEL", VK_DELETE);
-	InputManager::Create_Command(L"ESC", VK_ESCAPE);
-	InputManager::Create_Command(L"RB", VK_RBUTTON);
-	InputManager::Create_Command(L"LB", VK_LBUTTON);
-	InputManager::Create_Command(L"Up", 'W');
-	InputManager::Create_Command(L"Left", 'A');
-	InputManager::Create_Command(L"Down", 'S');
-	InputManager::Create_Command(L"Right", 'D');
-	InputManager::Create_Command(L"E", 'E');
-	InputManager::Create_Command(L"F", 'F');
-	InputManager::Create_Command(L"Q", 'Q');
-	InputManager::Create_Command(L"MUNLOCK", VK_MENU);
-	InputManager::Create_Command(L"DEBUG", VK_LSHIFT, 'B');
-	InputManager::Create_Command(L"INGAME", VK_LSHIFT, 'P');
 
 	ResourceManager<KImage>::All_Load();
 	ResourceManager<Sound>::All_Load();

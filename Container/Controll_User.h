@@ -10,6 +10,7 @@ class Renderer_UI;
 class KCollision;
 class KFont;
 class KRay3D;
+class SoundPlayer;
 class Controll_User : public Component
 {
 public:
@@ -66,6 +67,7 @@ private:
 
 	KPtr<Force_Unit>		m_pUnit;
 	KPtr<SC2_Camera>		m_pCam;
+	KPtr<SoundPlayer>		m_pSound;
 
 	
 	KPtr<Renderer_UI>		m_uMedic;
@@ -103,6 +105,8 @@ private:
 	KPtr<KFont>				m_pFont;
 	KPtr<KRay3D> RayCol;
 
+
+	float m_fCover;
 	float m_UTime;
 
 

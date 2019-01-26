@@ -8,6 +8,7 @@
 #include <Renderer_Terrain.h>
 #include <InputManager.h>
 
+#include <Core_Class.h>
 #include <SoundPlayer.h>
 
 Controll_Odin::Controll_Odin() : m_bAttack(false)
@@ -17,6 +18,7 @@ Controll_Odin::Controll_Odin() : m_bAttack(false)
 
 Controll_Odin::~Controll_Odin()
 {
+	m_pSound->Stop();
 }
 
 
@@ -37,11 +39,9 @@ void Controll_Odin::Update_LAND()
 
 		m_MType = MOVE_TYPE::MT_ATTACK;
 
-		SoundPlayer S2 = SoundPlayer();
-		S2.Play(L"Tychus_AC_Mx_Dead_Cue_01.wav", .4f);
+		m_pSound->Play(L"Tychus_AC_Mx_Dead_Cue_01.wav", .4f);
 
-		SoundPlayer S3 = SoundPlayer();
-		S3.Play(L"TychusOdin_Pkup_Mech_01.wav");
+		m_pSound->Play(L"TychusOdin_Pkup_Mech_01.wav");
 	}
 }
 
@@ -59,14 +59,11 @@ void Controll_Odin::Update_ATTACK()
 		m_TPos.y += 10.0f;
 
 
-		SoundPlayer S3 = SoundPlayer();
-		S3.Play(L"TychusOdin_TakeOff_Bkup_Alarm_01.wav", .7f);
+		m_pSound->Play(L"TychusOdin_TakeOff_Bkup_Alarm_01.wav", .7f);
 
-		SoundPlayer S2 = SoundPlayer();
-		S2.Play(L"TychusAnnouncer_GamePaused00.ogg", 1.f);
+		m_pSound->Play(L"TychusAnnouncer_GamePaused00.ogg", 1.f);
 
-		SoundPlayer S1 = SoundPlayer();
-		S1.Play(L"Tychus_AC_Mx_AccSteel_Bumper_01.wav", .8f);
+		m_pSound->Play(L"Tychus_AC_Mx_AccSteel_Bumper_01.wav", .8f);
 	}
 
 	if (0 == m_pEnemyList.size() && true == m_pUnit->Check_AniDone())
@@ -75,14 +72,11 @@ void Controll_Odin::Update_ATTACK()
 		m_TPos.y += 10.0f;
 
 
-		SoundPlayer S3 = SoundPlayer();
-		S3.Play(L"TychusOdin_TakeOff_Bkup_Alarm_01.wav", .7f);
+		m_pSound->Play(L"TychusOdin_TakeOff_Bkup_Alarm_01.wav", .7f);
 		
-		SoundPlayer S2 = SoundPlayer();
-		S2.Play(L"TychusAnnouncer_GamePaused00.ogg", 1.f);
+		m_pSound->Play(L"TychusAnnouncer_GamePaused00.ogg", 1.f);
 
-		SoundPlayer S1 = SoundPlayer();
-		S1.Play(L"Tychus_AC_Mx_AccSteel_Bumper_01.wav", .8f);
+		m_pSound->Play(L"Tychus_AC_Mx_AccSteel_Bumper_01.wav", .8f);
 	}
 
 	
@@ -90,8 +84,7 @@ void Controll_Odin::Update_ATTACK()
 	{
 		m_bAttack = true;
 
-		SoundPlayer S3 = SoundPlayer();
-		S3.Play(L"Thor_AttackImpact2.wav", .6f);
+		m_pSound->Play(L"Thor_AttackImpact2.wav", .6f);
 
 		if (0 >= m_pEnemyList.size())
 		{
@@ -126,6 +119,8 @@ void Controll_Odin::Update_RISE()
 	}
 	else
 	{
+
+		Core_Class::BGM()->Set_FadeIn();
 		m_pUnit->force()->Delete_Unit(m_pUnit);
 		one()->Set_Death();
 	}
@@ -154,8 +149,8 @@ bool Controll_Odin::Init(const KVector& _InitPos, const KVector& _Rot, KPtr<Rend
 	m_UTime = .0f;
 	m_ATime = .0f;
 
-	SoundPlayer S1 = SoundPlayer(); 
-	S1.Play(L"Odin_Down.mp3");
+	m_pSound = new SoundPlayer();
+	m_pSound->Play(L"Odin_Down.mp3");
 
 	int Limit = 15;
 	int Cnt = 0;

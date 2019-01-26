@@ -6,6 +6,7 @@
 class Force_Unit;
 class Renderer_Terrain;
 class Renderer_BonAni;
+class SoundPlayer;
 class Controll_Medivac : public Component
 {
 public:
@@ -23,6 +24,7 @@ public:
 private:
 	bool m_MirrorY;
 
+	KPtr<SoundPlayer> m_pSound;
 	KPtr<Force_Unit>		m_pUnit;
 
 	MOVE_TYPE	m_MType;

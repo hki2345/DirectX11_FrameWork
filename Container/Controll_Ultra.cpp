@@ -63,8 +63,7 @@ void Controll_Ultra::Update_ATTACK01()
 	Controll_AI::Update_ATTACK01();
 	if (m_pUnit->Get_Component<Renderer_BonAni>()->index_frame() == 323 && false == m_ASound)
 	{
-		SoundPlayer TT = SoundPlayer();
-		TT.Play(L"Ultralisk_AttackLaunch0.wav");
+		m_cSound->Play(L"Ultralisk_AttackLaunch0.wav");
 		m_ASound = true;
 	}
 	else if (m_pUnit->Get_Component<Renderer_BonAni>()->index_frame() == 323)
@@ -88,9 +87,7 @@ void Controll_Ultra::Update_DEATH()
 
 	if (false == m_DeathSound)
 	{
-		SoundPlayer TT = SoundPlayer();
-		TT.Play(L"Ultralisk_Death0.wav", .5f);
-
+		m_cSound->Play(L"Ultralisk_Death0.wav", .5f);
 		m_DeathSound = true;
 	}
 

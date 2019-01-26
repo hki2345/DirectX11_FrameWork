@@ -62,8 +62,7 @@ void Controll_Infested::Update_ATTACK01()
 	Controll_AI::Update_ATTACK01();
 	if (m_pUnit->Get_Component<Renderer_BonAni>()->index_frame() == 343 && false == m_ASound)
 	{
-		SoundPlayer TT = SoundPlayer();
-		TT.Play(L"Marine_AttackLaunch0.wav");
+		m_cSound->Play(L"Marine_AttackLaunch0.wav");
 		m_ASound = true;
 	}
 	else if (m_pUnit->Get_Component<Renderer_BonAni>()->index_frame() == 344)
@@ -85,9 +84,7 @@ void Controll_Infested::Update_DEATH()
 	m_pUnit->Reset_Renderer();
 	if (nullptr == DeathRender)
 	{
-		SoundPlayer TT = SoundPlayer();
-		TT.Play(L"InfestedTerran_What00.ogg", .5f);
-
+		m_cSound->Play(L"InfestedTerran_What00.ogg", .5f);
 		DeathRender = one()->Add_Component<Renderer_BonAni>();
 		DeathRender->Set_Fbx(L"InfestedMarineDeath.KM3");
 		DeathRender->Create_Animation(false);

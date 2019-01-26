@@ -8,6 +8,8 @@
 #include <Renderer_Terrain.h>
 #include <InputManager.h>
 
+
+#include <Core_Class.h>
 #include <SoundPlayer.h>
 
 
@@ -19,6 +21,7 @@ Controll_Nova::Controll_Nova()
 Controll_Nova::~Controll_Nova()
 {
 	m_pEnemyList.clear();
+	m_pSound->Stop();
 }
 
 
@@ -32,6 +35,9 @@ void Controll_Nova::Update_MIDLE()
 	{
 		m_pUnit->force()->Delete_Unit(m_pUnit);
 		one()->Set_Death();
+
+
+		Core_Class::BGM()->Set_FadeIn();
 	}
 }
 void Controll_Nova::Update_ATTACK()
@@ -51,8 +57,7 @@ void Controll_Nova::Update_ATTACK()
 	}
 	if (m_ATime > .1f)
 	{
-		SoundPlayer TT = SoundPlayer();
-		TT.Play(L"Ghost_SnipeAttackLaunch.wav");
+		m_pSound->Play(L"Ghost_SnipeAttackLaunch.wav");
 
 		m_ATime = .0f;
 
@@ -71,8 +76,8 @@ void Controll_Nova::Update_ATTACK()
 
 bool Controll_Nova::Init(const KVector& _InitPos, const KVector& _RotPos, KPtr<Renderer_Terrain> _Ter)
 {
-	SoundPlayer TT = SoundPlayer();
-	TT.Play(L"HeroNovaMP1_Nuclear_Strike02.ogg");
+	m_pSound = new SoundPlayer();
+	m_pSound->Play(L"HeroNovaMP1_Nuclear_Strike02.ogg");
 
 	m_pUnit = Con_Class::s2_manager()->Find_Force(L"BAAM")->Create_Unit(L"NOVA", _Ter, state());
 

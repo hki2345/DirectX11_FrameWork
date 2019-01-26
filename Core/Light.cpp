@@ -12,6 +12,8 @@ Light::Light() : m_eType(LIGHTTYPE::DIR)
 	Data.Lc.Diff = KVector4(1.0f, 1.0f, 1.0f, 1.0f);
 	Data.Lc.Spec = KVector4(0.2f, 0.2f, 0.2f, 1.0f);
 	Data.Lc.Ambi = KVector4(0.f, 0.f, 0.f, .0f);
+
+	Data.LightColor = KVector4::White;
 	SetType(LIGHTTYPE::DIR);
 }
 

@@ -6,6 +6,7 @@
 class Force_Unit;
 class Renderer_Terrain;
 class Renderer_BonAni;
+class SoundPlayer;
 class Controll_Odin : public Component
 {
 public:
@@ -25,6 +26,7 @@ private:
 
 	std::list<KPtr<Force_Unit>>		m_pEnemyList;
 	KPtr<Force_Unit>		m_pUnit;
+	KPtr<SoundPlayer>		m_pSound;
 
 	MOVE_TYPE	m_MType;
 	KVector		m_TPos;

@@ -31,6 +31,10 @@ private:
 	KPtr<Renderer_UI> m_Start;
 	KPtr<Renderer_UI> m_Quit;
 
+	KPtr<SoundPlayer> SCount;
+	KPtr<SoundPlayer> SCF;
+	KPtr<SoundPlayer> STt;
+
 private:
 	void Init_Mesh();
 	void Init_Sound();

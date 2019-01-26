@@ -18,6 +18,7 @@ Controll_Medivac::Controll_Medivac()
 
 Controll_Medivac::~Controll_Medivac()
 {
+	m_pSound->Stop();
 }
 
 
@@ -63,11 +64,11 @@ bool Controll_Medivac::Init(const KVector& _InitPos, const KVector& _Rot, KPtr<R
 	TT.y += 5.0f;
 	m_pUnit->one()->Trans()->pos_local(TT);
 
-	SoundPlayer TS = SoundPlayer();
-	TS.Play(L"Medivac_Yes05.ogg");
+	m_pSound = new SoundPlayer();
 
-	SoundPlayer TS2 = SoundPlayer();
-	TS2.Play(L"Tychus_MedivacPlatform_What_02.ogg");
+	m_pSound->Play(L"Medivac_Yes05.ogg");
+
+	m_pSound->Play(L"Tychus_MedivacPlatform_What_02.ogg");
 
 
 	m_MType = MOVE_TYPE::MT_LAND;

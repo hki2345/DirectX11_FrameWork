@@ -16,6 +16,11 @@ private:
 		, void *commanddata1, void *commanddata2);
 
 private:
+	bool m_FadeIn;
+	bool m_FadeOut;
+
+	float m_FadeTime;
+
 	static bool m_Loop;
 	KPtr<Sound> m_Sound;
 	FMOD::Channel* m_Channel;
@@ -30,10 +35,22 @@ private:
 public:
 	void Update() override;
 
+	void Update_FadeIn();
+	void Update_FadeOut();
+
 	bool Set_Sound(const wchar_t* _SoundName, const float& _Volume = 1.0f);
 	bool Play(const wchar_t* _SoundName , const float& _Volume = 1.0f);
 	bool Play();
 	bool Stop();
+
+	void Set_FadeIn()
+	{
+		m_FadeIn = true;
+	}
+	void Set_FadeOut()
+	{
+		m_FadeOut = true;
+	}
 
 public:
 	bool IsPlay() {

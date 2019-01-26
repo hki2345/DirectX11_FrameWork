@@ -7,6 +7,7 @@
 class Force_Unit;
 class Renderer_Terrain;
 class Renderer_BonAni;
+class SoundPlayer;
 class Controll_Hyperion : public Component
 {
 public:
@@ -26,6 +27,8 @@ public:
 private:
 	bool m_Battle;
 
+	KPtr<SoundPlayer> m_pSound;
+	KPtr<SoundPlayer> m_pASound;
 
 	std::list<KPtr<Force_Unit>>		m_pEnemyList;
 

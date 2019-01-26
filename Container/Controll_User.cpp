@@ -16,6 +16,7 @@
 
 
 #include "SC2_Camera.h"
+#include <SoundPlayer.h>
 
 
 Controll_User::Controll_User() :
@@ -48,6 +49,11 @@ Controll_User::~Controll_User()
 	if (nullptr != m_uFocusHP)	 {m_uFocusHP->one()->Set_Death();}
 	if (nullptr != m_uFBackHP)	 {m_uFBackHP->one()->Set_Death();}
 	if (nullptr != m_uAim)	 { m_uAim->one()->Set_Death(); }
+
+	if (nullptr != m_pSound)
+	{
+		m_pSound->Stop();
+	}
 }
 
 
@@ -78,6 +84,18 @@ void Controll_User::Del_Render(KPtr<Renderer_BonAni> _Other)
 
 bool Controll_User::Init(KPtr<Force_Unit> _Unit, KPtr<SC2_Camera> _Cam)
 {
+	if (false == IS_KEY(L"MUNLOCK"))
+	{
+		InputManager::Create_Command(L"MUNLOCK", VK_MENU);
+	}
+	if (false == IS_KEY(L"F"))
+	{
+		InputManager::Create_Command(L"F", 'F');
+	}
+	if (false == IS_KEY(L"DEBUG"))
+	{
+		InputManager::Create_Command(L"DEBUG", VK_LSHIFT, 'B');
+	}
 	if (false == IS_KEY(L"MFOR"))
 	{
 		InputManager::Create_Command(L"MFOR", 'W');

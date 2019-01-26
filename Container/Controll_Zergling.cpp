@@ -67,8 +67,7 @@ void Controll_Zergling::Update_ATTACK01()
 	Controll_AI::Update_ATTACK01();
 	if (m_pUnit->Get_Component<Renderer_BonAni>()->index_frame() == 166 && false == m_ASound)
 	{
-		SoundPlayer TT = SoundPlayer();
-		TT.Play(L"Zergling_AttackLaunch9.wav");
+		m_cSound->Play(L"Zergling_AttackLaunch9.wav");
 		m_ASound = true;
 	}
 	else if (m_pUnit->Get_Component<Renderer_BonAni>()->index_frame() == 167)
@@ -92,8 +91,7 @@ void Controll_Zergling::Update_DEATH()
 	m_pUnit->Reset_Renderer();
 	if (nullptr == DeathRender)
 	{
-		SoundPlayer TT = SoundPlayer();
-		TT.Play(L"Zergling_Death0.wav", .8f);
+		m_cSound->Play(L"Zergling_Death0.wav", .8f);
 
 		DeathRender = one()->Add_Component<Renderer_BonAni>();
 		DeathRender->Set_Fbx(L"ZerglingDeath.KM3");

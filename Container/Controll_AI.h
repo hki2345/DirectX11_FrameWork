@@ -7,6 +7,7 @@
 class Force_Unit;
 class Renderer_Terrain;
 class Renderer_BonAni;
+class SoundPlayer;
 class Controll_AI : public Component
 {
 public:
@@ -59,6 +60,8 @@ protected:
 	KVector		m_AIRot;
 	KVector		m_AIPos;
 	KVector		m_RenderRot;
+
+	KPtr<SoundPlayer> m_cSound;
 
 protected:
 	virtual void Init_Value();

@@ -161,9 +161,9 @@ PS_DEFFERDLIGHTOUTPUT PS_DEFFERDLIGHT(VS_DEFFERDLIGHTOUTPUT _Input)
     //OUTDATA.vSpaculer.rgb = info.Spec.rgb;
     //OUTDATA.vSpaculer.a = 1.0f;
     
-    OUTDATA.vDiffuse.rgb = info.Diff.rgb * float3(1.0f, .2f, .2f) +  float3(.7f, .2f, .2f);; // * float3(.7f, .2f, .2f);
+    OUTDATA.vDiffuse.rgb = info.Diff.rgb * LightData.LightColor.rgb + float3(.5f, .5f, .5f);
     OUTDATA.vDiffuse.a = 1.0f;
-    OUTDATA.vSpaculer.rgb = info.Spec.rgb * float3(.7f, .2f, .2f);
+    OUTDATA.vSpaculer.rgb = info.Spec.rgb * LightData.LightColor.rgb;
     OUTDATA.vSpaculer.a = 1.0f;
     
     return OUTDATA;

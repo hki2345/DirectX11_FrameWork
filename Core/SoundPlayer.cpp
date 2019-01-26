@@ -2,16 +2,28 @@
 #include "ResourceManager.h"
 #include "KMacro.h"
 
+#include "TimeManager.h"
+
 
 bool SoundPlayer::m_Loop = false;
 
-SoundPlayer::SoundPlayer() : m_Channel(nullptr), m_Sound(nullptr), m_bPlay(false)
+SoundPlayer::SoundPlayer() : 
+	m_Channel(nullptr)
+	, m_Sound(nullptr)
+	, m_bPlay(false)
+	, m_FadeTime(.0f)
+	, m_FadeIn(false)
+	, m_FadeOut(true)
 {
 }
 
 
 SoundPlayer::~SoundPlayer()
 {
+	if (nullptr != m_Channel)
+	{
+		m_Channel->stop();
+	}
 }
 
 FMOD_RESULT __stdcall SoundPlayer::SoundCallBack(FMOD_CHANNELCONTROL *channelcontrol
@@ -77,7 +89,51 @@ void SoundPlayer::Update()
 			Play(name());
 		}
 	}
+
+	Update_FadeIn();
+	Update_FadeOut();
 }
+
+void SoundPlayer::Update_FadeIn()
+{
+	if (false == m_FadeIn || nullptr == m_Channel)
+	{
+		return;
+	}
+
+	m_FadeTime += DELTATIME;
+
+	if (3.0f > m_FadeTime)
+	{
+		m_Channel->setVolume(m_FadeTime * .33f);
+	}
+	else
+	{
+		m_FadeTime = .0f;
+		m_FadeIn = false;
+	}
+}
+
+void SoundPlayer::Update_FadeOut()
+{
+	if (false == m_FadeOut || nullptr == m_Channel)
+	{
+		return;
+	}
+
+	m_FadeTime += DELTATIME;
+
+	if (2.0f > m_FadeTime)
+	{
+		m_Channel->setVolume(1.0f - m_FadeTime * .5f);
+	}
+	else
+	{
+		m_FadeTime = .0f;
+		m_FadeOut = false;
+	}
+}
+
 
 bool SoundPlayer::Set_Sound(const wchar_t* _SoundName, const float& _Volume /*= 1.0f*/)
 {

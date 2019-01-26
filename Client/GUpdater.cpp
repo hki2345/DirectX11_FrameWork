@@ -75,6 +75,12 @@ void GUpdater::Init_Mesh()
 	KPtr<Light> pLight4 = state()->Create_One()->Add_Component<Light>();;
 	pLight4->one()->Trans()->rotate_world(KVector4(180.0F, 45.0F, 45.0f));
 	pLight4->PushLightLayer(0);
+	pLight4->Light_Color(KVector4(.7f, .5f, .5f, 1.0f));
+	
+	KPtr<Light> pLight3 = state()->Create_One()->Add_Component<Light>();;
+	pLight3->one()->Trans()->rotate_world(KVector4(180.0F, -90.0F, 45.0f));
+	pLight3->PushLightLayer(0);
+	pLight3->Light_Color(KVector4(.7f, .5f, .5f, 1.0f));
 
 
 	SkySphere = state()->Create_One(L"BackGround")->Add_Component<Renderer_Mesh>();

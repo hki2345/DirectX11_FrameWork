@@ -66,6 +66,7 @@ void SUpdater::Init_Mesh()
 	KPtr<Light> pLight4 = state()->Create_One()->Add_Component<Light>();;
 	pLight4->one()->Trans()->rotate_world(KVector4(180.0F, 45.0F, 45.0f));
 	pLight4->PushLightLayer(0);
+	pLight4->Light_Color(KVector(.7f, .4f, .3f, 1.0f));
 
 	MSphere = state()->Create_One(L"BackGround")->Add_Component<Renderer_Mesh>();
 	MSphere->one()->Trans()->scale_local(KVector4(100.0f, 100.0f, 100.0f));
@@ -149,20 +150,23 @@ void SUpdater::Update_State()
 		if (false == m_LSound)
 		{
 			(*m_SSI)->Stop();
-			SoundPlayer SCount = SoundPlayer();
-			SCount.Play(L"UI_BnetSelect01_1.wav");
+			SCount = new SoundPlayer();
+			SCount->Play(L"UI_BnetSelect01_1.wav");
 			
-			SoundPlayer SCF = SoundPlayer();
-			SCF.Play(L"UI_BnetGameFound_1.wav");
+			SCF = new SoundPlayer();
+			SCF->Play(L"UI_BnetGameFound_1.wav");
 			
-			SoundPlayer STt = SoundPlayer();
-			STt.Play(L"UI_AC_Countdown_5MxNone.ogg");
+			STt = new SoundPlayer();
+			STt->Play(L"UI_AC_Countdown_5MxNone.ogg");
 
 			m_LSound = true;
 		}
 
-		if (m_LTime > 5.0f)
+		if (m_LTime > 6.0f)
 		{
+			SCount->Stop();
+			SCF->Stop();
+			STt->Stop();
 			Core_Class::MainSceneMgr().Change_State(L"InGame");
 			++m_SSI;
 		}

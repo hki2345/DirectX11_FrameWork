@@ -62,8 +62,7 @@ void Controll_Brutal::Update_ATTACK01()
 	if (false == m_ASound && (m_pUnit->Get_Component<Renderer_BonAni>()->index_frame() == 1293 ||
 		m_pUnit->Get_Component<Renderer_BonAni>()->index_frame() == 1307))
 	{
-		SoundPlayer TT = SoundPlayer();
-		TT.Play(L"Ultralisk_AttackLaunch0.wav");
+		m_cSound->Play(L"Ultralisk_AttackLaunch0.wav");
 		m_ASound = true;
 	}
 	else if (m_pUnit->Get_Component<Renderer_BonAni>()->index_frame() == 1294 ||
@@ -90,8 +89,7 @@ void Controll_Brutal::Update_DEATH()
 	m_pUnit->Reset_Renderer();
 	if (nullptr == DeathRender)
 	{
-		SoundPlayer TT = SoundPlayer();
-		TT.Play(L"Brutalisk_Roar2.wav", .5f);
+		m_cSound->Play(L"Brutalisk_Roar2.wav", .5f);
 
 		DeathRender = one()->Add_Component<Renderer_BonAni>();
 		DeathRender->Set_Fbx(L"Brutalisk_Death.KM3");
