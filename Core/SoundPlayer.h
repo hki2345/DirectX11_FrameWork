@@ -33,6 +33,8 @@ private:
 	void Loop_End();
 
 public:
+
+	void Volume(const float& _Value);
 	void Update() override;
 
 	void Update_FadeIn();

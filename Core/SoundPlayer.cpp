@@ -147,6 +147,11 @@ bool SoundPlayer::Set_Sound(const wchar_t* _SoundName, const float& _Volume /*= 
 	return true;
 }
 
+void SoundPlayer::Volume(const float& _Value)
+{
+	m_Channel->setVolume(_Value);
+}
+
 bool SoundPlayer::Play(const wchar_t* _SoundName, const float& _Volume/* = 1.0f*/)
 {
 	m_Sound = ResourceManager<Sound>::Find(_SoundName);
@@ -198,6 +203,7 @@ bool SoundPlayer::Stop()
 {
 	if (nullptr == m_Channel)
 	{
+		return true;
 		FMOD_RESULT FR = SoundDevice::SoundSystem->playSound(m_Sound->m_pSound, nullptr, false, &m_Channel);
 	}
 

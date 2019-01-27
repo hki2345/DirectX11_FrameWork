@@ -12,6 +12,15 @@ public:
 	int IsBump[4];
 };
 
+struct ModelType
+{
+	float x, y, z;
+	float tu, tv;
+	float nx, ny, nz;
+	float tx, ty, tz;
+	float bx, by, bz;
+	float tu2, tv2;
+};
 
 class KRay3D;
 class Renderer_Terrain : public Renderer
@@ -26,6 +35,8 @@ private:
 	DRAW_INFO	m_DI;
 	KVector		m_MPos;
 
+	ModelType* m_model;
+
 	std::vector<VTX3D>	m_TempVtx;
 	std::vector<UINT>	m_TempIdx;
 
@@ -39,6 +50,17 @@ private:
 	void Ascent_Normal(const float& _Value);
 
 	bool Check_Plain();
+
+	bool Cal_Normal();
+	bool Cal_Model();
+	void Cal_Face();
+
+	bool Cal_Tangent(
+		const VTX3D& vertex1
+		, const VTX3D& vertex2
+		, const VTX3D& vertex3
+		, KVector& tangent
+		, KVector& binormal);
 
 public:	
 	void Reset_Terrain(const KUINT& _X, const KUINT& _Z, const wchar_t* _NorMap = nullptr, const float& _HRatio = 1.0f);

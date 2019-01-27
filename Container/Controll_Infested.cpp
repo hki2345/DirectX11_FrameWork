@@ -21,7 +21,7 @@ Controll_Infested::~Controll_Infested()
 void Controll_Infested::Init_Value()
 {
 	Controll_AI::Init_Value();
-	m_ARange = 1.0f;
+	m_ARange = 4.0f;
 	m_MRange = 8.0f;
 }
 

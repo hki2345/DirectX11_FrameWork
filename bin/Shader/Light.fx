@@ -12,6 +12,7 @@ class LIGHTDATA
 {
 	LIGHTCOLOR Lc;
     float4 LightColor;
+    float4 SpecColor;
 	float4 LightPos;
     float4 LightDir;
     float4 LightDirInv;

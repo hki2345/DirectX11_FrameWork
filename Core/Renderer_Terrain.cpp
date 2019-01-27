@@ -17,13 +17,19 @@
 Renderer_Terrain::Renderer_Terrain() :
 	m_BSize(.0f),
 	m_Edit(false),
-	m_CalMPos(false)
+	m_CalMPos(false),
+	m_model(nullptr)
 {
 }
 
 
 Renderer_Terrain::~Renderer_Terrain()
 {
+	if (nullptr != m_model)
+	{
+		delete[] m_model;
+		m_model = nullptr;
+	}
 }
 
 
@@ -132,7 +138,7 @@ void Renderer_Terrain::Ascent_Normal(const float& _Value)
 		return;
 	}
 
-
+	Cal_Face();
 	m_TempVtx[(int)((Z) * (m_TFD.SizeZ + 1) + (X + 1))].Pos.y += 5.0f *DELTATIME * _Value;
 	mesh()->Update_Vertex((KUINT)m_TempVtx.size(), sizeof(VTX3D), D3D11_USAGE_DYNAMIC, &m_TempVtx[0]);
 }
@@ -281,6 +287,7 @@ void Renderer_Terrain::Create_Terrain(const KUINT& _X, const KUINT& _Z, const wc
 	{
 		for (int x = 0; x < m_TFD.SizeX + 1; x++)
 		{
+			;
 			// 지형을 실제로 높이는 단계
 			if (nullptr != NTex)
 			{
@@ -308,10 +315,15 @@ void Renderer_Terrain::Create_Terrain(const KUINT& _X, const KUINT& _Z, const wc
 			TempV.Pos.w = 1.0f;
 			TempV.Uv = KVector2((float)x, (float)(m_TFD.SizeZ - z));
 			TempV.Color = KVector(1.0f, 1.0f, 1.0f, 1.0f);
-			TempV.Normal = KVector(.0f, 1.0f, .0f, .0f);
-			TempV.Tangent = KVector(1.0f, .0f, .0f, .0f);
-			TempV.BNormal = KVector(.0f, .0f, -1.0f, .0f);
 
+
+
+
+			TempV.Normal = KVector(-1.0f, -1.0f, .0f, .0f);
+			TempV.Tangent = KVector(1.0f, .0f, .0f, .0f);
+			TempV.BNormal = KVector(.0f, .0f, 1.0f, .0f);
+			TempV.Normal = KVector(.0f, TempV.Pos.y, .0f, .0f);
+			
 			m_TempVtx.push_back(TempV);
 		}
 	}
@@ -333,11 +345,11 @@ void Renderer_Terrain::Create_Terrain(const KUINT& _X, const KUINT& _Z, const wc
 		}
 	}
 
+	Cal_Face();
 	NMesh->Create_Vertex((KUINT)m_TempVtx.size(), sizeof(VTX3D), D3D11_USAGE_DYNAMIC, &m_TempVtx[0]);
 	NMesh->Create_Index((KUINT)m_TempIdx.size(), IDX32::MemberSize(), D3D11_USAGE_DEFAULT, IDX32::FM(), &m_TempIdx[0]);
-	
-
 	Set_Mesh(NMesh);
+
 
 	// 기본 세팅 같이 풀어주고 해야함
 	Set_Material(L"DEFFERDTERRAINMAT");
@@ -346,6 +358,427 @@ void Renderer_Terrain::Create_Terrain(const KUINT& _X, const KUINT& _Z, const wc
 
 	// NMesh->draw_mode(D3D11_PRIMITIVE_TOPOLOGY_3_CONTROL_POINT_PATCHLIST);
 	// Set_Material(L"DTESSLEMAT");
+}
+
+
+
+bool Renderer_Terrain::Cal_Normal()
+{
+	int index1 = 0;
+	int index2 = 0;
+	int index3 = 0;
+	int index = 0;
+	int count = 0;
+	float vertex1[3] = { 0.f, 0.f, 0.f };
+	float vertex2[3] = { 0.f, 0.f, 0.f };
+	float vertex3[3] = { 0.f, 0.f, 0.f };
+	float vector1[3] = { 0.f, 0.f, 0.f };
+	float vector2[3] = { 0.f, 0.f, 0.f };
+	float sum[3] = { 0.f, 0.f, 0.f };
+	float length = 0.0f;
+
+
+	// 정규화되지 않은 법선 벡터를 저장할 임시 배열을 만듭니다.
+	KVector* normals = new KVector[(m_TFD.SizeX - 1) * (m_TFD.SizeZ - 1)];
+	if (!normals)
+	{
+		return false;
+	}
+
+	// 메쉬의 모든면을 살펴보고 법선을 계산합니다.
+	for (int j = 0; j<(m_TFD.SizeZ - 1); j++)
+	{
+		for (int i = 0; i<(m_TFD.SizeX - 1); i++)
+		{
+			index1 = (j * m_TFD.SizeX) + i;
+			index2 = (j * m_TFD.SizeX) + (i + 1);
+			index3 = ((j + 1) * m_TFD.SizeX) + i + 1;
+
+			// 표면에서 세 개의 꼭지점을 가져옵니다.
+			vertex1[0] = m_TempVtx[index1].Pos.x;
+			vertex1[1] = m_TempVtx[index1].Pos.y;
+			vertex1[2] = m_TempVtx[index1].Pos.z;
+
+			vertex2[0] = m_TempVtx[index2].Pos.x;
+			vertex2[1] = m_TempVtx[index2].Pos.y;
+			vertex2[2] = m_TempVtx[index2].Pos.z;
+
+			vertex3[0] = m_TempVtx[index3].Pos.x;
+			vertex3[1] = m_TempVtx[index3].Pos.y;
+			vertex3[2] = m_TempVtx[index3].Pos.z;
+
+			// 표면의 두 벡터를 계산합니다.
+			vector1[0] = vertex1[0] - vertex3[0];
+			vector1[1] = vertex1[1] - vertex3[1];
+			vector1[2] = vertex1[2] - vertex3[2];
+			vector2[0] = vertex3[0] - vertex2[0];
+			vector2[1] = vertex3[1] - vertex2[1];
+			vector2[2] = vertex3[2] - vertex2[2];
+
+			index = (j * (m_TFD.SizeX - 1)) + i;
+
+			// 이 두 법선에 대한 정규화되지 않은 값을 얻기 위해 두 벡터의 외적을 계산합니다.
+			normals[index].x = (vector1[1] * vector2[2]) - (vector1[2] * vector2[1]);
+			normals[index].y = (vector1[2] * vector2[0]) - (vector1[0] * vector2[2]);
+			normals[index].z = (vector1[0] * vector2[1]) - (vector1[1] * vector2[0]);
+		}
+	}
+
+	// 이제 모든 정점을 살펴보고 각면의 평균을 취합니다.     
+	// 정점이 닿아 그 정점에 대한 평균 평균값을 얻는다.
+	for (int j = 0; j<m_TFD.SizeZ; j++)
+	{
+		for (int i = 0; i<m_TFD.SizeX; i++)
+		{
+			// 합계를 초기화합니다.
+			sum[0] = 0.0f;
+			sum[1] = 0.0f;
+			sum[2] = 0.0f;
+
+			// 카운트를 초기화합니다.
+			count = 0;
+
+			// 왼쪽 아래면.
+			if (((i - 1) >= 0) && ((j - 1) >= 0))
+			{
+				index = ((j - 1) * (m_TFD.SizeX - 1)) + (i - 1);
+
+				sum[0] += normals[index].x;
+				sum[1] += normals[index].y;
+				sum[2] += normals[index].z;
+				count++;
+			}
+
+			// 오른쪽 아래 면.
+			if ((i < (m_TFD.SizeX - 1)) && ((j - 1) >= 0))
+			{
+				index = ((j - 1) * (m_TFD.SizeX - 1)) + i;
+
+				sum[0] += normals[index].x;
+				sum[1] += normals[index].y;
+				sum[2] += normals[index].z;
+				count++;
+			}
+
+			// 왼쪽 위 면.
+			if (((i - 1) >= 0) && (j < (m_TFD.SizeZ - 1)))
+			{
+				index = (j * (m_TFD.SizeX - 1)) + (i - 1);
+
+				sum[0] += normals[index].x;
+				sum[1] += normals[index].y;
+				sum[2] += normals[index].z;
+				count++;
+			}
+
+			// 오른쪽 위 면.
+			if ((i < (m_TFD.SizeX - 1)) && (j < (m_TFD.SizeZ - 1)))
+			{
+				index = (j * (m_TFD.SizeX - 1)) + i;
+
+				sum[0] += normals[index].x;
+				sum[1] += normals[index].y;
+				sum[2] += normals[index].z;
+				count++;
+			}
+
+			// 이 정점에 닿는면의 평균을 취합니다.
+			sum[0] = (sum[0] / (float)count);
+			sum[1] = (sum[1] / (float)count);
+			sum[2] = (sum[2] / (float)count);
+
+			// 이 법선의 길이를 계산합니다.
+			length = (float)sqrt((sum[0] * sum[0]) + (sum[1] * sum[1]) + (sum[2] * sum[2]));
+
+			// 높이 맵 배열의 정점 위치에 대한 인덱스를 가져옵니다.
+			index = (j * m_TFD.SizeX) + i;
+
+			// 이 정점의 최종 공유 법선을 표준화하여 높이 맵 배열에 저장합니다.
+			m_TempVtx[index].Normal.x = (sum[0] / length);
+			m_TempVtx[index].Normal.y = (sum[1] / length);
+			m_TempVtx[index].Normal.z = (sum[2] / length);
+		}
+	}
+
+	// 임시 법선을 해제합니다.
+	delete[] normals;
+	normals = 0;
+
+	return true;
+}
+
+void Renderer_Terrain::Cal_Face()
+{
+	Cal_Normal();
+	Cal_Model();
+
+	VTX3D vertex1, vertex2, vertex3;
+	KVector tangent, binormal;
+
+
+	// 지형 모델에서면의 수를 계산합니다.
+	int faceCount = (int)m_TempVtx.size() / 3;
+
+	// 모델 데이터에 대한 인덱스를 초기화합니다.
+	int index = 0;
+
+	// 모든면을 살펴보고 접선, 비공식 및 법선 벡터를 계산합니다.
+	for (int i = 0; i<faceCount; i++)
+	{
+		// 지형 모델에서이면에 대한 세 개의 정점을 가져옵니다.
+		vertex1.Pos.x = m_model[index].x;
+		vertex1.Pos.y = m_model[index].y;
+		vertex1.Pos.z = m_model[index].z;
+		vertex1.Uv.x = m_model[index].tu;
+		vertex1.Uv.y = m_model[index].tv;
+		vertex1.Normal.x = m_model[index].nx;
+		vertex1.Normal.y = m_model[index].ny;
+		vertex1.Normal.z = m_model[index].nz;
+		index++;
+
+		vertex2.Pos.x = m_model[index].x;
+		vertex2.Pos.y = m_model[index].y;
+		vertex2.Pos.z = m_model[index].z;
+		vertex2.Uv.x = m_model[index].tu;
+		vertex2.Uv.y = m_model[index].tv;
+		vertex2.Normal.x = m_model[index].nx;
+		vertex2.Normal.y = m_model[index].ny;
+		vertex2.Normal.z = m_model[index].nz;
+		index++;
+
+		vertex3.Pos.x = m_model[index].x;
+		vertex3.Pos.y = m_model[index].y;
+		vertex3.Pos.z = m_model[index].z;
+		vertex3.Uv.x = m_model[index].tu;
+		vertex3.Uv.y = m_model[index].tv;
+		vertex3.Normal.x = m_model[index].nx;
+		vertex3.Normal.y = m_model[index].ny;
+		vertex3.Normal.z = m_model[index].nz;
+		index++;
+
+		// 그 얼굴의 탄젠트와 바이 노멀을 계산합니다.
+		Cal_Tangent(vertex1, vertex2, vertex3, tangent, binormal);
+
+		// 이면에 대한 접선과 binormal을 모델 구조에 다시 저장하십시오.
+		m_TempVtx[index - 1].Tangent.x = tangent.x;
+		m_TempVtx[index - 1].Tangent.y = tangent.y;
+		m_TempVtx[index - 1].Tangent.z = tangent.z;
+		m_TempVtx[index - 1].BNormal.x = binormal.x;
+		m_TempVtx[index - 1].BNormal.y = binormal.y;
+		m_TempVtx[index - 1].BNormal.z = binormal.z;
+
+		m_TempVtx[index - 2].Tangent.x = tangent.x;
+		m_TempVtx[index - 2].Tangent.y = tangent.y;
+		m_TempVtx[index - 2].Tangent.z = tangent.z;
+		m_TempVtx[index - 2].BNormal.x = binormal.x;
+		m_TempVtx[index - 2].BNormal.y = binormal.y;
+		m_TempVtx[index - 2].BNormal.z = binormal.z;
+
+		m_TempVtx[index - 3].Tangent.x = tangent.x;
+		m_TempVtx[index - 3].Tangent.y = tangent.y;
+		m_TempVtx[index - 3].Tangent.z = tangent.z;
+		m_TempVtx[index - 3].BNormal.x = binormal.x;
+		m_TempVtx[index - 3].BNormal.y = binormal.y;
+		m_TempVtx[index - 3].BNormal.z = binormal.z;
+	}
+}
+
+bool Renderer_Terrain::Cal_Model()
+{
+	if (nullptr != m_model)
+	{
+		delete[] m_model;
+		m_model = nullptr;
+	}
+
+	int index1 = 0;
+	int index2 = 0;
+	int index3 = 0;
+	int index4 = 0;
+
+	// 모델의 정점 수를 설정합니다.
+	int m_vertexCount = (m_TFD.SizeX - 1) * (m_TFD.SizeZ - 1) * 6;
+
+	// 지형 모델 배열을 만듭니다.
+	m_model = new ModelType[m_vertexCount];
+	if (!m_model)
+	{
+		return false;
+	}
+
+	// 텍스처의 두 번째 세트 (알파 맵)의 증가 크기를 설정합니다.
+	float incrementSize = 1.0f / 31.0f;
+
+	// 텍스처 증가를 초기화합니다.
+	float tu2Left = 0.0f;
+	float tu2Right = incrementSize;
+	float tv2Bottom = 1.0f;
+	float tv2Top = 1.0f - incrementSize;
+
+	// 높이 맵 지형 데이터로 지형 모델을 로드합니다.
+	int index = 0;
+
+	for (int j = 0; j<(m_TFD.SizeZ - 1); j++)
+	{
+		for (int i = 0; i<(m_TFD.SizeX - 1); i++)
+		{
+			index1 = (m_TFD.SizeZ * j) + i;          // 왼쪽 아래.
+			index2 = (m_TFD.SizeZ * j) + (i + 1);      // 오른쪽 아래.
+			index3 = (m_TFD.SizeZ * (j + 1)) + i;      // 왼쪽 위.
+			index4 = (m_TFD.SizeZ * (j + 1)) + (i + 1);  // 오른쪽 위.
+
+			// 왼쪽 위.
+			m_model[index].x = m_TempVtx[index3].Pos.x;
+			m_model[index].y = m_TempVtx[index3].Pos.y;
+			m_model[index].z = m_TempVtx[index3].Pos.z;
+			m_model[index].nx = m_TempVtx[index3].Normal.x;
+			m_model[index].ny = m_TempVtx[index3].Normal.y;
+			m_model[index].nz = m_TempVtx[index3].Normal.z;
+			m_model[index].tu = 0.0f;
+			m_model[index].tv = 0.0f;
+			m_model[index].tu2 = tu2Left;
+			m_model[index].tv2 = tv2Top;
+			index++;
+
+			// 오른쪽 위.					
+			m_model[index].x = m_TempVtx[index4].Pos.x;
+			m_model[index].y = m_TempVtx[index4].Pos.y;
+			m_model[index].z = m_TempVtx[index4].Pos.z;
+			m_model[index].nx = m_TempVtx[index4].Normal.x;
+			m_model[index].ny = m_TempVtx[index4].Normal.y;
+			m_model[index].nz = m_TempVtx[index4].Normal.z;
+			m_model[index].tu = 1.0f;
+			m_model[index].tv = 0.0f;
+			m_model[index].tu2 = tu2Left;
+			m_model[index].tv2 = tv2Top;
+			index++;
+
+			// 왼쪽 아래.
+			m_model[index].x = m_TempVtx[index1].Pos.x;
+			m_model[index].y = m_TempVtx[index1].Pos.y;
+			m_model[index].z = m_TempVtx[index1].Pos.z;
+			m_model[index].nx = m_TempVtx[index1].Normal.x;
+			m_model[index].ny = m_TempVtx[index1].Normal.y;
+			m_model[index].nz = m_TempVtx[index1].Normal.z;
+			m_model[index].tu = 0.0f;
+			m_model[index].tv = 1.0f;
+			m_model[index].tu2 = tu2Left;
+			m_model[index].tv2 = tv2Top;
+			index++;
+
+			// 왼쪽 아래.
+			m_model[index].x = m_TempVtx[index1].Pos.x;
+			m_model[index].y = m_TempVtx[index1].Pos.y;
+			m_model[index].z = m_TempVtx[index1].Pos.z;
+			m_model[index].nx = m_TempVtx[index1].Normal.x;
+			m_model[index].ny = m_TempVtx[index1].Normal.y;
+			m_model[index].nz = m_TempVtx[index1].Normal.z;
+			m_model[index].tu = 0.0f;
+			m_model[index].tv = 1.0f;
+			m_model[index].tu2 = tu2Left;
+			m_model[index].tv2 = tv2Top;
+			index++;
+
+			// 오른쪽 위.
+			m_model[index].x = m_TempVtx[index4].Pos.x;
+			m_model[index].y = m_TempVtx[index4].Pos.y;
+			m_model[index].z = m_TempVtx[index4].Pos.z;
+			m_model[index].nx = m_TempVtx[index4].Normal.x;
+			m_model[index].ny = m_TempVtx[index4].Normal.y;
+			m_model[index].nz = m_TempVtx[index4].Normal.z;
+			m_model[index].tu = 1.0f;
+			m_model[index].tv = 0.0f;
+			m_model[index].tu2 = tu2Left;
+			m_model[index].tv2 = tv2Top;
+			index++;
+
+			// 오른쪽 아래.
+			m_model[index].x = m_TempVtx[index2].Pos.x;
+			m_model[index].y = m_TempVtx[index2].Pos.y;
+			m_model[index].z = m_TempVtx[index2].Pos.z;
+			m_model[index].nx = m_TempVtx[index2].Normal.x;
+			m_model[index].ny = m_TempVtx[index2].Normal.y;
+			m_model[index].nz = m_TempVtx[index2].Normal.z;
+			m_model[index].tu = 1.0f;
+			m_model[index].tv = 1.0f;
+			m_model[index].tu2 = tu2Left;
+			m_model[index].tv2 = tv2Top;
+			index++;
+
+			// 알파 맵에 대해 tu 텍스처 좌표를 증가시킵니다.
+			tu2Left += incrementSize;
+			tu2Right += incrementSize;
+		}
+
+		// 알파 맵에 대해 tu 텍스처 좌표를 재설정합니다.
+		tu2Left = 0.0f;
+		tu2Right = incrementSize;
+
+		// 알파 맵의 tv 텍스처 좌표를 증가시킵니다.
+		tv2Top -= incrementSize;
+		tv2Bottom -= incrementSize;
+	}
+
+	return true;
+}
+
+bool Renderer_Terrain::Cal_Tangent(
+	const VTX3D& vertex1
+	, const VTX3D& vertex2
+	, const VTX3D& vertex3
+	, KVector& tangent
+	, KVector& binormal)
+{
+	float vector1[3] = { 0.0f, 0.0f, 0.0f };
+	float vector2[3] = { 0.0f, 0.0f, 0.0f };
+	float tuVector[2] = { 0.0f, 0.0f };
+	float tvVector[2] = { 0.0f, 0.0f };
+
+
+	// 이면의 두 벡터를 계산합니다.
+	vector1[0] = vertex2.Pos.x - vertex1.Pos.x;
+	vector1[1] = vertex2.Pos.y - vertex1.Pos.y;
+	vector1[2] = vertex2.Pos.z - vertex1.Pos.z;
+
+	vector2[0] = vertex3.Pos.x - vertex1.Pos.x;
+	vector2[1] = vertex3.Pos.y - vertex1.Pos.y;
+	vector2[2] = vertex3.Pos.z - vertex1.Pos.z;
+
+	// tu 및 tv 텍스처 공간 벡터를 계산합니다.
+	tuVector[0] = (vertex2.Uv.x - vertex1.Uv.x);
+	tvVector[0] = (vertex2.Uv.y - vertex1.Uv.y);
+
+	tuVector[1] = (vertex3.Uv.x - vertex1.Uv.x);
+	tvVector[1] = (vertex3.Uv.y - vertex1.Uv.y);
+
+	float den = 1.0f / (tuVector[0] * tvVector[1] - tuVector[1] * tvVector[0]);
+
+	// 교차 곱을 계산하고 계수로 곱하여 접선과 비 구식을 얻습니다.
+	tangent.x = (tvVector[1] * vector1[0] - tvVector[0] * vector2[0]) * den;
+	tangent.y = (tvVector[1] * vector1[1] - tvVector[0] * vector2[1]) * den;
+	tangent.z = (tvVector[1] * vector1[2] - tvVector[0] * vector2[2]) * den;
+
+	binormal.x = (tuVector[0] * vector2[0] - tuVector[1] * vector1[0]) * den;
+	binormal.y = (tuVector[0] * vector2[1] - tuVector[1] * vector1[1]) * den;
+	binormal.z = (tuVector[0] * vector2[2] - tuVector[1] * vector1[2]) * den;
+
+	// 이 법선의 길이를 계산합니다.
+	float length = (float)sqrt((tangent.x * tangent.x) + (tangent.y * tangent.y) + (tangent.z * tangent.z));
+
+	// 법선을 표준화 한 다음 저장합니다.
+	tangent.x = tangent.x / length;
+	tangent.y = tangent.y / length;
+	tangent.z = tangent.z / length;
+
+	// 이 법선의 길이를 계산합니다.
+	length = (float)sqrt((binormal.x * binormal.x) + (binormal.y * binormal.y) + (binormal.z * binormal.z));
+
+	// 법선을 표준화 한 다음 저장합니다.
+	binormal.x = binormal.x / length;
+	binormal.y = binormal.y / length;
+	binormal.z = binormal.z / length;
+
+	return true;
 }
 
 void Renderer_Terrain::RenderBegin(KPtr<Camera> _Camera, const KUINT& _MeshIdx, const KUINT& _MtlIdx)

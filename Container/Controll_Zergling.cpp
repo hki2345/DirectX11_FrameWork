@@ -25,7 +25,7 @@ void Controll_Zergling::Init_Value()
 {
 	Controll_AI::Init_Value();
 
-	m_ARange = .5f;
+	m_ARange = 2.0f;
 	m_MRange = 5.0f;
 }
 

@@ -39,6 +39,8 @@ void Controll_Odin::Update_LAND()
 
 		m_MType = MOVE_TYPE::MT_ATTACK;
 
+		m_pUnit->one()->Trans()->pos_local(m_TPos);
+
 		m_pSound->Play(L"Tychus_AC_Mx_Dead_Cue_01.wav", .4f);
 
 		m_pSound->Play(L"TychusOdin_Pkup_Mech_01.wav");

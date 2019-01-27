@@ -9,3 +9,6 @@ http://www.rastertek.com/tutdx11.html
 
 동영상
 https://docs.microsoft.com/ko-kr/windows/desktop/DirectShow/directshow-playback-example
+
+다이렉트 관련 정리 된 곳
+https://copynull.tistory.com/category/DirectX%2011%20%EA%B0%95%EC%A2%8C

@@ -46,11 +46,21 @@ void Controll_User::Init_Game()
 	m_fCover = .0f;
 
 
-	KPtr<SoundPlayer> nB = state()->Create_One(L"Sound")->Add_Component<SoundPlayer>();
-	nB->Play(L"Music_T01.ogg");
-	nB->Loop();
-	nB->Set_FadeIn();
-	Core_Class::BGM(nB);
+	if (nullptr == Core_Class::BGM())
+	{
+		KPtr<SoundPlayer> nB = state()->Create_One(L"Sound")->Add_Component<SoundPlayer>();
+		nB->Play(L"Music_T01.ogg");
+		nB->Loop();
+		nB->Set_FadeIn();
+		Core_Class::BGM(nB);
+	}
+
+	else
+	{
+		Core_Class::BGM()->Play(L"Music_T01.ogg");
+		Core_Class::BGM()->Loop();
+		Core_Class::BGM()->Set_FadeIn();
+	}
 }
 
 void Controll_User::Update_Game()
@@ -142,6 +152,8 @@ void Controll_User::Update_Story()
 		}
 		else
 		{
+			Core_Class::BGM()->Volume(.0f);
+			Core_Class::BGM()->Stop();
 			Con_Class::s2_manager()->m_GameSet = true;
 		}
 	}

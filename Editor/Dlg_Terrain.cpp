@@ -91,7 +91,8 @@ BOOL Dlg_Terrain::OnInitDialog()
 	// Light->Trans()->scale_local(KVector4(1000.0f, 1000.0f, 1000.0f));
 	// Foward로 비춘다고 생각한다.
 	KPtr<Light> pLight2 = Light2->Add_Component<Light>();
-	pLight2->Trans()->rotate_world(KVector4(45.0F, 0.0F, 0.0f));
+	//pLight2->Spec_Color(KVector4::Zero);
+	pLight2->Trans()->rotate_world(KVector4(45.0F, 0.0F, 45.0f));
 	pLight2->Trans()->scale_world(KVector4(30.0f, 30.0f, 30.0f));
 	pLight2->PushLightLayer(0);
 
@@ -101,7 +102,8 @@ BOOL Dlg_Terrain::OnInitDialog()
 	// Light->Trans()->scale_local(KVector4(1000.0f, 1000.0f, 1000.0f));
 	// Foward로 비춘다고 생각한다.
 	KPtr<Light> pLight3 = Light3->Add_Component<Light>();
-	pLight3->Trans()->rotate_world(KVector4(-45.0F, 0.0F, 0.0f));
+	// pLight3->Spec_Color(KVector4::Zero);
+	pLight3->Trans()->rotate_world(KVector4(-45.0F, 45.0F, 0.0f));
 	pLight3->Trans()->scale_world(KVector4(30.0f, 30.0f, 30.0f));
 	pLight3->PushLightLayer(1);
 
@@ -111,6 +113,7 @@ BOOL Dlg_Terrain::OnInitDialog()
 	// Light->Trans()->scale_local(KVector4(1000.0f, 1000.0f, 1000.0f));
 	// Foward로 비춘다고 생각한다.
 	KPtr<Light> pLight4 = Light4->Add_Component<Light>();
+	//pLight4->Spec_Color(KVector4::Zero);
 	pLight4->Trans()->rotate_world(KVector4(.0F, 45.0F, 0.0f));
 	pLight4->Trans()->scale_world(KVector4(30.0f, 30.0f, 30.0f));
 	pLight4->PushLightLayer(0);

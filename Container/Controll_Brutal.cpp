@@ -21,7 +21,7 @@ Controll_Brutal::~Controll_Brutal()
 void Controll_Brutal::Init_Value()
 {
 	Controll_AI::Init_Value();
-	m_ARange = 1.0f;
+	m_ARange = 2.0f;
 	m_MRange = 10.0f;
 }
 

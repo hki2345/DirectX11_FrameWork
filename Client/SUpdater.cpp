@@ -67,6 +67,7 @@ void SUpdater::Init_Mesh()
 	pLight4->one()->Trans()->rotate_world(KVector4(180.0F, 45.0F, 45.0f));
 	pLight4->PushLightLayer(0);
 	pLight4->Light_Color(KVector(.7f, .4f, .3f, 1.0f));
+	pLight4->Spec_Color(KVector(.7f, .4f, .3f, 1.0f));
 
 	MSphere = state()->Create_One(L"BackGround")->Add_Component<Renderer_Mesh>();
 	MSphere->one()->Trans()->scale_local(KVector4(100.0f, 100.0f, 100.0f));

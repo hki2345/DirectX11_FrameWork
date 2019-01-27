@@ -91,7 +91,7 @@ PS_DEFFERDOUTPUT PS_TERRAINDEFFERD(VTX3DMESH_OUTPUT _in)
 // 포워드 색깔을 아예 사용하지 않는 것은 아니다.
     outData.vDiffuse.rgb = CalColor.xyz;
     outData.vDiffuse.a = 1.0f;
-    outData.vNoraml = BumpNormal;
+    outData.vNoraml = _in.vNormal;
     outData.vNoraml.a = 1.0f;
     outData.vPosition = _in.vViewPos;
     outData.vDepth.x = _in.vPos.z;

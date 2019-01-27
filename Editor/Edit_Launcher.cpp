@@ -72,11 +72,9 @@ void Edit_Launcher::Build()
 
 	// 멀티 텍스쳐
 	KPtr<Texture_Multi> MTex = ResourceManager<Texture_Multi>::Create(L"FB");
-	MTex->Create_MultiTex(D3D11_USAGE::D3D11_USAGE_DEFAULT, L"Stone.jpg", L"StoneBump.jpg");
-
-
 	KPtr<Texture_Multi> MTex2 = ResourceManager<Texture_Multi>::Create(L"FC");
-	MTex2->Create_MultiTex(D3D11_USAGE::D3D11_USAGE_DEFAULT, L"Lava.jpg", L"LavaBump.jpg");
+	MTex->Create_MultiTex(D3D11_USAGE::D3D11_USAGE_DEFAULT, L"char_rockL.png", L"char_rocknormal.jpg");
+	MTex2->Create_MultiTex(D3D11_USAGE::D3D11_USAGE_DEFAULT, L"char_dirtL.png", L"StoneBump.jpg");
 
 	DebugManager::Debug_On();
 

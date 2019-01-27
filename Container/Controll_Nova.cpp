@@ -37,7 +37,6 @@ void Controll_Nova::Update_MIDLE()
 		one()->Set_Death();
 
 
-		Core_Class::BGM()->Set_FadeIn();
 	}
 }
 void Controll_Nova::Update_ATTACK()
@@ -52,6 +51,7 @@ void Controll_Nova::Update_ATTACK()
 
 	if (0 == m_pEnemyList.size())
 	{
+		Core_Class::BGM()->Set_FadeIn();
 		m_MType = MOVE_TYPE::MT_IDLE;
 		return;
 	}
@@ -69,6 +69,7 @@ void Controll_Nova::Update_ATTACK()
 
 	if (0 == m_pEnemyList.size())
 	{
+		Core_Class::BGM()->Set_FadeIn();
 		m_MType = MOVE_TYPE::MT_IDLE;
 	}
 }

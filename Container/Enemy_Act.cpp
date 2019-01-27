@@ -64,16 +64,16 @@ void Controll_AI::Update_AIDLE()
 
 void Controll_AI::Update_BURROW()
 {
-
 	m_pUnit->Set_Animation(Force_Unit::ANI_TYPE::FIDGET02);
 }
 void Controll_AI::Update_HIDE()
 {
-	m_pUnit->Set_Animation(Force_Unit::ANI_TYPE::FIDGET02);
+	m_pUnit->Set_Animation(Force_Unit::ANI_TYPE::DEATH, false);
 
 	if (m_MRange >= m_pPUnit->one()->Trans()->pos_local().distance(m_pUnit->one()->Trans()->pos_local()))
 	{
 		m_AType = Controll_AI::AT_UNBURROW;
+		m_cSound->Play(L"Brutalisk_UnBurrow_01.wav", .4f);
 	}
 }
 void Controll_AI::Update_UNBURROW()
@@ -81,8 +81,6 @@ void Controll_AI::Update_UNBURROW()
 	m_pUnit->Set_Animation(Force_Unit::ANI_TYPE::FIDGET01);
 	if (true == m_pUnit->Get_Component<Renderer_BonAni>()->Check_AniDone())
 	{
-		m_cSound->Play(L"Brutalisk_UnBurrow_01.wav", .4f);
-
 		m_AType = Controll_AI::AT_IDLE;
 	}
 }
@@ -94,7 +92,7 @@ void Controll_AI::Update_ATTACK01()
 	m_pUnit->Set_Animation(Force_Unit::ANI_TYPE::ATTACK01);
 
 
-	if (m_ARange <= m_pPUnit->one()->Trans()->pos_local().distance(m_pUnit->one()->Trans()->pos_local()))
+	if (true == m_pUnit->Get_Component<Renderer_BonAni>()->Check_AniDone())
 	{
 		m_AType = Controll_AI::AT_IDLE;
 	}

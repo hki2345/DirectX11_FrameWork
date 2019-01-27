@@ -61,21 +61,21 @@ bool Controll_Hyperion::Init(
 	}
 
 
+	float Front = 15.0f;
 
-
-	m_TPos.push_back(KVector(_InitPos + _Forward * 13.0f + KVector(.0f, 9.0f, .0f)));
+	m_TPos.push_back(KVector(_InitPos + _Forward * (Front + 8.0f) + KVector(.0f, 9.0f, .0f)));
 	
-	m_TPos.push_back(KVector(_InitPos + _Forward * 12.0f + _Right * 11.0f + KVector(.0f, 7.0f, .0f)));
-	m_TPos.push_back(KVector(_InitPos + _Forward * 12.0f + _Right * -11.0f + KVector(.0f, 7.0f, .0f)));
-	
-	m_TPos.push_back(KVector(_InitPos + _Forward * 15.0f + _Right * 10.0f + KVector(.0f, 10.0f, .0f)));
-	m_TPos.push_back(KVector(_InitPos + _Forward * 15.0f + _Right * -10.0f + KVector(.0f, 10.0f, .0f)));
-	
-	m_TPos.push_back(KVector(_InitPos + _Forward * 5.0f + _Right * 12.0f + KVector(.0f, 8.0f, .0f)));
-	m_TPos.push_back(KVector(_InitPos + _Forward * 5.0f + _Right * -12.0f + KVector(.0f, 8.0f, .0f)));
-	
-	m_TPos.push_back(KVector(_InitPos + _Forward * 2.0f + _Right * 6.5f + KVector(.0f, 10.0f, .0f)));
-	m_TPos.push_back(KVector(_InitPos + _Forward * 2.0f + _Right * -6.5f + KVector(.0f, 10.0f, .0f)));
+	m_TPos.push_back(KVector(_InitPos + _Forward * (Front + 7.0f)  + _Right * 11.0f + KVector(.0f, 7.0f, .0f)));
+	m_TPos.push_back(KVector(_InitPos + _Forward * (Front + 7.0f)  + _Right * -11.0f + KVector(.0f, 7.0f, .0f)));
+												   
+	m_TPos.push_back(KVector(_InitPos + _Forward * (Front + 10.0f) + _Right * 10.0f + KVector(.0f, 10.0f, .0f)));
+	m_TPos.push_back(KVector(_InitPos + _Forward * (Front + 10.0f) + _Right * -10.0f + KVector(.0f, 10.0f, .0f)));
+												   
+	m_TPos.push_back(KVector(_InitPos + _Forward * (Front + 0.0f)  + _Right * 12.0f + KVector(.0f, 8.0f, .0f)));
+	m_TPos.push_back(KVector(_InitPos + _Forward * (Front + 0.0f)  + _Right * -12.0f + KVector(.0f, 8.0f, .0f)));
+												   
+	m_TPos.push_back(KVector(_InitPos + _Forward * (Front -3.0f)  + _Right * 6.5f + KVector(.0f, 10.0f, .0f)));
+	m_TPos.push_back(KVector(_InitPos + _Forward * (Front -3.0f)  + _Right * -6.5f + KVector(.0f, 10.0f, .0f)));
 
 
 
@@ -182,7 +182,7 @@ void Controll_Hyperion::Update_WARPIN()
 		}
 		else
 		{
-			(*m_SULI)->one()->Trans()->Moving(m_For * 20.0f);
+			(*m_SULI)->one()->Trans()->Moving(m_For * 5.0f);
 		}
 	}
 	else
@@ -230,7 +230,7 @@ void Controll_Hyperion::Update_ATTACK()
 		m_pSound->Play(L"Battlecruiser_HyperspaceOut01.wav");
 	}
 
-	if (m_UTime > .1f)
+	if (m_UTime > .33f)
 	{
 		m_UTime = .0f;
 
@@ -240,7 +240,7 @@ void Controll_Hyperion::Update_ATTACK()
 			return;
 		}
 
-		(*S)->Damage(5.f);
+		(*S)->Damage(15.f);
 
 		if (true == (*S)->Is_HPDeath())
 		{

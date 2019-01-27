@@ -72,21 +72,18 @@ void GUpdater::Init_Mesh()
 	m_TT->Create_EffectPost<Effect_Bloom>(0);
 	m_pCam = m_TT->Add_Component<SC2_Camera>();
 
-	KPtr<Light> pLight4 = state()->Create_One()->Add_Component<Light>();;
-	pLight4->one()->Trans()->rotate_world(KVector4(180.0F, 45.0F, 45.0f));
-	pLight4->PushLightLayer(0);
-	pLight4->Light_Color(KVector4(.7f, .5f, .5f, 1.0f));
-	
-	KPtr<Light> pLight3 = state()->Create_One()->Add_Component<Light>();;
-	pLight3->one()->Trans()->rotate_world(KVector4(180.0F, -90.0F, 45.0f));
-	pLight3->PushLightLayer(0);
-	pLight3->Light_Color(KVector4(.7f, .5f, .5f, 1.0f));
+
+	KPtr<Light> pLight1 = state()->Create_One()->Add_Component<Light>();;
+	pLight1->one()->Trans()->rotate_world(KVector4(40.0f, 45.0F, 0.0f));
+	pLight1->PushLightLayer(0);
+	pLight1->Light_Color(KVector4(1.0f, .8f, .3f, 1.0f));
+	pLight1->Spec_Color(KVector4::Zero);
 
 
 	SkySphere = state()->Create_One(L"BackGround")->Add_Component<Renderer_Mesh>();
 	SkySphere->one()->Trans()->scale_local(KVector4(10000.0f, 10000.0f, 10000.0f));
 	SkySphere->one()->Trans()->pos_local(KVector4(.0f, 0.0f, 0.0f));
-	SkySphere->one()->Trans()->rotate_local(KVector4(.0f, 130.0f, 0.0f));
+	SkySphere->one()->Trans()->rotate_local(KVector4(.0f, 180.0f, .0f));
 	SkySphere->Set_Material(L"SKY3DMATFORWARD");
 	SkySphere->Set_RSState(L"SNONE");
 	SkySphere->ROpt.Defferd_orForward = 0;

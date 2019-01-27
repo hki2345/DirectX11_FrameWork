@@ -347,8 +347,8 @@ void Controll_User::Update_Mouse()
 		}
 		else
 		{
-			m_PlayRot.x += InputManager::MouseDir().y * .5f *  DELTATIME;
-			m_PlayRot.y += InputManager::MouseDir().x * .5f *  DELTATIME;
+			m_PlayRot.x += InputManager::MouseDir().y * .25f *  DELTATIME;
+			m_PlayRot.y += InputManager::MouseDir().x * .25f *  DELTATIME;
 
 			KMatrix RMatX;
 			KMatrix RMatY;
