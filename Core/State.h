@@ -54,6 +54,8 @@ public:
 		virtual void DebugRender() {}
 		virtual void UIRender() {}
 
+		virtual void AfterRenderStart_State() {}
+
 		virtual void End_State() {}
 
 	protected:
@@ -65,8 +67,14 @@ private:
 	KPtr<State_Builder> m_SBuilder;
 	std::list<KPtr<State_Updater>> m_SUpdaterList;
 	bool m_bBuild;
+	bool m_bRender;
 
 public:
+	void Set_Render(const bool& _Value)
+	{
+		m_bRender = _Value;
+	}
+	
 	bool IsBuild() {
 		return m_bBuild;
 	}

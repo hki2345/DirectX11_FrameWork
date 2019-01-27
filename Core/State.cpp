@@ -6,7 +6,10 @@
 #include "WriteStream.h"
 #include "ReadStream.h"
 #include "StateManager.h"
+
+
 #include "Core_Class.h"
+#include "KDevice.h"
 #include <atlstr.h>
 
 Camera* State::camera() 
@@ -19,7 +22,7 @@ void State::camera(Camera* _Cam)
 	m_Camera = _Cam;
 }
 
-State::State() : m_Camera(nullptr), m_bBuild(false)
+State::State() : m_Camera(nullptr), m_bBuild(false), m_bRender(true)
 {
 }
 
@@ -170,6 +173,10 @@ void State::DebugUpdate() {
 
 void State::Render() 
 {
+	if (false == m_bRender)
+	{
+		return;
+	}
 	This_RenderManager.Render();
 }
 

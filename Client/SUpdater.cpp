@@ -10,6 +10,7 @@
 
 #include <Camera.h>
 #include <Light.h>
+#include <KVideo.h>
 #include <KFont.h>
 #include <ResourceManager.h>
 
@@ -142,12 +143,18 @@ void SUpdater::Init_UI()
 
 void SUpdater::Update_State()
 {
+	//if (true == KEY_DOWN(L"LB"))
+	//{
+	//	(*m_SSI)->Stop();
+	//	Core_Class::MainSceneMgr().Change_State(L"End");
+	//}
+	
 	MSphere->one()->Trans()->Rotating_Deg(KVector4(0.0f, .002f, .0f));
-
+	
 	if (true == m_GameLauncher)
 	{
 		m_LTime += DELTATIME;
-
+	
 		if (false == m_LSound)
 		{
 			(*m_SSI)->Stop();
@@ -159,10 +166,10 @@ void SUpdater::Update_State()
 			
 			STt = new SoundPlayer();
 			STt->Play(L"UI_AC_Countdown_5MxNone.ogg");
-
+	
 			m_LSound = true;
 		}
-
+	
 		if (m_LTime > 6.0f)
 		{
 			SCount->Stop();
@@ -171,10 +178,10 @@ void SUpdater::Update_State()
 			Core_Class::MainSceneMgr().Change_State(L"InGame");
 			++m_SSI;
 		}
-
+	
 		return;
 	}
-
+	
 	if (true == m_Start->Mouse_In())
 	{
 		if (true == KEY_DOWN(L"LB"))
@@ -182,7 +189,7 @@ void SUpdater::Update_State()
 			m_GameLauncher = true;
 		}
 	}
-
+	
 	if (true == m_Quit->Mouse_In())
 	{
 		if (true == KEY_DOWN(L"LB"))

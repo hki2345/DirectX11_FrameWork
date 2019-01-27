@@ -256,6 +256,12 @@
     <ClInclude Include="Renderer_UI.h">
       <Filter>03 Manager\Render\Child</Filter>
     </ClInclude>
+    <ClInclude Include="KVideoCodec.h">
+      <Filter>03 Manager\Resource\Child\Video</Filter>
+    </ClInclude>
+    <ClInclude Include="KVideo.h">
+      <Filter>03 Manager\Resource\Child\Video</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SmartPtr.cpp">
@@ -495,6 +501,12 @@
     <ClCompile Include="Renderer_UI.cpp">
       <Filter>03 Manager\Render\Child</Filter>
     </ClCompile>
+    <ClCompile Include="KVideoCodec.cpp">
+      <Filter>03 Manager\Resource\Child\Video</Filter>
+    </ClCompile>
+    <ClCompile Include="KVideo.cpp">
+      <Filter>03 Manager\Resource\Child\Video</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram.cd" />
@@ -599,6 +611,9 @@
     </Filter>
     <Filter Include="03 Manager\Render\Effect">
       <UniqueIdentifier>{1452c542-4006-4751-a1d5-d994f9605c28}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="03 Manager\Resource\Child\Video">
+      <UniqueIdentifier>{e48d52fa-54b9-43a1-b734-46601bb54404}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

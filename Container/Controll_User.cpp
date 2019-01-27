@@ -92,10 +92,6 @@ bool Controll_User::Init(KPtr<Force_Unit> _Unit, KPtr<SC2_Camera> _Cam)
 	{
 		InputManager::Create_Command(L"F", 'F');
 	}
-	if (false == IS_KEY(L"DEBUG"))
-	{
-		InputManager::Create_Command(L"DEBUG", VK_LSHIFT, 'B');
-	}
 	if (false == IS_KEY(L"MFOR"))
 	{
 		InputManager::Create_Command(L"MFOR", 'W');

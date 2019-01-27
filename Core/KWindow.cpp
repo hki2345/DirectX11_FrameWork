@@ -2,6 +2,8 @@
 #include "Stl_AID.h"
 
 #include "KMacro.h"
+
+#include "KVideo.h"
 #include "ResourceManager.h"
 #include "InputManager.h"
 
@@ -147,8 +149,20 @@ LRESULT CALLBACK KWindow::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM
 	{
 	case WM_PAINT:
 	{
+		KPtr<KVideo> TV = ResourceManager<KVideo>::Find(L"RaynorLUV.avi");
+
 		PAINTSTRUCT ps;
 		HDC hdc = BeginPaint(hWnd, &ps);
+
+		if (nullptr != TV && TV->State() != STATE_NO_GRAPH && TV->HasVideo())
+		{
+			// The player has video, so ask the player to repaint. 
+			TV->Repaint(hdc);
+		}
+		else
+		{
+			FillRect(hdc, &ps.rcPaint, (HBRUSH)(COLOR_WINDOW + 1));
+		}
 		EndPaint(hWnd, &ps);
 	}
 	break;

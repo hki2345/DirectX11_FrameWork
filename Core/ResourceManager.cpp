@@ -4,6 +4,7 @@
 #include "KMacro.h"
 #include "Sound.h"
 #include "KImage.h"
+#include "KVideo.h"
 #include "KM3.h"
 #include "Changer_Animation.h"
 
@@ -227,6 +228,11 @@ bool ResourceManager<Changer_Animation>::All_Load()
 {
 	return ResourceManager<Changer_Animation>::All_LoadOrigin(L"KCA");
 }
+bool ResourceManager<KVideo>::All_Load()
+{
+	return ResourceManager<KVideo>::All_LoadOrigin(L"Video");
+}
+
 
 
 // 짜피 텍스쳐만 모두 받을 것이기 대문에
@@ -311,7 +317,8 @@ bool ResourceManager<KS>::All_LoadSub(const intptr_t& _Handle, _wfinddata_t& _FD
 				Exi == L".jpg" || Exi == L".JPG" || Exi == L".Jpg" || 
 				Exi == L".bmp" || Exi == L".dds" || Exi == L".DDS" ||
 				Exi == L".mp3" || Exi == L".ogg" || Exi == L".wav" ||
-				Exi == L".KM3" || Exi == L".km3" || Exi == L".KCA")
+				Exi == L".KM3" || Exi == L".km3" || Exi == L".KCA" ||
+				Exi == L".AVI" || Exi == L".avi" )
 			{
 				// 이걸해야 연속으로 막 불러올 수 있지 않곗냐;
 				if (nullptr == ResourceManager<KS>::Find(Folder.c_str()))

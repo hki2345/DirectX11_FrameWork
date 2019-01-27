@@ -22,6 +22,7 @@ public:
 
 	// 렌더에서 해당 디바이스의 컨텍스트를 실행한다.
 public:
+	friend class EUpdater;
 	friend class Renderer;
 	friend class RenderManager;
 

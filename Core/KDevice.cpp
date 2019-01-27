@@ -13,7 +13,7 @@ m_pDepthStencilTex(nullptr),
 m_pDepthStencilView(nullptr),
 m_pSwapChain(nullptr),
 m_bInit(false),
-m_Color(KColor::Green)
+m_Color(KColor::Zero)
 {
 }
 
@@ -32,6 +32,8 @@ void KDevice::Release()
 	if (nullptr != m_pSwapChain) { m_pSwapChain->Release(); }
 	if (nullptr != m_pContext) { m_pContext->Release(); }
 	if (nullptr != m_pDevice) { m_pDevice->Release(); }
+
+	m_bInit = false;
 }
 
 

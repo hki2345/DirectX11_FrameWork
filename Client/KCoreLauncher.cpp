@@ -13,6 +13,7 @@
 #include <Texture_Multi.h>
 #include <Sound.h>
 #include <KFont.h>
+#include <KVideo.h>
 
 #include <KThread.h>
 #include <Con_Class.h>
@@ -44,6 +45,7 @@ void KCoreLauncher::Build()
 	PathManager::Create_ForderPath(L"Texture");
 	PathManager::Create_ForderPath(L"Sound");
 	PathManager::Create_ForderPath(L"Mesh");
+	PathManager::Create_ForderPath(L"Video");
 	PathManager::Create_ForderPath(L"Data");
 	PathManager::Create_ForderPath(L"KM3", L"Data\\KM3");
 	PathManager::Create_ForderPath(L"KCA", L"Data\\KCA");
@@ -61,35 +63,38 @@ void KCoreLauncher::Build()
 	{
 		InputManager::Create_Command(L"LB", VK_LBUTTON);
 	}
+	if (false == IS_KEY(L"ESC"))
+	{
+		InputManager::Create_Command(L"ESC", VK_ESCAPE);
+	}
+	if (false == IS_KEY(L"DEBUG"))
+	{
+		InputManager::Create_Command(L"DEBUG", VK_LSHIFT, 'B');
+	}
 
 	// 이렇게 경로를 잡은 뒤 해야함
 	Core_Class::MainWindow().Init_Device();
-
+	
 	ResourceManager<KImage>::All_Load();
 	ResourceManager<Sound>::All_Load();
-
+	
 	ResourceManager<Changer_Animation>::All_Load();
 	ResourceManager<MeshContainer>::All_Load();
+	ResourceManager<KVideo>::All_Load();
 
 	ResourceManager<KFont>::Create(L"Kostar", L"Kostar");
 
 	// 멀티 텍스쳐
 	KPtr<Texture_Multi> MTex = ResourceManager<Texture_Multi>::Create(L"FB");
 	KPtr<Texture_Multi> MTex2 = ResourceManager<Texture_Multi>::Create(L"FC");
-	MTex->Create_MultiTex(D3D11_USAGE::D3D11_USAGE_DEFAULT, L"char_rockL.png", L"char_rocknormal.jpg");
-	MTex2->Create_MultiTex(D3D11_USAGE::D3D11_USAGE_DEFAULT, L"char_dirtL.png", L"char_dirtnormalL.png");
-
+	MTex->Create_MultiTex(D3D11_USAGE::D3D11_USAGE_DEFAULT, L"char_dirtL.png", L"char_dirtnormalL.png");
+	MTex2->Create_MultiTex(D3D11_USAGE::D3D11_USAGE_DEFAULT, L"char_rockL.png", L"char_rocknormal.jpg");
+	
 	Core_Class::MainSceneMgr().Create_State<SBuilder, SUpdater>(L"Start");
 	Core_Class::MainSceneMgr().Change_State(L"Start");
 
 	Core_Class::MainSceneMgr().Create_State<GBuilder, GUpdater>(L"InGame");
 	Core_Class::MainSceneMgr().Create_State<EBuilder, EUpdater>(L"End");
-
-
-
-
-
-
 
 #if _DEBUG
 	DebugManager::Debug_On();
