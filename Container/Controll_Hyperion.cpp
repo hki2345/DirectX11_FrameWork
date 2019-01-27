@@ -218,7 +218,7 @@ void Controll_Hyperion::Update_ATTACK()
 
 	for (m_SPI = m_TPos.begin(); m_SULI != m_EULI; ++m_SULI, ++m_SPI)
 	{
-		(*m_SULI)->one()->Trans()->Moving(m_For * .05f);
+		(*m_SULI)->one()->Trans()->Moving(m_For * .01f);
 	}
 
 	Core_Class::BGM()->Stop();

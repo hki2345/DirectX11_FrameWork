@@ -20,7 +20,7 @@ KVideo::KVideo(HWND hwnd) :
 	m_pEvent(NULL),
 	m_pVideo(NULL)
 {
-
+	
 }
 
 

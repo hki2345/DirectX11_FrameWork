@@ -39,6 +39,8 @@
 #include "KSphere_Col.cpp"
 #include "KStreamBuffer.cpp"
 #include "KThread.cpp"
+#include "KVideo.cpp"
+#include "KVideoCodec.cpp"
 #include "KWindow.cpp"
 #include "Light.cpp"
 #include "MultiCritical.cpp"

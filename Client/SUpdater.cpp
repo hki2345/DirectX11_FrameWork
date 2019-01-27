@@ -143,12 +143,6 @@ void SUpdater::Init_UI()
 
 void SUpdater::Update_State()
 {
-	//if (true == KEY_DOWN(L"LB"))
-	//{
-	//	(*m_SSI)->Stop();
-	//	Core_Class::MainSceneMgr().Change_State(L"End");
-	//}
-	
 	MSphere->one()->Trans()->Rotating_Deg(KVector4(0.0f, .002f, .0f));
 	
 	if (true == m_GameLauncher)

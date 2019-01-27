@@ -37,6 +37,7 @@ void Controll_User::Init_Game()
 
 	m_uConsole->alpha_value(.8f);
 
+	m_OutSound = false;
 	m_InGame = false;
 	m_OutGame = false;
 
@@ -110,6 +111,12 @@ void Controll_User::Update_Game()
 				m_SType = Controll_User::ST_COMMAND;
 				m_iStory = 0;
 			}
+			if (L"MEDIVAC" == m_pStoryUnit->ws_name())
+			{
+				m_pSound->Play(L"Medivac_Heal02.ogg");
+				m_pSound->Play(L"Medivac_HealLoop.wav");
+				m_pSound->Play(L"Medivac_HealStart.wav");
+			}
 		}
 	}
 }
@@ -145,15 +152,18 @@ void Controll_User::Update_Story()
 		m_GameTime += DELTATIME;
 		m_uCover->one()->Active_On();
 
-		if (m_GameTime < 3.0f)
+		if (false == m_OutSound)
 		{
 			Core_Class::BGM()->Set_FadeOut();
+			m_OutSound = true;
+		}
+
+		if (m_GameTime < 3.0f)
+		{
 			m_uCover->alpha_value(m_GameTime * .33f);
 		}
 		else
 		{
-			Core_Class::BGM()->Volume(.0f);
-			Core_Class::BGM()->Stop();
 			Con_Class::s2_manager()->m_GameSet = true;
 		}
 	}

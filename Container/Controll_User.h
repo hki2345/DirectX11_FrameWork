@@ -123,6 +123,7 @@ private:
 	float m_GameTime;
 	bool m_InGame;
 	bool m_OutGame;
+	bool m_OutSound;
 
 private:
 	void Init_UI();
