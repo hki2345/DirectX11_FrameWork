@@ -91,10 +91,9 @@ void KCoreLauncher::Build()
 	MTex2->Create_MultiTex(D3D11_USAGE::D3D11_USAGE_DEFAULT, L"char_rockL.png", L"char_rocknormal.jpg");
 	
 	Core_Class::MainSceneMgr().Create_State<SBuilder, SUpdater>(L"Start");
-	Core_Class::MainSceneMgr().Change_State(L"Start");
-
 	Core_Class::MainSceneMgr().Create_State<GBuilder, GUpdater>(L"InGame");
 	Core_Class::MainSceneMgr().Create_State<EBuilder, EUpdater>(L"End");
+	Core_Class::MainSceneMgr().Change_State(L"Start");
 
 #if _DEBUG
 	DebugManager::Debug_On();

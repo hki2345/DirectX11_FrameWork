@@ -2,6 +2,7 @@
 #include "Force_Unit.h"
 #include "Con_Class.h"
 
+#include <KBox_Col.h>
 #include <Renderer_BonAni.h>
 #include <Renderer_Terrain.h>
 #include <InputManager.h>
@@ -102,6 +103,7 @@ void Controll_AI::Update_Death()
 {
 	if (.0f > m_pUnit->hp())
 	{
+		one()->Get_Component<KBox_Col>()->Active_Off();
 		m_AType = Controll_AI::AT_DEATH;
 	}
 }

@@ -65,6 +65,8 @@ bool KVideo::Load()
 
 	// Try to render the streams.
 	hr = RenderStreams(pSource);
+	return true;
+
 
 done:
 	if (FAILED(hr))
@@ -73,7 +75,7 @@ done:
 		// TearDownGraph();
 	}
 	SafeRelease(&pSource);
-	return true;
+	return false;
 }
 
 

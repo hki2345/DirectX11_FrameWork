@@ -1127,7 +1127,17 @@ public:
 
 		return TT;
 	}
+	KMatrix operator-(const KMatrix& _Other) const
+	{
+		KMatrix TT;
 
+		for (int i = 0; i < 16; i++)
+		{
+			TT.mrray[i] -= _Other.mrray[i];
+		}
+
+		return TT;
+	}
 public:
 	KMatrix& Identity() 
 	{

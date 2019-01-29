@@ -40,8 +40,14 @@ void Renderer_AniEffect::Update_Trans(KPtr<Camera> _Camera)
 
 	SubTransUpdate();
 	
+	KMatrix Bill = _Camera->Trans()->rotatemat_const();
+
+	KMatrix PTrans = m_Trans->scalemat_const() * m_Trans->rotatemat_const();
+	KMatrix CTrans = _Camera->Trans()->posmat_const();
+	// PTrans = PTrans - CTrans;
+
 	// ºôº¸µå
-	m_MD.m_W = m_Trans->worldmat_const() * _Camera->Trans()->rotatemat_const();
+	m_MD.m_W = PTrans * Bill * m_Trans->posmat_const(); /* .InverseValue()*/;
 	m_MD.m_V = _Camera->View();
 	m_MD.m_P = _Camera->Proj();
 	m_MD.m_WV = (m_MD.m_W * _Camera->View());

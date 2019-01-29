@@ -245,6 +245,7 @@ BOOL Dlg_Editor::OnInitDialog()
 	KPtr<KSphere_Col> RightCol = SPHERERIGHT->Add_Component<KSphere_Col>(100);
 
 	KPtr<Renderer_AniEffect> EXP1 = TabScene->Create_One(L"TT")->Add_Component<Renderer_AniEffect>();
+	EXP1->one()->Trans()->pos_local(KVector4(50.0f, 5.0f, 50.0f));
 	EXP1->one()->Trans()->scale_local(KVector4::One * 100.0f);
 	EXP1->EffectSetting(L"Explosion21.png", 4, 4, true, 0.02f);
 

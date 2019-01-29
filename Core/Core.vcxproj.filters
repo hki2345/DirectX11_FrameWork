@@ -106,12 +106,6 @@
     <ClInclude Include="KMaterial.h">
       <Filter>03 Manager\Resource\Child\Material</Filter>
     </ClInclude>
-    <ClInclude Include="HSpFrameAnimater.h">
-      <Filter>03 Manager\Render\Child</Filter>
-    </ClInclude>
-    <ClInclude Include="HSpRenderer.h">
-      <Filter>03 Manager\Render\Child</Filter>
-    </ClInclude>
     <ClInclude Include="Component_DE.h">
       <Filter>98 Component</Filter>
     </ClInclude>
@@ -353,12 +347,6 @@
     </ClCompile>
     <ClCompile Include="KMaterial.cpp">
       <Filter>03 Manager\Resource\Child\Material</Filter>
-    </ClCompile>
-    <ClCompile Include="HSpFrameAnimater.cpp">
-      <Filter>03 Manager\Render\Child</Filter>
-    </ClCompile>
-    <ClCompile Include="HSpRenderer.cpp">
-      <Filter>03 Manager\Render\Child</Filter>
     </ClCompile>
     <ClCompile Include="Component_DE.cpp">
       <Filter>98 Component</Filter>

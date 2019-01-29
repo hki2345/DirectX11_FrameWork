@@ -92,8 +92,6 @@
     <ClInclude Include="Sound.h" />
     <ClInclude Include="SoundDevice.h" />
     <ClInclude Include="SoundPlayer.h" />
-    <ClInclude Include="HSpFrameAnimater.h" />
-    <ClInclude Include="HSpRenderer.h" />
     <ClInclude Include="HSubTransCom.h" />
     <ClInclude Include="KThread.h" />
     <ClInclude Include="TransPosition.h" />
@@ -178,8 +176,6 @@
     <ClCompile Include="Sound.cpp" />
     <ClCompile Include="SoundDevice.cpp" />
     <ClCompile Include="SoundPlayer.cpp" />
-    <ClCompile Include="HSpFrameAnimater.cpp" />
-    <ClCompile Include="HSpRenderer.cpp" />
     <ClCompile Include="HSubTransCom.cpp" />
     <ClCompile Include="KThread.cpp" />
     <ClCompile Include="TransPosition.cpp" />

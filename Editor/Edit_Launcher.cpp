@@ -12,6 +12,8 @@
 #include <KImage.h>
 #include <Texture_Multi.h>
 #include <Sound.h>
+#include <KVideo.h>
+
 
 #include <KThread.h>
 #include <Renderer_BonAni.h>
@@ -33,6 +35,7 @@ void Edit_Launcher::Build()
 {
 	PathManager::Create_ForderPath(L"Shader");
 	PathManager::Create_ForderPath(L"Texture");
+	PathManager::Create_ForderPath(L"Video");
 	PathManager::Create_ForderPath(L"Sound");
 	PathManager::Create_ForderPath(L"Mesh");
 	PathManager::Create_ForderPath(L"Data");
