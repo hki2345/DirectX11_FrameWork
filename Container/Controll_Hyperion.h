@@ -45,6 +45,7 @@ private:
 
 	float m_ATime;
 	float m_UTime;
+	float m_ETime;
 
 	int m_LauCnt;
 
@@ -53,6 +54,7 @@ private:
 	void Update_WARPIN();
 	void Update_ATTACK();
 	void Update_WARPOUT();
+	void Update_Effect();
 
 
 public:

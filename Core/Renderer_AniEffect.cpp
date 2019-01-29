@@ -16,6 +16,8 @@ Renderer_AniEffect::~Renderer_AniEffect()
 void Renderer_AniEffect::EffectSetting(const wchar_t* _TexName, int _X, int _Y, bool _Loop, float _InterTime /*= 0.1f*/)
 {
 	m_Mtl->Insert_TexData(TEX_TYPE::TEX_COLOR, 0, _TexName);
+
+	m_Loop = _Loop;
 	X = _X;
 	Y = _Y;
 	CURX = 0;
@@ -74,13 +76,21 @@ void Renderer_AniEffect::Update()
 
 			if (CURY >= Y)
 			{
-				CURY = 0;
+				if (false == m_Loop)
+				{
+					one()->Set_Death();
+				}
+				else
+				{
+					CURY = 0;
+				}
 			}
 		}
 	}
 
 	m_Data.m_Start.x = m_Data.m_Size.x * CURX;
 	m_Data.m_Start.y = m_Data.m_Size.y * CURY;
+
 }
 
 

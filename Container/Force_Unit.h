@@ -239,6 +239,11 @@ public:
 	}
 
 
+	ANI_TYPE Get_Animation()
+	{
+		return m_AType;
+	}
+
 	////////////////// IN GAME
 
 private:

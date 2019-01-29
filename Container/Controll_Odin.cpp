@@ -10,7 +10,8 @@
 
 #include <Core_Class.h>
 #include <SoundPlayer.h>
-
+#include <Renderer_AniEffect.h>
+	
 Controll_Odin::Controll_Odin() : m_bAttack(false)
 {
 }
@@ -102,6 +103,23 @@ void Controll_Odin::Update_ATTACK()
 		{
 			m_pEnemyList.erase(S);
 		}
+
+		KVector Temp = (*S)->one()->Trans()->pos_local();
+
+		float X = Temp.x + (*S)->scale_unit().x * .5f;
+		float Y = Temp.y + (*S)->scale_unit().y;
+
+		X = KMath::random_f(X + .25f, Temp.x - .25f);
+		Y = KMath::random_f(Y + .25f, Temp.y - .25f);
+
+		Temp.x = X;
+		Temp.y = Y;
+
+
+		KPtr<Renderer_AniEffect> EXP1 = state()->Create_One(L"TT")->Add_Component<Renderer_AniEffect>();
+		EXP1->one()->Trans()->scale_local(KVector4::One * 4.f);
+		EXP1->one()->Trans()->pos_local(Temp);
+		EXP1->EffectSetting(L"Explosion03.png", 4, 4, false, 0.02f);
 	}
 
 	if (true == m_bAttack && m_pUnit->Get_Component<Renderer_BonAni>()->index_frame() == 582)

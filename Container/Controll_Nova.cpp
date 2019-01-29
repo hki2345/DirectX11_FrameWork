@@ -118,13 +118,29 @@ bool Controll_Nova::Init(const KVector& _InitPos, const KVector& _RotPos, KPtr<R
 
 			KPtr<Renderer_AniEffect> EXP1 = state()->Create_One(L"TT")->Add_Component<Renderer_AniEffect>();
 			EXP1->one()->Trans()->scale_local(KVector4::One * 5.0f);
-			EXP1->one()->Trans()->pos_local((*S)->one()->Trans()->pos_local());
+
+			if (Force_Unit::ANI_TYPE::DEATH == (*S)->Get_Animation())
+			{
+				EXP1->one()->Trans()->pos_local((*S)->one()->Trans()->pos_local());
+			}
+			else
+			{
+				EXP1->one()->Trans()->pos_local((*S)->one()->Trans()->pos_local() + KVector(.0f, (*S)->scale_unit().y * .5f, .0f));
+			}
 			EXP1->EffectSetting(L"lockOnbase.png", 1, 1, true, 0.02f);
 
 
 			KPtr<Renderer_AniEffect> EXP2 = state()->Create_One(L"TT")->Add_Component<Renderer_AniEffect>();
 			EXP2->one()->Trans()->scale_local(KVector4::One * 5.0f);
-			EXP2->one()->Trans()->pos_local((*S)->one()->Trans()->pos_local());
+
+			if (Force_Unit::ANI_TYPE::DEATH == (*S)->Get_Animation())
+			{
+				EXP2->one()->Trans()->pos_local((*S)->one()->Trans()->pos_local());
+			}
+			else
+			{
+				EXP2->one()->Trans()->pos_local((*S)->one()->Trans()->pos_local() + KVector(.0f, (*S)->scale_unit().y * .5f, .0f));
+			}
 			EXP2->EffectSetting(L"lockOnEffect.png", 1, 1, true, 0.02f);
 
 			m_pTargetList.push_back(EXP1);

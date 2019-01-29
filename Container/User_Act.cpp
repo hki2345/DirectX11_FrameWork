@@ -17,6 +17,8 @@
 #include <Core_Class.h>
 #include <SoundPlayer.h>
 
+#include <Renderer_AniEffect.h>
+
 void Controll_User::Update_MIDLE()
 {
 	m_pUnit->Set_Animation(Force_Unit::ANI_TYPE::STAND01);
@@ -218,6 +220,25 @@ void Controll_User::Update_ATTACK()
 
 		m_OpATime += 3.0f;
 		m_pFocusUnit->Damage(4.0f);
+
+
+		KVector Temp = m_pFocusUnit->one()->Trans()->pos_local();
+
+		float X = Temp.x + m_pFocusUnit->scale_unit().x * .5f;
+		float Y = Temp.y + m_pFocusUnit->scale_unit().y;
+
+		X = KMath::random_f(X + .25f, Temp.x - .25f);
+		Y = KMath::random_f(Y + .25f, Temp.y - .25f);
+
+		Temp.x = X;
+		Temp.y = Y;
+
+
+		KPtr<Renderer_AniEffect> EXP1 = state()->Create_One(L"TT")->Add_Component<Renderer_AniEffect>();
+		EXP1->one()->Trans()->scale_local(KVector4::One * .5f);
+		EXP1->one()->Trans()->pos_local(Temp);
+		EXP1->EffectSetting(L"sparks.png", 4, 1, false, 0.02f);
+
 	}
 	else if(m_pUnit->Get_Component<Renderer_BonAni>()->index_frame() == 394)
 	{

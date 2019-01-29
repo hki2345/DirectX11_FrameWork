@@ -222,7 +222,7 @@ void Controll_User::Update_StayCol(KCollision* _Left, KCollision* _Right)
 
 	m_pFocusUnit = Tmp->Get_Component<Force_Unit>();
 
-	if (m_pFocusUnit == m_pUnit)
+	if (m_pFocusUnit == m_pUnit || m_pFocusUnit->Is_HPDeath())
 	{
 		m_pFocusUnit = nullptr;
 		return;
