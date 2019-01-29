@@ -16,6 +16,7 @@
 
 
 #include <Renderer_Terrain.h>
+#include <Renderer_AniEffect.h>
 
 SUpdater::SUpdater()
 {
@@ -114,6 +115,9 @@ void SUpdater::Init_Sound()
 
 void SUpdater::Init_UI()
 {
+
+
+
 	m_Start = state()->Create_One(L"TT")->Add_Component<Renderer_UI>();
 	m_Start->one()->Trans()->scale_local(KVector(300.0f, 70.0f, 10.0f, .0f));
 	m_Start->one()->Trans()->pos_local(KVector(0, -20.0f, 1.1f, .0f));

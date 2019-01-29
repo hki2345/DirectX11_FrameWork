@@ -33,6 +33,7 @@
     <ClInclude Include="KVideoCodec.h" />
     <ClInclude Include="KVideo.h" />
     <ClInclude Include="ReadStream.h" />
+    <ClInclude Include="Renderer_AniEffect.h" />
     <ClInclude Include="Renderer_BonAni.h" />
     <ClInclude Include="Renderer_Draw.h" />
     <ClInclude Include="Renderer_Effect.h" />
@@ -122,6 +123,7 @@
     <ClCompile Include="KVideoCodec.cpp" />
     <ClCompile Include="KVideo.cpp" />
     <ClCompile Include="ReadStream.cpp" />
+    <ClCompile Include="Renderer_AniEffect.cpp" />
     <ClCompile Include="Renderer_BonAni.cpp" />
     <ClCompile Include="Renderer_Draw.cpp" />
     <ClCompile Include="Renderer_Effect.cpp" />

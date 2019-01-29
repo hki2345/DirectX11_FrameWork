@@ -43,5 +43,6 @@
     <FxCompile Include="..\bin\Shader\Effect_Gaussian.fx" />
     <FxCompile Include="..\bin\Shader\GameValue.fx" />
     <FxCompile Include="..\bin\Shader\TerrainDefferd.fx" />
+    <FxCompile Include="..\bin\Shader\ANIEFFFECTMAT.fx" />
   </ItemGroup>
 </Project>

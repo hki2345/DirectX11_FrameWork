@@ -31,6 +31,8 @@ KMaterial::KMaterial(const KMaterial& _Other)
 	m_SamMap(_Other.m_SamMap)
 
 {
+
+
 	// *this = _Mat;
 }
 

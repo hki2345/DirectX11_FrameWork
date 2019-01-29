@@ -46,6 +46,7 @@
 #include "MultiCritical.cpp"
 #include "ReadStream.cpp"
 #include "Renderer.cpp"
+#include "Renderer_AniEffect.cpp"
 #include "Renderer_BonAni.cpp"
 #include "Renderer_Draw.cpp"
 #include "Renderer_Effect.cpp"

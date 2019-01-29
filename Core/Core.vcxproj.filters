@@ -262,6 +262,9 @@
     <ClInclude Include="KVideo.h">
       <Filter>03 Manager\Resource\Child\Video</Filter>
     </ClInclude>
+    <ClInclude Include="Renderer_AniEffect.h">
+      <Filter>03 Manager\Render\Child</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SmartPtr.cpp">
@@ -506,6 +509,9 @@
     </ClCompile>
     <ClCompile Include="KVideo.cpp">
       <Filter>03 Manager\Resource\Child\Video</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer_AniEffect.cpp">
+      <Filter>03 Manager\Render\Child</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

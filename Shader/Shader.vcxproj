@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="..\bin\Shader\ANIEFFFECTMAT.fx" />
     <FxCompile Include="..\bin\Shader\Bloom.fx" />
     <FxCompile Include="..\bin\Shader\BoneAni.fx" />
     <FxCompile Include="..\bin\Shader\BRectShader.fx" />
