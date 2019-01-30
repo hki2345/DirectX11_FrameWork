@@ -334,13 +334,13 @@ void Renderer_Terrain::Create_Terrain(const KUINT& _X, const KUINT& _Z, const wc
 	{
 		for (int x = 0; x < m_TFD.SizeX; x++)
 		{
-			m_TempIdx.push_back((m_TFD.SizeX + 1) * (z + 1) + (x));
 			m_TempIdx.push_back((m_TFD.SizeX + 1) * (z) + (x + 1));
+			m_TempIdx.push_back((m_TFD.SizeX + 1) * (z + 1) + (x));
 			m_TempIdx.push_back((m_TFD.SizeX + 1) * (z) + (x));
 
 
-			m_TempIdx.push_back((m_TFD.SizeX + 1) * (z + 1) + (x));
 			m_TempIdx.push_back((m_TFD.SizeX + 1) * (z + 1) + (x + 1));
+			m_TempIdx.push_back((m_TFD.SizeX + 1) * (z + 1) + (x));
 			m_TempIdx.push_back((m_TFD.SizeX + 1) * (z) + (x + 1));
 		}
 	}
@@ -968,8 +968,17 @@ void Renderer_Terrain::Load(const wchar_t* _Name)
 		RS.Read(TT);
 		m_TempIdx.push_back(TT);
 	}
-
-
+/*
+	for (size_t i = 0; i < m_TempIdx.size(); i++)
+	{
+		if (i % 3 == 0)
+		{
+			int Temp = m_TempIdx[i + 1];
+			m_TempIdx[i + 1] = m_TempIdx[i];
+			m_TempIdx[i] = Temp;
+		}
+	}
+*/
 	mesh()->Update_Vertex((KUINT)m_TempVtx.size(), sizeof(VTX3D), D3D11_USAGE_DYNAMIC, &m_TempVtx[0]);
 	mesh()->Update_Index((KUINT)m_TempIdx.size(), IDX32::MemberSize(), D3D11_USAGE_DEFAULT, IDX32::FM(), &m_TempIdx[0]);
 }

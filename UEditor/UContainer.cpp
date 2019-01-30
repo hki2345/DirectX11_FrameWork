@@ -15,6 +15,7 @@
 #include "Enemy_Act.cpp"
 #include "Force_Unit.cpp"
 #include "Force_Unit_GameAct.cpp"
+#include "OBJ_Bomb.cpp"
 #include "SC2Manager.cpp"
 #include "SC2_Camera.cpp"
 #include "SC2_Force.cpp"

@@ -89,21 +89,30 @@ void Controll_Odin::Update_ATTACK()
 
 		m_pSound->Play(L"Thor_AttackImpact2.wav", .6f);
 
+		m_ATime = .0f;
+		std::list<KPtr<Force_Unit>>::iterator S = m_pEnemyList.begin();
+		std::list<KPtr<Force_Unit>>::iterator E = m_pEnemyList.end();
+
+
+		for (; S != E;)
+		{
+			if (true == (*S)->Is_HPDeath())
+			{
+				S = m_pEnemyList.erase(S);
+			}
+			else
+			{
+				++S;
+			}
+		}
+
 		if (0 >= m_pEnemyList.size())
 		{
 			return;
 		}
 
-		m_ATime = .0f;
-		std::list<KPtr<Force_Unit>>::iterator S = m_pEnemyList.begin();
-
+		S = m_pEnemyList.begin();
 		(*S)->Damage(260.0f);
-
-		if (true == (*S)->Is_HPDeath())
-		{
-			m_pEnemyList.erase(S);
-		}
-
 		KVector Temp = (*S)->one()->Trans()->pos_local();
 
 		float X = Temp.x + (*S)->scale_unit().x * .5f;
@@ -119,7 +128,7 @@ void Controll_Odin::Update_ATTACK()
 		KPtr<Renderer_AniEffect> EXP1 = state()->Create_One(L"TT")->Add_Component<Renderer_AniEffect>();
 		EXP1->one()->Trans()->scale_local(KVector4::One * 4.f);
 		EXP1->one()->Trans()->pos_local(Temp);
-		EXP1->EffectSetting(L"Explosion03.png", 4, 4, false, 0.02f);
+		EXP1->EffectSetting(L"Explosion03.png", 4, 4, false, false, 0.02f);
 	}
 
 	if (true == m_bAttack && m_pUnit->Get_Component<Renderer_BonAni>()->index_frame() == 582)

@@ -946,6 +946,7 @@ bool KDevice::Mat3DCreate()
 		PIX->CreateCB<ANIEFFCB>(L"ANIEFFCB", D3D11_USAGE_DYNAMIC, 0);
 
 		KPtr<KMaterial> MTL = ResourceManager<KMaterial>::Create(L"ANIEFFMTL");
+		MTL->Insert_TexData(TEX_TYPE::TEX_TARGET, 1, L"DEPTH");
 		MTL->Set_VTShader(L"ANIEFFVTX");
 		MTL->Set_PXShader(L"ANIEFFPIX");
 		MTL->Set_Blend(L"ALPHA");

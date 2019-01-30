@@ -17,6 +17,25 @@ void Renderer_AniEffect::EffectSetting(const wchar_t* _TexName, int _X, int _Y, 
 {
 	m_Mtl->Insert_TexData(TEX_TYPE::TEX_COLOR, 0, _TexName);
 
+	m_Depth = true;
+	m_Loop = _Loop;
+	X = _X;
+	Y = _Y;
+	CURX = 0;
+	CURY = 0;
+	m_InterTime = _InterTime;
+
+	m_Data.m_Size.x = 1.0f / (float)X;
+	m_Data.m_Size.y = 1.0f / (float)Y;
+	m_Data.m_Color = KVector4::One;
+
+}
+
+void Renderer_AniEffect::EffectSetting(const wchar_t* _TexName, int _X, int _Y, bool _Loop, bool _Depth, float _InterTime /*= 0.1f*/)
+{
+	m_Mtl->Insert_TexData(TEX_TYPE::TEX_COLOR, 0, _TexName);
+
+	m_Depth = _Depth;
 	m_Loop = _Loop;
 	X = _X;
 	Y = _Y;
@@ -112,11 +131,19 @@ bool Renderer_AniEffect::Init(const int& _Order/* = 0*/)
 void Renderer_AniEffect::Render(KPtr<Camera> _Camera, const KUINT& _MeshIdx, const KUINT& _MtlIdx, Render_Data* _Data)
 {
 	std::wstring PrevDs = Core_Class::MainDevice().ds_name();
-
 	Core_Class::MainDevice().Set_DSS(L"ALWAYS");
 
-	m_Mtl->PShader()->SettingCB<ANIEFFCB>(L"ANIEFFCB", m_Data);
+	if (true == m_Depth)
+	{
+		m_Data.m_Color.a = 1.0f;
+	}
+	else
+	{
+		m_Data.m_Color.a = 0.0f;
+	}
 
+
+	m_Mtl->PShader()->SettingCB<ANIEFFCB>(L"ANIEFFCB", m_Data);
 	// cb세팅 해주고.
 	Update_TexSmp(0);
 	Update_Material(0);

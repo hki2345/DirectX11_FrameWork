@@ -10,9 +10,11 @@
 
 #include "Controll_Medivac.h"
 
+#include "Con_Class.h"
 #include "Controll_Nova.h"
 #include "Controll_Odin.h"
 #include "Controll_Hyperion.h"
+#include "OBJ_Bomb.h"
 
 #include <Core_Class.h>
 #include <SoundPlayer.h>
@@ -254,18 +256,12 @@ void Controll_User::Update_ATTACK()
 void Controll_User::Update_BOMB()
 {
 	m_AType = Controll_User::AT_IDLE;
-	m_RenderRot.y = m_PlayRot.y + KPI;
-
 	m_pUnit->Set_Animation(Force_Unit::ANI_TYPE::ATTACK01);
-	m_pSound->Play(L"HH_Hellion_Grenade_AttackLaunch01.wav");
-	m_ASound = true;
-	if (nullptr == m_pFocusUnit)
-	{
-		return;
-	}
+
+	KPtr<Force_Unit> TB = Con_Class::s2_manager()->Find_Force(L"LUV")->Create_Unit(L"COMMANDCENTER", m_pUnit->terrain(), state());
+	TB->Add_Component<OBJ_Bomb>(TB);
 
 	m_OpATime += 10.0f;
-	m_pFocusUnit->Damage(50.0f);
 }
 void Controll_User::Update_STORY()
 {

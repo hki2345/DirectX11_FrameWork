@@ -35,7 +35,7 @@ VTX3DMESH_OUTPUT VS_ANIEFFECT(VTX3DMESH_INPUT _in)
 
 cbuffer ANIEFFECTCB : register(b0)
 {
-    float4 Color;
+    float4 vColor;
     float2 vStart = float2(0.0f, 0.0f);
     float2 vSize = float2(1.0f, 1.0f);
 }
@@ -57,8 +57,28 @@ PS_FORWARDOUTPUT PS_ANIEFFECT(VTX3DMESH_OUTPUT _in)
     {
         clip(-1);
     }
+    
+    float4 ZPos = g_Tex_1.Load(int3((int) _in.vPos.x, (int) _in.vPos.y, .0f));
+    
+    if (.0f == vColor.a)
+    {
+        if (ZPos.x == .0f)
+        {
+            vCol.a *= 1.0f;
+        }
+        else if (_in.vPos.z >= ZPos.x)
+        {
+            vCol.a *= 1.0f;
+        }
+        else
+        {
+            vCol.a *= (ZPos.x - _in.vPos.z) * .5f;
+        }
+    }
 
-    outData.vDiffuse = vCol * Color;
+    float4 TCor = vColor;
+    TCor.a = 1.0f;
+    outData.vDiffuse = vCol * TCor;
 
 
     return outData;

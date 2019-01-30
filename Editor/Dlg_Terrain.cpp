@@ -127,7 +127,7 @@ BOOL Dlg_Terrain::OnInitDialog()
 	m_pTer->Create_Terrain(64, 64, L"Cover.jpg", 1.0f);
 	m_pTer->base_texture(L"FB");
 	m_pTer->Insert_CoverTex(L"FC", L"Cover.jpg");
-	m_pTer->Set_RSState(L"SNONE");
+	m_pTer->Set_RSState(L"SFRONT");
 	m_pTer->material()->Insert_TexData(TEX_TYPE::TEX_COLOR, 7, L"cursor-target-allied.dds");
 	m_pTer->brush_size(10.0f);
 

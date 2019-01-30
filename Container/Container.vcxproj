@@ -165,6 +165,7 @@
     <ClInclude Include="Controll_User.h" />
     <ClInclude Include="Controll_Zergling.h" />
     <ClInclude Include="Con_Class.h" />
+    <ClInclude Include="OBJ_Bomb.h" />
     <ClInclude Include="SC2_Camera.h" />
     <ClInclude Include="Force_Unit.h" />
     <ClInclude Include="SC2Manager.h" />
@@ -187,6 +188,7 @@
     <ClCompile Include="Controll_Zergling.cpp" />
     <ClCompile Include="Con_Class.cpp" />
     <ClCompile Include="Enemy_Act.cpp" />
+    <ClCompile Include="OBJ_Bomb.cpp" />
     <ClCompile Include="SC2_Camera.cpp" />
     <ClCompile Include="Force_Unit.cpp" />
     <ClCompile Include="SC2Manager.cpp" />

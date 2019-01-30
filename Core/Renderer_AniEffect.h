@@ -16,6 +16,7 @@ private:
 	float m_InterTime;
 	float m_EffectTime;
 	bool m_Loop;
+	bool m_Depth;
 	int X;
 	int Y;
 	int CURX;
@@ -28,6 +29,7 @@ public:
 
 public:
 	void EffectSetting(const wchar_t* _TexName, int X, int Y, bool _Loop, float _InterTime = 1.0f);
+	void EffectSetting(const wchar_t* _TexName, int X, int Y, bool _Loop, bool _Depth, float _InterTime = 1.0f);
 
 public:
 	bool Init(const int& _Order = 0);

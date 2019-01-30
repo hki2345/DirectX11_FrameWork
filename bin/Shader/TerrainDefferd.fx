@@ -94,7 +94,7 @@ PS_DEFFERDOUTPUT PS_TERRAINDEFFERD(VTX3DMESH_OUTPUT _in)
     outData.vNoraml = _in.vNormal;
     outData.vNoraml.a = 1.0f;
     outData.vPosition = _in.vViewPos;
-    outData.vDepth.x = _in.vPos.z;
+    outData.vDepth.x = 1.0f - _in.vPos.z;
     outData.vDepth.w = 1.0f;
 
     return outData;

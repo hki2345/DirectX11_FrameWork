@@ -58,6 +58,9 @@
     <ClInclude Include="Controll_NPC.h">
       <Filter>SC2\Controller</Filter>
     </ClInclude>
+    <ClInclude Include="OBJ_Bomb.h">
+      <Filter>SC2\Controller</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SC2Manager.cpp">
@@ -130,6 +133,9 @@
       <Filter>SC2\Controller</Filter>
     </ClCompile>
     <ClCompile Include="User_InGame.cpp">
+      <Filter>SC2\Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="OBJ_Bomb.cpp">
       <Filter>SC2\Controller</Filter>
     </ClCompile>
   </ItemGroup>

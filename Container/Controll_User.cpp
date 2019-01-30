@@ -143,8 +143,8 @@ bool Controll_User::Init(KPtr<Force_Unit> _Unit, KPtr<SC2_Camera> _Cam)
 	m_pCam = _Cam;
 	m_pCam->Set_User(this);
 	
-	m_FiTime = 7.0f;
-	m_MeTime = 30.0f;
+	m_FiTime = 10.0f;
+	m_MeTime = 45.0f;
 	
 
 	m_pUnit->playable_type(PLAYABLE_TYPE::PBT_USER);

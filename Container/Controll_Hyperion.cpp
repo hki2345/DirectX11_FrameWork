@@ -290,7 +290,7 @@ void Controll_Hyperion::Update_Effect()
 {
 	m_ETime += DELTATIME;
 
-	if (.5f < m_ETime)
+	if (.2f < m_ETime)
 	{
 		KPtr<TransPosition> Temp = (*m_pUnitList.begin())->one()->Trans();
 
@@ -304,7 +304,7 @@ void Controll_Hyperion::Update_Effect()
 		KPtr<Renderer_AniEffect> EXP1 = state()->Create_One(L"TT")->Add_Component<Renderer_AniEffect>();
 		EXP1->one()->Trans()->scale_local(KVector4::One * 8.0f);
 		EXP1->one()->Trans()->pos_local(KVector(X, Y, Z));
-		EXP1->EffectSetting(L"ExPlosion.png", 5, 5, false, 0.02f);
+		EXP1->EffectSetting(L"ExPlosion.png", 5, 5, false, false, 0.02f);
 
 		m_ETime = .0f;
 	}
