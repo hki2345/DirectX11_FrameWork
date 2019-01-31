@@ -157,6 +157,11 @@ void SC2_Camera::Update_Edit()
 
 void SC2_Camera::Update_InGame()
 {
+	if (0 != Con_Class::s2_manager()->m_GameSet)
+	{
+		return;
+	}
+
 	if (nullptr == m_pUser || true == m_pUser->one()->Is_Death())
 	{
 		m_CMode = SC2_CAMMODE::S2M_EDIT;

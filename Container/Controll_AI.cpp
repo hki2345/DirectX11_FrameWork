@@ -90,6 +90,11 @@ void Controll_AI::Init_Value()
 
 void Controll_AI::Update()
 {
+	if (true == m_pPUnit->Is_HPDeath())
+	{
+		return;
+	}
+
 	Update_Death();
 	Update_Dir();
 	Update_Act();

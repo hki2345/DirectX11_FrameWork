@@ -61,6 +61,11 @@ void Controll_Abrr::Update_ATTACK01()
 	Controll_AI::Update_ATTACK01();
 	if (m_pUnit->Get_Component<Renderer_BonAni>()->index_frame() == 354 && false == m_ASound)
 	{
+		if (m_ARange > m_pPUnit->one()->Trans()->pos_local().distance(one()->Trans()->pos_local()))
+		{
+			m_pPUnit->Damage(10.0f);
+		}
+
 		m_cSound->Play(L"Aberration_Attack_00.ogg");
 		m_ASound = true;
 	}

@@ -183,7 +183,15 @@ void Controll_Nova::Update_UI()
 	std::list<KPtr<Renderer_AniEffect>>::iterator S = m_pMTargetList.begin();
 	std::list<KPtr<Renderer_AniEffect>>::iterator E = m_pMTargetList.end();
 
-	for (; S != E; ++S)
+	std::list<KPtr<Renderer_AniEffect>>::iterator NS = m_pMTargetList.begin();
+	std::list<KPtr<Renderer_AniEffect>>::iterator NE = m_pMTargetList.end();
+
+
+	std::list<KPtr<Force_Unit>> TList = *Con_Class::s2_manager()->Find_Force(L"GLASSBEAD")->unit_list();
+	std::list<KPtr<Force_Unit>>::iterator TS = TList.begin();
+	std::list<KPtr<Force_Unit>>::iterator TE = TList.end();
+
+	for (; S != E; ++S, ++TS, ++NS)
 	{
 		(*S)->one()->Trans()->Rotating_Deg(KVector(.0f, .0f, 5.0f, .0f));
 	}

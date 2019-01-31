@@ -63,6 +63,11 @@ void Controll_Ultra::Update_ATTACK01()
 	Controll_AI::Update_ATTACK01();
 	if (m_pUnit->Get_Component<Renderer_BonAni>()->index_frame() == 323 && false == m_ASound)
 	{
+		if (m_ARange > m_pPUnit->one()->Trans()->pos_local().distance(one()->Trans()->pos_local()))
+		{
+			m_pPUnit->Damage(50.0f);
+		}
+
 		m_cSound->Play(L"Ultralisk_AttackLaunch0.wav");
 		m_ASound = true;
 	}

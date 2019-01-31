@@ -214,6 +214,10 @@ public:
 		return m_Info.Score;
 	}
 
+	void maxhp(const float& _Value)
+	{
+		m_MAXHP = _Value;
+	}
 	float& maxhp()
 	{
 		return m_MAXHP;

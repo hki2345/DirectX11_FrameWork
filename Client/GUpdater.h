@@ -4,6 +4,7 @@
 
 class Renderer_Terrain;
 class Renderer_Mesh;
+class Renderer_UI;
 class SC2_Camera;
 class GUpdater : public State::State_Updater
 {
@@ -13,6 +14,9 @@ public:
 
 
 private:
+	float m_GTime;
+
+	KPtr<Renderer_UI>		m_uCover;
 	KPtr<SC2_Camera>		m_pCam;
 	KPtr<Renderer_Terrain> m_pTer;
 	KPtr<Renderer_Mesh> SkySphere;

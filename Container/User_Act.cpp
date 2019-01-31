@@ -271,15 +271,12 @@ void Controll_User::Update_HEAL()
 {
 	m_RenderRot.y = m_PlayRot.y + KPI;
 
-
 	KPtr<TheOne> TOne = state()->Create_One();
 	TOne->Add_Component<Controll_Medivac>(
 		one()->Trans()->pos_world(),
 		m_RenderRot + KVector(.0f, KPI, .0f),
 		m_pUnit->terrain());
 
-
-	m_pUnit->hp(100);
 	m_AType = Controll_User::AT_IDLE;
 }
 void Controll_User::Update_OPTI()
@@ -329,4 +326,5 @@ void Controll_User::Update_OPTI()
 void Controll_User::Update_DEATH()
 {
 	m_pUnit->Set_Animation(Force_Unit::ANI_TYPE::DEATH);
+	m_OutGame = true;
 }

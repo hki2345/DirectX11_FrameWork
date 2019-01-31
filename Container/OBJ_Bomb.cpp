@@ -139,6 +139,13 @@ void OBJ_Bomb::Update_StayCol(KCollision* _Left, KCollision* _Right)
 	{
 		return;
 	}
+	if (L"ODIN" == Tmp->ws_name() ||
+		L"TYCHUS" == Tmp->ws_name() ||
+		L"NOVA" == Tmp->ws_name() ||
+		L"COMMANDCENTER" == Tmp->ws_name())
+	{
+		return;
+	}
 
 	// 있는 애 검사
 	std::list<KPtr<Force_Unit>>::iterator S = m_TUnitList.begin();

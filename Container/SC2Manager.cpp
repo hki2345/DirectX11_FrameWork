@@ -47,9 +47,6 @@ KPtr<SC2_Force> SC2Manager::Find_Camera(const wchar_t* _Name)
 	return nullptr;
 }
 
-
-
-
 KPtr<SC2_Force> SC2Manager::Create_Force(const wchar_t* _Name, const KColor& _Color)
 {
 	m_SFI = m_FMap.find(_Name);
@@ -258,6 +255,22 @@ void SC2Manager::Load(const wchar_t* _Name, KPtr<Renderer_Terrain> _Ter)
 	}
 }
 
+void SC2Manager::AllClear_Force()
+{
+	Clear_Force();
+
+
+	m_SFI = m_FMap.begin();
+	m_EFI = m_FMap.end();
+
+	for (; m_SFI != m_EFI; ++m_SFI)
+	{
+		m_SFI->second->Set_Death();
+	}
+
+	m_FMap.clear();
+}
+
 void SC2Manager::Clear_Force()
 {
 	m_SFI = m_FMap.begin();
@@ -266,6 +279,7 @@ void SC2Manager::Clear_Force()
 	for (; m_SFI != m_EFI; ++m_SFI)
 	{
 		m_SFI->second->Clear_Unit();
+		m_SFI->second->Set_Death();
 	}
 
 	m_FMap.clear();
