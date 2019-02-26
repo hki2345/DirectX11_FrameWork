@@ -52,9 +52,11 @@ Controll_User::~Controll_User()
 		m_pSound->Stop();
 	}
 
-
-	RayCol->StayFunc_Delete(L"Controll User");
-	RayCol->ExitFunc_Delete(L"Controll User");
+	if (nullptr != RayCol)
+	{
+		RayCol->StayFunc_Delete(L"Controll User");
+		RayCol->ExitFunc_Delete(L"Controll User");
+	}
 }
 
 

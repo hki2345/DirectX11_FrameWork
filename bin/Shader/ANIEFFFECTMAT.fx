@@ -72,7 +72,7 @@ PS_FORWARDOUTPUT PS_ANIEFFECT(VTX3DMESH_OUTPUT _in)
         }
         else
         {
-            vCol.a *= (ZPos.x - _in.vPos.z) * .05f;
+            vCol.a *= (ZPos.x - _in.vPos.z) * .057f;
         }
     }
 

@@ -892,7 +892,8 @@ void Renderer_Terrain::Clear()
 	for (size_t i = 0; i < m_TempVtx.size(); i++)
 	{
 		m_TempVtx[i].Pos.y = .0f;
-
+		m_TempVtx[i].Normal.y = .0f;
+		m_TempVtx[i].Tangent.y = .0f;
 	}
 	mesh()->Update_Vertex((KUINT)m_TempVtx.size(), sizeof(VTX3D), D3D11_USAGE_DYNAMIC, &m_TempVtx[0]);
 }
