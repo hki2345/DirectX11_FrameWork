@@ -110,7 +110,7 @@ BOOL Dlg_Unit::OnInitDialog()
 	SKYMESH1->ROpt.Defferd_orForward = 0;
 	SKYMESH1->ROpt.LightOpacity = 1.0f;
 	SKYMESH1->Set_Mesh(L"SPHERE");
-	SKYMESH1->material()->Insert_TexData(TEX_TYPE::TEX_COLOR, 0, L"Space.jpg");
+	SKYMESH1->material()->Insert_TexData(TEX_TYPE::TEX_COLOR, 0, L"Daylight Box_Front.bmp");
 
 	KPtr<TheOne> GRIDACTOR = TabScene->Create_One();
 	GRIDACTOR->Trans()->rotate_world(KVector4(90.0f, 0.0f, 0.0f));
