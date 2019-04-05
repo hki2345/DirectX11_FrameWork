@@ -156,7 +156,8 @@ bool KDevice::Def3DCreate()
 		DepthState.StencilReadMask = D3D11_DEFAULT_STENCIL_READ_MASK;
 		DepthState.StencilWriteMask = D3D11_DEFAULT_STENCIL_WRITE_MASK;
 		D3D11_DEPTH_STENCILOP_DESC defaultStencil =
-		{ D3D11_STENCIL_OP_KEEP, D3D11_STENCIL_OP_KEEP, D3D11_STENCIL_OP_KEEP, D3D11_COMPARISON_ALWAYS };
+		{	D3D11_STENCIL_OP_KEEP, D3D11_STENCIL_OP_KEEP, 
+			D3D11_STENCIL_OP_KEEP, D3D11_COMPARISON_ALWAYS };
 		DepthState.FrontFace = defaultStencil;
 		DepthState.BackFace = defaultStencil;
 		Core_Class::MainDevice().Create_DSS(L"DEBUG", DepthState);

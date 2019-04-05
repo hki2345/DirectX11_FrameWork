@@ -213,10 +213,7 @@ bool Force_Unit::Save()
 	WS.Write(m_Info.Score);
 
 	int Cnt = (int)m_StrList.size();
-	WS.Write(Cnt);
-
-
-
+	WS.Write(Cnt); 
 	m_SCI = m_StrList.begin();
 	m_ECI = m_StrList.end();
 
