@@ -95,7 +95,7 @@ BOOL Dlg_Editor::OnInitDialog()
 	SKYMESH1->ROpt.Defferd_orForward = 0;
 	SKYMESH1->ROpt.LightOpacity = 1.0f;
 	SKYMESH1->Set_Mesh(L"SPHERE");
-	SKYMESH1->material()->Insert_TexData(TEX_TYPE::TEX_COLOR, 0, L"Daylight Box_Front.bmp");
+	SKYMESH1->material()->Insert_TexData(TEX_TYPE::TEX_COLOR, 0, L"Space.jpg");
 	SKYMESH1->ROpt.Defferd_orForward = 0;
 
 
