@@ -213,10 +213,7 @@ bool Force_Unit::Save()
 	WS.Write(m_Info.Score);
 
 	int Cnt = (int)m_StrList.size();
-	WS.Write(Cnt);
-
-
-
+	WS.Write(Cnt); 
 	m_SCI = m_StrList.begin();
 	m_ECI = m_StrList.end();
 
@@ -293,7 +290,7 @@ void Force_Unit::Insert_Collider()
 	if (nullptr == m_Col)
 	{
 		m_Col = one()->Add_Component<KBox_Col>(100);
-		m_Col->StayFunc(L"ForceUnit Collision", this, &Force_Unit::Collision_OtherUnit);
+		// m_Col->StayFunc(L"ForceUnit Collision", this, &Force_Unit::Collision_OtherUnit);
 	}
 }
 

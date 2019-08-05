@@ -142,6 +142,9 @@ void KWindow::Progress()
 	}
 }
 
+// 브러쉬 색상 http://soen.kr/lecture/win32api/lec6/lec6-1-2.htm
+// 색채우기 http://seowh119.wixsite.com/petronas/single-post/2014/11/11/%EA%B2%8C%EC%9E%84-%ED%94%84%EB%A1%9C%EA%B7%B8%EB%9E%98%EB%B0%8D-141111-API-%EC%83%89%EC%9D%B4-%EB%93%A4%EC%96%B4%EA%B0%84-%EC%82%AC%EA%B0%81%ED%98%95-%EA%B7%B8%EB%A6%AC%EA%B8%B0
+// https://docs.microsoft.com/en-us/previous-versions/y11315ch(v=vs.140)
 // 모든 여러개 만들어진 윈도우가 공유하는 윈도우 프록시 이다.
 LRESULT CALLBACK KWindow::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 {
@@ -161,7 +164,8 @@ LRESULT CALLBACK KWindow::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM
 		}
 		else
 		{
-			FillRect(hdc, &ps.rcPaint, (HBRUSH)(COLOR_WINDOW + 1));
+			HBRUSH MyBrush = CreateSolidBrush(RGB(.0f, .0f, .0f));
+			FillRect(hdc, &ps.rcPaint, MyBrush);
 		}
 		EndPaint(hWnd, &ps);
 	}

@@ -1039,6 +1039,13 @@ typedef KVector4 KColor;
 typedef KVector4 KRect;
 typedef KVector4 KVector;
 
+struct ANIEFFCB
+{
+	KVector m_Color;
+	KVector2 m_Start;
+	KVector2 m_Size;
+};
+
 
 class KMatrix
 {
@@ -1062,7 +1069,7 @@ public:
 	};
 
 public:
-	KMatrix() 
+	KMatrix() : v1(KVector::Zero), v2(KVector::Zero), v3(KVector::Zero), v4(KVector::Zero)
 	{
 	}
 
@@ -1120,7 +1127,17 @@ public:
 
 		return TT;
 	}
+	KMatrix operator-(const KMatrix& _Other) const
+	{
+		KMatrix TT;
 
+		for (int i = 0; i < 16; i++)
+		{
+			TT.mrray[i] -= _Other.mrray[i];
+		}
+
+		return TT;
+	}
 public:
 	KMatrix& Identity() 
 	{

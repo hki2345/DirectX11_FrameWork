@@ -17,6 +17,11 @@ public:
 	}
 
 public:
+	KVector direction()
+	{
+		return pRayCon->Dir;
+	}
+
 	virtual bool Init(int _Order = 0);
 
 	void Set_Camera(Camera* _pCamera);

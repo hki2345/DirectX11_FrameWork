@@ -35,6 +35,8 @@
 #include <KRay3D.h>
 
 #include <SC2_Camera.h>
+#include <Renderer_AniEffect.h>
+#include <Renderer_UI.h>
 
 
 // Dlg_Editor 대화 상자입니다.
@@ -76,6 +78,11 @@ BOOL Dlg_Editor::OnInitDialog()
 	{
 		KASSERT(true);
 	}
+
+
+
+	//EXP1->Set_Mesh(L"RECT");
+	// EXP1->Set_Material()
 
 
 	// 투명한 걸 그린다면 만약에 -> 스카이랑 섞이기 위해선 당연히 ... 스카이가 디퍼드로 그려져야 한다.
@@ -237,6 +244,17 @@ BOOL Dlg_Editor::OnInitDialog()
 	// KPtr<KPlane3D_Col> RendCol = DrawOne->Add_Component<KPlane3D_Col>(100);
 	KPtr<KSphere_Col> RightCol = SPHERERIGHT->Add_Component<KSphere_Col>(100);
 
+	KPtr<Renderer_AniEffect> EXP1 = TabScene->Create_One(L"TT")->Add_Component<Renderer_AniEffect>();
+	EXP1->one()->Trans()->pos_local(KVector4(50.0f, 5.0f, 50.0f));
+	EXP1->one()->Trans()->scale_local(KVector4::One * 100.0f);
+	EXP1->EffectSetting(L"Explosion21.png", 4, 4, true, 0.02f);
+
+	KPtr<Renderer_UI> m_uCMedic = TabScene->Create_One(L"TT")->Add_Component<Renderer_UI>();
+	m_uCMedic->one()->Trans()->scale_local(KVector(50.0f, 50.0f, 10.0f, .0f));
+	m_uCMedic->one()->Trans()->pos_local(KVector(-225.0f, -250.0f, 1.1f, .0f));
+	m_uCMedic->material()->Insert_TexData(TEX_TYPE::TEX_COLOR, 0, L"TemCover.png");
+	m_uCMedic->cut_fade(1.0f);
+	m_uCMedic->cut_value(1.f);
 	return TRUE;  // return TRUE unless you set the focus to a control
 				  // 예외: OCX 속성 페이지는 FALSE를 반환해야 합니다.
 }

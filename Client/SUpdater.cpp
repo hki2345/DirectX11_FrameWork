@@ -16,6 +16,7 @@
 
 
 #include <Renderer_Terrain.h>
+#include <Renderer_AniEffect.h>
 
 SUpdater::SUpdater()
 {
@@ -114,6 +115,9 @@ void SUpdater::Init_Sound()
 
 void SUpdater::Init_UI()
 {
+
+
+
 	m_Start = state()->Create_One(L"TT")->Add_Component<Renderer_UI>();
 	m_Start->one()->Trans()->scale_local(KVector(300.0f, 70.0f, 10.0f, .0f));
 	m_Start->one()->Trans()->pos_local(KVector(0, -20.0f, 1.1f, .0f));
@@ -143,12 +147,6 @@ void SUpdater::Init_UI()
 
 void SUpdater::Update_State()
 {
-	//if (true == KEY_DOWN(L"LB"))
-	//{
-	//	(*m_SSI)->Stop();
-	//	Core_Class::MainSceneMgr().Change_State(L"End");
-	//}
-	
 	MSphere->one()->Trans()->Rotating_Deg(KVector4(0.0f, .002f, .0f));
 	
 	if (true == m_GameLauncher)

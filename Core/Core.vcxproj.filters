@@ -106,12 +106,6 @@
     <ClInclude Include="KMaterial.h">
       <Filter>03 Manager\Resource\Child\Material</Filter>
     </ClInclude>
-    <ClInclude Include="HSpFrameAnimater.h">
-      <Filter>03 Manager\Render\Child</Filter>
-    </ClInclude>
-    <ClInclude Include="HSpRenderer.h">
-      <Filter>03 Manager\Render\Child</Filter>
-    </ClInclude>
     <ClInclude Include="Component_DE.h">
       <Filter>98 Component</Filter>
     </ClInclude>
@@ -262,6 +256,9 @@
     <ClInclude Include="KVideo.h">
       <Filter>03 Manager\Resource\Child\Video</Filter>
     </ClInclude>
+    <ClInclude Include="Renderer_AniEffect.h">
+      <Filter>03 Manager\Render\Child</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="SmartPtr.cpp">
@@ -350,12 +347,6 @@
     </ClCompile>
     <ClCompile Include="KMaterial.cpp">
       <Filter>03 Manager\Resource\Child\Material</Filter>
-    </ClCompile>
-    <ClCompile Include="HSpFrameAnimater.cpp">
-      <Filter>03 Manager\Render\Child</Filter>
-    </ClCompile>
-    <ClCompile Include="HSpRenderer.cpp">
-      <Filter>03 Manager\Render\Child</Filter>
     </ClCompile>
     <ClCompile Include="Component_DE.cpp">
       <Filter>98 Component</Filter>
@@ -506,6 +497,9 @@
     </ClCompile>
     <ClCompile Include="KVideo.cpp">
       <Filter>03 Manager\Resource\Child\Video</Filter>
+    </ClCompile>
+    <ClCompile Include="Renderer_AniEffect.cpp">
+      <Filter>03 Manager\Render\Child</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

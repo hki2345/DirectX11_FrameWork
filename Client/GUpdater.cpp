@@ -8,6 +8,7 @@
 
 #include <Renderer_Mesh.h>
 #include <Renderer_Terrain.h>
+#include <Renderer_UI.h>
 #include <Effect_Bloom.h>
 
 #include <Camera.h>
@@ -32,6 +33,9 @@ GUpdater::~GUpdater()
 
 void  GUpdater::Start_State()
 {
+	m_GTime = .0f;
+
+
 	Init_Mesh();
 	Init_Terrain();
 	Init_Unit();
@@ -41,6 +45,11 @@ void  GUpdater::Start_State()
 
 void GUpdater::Init_Terrain()
 {
+	if (nullptr != m_pTer)
+	{
+		return;
+	}
+
 	m_pTer = state()->Create_One()->Add_Component<Renderer_Terrain>();
 	m_pTer->one()->Trans()->scale_local(KVector4(5.0f, 2.0f, 5.0f));
 	m_pTer->one()->Trans()->pos_world(KVector4(5.0f, .0f, .0f, .0f));
@@ -49,7 +58,7 @@ void GUpdater::Init_Terrain()
 	m_pTer->Create_Terrain(64, 64, L"Cover.jpg", 1.0f);
 	m_pTer->base_texture(L"FB");
 	m_pTer->Insert_CoverTex(L"FC", L"Cover.jpg");
-	m_pTer->Set_RSState(L"SNONE");
+	m_pTer->Set_RSState(L"SFRONT");
 	m_pTer->material()->Insert_TexData(TEX_TYPE::TEX_COLOR, 7, L"cursor-target-allied.dds");
 	m_pTer->brush_size(10.0f);
 
@@ -59,6 +68,23 @@ void GUpdater::Init_Terrain()
 
 void GUpdater::Init_Mesh()
 {
+	if (nullptr != SkySphere)
+	{
+		m_uCover->one()->Active_Off();
+		return;
+	}
+
+
+
+	m_uCover = state()->Create_One(L"TT")->Add_Component<Renderer_UI>();
+	m_uCover->one()->Trans()->scale_local(KVector(10000.0f, 10000.0f, 10.0f, .0f));
+	m_uCover->one()->Trans()->pos_local(KVector(0.0f, 0.0f, 1.1f, .0f));
+	m_uCover->material()->Insert_TexData(TEX_TYPE::TEX_COLOR, 0, L"Cover.png");
+	m_uCover->cut_fade(1.0f);
+	m_uCover->cut_value(1.0f);
+	m_uCover->one()->Active_Off();
+
+
 	state()->This_Col3DManager.Link(100, 100);
 	state()->This_Col3DManager.Link(0, 100);
 
@@ -107,10 +133,27 @@ void GUpdater::Init_Unit()
 
 void  GUpdater::Update_State()
 {
-	if (true == Con_Class::s2_manager()->m_GameSet)
+	if (0 != Con_Class::s2_manager()->m_GameSet)
 	{
-		Core_Class::MainSceneMgr().Change_State(L"End");
+		m_uCover->one()->Active_On();
+		m_GTime += DELTATIME;
 		Con_Class::s2_manager()->Clear_Force();
+	}
+
+
+	if (1 == Con_Class::s2_manager()->m_GameSet)
+	{
+		if (1.0f < m_GTime)
+		{
+			Core_Class::MainSceneMgr().Change_State(L"End");
+		}
+	}
+	else if(-1 == Con_Class::s2_manager()->m_GameSet)
+ 	{
+		if (1.0f < m_GTime)
+		{
+			Core_Class::MainSceneMgr().Change_State(L"Start");
+		}
 	}
 }
 

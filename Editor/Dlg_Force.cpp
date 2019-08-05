@@ -71,7 +71,7 @@ BOOL Dlg_Force::OnInitDialog()
 	TabScene->camera()->Add_Component<SC2_Camera>();
 	TabScene->camera()->Far(10000.0f);
 	TabScene->camera()->one()->Trans()->pos_local(KVector4(0.0f, 10.0f, -20.0f));
-	TabScene->camera()->Create_EffectPost<Effect_Bloom>(0);
+	// TabScene->camera()->Create_EffectPost<Effect_Bloom>(0);
 
 
 

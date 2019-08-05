@@ -62,6 +62,12 @@ void Controll_Brutal::Update_ATTACK01()
 	if (false == m_ASound && (m_pUnit->Get_Component<Renderer_BonAni>()->index_frame() == 1293 ||
 		m_pUnit->Get_Component<Renderer_BonAni>()->index_frame() == 1307))
 	{
+		if (m_ARange > m_pPUnit->one()->Trans()->pos_local().distance(one()->Trans()->pos_local()))
+		{
+			m_pPUnit->Damage(8.0f);
+		}
+
+
 		m_cSound->Play(L"Ultralisk_AttackLaunch0.wav");
 		m_ASound = true;
 	}

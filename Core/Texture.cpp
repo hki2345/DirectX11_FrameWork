@@ -288,7 +288,14 @@ void Texture::Set_View(KUINT _BindFlag
 		}
 	}
 
-	if (S_OK != DirectX::CaptureTexture(Core_Class::PDevice(), Core_Class::Context(), m_pTex, m_Image))
+	HRESULT TRes = DirectX::CaptureTexture(Core_Class::PDevice(), Core_Class::Context(), m_pTex, m_Image);
+
+	// 이미지 커서 처리 못함 ㅋㅋㅋㅋㅋㅋㅋㅋ
+	if (E_OUTOFMEMORY == TRes)
+	{
+		return;
+	}
+	if (S_OK != TRes)
 	{
 		BBY;
 		return;

@@ -25,7 +25,8 @@ private:
 
 
 public:
-	bool m_GameSet;
+	// -1 재시작 , 0 진행중, 1 끝
+	int m_GameSet;
 
 private:
 	bool m_bInit;
@@ -56,10 +57,11 @@ public:
 	KPtr<SC2_Force> Create_Force(const wchar_t* _Name, const KColor& _Color);
 	KPtr<SC2_Force> Find_Force(const wchar_t* _Name);
 	KPtr<SC2_Force> Find_Force(const KColor& _Color);
+	void Clear_Force();
+	void AllClear_Force();
 
 	void Save(const wchar_t* _Name);
 	void Load(const wchar_t* _Name, KPtr<Renderer_Terrain> _Ter);
-	void Clear_Force();
 
 
 	std::list<KPtr<Force_Unit>>* force_unit_list(const wchar_t* _Name);

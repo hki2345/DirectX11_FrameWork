@@ -156,7 +156,6 @@ void Renderer::Render(KPtr<Camera> _Camera, const KUINT& _MeshIdx, const KUINT& 
 	{
 		Update_SelectMesh(_Data->Mesh, _Data->Vertex, _Data->Sub_inx);
 	}
-	
 }
 
 void Renderer::RenderFin() 

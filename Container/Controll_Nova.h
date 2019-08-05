@@ -7,6 +7,7 @@
 class Force_Unit;
 class Renderer_Terrain;
 class Renderer_BonAni;
+class Renderer_AniEffect;
 class SoundPlayer;
 class Controll_Nova : public Component
 {
@@ -26,7 +27,9 @@ private:
 
 	KPtr<SoundPlayer> m_pSound;
 	KPtr<Force_Unit>		m_pUnit;
-	std::list<KPtr<Force_Unit>>		m_pEnemyList;
+	std::list<KPtr<Force_Unit>>				m_pEnemyList;
+	std::list<KPtr<Renderer_AniEffect>>		m_pTargetList;
+	std::list<KPtr<Renderer_AniEffect>>		m_pMTargetList;
 
 	MOVE_TYPE	m_MType;
 
@@ -39,12 +42,15 @@ private:
 	float m_ATime;
 
 private:
+	void Update_UI();
+
 	void Update_MIDLE();
 	void Update_ATTACK();
 
 
 public:
 	bool Init(const KVector& _InitPos, const KVector& _RotPos, KPtr<Renderer_Terrain> _Ter);
+	void Init_UI();
 	void Update();
 
 };

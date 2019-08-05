@@ -88,13 +88,14 @@ PS_DEFFERDOUTPUT PS_TERRAINDEFFERD(VTX3DMESH_OUTPUT _in)
         CalColor = FloorColor + SrcColor;
     }
     
-// 포워드 색깔을 아예 사용하지 않는 것은 아니다.
+    // 포워드 색깔을 아예 사용하지 않는 것은 아니다.
+    // outData.vDiffuse.rgb = float4(1.0f, 1.0f, 1.0f, 1.0f);
     outData.vDiffuse.rgb = CalColor.xyz;
     outData.vDiffuse.a = 1.0f;
     outData.vNoraml = _in.vNormal;
     outData.vNoraml.a = 1.0f;
     outData.vPosition = _in.vViewPos;
-    outData.vDepth.x = _in.vPos.z;
+    outData.vDepth.x = 1.0f - _in.vPos.z;
     outData.vDepth.w = 1.0f;
 
     return outData;

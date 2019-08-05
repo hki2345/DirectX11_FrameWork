@@ -10,6 +10,7 @@
 
 #include <Core_Class.h>
 #include <SoundPlayer.h>
+#include <Renderer_AniEffect.h>
 
 
 Controll_Hyperion::Controll_Hyperion()
@@ -90,6 +91,7 @@ bool Controll_Hyperion::Init(
 
 	m_MType = MOVE_TYPE::MT_COME;
 	m_UTime = .0f;
+	m_ETime = .0f;
 	m_LauCnt = 1;
 
 	m_pSound = new SoundPlayer();
@@ -218,7 +220,7 @@ void Controll_Hyperion::Update_ATTACK()
 
 	for (m_SPI = m_TPos.begin(); m_SULI != m_EULI; ++m_SULI, ++m_SPI)
 	{
-		(*m_SULI)->one()->Trans()->Moving(m_For * .05f);
+		(*m_SULI)->one()->Trans()->Moving(m_For * .01f);
 	}
 
 	Core_Class::BGM()->Stop();
@@ -249,7 +251,7 @@ void Controll_Hyperion::Update_ATTACK()
 		
 		m_pASound->Play(L"Battlecruiser_AttackLaunch0.wav", .1f);
 	}
-
+	Update_Effect();
 }
 
 
@@ -281,5 +283,29 @@ void Controll_Hyperion::Update_WARPOUT()
 
 		m_pUnitList.clear();
 		m_TPos.clear();
+	}
+}
+
+void Controll_Hyperion::Update_Effect()
+{
+	m_ETime += DELTATIME;
+
+	if (.2f < m_ETime)
+	{
+		KPtr<TransPosition> Temp = (*m_pUnitList.begin())->one()->Trans();
+
+		float X = Temp->pos_local().x;
+		float Z = Temp->pos_local().y;
+
+		X = KMath::random_f(X - Temp->right_local().x * 25.0f, X + Temp->right_local().x * 25.0f);
+		Z = KMath::random_f(Z + Temp->forward_local().z * 25.0f, Z + Temp->forward_local().z * 50);
+		float Y = (*m_pUnitList.begin())->terrain()->Y_Terrain(KVector(X, .0f, Z));
+
+		KPtr<Renderer_AniEffect> EXP1 = state()->Create_One(L"TT")->Add_Component<Renderer_AniEffect>();
+		EXP1->one()->Trans()->scale_local(KVector4::One * 8.0f);
+		EXP1->one()->Trans()->pos_local(KVector(X, Y, Z));
+		EXP1->EffectSetting(L"ExPlosion.png", 5, 5, false, false, 0.02f);
+
+		m_ETime = .0f;
 	}
 }

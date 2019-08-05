@@ -219,6 +219,11 @@ public:
 		return m_RMat;
 	}
 
+	const KMatrix& rotateYmat_const() const
+	{
+		return m_RMatY;
+	}
+
 	const KMatrix& worldmat_const() const
 	{
 		return m_WMat;

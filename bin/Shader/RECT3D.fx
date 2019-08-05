@@ -69,7 +69,6 @@ PS3D_OUTPUT PS_RECT3D(VTX3DMESH_OUTPUT _in)
         {
             CalColor *= float4(.0f, .0f, .0f, .0f);
         }
-
     }
     else if (1.0f == m_CutFade.x)
     {

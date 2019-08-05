@@ -55,14 +55,14 @@ void Controll_User::Init_UI()
 
 	m_uFBackHP = state()->Create_One(L"TT")->Add_Component<Renderer_UI>();
 	m_uFBackHP->one()->Trans()->scale_local(KVector(300.0f, 50.0f, 10.0f, .0f));
-	m_uFBackHP->one()->Trans()->pos_local(KVector(0.0f, 200.0f, 1.1f, .0f));
+	m_uFBackHP->one()->Trans()->pos_local(KVector(0.0f, 150.0f, 1.1f, .0f));
 	m_uFBackHP->material()->Insert_TexData(TEX_TYPE::TEX_COLOR, 0, L"HPBack.png");
 	m_uFBackHP->cut_fade(.0f);
 	m_uFBackHP->cut_value(1.0f);
 
 	m_uFocusHP = state()->Create_One(L"TT")->Add_Component<Renderer_UI>();
 	m_uFocusHP->one()->Trans()->scale_local(KVector(300.0f, 50.0f, 10.0f, .0f));
-	m_uFocusHP->one()->Trans()->pos_local(KVector(0.0f, 200.0f, 1.1f, .0f));
+	m_uFocusHP->one()->Trans()->pos_local(KVector(0.0f, 150.0f, 1.1f, .0f));
 	m_uFocusHP->material()->Insert_TexData(TEX_TYPE::TEX_COLOR, 0, L"FHP.png");
 	m_uFocusHP->cut_fade(.0f);
 	m_uFocusHP->cut_value(.3f);
@@ -70,16 +70,16 @@ void Controll_User::Init_UI()
 
 
 	m_uBHP = state()->Create_One(L"TT")->Add_Component<Renderer_UI>();
-	m_uBHP->one()->Trans()->scale_local(KVector(100.0f, 20.0f, 10.0f, .0f));
-	m_uBHP->one()->Trans()->pos_local(KVector(300.0f, -250.0f, 1.1f, .0f));
+	m_uBHP->one()->Trans()->scale_local(KVector(300.0f, 30.0f, 10.0f, .0f));
+	m_uBHP->one()->Trans()->pos_local(KVector(250.0f, -250.0f, 1.1f, .0f));
 	m_uBHP->material()->Insert_TexData(TEX_TYPE::TEX_COLOR, 0, L"HPBack.png");
 	m_uBHP->cut_fade(.0f);
 	m_uBHP->cut_value(1.0f);
 
 	m_uHp = state()->Create_One(L"TT")->Add_Component<Renderer_UI>();
-	m_uHp->one()->Trans()->scale_local(KVector(100.0f, 20.0f, 10.0f, .0f));
-	m_uHp->one()->Trans()->pos_local(KVector(300.0f, -250.0f, 1.1f, .0f));
-	m_uHp->material()->Insert_TexData(TEX_TYPE::TEX_COLOR, 0, L"HP.png");
+	m_uHp->one()->Trans()->scale_local(KVector(300.0f, 30.0f, 10.0f, .0f));
+	m_uHp->one()->Trans()->pos_local(KVector(250.0f, -250.0f, 1.1f, .0f));
+	m_uHp->material()->Insert_TexData(TEX_TYPE::TEX_COLOR, 0, L"HP2.png");
 	m_uHp->cut_fade(.0f);
 	m_uHp->cut_value(1.0f);
 
@@ -114,6 +114,9 @@ void Controll_User::Init_UI()
 
 void Controll_User::Update_UI()
 {
+	m_uHp->cut_value(m_pUnit->hp() / m_pUnit->maxhp());
+
+
 	if (nullptr == m_pFocusUnit || PLAYABLE_TYPE::PBT_ENEMY != m_pFocusUnit->playable_type())
 	{
 		m_uFocusHP->one()->Active_Off();

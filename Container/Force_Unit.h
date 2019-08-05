@@ -214,6 +214,10 @@ public:
 		return m_Info.Score;
 	}
 
+	void maxhp(const float& _Value)
+	{
+		m_MAXHP = _Value;
+	}
 	float& maxhp()
 	{
 		return m_MAXHP;
@@ -238,6 +242,11 @@ public:
 		m_RenLoop = _loop;
 	}
 
+
+	ANI_TYPE Get_Animation()
+	{
+		return m_AType;
+	}
 
 	////////////////// IN GAME
 

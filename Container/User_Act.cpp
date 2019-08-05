@@ -10,12 +10,16 @@
 
 #include "Controll_Medivac.h"
 
+#include "Con_Class.h"
 #include "Controll_Nova.h"
 #include "Controll_Odin.h"
 #include "Controll_Hyperion.h"
+#include "OBJ_Bomb.h"
 
 #include <Core_Class.h>
 #include <SoundPlayer.h>
+
+#include <Renderer_AniEffect.h>
 
 void Controll_User::Update_MIDLE()
 {
@@ -218,6 +222,25 @@ void Controll_User::Update_ATTACK()
 
 		m_OpATime += 3.0f;
 		m_pFocusUnit->Damage(4.0f);
+
+
+		KVector Temp = m_pFocusUnit->one()->Trans()->pos_local();
+
+		float X = Temp.x + m_pFocusUnit->scale_unit().x * .5f;
+		float Y = Temp.y + m_pFocusUnit->scale_unit().y;
+
+		X = KMath::random_f(X + .25f, Temp.x - .25f);
+		Y = KMath::random_f(Y + .25f, Temp.y - .25f);
+
+		Temp.x = X;
+		Temp.y = Y;
+
+
+		KPtr<Renderer_AniEffect> EXP1 = state()->Create_One(L"TT")->Add_Component<Renderer_AniEffect>();
+		EXP1->one()->Trans()->scale_local(KVector4::One * .5f);
+		EXP1->one()->Trans()->pos_local(Temp);
+		EXP1->EffectSetting(L"sparks.png", 4, 1, false, 0.02f);
+
 	}
 	else if(m_pUnit->Get_Component<Renderer_BonAni>()->index_frame() == 394)
 	{
@@ -233,18 +256,12 @@ void Controll_User::Update_ATTACK()
 void Controll_User::Update_BOMB()
 {
 	m_AType = Controll_User::AT_IDLE;
-	m_RenderRot.y = m_PlayRot.y + KPI;
-
 	m_pUnit->Set_Animation(Force_Unit::ANI_TYPE::ATTACK01);
-	m_pSound->Play(L"HH_Hellion_Grenade_AttackLaunch01.wav");
-	m_ASound = true;
-	if (nullptr == m_pFocusUnit)
-	{
-		return;
-	}
+
+	KPtr<Force_Unit> TB = Con_Class::s2_manager()->Find_Force(L"LUV")->Create_Unit(L"COMMANDCENTER", m_pUnit->terrain(), state());
+	TB->Add_Component<OBJ_Bomb>(TB);
 
 	m_OpATime += 10.0f;
-	m_pFocusUnit->Damage(50.0f);
 }
 void Controll_User::Update_STORY()
 {
@@ -254,15 +271,12 @@ void Controll_User::Update_HEAL()
 {
 	m_RenderRot.y = m_PlayRot.y + KPI;
 
-
 	KPtr<TheOne> TOne = state()->Create_One();
 	TOne->Add_Component<Controll_Medivac>(
 		one()->Trans()->pos_world(),
 		m_RenderRot + KVector(.0f, KPI, .0f),
 		m_pUnit->terrain());
 
-
-	m_pUnit->hp(100);
 	m_AType = Controll_User::AT_IDLE;
 }
 void Controll_User::Update_OPTI()
@@ -312,4 +326,5 @@ void Controll_User::Update_OPTI()
 void Controll_User::Update_DEATH()
 {
 	m_pUnit->Set_Animation(Force_Unit::ANI_TYPE::DEATH);
+	m_OutGame = true;
 }

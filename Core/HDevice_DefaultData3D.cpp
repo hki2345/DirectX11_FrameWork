@@ -156,7 +156,8 @@ bool KDevice::Def3DCreate()
 		DepthState.StencilReadMask = D3D11_DEFAULT_STENCIL_READ_MASK;
 		DepthState.StencilWriteMask = D3D11_DEFAULT_STENCIL_WRITE_MASK;
 		D3D11_DEPTH_STENCILOP_DESC defaultStencil =
-		{ D3D11_STENCIL_OP_KEEP, D3D11_STENCIL_OP_KEEP, D3D11_STENCIL_OP_KEEP, D3D11_COMPARISON_ALWAYS };
+		{	D3D11_STENCIL_OP_KEEP, D3D11_STENCIL_OP_KEEP, 
+			D3D11_STENCIL_OP_KEEP, D3D11_COMPARISON_ALWAYS };
 		DepthState.FrontFace = defaultStencil;
 		DepthState.BackFace = defaultStencil;
 		Core_Class::MainDevice().Create_DSS(L"DEBUG", DepthState);
@@ -934,6 +935,21 @@ bool KDevice::Mat3DCreate()
 		KPtr<KMaterial> MTL = ResourceManager<KMaterial>::Create(L"DRAWMTL");
 		MTL->Set_VTShader(L"DRAWVTX");
 		MTL->Set_PXShader(L"DRAWPIX");
+		MTL->Set_Blend(L"ALPHA");
+	}
+
+
+	{
+		KPtr<Shader_Vertex> VTX = ResourceManager<Shader_Vertex>::Load_FromKey(L"ANIEFFVTX", L"Shader", L"ANIEFFFECTMAT.fx", "VS_ANIEFFECT");
+		VTX->Add_Layout("POSITION", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32B32A32_FLOAT, 0);
+		VTX->Add_LayoutFin("TEXCOORD", 0, DXGI_FORMAT::DXGI_FORMAT_R32G32_FLOAT, 0);
+		KPtr<Shader_Pixel> PIX = ResourceManager<Shader_Pixel>::Load_FromKey(L"ANIEFFPIX", L"Shader", L"ANIEFFFECTMAT.fx", "PS_ANIEFFECT");
+		PIX->CreateCB<ANIEFFCB>(L"ANIEFFCB", D3D11_USAGE_DYNAMIC, 0);
+
+		KPtr<KMaterial> MTL = ResourceManager<KMaterial>::Create(L"ANIEFFMTL");
+		MTL->Insert_TexData(TEX_TYPE::TEX_TARGET, 1, L"DEPTH");
+		MTL->Set_VTShader(L"ANIEFFVTX");
+		MTL->Set_PXShader(L"ANIEFFPIX");
 		MTL->Set_Blend(L"ALPHA");
 	}
 

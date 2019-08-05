@@ -33,11 +33,6 @@ Controll_User::Controll_User() :
 
 Controll_User::~Controll_User()
 {
-	if (nullptr != RayCol)
-	{
-		RayCol->StayFunc_Delete(L"Controll User");
-	}
-
 	if(nullptr != m_uMedic)      {m_uMedic->one()->Set_Death();	 }
 	if (nullptr != m_uFire)		 {m_uFire->one()->Set_Death();	 }
 	if (nullptr != m_uOpti)		 {m_uOpti->one()->Set_Death();	 }
@@ -49,10 +44,18 @@ Controll_User::~Controll_User()
 	if (nullptr != m_uFocusHP)	 {m_uFocusHP->one()->Set_Death();}
 	if (nullptr != m_uFBackHP)	 {m_uFBackHP->one()->Set_Death();}
 	if (nullptr != m_uAim)	 { m_uAim->one()->Set_Death(); }
+	if (nullptr != m_uConsole) { m_uConsole->one()->Set_Death(); }
+	if (nullptr != m_uCover) { m_uCover->one()->Set_Death(); }
 
 	if (nullptr != m_pSound)
 	{
 		m_pSound->Stop();
+	}
+
+	if (nullptr != RayCol)
+	{
+		RayCol->StayFunc_Delete(L"Controll User");
+		RayCol->ExitFunc_Delete(L"Controll User");
 	}
 }
 
@@ -143,8 +146,8 @@ bool Controll_User::Init(KPtr<Force_Unit> _Unit, KPtr<SC2_Camera> _Cam)
 	m_pCam = _Cam;
 	m_pCam->Set_User(this);
 	
-	m_FiTime = 7.0f;
-	m_MeTime = 30.0f;
+	m_FiTime = 10.0f;
+	m_MeTime = 45.0f;
 	
 
 	m_pUnit->playable_type(PLAYABLE_TYPE::PBT_USER);
@@ -189,7 +192,11 @@ void Controll_User::Update()
 	{
 		return;
 	}
-
+	
+	if (true == m_pUnit->Is_HPDeath())
+	{
+		m_AType = AT_DEATH;
+	}
 	
 	Update_Game();
 	Update_Move();
@@ -222,7 +229,7 @@ void Controll_User::Update_StayCol(KCollision* _Left, KCollision* _Right)
 
 	m_pFocusUnit = Tmp->Get_Component<Force_Unit>();
 
-	if (m_pFocusUnit == m_pUnit)
+	if (m_pFocusUnit == m_pUnit || m_pFocusUnit->Is_HPDeath())
 	{
 		m_pFocusUnit = nullptr;
 		return;
@@ -257,6 +264,7 @@ void Controll_User::Update_Move()
 	}
 	if (Controll_User::AT_DEATH == m_AType)
 	{
+		Update_DEATH();
 		KLOG(L"Unit Move: DEATH");
 		return;
 	}

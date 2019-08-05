@@ -37,9 +37,14 @@ void Controll_User::Init_Game()
 
 	m_uConsole->alpha_value(.8f);
 
+	m_OutSound = false;
 	m_InGame = false;
 	m_OutGame = false;
+	Con_Class::s2_manager()->m_GameSet = 0;
 
+
+	m_pUnit->maxhp(100.0f);
+	m_pUnit->hp(100.0f);
 	m_GameTime = .0f;
 	m_iStory = 0;
 	m_OpTime = 1000000.0f;
@@ -57,6 +62,7 @@ void Controll_User::Init_Game()
 
 	else
 	{
+		Core_Class::BGM()->Stop();
 		Core_Class::BGM()->Play(L"Music_T01.ogg");
 		Core_Class::BGM()->Loop();
 		Core_Class::BGM()->Set_FadeIn();
@@ -110,6 +116,13 @@ void Controll_User::Update_Game()
 				m_SType = Controll_User::ST_COMMAND;
 				m_iStory = 0;
 			}
+			if (L"MEDIVAC" == m_pStoryUnit->ws_name())
+			{
+				m_pUnit->hp(100.0f);
+				m_pSound->Play(L"Medivac_Heal02.ogg");
+				m_pSound->Play(L"Medivac_HealLoop.mp3");
+				m_pSound->Play(L"Medivac_HealStart.wav");
+			}
 		}
 	}
 }
@@ -133,6 +146,7 @@ void Controll_User::Update_Story()
 			else
 			{
 				m_InGame = true;
+				m_uCover->alpha_value(1.0f);
 				m_uCover->one()->Active_Off();
 				m_GameTime = .0f;
 			}
@@ -145,16 +159,27 @@ void Controll_User::Update_Story()
 		m_GameTime += DELTATIME;
 		m_uCover->one()->Active_On();
 
-		if (m_GameTime < 3.0f)
+		if (false == m_OutSound)
 		{
 			Core_Class::BGM()->Set_FadeOut();
+			m_OutSound = true;
+		}
+
+		if (m_GameTime < 3.0f)
+		{
 			m_uCover->alpha_value(m_GameTime * .33f);
 		}
 		else
 		{
-			Core_Class::BGM()->Volume(.0f);
-			Core_Class::BGM()->Stop();
-			Con_Class::s2_manager()->m_GameSet = true;
+			Con_Class::s2_manager()->Clear_Force();
+			if (false == m_pUnit->Is_HPDeath())
+			{
+				Con_Class::s2_manager()->m_GameSet = 1;
+			}
+			else
+			{
+				Con_Class::s2_manager()->m_GameSet = -1;
+			}
 		}
 	}
 }
@@ -173,8 +198,22 @@ void Controll_User::Update_GameCol(KCollision* _Left, KCollision* _Right)
 			return;
 		}
 
-		return;
+		if (m_pStoryUnit == nullptr)
+		{
+			return;
+		}
+
+		if (L"TYCHUS" == m_pStoryUnit->ws_name() ||
+			L"NOVA" == m_pStoryUnit->ws_name() ||
+			L"COMMANDCENTER" == m_pStoryUnit->ws_name() ||
+			L"MEDIVAC" == m_pStoryUnit->ws_name() ||
+			L"QUEENCHAMBER" == m_pStoryUnit->ws_name())
+		{
+			return;
+		}
 	}
+
+
 	m_pStoryUnit = nullptr;
 	return;
 }
@@ -217,6 +256,7 @@ void Controll_User::UIRender()
 				KVector2(kwindow()->size().x * .5f, kwindow()->size().y * .5f - FontSize * .5f - FontSize)
 				, FontSize, KColor::White.color_to_reverse255(), FW1_TEXT_FLAG::FW1_CENTER);
 
+			Core_Class::BGM()->Stop();
 			if (true == KEY_DOWN(L"F"))
 			{
 				m_pSound->Play(L"UI_BnetSelect01_1.wav");
@@ -225,12 +265,12 @@ void Controll_User::UIRender()
 		}
 		else if (3 == m_iStory)
 		{
-			m_pFont->Draw_Font(L"저그를 잡고 집에 가자고 친구", KVector2(kwindow()->size().x * .5f, kwindow()->size().y * .5f/* - m_Start->one()->Trans()->pos_local().y*/ - FontSize * .5f)
+			m_pFont->Draw_Font(L"얼른 저그 벌레들을 쓸어버리고\n주점에서 한 잔 하자고 친구",
+				KVector2(kwindow()->size().x * .5f, kwindow()->size().y * .5f - FontSize * .5f - FontSize)
 				, FontSize, KColor::White.color_to_reverse255(), FW1_TEXT_FLAG::FW1_CENTER);
 
 			if (true == KEY_DOWN(L"F"))
 			{
-				Core_Class::BGM()->Stop();
 				Core_Class::BGM()->Play(L"Music_T04.ogg");
 
 				m_pSound->Play(L"UI_BnetSelect01_1.wav");
@@ -275,6 +315,7 @@ void Controll_User::UIRender()
 					/* - m_Start->one()->Trans()->pos_local().y*/ - FontSize * .5f - FontSize)
 				, FontSize, KColor::White.color_to_reverse255(), FW1_TEXT_FLAG::FW1_CENTER);
 
+			Core_Class::BGM()->Stop();
 			if (true == KEY_DOWN(L"F"))
 			{
 				m_pSound->Play(L"UI_BnetSelect01_1.wav");
@@ -292,7 +333,6 @@ void Controll_User::UIRender()
 
 			if (true == KEY_DOWN(L"F"))
 			{
-				Core_Class::BGM()->Stop();
 				Core_Class::BGM()->Play(L"nDLC01_Music_Cue02.ogg");
 
 				m_pSound->Play(L"UI_BnetSelect01_1.wav");
@@ -338,9 +378,10 @@ void Controll_User::UIRender()
 				KVector2(kwindow()->size().x * .5f, kwindow()->size().y * .5f - FontSize * .5f - FontSize)
 				, FontSize, KColor::White.color_to_reverse255(), FW1_TEXT_FLAG::FW1_CENTER);
 
+
+			Core_Class::BGM()->Stop();
 			if (true == KEY_DOWN(L"F"))
 			{
-				Core_Class::BGM()->Stop();
 				Core_Class::BGM()->Play(L"Music_T16.ogg");
 
 				m_pSound->Play(L"UI_BnetSelect01_1.wav");

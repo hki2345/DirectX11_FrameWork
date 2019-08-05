@@ -60,7 +60,8 @@ void SC2_Force::Set_Active(const bool& _Value)
 
 
 
-KPtr<Force_Unit> SC2_Force::Create_Unit(const wchar_t* _Name, KPtr<Renderer_Terrain> _Ter)
+KPtr<Force_Unit> SC2_Force::Create_Unit(const wchar_t* _Name,
+	KPtr<Renderer_Terrain> _Ter)
 {
 	KPtr<State> TabScene = Core_Class::MainScene();
 	KPtr<TheOne> TOne = TabScene->Create_One();

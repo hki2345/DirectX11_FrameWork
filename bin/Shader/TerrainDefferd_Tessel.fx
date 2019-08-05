@@ -268,9 +268,10 @@ PS_DEFFERDOUTPUT PS_TERRAINDEFFERD(DOMAIN_OUT _in)
         
     }
 
-// 칼 컬러가 섞인것으로 나와야 한다.
+	// 칼 컬러가 섞인것으로 나와야 한다.
 
-// 포워드 색깔을 아예 사용하지 않는 것은 아니다.
+	// 포워드 색깔을 아예 사용하지 않는 것은 아니다.
+    // outData.vDiffuse.rgb = float4(1.0f, 1.0f, 1.0f, 1.0f);
     outData.vDiffuse.rgb = CalColor.xyz;
     outData.vDiffuse.a = 1.0f;
     outData.vNoraml = BumpNormal;
